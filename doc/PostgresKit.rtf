@@ -1,0 +1,106 @@
+{\rtf1\ansi\ansicpg1252\cocoartf949\cocoasubrtf270
+{\fonttbl\f0\fnil\fcharset0 Monaco;}
+{\colortbl;\red255\green255\blue255;}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\f0\fs20 \cf0 \
+PostgresKit\
+===========\
+\
+This set of frameworks and test applications consists of the PostgreSQL database, an embedded Cocoa framework for controlling a user-land\
+Postgres server process, an embedded Cocoa framework which you can use in your client application for connection to a Postgres server,\
+and a Cocoa application which is used to demonstrate the code (and act as a test bed for the frameworks).\
+\
+I will distribute this "Kit" as an XCode project and a number of "targets". If you compile everything in this XCode project, you'll end up\
+with:\
+\
+  1. A universal binary compiled version of PostgreSQL (version 8.2.5 is currently supported)\
+  2. A PostgresServerKit framework which is set up for embedding in your own projects\
+  3. A PostgresClientKit framework which is set up for embedding in your own projects\
+  4. A PostgresQuery Cocoa application which is used to demonstrate the frameworks and test them\
+  \
+I believe everything is suitable for both PowerPC and Intel Macintoshes on Lepoard (Mac OS X 10.5) but may not be suitable for \
+64-bit operation. I'm also not sure yet whether an Intel-based server can be connected to a PowerPC-based client, and so forth,\
+although this will obviously be tested before proper release.\
+\
+If CoreData is your thing, you may build on this software, but I would suggest having a look at BaseTen in addition. Here's the\
+Apple page for that:\
+\
+  http://www.apple.com/downloads/macosx/development_tools/baseten.html\
+\
+There are a number of other PostgreSQL-cocoa bindings on the internet, but pretty much all the alternatives seem to be relatively\
+old.\
+\
+\
+Targets\
+=======\
+\
+There are several targets in the XCode project. You'll need to build the "Build Postgressql" target first, which will un-tar\
+the copy of postgresql-8.2.5.tar, make some adjustments for universal compilation and then build it. If you don't do this step\
+first the other targets will not build. The tar file is uncompressed to $\{DERIVED_SOURCES_DIR\}. The build is performed and the \
+results of the build are placed in $\{BUILT_PRODUCTS_DIR\}.\
+\
+You will then want to proceed with the "PostgresQuery" target. Because the frameworks are dependencies, they will be build as\
+well. You can take copies of the frameworks by right clicking on them in the "Products" group and choosing "Reveal in Finder".\
+The built frameworks should be workable on PowerPC or Intel based machines, for Lepoard 10.5. I haven't tested these for 64-bit,\
+there are a number of places where this could be troublesome however.\
+\
+\
+\
+PostgresServerKit Framework\
+===========================\
+\
+This framework is used to start and stop a PostgresSQL server programatically, as a background thread to the main executing thread.\
+It requires an area of disk for the storage of the data, which is passed as an argument to \CocoaLigature0 the method "startWithDataPath". To use\
+this framework, you will need to use the shared server object, which can be accessed using:\
+\
+  #import <PostgresServerKit/PostgresServerKit.h>\
+\
+  FLXServer* theServer = [FLXServer sharedServer];\
+\
+You can set the hostname and port of the server before you start it. If you do not set the hostname, it will default to socket-based\
+communication only on the local server. If you set the hostname, it will create a TCP/IP socket for communication.\
+\
+You start and stop the server using [theServer startWithDataPath] and [theServer stop]. You should set a delegate as both starting\
+and stopping is done in the background, and you will want to receive messages on what is going on. As the state changes of the\
+server, the delegate method serverStateDidChange is called. You can then programmatically determine if the server is ready to\
+accept client connections using the method [sharedServer isRunning].\
+\
+\
+\CocoaLigature1 PostgresClientKit Framework\
+===========================\
+\
+This framework is use for communication with a postgres server. It supports conversion of data types from postgres types to NSObject\
+types. The following types are currently supported (I think):\
+\
+\pard\tx480\pardeftab480\ql\qnatural\pardirnatural
+\cf0 \CocoaLigature0 bool        NSNumber     Boolean value\
+bytea       NSData       Data up to 4GB in size\
+char        NSString     Fixed length character data in UTF8\
+int8        NSNumber     Long integers\
+int2        NSNumber     Short integers\
+int4        NSNumber     Integers\
+text        NSString     Text up to 4GB in size\
+float4      NSNumber     Floats\
+float8      NSNumber     Double Floats\
+varchar     NSString     Fixed length character data in UTF8\
+date        NSDate       Dates\
+timestamp   NSDate       Date and time in UTC \
+timestamptz NSDate       Date and time with timezone\
+\
+Any cell which is NULL will be converted to the [NSNull null] value.\
+\
+Connection pooling will be supported, so that it's possible to execute a command from a connection in a pool, rather than from the main connection. All the connections will have the same attributes (port, hostname, database) as the main connection. When you perform a connection, disconnect or reset, the pool will be destroyed.\
+\
+To execute a command using a connection in the pool, you need to grab a pooled connection. This will return an integer (0 being the main connection, 1 upwards being the pooled connections):\
+\
+NSInteger thePooledConnection = [theConnection pooledConnection];\
+FLXPostgresResult* theResult = [theConnection execute:statement withConnection:thePooledConnection];\
+[thePooledConnection release];\
+\
+Make sure you release the pooled connection when you've finished with it, as there is no mechanism for\
+Additional postgres types will be supported soon....\
+\
+\
+\
+}
