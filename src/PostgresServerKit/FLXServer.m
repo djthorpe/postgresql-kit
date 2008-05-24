@@ -11,7 +11,7 @@ const unsigned FLXDefaultPostgresPort = 5432;
 -(void)_delegateServerMessage:(NSString* )theMessage;
 -(void)_delegateServerStateDidChange:(NSString* )theMessage;  
 -(NSString* )_messageFromState;
--(int)_isProcessRunning:(int)thePid;
+-(int)_doesProcessExist:(int)thePid;
 @end
 
 @implementation FLXServer
@@ -250,7 +250,7 @@ const unsigned FLXDefaultPostgresPort = 5432;
     }
     [NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
     theCounter++;
-  } while([self _isProcessRunning:[self processIdentifier]]);
+  } while([self _doesProcessExist:[self processIdentifier]]);
 
   [self _delegateServerMessage:[NSString stringWithFormat:@"Process is ended with pid: %d",[self processIdentifier]]];
 
@@ -290,24 +290,27 @@ const unsigned FLXDefaultPostgresPort = 5432;
 
 // determine if process is still running
 // see: http://www.cocoadev.com/index.pl?HowToDetermineIfAProcessIsRunning
--(int)_isProcessRunning:(int)thePid {
-  int mib[4] = { CTL_KERN, KERN_PROC, KERN_PROC_PID, thePid };  
-  size_t count;
-  if(sysctl(mib,4,0,&count,0,0) < 0 ) return 0;
-  struct kinfo_proc* kp = (struct kinfo_proc *)malloc(count);
-  if(kp==nil) return -1;
-  if(sysctl(mib,4,kp,&count,0,0) < 0) {
-    free(kp);
-    return -1;
-  }
-  int nentries = count / sizeof(struct kinfo_proc);
-  if(nentries < 1) {
-    free(kp);
-    return 0;
-  }
-  return 1;  
+-(int)_doesProcessExist:(int)thePid {
+	int mib[4] = { CTL_KERN, KERN_PROC, KERN_PROC_PID, thePid };  
+	int returnValue = 1;
+	size_t count;
+	if(sysctl(mib,4,0,&count,0,0) < 0 ) {
+		return 0;		
+	}
+	struct kinfo_proc* kp = (struct kinfo_proc* )malloc(count);
+	if(kp==nil) return -1;
+	if(sysctl(mib,4,kp,&count,0,0) < 0) {
+		returnValue = -1;
+	} else {
+		int nentries = count / sizeof(struct kinfo_proc);
+		if(nentries < 1) {
+			returnValue = 0;
+		}
+	}
+	free(kp);
+	return returnValue;  
 }
-
+	
 -(void)_delegateServerMessage:(NSString* )theMessage {  
   if([[self delegate] respondsToSelector:@selector(serverMessage:)] && [theMessage length]) {
     [[self delegate] performSelectorOnMainThread:@selector(serverMessage:) withObject:theMessage waitUntilDone:NO];
