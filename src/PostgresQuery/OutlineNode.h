@@ -10,8 +10,12 @@
 
 @interface OutlineNode : NSObject {
 	NSString* m_theName;
+	NSMutableArray* m_theChildren;
 }
 
 +(OutlineNode* )nodeWithName:(NSString* )theName;
+
+-(NSString* )name;
+-(NSMutableArray* )children;
 
 @end

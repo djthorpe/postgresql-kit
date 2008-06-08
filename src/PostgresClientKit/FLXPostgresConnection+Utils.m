@@ -39,9 +39,25 @@
 	return [self tablesForSchema:nil];
 }
 
+-(NSArray* )schemas {
+	NSParameterAssert([self connected]);
+	FLXPostgresResult* theResult = [self execute:@"SELECT DISTINCT schemaname FROM pg_tables ORDER BY schemaname"];
+	NSParameterAssert(theResult);	
+	// enumerate schemas
+	NSMutableArray* theSchemas = [NSMutableArray arrayWithCapacity:[theResult affectedRows]];
+	NSArray* theRow = nil;
+	while(theRow = [theResult fetchRowAsArray]) {
+		NSParameterAssert([theRow count] >= 1);
+		NSParameterAssert([[theRow objectAtIndex:0] isKindOfClass:[NSString class]]);
+		[theSchemas addObject:[theRow objectAtIndex:0]];
+	}
+	// return schemas
+	return theSchemas;      
+}
+
 -(NSArray* )tablesForSchema:(NSString* )theName {
 	NSParameterAssert([self connected]);
-	NSString* theQuery = [NSString stringWithFormat:@"SELECT tablename FROM pg_tables WHERE schemaname NOT IN ('pg_catalog','information_schema') %@",(theName ? [NSString stringWithFormat:@"AND schemaname=%@",[self quote:theName]] : @"")];
+	NSString* theQuery = [NSString stringWithFormat:@"SELECT tablename FROM pg_tables WHERE schemaname NOT IN ('pg_catalog','information_schema') %@ ORDER BY tablename",(theName ? [NSString stringWithFormat:@"AND schemaname=%@",[self quote:theName]] : @"")];
 	FLXPostgresResult* theResult = [self execute:theQuery];
 	NSParameterAssert(theResult);	
 	// enumerate tables

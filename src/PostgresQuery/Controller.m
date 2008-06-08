@@ -1,6 +1,13 @@
 
-#import "Controller.h"
 #import "main.h"
+#import "Controller.h"
+#import "OutlineNode.h"
+
+@interface Controller (Private)
+-(NSString* )selectedDatabaseName;
+-(void)addRootItem:(OutlineNode* )theNode;
+-(void)replaceChildrenForNode:(OutlineNode* )theNode with:(NSArray* )theArray;
+@end
 
 @implementation Controller
 
@@ -11,12 +18,20 @@
 	if (self != nil) {
 		m_theConnection = [[FLXPostgresConnection alloc] init];
 		m_theTimer = nil;
+		m_theDatabases = [[NSArray alloc] init];
+		m_theTables = [[OutlineNode nodeWithName:@"TABLES"] retain];
+		m_theSchemas = [[OutlineNode nodeWithName:@"SCHEMAS"] retain];
+		m_theQueries = [[OutlineNode nodeWithName:@"QUERIES"] retain];
 		m_theSelectedDatabases = [[NSIndexSet alloc] init];
 	}
 	return self;
 }
 
 -(void)dealloc {
+	[m_theDatabases release];
+	[m_theTables release];
+	[m_theSchemas release];
+	[m_theQueries release];
 	[m_theSelectedDatabases release];
 	[m_theTimer invalidate];
 	[m_theTimer release];
@@ -47,9 +62,21 @@
 	return m_theSplitView;
 }
 
+///////////////////////////////////////////////////////////////////////////////
+// bound properties
 
--(NSArrayController* )databases {	
+-(NSArray* )databases {	
 	return m_theDatabases;
+}
+
+-(NSTreeController* )outline {
+	return m_theOutline;
+}
+
+-(void)setDatabases:(NSArray* )theDatabases {
+	[theDatabases retain];
+	[m_theDatabases release];
+	m_theDatabases = theDatabases;	
 }
 
 -(NSIndexSet* )selectedDatabases {
@@ -57,26 +84,20 @@
 }
 
 -(void)setSelectedDatabases:(NSIndexSet* )theIndexSet {
-	BOOL shouldNotify = [theIndexSet isEqual:m_theSelectedDatabases] ? NO : YES;
-
+	// determine if new index set is different from the old one
+	BOOL isNotify = ([theIndexSet isEqual:m_theSelectedDatabases] ? NO : YES);
 	// retain the new index set
 	[theIndexSet retain];
 	[m_theSelectedDatabases release];
 	m_theSelectedDatabases = theIndexSet;
-	
-	// send notification of new selected database
-	if(shouldNotify) {
-		NSArray* theSelectedDatabases = [[self databases] selectedObjects];
-		if([theSelectedDatabases count]==0) {
-			[[NSNotificationCenter defaultCenter] postNotificationName:FLXSelectDatabaseNotification object:nil];								
-		} else {
-			[[NSNotificationCenter defaultCenter] postNotificationName:FLXSelectDatabaseNotification object:[theSelectedDatabases objectAtIndex:0]];											
-		}
+	// perform the notification if index changes
+	if(isNotify) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:FLXSelectDatabaseNotification object:[self selectedDatabaseName]];
 	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-// properties
+// other properties
 
 -(FLXPostgresConnection* )connection {
 	return m_theConnection;
@@ -86,10 +107,31 @@
 	return m_theTimer;
 }
 
+-(OutlineNode* )tables {	
+	return m_theTables;
+}
+
+-(OutlineNode* )schemas {	
+	return m_theSchemas;
+}
+
+-(OutlineNode* )queries {	
+	return m_theQueries;
+}
+
 -(void)setTimer:(NSTimer* )theTimer {
 	[theTimer retain];
 	[m_theTimer release];
 	m_theTimer = theTimer;
+}
+
+-(NSString* )selectedDatabaseName {
+	if([[self selectedDatabases] count]==0) return nil;
+	// get the first index
+	NSUInteger theFirstIndex = [[self selectedDatabases] firstIndex];
+	if(theFirstIndex==NSNotFound) return nil;
+	// return the database name for this index
+	return [[self databases] objectAtIndex:theFirstIndex];
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -111,8 +153,8 @@
 }
 
 -(void)_reloadDatabases {
-	NSLog(@"reload databases = %@",[[self connection] databases]);
-	[[self databases] addObjects:[[self connection] databases]];
+	// remove all objects and then re-add them
+	[self setDatabases:[[self connection] databases]];
 }
 
 -(void)_selectDatabase:(NSString* )theDatabase {
@@ -124,6 +166,14 @@
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+// awakeFromNib methods
+
+-(void)awakeFromNibOutlineView {
+	// Add the root items
+	[self addRootItem:[self queries]];
+	[self addRootItem:[self schemas]];
+	[self addRootItem:[self tables]];
+}
 
 -(void)awakeFromNib {	
 	// set the application delegate
@@ -136,6 +186,9 @@
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(createDatabase:) name:FLXCreateDatabaseNotification object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dropDatabase:) name:FLXDropDatabaseNotification object:nil];	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selectDatabase:) name:FLXSelectDatabaseNotification object:nil];		
+	
+	// set-up the outline view
+	[self awakeFromNibOutlineView];
 	
     // schedule a timer to do stuff
 	[self setTimer:[NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(fireTimer:) userInfo:nil repeats:YES]];	
@@ -163,8 +216,21 @@
 	return YES;
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// NSOutlineView delegate messages
+
+-(BOOL)outlineView:(NSOutlineView *)outlineView shouldSelectItem:(id)theItem {
+	// don't allow root nodes to be selected
+	OutlineNode* theNode = [theItem representedObject];
+	if([theNode isEqual:[self schemas]] || [theNode isEqual:[self tables]] || [theNode isEqual:[self queries]]) {
+		return NO;
+	}
+	// or else allow selection
+	return YES;
+}
+
 ///////////////////////////////////////////////////////////////////////////////
-// IBAction to create a new database
+// IBAction to create a new database or drop an existing one
 
 -(IBAction)doCreateDatabase:(id)sender {	
 	[[self createDropDatabaseController] beginCreateDatabaseWithWindow:[self window]];
@@ -172,11 +238,11 @@
 
 -(IBAction)doDropDatabase:(id)sender {
 	// retrieve currently selected database
-	NSArray* theSelectedObjects = [[self databases] selectedObjects];
-	if([theSelectedObjects count]) {
-		[[self createDropDatabaseController] setDatabase:[theSelectedObjects objectAtIndex:0]];
-		[[self createDropDatabaseController] beginDropDatabaseWithWindow:[self window]];		
-	}
+	NSString* theCurrentDatabase = [self selectedDatabaseName];
+	NSParameterAssert(theCurrentDatabase);
+	// start the drop
+	[[self createDropDatabaseController] setDatabase:theCurrentDatabase];
+	[[self createDropDatabaseController] beginDropDatabaseWithWindow:[self window]];		
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -203,7 +269,30 @@
 
 	[self _selectDatabase:[theNotification object]];
 	
-	NSLog(@"tables = %@",[[self connection] tables]);
+	// populate schemas
+	[self replaceChildrenForNode:[self schemas] with:[[self connection] schemas]];
+	[self replaceChildrenForNode:[self tables] with:[[self connection] tables]];
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+// NSTreeController support
+
+-(void)addRootItem:(OutlineNode* )theNode {
+	NSIndexPath* thePath = [NSIndexPath indexPathWithIndex:[[[self outline] content] count]];
+	[[self outline] insertObject:theNode atArrangedObjectIndexPath:thePath];
+}
+
+-(void)replaceChildrenForNode:(OutlineNode* )theRootNode with:(NSArray* )theArray {
+	// remove existing children
+	[[theRootNode children] removeAllObjects];
+	// add new ones
+	for(NSString* theName in theArray) {
+		OutlineNode* theNode = [OutlineNode nodeWithName:theName];
+		[[theRootNode children] addObject:theNode];
+	}
+
+	NSLog(@"node = %@, children = %@",theRootNode,[theRootNode children]);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

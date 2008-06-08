@@ -3,6 +3,7 @@
 #import <PostgresClientKit/PostgresClientKit.h>
 #import "ServerController.h"
 #import "CreateDropDatabaseController.h"
+#import "OutlineNode.h"
 
 @interface Controller : NSObject {
 	// properties
@@ -10,6 +11,10 @@
 	NSTimer* m_theTimer;
 	NSUInteger m_theSelectedDatabase;
 	NSIndexSet* m_theSelectedDatabases;
+	NSArray* m_theDatabases;
+	OutlineNode* m_theTables;
+	OutlineNode* m_theSchemas;	
+	OutlineNode* m_theQueries;
 	
 	// IBOutlets
 	IBOutlet CreateDropDatabaseController* m_theCreateDropDatabaseController;
@@ -17,7 +22,7 @@
 	IBOutlet NSWindow* m_theWindow;	
 	IBOutlet NSSplitView* m_theSplitView;
 	IBOutlet NSView* m_theResizeView;
-	IBOutlet NSArrayController* m_theDatabases;
+	IBOutlet NSTreeController* m_theOutline;
 }
 
 // actions

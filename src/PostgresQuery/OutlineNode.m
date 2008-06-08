@@ -14,6 +14,7 @@
 	self = [super init];
 	if (self != nil) {
 		m_theName = nil;
+		m_theChildren = [[NSMutableArray alloc] init];
 	}
 	return self;
 }
@@ -22,12 +23,14 @@
 	self = [super init];
 	if (self != nil) {
 		m_theName = [theName retain];
+		m_theChildren = [[NSMutableArray alloc] init];
 	}
 	return self;
 }
 
 -(void)dealloc {
 	[m_theName release];
+	[m_theChildren release];
 	[super dealloc];
 }
 
@@ -35,8 +38,16 @@
 	return [[[OutlineNode alloc] initWithName:theName] autorelease];
 }
 
+-(NSMutableArray* )children {
+	return m_theChildren;
+}
+
+-(NSString* )name {
+	return m_theName;
+}
+
 -(NSString* )description {
-	return [NSString stringWithFormat:@"<OutlineNode: %@>",m_theName];
+	return [self name];
 }
 
 @end
