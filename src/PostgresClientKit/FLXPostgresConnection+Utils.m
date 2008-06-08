@@ -57,8 +57,33 @@
 
 -(NSArray* )tablesForSchema:(NSString* )theName {
 	NSParameterAssert([self connected]);
-	NSString* theQuery = [NSString stringWithFormat:@"SELECT tablename FROM pg_tables WHERE schemaname NOT IN ('pg_catalog','information_schema') %@ ORDER BY tablename",(theName ? [NSString stringWithFormat:@"AND schemaname=%@",[self quote:theName]] : @"")];
+	NSString* theQuery = nil;
+	if(theName==nil) {
+		theQuery = @"SELECT tablename FROM pg_tables WHERE schemaname NOT IN ('pg_catalog','information_schema') ORDER BY tablename";		
+	} else {
+		theQuery = [NSString stringWithFormat:@"SELECT tablename FROM pg_tables WHERE schemaname=%@",[self quote:theName]];
+	}
 	FLXPostgresResult* theResult = [self execute:theQuery];
+	NSParameterAssert(theResult);	
+	// enumerate tables
+	NSMutableArray* theTables = [NSMutableArray arrayWithCapacity:[theResult affectedRows]];
+	NSArray* theRow = nil;
+	while(theRow = [theResult fetchRowAsArray]) {
+		NSParameterAssert([theRow count] >= 1);
+		NSParameterAssert([[theRow objectAtIndex:0] isKindOfClass:[NSString class]]);
+		[theTables addObject:[theRow objectAtIndex:0]];
+	}
+	// return tables
+	return theTables;      
+}
+
+-(NSArray* )tablesForSchemas:(NSArray* )theNames {
+	NSParameterAssert([self connected]);
+	NSParameterAssert(theNames);
+	if([theNames count]==0) {
+		return [self tablesForSchema:nil];
+	}
+	FLXPostgresResult* theResult = [self execute:[NSString stringWithFormat:@"SELECT tablename FROM pg_tables WHERE schemaname IN (%@) ORDER BY tablename",[self quoteArray:theNames]]];
 	NSParameterAssert(theResult);	
 	// enumerate tables
 	NSMutableArray* theTables = [NSMutableArray arrayWithCapacity:[theResult affectedRows]];
@@ -75,5 +100,16 @@
 -(BOOL)tableExistsWithName:(NSString* )theTable inSchema:(NSString* )theSchema {
 	return [[self tablesForSchema:theSchema] containsObject:theTable];
 }
+							
+-(NSString* )quoteArray:(NSArray* )theArray {
+	NSParameterAssert(theArray && [theArray count]);
+	// returns a comma-separated string of quoted objects
+	NSMutableArray* theQuotedObjects = [NSMutableArray arrayWithCapacity:[theArray count]];
+	for(NSObject* theObject in theArray) {
+		[theQuotedObjects addObject:[self quote:theObject]];
+	}
+	return [theQuotedObjects componentsJoinedByString:@","];
+}
+
 
 @end

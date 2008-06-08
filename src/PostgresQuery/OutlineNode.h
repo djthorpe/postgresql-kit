@@ -6,16 +6,27 @@
 //  Copyright 2008 __MyCompanyName__. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 
 @interface OutlineNode : NSObject {
+	NSString* m_theType;
 	NSString* m_theName;
 	NSMutableArray* m_theChildren;
 }
 
-+(OutlineNode* )nodeWithName:(NSString* )theName;
++(OutlineNode* )rootNodeWithName:(NSString* )theName;
++(OutlineNode* )schemaNodeWithName:(NSString* )theName;
++(OutlineNode* )schemaNodeAll;
++(OutlineNode* )tableNodeWithName:(NSString* )theName;
++(OutlineNode* )queryNodeWithName:(NSString* )theName;
 
 -(NSString* )name;
 -(NSMutableArray* )children;
+-(void)setChildren:(NSMutableArray* )theChildren;
+-(BOOL)isRootNode;
+-(BOOL)isSchemaNode;
+-(BOOL)isSchemaAllNode;
+-(BOOL)isTableNode;
+-(BOOL)isQueryNode;
 
 @end

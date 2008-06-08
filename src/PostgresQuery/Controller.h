@@ -11,7 +11,8 @@
 	NSTimer* m_theTimer;
 	NSUInteger m_theSelectedDatabase;
 	NSIndexSet* m_theSelectedDatabases;
-	NSArray* m_theDatabases;
+	NSArray* m_theSelectedSchemas;
+	NSArray* m_theDatabases;	
 	OutlineNode* m_theTables;
 	OutlineNode* m_theSchemas;	
 	OutlineNode* m_theQueries;

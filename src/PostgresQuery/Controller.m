@@ -3,10 +3,11 @@
 #import "Controller.h"
 #import "OutlineNode.h"
 
+// forward declarations of private methods
 @interface Controller (Private)
 -(NSString* )selectedDatabaseName;
 -(void)addRootItem:(OutlineNode* )theNode;
--(void)replaceChildrenForNode:(OutlineNode* )theNode with:(NSArray* )theArray;
+-(void)replaceChildrenForRootNode:(OutlineNode* )theNode with:(NSArray* )theArray;
 @end
 
 @implementation Controller
@@ -19,10 +20,11 @@
 		m_theConnection = [[FLXPostgresConnection alloc] init];
 		m_theTimer = nil;
 		m_theDatabases = [[NSArray alloc] init];
-		m_theTables = [[OutlineNode nodeWithName:@"TABLES"] retain];
-		m_theSchemas = [[OutlineNode nodeWithName:@"SCHEMAS"] retain];
-		m_theQueries = [[OutlineNode nodeWithName:@"QUERIES"] retain];
+		m_theTables = [[OutlineNode rootNodeWithName:@"TABLES"] retain];
+		m_theSchemas = [[OutlineNode rootNodeWithName:@"SCHEMAS"] retain];
+		m_theQueries = [[OutlineNode rootNodeWithName:@"QUERIES"] retain];
 		m_theSelectedDatabases = [[NSIndexSet alloc] init];
+		m_theSelectedSchemas = [[NSArray alloc] init];
 	}
 	return self;
 }
@@ -33,6 +35,7 @@
 	[m_theSchemas release];
 	[m_theQueries release];
 	[m_theSelectedDatabases release];
+	[m_theSelectedSchemas release];
 	[m_theTimer invalidate];
 	[m_theTimer release];
 	[m_theConnection release];
@@ -93,6 +96,23 @@
 	// perform the notification if index changes
 	if(isNotify) {
 		[[NSNotificationCenter defaultCenter] postNotificationName:FLXSelectDatabaseNotification object:[self selectedDatabaseName]];
+	}
+}
+
+-(NSArray* )selectedSchemas {
+	return m_theSelectedSchemas;
+}
+
+-(void)setSelectedSchemas:(NSArray* )theSchemas {
+	// determine if new index set is different from the old one
+	BOOL isNotify = ([theSchemas isEqual:m_theSelectedSchemas] ? NO : YES);
+	// retain the new index set
+	[theSchemas retain];
+	[m_theSelectedSchemas release];
+	m_theSelectedSchemas = theSchemas;
+	// perform the notification if index changes
+	if(isNotify) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:FLXSelectSchemaNotification object:[self selectedSchemas]];
 	}
 }
 
@@ -186,6 +206,7 @@
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(createDatabase:) name:FLXCreateDatabaseNotification object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dropDatabase:) name:FLXDropDatabaseNotification object:nil];	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selectDatabase:) name:FLXSelectDatabaseNotification object:nil];		
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selectSchema:) name:FLXSelectSchemaNotification object:nil];		
 	
 	// set-up the outline view
 	[self awakeFromNibOutlineView];
@@ -219,14 +240,36 @@
 ////////////////////////////////////////////////////////////////////////////////
 // NSOutlineView delegate messages
 
--(BOOL)outlineView:(NSOutlineView *)outlineView shouldSelectItem:(id)theItem {
+-(BOOL)outlineView:(NSOutlineView* )outlineView shouldSelectItem:(id)theItem {
 	// don't allow root nodes to be selected
 	OutlineNode* theNode = [theItem representedObject];
-	if([theNode isEqual:[self schemas]] || [theNode isEqual:[self tables]] || [theNode isEqual:[self queries]]) {
+	if([theNode isRootNode]) {
 		return NO;
 	}
 	// or else allow selection
 	return YES;
+}
+
+-(void)outlineViewSelectionDidChange:(NSNotification* )notification {	
+	// determine new set of schemas
+	NSMutableArray* theSchemas = [NSMutableArray array];
+	for(OutlineNode* theNode in [[self outline] selectedObjects]) {
+		if([theNode isSchemaNode]) {
+			[theSchemas addObject:theNode];
+		}
+	}
+	[self setSelectedSchemas:theSchemas];
+}
+
+-(BOOL)outlineView:(NSOutlineView *)outlineView shouldCollapseItem:(id)item {
+	// no items are collapsable
+	return NO;
+}
+
+-(BOOL)outlineView:(NSOutlineView *)outlineView isGroupItem:(id)theItem {
+	// root nodes displayed as group items
+	OutlineNode* theNode = [theItem representedObject];
+	return [theNode isRootNode];
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -260,6 +303,7 @@
 }
 
 -(void)dropDatabase:(NSNotification* )theNotification {
+	// TODO
 	NSLog(@"drop database %@",theNotification);	
 }
 
@@ -270,10 +314,48 @@
 	[self _selectDatabase:[theNotification object]];
 	
 	// populate schemas
-	[self replaceChildrenForNode:[self schemas] with:[[self connection] schemas]];
-	[self replaceChildrenForNode:[self tables] with:[[self connection] tables]];
+	NSMutableArray* theSchemas = [NSMutableArray array];
+	[theSchemas addObject:[OutlineNode schemaNodeAll]];
+	for(NSString* theName in [[self connection] schemas]) {
+		[theSchemas addObject:[OutlineNode schemaNodeWithName:theName]];
+	}
+	[self replaceChildrenForRootNode:[self schemas] with:theSchemas];
+
+	// TODO: select the All schema
 }
 
+-(void)selectSchema:(NSNotification* )theNotification {
+	NSArray* theSelectedSchemas = [theNotification object];
+	NSParameterAssert([theSelectedSchemas isKindOfClass:[NSArray class]]);
+	
+	// munge the schema names...
+	// if one parameter 'All' we fetch all tables except for the system ones
+	// if more than one parameter we ignore the 'All' one
+	NSArray* theTableNames = nil;
+	if([theSelectedSchemas count]==0) {
+		theTableNames = [[self connection] tables];
+	} else if([theSelectedSchemas count]==1 && [[theSelectedSchemas objectAtIndex:0] isSchemaAllNode]) {
+		theTableNames = [[self connection] tables];
+	} else if([theSelectedSchemas count]==1) {
+		theTableNames = [[self connection] tablesForSchema:[[theSelectedSchemas objectAtIndex:0] name]];
+	} else {
+		NSMutableArray* theSchemaNames = [NSMutableArray array];
+		for(OutlineNode* theNode in theSelectedSchemas) {
+			if([theNode isSchemaAllNode]) continue;
+			[theSchemaNames addObject:[theNode name]];			
+		}
+		theTableNames = [[self connection] tablesForSchemas:theSchemaNames];
+	}
+	
+	// populate tables for these schemas
+	NSMutableArray* theTables = [NSMutableArray array];
+	for(NSString* theName in theTableNames) {
+		[theTables addObject:[OutlineNode tableNodeWithName:theName]];
+	}
+	[self replaceChildrenForRootNode:[self tables] with:theTables];
+	
+	// TODO: reselect the schemas
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 // NSTreeController support
@@ -283,16 +365,19 @@
 	[[self outline] insertObject:theNode atArrangedObjectIndexPath:thePath];
 }
 
--(void)replaceChildrenForNode:(OutlineNode* )theRootNode with:(NSArray* )theArray {
-	// remove existing children
-	[[theRootNode children] removeAllObjects];
-	// add new ones
-	for(NSString* theName in theArray) {
-		OutlineNode* theNode = [OutlineNode nodeWithName:theName];
-		[[theRootNode children] addObject:theNode];
+-(void)replaceChildrenForRootNode:(OutlineNode* )theRootNode with:(NSArray* )theArray {
+	// find out the index path of the root node
+	NSUInteger theIndex = [[[self outline] content] indexOfObject:theRootNode];
+	NSParameterAssert(theIndex != NSNotFound);
+	// remove the children
+	NSIndexPath* theRootNodeIndexPath = [NSIndexPath indexPathWithIndex:theIndex];
+	for(NSUInteger i = [[theRootNode children] count]; i > 0; i--) {
+		[[self outline] removeObjectAtArrangedObjectIndexPath:[theRootNodeIndexPath indexPathByAddingIndex:(i-1)]];
 	}
-
-	NSLog(@"node = %@, children = %@",theRootNode,[theRootNode children]);
+	// add the new children
+	for(OutlineNode* theNode in theArray) {
+		[[self outline] insertObject:theNode atArrangedObjectIndexPath:[theRootNodeIndexPath indexPathByAddingIndex:[[theRootNode children] count]]];
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////
