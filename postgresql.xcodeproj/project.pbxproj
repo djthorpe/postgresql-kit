@@ -49,6 +49,8 @@
 		6E67A6580DD5DFBA00A20A97 /* FLXUIStatusBarGradient.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E67A6560DD5DFBA00A20A97 /* FLXUIStatusBarGradient.png */; };
 		6E830BA10DD5BC3E00A66FF9 /* PostgresClientKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6E23CD7F0DCDE3C80041AA57 /* PostgresClientKit.framework */; };
 		6E830BAA0DD5BC4300A66FF9 /* PostgresServerKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6E23CBEE0DCDD29F0041AA57 /* PostgresServerKit.framework */; };
+		6E8F349A0DFC209800A00260 /* OutlineNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E8F34990DFC209800A00260 /* OutlineNode.m */; };
+		6E8F36320DFC50A600A00260 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 6E8F36310DFC50A600A00260 /* LICENSE */; };
 		6E9FD7050DD593F700353077 /* PostgresClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E23CD7F0DCDE3C80041AA57 /* PostgresClientKit.framework */; };
 		6E9FD7060DD593F700353077 /* PostgresServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E23CBEE0DCDD29F0041AA57 /* PostgresServerKit.framework */; };
 		6E9FD7080DD593F700353077 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E9FD7070DD593F700353077 /* Cocoa.framework */; };
@@ -139,6 +141,10 @@
 		6E51C8890DD62E7A00C7DBA3 /* FLXUIStatusBarTriangle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FLXUIStatusBarTriangle.png; sourceTree = "<group>"; };
 		6E67A6550DD5DFBA00A20A97 /* FLXUIStatusBarResizeControl.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FLXUIStatusBarResizeControl.png; sourceTree = "<group>"; };
 		6E67A6560DD5DFBA00A20A97 /* FLXUIStatusBarGradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FLXUIStatusBarGradient.png; sourceTree = "<group>"; };
+		6E8F34980DFC209800A00260 /* OutlineNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OutlineNode.h; sourceTree = "<group>"; };
+		6E8F34990DFC209800A00260 /* OutlineNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OutlineNode.m; sourceTree = "<group>"; };
+		6E8F36310DFC50A600A00260 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		6E8F36380DFC51E700A00260 /* snapshot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = snapshot.png; sourceTree = "<group>"; };
 		6E9FD6FB0DD593D900353077 /* PostgresQuery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PostgresQuery.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E9FD7070DD593F700353077 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		6E9FD7140DD5943300353077 /* PostgresQuery.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = PostgresQuery.nib; sourceTree = "<group>"; };
@@ -275,7 +281,9 @@
 		6E23CC530DCDD7890041AA57 /* doc */ = {
 			isa = PBXGroup;
 			children = (
+				6E8F36380DFC51E700A00260 /* snapshot.png */,
 				6E23CC540DCDD7A20041AA57 /* PostgresKit.rtf */,
+				6E8F36310DFC50A600A00260 /* LICENSE */,
 			);
 			path = doc;
 			sourceTree = "<group>";
@@ -324,6 +332,8 @@
 				6E51C8870DD62E5F00C7DBA3 /* FLXUIStatusButton.m */,
 				6ED44E250DD6E58E008CB6E5 /* CreateDropDatabaseController.h */,
 				6ED44E260DD6E58E008CB6E5 /* CreateDropDatabaseController.m */,
+				6E8F34980DFC209800A00260 /* OutlineNode.h */,
+				6E8F34990DFC209800A00260 /* OutlineNode.m */,
 			);
 			path = PostgresQuery;
 			sourceTree = "<group>";
@@ -481,6 +491,7 @@
 				6E67A6570DD5DFBA00A20A97 /* FLXUIStatusBarResizeControl.png in Resources */,
 				6E67A6580DD5DFBA00A20A97 /* FLXUIStatusBarGradient.png in Resources */,
 				6E51C88A0DD62E7A00C7DBA3 /* FLXUIStatusBarTriangle.png in Resources */,
+				6E8F36320DFC50A600A00260 /* LICENSE in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -555,6 +566,7 @@
 				6E9FD7830DD5A73E00353077 /* ServerController.m in Sources */,
 				6E51C8880DD62E5F00C7DBA3 /* FLXUIStatusButton.m in Sources */,
 				6ED44E270DD6E58E008CB6E5 /* CreateDropDatabaseController.m in Sources */,
+				6E8F349A0DFC209800A00260 /* OutlineNode.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -589,6 +601,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -603,6 +616,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
