@@ -2,6 +2,7 @@
 #import "main.h"
 #import "Controller.h"
 #import "OutlineNode.h"
+#import "NSTreeController+Utils.h"
 
 // forward declarations of private methods
 @interface Controller (Private)
@@ -315,13 +316,15 @@
 	
 	// populate schemas
 	NSMutableArray* theSchemas = [NSMutableArray array];
-	[theSchemas addObject:[OutlineNode schemaNodeAll]];
+	OutlineNode* theSchemaAllNode = [OutlineNode schemaNodeAll];
+	[theSchemas addObject:theSchemaAllNode];
 	for(NSString* theName in [[self connection] schemas]) {
 		[theSchemas addObject:[OutlineNode schemaNodeWithName:theName]];
 	}
 	[self replaceChildrenForRootNode:[self schemas] with:theSchemas];
 
-	// TODO: select the All schema
+	// select the All schema
+	[[self outline] setSelectedObjects:[NSArray arrayWithObject:theSchemaAllNode]];
 }
 
 -(void)selectSchema:(NSNotification* )theNotification {
@@ -354,7 +357,9 @@
 	}
 	[self replaceChildrenForRootNode:[self tables] with:theTables];
 	
-	// TODO: reselect the schemas
+	// reselect the schemas
+	[[self outline] setSelectedObjects:theSelectedSchemas];
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////
