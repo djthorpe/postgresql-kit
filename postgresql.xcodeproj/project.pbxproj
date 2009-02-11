@@ -18,6 +18,19 @@
 			name = "Build PostgreSQL";
 			productName = "Build Postgresql";
 		};
+		6E620F3D0F4366C100BE396D /* Build Everything Useful! */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 6E620F470F4366ED00BE396D /* Build configuration list for PBXAggregateTarget "Build Everything Useful!" */;
+			buildPhases = (
+			);
+			dependencies = (
+				6E620F410F4366C800BE396D /* PBXTargetDependency */,
+				6E620F430F4366C800BE396D /* PBXTargetDependency */,
+				6E620F450F4366C800BE396D /* PBXTargetDependency */,
+			);
+			name = "Build Everything Useful!";
+			productName = "Build Everything!";
+		};
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
@@ -77,6 +90,27 @@
 			proxyType = 1;
 			remoteGlobalIDString = 6E23CD7E0DCDE3C80041AA57;
 			remoteInfo = PostgresClientKit;
+		};
+		6E620F400F4366C800BE396D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6E23CBD70DCDD0AB0041AA57 /* Build PostgreSQL */;
+			remoteInfo = "Build PostgreSQL";
+		};
+		6E620F420F4366C800BE396D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6E23CD7E0DCDE3C80041AA57 /* PostgresClientKit */;
+			remoteInfo = PostgresClientKit;
+		};
+		6E620F440F4366C800BE396D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6E23CBED0DCDD29F0041AA57 /* PostgresServerKit */;
+			remoteInfo = PostgresServerKit;
 		};
 		6E9FD7010DD593E000353077 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -139,6 +173,9 @@
 		6E51C8860DD62E5F00C7DBA3 /* FLXUIStatusButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLXUIStatusButton.h; sourceTree = "<group>"; };
 		6E51C8870DD62E5F00C7DBA3 /* FLXUIStatusButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLXUIStatusButton.m; sourceTree = "<group>"; };
 		6E51C8890DD62E7A00C7DBA3 /* FLXUIStatusBarTriangle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FLXUIStatusBarTriangle.png; sourceTree = "<group>"; };
+		6E620FF00F43681D00BE396D /* PostgresPrefPane-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "PostgresPrefPane-Info.plist"; sourceTree = "<group>"; };
+		6E620FF40F4368F400BE396D /* PostgresPrefPane-icon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "PostgresPrefPane-icon.tiff"; sourceTree = "<group>"; };
+		6E620FF50F4368F400BE396D /* PostgresPrefPane-nib.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "PostgresPrefPane-nib.xib"; sourceTree = "<group>"; };
 		6E67A6550DD5DFBA00A20A97 /* FLXUIStatusBarResizeControl.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FLXUIStatusBarResizeControl.png; sourceTree = "<group>"; };
 		6E67A6560DD5DFBA00A20A97 /* FLXUIStatusBarGradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FLXUIStatusBarGradient.png; sourceTree = "<group>"; };
 		6E8F34980DFC209800A00260 /* OutlineNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OutlineNode.h; sourceTree = "<group>"; };
@@ -245,13 +282,16 @@
 		6E23CC020DCDD3400041AA57 /* resources */ = {
 			isa = PBXGroup;
 			children = (
-				6E67A6550DD5DFBA00A20A97 /* FLXUIStatusBarResizeControl.png */,
-				6E67A6560DD5DFBA00A20A97 /* FLXUIStatusBarGradient.png */,
-				6E51C8890DD62E7A00C7DBA3 /* FLXUIStatusBarTriangle.png */,
-				6E12E70F0DD5D0AC00CB0928 /* postgres_elephant.icns */,
 				6E9FD71A0DD5947100353077 /* PostgresQuery-Info.plist */,
 				6E23CD920DCDE4590041AA57 /* PostgresClientKit-Info.plist */,
 				6E23CC280DCDD6D80041AA57 /* PostgresServerKit-Info.plist */,
+				6E620FF00F43681D00BE396D /* PostgresPrefPane-Info.plist */,
+				6E620FF40F4368F400BE396D /* PostgresPrefPane-icon.tiff */,
+				6E620FF50F4368F400BE396D /* PostgresPrefPane-nib.xib */,
+				6E12E70F0DD5D0AC00CB0928 /* postgres_elephant.icns */,
+				6E67A6550DD5DFBA00A20A97 /* FLXUIStatusBarResizeControl.png */,
+				6E67A6560DD5DFBA00A20A97 /* FLXUIStatusBarGradient.png */,
+				6E51C8890DD62E7A00C7DBA3 /* FLXUIStatusBarTriangle.png */,
 				6E9FD7140DD5943300353077 /* PostgresQuery.nib */,
 			);
 			path = resources;
@@ -260,9 +300,10 @@
 		6E23CC150DCDD4CE0041AA57 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				6E9FD7540DD594F800353077 /* PostgresQuery */,
 				6E23CD540DCDE1FC0041AA57 /* PostgresClientKit */,
 				6E23CC160DCDD4CE0041AA57 /* PostgresServerKit */,
+				6E620F360F43661D00BE396D /* PostgresPrefPane */,
+				6E9FD7540DD594F800353077 /* PostgresQuery */,
 				6E23D1860DCF38040041AA57 /* PostgresTests */,
 			);
 			path = src;
@@ -316,6 +357,14 @@
 			);
 			path = PostgresTests;
 			sourceTree = "<group>";
+		};
+		6E620F360F43661D00BE396D /* PostgresPrefPane */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = PostgresPrefPane;
+			path = "../postgres-kit-old/src/PostgresPrefPane";
+			sourceTree = SOURCE_ROOT;
 		};
 		6E9FD7540DD594F800353077 /* PostgresQuery */ = {
 			isa = PBXGroup;
@@ -462,6 +511,7 @@
 				6E23CBED0DCDD29F0041AA57 /* PostgresServerKit */,
 				6E9FD6FA0DD593D900353077 /* PostgresQuery */,
 				6E23CC590DCDD88A0041AA57 /* PostgresTests */,
+				6E620F3D0F4366C100BE396D /* Build Everything Useful! */,
 			);
 		};
 /* End PBXProject section */
@@ -582,6 +632,21 @@
 			isa = PBXTargetDependency;
 			target = 6E23CD7E0DCDE3C80041AA57 /* PostgresClientKit */;
 			targetProxy = 6E23CE220DCDEC480041AA57 /* PBXContainerItemProxy */;
+		};
+		6E620F410F4366C800BE396D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6E23CBD70DCDD0AB0041AA57 /* Build PostgreSQL */;
+			targetProxy = 6E620F400F4366C800BE396D /* PBXContainerItemProxy */;
+		};
+		6E620F430F4366C800BE396D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6E23CD7E0DCDE3C80041AA57 /* PostgresClientKit */;
+			targetProxy = 6E620F420F4366C800BE396D /* PBXContainerItemProxy */;
+		};
+		6E620F450F4366C800BE396D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6E23CBED0DCDD29F0041AA57 /* PostgresServerKit */;
+			targetProxy = 6E620F440F4366C800BE396D /* PBXContainerItemProxy */;
 		};
 		6E9FD7020DD593E000353077 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -817,6 +882,27 @@
 			};
 			name = Release;
 		};
+		6E620F3E0F4366C100BE396D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = "Build Everything!";
+			};
+			name = Debug;
+		};
+		6E620F3F0F4366C100BE396D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PRODUCT_NAME = "Build Everything!";
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 		6E9FD6FE0DD593DA00353077 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -911,6 +997,15 @@
 			buildConfigurations = (
 				6E23CD810DCDE3CA0041AA57 /* Debug */,
 				6E23CD820DCDE3CA0041AA57 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6E620F470F4366ED00BE396D /* Build configuration list for PBXAggregateTarget "Build Everything Useful!" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6E620F3E0F4366C100BE396D /* Debug */,
+				6E620F3F0F4366C100BE396D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
