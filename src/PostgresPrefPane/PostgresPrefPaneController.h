@@ -8,12 +8,10 @@
 
 #import <PreferencePanes/PreferencePanes.h>
 
-
-@interface PrefPanePref : NSPreferencePane 
-{
+@interface PostgresPrefPaneController : NSPreferencePane {
 
 }
 
-- (void) mainViewDidLoad;
+-(void)mainViewDidLoad;
 
 @end
