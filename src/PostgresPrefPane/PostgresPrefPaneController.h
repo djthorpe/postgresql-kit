@@ -9,9 +9,16 @@
 #import <PreferencePanes/PreferencePanes.h>
 
 @interface PostgresPrefPaneController : NSPreferencePane {
-
+	NSConnection* connection;	
 }
 
+@property (retain) NSConnection* connection;
+
 -(void)mainViewDidLoad;
+
+// IBAction
+-(IBAction)doStartServer:(id)sender;
+-(IBAction)doStopServer:(id)sender;
+
 
 @end
