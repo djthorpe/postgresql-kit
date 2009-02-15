@@ -7,11 +7,15 @@
 @synthesize server;
 @synthesize connection;
 @synthesize dataPath;
+@synthesize isRemoteAccess;
+@synthesize serverPort;
 
 -(void)dealloc {
 	[self setDataPath:nil];
 	[self setConnection:nil];
 	[self setServer:nil];
+	[self setIsRemoteAccess:NO];
+	[self setServerPort:0];
 	[super dealloc];
 }
 
@@ -34,19 +38,27 @@
 	if([[self connection] registerName:PostgresServerAppIdentifier]==NO) {
 		return NO;
 	}
-	
-	// indicate
-	[self serverStateDidChange:[self serverState]];
+
+	// set server port to default
+	[self setServerPort:[[self server] port]];
 	
 	// success
 	return YES;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+// messages
 
 -(void)startServer {
-	// start the server
-	
+
+	// set server info
+	if([self isRemoteAccess]) {
+		[[self server] setHostname:@"*"];
+		[[self server] setPort:[self serverPort]];
+	} else {
+		[[self server] setHostname:@""];
+	}
+		
 	// create application support path
 	BOOL isDirectory = NO;
 	if([[NSFileManager defaultManager] fileExistsAtPath:[self dataPath] isDirectory:&isDirectory]==NO) {

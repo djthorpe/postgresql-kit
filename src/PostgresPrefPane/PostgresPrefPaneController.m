@@ -92,6 +92,54 @@
 	return theAuthorization;
 }
 
+-(NSString* )_execute:(NSString* )scriptName withAuthorization:(AuthorizationRef)theAuthorization withArguments:(NSArray* )theArguments {
+	NSString* theScriptPath = [[[NSBundle bundleForClass:[self class]] resourcePath] stringByAppendingPathComponent:scriptName];
+	if(theScriptPath==nil) {
+		return nil;
+	}
+	if([[NSFileManager defaultManager] isExecutableFileAtPath:theScriptPath]==NO) {
+		return nil;
+	}
+	
+	// create the set of arguments required
+	const char** theArgs = malloc(sizeof(char* ) * ([theArguments count] + 1));
+	if(theArgs==nil) {
+		return nil;
+	}
+
+	NSUInteger i = 0;
+	for(; i < [theArguments count]; i++) {
+		NSString* theArgument = [theArguments objectAtIndex:i];
+		NSParameterAssert([theArgument isKindOfClass:[NSString class]]);
+		theArgs[i] = (const char* )[theArgument UTF8String];
+	}
+	theArgs[i] = nil;
+
+	// execute the script
+	FILE* thePipe = nil;
+	OSStatus theStatus = AuthorizationExecuteWithPrivileges(theAuthorization,(char* )[theScriptPath UTF8String],kAuthorizationFlagDefaults,(char** )theArgs,&thePipe);	
+	if(theStatus != errAuthorizationSuccess) {
+		free(theArgs);
+		return NO;
+	}
+	
+	// read in data from the script
+	NSFileHandle* theHandle = [[NSFileHandle alloc] initWithFileDescriptor:fileno(thePipe)];
+	NSMutableData* theString = [NSMutableData data];
+	NSData* theData = nil;
+	while((theData = [theHandle availableData]) && [theData length]) {
+		[theString appendData:theData];
+	}
+	
+	// cleanup
+	[theHandle closeFile];
+	[theHandle release];
+	free(theArgs);
+	
+	// return string based on data
+	return [NSString stringWithCString:[theString bytes] length:[theString length]];
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // IBActions
 
@@ -106,7 +154,8 @@
 -(IBAction)doInstall:(id)sender {
 	AuthorizationRef theAuthorization = [self _authorizeUser];
 	if(theAuthorization) {
-		NSLog(@"authorized  - install");
+		NSString* theReturn = [self _execute:@"install-postgres-server-app.sh" withAuthorization:theAuthorization withArguments:[NSArray arrayWithObject:@"install"]];
+		NSLog(@"return value = %@",theReturn);
 		AuthorizationFree(theAuthorization,kAuthorizationFlagDefaults);
 	}
 }

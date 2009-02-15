@@ -162,6 +162,10 @@ const unsigned FLXDefaultPostgresPort = 5432;
 	return m_thePort;
 }
 
+-(int)defaultPort {
+	return FLXDefaultPostgresPort;
+}
+
 +(NSString* )bundlePath {
 	return [[NSBundle bundleForClass:[self class]] bundlePath];
 }
@@ -330,6 +334,7 @@ const unsigned FLXDefaultPostgresPort = 5432;
 
 // determine if process is still running
 // see: http://www.cocoadev.com/index.pl?HowToDetermineIfAProcessIsRunning
+
 -(int)_doesProcessExist:(int)thePid {
 	int mib[4] = { CTL_KERN, KERN_PROC, KERN_PROC_PID, thePid };  
 	int returnValue = 1;
@@ -462,7 +467,6 @@ const unsigned FLXDefaultPostgresPort = 5432;
 	
 	return theReturnCode ? NO : YES;
 }
-
 
 -(BOOL)_start {
 	NSPipe* theOutPipe = [[NSPipe alloc] init];
