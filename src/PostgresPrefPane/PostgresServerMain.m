@@ -1,19 +1,20 @@
 
 #import <Foundation/Foundation.h>
-#import "PostgresPrefPaneServerApp.h"
+#import "PostgresServerApp.h"
 
 volatile int caughtSignal = 0;
 
 void signalHandler(int signal) {
 	caughtSignal = signal;
 	if(caughtSignal > 0) {
+		NSLog(@"Caught Signal, stopping NSRunLoop");
 		CFRunLoopStop([[NSRunLoop currentRunLoop] getCFRunLoop]);
 	}  
 }
 
 int main(int argc,char* argv[]) {
 	NSAutoreleasePool* thePool = [[NSAutoreleasePool alloc] init];
-	PostgresPrefPaneServerApp* theApp = [[PostgresPrefPaneServerApp alloc] init];
+	PostgresServerApp* theApp = [[PostgresServerApp alloc] init];
 	int returnValue = 0;
 
 	// catch signals
@@ -32,8 +33,13 @@ int main(int argc,char* argv[]) {
 	// awake the app
 	if([theApp awakeThread]==NO) {
 		returnValue = -1;
+		NSLog(@"Unable to start the application");
 		goto APP_EXIT;
 	}
+
+	NSLog(@"PostgreSQL data path = %@",theDataPath);
+	
+	NSLog(@"Starting NSRunLoop");
 	
 	// start  the run loop
 	double resolution = 300.0;
@@ -46,6 +52,8 @@ int main(int argc,char* argv[]) {
 		[thePool release];
 		thePool = [[NSAutoreleasePool alloc] init];            
 	} while(isRunning==YES && caughtSignal==0);  
+
+	NSLog(@"Stopped NSRunLoop");
 	
 APP_EXIT:
 	[theApp release];

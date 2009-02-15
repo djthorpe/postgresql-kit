@@ -10,6 +10,11 @@
 
 @interface PostgresPrefPaneController : NSPreferencePane {
 	NSConnection* connection;	
+	
+	// IBOutlet
+	IBOutlet NSTextField* ibVersionNumber;
+	IBOutlet NSTextField* ibStatus;	
+	IBOutlet NSTabView* ibTabView;
 }
 
 @property (retain) NSConnection* connection;
@@ -19,6 +24,7 @@
 // IBAction
 -(IBAction)doStartServer:(id)sender;
 -(IBAction)doStopServer:(id)sender;
-
+-(IBAction)doInstall:(id)sender;
+-(IBAction)doUninstall:(id)sender;
 
 @end

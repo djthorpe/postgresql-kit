@@ -2,7 +2,7 @@
 #import <Foundation/Foundation.h>
 #import <PostgresServerKit/PostgresServerKit.h>
 
-@interface PostgresPrefPaneServerApp : NSObject {
+@interface PostgresServerApp : NSObject {
 	NSString* dataPath;
 	FLXServer* server;
 	NSConnection* connection;

@@ -1,7 +1,8 @@
 
-#import "PostgresPrefPaneServerApp.h"
+#import "PostgresServerApp.h"
+#import "PostgresPrefPaneShared.h"
 
-@implementation PostgresPrefPaneServerApp
+@implementation PostgresServerApp
 
 @synthesize server;
 @synthesize connection;
@@ -30,7 +31,7 @@
 	// NSConnection object
 	[self setConnection:[NSConnection defaultConnection]];
 	[[self connection] setRootObject:self];
-	[[self connection] registerName:@"com.mutablelogic.PostgresPrefPaneServerApp"];	
+	[[self connection] registerName:PostgresPrefPaneServerAppIdentifier];	
 
 	// success
 	return YES;
