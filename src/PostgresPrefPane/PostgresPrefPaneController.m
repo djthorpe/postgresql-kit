@@ -41,9 +41,24 @@
 // private methods
 
 -(BOOL)_canInstall {
-	// system can be installed if 
-	// TODO
+	// system can be installed if...
+    // 0. communication to ServerApp is not working
+	// 1. server is not already started
+	// 2. launchctl does not have the particular identifier loaded
+	// 2. startup item does not exist in the /Library/StartupItems folder
+	// 3. preferences panel is installed system-wide rather than per-user
+	// 4. the ServerApp exists and is executable
+	// 5. the _mysql username exists
 	return YES;
+}
+
+-(BOOL)_canUnInstall {
+	// system can be uninstalled if 
+    // 0. communication to ServerApp is working
+	// 1. server is not started
+	// 2. launchctl has the particular identifier loaded
+	// 2. startup item exists in the /Library/StartupItems folder
+	return NO;
 }
 
 -(AuthorizationRef)_authorizeUser {
