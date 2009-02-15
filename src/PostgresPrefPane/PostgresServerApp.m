@@ -31,14 +31,15 @@
 	// NSConnection object
 	[self setConnection:[NSConnection defaultConnection]];
 	[[self connection] setRootObject:self];
-	[[self connection] registerName:PostgresServerAppIdentifier];	
+	if([[self connection] registerName:PostgresServerAppIdentifier]==NO) {
+		return NO;
+	}
+	
+	// indicate
+	[self serverStateDidChange:[self serverState]];
 	
 	// success
 	return YES;
-}
-
--(FLXServerState)serverState {
-	return [[self server] state];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -66,6 +67,14 @@
 	[[self server] stop];
 }
 
+-(NSString* )serverVersion {
+	return [[self server] serverVersion];
+}
+
+-(NSString* )serverState {
+	return [[self server] stateAsString];
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 
 -(void)serverMessage:(NSString* )theMessage {
@@ -74,7 +83,6 @@
 
 -(void)serverStateDidChange:(NSString* )theMessage {
 	NSLog(@"server state did change: %@",theMessage);	
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:PostgresServerAppNotifyStatusChanged object:theMessage];
 }
 
 @end

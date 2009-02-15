@@ -21,7 +21,6 @@
 
 -(void)dealloc {
 	[self setConnection:nil];
-	[[NSDistributedNotificationCenter defaultCenter] removeObserver:self];
 	[super dealloc];
 }
 
@@ -33,8 +32,22 @@
 }
 
 -(void)mainViewDidLoad {
-	// add in the notification
-	[[NSDistributedNotificationCenter defaultCenter] addObserver:self selector:@selector(doNotifyStatusChanged:) name:PostgresServerAppNotifyStatusChanged object:nil];
+
+	// set server version
+	NSString* theVersion = [[self serverApp] serverVersion];
+	if(theVersion) {
+		[ibVersionNumber setStringValue:theVersion];
+	} else {
+		[ibVersionNumber setStringValue:@""];		
+	}
+	
+	// set server state
+	NSString* theState = [[self serverApp] serverState];
+	if(theState) {
+		[ibStatus setStringValue:theState];
+	} else {
+		[ibStatus setStringValue:@"Server is not installed"];
+	}		
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -77,13 +90,6 @@
 		return nil;
 	}
 	return theAuthorization;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// Notifications
-
--(void)doNotifyStatusChanged:(NSNotification* )theNotification {
-	[ibStatus setStringValue:[theNotification object]];
 }
 
 ////////////////////////////////////////////////////////////////////////////////

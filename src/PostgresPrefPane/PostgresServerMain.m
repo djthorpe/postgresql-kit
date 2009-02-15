@@ -37,7 +37,8 @@ int main(int argc,char* argv[]) {
 		goto APP_EXIT;
 	}
 
-	NSLog(@"PostgreSQL data path = %@",theDataPath);
+	NSLog(@"  Version = %@",[theApp serverVersion]);
+	NSLog(@"Data path = %@",theDataPath);
 	
 	NSLog(@"Starting NSRunLoop");
 	

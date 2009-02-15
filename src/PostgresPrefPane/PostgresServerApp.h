@@ -15,9 +15,9 @@
 
 // methods
 -(BOOL)awakeThread;
--(FLXServerState)serverState;
-
 -(void)startServer;
 -(void)stopServer;
+-(NSString* )serverVersion;
+-(NSString* )serverState;
 
 @end

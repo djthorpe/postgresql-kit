@@ -34,11 +34,13 @@ typedef enum {
 // properties - get environment
 -(NSString* )dataPath;
 -(NSString* )hostname;
+-(NSString* )serverVersion;
 -(int)port;
 
 // properties - determine server state
 -(int)processIdentifier;
 -(FLXServerState)state;
+-(NSString* )stateAsString;
 -(BOOL)isRunning;
 
 // methods
