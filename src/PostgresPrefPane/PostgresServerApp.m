@@ -31,8 +31,8 @@
 	// NSConnection object
 	[self setConnection:[NSConnection defaultConnection]];
 	[[self connection] setRootObject:self];
-	[[self connection] registerName:PostgresPrefPaneServerAppIdentifier];	
-
+	[[self connection] registerName:PostgresServerAppIdentifier];	
+	
 	// success
 	return YES;
 }
@@ -42,7 +42,6 @@
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-
 
 -(void)startServer {
 	// start the server
@@ -74,7 +73,8 @@
 }
 
 -(void)serverStateDidChange:(NSString* )theMessage {
-	NSLog(@"server state did change: %@",theMessage);
+	NSLog(@"server state did change: %@",theMessage);	
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:PostgresServerAppNotifyStatusChanged object:theMessage];
 }
 
 @end

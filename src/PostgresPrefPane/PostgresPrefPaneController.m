@@ -1,7 +1,7 @@
 
 #import <Security/Security.h>
 #import "PostgresPrefPaneController.h"
-#import "PostgresPrefPaneServerApp.h"
+#import "PostgresServerApp.h"
 #import "PostgresPrefPaneShared.h"
 
 @implementation PostgresPrefPaneController
@@ -14,28 +14,37 @@
 -(id)initWithBundle:(NSBundle *)bundle {
 	self = [super initWithBundle:bundle];
     if(self) {
-		[self setConnection:[NSConnection connectionWithRegisteredName:PostgresPrefPaneServerAppIdentifier host:nil]];
+		[self setConnection:[NSConnection connectionWithRegisteredName:PostgresServerAppIdentifier host:nil]];
 	}
 	return self;
 }
 
 -(void)dealloc {
 	[self setConnection:nil];
+	[[NSDistributedNotificationCenter defaultCenter] removeObserver:self];
 	[super dealloc];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // properties
 
--(PostgresPrefPaneServerApp* )serverApp {
-	return (PostgresPrefPaneServerApp* )[[self connection] rootProxy];
+-(PostgresServerApp* )serverApp {
+	return (PostgresServerApp* )[[self connection] rootProxy];
 }
 
 -(void)mainViewDidLoad {
-	NSLog(@"loaded view, state = %d",[[self serverApp] serverState]);
+	// add in the notification
+	[[NSDistributedNotificationCenter defaultCenter] addObserver:self selector:@selector(doNotifyStatusChanged:) name:PostgresServerAppNotifyStatusChanged object:nil];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+// private methods
+
+-(BOOL)_canInstall {
+	// system can be installed if 
+	// TODO
+	return YES;
+}
 
 -(AuthorizationRef)_authorizeUser {
 	AuthorizationRef theAuthorization = nil;
@@ -56,6 +65,14 @@
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+// Notifications
+
+-(void)doNotifyStatusChanged:(NSNotification* )theNotification {
+	[ibStatus setStringValue:[theNotification object]];
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// IBActions
 
 -(IBAction)doStartServer:(id)sender {
 	[[self serverApp] startServer];

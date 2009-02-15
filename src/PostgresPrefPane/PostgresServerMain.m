@@ -21,7 +21,7 @@ int main(int argc,char* argv[]) {
 	signal(SIGTERM,signalHandler);
 
 	// set the data path for postgres data from command line
-	NSString* theDataPath = [[NSUserDefaults standardUserDefaults] stringForKey:@"-data"];
+	NSString* theDataPath = [[NSUserDefaults standardUserDefaults] stringForKey:@"data"];
 	if(theDataPath==nil) {
 		NSArray* theSearchPaths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSLocalDomainMask, YES);
 		if([theSearchPaths count]==0) goto APP_EXIT;

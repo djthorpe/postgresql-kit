@@ -4,21 +4,29 @@
 <dict>
 	<key>Label</key>
 	<string>com.mutablelogic.PostgresServerApp</string>
-	<key>KeepAlive</key>
-	<false/>
-	<key>RunAtLoad</key>
-	<false/>
-	<key>ProgramArguments</key>
-	<array>
-	  <string>/Library/PreferencePanes/PostgreSQL.prefPane/Contents/MacOS/PostgresServerApp</string>
-	  <string>-data</string>
-	  <string>/Library/ApplicationSupport/PostgreSQL</string>
-	</array>
 
-	<!-- we use the _mysql user...similar!!! -->
+	<!-- we use the _mysql user -->
 	<key>UserName</key>
 	<string>_mysql</string>
 	<key>GroupName</key>
 	<string>_mysql</string>
+	
+	<key>OnDemand</key>
+	<false/>
+	<key>Debug</key>
+	<false/>
+
+	<!-- where the application lives, arguments -->
+	<key>ProgramArguments</key>
+	<array>
+	  <string>/Library/PreferencePanes/PostgreSQL.prefPane/Contents/MacOS/PostgresServerApp</string>
+	  <string>-data</string>
+	  <string>/Library/Application Support/PostgreSQL</string>
+	</array>
+
+	<!-- description of service -->
+	<key>ServiceDescription</key>
+	<string>PostgreSQL server</string>
+
 </dict>
 </plist>

@@ -1,2 +1,3 @@
 
-extern NSString* PostgresPrefPaneServerAppIdentifier;
+extern NSString* PostgresServerAppIdentifier;
+extern NSString* PostgresServerAppNotifyStatusChanged;
