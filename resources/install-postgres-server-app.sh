@@ -48,6 +48,7 @@ InstallService() {
   defaults write ${DOMAIN_PLIST_DEST} ProgramArguments -array -string "${PATH_APP}" -string "-data" -string "${PATH_DATA}"
   plutil -convert xml1 ${PATH_PLIST_DEST}    
   chmod 644 ${PATH_PLIST_DEST}
+  chown root:wheel ${PATH_PLIST_DEST}
   
   # load it into launchctl
   launchctl load ${PATH_PLIST_DEST}
@@ -55,7 +56,7 @@ InstallService() {
 
 UninstallService() {
   # see if service is loaded return=0 yes
-  launchctl list ${LAUNCHCTL_LABEL}  2>&1 >/dev/null
+  launchctl list ${LAUNCHCTL_LABEL} 2>&1 1>/dev/null
   if [ z"$?" == z"0" ]
   then
     launchctl unload ${PATH_PLIST_DEST}
@@ -70,6 +71,9 @@ UninstallService() {
 
 
 ################################################################################
+
+echo euid = $EUID
+echo uid = $UID
 
 if [ "\$#" == "0" ] ; then
     SyntaxError

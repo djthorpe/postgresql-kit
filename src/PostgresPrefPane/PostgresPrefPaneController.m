@@ -13,9 +13,6 @@
 
 -(id)initWithBundle:(NSBundle *)bundle {
 	self = [super initWithBundle:bundle];
-    if(self) {
-		[self setConnection:[NSConnection connectionWithRegisteredName:PostgresServerAppIdentifier host:nil]];
-	}
 	return self;
 }
 
@@ -31,27 +28,16 @@
 	return (PostgresServerApp* )[[self connection] rootProxy];
 }
 
--(void)mainViewDidLoad {
-
-	// set server version
-	NSString* theVersion = [[self serverApp] serverVersion];
-	if(theVersion) {
-		[ibVersionNumber setStringValue:theVersion];
-	} else {
-		[ibVersionNumber setStringValue:@""];		
-	}
-	
-	// set server state
-	NSString* theState = [[self serverApp] serverState];
-	if(theState) {
-		[ibStatus setStringValue:theState];
-	} else {
-		[ibStatus setStringValue:@"Server is not installed"];
-	}		
-}
-
 ////////////////////////////////////////////////////////////////////////////////
 // private methods
+
+-(void)_startConnection {
+	[self setConnection:[NSConnection connectionWithRegisteredName:PostgresServerAppIdentifier host:nil]];
+}
+
+-(void)_stopConnection {
+	[self setConnection:nil];
+}
 
 -(BOOL)_canInstall {
 	// system can be installed if...
@@ -117,7 +103,7 @@
 
 	// execute the script
 	FILE* thePipe = nil;
-	OSStatus theStatus = AuthorizationExecuteWithPrivileges(theAuthorization,(char* )[theScriptPath UTF8String],kAuthorizationFlagDefaults,(char** )theArgs,&thePipe);	
+	OSStatus theStatus = AuthorizationExecuteWithPrivileges(theAuthorization,[theScriptPath UTF8String],kAuthorizationFlagDefaults,(char** )theArgs,&thePipe);	
 	if(theStatus != errAuthorizationSuccess) {
 		free(theArgs);
 		return NO;
@@ -141,6 +127,31 @@
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+// Public methods
+
+-(void)mainViewDidLoad {
+	
+	// start connection
+	[self _startConnection];
+	
+	// set server version
+	NSString* theVersion = [[self serverApp] serverVersion];
+	if(theVersion) {
+		[ibVersionNumber setStringValue:theVersion];
+	} else {
+		[ibVersionNumber setStringValue:@""];		
+	}
+	
+	// set server state
+	NSString* theState = [[self serverApp] serverState];
+	if(theState) {
+		[ibStatus setStringValue:theState];
+	} else {
+		[ibStatus setStringValue:@"Server is not installed"];
+	}		
+}
+
+////////////////////////////////////////////////////////////////////////////////
 // IBActions
 
 -(IBAction)doStartServer:(id)sender {
@@ -154,18 +165,20 @@
 -(IBAction)doInstall:(id)sender {
 	AuthorizationRef theAuthorization = [self _authorizeUser];
 	if(theAuthorization) {
-		NSString* theReturn = [self _execute:@"install-postgres-server-app.sh" withAuthorization:theAuthorization withArguments:[NSArray arrayWithObject:@"install"]];
-		NSLog(@"return value = %@",theReturn);
+		NSString* theString = [self _execute:@"install-postgres-server-app.sh" withAuthorization:theAuthorization withArguments:[NSArray arrayWithObject:@"install"]];
+		NSLog(@"string = %@",theString);
 		AuthorizationFree(theAuthorization,kAuthorizationFlagDefaults);
 	}
+	[self _startConnection];
 }
 
 -(IBAction)doUninstall:(id)sender {
 	AuthorizationRef theAuthorization = [self _authorizeUser];
 	if(theAuthorization) {
-		NSLog(@"authorized - uninstall");
+		[self _execute:@"install-postgres-server-app.sh" withAuthorization:theAuthorization withArguments:[NSArray arrayWithObject:@"uninstall"]];
 		AuthorizationFree(theAuthorization,kAuthorizationFlagDefaults);
 	}
+	[self _stopConnection];
 }
 
 @end
