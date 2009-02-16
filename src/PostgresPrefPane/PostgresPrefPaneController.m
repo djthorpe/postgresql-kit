@@ -79,7 +79,7 @@
 }
 
 -(NSString* )_execute:(NSString* )scriptName withAuthorization:(AuthorizationRef)theAuthorization withArguments:(NSArray* )theArguments {
-	NSString* theScriptPath = [[[NSBundle bundleForClass:[self class]] resourcePath] stringByAppendingPathComponent:scriptName];
+	NSString* theScriptPath = [[[[NSBundle bundleForClass:[self class]] executablePath] stringByDeletingLastPathComponent] stringByAppendingPathComponent:scriptName];
 	if(theScriptPath==nil) {
 		return nil;
 	}
@@ -165,8 +165,7 @@
 -(IBAction)doInstall:(id)sender {
 	AuthorizationRef theAuthorization = [self _authorizeUser];
 	if(theAuthorization) {
-		NSString* theString = [self _execute:@"install-postgres-server-app.sh" withAuthorization:theAuthorization withArguments:[NSArray arrayWithObject:@"install"]];
-		NSLog(@"string = %@",theString);
+		NSString* theString = [self _execute:@"PostgresInstallerApp" withAuthorization:theAuthorization withArguments:[NSArray arrayWithObject:@"install"]];
 		AuthorizationFree(theAuthorization,kAuthorizationFlagDefaults);
 	}
 	[self _startConnection];
@@ -175,7 +174,7 @@
 -(IBAction)doUninstall:(id)sender {
 	AuthorizationRef theAuthorization = [self _authorizeUser];
 	if(theAuthorization) {
-		[self _execute:@"install-postgres-server-app.sh" withAuthorization:theAuthorization withArguments:[NSArray arrayWithObject:@"uninstall"]];
+		[self _execute:@"PostgresInstallerApp" withAuthorization:theAuthorization withArguments:[NSArray arrayWithObject:@"uninstall"]];
 		AuthorizationFree(theAuthorization,kAuthorizationFlagDefaults);
 	}
 	[self _stopConnection];
