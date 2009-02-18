@@ -7,16 +7,25 @@
 @implementation PostgresPrefPaneController
 
 @synthesize connection;
+@synthesize timer;
+@synthesize serverState;
 
 ////////////////////////////////////////////////////////////////////////////////
 // constructor
 
 -(id)initWithBundle:(NSBundle *)bundle {
 	self = [super initWithBundle:bundle];
+	if(self) {
+		[self setServerState:0];
+		[self setConnection:nil];
+		[self setTimer:nil];
+	}
 	return self;
 }
 
 -(void)dealloc {
+	[[self timer] invalidate];
+	[self setTimer:nil];
 	[self setConnection:nil];
 	[super dealloc];
 }
@@ -35,8 +44,49 @@
 	[self setConnection:[NSConnection connectionWithRegisteredName:PostgresServerAppIdentifier host:nil]];
 }
 
--(void)_stopConnection {
-	[self setConnection:nil];
+-(void)_updateStatus {
+	if([[self connection] isValid]) {
+		FLXServerState theNewState = [[self serverApp] serverState];
+				
+		// don't do anything if server state is the same
+		if(theNewState==[self serverState]) {
+			return;
+		} else {
+			[self setServerState:theNewState];
+		}		
+		// else update the server state
+		[ibStatus setStringValue:[[self serverApp] serverStateAsString]];
+		// update the image ball
+		if([self serverState]==FLXServerStateStarted) {
+			[ibStatusImage setImage:[ibGreenballImage image]];
+		} else {
+			[ibStatusImage setImage:[ibRedballImage image]];
+		}
+		// update the "stop" button state
+		if([self serverState]==FLXServerStateStarted) {
+			// enable stop button
+			[ibStopButton setEnabled:YES];
+		} else {
+			[ibStopButton setEnabled:NO];
+			[ibRemoteAccessCheckbox setEnabled:YES];
+			[ibPortText setEnabled:YES];
+			[ibPortMatrix setEnabled:YES];			
+		}
+		// updatr the "start" button state
+		if([self serverState]==FLXServerStateStopped || [self serverState]==FLXServerStateUnknown  || [self serverState]==FLXServerStateStartingError) {
+			[ibStartButton setEnabled:YES];			
+		} else {
+			[ibStartButton setEnabled:NO];
+			[ibRemoteAccessCheckbox setEnabled:NO];
+			[ibPortText setEnabled:NO];
+			[ibPortMatrix setEnabled:NO];			
+		}
+	} else {
+		[ibStatus setStringValue:@"Server is not installed"];
+		[self setServerState:0];
+		[ibStopButton setEnabled:NO];
+		[ibStartButton setEnabled:NO];
+	}		
 }
 
 -(BOOL)_canInstall {
@@ -129,26 +179,21 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Public methods
 
--(void)mainViewDidLoad {
-	
-	// start connection
-	[self _startConnection];
-	
-	// set server version
-	NSString* theVersion = [[self serverApp] serverVersion];
-	if(theVersion) {
-		[ibVersionNumber setStringValue:theVersion];
-	} else {
-		[ibVersionNumber setStringValue:@""];		
+-(void)mainViewDidLoad {	
+	// start the timer
+	[self setTimer:[NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(timerDidFire:) userInfo:nil repeats:YES]];
+}
+
+-(void)timerDidFire:(id)theTimer {
+	if([self connection]==nil) {
+		NSLog(@"starting connection....");
+		[self _startConnection];		
+	} else if([[self connection] isValid]==NO) {
+		[self setConnection:nil];
+		[self _startConnection];
 	}
 	
-	// set server state
-	NSString* theState = [[self serverApp] serverState];
-	if(theState) {
-		[ibStatus setStringValue:theState];
-	} else {
-		[ibStatus setStringValue:@"Server is not installed"];
-	}		
+	[self _updateStatus];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -165,7 +210,7 @@
 -(IBAction)doInstall:(id)sender {
 	AuthorizationRef theAuthorization = [self _authorizeUser];
 	if(theAuthorization) {
-		NSString* theString = [self _execute:@"PostgresInstallerApp" withAuthorization:theAuthorization withArguments:[NSArray arrayWithObject:@"install"]];
+		[self _execute:@"PostgresInstallerApp" withAuthorization:theAuthorization withArguments:[NSArray arrayWithObject:@"install"]];
 		AuthorizationFree(theAuthorization,kAuthorizationFlagDefaults);
 	}
 	[self _startConnection];
@@ -177,7 +222,8 @@
 		[self _execute:@"PostgresInstallerApp" withAuthorization:theAuthorization withArguments:[NSArray arrayWithObject:@"uninstall"]];
 		AuthorizationFree(theAuthorization,kAuthorizationFlagDefaults);
 	}
-	[self _stopConnection];
+	
+	[self setConnection:nil];
 }
 
 @end

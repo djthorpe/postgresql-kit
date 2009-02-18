@@ -242,7 +242,7 @@
 @end
 
 ////////////////////////////////////////////////////////////////////////////////
-
+/*
 int main(int argc,char* argv[]) {
 	NSAutoreleasePool* thePool = [[NSAutoreleasePool alloc] init];
 	NSInteger returnValue = 0;
@@ -298,3 +298,79 @@ APP_EXIT:
 	[thePool release];
 	return returnValue;
 }
+*/
+
+//////////////////////
+
+#include <Security/Authorization.h>
+#include <Security/AuthorizationTags.h>
+
+//int read (long,StringPtr,int);
+//int write (long,StringPtr,int);
+
+int main() {
+	NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+    OSStatus myStatus;
+    AuthorizationFlags myFlags = kAuthorizationFlagDefaults;              // 1
+    AuthorizationRef myAuthorizationRef;                                  // 2
+	
+    myStatus = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment,  // 3
+								   myFlags, &myAuthorizationRef);
+    if (myStatus != errAuthorizationSuccess) {
+		printf("Not successfull with create");		
+        return myStatus;
+	}
+	
+    AuthorizationItem myItems = {kAuthorizationRightExecute, 0, NULL, 0};
+    AuthorizationRights myRights = {1, &myItems};                  // 5
+	
+	myFlags = kAuthorizationFlagDefaults |                         // 6
+	kAuthorizationFlagInteractionAllowed |
+	kAuthorizationFlagPreAuthorize |
+	kAuthorizationFlagExtendRights;
+	myStatus = AuthorizationCopyRights (myAuthorizationRef,       // 7
+										&myRights, NULL, myFlags, NULL );
+	
+	if (myStatus != errAuthorizationSuccess) {
+		printf("Not successfull with authorization");
+		return -1;
+	}
+	
+	char myToolPath[] = "launchctl";
+	char *myArguments[] = { "load", "/Library/LaunchDaemons/com.mutablelogic.postgreSQL.plist", nil };
+	
+	// execute the script
+	FILE* thePipe = nil;
+	OSStatus theStatus = AuthorizationExecuteWithPrivileges(myAuthorizationRef,myToolPath,kAuthorizationFlagDefaults,myArguments,&thePipe);	
+	if(theStatus != errAuthorizationSuccess) {
+		printf("Not successfull with execution");
+		return -1;
+	}
+
+
+	// read in data from the script
+	NSFileHandle* theHandle = [[NSFileHandle alloc] initWithFileDescriptor:fileno(thePipe)];
+	NSMutableData* theString = [NSMutableData data];
+	NSData* theData = nil;
+	while((theData = [theHandle availableData]) && [theData length]) {
+		[theString appendData:theData];
+	}
+
+	
+	NSLog(@"%@",theString);
+
+	// cleanup
+	[theHandle closeFile];
+	[theHandle release];
+	
+	
+    if (myStatus) printf("Status: %ld\n", myStatus);
+	
+    AuthorizationFree (myAuthorizationRef, kAuthorizationFlagDefaults);
+	
+	[pool release];
+    return myStatus;
+}
+
+
+

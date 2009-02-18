@@ -2,15 +2,15 @@
 #import <Foundation/Foundation.h>
 
 typedef enum {
-  FLXServerStateUnknown = 0,
-  FLXServerStateAlreadyRunning = 1,
-  FLXServerStateIgnition = 2,
-  FLXServerStateInitializing = 3,
-  FLXServerStateStarting = 4,
-  FLXServerStateStartingError = 5,
-  FLXServerStateStarted = 6,
-  FLXServerStateStopping = 7,
-  FLXServerStateStopped = 8
+  FLXServerStateUnknown = 1,
+  FLXServerStateAlreadyRunning,
+  FLXServerStateIgnition,
+  FLXServerStateInitializing,
+  FLXServerStateStarting,
+  FLXServerStateStartingError,
+  FLXServerStateStarted,
+  FLXServerStateStopping,
+  FLXServerStateStopped
 } FLXServerState;
 
 @interface FLXServer : NSObject {

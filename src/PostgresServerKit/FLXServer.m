@@ -103,7 +103,6 @@ const unsigned FLXDefaultPostgresPort = 5432;
 	return [self _messageFromState];
 }
 
-
 -(void)setState:(FLXServerState)theState {
 	@synchronized(self) {
 		if(m_theState != theState) {
@@ -191,7 +190,7 @@ const unsigned FLXDefaultPostgresPort = 5432;
 	
 	[self _delegateServerMessage:[NSString stringWithFormat:@"Starting server with data path: %@",thePath]];
 	
-	if([self state] != FLXServerStateStopped && [self state] != FLXServerStateUnknown) {
+	if([self state] != FLXServerStateStopped && [self state] != FLXServerStateUnknown && [self state] != FLXServerStateStartingError) {
 		[self _delegateServerMessage:@"Invalid or unknown server state"];
 		return NO;    
 	}
@@ -322,13 +321,12 @@ const unsigned FLXDefaultPostgresPort = 5432;
 		case FLXServerStateStarted:
 			return @"Started";
 		case FLXServerStateStartingError:
-			return @"Error";
+			return @"Error whilst starting server";
 		case FLXServerStateStopping:
 			return @"Stopping";
 		case FLXServerStateStopped:
-			return @"Stopped";
 		default:
-			return @"Unknown";
+			return @"Stopped";
 	}
 }
 
@@ -448,7 +446,7 @@ const unsigned FLXDefaultPostgresPort = 5432;
 	[theTask setStandardOutput:theOutPipe];
 	[theTask setStandardError:theOutPipe];
 	[theTask setLaunchPath:[[self class] postgresInitPath]];
-	[theTask setArguments:[NSArray arrayWithObjects:@"-D",[self dataPath],@"--encoding=UTF8",@"--no-locale",nil]];
+	[theTask setArguments:[NSArray arrayWithObjects:@"-D",[self dataPath],@"--encoding=UTF8",@"--no-locale",@"-U",@"postgres",nil]];
 	
 	// launch the init method
 	[theTask launch];                                                 

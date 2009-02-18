@@ -83,7 +83,11 @@
 	return [[self server] serverVersion];
 }
 
--(NSString* )serverState {
+-(FLXServerState)serverState {
+	return [[self server] state];
+}
+
+-(NSString* )serverStateAsString {
 	return [[self server] stateAsString];
 }
 

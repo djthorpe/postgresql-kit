@@ -22,6 +22,7 @@
 -(void)startServer;
 -(void)stopServer;
 -(NSString* )serverVersion;
--(NSString* )serverState;
+-(FLXServerState)serverState;
+-(NSString* )serverStateAsString;
 
 @end
