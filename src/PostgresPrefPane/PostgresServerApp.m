@@ -9,6 +9,7 @@
 @synthesize dataPath;
 @synthesize isRemoteAccess;
 @synthesize serverPort;
+@synthesize defaultServerPort;
 
 -(void)dealloc {
 	[self setDataPath:nil];
@@ -40,7 +41,8 @@
 	}
 
 	// set server port to default
-	[self setServerPort:[[self server] port]];
+	defaultServerPort = [FLXServer defaultPort];	
+	[self setServerPort:defaultServerPort];
 	
 	// success
 	return YES;
@@ -55,8 +57,10 @@
 	if([self isRemoteAccess]) {
 		[[self server] setHostname:@"*"];
 		[[self server] setPort:[self serverPort]];
+		NSLog(@"Setting hostname as %@ and port as %d",[[self server] hostname],[[self server] port]);
 	} else {
 		[[self server] setHostname:nil];
+		NSLog(@"Setting hostname as nil");
 	}
 		
 	// create application support path

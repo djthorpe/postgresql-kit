@@ -8,6 +8,7 @@
 	NSConnection* connection;
 	BOOL isRemoteAccess;
 	NSUInteger serverPort;
+	NSUInteger defaultServerPort;
 }
 
 // properties
@@ -16,6 +17,7 @@
 @property (retain) NSString* dataPath;
 @property (assign) BOOL isRemoteAccess;
 @property (assign) NSUInteger serverPort;
+@property (assign, readonly) NSUInteger defaultServerPort;
 
 // methods
 -(BOOL)awakeThread;

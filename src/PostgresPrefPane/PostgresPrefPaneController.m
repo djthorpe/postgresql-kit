@@ -45,12 +45,23 @@ const NSTimeInterval PostgresPrefPaneFastInterval = 0.5;
 
 -(void)_startConnection {
 	[self setConnection:[NSConnection connectionWithRegisteredName:PostgresServerAppIdentifier host:nil]];
+
+	if([[self connection] isValid]) {
+		// set remote access
+		if([[self serverApp] isRemoteAccess]) {
+			[ibRemoteAccessCheckbox setState:NSOnState];
+		} else {
+			[ibRemoteAccessCheckbox setState:NSOffState];			
+		}
+		[self doRemoteAccessCheckbox:nil];
+	}
+	
 }
 
 -(void)_setServerVersion {
 	if([[self connection] isValid]) {
 		NSString* serverVersion = [[self serverApp] serverVersion];
-		[ibVersionNumber setStringValue:serverVersion];
+		[ibVersionNumber setStringValue:[NSString stringWithFormat:@"Version: %@",serverVersion]];
 	} else {
 		[ibVersionNumber setStringValue:@""];		
 	}
@@ -89,8 +100,6 @@ const NSTimeInterval PostgresPrefPaneFastInterval = 0.5;
 		} else {
 			[ibStopButton setEnabled:NO];
 			[ibRemoteAccessCheckbox setEnabled:YES];
-			[ibPortText setEnabled:YES];
-			[ibPortMatrix setEnabled:YES];			
 		}
 		// update the "start" button state
 		if([self serverState]==FLXServerStateStopped || [self serverState]==FLXServerStateUnknown  || [self serverState]==FLXServerStateStartingError) {
@@ -100,8 +109,6 @@ const NSTimeInterval PostgresPrefPaneFastInterval = 0.5;
 		} else {
 			[ibStartButton setEnabled:NO];
 			[ibRemoteAccessCheckbox setEnabled:NO];
-			[ibPortText setEnabled:NO];
-			[ibPortMatrix setEnabled:NO];			
 			[ibInstallButton setEnabled:NO];
 			[ibUninstallButton setEnabled:NO];
 		}
@@ -113,28 +120,9 @@ const NSTimeInterval PostgresPrefPaneFastInterval = 0.5;
 		[ibInstallButton setEnabled:YES];
 		[ibUninstallButton setEnabled:NO];
 		[self _updateStatusImageReady:NO];
+		[ibRemoteAccessCheckbox setEnabled:NO];
+		[self doRemoteAccessCheckbox:nil];
 	}		
-}
-
--(BOOL)_canInstall {
-	// system can be installed if...
-    // 0. communication to ServerApp is not working
-	// 1. server is not already started
-	// 2. launchctl does not have the particular identifier loaded
-	// 2. startup item does not exist in the /Library/StartupItems folder
-	// 3. preferences panel is installed system-wide rather than per-user
-	// 4. the ServerApp exists and is executable
-	// 5. the _mysql username exists
-	return YES;
-}
-
--(BOOL)_canUnInstall {
-	// system can be uninstalled if 
-    // 0. communication to ServerApp is working
-	// 1. server is not started
-	// 2. launchctl has the particular identifier loaded
-	// 2. startup item exists in the /Library/StartupItems folder
-	return NO;
 }
 
 -(AuthorizationRef)_authorizeUser {
@@ -214,7 +202,7 @@ const NSTimeInterval PostgresPrefPaneFastInterval = 0.5;
 		NSLog(@"lowering rate of connection to app");
 		[[self timer] invalidate];
 		[self setTimer:[NSTimer scheduledTimerWithTimeInterval:PostgresPrefPaneSlowInterval target:self selector:@selector(timerDidFire:) userInfo:nil repeats:YES]];
-	} else {
+	} else if([[self timer] timeInterval] != PostgresPrefPaneFastInterval) {
 		NSLog(@"raising rate of connection to app");
 		[[self timer] invalidate];
 		[self setTimer:[NSTimer scheduledTimerWithTimeInterval:PostgresPrefPaneFastInterval target:self selector:@selector(timerDidFire:) userInfo:nil repeats:YES]];
@@ -253,11 +241,39 @@ const NSTimeInterval PostgresPrefPaneFastInterval = 0.5;
 // IBActions
 
 -(IBAction)doStartServer:(id)sender {
+	// TODO: set server port
+	if([ibRemoteAccessCheckbox state]==NSOnState) {
+		[[self serverApp] setIsRemoteAccess:YES];
+	} else {
+		[[self serverApp] setIsRemoteAccess:NO];		
+	}
 	[[self serverApp] startServer];
 }
 
 -(IBAction)doStopServer:(id)sender {
 	[[self serverApp] stopServer];
+}
+
+-(IBAction)doRemoteAccessCheckbox:(id)sender {
+	if([ibRemoteAccessCheckbox state]==NSOnState) {
+		[ibPortMatrix setEnabled:YES];
+		[ibPortText setEnabled:YES];
+	} else {
+		[ibPortMatrix setEnabled:NO];
+		[ibPortText setEnabled:NO];
+	}
+}
+
+-(IBAction)doPortMatrix:(id)sender {
+	if([ibPortMatrix selectedCell]==ibDefaultPortCheckbox) {
+		[ibPortText setStringValue:[NSString stringWithFormat:@"%d",[[self serverApp] defaultServerPort]]];
+		[ibPortText setEnabled:NO];
+	} else if([ibPortMatrix selectedCell]==ibOtherPortCheckbox) {
+		[ibPortText setEnabled:YES];
+		if([[ibPortText stringValue] length]==0) {
+			[ibPortText setStringValue:[NSString stringWithFormat:@"%d",[[self serverApp] defaultServerPort]]];			
+		}
+	}
 }
 
 -(IBAction)doInstall:(id)sender {

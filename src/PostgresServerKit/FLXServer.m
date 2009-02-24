@@ -142,7 +142,6 @@ const unsigned FLXDefaultPostgresPort = 5432;
 }
 
 -(void)setHostname:(NSString* )theHostname {
-	NSParameterAssert(theHostname);
 	[theHostname retain];
 	[m_theHostname release];
 	m_theHostname = theHostname;
@@ -161,7 +160,7 @@ const unsigned FLXDefaultPostgresPort = 5432;
 	return m_thePort;
 }
 
--(int)defaultPort {
++(int)defaultPort {
 	return FLXDefaultPostgresPort;
 }
 
@@ -477,10 +476,13 @@ const unsigned FLXDefaultPostgresPort = 5432;
 	if([[self hostname] length]) {
 		[theArguments addObject:@"-h"];
 		[theArguments addObject:[self hostname]];
-	}
-	if([self port] != 0 && [self port] != FLXDefaultPostgresPort) {
-		[theArguments addObject:@"-d"];
-		[theArguments addObject:[NSString stringWithFormat:@"%d",[self port]]];
+		if([self port] != 0 && [self port] != FLXDefaultPostgresPort) {
+			[theArguments addObject:@"-p"];
+			[theArguments addObject:[NSString stringWithFormat:@"%d",[self port]]];
+		}
+	} else {
+		[theArguments addObject:@"-h"];		
+		[theArguments addObject:@""];		
 	}
 	
 	// launch the postgres database, set the pid

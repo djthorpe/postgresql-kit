@@ -27,6 +27,8 @@
 	IBOutlet NSButton* ibUninstallButton;
 	IBOutlet NSButton* ibRemoteAccessCheckbox;
 	IBOutlet NSMatrix* ibPortMatrix;
+	IBOutlet NSButtonCell* ibDefaultPortCheckbox;
+	IBOutlet NSButtonCell* ibOtherPortCheckbox;
 	IBOutlet NSTextField* ibPortText;
 	
 }
@@ -42,5 +44,7 @@
 -(IBAction)doStopServer:(id)sender;
 -(IBAction)doInstall:(id)sender;
 -(IBAction)doUninstall:(id)sender;
+-(IBAction)doRemoteAccessCheckbox:(id)sender;
+-(IBAction)doPortMatrix:(id)sender;
 
 @end

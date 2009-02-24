@@ -36,7 +36,7 @@ typedef enum {
 -(NSString* )hostname;
 -(NSString* )serverVersion;
 -(int)port;
--(int)defaultPort;
++(int)defaultPort;
 
 // properties - determine server state
 -(int)processIdentifier;
