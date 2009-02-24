@@ -8,9 +8,9 @@
 		<string key="IBDocument.HIToolboxVersion">353.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="127"/>
-			<integer value="177"/>
 			<integer value="209"/>
+			<integer value="174"/>
+			<integer value="177"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -494,9 +494,13 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 																<string>formatterBehavior</string>
 																<string>generatesDecimalNumbers</string>
 																<string>maximum</string>
+																<string>maximumFractionDigits</string>
+																<string>maximumIntegerDigits</string>
 																<string>minimum</string>
+																<string>negativeFormat</string>
 																<string>numberStyle</string>
 																<string>paddingPosition</string>
+																<string>positiveFormat</string>
 																<string>roundingMode</string>
 																<string>usesGroupingSeparator</string>
 															</object>
@@ -507,15 +511,19 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 																<integer value="1040"/>
 																<reference ref="5"/>
 																<real value="9.999000e+03" id="461629392"/>
+																<reference ref="8"/>
+																<integer value="6"/>
 																<real value="1.000000e+00" id="639913482"/>
+																<string>#0###</string>
 																<integer value="1" id="9"/>
 																<reference ref="8"/>
+																<string>#0###</string>
 																<integer value="4"/>
 																<reference ref="6"/>
 															</object>
 														</object>
-														<string key="NS.positiveformat">#0.###</string>
-														<string key="NS.negativeformat">#0.###</string>
+														<string key="NS.positiveformat">#0###</string>
+														<string key="NS.negativeformat">#0###</string>
 														<nil key="NS.positiveattrs"/>
 														<nil key="NS.negativeattrs"/>
 														<object class="NSAttributedString" key="NS.zero">
@@ -1980,10 +1988,10 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{266, 445}, {670, 311}}</string>
+					<string>{{224, 445}, {670, 311}}</string>
 					<reference ref="6"/>
 					<reference ref="6"/>
-					<string>{{266, 445}, {670, 311}}</string>
+					<string>{{224, 445}, {670, 311}}</string>
 					<reference ref="9"/>
 					<reference ref="5"/>
 					<reference ref="9"/>
