@@ -47,6 +47,15 @@ const NSTimeInterval PostgresPrefPaneFastInterval = 0.5;
 	[self setConnection:[NSConnection connectionWithRegisteredName:PostgresServerAppIdentifier host:nil]];
 }
 
+-(void)_setServerVersion {
+	if([[self connection] isValid]) {
+		NSString* serverVersion = [[self serverApp] serverVersion];
+		[ibVersionNumber setStringValue:serverVersion];
+	} else {
+		[ibVersionNumber setStringValue:@""];		
+	}
+}
+
 -(void)_updateStatusImageReady:(BOOL)isReady {
 	if(isReady) {
 		[ibStatusImage setImage:[ibGreenballImage image]];
@@ -202,9 +211,11 @@ const NSTimeInterval PostgresPrefPaneFastInterval = 0.5;
 	// vary the NSTimer between fast and slow depending on whether there is a connection
 	// to the server object or not
 	if([self connection]==nil && [[self timer] timeInterval] != PostgresPrefPaneSlowInterval) {			
+		NSLog(@"lowering rate of connection to app");
 		[[self timer] invalidate];
 		[self setTimer:[NSTimer scheduledTimerWithTimeInterval:PostgresPrefPaneSlowInterval target:self selector:@selector(timerDidFire:) userInfo:nil repeats:YES]];
 	} else {
+		NSLog(@"raising rate of connection to app");
 		[[self timer] invalidate];
 		[self setTimer:[NSTimer scheduledTimerWithTimeInterval:PostgresPrefPaneFastInterval target:self selector:@selector(timerDidFire:) userInfo:nil repeats:YES]];
 	}	
@@ -213,10 +224,12 @@ const NSTimeInterval PostgresPrefPaneFastInterval = 0.5;
 	if([self connection]==nil) {
 		NSLog(@"connecting to server app....");
 		[self _startConnection];		
+		[self _setServerVersion];
 	} else if([[self connection] isValid]==NO) {
 		NSLog(@"reconnecting to server app....");
 		[self setConnection:nil];
 		[self _startConnection];
+		[self _setServerVersion];
 	}
 
 	// update the status

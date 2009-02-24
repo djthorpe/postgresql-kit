@@ -56,7 +56,7 @@
 		[[self server] setHostname:@"*"];
 		[[self server] setPort:[self serverPort]];
 	} else {
-		[[self server] setHostname:@""];
+		[[self server] setHostname:nil];
 	}
 		
 	// create application support path
@@ -80,7 +80,13 @@
 }
 
 -(NSString* )serverVersion {
-	return [[self server] serverVersion];
+	NSString* serverVersion = [[[self server] serverVersion] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+	NSString* serverPrefix = @"postgres (PostgreSQL) ";
+	if([serverVersion hasPrefix:serverPrefix]) {
+		return [serverVersion substringFromIndex:[serverPrefix length]];
+	} else {
+		return serverVersion;
+	}
 }
 
 -(FLXServerState)serverState {
