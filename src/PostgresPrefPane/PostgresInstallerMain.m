@@ -11,7 +11,9 @@
 // static methods
 +(NSInteger)installForPath:(NSString* )thePath;
 +(NSInteger)uninstallForPath:(NSString* )thePath;
-+(BOOL)restorePermissionsForPath:(NSString* )thePath ownerAccountName:(NSString* )theOwnerAccountName posixPermissions:(NSNumber* )thePosixPermissions;
++(BOOL)restorePermissionsForFile:(NSString* )thePath ownerAccountName:(NSString* )theOwnerAccountName posixPermissions:(NSNumber* )thePosixPermissions;
++(BOOL)restorePermissionsForDirectory:(NSString* )thePath ownerAccountName:(NSString* )theOwnerAccountName posixPermissions:(NSNumber* )thePosixPermissions;
++(BOOL)restorePermissionsForPath:(NSString* )thePath ownerAccountName:(NSString* )theOwnerAccountName posixPermissions:(NSNumber* )thePosixPermissions isDirectory:(BOOL)isDirectory;
 +(NSDictionary* )addStickyBitForPath:(NSString* )thePath;
 +(NSInteger)executeTask:(NSString* )theProgramPath arguments:(NSArray* )theArguments;
 +(NSString* )plistPathForBundlePath:(NSString* )theBundlePath;
@@ -40,6 +42,10 @@
 
 +(NSString* )dataPath {
 	return @"/Library/Application Support/PostgreSQL";
+}
+
++(NSString* )runningUsername {
+	return @"_mysql";
 }
 
 +(NSString* )plistFilename {
@@ -102,12 +108,22 @@
 		return -1;
 	}		
 	// change permissions on the file
-	if([self restorePermissionsForPath:[self plistPathForLaunchDaemons] ownerAccountName:@"root" posixPermissions:[NSNumber numberWithInt:0644]]==NO) {
+	if([self restorePermissionsForFile:[self plistPathForLaunchDaemons] ownerAccountName:@"root" posixPermissions:[NSNumber numberWithInteger:0644]]==NO) {
 		NSLog(@"Unable to set permissions for file");
 		return -1;		
 	}
 
-	
+	// create data path if doesn't exist
+	if([[NSFileManager defaultManager] fileExistsAtPath:[self dataPath]]==NO) {
+		if([[NSFileManager defaultManager] createDirectoryAtPath:[self dataPath] attributes:nil]==NO) {
+			NSLog(@"Unable to create data path: %@",[self dataPath]);
+			return -1;
+		}
+		if([self restorePermissionsForDirectory:[self dataPath] ownerAccountName:[self runningUsername] posixPermissions:[NSNumber numberWithInteger:0750]]==NO) {
+			NSLog(@"Unable to set permissions for data path: %@",[self dataPath]);
+			return -1;
+		}			
+	}
 	
 	// perform the load	
 	NSInteger oldUID = getuid();
@@ -138,10 +154,8 @@
 	}
 	
 	// unload
-//	NSInteger oldUID = getuid();
-//	setuid(0);
+	setuid(0);
 	NSInteger retVal = [self executeTask:@"/bin/launchctl" arguments:[NSArray arrayWithObjects:@"unload",[self plistPathForLaunchDaemons],nil]];
-//	setuid(oldUID);
 	if(retVal != 0) {
 		NSLog(@"launchctl unload error");
 		return -1;
@@ -157,13 +171,27 @@
 	return 0;
 }
 
-+(BOOL)restorePermissionsForPath:(NSString* )thePath ownerAccountName:(NSString* )theOwnerAccountName posixPermissions:(NSNumber* )thePosixPermissions {
+
++(BOOL)restorePermissionsForFile:(NSString* )thePath ownerAccountName:(NSString* )theOwnerAccountName posixPermissions:(NSNumber* )thePosixPermissions {
+	return [self restorePermissionsForPath:thePath ownerAccountName:theOwnerAccountName posixPermissions:thePosixPermissions isDirectory:NO];
+}
+
++(BOOL)restorePermissionsForDirectory:(NSString* )thePath ownerAccountName:(NSString* )theOwnerAccountName posixPermissions:(NSNumber* )thePosixPermissions {
+	return [self restorePermissionsForPath:thePath ownerAccountName:theOwnerAccountName posixPermissions:thePosixPermissions isDirectory:YES];
+}
+
++(BOOL)restorePermissionsForPath:(NSString* )thePath ownerAccountName:(NSString* )theOwnerAccountName posixPermissions:(NSNumber* )thePosixPermissions isDirectory:(BOOL)isDirectory {
+	
 	// ensure the path is to an executable file
-	BOOL isDirectory;
-	if([[NSFileManager defaultManager] fileExistsAtPath:thePath isDirectory:&isDirectory]==NO || isDirectory==YES) {
+	BOOL isDirectoryFlag;
+	if([[NSFileManager defaultManager] fileExistsAtPath:thePath isDirectory:&isDirectoryFlag]==NO) {
 		NSLog(@"Invalid: %@",thePath);
 		return NO;
 	}	
+	if((isDirectory==NO && isDirectoryFlag==YES) || (isDirectory==YES && isDirectoryFlag==NO)) {
+		NSLog(@"Invalid: %@ (directory)",thePath);
+		return NO;		
+	}
 		
 	// perform the restoration
 	NSError* theError = nil;
@@ -172,6 +200,8 @@
 		NSLog(@"Error: %@",[theError localizedDescription]);
 		return NO;		
 	}
+	
+	NSLog(@"Set permissions for %@ as user %@ and %o",thePath,theOwnerAccountName,[thePosixPermissions integerValue]);
 	
 	// success (we think!)
 	return YES;	
@@ -232,17 +262,13 @@
 	[theTask release];
 	[theOutPipe release];    
 
-	//NSString* theOutput = [[NSString alloc] initWithData:theReturnedData encoding:NSUTF8StringEncoding];
-	//NSLog(@"%@",theOutput);
-	//[theOutput release];	
-	
 	return theReturnCode;
 }
 
 @end
 
 ////////////////////////////////////////////////////////////////////////////////
-/*
+
 int main(int argc,char* argv[]) {
 	NSAutoreleasePool* thePool = [[NSAutoreleasePool alloc] init];
 	NSInteger returnValue = 0;
@@ -255,7 +281,7 @@ int main(int argc,char* argv[]) {
 	NSString* theCommand = (argCount < 2) ? nil : [[[NSProcessInfo processInfo] arguments] objectAtIndex:1];
 	NSString* theOwnerAccountName = (argCount < 3) ? nil : [[[NSProcessInfo processInfo] arguments] objectAtIndex:2];
 	NSNumber* thePosixPermissions = (argCount < 4) ? nil : [NSDecimalNumber decimalNumberWithString:[[[NSProcessInfo processInfo] arguments] objectAtIndex:3]];
-	
+	 
 	NSLog(@"%@ %@ uid=%d euid=%d",theProgramName,theCommand,getuid(),geteuid());
 	
 	// perform operations
@@ -264,7 +290,7 @@ int main(int argc,char* argv[]) {
 	}
 	if([theCommand isEqual:@"suid-install"]) {
 		returnValue = [PostgresInstallerApp installForPath:theBundlePath];
-		if([PostgresInstallerApp restorePermissionsForPath:theProgramPath ownerAccountName:theOwnerAccountName posixPermissions:thePosixPermissions]==NO) {
+		if([PostgresInstallerApp restorePermissionsForFile:theProgramPath ownerAccountName:theOwnerAccountName posixPermissions:thePosixPermissions]==NO) {
 			NSLog(@"Error: unable to remove suid bit for path: %@",theProgramPath);
 			returnValue = -1;
 		}
@@ -272,7 +298,7 @@ int main(int argc,char* argv[]) {
 	}
 	if([theCommand isEqual:@"suid-uninstall"]) {
 		returnValue = [PostgresInstallerApp uninstallForPath:theBundlePath];
-		if([PostgresInstallerApp restorePermissionsForPath:theProgramPath ownerAccountName:theOwnerAccountName posixPermissions:thePosixPermissions]==NO) {
+		if([PostgresInstallerApp restorePermissionsForFile:theProgramPath ownerAccountName:theOwnerAccountName posixPermissions:thePosixPermissions]==NO) {
 			NSLog(@"Error: unable to remove suid bit for path: %@",theProgramPath);
 			returnValue = -1;
 		}
@@ -298,79 +324,3 @@ APP_EXIT:
 	[thePool release];
 	return returnValue;
 }
-*/
-
-//////////////////////
-
-#include <Security/Authorization.h>
-#include <Security/AuthorizationTags.h>
-
-//int read (long,StringPtr,int);
-//int write (long,StringPtr,int);
-
-int main() {
-	NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-    OSStatus myStatus;
-    AuthorizationFlags myFlags = kAuthorizationFlagDefaults;              // 1
-    AuthorizationRef myAuthorizationRef;                                  // 2
-	
-    myStatus = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment,  // 3
-								   myFlags, &myAuthorizationRef);
-    if (myStatus != errAuthorizationSuccess) {
-		printf("Not successfull with create");		
-        return myStatus;
-	}
-	
-    AuthorizationItem myItems = {kAuthorizationRightExecute, 0, NULL, 0};
-    AuthorizationRights myRights = {1, &myItems};                  // 5
-	
-	myFlags = kAuthorizationFlagDefaults |                         // 6
-	kAuthorizationFlagInteractionAllowed |
-	kAuthorizationFlagPreAuthorize |
-	kAuthorizationFlagExtendRights;
-	myStatus = AuthorizationCopyRights (myAuthorizationRef,       // 7
-										&myRights, NULL, myFlags, NULL );
-	
-	if (myStatus != errAuthorizationSuccess) {
-		printf("Not successfull with authorization");
-		return -1;
-	}
-	
-	char myToolPath[] = "launchctl";
-	char *myArguments[] = { "load", "/Library/LaunchDaemons/com.mutablelogic.postgreSQL.plist", nil };
-	
-	// execute the script
-	FILE* thePipe = nil;
-	OSStatus theStatus = AuthorizationExecuteWithPrivileges(myAuthorizationRef,myToolPath,kAuthorizationFlagDefaults,myArguments,&thePipe);	
-	if(theStatus != errAuthorizationSuccess) {
-		printf("Not successfull with execution");
-		return -1;
-	}
-
-
-	// read in data from the script
-	NSFileHandle* theHandle = [[NSFileHandle alloc] initWithFileDescriptor:fileno(thePipe)];
-	NSMutableData* theString = [NSMutableData data];
-	NSData* theData = nil;
-	while((theData = [theHandle availableData]) && [theData length]) {
-		[theString appendData:theData];
-	}
-
-	
-	NSLog(@"%@",theString);
-
-	// cleanup
-	[theHandle closeFile];
-	[theHandle release];
-	
-	
-    if (myStatus) printf("Status: %ld\n", myStatus);
-	
-    AuthorizationFree (myAuthorizationRef, kAuthorizationFlagDefaults);
-	
-	[pool release];
-    return myStatus;
-}
-
-
-

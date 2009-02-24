@@ -23,6 +23,8 @@
 	IBOutlet NSImageView* ibGreenballImage;
 	IBOutlet NSButton* ibStopButton;
 	IBOutlet NSButton* ibStartButton;	
+	IBOutlet NSButton* ibInstallButton;
+	IBOutlet NSButton* ibUninstallButton;
 	IBOutlet NSButton* ibRemoteAccessCheckbox;
 	IBOutlet NSMatrix* ibPortMatrix;
 	IBOutlet NSTextField* ibPortText;

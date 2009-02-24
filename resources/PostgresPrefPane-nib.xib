@@ -8,9 +8,9 @@
 		<string key="IBDocument.HIToolboxVersion">353.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
+			<integer value="123"/>
 			<integer value="209"/>
 			<integer value="177"/>
-			<integer value="147"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -465,7 +465,8 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 													<int key="NSPeriodicDelay">400</int>
 													<int key="NSPeriodicInterval">75</int>
 												</object>
-												<reference key="NSSelectedCell" ref="70047878"/>
+												<int key="NSSelectedRow">-1</int>
+												<int key="NSSelectedCol">-1</int>
 												<reference key="NSBackgroundColor" ref="98879243"/>
 												<object class="NSColor" key="NSCellBackgroundColor" id="900816596">
 													<int key="NSColorSpace">3</int>
@@ -576,7 +577,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 								<object class="NSTabViewItem" id="977420655">
 									<string key="NSIdentifier">install</string>
 									<object class="NSView" key="NSView" id="279897921">
-										<nil key="NSNextResponder"/>
+										<reference key="NSNextResponder" ref="496979441"/>
 										<int key="NSvFlags">256</int>
 										<object class="NSMutableArray" key="NSSubviews">
 											<bool key="EncodedWithXMLCoder">YES</bool>
@@ -658,6 +659,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 											</object>
 										</object>
 										<string key="NSFrame">{{10, 33}, {503, 216}}</string>
+										<reference key="NSSuperview" ref="496979441"/>
 									</object>
 									<string key="NSLabel">Installation</string>
 									<reference key="NSColor" ref="98879243"/>
@@ -666,7 +668,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 								<object class="NSTabViewItem" id="250274258">
 									<string key="NSIdentifier">backup</string>
 									<object class="NSView" key="NSView" id="1045613918">
-										<reference key="NSNextResponder" ref="496979441"/>
+										<nil key="NSNextResponder"/>
 										<int key="NSvFlags">256</int>
 										<object class="NSMutableArray" key="NSSubviews">
 											<bool key="EncodedWithXMLCoder">YES</bool>
@@ -928,7 +930,6 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 											</object>
 										</object>
 										<string key="NSFrame">{{10, 33}, {503, 216}}</string>
-										<reference key="NSSuperview" ref="496979441"/>
 									</object>
 									<string key="NSLabel">Backup</string>
 									<reference key="NSColor" ref="98879243"/>
@@ -946,14 +947,14 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 									<reference key="NSTabView" ref="496979441"/>
 								</object>
 							</object>
-							<reference key="NSSelectedTabViewItem" ref="250274258"/>
+							<reference key="NSSelectedTabViewItem" ref="977420655"/>
 							<reference key="NSFont" ref="957909157"/>
 							<int key="NSTvFlags">0</int>
 							<bool key="NSAllowTruncatedLabels">YES</bool>
 							<bool key="NSDrawsBackground">YES</bool>
 							<object class="NSMutableArray" key="NSSubviews">
 								<bool key="EncodedWithXMLCoder">YES</bool>
-								<reference ref="1045613918"/>
+								<reference ref="279897921"/>
 							</object>
 						</object>
 						<object class="NSImageView" id="1064355365">
@@ -1208,6 +1209,22 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<reference key="destination" ref="359103631"/>
 					</object>
 					<int key="connectionID">222</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">ibInstallButton</string>
+						<reference key="source" ref="294453543"/>
+						<reference key="destination" ref="73806074"/>
+					</object>
+					<int key="connectionID">262</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">ibUninstallButton</string>
+						<reference key="source" ref="294453543"/>
+						<reference key="destination" ref="452589507"/>
+					</object>
+					<int key="connectionID">263</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -1932,10 +1949,10 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{240, 814}, {670, 311}}</string>
+					<string>{{240, 445}, {670, 311}}</string>
 					<reference ref="6"/>
 					<reference ref="6"/>
-					<string>{{240, 814}, {670, 311}}</string>
+					<string>{{240, 445}, {670, 311}}</string>
 					<reference ref="9"/>
 					<reference ref="5"/>
 					<reference ref="9"/>
@@ -1970,10 +1987,10 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{63, 1060}, {16, 16}}</string>
+					<string>{{63, 740}, {16, 16}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{84, 1037}, {16, 16}}</string>
+					<string>{{84, 740}, {16, 16}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -2036,7 +2053,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">261</int>
+			<int key="maxID">263</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -2106,6 +2123,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<object class="NSMutableArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>ibGreenballImage</string>
+							<string>ibInstallButton</string>
 							<string>ibPortMatrix</string>
 							<string>ibPortText</string>
 							<string>ibRedballImage</string>
@@ -2115,11 +2133,13 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							<string>ibStatusImage</string>
 							<string>ibStopButton</string>
 							<string>ibTabView</string>
+							<string>ibUninstallButton</string>
 							<string>ibVersionNumber</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>NSImageView</string>
+							<string>NSButton</string>
 							<string>NSMatrix</string>
 							<string>NSTextField</string>
 							<string>NSImageView</string>
@@ -2129,6 +2149,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							<string>NSImageView</string>
 							<string>NSButton</string>
 							<string>NSTabView</string>
+							<string>NSButton</string>
 							<string>NSTextField</string>
 						</object>
 					</object>

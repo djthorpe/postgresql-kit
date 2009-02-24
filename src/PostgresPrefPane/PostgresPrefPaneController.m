@@ -10,6 +10,9 @@
 @synthesize timer;
 @synthesize serverState;
 
+const NSTimeInterval PostgresPrefPaneSlowInterval = 5.0;
+const NSTimeInterval PostgresPrefPaneFastInterval = 0.5;
+
 ////////////////////////////////////////////////////////////////////////////////
 // constructor
 
@@ -44,6 +47,14 @@
 	[self setConnection:[NSConnection connectionWithRegisteredName:PostgresServerAppIdentifier host:nil]];
 }
 
+-(void)_updateStatusImageReady:(BOOL)isReady {
+	if(isReady) {
+		[ibStatusImage setImage:[ibGreenballImage image]];
+	} else {
+		[ibStatusImage setImage:[ibRedballImage image]];
+	}		
+}
+
 -(void)_updateStatus {
 	if([[self connection] isValid]) {
 		FLXServerState theNewState = [[self serverApp] serverState];
@@ -58,9 +69,9 @@
 		[ibStatus setStringValue:[[self serverApp] serverStateAsString]];
 		// update the image ball
 		if([self serverState]==FLXServerStateStarted) {
-			[ibStatusImage setImage:[ibGreenballImage image]];
+			[self _updateStatusImageReady:YES];
 		} else {
-			[ibStatusImage setImage:[ibRedballImage image]];
+			[self _updateStatusImageReady:NO];
 		}
 		// update the "stop" button state
 		if([self serverState]==FLXServerStateStarted) {
@@ -72,20 +83,27 @@
 			[ibPortText setEnabled:YES];
 			[ibPortMatrix setEnabled:YES];			
 		}
-		// updatr the "start" button state
+		// update the "start" button state
 		if([self serverState]==FLXServerStateStopped || [self serverState]==FLXServerStateUnknown  || [self serverState]==FLXServerStateStartingError) {
 			[ibStartButton setEnabled:YES];			
+			[ibInstallButton setEnabled:NO];
+			[ibUninstallButton setEnabled:YES];
 		} else {
 			[ibStartButton setEnabled:NO];
 			[ibRemoteAccessCheckbox setEnabled:NO];
 			[ibPortText setEnabled:NO];
 			[ibPortMatrix setEnabled:NO];			
+			[ibInstallButton setEnabled:NO];
+			[ibUninstallButton setEnabled:NO];
 		}
 	} else {
 		[ibStatus setStringValue:@"Server is not installed"];
 		[self setServerState:0];
 		[ibStopButton setEnabled:NO];
 		[ibStartButton setEnabled:NO];
+		[ibInstallButton setEnabled:YES];
+		[ibUninstallButton setEnabled:NO];
+		[self _updateStatusImageReady:NO];
 	}		
 }
 
@@ -179,21 +197,43 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Public methods
 
--(void)mainViewDidLoad {	
-	// start the timer
-	[self setTimer:[NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(timerDidFire:) userInfo:nil repeats:YES]];
-}
-
 -(void)timerDidFire:(id)theTimer {
+
+	// vary the NSTimer between fast and slow depending on whether there is a connection
+	// to the server object or not
+	if([self connection]==nil && [[self timer] timeInterval] != PostgresPrefPaneSlowInterval) {			
+		[[self timer] invalidate];
+		[self setTimer:[NSTimer scheduledTimerWithTimeInterval:PostgresPrefPaneSlowInterval target:self selector:@selector(timerDidFire:) userInfo:nil repeats:YES]];
+	} else {
+		[[self timer] invalidate];
+		[self setTimer:[NSTimer scheduledTimerWithTimeInterval:PostgresPrefPaneFastInterval target:self selector:@selector(timerDidFire:) userInfo:nil repeats:YES]];
+	}	
+
+	// create or destroy the connection object
 	if([self connection]==nil) {
-		NSLog(@"starting connection....");
+		NSLog(@"connecting to server app....");
 		[self _startConnection];		
 	} else if([[self connection] isValid]==NO) {
+		NSLog(@"reconnecting to server app....");
 		[self setConnection:nil];
 		[self _startConnection];
 	}
-	
+
+	// update the status
 	[self _updateStatus];
+}
+
+-(void)mainViewDidLoad {	
+	// fire the timer
+	[self timerDidFire:nil];
+	// set the tab view
+	if([self serverState]==0) {
+		// set tab to install/uninstall
+		[ibTabView selectTabViewItemAtIndex:1];
+	} else {
+		// set tab to start/stop
+		[ibTabView selectTabViewItemAtIndex:0];
+	}	
 }
 
 ////////////////////////////////////////////////////////////////////////////////

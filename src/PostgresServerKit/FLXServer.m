@@ -449,7 +449,7 @@ const unsigned FLXDefaultPostgresPort = 5432;
 	[theTask setArguments:[NSArray arrayWithObjects:@"-D",[self dataPath],@"--encoding=UTF8",@"--no-locale",@"-U",@"postgres",nil]];
 	
 	// launch the init method
-	[theTask launch];                                                 
+	[theTask launch];
 	
 	NSData* theData = nil;
 	while((theData = [[theOutPipe fileHandleForReading] availableData]) && [theData length]) {
