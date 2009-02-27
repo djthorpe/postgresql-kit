@@ -27,8 +27,15 @@ int main(int argc,char* argv[]) {
 		if([theSearchPaths count]==0) goto APP_EXIT;
 		NSString* theProcessName = [[NSProcessInfo processInfo] processName];
 		theDataPath = [(NSString* )[theSearchPaths objectAtIndex:0] stringByAppendingPathComponent:theProcessName];
+	}	
+
+	NSString* theBackupPath = [[NSUserDefaults standardUserDefaults] stringForKey:@"backup"];
+	if(theBackupPath==nil) {
+		theBackupPath = theDataPath;
 	}
+		
 	[theApp setDataPath:theDataPath];
+	[theApp setBackupPath:theBackupPath];
 	
 	// awake the app
 	if([theApp awakeThread]==NO) {
@@ -37,8 +44,9 @@ int main(int argc,char* argv[]) {
 		goto APP_EXIT;
 	}
 
-	NSLog(@"  Version = %@",[theApp serverVersion]);
-	NSLog(@"Data path = %@",theDataPath);
+	NSLog(@"    Version = %@",[theApp serverVersion]);
+	NSLog(@"  Data path = %@",theDataPath);
+	NSLog(@"Backup path = %@",theBackupPath);
 	
 	NSLog(@"Starting NSRunLoop");
 	

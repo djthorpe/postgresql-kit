@@ -2,6 +2,8 @@
 #import "PostgresServerApp.h"
 #import "PostgresPrefPaneShared.h"
 
+NSTimeInterval PostgresServerAppBackupTimerInterval = 10.0; // TODO: backup fires once every five minutes
+
 @implementation PostgresServerApp
 
 @synthesize server;
@@ -9,16 +11,19 @@
 @synthesize dataPath;
 @synthesize backupPath;
 @synthesize isRemoteAccess;
+@synthesize isBackupEnabled;
+@synthesize backupTimeInterval;
 @synthesize serverPort;
 @synthesize defaultServerPort;
+@synthesize backupTimer;
 
 -(void)dealloc {
 	[self setDataPath:nil];
 	[self setBackupPath:nil];
 	[self setConnection:nil];
 	[self setServer:nil];
-	[self setIsRemoteAccess:NO];
-	[self setServerPort:0];
+	[[self backupTimer] invalidate];
+	[self setBackupTimer:nil];
 	[super dealloc];
 }
 
@@ -78,10 +83,15 @@
 		if([[self server] state]==FLXServerStateAlreadyRunning) {
 			[[self server] stop];
 		}
-	}    	
+	}    
+	
+	// start backup timer
+	[self setBackupTimer:[NSTimer scheduledTimerWithTimeInterval:PostgresServerAppBackupTimerInterval target:self selector:@selector(backupTimerDidFire:) userInfo:nil repeats:YES]];
 }
 
 -(void)stopServer {
+	[[self backupTimer] invalidate];
+	[self setBackupTimer:nil];	
 	[[self server] stop];
 }
 
@@ -120,6 +130,29 @@
 		return [NSString stringWithFormat:@"%.2fKB",(double)theFreeBytes / (double)(1024L)];
 	}
 	return [NSString stringWithFormat:@"%llu bytes",theFreeBytes];
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+-(void)backupTimerDidFire:(id)sender {
+	NSString* theDirectory = [[self backupPath] stringByAppendingPathComponent:@"backup"];
+	// ensure is a directory, etc
+	BOOL isDirectory;
+	if([[NSFileManager defaultManager] fileExistsAtPath:theDirectory isDirectory:&isDirectory]==NO) {
+		// we create the directory at the path
+		NSDictionary* theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInteger:0750],NSFilePosixPermissions,nil];
+		BOOL isCreated = [[NSFileManager defaultManager] createDirectoryAtPath:theDirectory attributes:theAttributes];
+		if(isCreated==NO) {
+			[self serverMessage:[NSString stringWithFormat:@"Unable to create directory at path: %@",theDirectory]];
+			return;
+		}
+	}
+	if(isDirectory==NO) {
+		[self serverMessage:[NSString stringWithFormat:@"Not a directory at path: %@",theDirectory]];
+		return;		
+	}
+	// ok - read contents of directory to find the latest file
+	NSLog(@"TODO: read contents of directory");	
 }
 
 ////////////////////////////////////////////////////////////////////////////////

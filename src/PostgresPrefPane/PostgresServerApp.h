@@ -8,8 +8,11 @@
 	FLXServer* server;
 	NSConnection* connection;
 	BOOL isRemoteAccess;
+	BOOL isBackupEnabled;
+	NSTimeInterval backupTimeInterval;
 	NSUInteger serverPort;
 	NSUInteger defaultServerPort;
+	NSTimer* backupTimer;
 }
 
 // properties
@@ -17,7 +20,10 @@
 @property (retain) NSConnection* connection;
 @property (retain) NSString* dataPath;
 @property (retain) NSString* backupPath;
+@property (retain) NSTimer* backupTimer;
 @property (assign) BOOL isRemoteAccess;
+@property (assign) BOOL isBackupEnabled;
+@property (assign) NSTimeInterval backupTimeInterval;
 @property (assign) NSUInteger serverPort;
 @property (assign, readonly) NSUInteger defaultServerPort;
 
