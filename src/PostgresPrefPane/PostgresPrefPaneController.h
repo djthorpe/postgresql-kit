@@ -8,43 +8,30 @@
 
 #import <PreferencePanes/PreferencePanes.h>
 #import <PostgresServerKit/PostgresServerKit.h>
+#import "PostgresPrefPaneBindings.h"
 
 @interface PostgresPrefPaneController : NSPreferencePane {
 	NSConnection* connection;	
 	NSTimer* timer;
 	FLXServerState serverState;
 	
-	// IBOutlet
-	IBOutlet NSTextField* ibVersionNumber;
-	IBOutlet NSTextField* ibStatus;	
-	IBOutlet NSTabView* ibTabView;
-	IBOutlet NSImageView* ibStatusImage;
-	IBOutlet NSImageView* ibRedballImage;
-	IBOutlet NSImageView* ibGreenballImage;
+	// bindings object
+	IBOutlet PostgresPrefPaneBindings* bindings;	
 	IBOutlet NSButton* ibStopButton;
 	IBOutlet NSButton* ibStartButton;	
 	IBOutlet NSButton* ibInstallButton;
 	IBOutlet NSButton* ibUninstallButton;
-	IBOutlet NSButton* ibRemoteAccessCheckbox;
-	IBOutlet NSMatrix* ibPortMatrix;
-	IBOutlet NSButtonCell* ibDefaultPortCheckbox;
-	IBOutlet NSButtonCell* ibOtherPortCheckbox;
-	IBOutlet NSTextField* ibPortText;
-	
 }
 
+// instance variables
 @property (retain) NSConnection* connection;
 @property (retain) NSTimer* timer;
 @property (assign) FLXServerState serverState;
-
--(void)mainViewDidLoad;
 
 // IBAction
 -(IBAction)doStartServer:(id)sender;
 -(IBAction)doStopServer:(id)sender;
 -(IBAction)doInstall:(id)sender;
 -(IBAction)doUninstall:(id)sender;
--(IBAction)doRemoteAccessCheckbox:(id)sender;
--(IBAction)doPortMatrix:(id)sender;
 
 @end

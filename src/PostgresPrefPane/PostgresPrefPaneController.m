@@ -16,20 +16,13 @@ const NSTimeInterval PostgresPrefPaneFastInterval = 0.5;
 ////////////////////////////////////////////////////////////////////////////////
 // constructor
 
--(id)initWithBundle:(NSBundle *)bundle {
-	self = [super initWithBundle:bundle];
-	if(self) {
-		[self setServerState:0];
-		[self setConnection:nil];
-		[self setTimer:nil];
-	}
-	return self;
-}
-
 -(void)dealloc {
+	// invalidate timer
 	[[self timer] invalidate];
+	// release objects
 	[self setTimer:nil];
 	[self setConnection:nil];
+	// subclass deallocate
 	[super dealloc];
 }
 
@@ -47,82 +40,84 @@ const NSTimeInterval PostgresPrefPaneFastInterval = 0.5;
 	[self setConnection:[NSConnection connectionWithRegisteredName:PostgresServerAppIdentifier host:nil]];
 
 	if([[self connection] isValid]) {
-		// set remote access
-		if([[self serverApp] isRemoteAccess]) {
-			[ibRemoteAccessCheckbox setState:NSOnState];
-		} else {
-			[ibRemoteAccessCheckbox setState:NSOffState];			
-		}
-		[self doRemoteAccessCheckbox:nil];
-	}
-	
-}
-
--(void)_setServerVersion {
-	if([[self connection] isValid]) {
-		NSString* serverVersion = [[self serverApp] serverVersion];
-		[ibVersionNumber setStringValue:[NSString stringWithFormat:@"Version: %@",serverVersion]];
+		[bindings setBindIsRemoteAccess:[[self serverApp] isRemoteAccess]];
+		[bindings setBindServerVersion:[[self serverApp] serverVersion]];
+		[bindings setBindServerPort:[[self serverApp] serverPort]];
 	} else {
-		[ibVersionNumber setStringValue:@""];		
+		[bindings setBindServerVersion:@""];		
 	}
 }
 
--(void)_updateStatusImageReady:(BOOL)isReady {
-	if(isReady) {
-		[ibStatusImage setImage:[ibGreenballImage image]];
+-(NSImage* )_statusImageForState:(FLXServerState)theState {
+	NSString* thePath = nil;
+	if(theState==FLXServerStateStarted) {
+		thePath = [[NSBundle bundleForClass:[self class]] pathForResource:@"green" ofType:@"tiff"];
+	} else if(theState==0 || theState==FLXServerStateStopped || theState==FLXServerStateUnknown || theState==FLXServerStateStartingError)  {
+		thePath = [[NSBundle bundleForClass:[self class]] pathForResource:@"red" ofType:@"tiff"];		
 	} else {
-		[ibStatusImage setImage:[ibRedballImage image]];
-	}		
+		thePath = [[NSBundle bundleForClass:[self class]] pathForResource:@"yellow" ofType:@"tiff"];				
+	}
+	return [[[NSImage alloc] initWithContentsOfFile:thePath] autorelease];
+}
+
+-(void)_updateDiskUsage {
+	[bindings setBindDiskUsage:[NSString stringWithFormat:@"%@ free",[[self serverApp] dataSpaceFreeAsString]]];
 }
 
 -(void)_updateStatus {
-	if([[self connection] isValid]) {
-		FLXServerState theNewState = [[self serverApp] serverState];
-				
-		// don't do anything if server state is the same
-		if(theNewState==[self serverState]) {
-			return;
-		} else {
-			[self setServerState:theNewState];
-		}		
-		// else update the server state
-		[ibStatus setStringValue:[[self serverApp] serverStateAsString]];
-		// update the image ball
-		if([self serverState]==FLXServerStateStarted) {
-			[self _updateStatusImageReady:YES];
-		} else {
-			[self _updateStatusImageReady:NO];
-		}
-		// update the "stop" button state
-		if([self serverState]==FLXServerStateStarted) {
-			// enable stop button
-			[ibStopButton setEnabled:YES];
-		} else {
-			[ibStopButton setEnabled:NO];
-			[ibRemoteAccessCheckbox setEnabled:YES];
-		}
-		// update the "start" button state
-		if([self serverState]==FLXServerStateStopped || [self serverState]==FLXServerStateUnknown  || [self serverState]==FLXServerStateStartingError) {
-			[ibStartButton setEnabled:YES];			
-			[ibInstallButton setEnabled:NO];
-			[ibUninstallButton setEnabled:YES];
-		} else {
-			[ibStartButton setEnabled:NO];
-			[ibRemoteAccessCheckbox setEnabled:NO];
-			[ibInstallButton setEnabled:NO];
-			[ibUninstallButton setEnabled:NO];
-		}
-	} else {
-		[ibStatus setStringValue:@"Server is not installed"];
+	if([[self connection] isValid]==NO) {
+		[bindings setBindServerStatus:@"Server is not installed"];
+		[bindings setBindServerStatusImage:[self _statusImageForState:0]];
 		[self setServerState:0];
-		[ibStopButton setEnabled:NO];
-		[ibStartButton setEnabled:NO];
+		
+		// update start/stop dialog
+		[bindings setBindIsRemoteAccessEnabled:NO];
+		[bindings setBindIsRemoteAccess:NO];
+
+		// update install/uninstall buttons
 		[ibInstallButton setEnabled:YES];
 		[ibUninstallButton setEnabled:NO];
-		[self _updateStatusImageReady:NO];
-		[ibRemoteAccessCheckbox setEnabled:NO];
-		[self doRemoteAccessCheckbox:nil];
-	}		
+
+		// return 
+		return;
+	}
+		
+	// don't do anything if server state is the same
+	FLXServerState theNewState = [[self serverApp] serverState];
+	if(theNewState==[self serverState]) return;
+	
+	// update the server state
+	[self setServerState:theNewState];
+	[bindings setBindServerStatus:[[self serverApp] serverStateAsString]];
+	[bindings setBindServerStatusImage:[self _statusImageForState:theNewState]];
+	
+	// update the "stop" button state
+	if([self serverState]==FLXServerStateStarted) {
+		[ibStopButton setEnabled:YES];		
+	} else {
+		[ibStopButton setEnabled:NO];		
+	}
+	
+	// update the isremoteaccess dialog
+	if([self serverState]==FLXServerStateStopped || [self serverState]==FLXServerStateUnknown  || [self serverState]==FLXServerStateStartingError) {
+		[bindings setBindIsRemoteAccessEnabled:YES];
+	} else {
+		[bindings setBindIsRemoteAccessEnabled:NO];
+	}
+	
+	// update the "install" and "uninstall" button states
+	if([self serverState]==FLXServerStateStopped || [self serverState]==FLXServerStateUnknown  || [self serverState]==FLXServerStateStartingError) {
+		[ibStartButton setEnabled:YES];			
+		[ibInstallButton setEnabled:NO];
+		[ibUninstallButton setEnabled:YES];
+	} else {
+		[ibStartButton setEnabled:NO];
+		[ibInstallButton setEnabled:NO];
+		[ibUninstallButton setEnabled:NO];
+	}
+	
+	// update disk usage
+	[self _updateDiskUsage];
 }
 
 -(AuthorizationRef)_authorizeUser {
@@ -196,84 +191,101 @@ const NSTimeInterval PostgresPrefPaneFastInterval = 0.5;
 
 -(void)timerDidFire:(id)theTimer {
 
+	// connect to remote server app if not connected
+	if([self connection]==nil || [[self connection] isValid]==NO) {
+		[self _startConnection];		
+	}
+	
 	// vary the NSTimer between fast and slow depending on whether there is a connection
-	// to the server object or not
-	if([self connection]==nil && [[self timer] timeInterval] != PostgresPrefPaneSlowInterval) {			
+	// to the server object or not, and we are in middle or starting or stopping
+	if(([self connection]==nil || [self serverState]==FLXServerStateStarted || [self serverState]==FLXServerStateStopped)  && [[self timer] timeInterval] != PostgresPrefPaneSlowInterval) {			
 		NSLog(@"lowering rate of connection to app");
 		[[self timer] invalidate];
 		[self setTimer:[NSTimer scheduledTimerWithTimeInterval:PostgresPrefPaneSlowInterval target:self selector:@selector(timerDidFire:) userInfo:nil repeats:YES]];
-	} else if([[self timer] timeInterval] != PostgresPrefPaneFastInterval) {
+	} 
+	
+	if([self connection] && [self serverState] != FLXServerStateStarted && [self serverState] != FLXServerStateStopped && [[self timer] timeInterval] != PostgresPrefPaneFastInterval) {
 		NSLog(@"raising rate of connection to app");
 		[[self timer] invalidate];
 		[self setTimer:[NSTimer scheduledTimerWithTimeInterval:PostgresPrefPaneFastInterval target:self selector:@selector(timerDidFire:) userInfo:nil repeats:YES]];
 	}	
 
-	// create or destroy the connection object
-	if([self connection]==nil) {
-		NSLog(@"connecting to server app....");
-		[self _startConnection];		
-		[self _setServerVersion];
-	} else if([[self connection] isValid]==NO) {
-		NSLog(@"reconnecting to server app....");
-		[self setConnection:nil];
-		[self _startConnection];
-		[self _setServerVersion];
+	// update the status if this method was called by timer
+	if(theTimer != nil) {
+		[self _updateStatus];
 	}
-
-	// update the status
-	[self _updateStatus];
 }
 
--(void)mainViewDidLoad {	
-	// fire the timer
+-(void)mainViewDidLoad {
+	// set state to minus one - so that status is always updated
+	[self setServerState:-1];
+	
+	// fire the timer - will connect to remote application, set up the timer, etc.
 	[self timerDidFire:nil];
+
+	// key-value observing
+	[bindings addObserver:self forKeyPath:@"bindIsRemoteAccess" options:NSKeyValueObservingOptionNew context:nil];
+	[bindings addObserver:self forKeyPath:@"bindIsRemoteAccessEnabled" options:NSKeyValueObservingOptionNew context:nil];
+	[bindings addObserver:self forKeyPath:@"bindPortMatrixEnabled" options:NSKeyValueObservingOptionNew context:nil];
+	[bindings addObserver:self forKeyPath:@"bindPortMatrixIndex" options:NSKeyValueObservingOptionNew context:nil];
+	[bindings addObserver:self forKeyPath:@"bindServerPort" options:NSKeyValueObservingOptionNew context:nil];
+	[bindings addObserver:self forKeyPath:@"bindServerPortEnabled" options:NSKeyValueObservingOptionNew context:nil];
+
+	// set remote access checkbox, and port
+	[bindings setBindIsRemoteAccess:[[self serverApp] isRemoteAccess]];
+	[bindings setBindServerPort:[[self serverApp] serverPort]];
+	[bindings setBindServerPortMinValue:1];
+	[bindings setBindServerPortMaxValue:65535];
+	
 	// set the tab view
 	if([self serverState]==0) {
 		// set tab to install/uninstall
-		[ibTabView selectTabViewItemAtIndex:1];
+		[bindings setBindTabViewIndex:1];
 	} else {
 		// set tab to start/stop
-		[ibTabView selectTabViewItemAtIndex:0];
+		[bindings setBindTabViewIndex:0];
 	}	
+		
+	// update status
+	[self _updateStatus];
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// Observe changes to UI, and update the UI
+	
+-(void)observeValueForKeyPath:(NSString* )keyPath ofObject:(id)object change:(NSDictionary* )change context:(void* )context {
+	if([keyPath isEqualTo:@"bindIsRemoteAccess"] || [keyPath isEqualTo:@"bindIsRemoteAccessEnabled"]) {
+		if([bindings bindIsRemoteAccess] && [bindings bindIsRemoteAccessEnabled]) {
+			[bindings setBindPortMatrixEnabled:YES];			
+		} else {			
+			[bindings setBindPortMatrixEnabled:NO];
+		}		
+	}
+	if([keyPath isEqualTo:@"bindPortMatrixIndex"] || [keyPath isEqualTo:@"bindPortMatrixEnabled"]) {
+		if([bindings bindPortMatrixEnabled]==NO) {
+			[bindings setBindServerPortEnabled:NO];			
+		} else if([bindings bindPortMatrixIndex]==0) { // use default port
+			[bindings setBindServerPortEnabled:NO];
+			[bindings setBindServerPort:[[self serverApp] defaultServerPort]];
+		} else { // use custom port
+			[bindings setBindServerPortEnabled:YES];
+		}		
+	}
+}
+	
 ////////////////////////////////////////////////////////////////////////////////
 // IBActions
 
 -(IBAction)doStartServer:(id)sender {
-	// TODO: set server port
-	if([ibRemoteAccessCheckbox state]==NSOnState) {
-		[[self serverApp] setIsRemoteAccess:YES];
-	} else {
-		[[self serverApp] setIsRemoteAccess:NO];		
-	}
+	[[self serverApp] setIsRemoteAccess:[bindings bindIsRemoteAccess]];
+	[[self serverApp] setServerPort:[bindings bindServerPort]];
 	[[self serverApp] startServer];
+	[self timerDidFire:nil];
 }
 
 -(IBAction)doStopServer:(id)sender {
 	[[self serverApp] stopServer];
-}
-
--(IBAction)doRemoteAccessCheckbox:(id)sender {
-	if([ibRemoteAccessCheckbox state]==NSOnState) {
-		[ibPortMatrix setEnabled:YES];
-		[ibPortText setEnabled:YES];
-	} else {
-		[ibPortMatrix setEnabled:NO];
-		[ibPortText setEnabled:NO];
-	}
-}
-
--(IBAction)doPortMatrix:(id)sender {
-	if([ibPortMatrix selectedCell]==ibDefaultPortCheckbox) {
-		[ibPortText setStringValue:[NSString stringWithFormat:@"%d",[[self serverApp] defaultServerPort]]];
-		[ibPortText setEnabled:NO];
-	} else if([ibPortMatrix selectedCell]==ibOtherPortCheckbox) {
-		[ibPortText setEnabled:YES];
-		if([[ibPortText stringValue] length]==0) {
-			[ibPortText setStringValue:[NSString stringWithFormat:@"%d",[[self serverApp] defaultServerPort]]];			
-		}
-	}
+	[self timerDidFire:nil];
 }
 
 -(IBAction)doInstall:(id)sender {

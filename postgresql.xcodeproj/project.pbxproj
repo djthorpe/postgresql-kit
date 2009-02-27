@@ -58,6 +58,10 @@
 		6E27C29B0DD5FF58004BFE98 /* FLXPostgresConnection+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E27C2990DD5FF58004BFE98 /* FLXPostgresConnection+Utils.m */; };
 		6E51C8880DD62E5F00C7DBA3 /* FLXUIStatusButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E51C8870DD62E5F00C7DBA3 /* FLXUIStatusButton.m */; };
 		6E51C88A0DD62E7A00C7DBA3 /* FLXUIStatusBarTriangle.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E51C8890DD62E7A00C7DBA3 /* FLXUIStatusBarTriangle.png */; };
+		6E5EA74F0F57753400B702EC /* yellow.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6E5EA74C0F57753400B702EC /* yellow.tiff */; };
+		6E5EA7500F57753400B702EC /* red.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6E5EA74D0F57753400B702EC /* red.tiff */; };
+		6E5EA7510F57753400B702EC /* green.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6E5EA74E0F57753400B702EC /* green.tiff */; };
+		6E5EA7DF0F57944E00B702EC /* PostgresPrefPaneBindings.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E5EA7DE0F57944E00B702EC /* PostgresPrefPaneBindings.m */; };
 		6E62104C0F4369CA00BE396D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E23CC610DCDD8A60041AA57 /* Foundation.framework */; };
 		6E62107C0F436B7500BE396D /* PostgresPrefPaneController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E62107B0F436B7500BE396D /* PostgresPrefPaneController.m */; };
 		6E6210900F436C1200BE396D /* PreferencePanes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E62108F0F436C1200BE396D /* PreferencePanes.framework */; };
@@ -92,8 +96,6 @@
 		6EC1F8FD0F49FCB3006A2A12 /* PostgresInstallerMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC1F8FC0F49FCB3006A2A12 /* PostgresInstallerMain.m */; };
 		6EC1F93C0F4A02B9006A2A12 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E23CC610DCDD8A60041AA57 /* Foundation.framework */; };
 		6EC4148C0F4B446E00E1A76B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EB516600F48257F00C8F8A4 /* Security.framework */; };
-		6EC4150B0F4CADAC00E1A76B /* redball.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6EC415090F4CADAC00E1A76B /* redball.tiff */; };
-		6EC4150C0F4CADAC00E1A76B /* greenball.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6EC4150A0F4CADAC00E1A76B /* greenball.tiff */; };
 		6ED44E270DD6E58E008CB6E5 /* CreateDropDatabaseController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ED44E260DD6E58E008CB6E5 /* CreateDropDatabaseController.m */; };
 /* End PBXBuildFile section */
 
@@ -252,6 +254,11 @@
 		6E51C8860DD62E5F00C7DBA3 /* FLXUIStatusButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLXUIStatusButton.h; sourceTree = "<group>"; };
 		6E51C8870DD62E5F00C7DBA3 /* FLXUIStatusButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLXUIStatusButton.m; sourceTree = "<group>"; };
 		6E51C8890DD62E7A00C7DBA3 /* FLXUIStatusBarTriangle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FLXUIStatusBarTriangle.png; sourceTree = "<group>"; };
+		6E5EA74C0F57753400B702EC /* yellow.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = yellow.tiff; sourceTree = "<group>"; };
+		6E5EA74D0F57753400B702EC /* red.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = red.tiff; sourceTree = "<group>"; };
+		6E5EA74E0F57753400B702EC /* green.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = green.tiff; sourceTree = "<group>"; };
+		6E5EA7DD0F57944E00B702EC /* PostgresPrefPaneBindings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostgresPrefPaneBindings.h; sourceTree = "<group>"; };
+		6E5EA7DE0F57944E00B702EC /* PostgresPrefPaneBindings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostgresPrefPaneBindings.m; sourceTree = "<group>"; };
 		6E620FF00F43681D00BE396D /* PostgresPrefPane-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "PostgresPrefPane-Info.plist"; sourceTree = "<group>"; };
 		6E620FF40F4368F400BE396D /* PostgresPrefPane-icon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "PostgresPrefPane-icon.tiff"; sourceTree = "<group>"; };
 		6E620FF50F4368F400BE396D /* PostgresPrefPane-nib.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "PostgresPrefPane-nib.xib"; sourceTree = "<group>"; };
@@ -286,8 +293,6 @@
 		6EB5169F0F482C7D00C8F8A4 /* PostgresPrefPaneServerStartupItem.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PostgresPrefPaneServerStartupItem.plist; sourceTree = "<group>"; };
 		6EC1F8EA0F49FC02006A2A12 /* PostgresInstallerApp */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PostgresInstallerApp; sourceTree = BUILT_PRODUCTS_DIR; };
 		6EC1F8FC0F49FCB3006A2A12 /* PostgresInstallerMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostgresInstallerMain.m; sourceTree = "<group>"; };
-		6EC415090F4CADAC00E1A76B /* redball.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = redball.tiff; sourceTree = "<group>"; };
-		6EC4150A0F4CADAC00E1A76B /* greenball.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = greenball.tiff; sourceTree = "<group>"; };
 		6ED44E250DD6E58E008CB6E5 /* CreateDropDatabaseController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateDropDatabaseController.h; sourceTree = "<group>"; };
 		6ED44E260DD6E58E008CB6E5 /* CreateDropDatabaseController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateDropDatabaseController.m; sourceTree = "<group>"; };
 		6ED44E360DD6EB52008CB6E5 /* main.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = main.h; sourceTree = "<group>"; };
@@ -409,18 +414,12 @@
 		6E23CC020DCDD3400041AA57 /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				6E5EA7530F57755800B702EC /* UI Images */,
 				6E9FD71A0DD5947100353077 /* PostgresQuery-Info.plist */,
 				6E23CD920DCDE4590041AA57 /* PostgresClientKit-Info.plist */,
 				6E23CC280DCDD6D80041AA57 /* PostgresServerKit-Info.plist */,
 				6E620FF00F43681D00BE396D /* PostgresPrefPane-Info.plist */,
-				6E620FF40F4368F400BE396D /* PostgresPrefPane-icon.tiff */,
 				6E620FF50F4368F400BE396D /* PostgresPrefPane-nib.xib */,
-				6E12E70F0DD5D0AC00CB0928 /* postgres_elephant.icns */,
-				6EC415090F4CADAC00E1A76B /* redball.tiff */,
-				6EC4150A0F4CADAC00E1A76B /* greenball.tiff */,
-				6E67A6550DD5DFBA00A20A97 /* FLXUIStatusBarResizeControl.png */,
-				6E67A6560DD5DFBA00A20A97 /* FLXUIStatusBarGradient.png */,
-				6E51C8890DD62E7A00C7DBA3 /* FLXUIStatusBarTriangle.png */,
 				6E9FD7140DD5943300353077 /* PostgresQuery.nib */,
 				6EB5169F0F482C7D00C8F8A4 /* PostgresPrefPaneServerStartupItem.plist */,
 			);
@@ -488,11 +487,28 @@
 			path = PostgresTests;
 			sourceTree = "<group>";
 		};
+		6E5EA7530F57755800B702EC /* UI Images */ = {
+			isa = PBXGroup;
+			children = (
+				6E620FF40F4368F400BE396D /* PostgresPrefPane-icon.tiff */,
+				6E12E70F0DD5D0AC00CB0928 /* postgres_elephant.icns */,
+				6E5EA74C0F57753400B702EC /* yellow.tiff */,
+				6E5EA74D0F57753400B702EC /* red.tiff */,
+				6E5EA74E0F57753400B702EC /* green.tiff */,
+				6E67A6550DD5DFBA00A20A97 /* FLXUIStatusBarResizeControl.png */,
+				6E67A6560DD5DFBA00A20A97 /* FLXUIStatusBarGradient.png */,
+				6E51C8890DD62E7A00C7DBA3 /* FLXUIStatusBarTriangle.png */,
+			);
+			name = "UI Images";
+			sourceTree = "<group>";
+		};
 		6E6210790F436B7500BE396D /* PostgresPrefPane */ = {
 			isa = PBXGroup;
 			children = (
 				6E62107A0F436B7500BE396D /* PostgresPrefPaneController.h */,
 				6E62107B0F436B7500BE396D /* PostgresPrefPaneController.m */,
+				6E5EA7DD0F57944E00B702EC /* PostgresPrefPaneBindings.h */,
+				6E5EA7DE0F57944E00B702EC /* PostgresPrefPaneBindings.m */,
 				6EC1F8FC0F49FCB3006A2A12 /* PostgresInstallerMain.m */,
 				6E6211E20F4384DA00BE396D /* PostgresServerMain.m */,
 				6E6211E50F43853E00BE396D /* PostgresServerApp.h */,
@@ -734,8 +750,9 @@
 				6E6210990F436CCA00BE396D /* PostgresPrefPane-icon.tiff in Resources */,
 				6E62119A0F437C3A00BE396D /* postgres_elephant.icns in Resources */,
 				6EB516A00F482C7D00C8F8A4 /* PostgresPrefPaneServerStartupItem.plist in Resources */,
-				6EC4150B0F4CADAC00E1A76B /* redball.tiff in Resources */,
-				6EC4150C0F4CADAC00E1A76B /* greenball.tiff in Resources */,
+				6E5EA74F0F57753400B702EC /* yellow.tiff in Resources */,
+				6E5EA7500F57753400B702EC /* red.tiff in Resources */,
+				6E5EA7510F57753400B702EC /* green.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -819,6 +836,7 @@
 			files = (
 				6E62107C0F436B7500BE396D /* PostgresPrefPaneController.m in Sources */,
 				6EB5160C0F48243C00C8F8A4 /* PostgresPrefPaneShared.m in Sources */,
+				6E5EA7DF0F57944E00B702EC /* PostgresPrefPaneBindings.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

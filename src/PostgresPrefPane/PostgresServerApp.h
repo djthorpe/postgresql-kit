@@ -4,6 +4,7 @@
 
 @interface PostgresServerApp : NSObject {
 	NSString* dataPath;
+	NSString* backupPath;
 	FLXServer* server;
 	NSConnection* connection;
 	BOOL isRemoteAccess;
@@ -15,6 +16,7 @@
 @property (retain) FLXServer* server;
 @property (retain) NSConnection* connection;
 @property (retain) NSString* dataPath;
+@property (retain) NSString* backupPath;
 @property (assign) BOOL isRemoteAccess;
 @property (assign) NSUInteger serverPort;
 @property (assign, readonly) NSUInteger defaultServerPort;
@@ -26,5 +28,7 @@
 -(NSString* )serverVersion;
 -(FLXServerState)serverState;
 -(NSString* )serverStateAsString;
+-(NSString* )dataSpaceFreeAsString;
+
 
 @end

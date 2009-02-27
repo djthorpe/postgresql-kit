@@ -7,12 +7,14 @@
 @synthesize server;
 @synthesize connection;
 @synthesize dataPath;
+@synthesize backupPath;
 @synthesize isRemoteAccess;
 @synthesize serverPort;
 @synthesize defaultServerPort;
 
 -(void)dealloc {
 	[self setDataPath:nil];
+	[self setBackupPath:nil];
 	[self setConnection:nil];
 	[self setServer:nil];
 	[self setIsRemoteAccess:NO];
@@ -99,6 +101,25 @@
 
 -(NSString* )serverStateAsString {
 	return [[self server] stateAsString];
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+-(NSString* )dataSpaceFreeAsString {
+	NSParameterAssert([self dataPath]);
+	NSDictionary* theDictionary = [[NSFileManager defaultManager] fileSystemAttributesAtPath:[self dataPath]];
+	if(theDictionary==nil) return nil;
+	unsigned long long theFreeBytes = [[theDictionary objectForKey:NSFileSystemFreeSize] unsignedLongLongValue];		
+	if(theFreeBytes >= (1024L * 1024L * 1024L)) {
+		return [NSString stringWithFormat:@"%.2fGB",(double)theFreeBytes / (double)(1024L * 1024L * 1024L)];
+	}
+	if(theFreeBytes >= (1024L * 1024L)) {
+		return [NSString stringWithFormat:@"%.2fMB",(double)theFreeBytes / (double)(1024L * 1024L)];
+	}
+	if(theFreeBytes >= 1024) {
+		return [NSString stringWithFormat:@"%.2fKB",(double)theFreeBytes / (double)(1024L)];
+	}
+	return [NSString stringWithFormat:@"%llu bytes",theFreeBytes];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
