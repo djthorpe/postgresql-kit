@@ -2,7 +2,7 @@
 #import "PostgresServerApp.h"
 #import "PostgresPrefPaneShared.h"
 
-NSTimeInterval PostgresServerAppBackupTimerInterval = 10.0; // TODO: backup fires once every five minutes
+NSTimeInterval PostgresServerAppBackupTimerInterval = 5 * 60.0; // Backup fires once every five minutes
 
 @implementation PostgresServerApp
 
@@ -19,6 +19,7 @@ NSTimeInterval PostgresServerAppBackupTimerInterval = 10.0; // TODO: backup fire
 @synthesize backupTimer;
 
 -(void)dealloc {
+	// release objects
 	[self setDataPath:nil];
 	[self setBackupPath:nil];
 	[self setLastBackupTime:nil];
@@ -88,7 +89,8 @@ NSTimeInterval PostgresServerAppBackupTimerInterval = 10.0; // TODO: backup fire
 	}    
 	
 	// start backup timer
-	[self setBackupTimer:[NSTimer scheduledTimerWithTimeInterval:PostgresServerAppBackupTimerInterval target:self selector:@selector(backupTimerDidFire:) userInfo:nil repeats:YES]];
+	[[self backupTimer] invalidate];
+	[self setBackupTimer:[NSTimer scheduledTimerWithTimeInterval:PostgresServerAppBackupTimerInterval target:self selector:@selector(backupTimerDidFire:) userInfo:nil repeats:YES]];		
 }
 
 -(void)stopServer {
@@ -115,6 +117,12 @@ NSTimeInterval PostgresServerAppBackupTimerInterval = 10.0; // TODO: backup fire
 	return [[self server] stateAsString];
 }
 
+-(void)fireBackupCycle {
+	if([self isBackupEnabled]) {
+		[[self backupTimer] fire];
+	}
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 
 -(NSString* )dataSpaceFreeAsString {
@@ -137,6 +145,9 @@ NSTimeInterval PostgresServerAppBackupTimerInterval = 10.0; // TODO: backup fire
 ////////////////////////////////////////////////////////////////////////////////
 
 -(void)backupTimerDidFire:(id)sender {
+	// if backup not enabled, return
+	if([self isBackupEnabled]==NO) return;
+	// get directory for backups
 	NSString* theDirectory = [[self backupPath] stringByAppendingPathComponent:@"backup"];
 	// ensure is a directory, etc
 	BOOL isDirectory;
@@ -175,6 +186,8 @@ NSTimeInterval PostgresServerAppBackupTimerInterval = 10.0; // TODO: backup fire
 		if([theFile hasPrefix:@"."]) continue;
 		// ignore non-files
 		if([[theEnumerator fileAttributes] fileType] != NSFileTypeRegular) continue;
+		// ignore files which do not have correct suffix
+		if([theFile hasSuffix:[FLXServer backupFileSuffix]]==NO) continue;
 		// get the creation date
 		NSDate* theDate = [[theEnumerator fileAttributes] fileCreationDate];
 		if(theDate==nil) {
@@ -193,7 +206,20 @@ NSTimeInterval PostgresServerAppBackupTimerInterval = 10.0; // TODO: backup fire
 	if(theLastFileDate !=nil && [[NSDate date] timeIntervalSinceDate:theLastFileDate] < [self backupTimeInterval]) {
 		return;
 	}
-	// TODO: perform the free space purge
+	// TODO: perform the free space purge, based on size of last backup file plus 10%
+	// but don't remove the last backup
+	NSLog(@"TODO: purge backup directory %@",theDirectory);
+
+	// write the file
+	[self serverMessage:@"Initiating backup"];
+	// TODO: do this in the background
+	
+	NSString* theBackupFile = [[self server] backupToFolderPath:theDirectory];
+	if(theBackupFile) {
+		[self serverMessage:[NSString stringWithFormat:@"Completed backup to: %@",[theBackupFile lastPathComponent]]];
+	} else {
+		[self serverMessage:@"Backup failed"];
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////

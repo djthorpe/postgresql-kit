@@ -23,6 +23,7 @@
 	NSInteger bindPortMatrixIndex;
 	BOOL bindPortMatrixEnabled;		
 	NSInteger bindTabViewIndex;	
+	BOOL bindIsBackupEnabled;		
 }
 
 @property (retain) NSString* bindServerVersion;
@@ -43,5 +44,7 @@
 @property (assign) BOOL bindPortMatrixEnabled;
 
 @property (assign) NSInteger bindTabViewIndex;
+
+@property (assign) BOOL bindIsBackupEnabled;
 
 @end

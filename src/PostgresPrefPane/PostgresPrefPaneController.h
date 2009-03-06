@@ -33,6 +33,5 @@
 -(IBAction)doStopServer:(id)sender;
 -(IBAction)doInstall:(id)sender;
 -(IBAction)doUninstall:(id)sender;
--(IBAction)doHelp:(id)sender;
 
 @end

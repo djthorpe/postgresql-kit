@@ -230,12 +230,14 @@ const NSTimeInterval PostgresPrefPaneFastInterval = 0.5;
 	[bindings addObserver:self forKeyPath:@"bindPortMatrixIndex" options:NSKeyValueObservingOptionNew context:nil];
 	[bindings addObserver:self forKeyPath:@"bindServerPort" options:NSKeyValueObservingOptionNew context:nil];
 	[bindings addObserver:self forKeyPath:@"bindServerPortEnabled" options:NSKeyValueObservingOptionNew context:nil];
+	[bindings addObserver:self forKeyPath:@"bindIsBackupEnabled" options:NSKeyValueObservingOptionNew context:nil];
 
 	// set remote access checkbox, and port
 	[bindings setBindIsRemoteAccess:[[self serverApp] isRemoteAccess]];
 	[bindings setBindServerPort:[[self serverApp] serverPort]];
 	[bindings setBindServerPortMinValue:1];
 	[bindings setBindServerPortMaxValue:65535];
+	[bindings setBindIsBackupEnabled:[[self serverApp] isBackupEnabled]];
 	
 	// set the tab view
 	if([self serverState]==0) {
@@ -270,6 +272,12 @@ const NSTimeInterval PostgresPrefPaneFastInterval = 0.5;
 		} else { // use custom port
 			[bindings setBindServerPortEnabled:YES];
 		}		
+	}
+	if([keyPath isEqualTo:@"bindIsBackupEnabled"]) {
+		[[self serverApp] setIsBackupEnabled:[bindings bindIsBackupEnabled]];	
+		if([bindings bindIsBackupEnabled]) {
+			[[self serverApp] fireBackupCycle];
+		}
 	}
 }
 	

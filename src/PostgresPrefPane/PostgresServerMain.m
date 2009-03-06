@@ -64,6 +64,13 @@ int main(int argc,char* argv[]) {
 
 	NSLog(@"Stopped NSRunLoop");
 	
+	// stop the server
+	while([[theApp server] isRunning]) {
+		NSLog(@"Stopping the server");
+		[theApp stopServer];
+		[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
+	}	
+	
 APP_EXIT:
 	[theApp release];
 	[thePool release];

@@ -24,6 +24,7 @@
 @synthesize bindPortMatrixIndex;
 @synthesize bindPortMatrixEnabled;
 @synthesize bindTabViewIndex;
+@synthesize bindIsBackupEnabled;
 
 ////////////////////////////////////////////////////////////////////////////////
 // destructor
@@ -35,7 +36,6 @@
 	[self setBindDiskUsage:nil];
 	[self setBindProcessorUsage:nil];
 	[self setBindServerStatusImage:nil];
-	// subclass deallocate
 	[super dealloc];
 }
 @end

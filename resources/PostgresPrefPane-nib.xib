@@ -8,7 +8,7 @@
 		<string key="IBDocument.HIToolboxVersion">353.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="260"/>
+			<integer value="147"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -201,7 +201,7 @@
 								<object class="NSTabViewItem" id="539446757">
 									<string key="NSIdentifier">startstop</string>
 									<object class="NSView" key="NSView" id="849078297">
-										<reference key="NSNextResponder" ref="496979441"/>
+										<nil key="NSNextResponder"/>
 										<int key="NSvFlags">256</int>
 										<object class="NSMutableArray" key="NSSubviews">
 											<bool key="EncodedWithXMLCoder">YES</bool>
@@ -557,7 +557,6 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 											</object>
 										</object>
 										<string key="NSFrame">{{10, 33}, {503, 216}}</string>
-										<reference key="NSSuperview" ref="496979441"/>
 									</object>
 									<string key="NSLabel">Start/Stop</string>
 									<reference key="NSColor" ref="98879243"/>
@@ -656,7 +655,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 								<object class="NSTabViewItem" id="250274258">
 									<string key="NSIdentifier">backup</string>
 									<object class="NSView" key="NSView" id="1045613918">
-										<nil key="NSNextResponder"/>
+										<reference key="NSNextResponder" ref="496979441"/>
 										<int key="NSvFlags">256</int>
 										<object class="NSMutableArray" key="NSSubviews">
 											<bool key="EncodedWithXMLCoder">YES</bool>
@@ -918,6 +917,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 											</object>
 										</object>
 										<string key="NSFrame">{{10, 33}, {503, 216}}</string>
+										<reference key="NSSuperview" ref="496979441"/>
 									</object>
 									<string key="NSLabel">Backup</string>
 									<reference key="NSColor" ref="98879243"/>
@@ -935,14 +935,14 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 									<reference key="NSTabView" ref="496979441"/>
 								</object>
 							</object>
-							<reference key="NSSelectedTabViewItem" ref="539446757"/>
+							<reference key="NSSelectedTabViewItem" ref="250274258"/>
 							<reference key="NSFont" ref="957909157"/>
 							<int key="NSTvFlags">0</int>
 							<bool key="NSAllowTruncatedLabels">YES</bool>
 							<bool key="NSDrawsBackground">YES</bool>
 							<object class="NSMutableArray" key="NSSubviews">
 								<bool key="EncodedWithXMLCoder">YES</bool>
-								<reference ref="849078297"/>
+								<reference ref="1045613918"/>
 							</object>
 						</object>
 						<object class="NSImageView" id="1064355365">
@@ -1325,6 +1325,22 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<reference key="destination" ref="276102546"/>
 					</object>
 					<int key="connectionID">344</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: bindIsBackupEnabled</string>
+						<reference key="source" ref="546361686"/>
+						<reference key="destination" ref="445752714"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="546361686"/>
+							<reference key="NSDestination" ref="445752714"/>
+							<string key="NSLabel">value: bindIsBackupEnabled</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">bindIsBackupEnabled</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">346</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -2120,7 +2136,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">344</int>
+			<int key="maxID">346</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -2180,7 +2196,6 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSMutableArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>doHelp:</string>
 							<string>doInstall:</string>
 							<string>doStartServer:</string>
 							<string>doStopServer:</string>
@@ -2188,7 +2203,6 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>

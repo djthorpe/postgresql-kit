@@ -37,6 +37,6 @@
 -(FLXServerState)serverState;
 -(NSString* )serverStateAsString;
 -(NSString* )dataSpaceFreeAsString;
-
+-(void)fireBackupCycle;
 
 @end

@@ -37,6 +37,8 @@ typedef enum {
 -(NSString* )serverVersion;
 -(int)port;
 +(int)defaultPort;
++(NSString* )superUsername;
++(NSString* )backupFileSuffix;
 
 // properties - determine server state
 -(int)processIdentifier;
@@ -47,6 +49,7 @@ typedef enum {
 // methods
 -(BOOL)startWithDataPath:(NSString* )thePath;
 -(BOOL)stop;
--(BOOL)backupToPath:(NSString* )thePath;
+-(NSString* )backupToFolderPath:(NSString* )thePath;
+//-(BOOL)backupInBackgroundToFolderPath:(NSString* )thePath;
 
 @end
