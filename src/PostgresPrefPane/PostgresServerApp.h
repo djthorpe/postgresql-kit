@@ -10,6 +10,7 @@
 	BOOL isRemoteAccess;
 	BOOL isBackupEnabled;
 	NSTimeInterval backupTimeInterval;
+	NSDate* lastBackupTime;
 	NSUInteger serverPort;
 	NSUInteger defaultServerPort;
 	NSTimer* backupTimer;
@@ -20,6 +21,7 @@
 @property (retain) NSConnection* connection;
 @property (retain) NSString* dataPath;
 @property (retain) NSString* backupPath;
+@property (retain) NSDate* lastBackupTime;
 @property (retain) NSTimer* backupTimer;
 @property (assign) BOOL isRemoteAccess;
 @property (assign) BOOL isBackupEnabled;

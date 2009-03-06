@@ -164,12 +164,20 @@ const unsigned FLXDefaultPostgresPort = 5432;
 	return FLXDefaultPostgresPort;
 }
 
++(NSString* )superUsername {
+	return @"postgres";
+}
+
 +(NSString* )bundlePath {
 	return [[NSBundle bundleForClass:[self class]] bundlePath];
 }
 
 +(NSString* )postgresServerPath {
 	return [[self bundlePath] stringByAppendingPathComponent:@"Resources/postgresql-8.2.5/bin/postgres"];
+}
+
++(NSString* )postgresDumpPath {
+	return [[self bundlePath] stringByAppendingPathComponent:@"Resources/postgresql-8.2.5/bin/pg_dumpall"];
 }
 
 +(NSString* )postgresInitPath {
@@ -301,6 +309,38 @@ const unsigned FLXDefaultPostgresPort = 5432;
 	} else {
 		return nil;
 	}
+}
+
+// performs a backup of the local postgres database using the superuser account
+// TODO: actually store the file, and compress it as it comes through
+-(BOOL)backupToPath:(NSString* )thePath {
+	NSPipe* theOutPipe = [[NSPipe alloc] init];
+	NSPipe* theErrPipe = [[NSPipe alloc] init];
+	NSTask* theTask = [[NSTask alloc] init]; 
+	[theTask setStandardOutput:theOutPipe];
+	[theTask setStandardError:theErrPipe];
+	[theTask setLaunchPath:[[self class] postgresDumpPath]];  
+	[theTask setArguments:[NSArray arrayWithObjects:@"-U",[[self class] superUsername],@"-S",[[self class] superUsername],@"--disable-triggers"]];
+
+	// perform the backup
+	[theTask launch];                                                 
+	
+	NSData* theData = nil;
+	while((theData = [[theOutPipe fileHandleForReading] availableData]) && [theData length]) {
+		NSLog(@"TODO: pipe out to path");
+	}  
+	// wait until task is actually completed
+	[theTask waitUntilExit];
+	int theReturnCode = [theTask terminationStatus];    
+	[theTask release];
+	[theOutPipe release];    
+	[theErrPipe release];    
+	
+	if(theReturnCode==0) {
+		return YES;
+	} else {
+		return NO;
+	}	
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -444,7 +484,7 @@ const unsigned FLXDefaultPostgresPort = 5432;
 	[theTask setStandardOutput:theOutPipe];
 	[theTask setStandardError:theOutPipe];
 	[theTask setLaunchPath:[[self class] postgresInitPath]];
-	[theTask setArguments:[NSArray arrayWithObjects:@"-D",[self dataPath],@"--encoding=UTF8",@"--no-locale",@"-U",@"postgres",nil]];
+	[theTask setArguments:[NSArray arrayWithObjects:@"-D",[self dataPath],@"--encoding=UTF8",@"--no-locale",@"-U",[[self class] superUsername],nil]];
 	
 	// launch the init method
 	[theTask launch];

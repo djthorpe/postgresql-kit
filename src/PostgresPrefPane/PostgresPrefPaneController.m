@@ -280,11 +280,15 @@ const NSTimeInterval PostgresPrefPaneFastInterval = 0.5;
 	[[self serverApp] setIsRemoteAccess:[bindings bindIsRemoteAccess]];
 	[[self serverApp] setServerPort:[bindings bindServerPort]];
 	[[self serverApp] startServer];
+	// 'starting'
+	[self setServerState:FLXServerStateStarting];
 	[self timerDidFire:nil];
 }
 
 -(IBAction)doStopServer:(id)sender {
 	[[self serverApp] stopServer];
+	// 'stopping'
+	[self setServerState:FLXServerStateStopping];
 	[self timerDidFire:nil];
 }
 

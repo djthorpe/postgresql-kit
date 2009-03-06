@@ -47,5 +47,6 @@ typedef enum {
 // methods
 -(BOOL)startWithDataPath:(NSString* )thePath;
 -(BOOL)stop;
+-(BOOL)backupToPath:(NSString* )thePath;
 
 @end

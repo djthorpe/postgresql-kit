@@ -10,6 +10,7 @@ NSTimeInterval PostgresServerAppBackupTimerInterval = 10.0; // TODO: backup fire
 @synthesize connection;
 @synthesize dataPath;
 @synthesize backupPath;
+@synthesize lastBackupTime;
 @synthesize isRemoteAccess;
 @synthesize isBackupEnabled;
 @synthesize backupTimeInterval;
@@ -20,6 +21,7 @@ NSTimeInterval PostgresServerAppBackupTimerInterval = 10.0; // TODO: backup fire
 -(void)dealloc {
 	[self setDataPath:nil];
 	[self setBackupPath:nil];
+	[self setLastBackupTime:nil];
 	[self setConnection:nil];
 	[self setServer:nil];
 	[[self backupTimer] invalidate];
@@ -151,8 +153,47 @@ NSTimeInterval PostgresServerAppBackupTimerInterval = 10.0; // TODO: backup fire
 		[self serverMessage:[NSString stringWithFormat:@"Not a directory at path: %@",theDirectory]];
 		return;		
 	}
-	// ok - read contents of directory to find the latest file
-	NSLog(@"TODO: read contents of directory");	
+	// get time interval for last backup time	
+	NSTimeInterval theLastBackup = [self backupTimeInterval];
+	if([self lastBackupTime]) {
+		theLastBackup = [[NSDate date] timeIntervalSinceDate:[self lastBackupTime]];
+	}	
+	// don't read contents of directory to find the latest file if last time is under
+	// half of the period
+	if(theLastBackup < ([self backupTimeInterval] / 2.0)) {
+		return;		
+	}
+	// mark the time it was done
+	[self setLastBackupTime:[NSDate date]];
+	// read directory for files
+	NSDirectoryEnumerator* theEnumerator = [[NSFileManager defaultManager] enumeratorAtPath:theDirectory];
+	NSString* theFile = nil;
+	NSDate* theLastFileDate = nil;
+	NSString* theLastFileName = nil;
+	while(theFile = [theEnumerator nextObject]) {
+		// ignore hidden files
+		if([theFile hasPrefix:@"."]) continue;
+		// ignore non-files
+		if([[theEnumerator fileAttributes] fileType] != NSFileTypeRegular) continue;
+		// get the creation date
+		NSDate* theDate = [[theEnumerator fileAttributes] fileCreationDate];
+		if(theDate==nil) {
+			theDate = [[theEnumerator fileAttributes] fileModificationDate];
+		}
+		if(theDate==nil) {
+			[self serverMessage:[NSString stringWithFormat:@"Unable to determine date on file: %@",theFile]];
+			continue;
+		}
+		if(theLastFileDate==nil || [theLastFileDate isLessThan:theDate]) {
+			theLastFileDate = theDate;
+			theLastFileName = theFile;
+		}
+	}
+	// no backup performed if backupTimeInterval not reached
+	if(theLastFileDate !=nil && [[NSDate date] timeIntervalSinceDate:theLastFileDate] < [self backupTimeInterval]) {
+		return;
+	}
+	// TODO: perform the free space purge
 }
 
 ////////////////////////////////////////////////////////////////////////////////
