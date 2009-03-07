@@ -64,15 +64,15 @@ int main(int argc,char* argv[]) {
 
 	NSLog(@"Stopped NSRunLoop");
 	
-	// perform cleanup
-	[theApp endThread];
-	
 	// stop the server
 	while([[theApp server] isRunning]) {
 		NSLog(@"Stopping the server");
 		[theApp stopServer];
 		[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
 	}	
+
+	// perform cleanup
+	[theApp endThread];		
 	
 APP_EXIT:
 	[theApp release];

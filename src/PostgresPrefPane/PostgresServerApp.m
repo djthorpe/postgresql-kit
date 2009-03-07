@@ -78,10 +78,7 @@ NSInteger PostgresServerAppBackupPercent = 50; // purges disk for backup when fr
 	
 	@try {
 		[[self client] connectWithPassword:thePassword];
-		NSLog(@"connect = %d",[[self client] connected]);
-		NSLog(@"databases = %@",[[self client] databases]);
 	} @catch(NSException* theException) {
-		NSLog(@"Cannot connect: %@",theException);
 		return NO;
 	}
 	return YES;
@@ -153,8 +150,6 @@ NSInteger PostgresServerAppBackupPercent = 50; // purges disk for backup when fr
 }
 
 -(void)endThread {
-	// end client connection
-	[[self client] disconnect];
 	// save user defaults here
 	[self _saveSettingsToUserDefaults];
 }
@@ -244,6 +239,7 @@ NSInteger PostgresServerAppBackupPercent = 50; // purges disk for backup when fr
 	} else {
 		// unable to login to database using either password, so barf
 		[self serverMessage:@"Unable to login to database to perform password change"];
+		[[self client] disconnect];
 		return NO;
 	}
 	

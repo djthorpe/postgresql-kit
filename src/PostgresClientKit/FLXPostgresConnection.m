@@ -165,7 +165,7 @@
 	if([self user] && [[self user] length]) {
 		[theParameters appendFormat:@"user='%@' ",[self user]];
 	}
-	if(thePassword && [thePassword length]) {
+	if(thePassword != nil) {
 		[theParameters appendFormat:@"password='%@' ",thePassword];
 	}
 	if([self timeout]) {

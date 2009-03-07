@@ -372,7 +372,7 @@ const NSTimeInterval PostgresPrefPaneFastInterval = 0.5;
 		[[self serverApp] setBackupFreeSpacePercent:[bindings backupFreeSpacePercentFromTag]];
 	}
 	if([keyPath isEqualTo:@"bindNewPassword"] || [keyPath isEqualTo:@"bindNewPassword2"]) {
-		if([bindings newPassword] != nil) {
+		if([[bindings newPassword] length]) {
 			[bindings setBindPasswordButtonEnabled:YES];
 		} else {
 			[bindings setBindPasswordButtonEnabled:NO];			
