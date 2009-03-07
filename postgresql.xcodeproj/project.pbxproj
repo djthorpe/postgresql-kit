@@ -171,6 +171,20 @@
 			remoteGlobalIDString = 6E23CBED0DCDD29F0041AA57;
 			remoteInfo = PostgresServerKit;
 		};
+		6E6A46070F630E3B0067008B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6E23CBD70DCDD0AB0041AA57 /* Build PostgreSQL */;
+			remoteInfo = "Build PostgreSQL";
+		};
+		6E6A46090F630E460067008B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6E23CBD70DCDD0AB0041AA57 /* Build PostgreSQL */;
+			remoteInfo = "Build PostgreSQL";
+		};
 		6E9FD7010DD593E000353077 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
@@ -627,6 +641,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				6E6A460A0F630E460067008B /* PBXTargetDependency */,
 			);
 			name = PostgresServerKit;
 			productName = PostgresServerKit;
@@ -663,6 +678,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				6E6A46080F630E3B0067008B /* PBXTargetDependency */,
 			);
 			name = PostgresClientKit;
 			productName = PostgresClientKit;
@@ -832,7 +848,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "VERSION=postgresql-8.2.5\nTAR=${SOURCE_ROOT}/tar/${VERSION}.tar\nUNARCHIVE=${DERIVED_SOURCES_DIR}\nBUILD=${BUILT_PRODUCTS_DIR}\nPREFIX=${BUILD}/${VERSION}\n\necho \"Unarchiving sources to ${UNARCHIVE}\"\necho \"Built postgres with be installed at ${PREFIX}\"\n\n# remove existing build directory, unarchive\nrm -fr \"${UNARCHIVE}\"\nmkdir \"${UNARCHIVE}\"\ncd \"${UNARCHIVE}\"\ntar -xvf \"${TAR}\"\ncd \"${VERSION}\"\n\n# configure\nexport CFLAGS=\"-isysroot /Developer/SDKs/MacOSX10.5.sdk -arch i386 -arch ppc\"\nexport LDFLAGS=\"-arch i386 -arch ppc\"\n./configure --prefix=\"${PREFIX}\" --enable-thread-safety --without-docdir --without-readline --with-bonjour --with-openssl --disable-dependency-tracking\n\n# convert to universal binary\nfind . -name Makefile -print -exec perl -p -i.backup -e 's/\\Q$(LD) $(LDREL) $(LDOUT)\\E (\\S+) (.+)/\\$(LD) -arch ppc \\$(LDREL) \\$(LDOUT) $1.ppc $2; \\$(LD) -arch i386 \\$(LDREL) \\$(LDOUT) $1.i386 $2; lipo -create -output $1 $1.ppc $1.i386/' {} \\; \n\n# make and install\nmake\nmake install\n\n# make symbolic link\nrm -f ${BUILD}/postgresql-current\nln -s ${PREFIX} ${BUILD}/postgresql-current \n\nexit 0\n\n";
+			shellScript = "VERSION=postgresql-8.2.5\nTAR=${SOURCE_ROOT}/tar/${VERSION}.tar\nUNARCHIVE=${DERIVED_SOURCES_DIR}\nBUILD=${BUILT_PRODUCTS_DIR}\nPREFIX=${BUILD}/${VERSION}\n\nif [ -e ${PREFIX} ]\nthen\n  echo \"Assuming already exists: ${PREFIX}\"\n  exit 0\nfi\n\n\necho \"Unarchiving sources to ${UNARCHIVE}\"\necho \"Built postgres with be installed at ${PREFIX}\"\n\n# remove existing build directory, unarchive\nrm -fr \"${UNARCHIVE}\"\nmkdir \"${UNARCHIVE}\"\ncd \"${UNARCHIVE}\"\ntar -xvf \"${TAR}\"\ncd \"${VERSION}\"\n\n# configure\nexport CFLAGS=\"-isysroot /Developer/SDKs/MacOSX10.5.sdk -arch i386 -arch ppc\"\nexport LDFLAGS=\"-arch i386 -arch ppc\"\n./configure --prefix=\"${PREFIX}\" --enable-thread-safety --without-docdir --without-readline --with-bonjour --with-openssl --disable-dependency-tracking\n\n# convert to universal binary\nfind . -name Makefile -print -exec perl -p -i.backup -e 's/\\Q$(LD) $(LDREL) $(LDOUT)\\E (\\S+) (.+)/\\$(LD) -arch ppc \\$(LDREL) \\$(LDOUT) $1.ppc $2; \\$(LD) -arch i386 \\$(LDREL) \\$(LDOUT) $1.i386 $2; lipo -create -output $1 $1.ppc $1.i386/' {} \\; \n\n# make and install\nmake\nmake install\n\n# make symbolic link\nrm -f ${BUILD}/postgresql-current\nln -s ${PREFIX} ${BUILD}/postgresql-current \n\nexit 0\n\n";
 		};
 		6E23CC3F0DCDD7330041AA57 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -983,6 +999,16 @@
 			isa = PBXTargetDependency;
 			target = 6E23CBED0DCDD29F0041AA57 /* PostgresServerKit */;
 			targetProxy = 6E6212440F43921200BE396D /* PBXContainerItemProxy */;
+		};
+		6E6A46080F630E3B0067008B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6E23CBD70DCDD0AB0041AA57 /* Build PostgreSQL */;
+			targetProxy = 6E6A46070F630E3B0067008B /* PBXContainerItemProxy */;
+		};
+		6E6A460A0F630E460067008B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6E23CBD70DCDD0AB0041AA57 /* Build PostgreSQL */;
+			targetProxy = 6E6A46090F630E460067008B /* PBXContainerItemProxy */;
 		};
 		6E9FD7020DD593E000353077 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1182,10 +1208,8 @@
 				HEADER_SEARCH_PATHS = "${BUILT_PRODUCTS_DIR}/postgresql-8.2.5/include";
 				INFOPLIST_FILE = "resources/PostgresClientKit-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
-				LIBRARY_SEARCH_PATHS = "${BUILT_PRODUCTS_DIR}/postgresql-8.2.5/lib";
+				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = (
-					"-lpgtypes",
-					"-lpq",
 					"-framework",
 					Foundation,
 					"-framework",
@@ -1216,10 +1240,8 @@
 				HEADER_SEARCH_PATHS = "${BUILT_PRODUCTS_DIR}/postgresql-8.2.5/include";
 				INFOPLIST_FILE = "resources/PostgresClientKit-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
-				LIBRARY_SEARCH_PATHS = "${BUILT_PRODUCTS_DIR}/postgresql-8.2.5/lib";
+				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = (
-					"-lpgtypes",
-					"-lpq",
 					"-framework",
 					Foundation,
 					"-framework",

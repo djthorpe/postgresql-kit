@@ -199,15 +199,15 @@ const unsigned FLXDefaultPostgresPort = 5432;
 }
 
 +(NSString* )postgresServerPath {
-	return [[self bundlePath] stringByAppendingPathComponent:@"Resources/postgresql-8.2.5/bin/postgres"];
+	return [[self bundlePath] stringByAppendingPathComponent:@"Resources/postgresql-current/bin/postgres"];
 }
 
 +(NSString* )postgresDumpPath {
-	return [[self bundlePath] stringByAppendingPathComponent:@"Resources/postgresql-8.2.5/bin/pg_dumpall"];
+	return [[self bundlePath] stringByAppendingPathComponent:@"Resources/postgresql-current/bin/pg_dumpall"];
 }
 
 +(NSString* )postgresInitPath {
-	return [[self bundlePath] stringByAppendingPathComponent:@"Resources/postgresql-8.2.5/bin/initdb"];
+	return [[self bundlePath] stringByAppendingPathComponent:@"Resources/postgresql-current/bin/initdb"];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
