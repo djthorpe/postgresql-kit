@@ -49,7 +49,7 @@ const NSTimeInterval PostgresPrefPaneFastInterval = 0.5;
 }
 
 -(void)_updateDiskUsage {
-	[bindings setBindDiskUsage:[NSString stringWithFormat:@"%@ free",[[self serverApp] dataSpaceFreeAsString]]];
+	[bindings setBindDiskUsage:[NSString stringWithFormat:@"Data volume: %@ free (%u%% full)",[[self serverApp] dataSpaceFreeAsString],100 - [[self serverApp] dataSpaceFreeAsPercent]]];
 }
 
 -(void)_updateVersion {
@@ -65,6 +65,19 @@ const NSTimeInterval PostgresPrefPaneFastInterval = 0.5;
 	[bindings setBindIsBackupEnabled:[[self serverApp] isBackupEnabled]];
 	[bindings setBackupIntervalTagFromInterval:[[self serverApp] backupTimeInterval]];
 	[bindings setBackupFreeSpaceTagFromPercent:[[self serverApp] backupFreeSpacePercent]];
+}
+
+-(void)_updatePasswordStatus {	
+	// update label for password
+	if([self serverState]==FLXServerStateStarted) {
+		if([[self serverApp] hasSuperuserPassword]) {
+			[bindings setBindPasswordMessage:@"Change the existing administative password"];
+		} else {
+			[bindings setBindPasswordMessage:@"Add a new administrative password"];			
+		}
+	} else {
+		[bindings setBindPasswordMessage:@"Start the server to set administative password"];
+	}	
 }
 
 -(void)_updateStatus {
@@ -87,9 +100,14 @@ const NSTimeInterval PostgresPrefPaneFastInterval = 0.5;
 	// update the "stop" button state
 	if([self serverState]==FLXServerStateStarted) {
 		[bindings setBindStopButtonEnabled:YES];
+		[bindings setBindPasswordButtonEnabled:YES];
 	} else {
 		[bindings setBindStopButtonEnabled:NO];
+		[bindings setBindPasswordButtonEnabled:NO];
 	}
+
+	// update password text
+	[self _updatePasswordStatus];
 	
 	// update the isremoteaccess dialog
 	if([self serverState]==FLXServerStateStopped || [self serverState]==FLXServerStateUnknown  || [self serverState]==FLXServerStateStartingError) {
@@ -236,6 +254,8 @@ const NSTimeInterval PostgresPrefPaneFastInterval = 0.5;
 	[bindings addObserver:self forKeyPath:@"bindIsBackupEnabled" options:NSKeyValueObservingOptionNew context:nil];
 	[bindings addObserver:self forKeyPath:@"bindBackupIntervalTag" options:NSKeyValueObservingOptionNew context:nil];
 	[bindings addObserver:self forKeyPath:@"bindBackupFreeSpaceTag" options:NSKeyValueObservingOptionNew context:nil];
+	[bindings addObserver:self forKeyPath:@"bindNewPassword" options:NSKeyValueObservingOptionNew context:nil];
+	[bindings addObserver:self forKeyPath:@"bindNewPassword2" options:NSKeyValueObservingOptionNew context:nil];
 }
 
 -(void)didSelect {
@@ -281,9 +301,18 @@ const NSTimeInterval PostgresPrefPaneFastInterval = 0.5;
 
 -(void)passwordSheetDidEnd:(NSWindow *)theSheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
 	[theSheet orderOut:self];
-	if(returnCode==NSOKButton) {		
-		// TODO: set admin password
-		NSLog(@"TODO: set new password");
+
+	if(returnCode != NSOKButton) {
+		return;
+	}	
+	if([bindings newPassword]==nil || [bindings existingPassword]==nil) {
+		return;
+	}	
+	BOOL isSuccess = [[self serverApp] setSuperuserPassword:[bindings newPassword] existingPassword:[bindings existingPassword]];
+	if(isSuccess) {
+		[bindings setBindPasswordMessage:@"Password has been changed"];
+	} else {
+		[bindings setBindPasswordMessage:@"Password not set, an error occured"];
 	}
 }
 
@@ -342,6 +371,13 @@ const NSTimeInterval PostgresPrefPaneFastInterval = 0.5;
 	if([keyPath isEqualTo:@"bindBackupFreeSpaceTag"]) {
 		[[self serverApp] setBackupFreeSpacePercent:[bindings backupFreeSpacePercentFromTag]];
 	}
+	if([keyPath isEqualTo:@"bindNewPassword"] || [keyPath isEqualTo:@"bindNewPassword2"]) {
+		if([bindings newPassword] != nil) {
+			[bindings setBindPasswordButtonEnabled:YES];
+		} else {
+			[bindings setBindPasswordButtonEnabled:NO];			
+		}
+	}
 }
 	
 ////////////////////////////////////////////////////////////////////////////////
@@ -382,6 +418,12 @@ const NSTimeInterval PostgresPrefPaneFastInterval = 0.5;
 }
 
 -(IBAction)doPassword:(id)sender {
+	// set new password values to empty
+	[bindings setBindExistingPassword:@""];
+	[bindings setBindNewPassword:@""];
+	[bindings setBindNewPassword2:@""];	
+	// set focus on the current password
+	[ibPasswordSheet makeFirstResponder:[ibPasswordSheet initialFirstResponder]];
 	// open up the sheet for changing the password
 	[NSApp beginSheet:ibPasswordSheet modalForWindow:[[self mainView] window] modalDelegate:self didEndSelector:@selector(passwordSheetDidEnd:returnCode:contextInfo:) contextInfo:nil];
 }

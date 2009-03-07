@@ -28,6 +28,7 @@
 -(void)disconnect;
 -(BOOL)connected;
 -(void)connect;
+-(void)connectWithPassword:(NSString* )thePassword;
 -(void)reset;
 
 // execution methods

@@ -57,7 +57,7 @@ typedef enum {
 -(BOOL)stop;
 
 // methods - backup database
--(NSString* )backupToFolderPath:(NSString* )thePath;
--(BOOL)backupInBackgroundToFolderPath:(NSString* )thePath;
+-(NSString* )backupToFolderPath:(NSString* )thePath superPassword:(NSString* )thePassword;
+-(BOOL)backupInBackgroundToFolderPath:(NSString* )thePath superPassword:(NSString* )thePassword;
 
 @end

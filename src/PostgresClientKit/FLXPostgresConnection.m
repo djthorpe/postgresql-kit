@@ -143,6 +143,10 @@
 }
 
 -(void)connect {
+	[self connectWithPassword:nil];
+}
+
+-(void)connectWithPassword:(NSString* )thePassword {
 	if([self connection] != nil) {
 		[FLXPostgresException raise:@"FLXPostgresConnectionError" reason:@"Connection is already made"];    
 	}
@@ -160,6 +164,9 @@
 	}
 	if([self user] && [[self user] length]) {
 		[theParameters appendFormat:@"user='%@' ",[self user]];
+	}
+	if(thePassword && [thePassword length]) {
+		[theParameters appendFormat:@"password='%@' ",thePassword];
 	}
 	if([self timeout]) {
 		[theParameters appendFormat:@"connect_timeout=%d ",[self timeout]];    

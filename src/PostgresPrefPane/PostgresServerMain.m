@@ -64,6 +64,9 @@ int main(int argc,char* argv[]) {
 
 	NSLog(@"Stopped NSRunLoop");
 	
+	// perform cleanup
+	[theApp endThread];
+	
 	// stop the server
 	while([[theApp server] isRunning]) {
 		NSLog(@"Stopping the server");

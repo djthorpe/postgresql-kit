@@ -11,6 +11,7 @@ const unsigned FLXDefaultPostgresPort = 5432;
 -(NSString* )_backupFilePathForFolder:(NSString* )thePath;
 -(int)_processIdentifierFromDataPath;
 -(void)_delegateServerMessage:(NSString* )theMessage;
+-(void)_delegateServerMessageFromData:(NSData* )theData;
 -(void)_delegateServerStateDidChange:(NSString* )theMessage;  
 -(void)_delegateBackupStateDidChange:(NSString* )theMessage;
 -(NSString* )_messageFromState:(FLXServerState)theState;
@@ -336,7 +337,7 @@ const unsigned FLXDefaultPostgresPort = 5432;
 	}
 }
 
--(BOOL)backupInBackgroundToFolderPath:(NSString* )thePath {
+-(BOOL)backupInBackgroundToFolderPath:(NSString* )thePath superPassword:(NSString* )thePassword {
 	NSParameterAssert(thePath);
 	// return NO if already running
 	if([self backupState] == FLXBackupStateRunning) {
@@ -350,7 +351,7 @@ const unsigned FLXDefaultPostgresPort = 5432;
 	}
 	
 	// start the background thread to perform backup
-	[NSThread detachNewThreadSelector:@selector(_backgroundBackupThread:) toTarget:self withObject:thePath];
+	[NSThread detachNewThreadSelector:@selector(_backgroundBackupThread:) toTarget:self withObject:[NSArray arrayWithObjects:thePath,thePassword,nil]];
 	
 	// return YES
 	return YES;
@@ -358,7 +359,7 @@ const unsigned FLXDefaultPostgresPort = 5432;
 
 // performs a backup of the local postgres database using the superuser account, returns the path to the backup file
 // performs .gz compression on the file
--(NSString* )backupToFolderPath:(NSString* )thePath {
+-(NSString* )backupToFolderPath:(NSString* )thePath superPassword:(NSString* )thePassword {
 	NSParameterAssert(thePath);
 
 	// construct file for writing
@@ -392,6 +393,11 @@ const unsigned FLXDefaultPostgresPort = 5432;
 	[theTask setLaunchPath:[[self class] postgresDumpPath]];  
 	[theTask setArguments:[NSArray arrayWithObjects:@"-U",[[self class] superUsername],@"-S",[[self class] superUsername],@"--disable-triggers",nil]];
 	
+	if([thePassword length]) {
+		// set the PGPASSWORD env variable
+		[theTask setEnvironment:[NSDictionary dictionaryWithObject:thePassword forKey:@"PGPASSWORD"]];
+	}
+	
 	// perform the backup
 	[theTask launch];                                                 
 	
@@ -404,7 +410,10 @@ const unsigned FLXDefaultPostgresPort = 5432;
 	// close the compressed stream
 	gzclose(theCompressedOutputFile);
 	
-	// TODO: get error information....
+	// get error information....
+	while((theData = [[theErrPipe fileHandleForReading] availableData]) && [theData length]) {
+		[self _delegateServerMessageFromData:theData];
+	}  
 	
 	// wait until task is actually completed
 	[theTask waitUntilExit];
@@ -658,14 +667,19 @@ const unsigned FLXDefaultPostgresPort = 5432;
 	return theReturnCode ? NO : YES;
 }
 
--(void)_backgroundBackupThread:(NSString* )thePath {
-	NSParameterAssert(thePath);
+-(void)_backgroundBackupThread:(NSArray* )theArguments {
+	NSParameterAssert(theArguments && [theArguments count]);
 	NSParameterAssert([self backupState] != FLXBackupStateRunning);
 
 	NSAutoreleasePool* thePool = [[NSAutoreleasePool alloc] init];
 
 	[self setBackupState:FLXBackupStateRunning];
-	NSString* theBackupFilePath = [self backupToFolderPath:thePath];
+	NSString* theBackupFilePath;
+	if([theArguments count]==2) {
+		theBackupFilePath = [self backupToFolderPath:[theArguments objectAtIndex:0] superPassword:[theArguments objectAtIndex:1]];
+	} else {
+		theBackupFilePath = [self backupToFolderPath:[theArguments objectAtIndex:0] superPassword:nil];
+	}
 	if(theBackupFilePath==nil) {
 		[self setBackupState:FLXBackupStateError];
 	} else {

@@ -8,6 +8,7 @@ NSInteger PostgresServerAppBackupPercent = 50; // purges disk for backup when fr
 @implementation PostgresServerApp
 
 @synthesize server;
+@synthesize client;
 @synthesize connection;
 @synthesize dataPath;
 @synthesize backupPath;
@@ -19,55 +20,94 @@ NSInteger PostgresServerAppBackupPercent = 50; // purges disk for backup when fr
 @synthesize serverPort;
 @synthesize defaultServerPort;
 @synthesize backupTimer;
-
+@synthesize keychain;
 
 ////////////////////////////////////////////////////////////////////////////////
 // private methods
 
+-(NSString* )_settingsPath {
+	// return path to stored preferences
+	return [[self dataPath] stringByAppendingPathComponent:@"preferences.plist"];
+}
+
 -(void)_loadSettingsFromUserDefaults {
-	// TODO: Load from system settings
-	/*
-	NSUserDefaults* theDefaults = [NSUserDefaults standardUserDefaults];
-	if(theDefaults==nil) {
-		[self serverMessage:@"Unable to load user defaults object"];
+	// Load from system settings
+	if([[NSFileManager defaultManager] fileExistsAtPath:[self _settingsPath]]==NO) {
 		return;
 	}
-	[self setIsBackupEnabled:[theDefaults boolForKey:@"isBackupEnabled"]];
-	[self setBackupTimeInterval:[theDefaults floatForKey:@"backupTimeInterval"]];
-	[self setBackupFreeSpacePercent:[theDefaults integerForKey:@"backupFreeSpacePercent"]];
-	[self setIsRemoteAccess:[theDefaults boolForKey:@"isRemoteAccess"]];
-	[self setServerPort:[theDefaults integerForKey:@"serverPort"]];
-	 */
+	NSDictionary* thePreferences = [NSDictionary dictionaryWithContentsOfFile:[self _settingsPath]];
+	if(thePreferences==nil) {
+		return;
+	}
+	for(NSString* theKey in [thePreferences allKeys]) {
+		NSObject* theValue = [thePreferences objectForKey:theKey];
+		if([theKey isEqual:@"isBackupEnabled"] && [theValue isKindOfClass:[NSNumber class]]) {
+			[self setIsBackupEnabled:[(NSNumber* )theValue boolValue]];
+		}
+		if([theKey isEqual:@"backupTimeInterval"] && [theValue isKindOfClass:[NSNumber class]]) {
+			[self setBackupTimeInterval:[(NSNumber* )theValue doubleValue]];
+		}
+		if([theKey isEqual:@"backupFreeSpacePercent"] && [theValue isKindOfClass:[NSNumber class]]) {
+			[self setBackupFreeSpacePercent:[(NSNumber* )theValue unsignedIntegerValue]];
+		}
+		if([theKey isEqual:@"isRemoteAccess"] && [theValue isKindOfClass:[NSNumber class]]) {
+			[self setIsRemoteAccess:[(NSNumber* )theValue boolValue]];
+		}
+		if([theKey isEqual:@"serverPort"] && [theValue isKindOfClass:[NSNumber class]]) {
+			[self setServerPort:[(NSNumber* )theValue unsignedIntegerValue]];			
+		}
+	}
 }
 
 -(void)_saveSettingsToUserDefaults {
-	// TODO: Save to system settings
-	/*
-	NSUserDefaults* theDefaults = [NSUserDefaults standardUserDefaults];
-	if(theDefaults==nil) {
-		[self serverMessage:@"Unable to load user defaults object"];
-		return;
+	// Save to system settings to dictionary
+	NSMutableDictionary* thePreferences = [NSMutableDictionary dictionary];	
+	[thePreferences setObject:[NSNumber numberWithBool:[self isBackupEnabled]] forKey:@"isBackupEnabled"];
+	[thePreferences setObject:[NSNumber numberWithDouble:[self backupTimeInterval]] forKey:@"backupTimeInterval"];
+	[thePreferences setObject:[NSNumber numberWithUnsignedInteger:[self backupFreeSpacePercent]] forKey:@"backupFreeSpacePercent"];
+	[thePreferences setObject:[NSNumber numberWithBool:[self isRemoteAccess]] forKey:@"isRemoteAccess"];
+	[thePreferences setObject:[NSNumber numberWithUnsignedInteger:[self serverPort]] forKey:@"serverPort"];	
+	[thePreferences writeToFile:[self _settingsPath] atomically:YES];
+}
+
+-(BOOL)_connectClientUsingPassword:(NSString* )thePassword {
+	[self setClient:[[[FLXPostgresConnection alloc] init] autorelease]];
+	// client connection is always done through sockets	
+	[[self client] setUser:[FLXServer superUsername]];
+	[[self client] setDatabase:[FLXServer superUsername]];
+	
+	@try {
+		[[self client] connectWithPassword:thePassword];
+		NSLog(@"connect = %d",[[self client] connected]);
+		NSLog(@"databases = %@",[[self client] databases]);
+	} @catch(NSException* theException) {
+		NSLog(@"Cannot connect: %@",theException);
+		return NO;
 	}
-	[theDefaults setBool:[self isBackupEnabled] forKey:@"isBackupEnabled"];
-	[theDefaults setFloat:[self backupTimeInterval] forKey:@"backupTimeInterval"];
-	[theDefaults setInteger:[self backupFreeSpacePercent] forKey:@"backupFreeSpacePercent"];
-	[theDefaults setBool:[self isRemoteAccess] forKey:@"isRemoteAccess"];
-	[theDefaults setInteger:[self serverPort] forKey:@"serverPort"];
-	[theDefaults synchronize]; 
-	 */
+	return YES;
+}
+
+-(BOOL)_setClientPassword:(NSString* )thePassword {
+	NSParameterAssert([[self client] connected]);
+	@try {
+		[[self client] execute:[NSString stringWithFormat:@"ALTER USER %@ WITH PASSWORD %@",[FLXServer superUsername],[[self client] quote:thePassword]]];
+	} @catch(NSException* theException) {
+		[self serverMessage:[NSString stringWithFormat:@"Unable to perform password change in database server: %@",theException]];
+		return NO;		
+	}	
+	return YES;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 -(void)dealloc {
-	// save user defaults here
-	[self _saveSettingsToUserDefaults];
 	// release objects
 	[self setDataPath:nil];
 	[self setBackupPath:nil];
 	[self setLastBackupTime:nil];
 	[self setConnection:nil];
-	[self setServer:nil];
+	[self setClient:nil];
+	[self setServer:nil];	
 	[[self backupTimer] invalidate];
 	[self setBackupTimer:nil];
 	[super dealloc];
@@ -103,8 +143,20 @@ NSInteger PostgresServerAppBackupPercent = 50; // purges disk for backup when fr
 	// retrieve settings from defaults file
 	[self _loadSettingsFromUserDefaults];
 	
+	// set up keychain
+	PostgresServerKeychain* theKeychain = [[[PostgresServerKeychain alloc] initWithDataPath:[self dataPath] serviceName:PostgresServerAppIdentifier] autorelease];
+	[self setKeychain:theKeychain];
+	[[self keychain] setDelegate:self];
+	
 	// success
 	return YES;
+}
+
+-(void)endThread {
+	// end client connection
+	[[self client] disconnect];
+	// save user defaults here
+	[self _saveSettingsToUserDefaults];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -173,6 +225,57 @@ NSInteger PostgresServerAppBackupPercent = 50; // purges disk for backup when fr
 	}
 }
 
+-(BOOL)setSuperuserPassword:(NSString* )theNewPassword existingPassword:(NSString* )theOldPassword {
+	// retrieve existing password
+	NSString* theExistingPassword = [[self keychain] passwordForAccount:[FLXServer superUsername]];
+	if(theExistingPassword==nil) {
+		[self serverMessage:@"Unable to retrieve the existing superuser password, assuming not yet set"];
+	} else if([theExistingPassword isEqual:theOldPassword]==NO) {
+		[self serverMessage:@"Existing superuser password does not match"];
+		return NO;
+	}
+
+	// connect to database using this account
+	NSString* theCurrentPassword;
+	if([self _connectClientUsingPassword:theExistingPassword]==YES) {
+		theCurrentPassword = theExistingPassword;
+	} else if([self _connectClientUsingPassword:theNewPassword]==YES) {
+		theCurrentPassword = theNewPassword;
+	} else {
+		// unable to login to database using either password, so barf
+		[self serverMessage:@"Unable to login to database to perform password change"];
+		return NO;
+	}
+	
+	// set the password in the server
+	if([self _setClientPassword:theNewPassword]==NO) {
+		[[self client] disconnect];
+		return NO;
+	}
+	
+	// set new password
+	BOOL isSuccess = [[self keychain] setPassword:theNewPassword forAccount:[FLXServer superUsername]];
+	if(isSuccess==YES) {
+		[self serverMessage:@"Success when setting new superuser password"];
+	} else {
+		[self serverMessage:@"Unable to set new superuser password, rolling back"];
+		// rollback server change
+		[self _setClientPassword:theCurrentPassword];
+	}
+	
+	// disconnect client
+	[[self client] disconnect];
+	
+	// return success condition
+	return isSuccess;	
+}
+
+-(BOOL)hasSuperuserPassword {
+	// retrieve existing password
+	NSString* theExistingPassword = [[self keychain] passwordForAccount:[FLXServer superUsername]];
+	return ([theExistingPassword length]==0) ? NO : YES;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 
 -(NSString* )dataSpaceFreeAsString {
@@ -190,6 +293,16 @@ NSInteger PostgresServerAppBackupPercent = 50; // purges disk for backup when fr
 		return [NSString stringWithFormat:@"%.2fKB",(double)theFreeBytes / (double)(1024L)];
 	}
 	return [NSString stringWithFormat:@"%llu bytes",theFreeBytes];
+}
+
+-(NSUInteger)dataSpaceFreeAsPercent {
+	NSParameterAssert([self dataPath]);
+	NSDictionary* theDictionary = [[NSFileManager defaultManager] fileSystemAttributesAtPath:[self dataPath]];
+	if(theDictionary==nil) return 0;
+	unsigned long long theTotalBytes = [[theDictionary objectForKey:NSFileSystemSize] unsignedLongLongValue];
+	unsigned long long theFreeBytes = [[theDictionary objectForKey:NSFileSystemFreeSize] unsignedLongLongValue];
+	double thePercentFree = (double)theFreeBytes * 100.0 / (double)theTotalBytes;
+	return (NSUInteger)floor(thePercentFree);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -256,6 +369,8 @@ NSInteger PostgresServerAppBackupPercent = 50; // purges disk for backup when fr
 	if(theLastFileDate !=nil && [[NSDate date] timeIntervalSinceDate:theLastFileDate] < [self backupTimeInterval]) {
 		return;
 	}
+	
+	
 	// TODO: perform the free space purge, based on size of last backup file plus 10%
 	// ...but don't remove the last backup
 	// do {
@@ -269,10 +384,15 @@ NSInteger PostgresServerAppBackupPercent = 50; // purges disk for backup when fr
 	[self serverMessage:@"Initiating backup"];
 
 	// perform backup in background
-	[[self server] backupInBackgroundToFolderPath:theDirectory];
+	NSString* thePassword = [[self keychain] passwordForAccount:[FLXServer superUsername]];
+	[[self server] backupInBackgroundToFolderPath:theDirectory superPassword:thePassword];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+
+-(void)keychainError:(NSError* )theError {
+	NSLog(@"keychain error: %d: %@",[theError code],[theError localizedDescription]);	
+}
 
 -(void)serverMessage:(NSString* )theMessage {
 	NSLog(@"server message: %@",theMessage);

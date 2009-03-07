@@ -14,13 +14,13 @@ NSTimeInterval PostgresBackupTimeInterval_Daily = (NSTimeInterval)(60.0 * 60.0 *
 NSTimeInterval PostgresBackupTimeInterval_TwiceWeekly = (NSTimeInterval)(60.0 * 60.0 * 24.0 * 3.5);
 NSTimeInterval PostgresBackupTimeInterval_Weekly = (NSTimeInterval)(60.0 * 60.0 * 24.0 * 7.0);
 NSTimeInterval PostgresBackupTimeInterval_Fortnightly = (NSTimeInterval)(60.0 * 60.0 * 24.0 * 14.0);
+NSTimeInterval PostgresBackupTimeInterval_30sec = 30.0;
 
 @implementation PostgresPrefPaneBindings
 
 @synthesize bindServerVersion;
 @synthesize bindServerStatus;
 @synthesize bindDiskUsage;
-@synthesize bindProcessorUsage;
 @synthesize bindServerStatusImage;
 @synthesize bindServerPort;
 @synthesize bindServerPortMinValue;
@@ -40,6 +40,11 @@ NSTimeInterval PostgresBackupTimeInterval_Fortnightly = (NSTimeInterval)(60.0 * 
 @synthesize bindStopButtonEnabled;
 @synthesize bindInstallButtonEnabled;
 @synthesize bindUninstallButtonEnabled;
+@synthesize bindNewPassword;
+@synthesize bindNewPassword2;
+@synthesize bindExistingPassword;
+@synthesize bindPasswordButtonEnabled;
+@synthesize bindPasswordMessage;
 
 ////////////////////////////////////////////////////////////////////////////////
 // destructor
@@ -49,8 +54,11 @@ NSTimeInterval PostgresBackupTimeInterval_Fortnightly = (NSTimeInterval)(60.0 * 
 	[self setBindServerVersion:nil];
 	[self setBindServerStatus:nil];
 	[self setBindDiskUsage:nil];
-	[self setBindProcessorUsage:nil];
 	[self setBindServerStatusImage:nil];
+	[self setBindNewPassword:nil];
+	[self setBindNewPassword2:nil];
+	[self setBindExistingPassword:nil];
+	[self setBindPasswordMessage:nil];
 	[super dealloc];
 }
 
@@ -58,7 +66,9 @@ NSTimeInterval PostgresBackupTimeInterval_Fortnightly = (NSTimeInterval)(60.0 * 
 // methods
 
 -(void)setBackupIntervalTagFromInterval:(NSTimeInterval)theInterval {
-	if(theInterval <= PostgresBackupTimeInterval_Hourly) {
+	if(theInterval <=PostgresBackupTimeInterval_30sec) {
+		[self setBindBackupIntervalTag:99];
+	} else if(theInterval <= PostgresBackupTimeInterval_Hourly) {
 		[self setBindBackupIntervalTag:0];
 	} else if(theInterval <= PostgresBackupTimeInterval_TwiceDaily) {
 		[self setBindBackupIntervalTag:1];
@@ -92,6 +102,9 @@ NSTimeInterval PostgresBackupTimeInterval_Fortnightly = (NSTimeInterval)(60.0 * 
 	if([self bindBackupIntervalTag]==5) { // fortnighly
 		return PostgresBackupTimeInterval_Fortnightly;
 	}
+	if([self bindBackupIntervalTag]==99) { // every 30 secs
+		return PostgresBackupTimeInterval_30sec;
+	}
 	return 0.0;	
 }
 
@@ -101,6 +114,27 @@ NSTimeInterval PostgresBackupTimeInterval_Fortnightly = (NSTimeInterval)(60.0 * 
 
 -(NSInteger)backupFreeSpacePercentFromTag {
 	return [self bindBackupFreeSpaceTag];
+}
+
+-(NSString* )existingPassword {
+	NSString* existingPassword1 = [[self bindExistingPassword] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+	if(existingPassword1==nil) {
+		return @"";
+	} else {
+		return existingPassword1;
+	}
+}
+
+-(NSString* )newPassword {
+	NSString* newPassword1 = [[self bindNewPassword] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+	NSString* newPassword2 = [[self bindNewPassword2] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];	
+	if(newPassword1==nil && newPassword2==nil) {
+		return @"";
+	} else if([newPassword1 isEqual:newPassword2]) {
+		return newPassword1;
+	} else {
+		return nil;
+	}
 }
 
 @end

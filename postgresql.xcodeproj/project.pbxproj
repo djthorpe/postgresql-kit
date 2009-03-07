@@ -97,8 +97,13 @@
 		6EC1F93C0F4A02B9006A2A12 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E23CC610DCDD8A60041AA57 /* Foundation.framework */; };
 		6EC4148C0F4B446E00E1A76B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EB516600F48257F00C8F8A4 /* Security.framework */; };
 		6ECC89DC0F618F30000993F9 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ECC89DB0F618F30000993F9 /* libz.dylib */; };
-		6ECC8B900F628525000993F9 /* strapline-200x40.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ECC8B8F0F628525000993F9 /* strapline-200x40.png */; };
-		6ECC8B960F628709000993F9 /* elephant-64x64.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ECC8B950F628709000993F9 /* elephant-64x64.png */; };
+		6ECC8C1F0F629794000993F9 /* elephant-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ECC8B950F628709000993F9 /* elephant-64.png */; };
+		6ECC8C310F6297BB000993F9 /* elephant-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ECC8C300F6297BB000993F9 /* elephant-32.png */; };
+		6ECC8C5A0F629D1D000993F9 /* strapline-200x40.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ECC8B8F0F628525000993F9 /* strapline-200x40.png */; };
+		6ECC8CEE0F62A95B000993F9 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EB516600F48257F00C8F8A4 /* Security.framework */; };
+		6ECC8D180F62B7E0000993F9 /* PostgresServerKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ECC8D170F62B7E0000993F9 /* PostgresServerKeychain.m */; };
+		6ECC8E810F62D3C9000993F9 /* PostgresClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E23CD7F0DCDE3C80041AA57 /* PostgresClientKit.framework */; };
+		6ECC8EB50F62D60D000993F9 /* PostgresClientKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 6E23CD7F0DCDE3C80041AA57 /* PostgresClientKit.framework */; };
 		6ED44E270DD6E58E008CB6E5 /* CreateDropDatabaseController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ED44E260DD6E58E008CB6E5 /* CreateDropDatabaseController.m */; };
 		6EDA14A60F611F6300CB5A0B /* PostgresPrefPaneHelp in Copy Help Files */ = {isa = PBXBuildFile; fileRef = 6EDA14A30F611F5500CB5A0B /* PostgresPrefPaneHelp */; };
 /* End PBXBuildFile section */
@@ -188,6 +193,13 @@
 			remoteGlobalIDString = 6EC1F8E90F49FC02006A2A12;
 			remoteInfo = PostgresInstallerApp;
 		};
+		6ECC8E850F62D3DC000993F9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6E23CD7E0DCDE3C80041AA57 /* PostgresClientKit */;
+			remoteInfo = PostgresClientKit;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -197,6 +209,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				6ECC8EB50F62D60D000993F9 /* PostgresClientKit.framework in Copy Frameworks */,
 				6EB516560F48254400C8F8A4 /* PostgresServerKit.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
@@ -310,9 +323,11 @@
 		6EC1F8FC0F49FCB3006A2A12 /* PostgresInstallerMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostgresInstallerMain.m; sourceTree = "<group>"; };
 		6ECC89DB0F618F30000993F9 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = /usr/lib/libz.dylib; sourceTree = "<absolute>"; };
 		6ECC8B850F6283EC000993F9 /* logo_w_elephant.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = logo_w_elephant.pdf; sourceTree = "<group>"; };
-		6ECC8B860F628495000993F9 /* elephant-256x256.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "elephant-256x256.png"; sourceTree = "<group>"; };
 		6ECC8B8F0F628525000993F9 /* strapline-200x40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "strapline-200x40.png"; sourceTree = "<group>"; };
-		6ECC8B950F628709000993F9 /* elephant-64x64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "elephant-64x64.png"; sourceTree = "<group>"; };
+		6ECC8B950F628709000993F9 /* elephant-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "elephant-64.png"; sourceTree = "<group>"; };
+		6ECC8C300F6297BB000993F9 /* elephant-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "elephant-32.png"; sourceTree = "<group>"; };
+		6ECC8D160F62B7E0000993F9 /* PostgresServerKeychain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostgresServerKeychain.h; sourceTree = "<group>"; };
+		6ECC8D170F62B7E0000993F9 /* PostgresServerKeychain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostgresServerKeychain.m; sourceTree = "<group>"; };
 		6ED44E250DD6E58E008CB6E5 /* CreateDropDatabaseController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateDropDatabaseController.h; sourceTree = "<group>"; };
 		6ED44E260DD6E58E008CB6E5 /* CreateDropDatabaseController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateDropDatabaseController.m; sourceTree = "<group>"; };
 		6ED44E360DD6EB52008CB6E5 /* main.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = main.h; sourceTree = "<group>"; };
@@ -361,6 +376,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E6212270F4391DB00BE396D /* PostgresServerKit.framework in Frameworks */,
+				6ECC8CEE0F62A95B000993F9 /* Security.framework in Frameworks */,
+				6ECC8E810F62D3C9000993F9 /* PostgresClientKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -514,9 +531,9 @@
 		6E5EA7530F57755800B702EC /* UI Images */ = {
 			isa = PBXGroup;
 			children = (
-				6ECC8B950F628709000993F9 /* elephant-64x64.png */,
+				6ECC8C300F6297BB000993F9 /* elephant-32.png */,
+				6ECC8B950F628709000993F9 /* elephant-64.png */,
 				6ECC8B8F0F628525000993F9 /* strapline-200x40.png */,
-				6ECC8B860F628495000993F9 /* elephant-256x256.png */,
 				6ECC8B850F6283EC000993F9 /* logo_w_elephant.pdf */,
 				6E620FF40F4368F400BE396D /* PostgresPrefPane-icon.tiff */,
 				6E12E70F0DD5D0AC00CB0928 /* postgres_elephant.icns */,
@@ -541,6 +558,8 @@
 				6E6211E20F4384DA00BE396D /* PostgresServerMain.m */,
 				6E6211E50F43853E00BE396D /* PostgresServerApp.h */,
 				6E6211E60F43853E00BE396D /* PostgresServerApp.m */,
+				6ECC8D160F62B7E0000993F9 /* PostgresServerKeychain.h */,
+				6ECC8D170F62B7E0000993F9 /* PostgresServerKeychain.m */,
 				6EB516090F48243C00C8F8A4 /* PostgresPrefPaneShared.h */,
 				6EB5160A0F48243C00C8F8A4 /* PostgresPrefPaneShared.m */,
 			);
@@ -686,6 +705,7 @@
 			);
 			dependencies = (
 				6E6212450F43921200BE396D /* PBXTargetDependency */,
+				6ECC8E860F62D3DC000993F9 /* PBXTargetDependency */,
 			);
 			name = PostgresServerApp;
 			productName = PostgresPrefPaneServer;
@@ -783,8 +803,9 @@
 				6E5EA74F0F57753400B702EC /* yellow.tiff in Resources */,
 				6E5EA7500F57753400B702EC /* red.tiff in Resources */,
 				6E5EA7510F57753400B702EC /* green.tiff in Resources */,
-				6ECC8B900F628525000993F9 /* strapline-200x40.png in Resources */,
-				6ECC8B960F628709000993F9 /* elephant-64x64.png in Resources */,
+				6ECC8C1F0F629794000993F9 /* elephant-64.png in Resources */,
+				6ECC8C310F6297BB000993F9 /* elephant-32.png in Resources */,
+				6ECC8C5A0F629D1D000993F9 /* strapline-200x40.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -893,6 +914,7 @@
 				6E6211E30F4384DA00BE396D /* PostgresServerMain.m in Sources */,
 				6E6211E70F43853E00BE396D /* PostgresServerApp.m in Sources */,
 				6EB5160B0F48243C00C8F8A4 /* PostgresPrefPaneShared.m in Sources */,
+				6ECC8D180F62B7E0000993F9 /* PostgresServerKeychain.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -980,6 +1002,11 @@
 			isa = PBXTargetDependency;
 			target = 6EC1F8E90F49FC02006A2A12 /* PostgresInstallerApp */;
 			targetProxy = 6EC1F8F10F49FC3B006A2A12 /* PBXContainerItemProxy */;
+		};
+		6ECC8E860F62D3DC000993F9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6E23CD7E0DCDE3C80041AA57 /* PostgresClientKit */;
+			targetProxy = 6ECC8E850F62D3DC000993F9 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

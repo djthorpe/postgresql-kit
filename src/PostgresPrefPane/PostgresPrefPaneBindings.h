@@ -12,7 +12,6 @@
 	NSString* bindServerVersion;
 	NSString* bindServerStatus;
 	NSString* bindDiskUsage;	
-	NSString* bindProcessorUsage;	
 	NSImage* bindServerStatusImage;	
 	NSUInteger bindServerPort;
 	NSUInteger bindServerPortMinValue;
@@ -32,12 +31,16 @@
 	BOOL bindInstallButtonEnabled;
 	BOOL bindUninstallButtonEnabled;
 	NSInteger bindTabViewIndex;	
+	NSString* bindNewPassword;
+	NSString* bindNewPassword2;
+	NSString* bindExistingPassword;
+	BOOL bindPasswordButtonEnabled;
+	NSString* bindPasswordMessage;
 }
 
 @property (retain) NSString* bindServerVersion;
 @property (retain) NSString* bindServerStatus;
 @property (retain) NSString* bindDiskUsage;
-@property (retain) NSString* bindProcessorUsage;
 @property (retain) NSImage* bindServerStatusImage;
 
 @property (assign) NSUInteger bindServerPort;
@@ -64,11 +67,20 @@
 @property (assign) BOOL bindInstallButtonEnabled;
 @property (assign) BOOL bindUninstallButtonEnabled;
 
+@property (retain) NSString* bindNewPassword;
+@property (retain) NSString* bindNewPassword2;
+@property (retain) NSString* bindExistingPassword;
+@property (assign) BOOL bindPasswordButtonEnabled;
+@property (retain) NSString* bindPasswordMessage;
+
 // methods
 -(void)setBackupIntervalTagFromInterval:(NSTimeInterval)theInterval;
 -(NSTimeInterval)backupTimeIntervalFromTag;
 
 -(void)setBackupFreeSpaceTagFromPercent:(NSInteger)thePercent;
 -(NSInteger)backupFreeSpacePercentFromTag;
+
+-(NSString* )existingPassword;
+-(NSString* )newPassword;
 
 @end
