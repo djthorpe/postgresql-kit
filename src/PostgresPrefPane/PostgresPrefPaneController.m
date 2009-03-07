@@ -17,6 +17,8 @@ const NSTimeInterval PostgresPrefPaneFastInterval = 0.5;
 // constructor
 
 -(void)dealloc {
+	// remove notification
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	// invalidate timer
 	[[self timer] invalidate];
 	// release objects
@@ -36,18 +38,6 @@ const NSTimeInterval PostgresPrefPaneFastInterval = 0.5;
 ////////////////////////////////////////////////////////////////////////////////
 // private methods
 
--(void)_startConnection {
-	[self setConnection:[NSConnection connectionWithRegisteredName:PostgresServerAppIdentifier host:nil]];
-
-	if([[self connection] isValid]) {
-		[bindings setBindIsRemoteAccess:[[self serverApp] isRemoteAccess]];
-		[bindings setBindServerVersion:[[self serverApp] serverVersion]];
-		[bindings setBindServerPort:[[self serverApp] serverPort]];
-	} else {
-		[bindings setBindServerVersion:@""];		
-	}
-}
-
 -(NSImage* )_statusImageForState:(FLXServerState)theState {
 	NSString* thePath = nil;
 	if(theState==FLXServerStateStarted) {
@@ -62,6 +52,18 @@ const NSTimeInterval PostgresPrefPaneFastInterval = 0.5;
 
 -(void)_updateDiskUsage {
 	[bindings setBindDiskUsage:[NSString stringWithFormat:@"%@ free",[[self serverApp] dataSpaceFreeAsString]]];
+}
+
+-(void)_updateSettingsFromServer {	
+	// set remote access checkbox, and port, etc from server app settings
+	[bindings setBindIsRemoteAccess:[[self serverApp] isRemoteAccess]];
+	[bindings setBindServerVersion:[[self serverApp] serverVersion]];
+	[bindings setBindServerPort:[[self serverApp] serverPort]];
+	[bindings setBindServerPortMinValue:1];
+	[bindings setBindServerPortMaxValue:65535];
+	[bindings setBindIsBackupEnabled:[[self serverApp] isBackupEnabled]];
+	[bindings setBackupIntervalTagFromInterval:[[self serverApp] backupTimeInterval]];
+	[bindings setBackupFreeSpaceTagFromPercent:[[self serverApp] backupFreeSpacePercent]];
 }
 
 -(void)_updateStatus {
@@ -118,6 +120,16 @@ const NSTimeInterval PostgresPrefPaneFastInterval = 0.5;
 	
 	// update disk usage
 	[self _updateDiskUsage];
+}
+
+-(void)_startConnection {
+	[self setConnection:[NSConnection connectionWithRegisteredName:PostgresServerAppIdentifier host:nil]];
+	if([[self connection] isValid]) {
+		[self _updateSettingsFromServer];
+	} else {
+		[bindings setBindServerVersion:@""];	
+		[bindings setBindDiskUsage:@""];
+	}
 }
 
 -(AuthorizationRef)_authorizeUser {
@@ -199,13 +211,9 @@ const NSTimeInterval PostgresPrefPaneFastInterval = 0.5;
 	// vary the NSTimer between fast and slow depending on whether there is a connection
 	// to the server object or not, and we are in middle or starting or stopping
 	if(([self connection]==nil || [self serverState]==FLXServerStateStarted || [self serverState]==FLXServerStateStopped)  && [[self timer] timeInterval] != PostgresPrefPaneSlowInterval) {			
-		NSLog(@"lowering rate of connection to app");
 		[[self timer] invalidate];
 		[self setTimer:[NSTimer scheduledTimerWithTimeInterval:PostgresPrefPaneSlowInterval target:self selector:@selector(timerDidFire:) userInfo:nil repeats:YES]];
-	} 
-	
-	if([self connection] && [self serverState] != FLXServerStateStarted && [self serverState] != FLXServerStateStopped && [[self timer] timeInterval] != PostgresPrefPaneFastInterval) {
-		NSLog(@"raising rate of connection to app");
+	} else if([self connection] && [self serverState] != FLXServerStateStarted && [self serverState] != FLXServerStateStopped && [[self timer] timeInterval] != PostgresPrefPaneFastInterval) {
 		[[self timer] invalidate];
 		[self setTimer:[NSTimer scheduledTimerWithTimeInterval:PostgresPrefPaneFastInterval target:self selector:@selector(timerDidFire:) userInfo:nil repeats:YES]];
 	}	
@@ -223,6 +231,9 @@ const NSTimeInterval PostgresPrefPaneFastInterval = 0.5;
 	// fire the timer - will connect to remote application, set up the timer, etc.
 	[self timerDidFire:nil];
 
+	// notification center obsevrer	
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(connectionDidDie:) name:NSConnectionDidDieNotification object:nil];
+	
 	// key-value observing
 	[bindings addObserver:self forKeyPath:@"bindIsRemoteAccess" options:NSKeyValueObservingOptionNew context:nil];
 	[bindings addObserver:self forKeyPath:@"bindIsRemoteAccessEnabled" options:NSKeyValueObservingOptionNew context:nil];
@@ -231,25 +242,20 @@ const NSTimeInterval PostgresPrefPaneFastInterval = 0.5;
 	[bindings addObserver:self forKeyPath:@"bindServerPort" options:NSKeyValueObservingOptionNew context:nil];
 	[bindings addObserver:self forKeyPath:@"bindServerPortEnabled" options:NSKeyValueObservingOptionNew context:nil];
 	[bindings addObserver:self forKeyPath:@"bindIsBackupEnabled" options:NSKeyValueObservingOptionNew context:nil];
+	[bindings addObserver:self forKeyPath:@"bindBackupIntervalTag" options:NSKeyValueObservingOptionNew context:nil];
+	[bindings addObserver:self forKeyPath:@"bindBackupFreeSpaceTag" options:NSKeyValueObservingOptionNew context:nil];
 
-	// set remote access checkbox, and port
-	[bindings setBindIsRemoteAccess:[[self serverApp] isRemoteAccess]];
-	[bindings setBindServerPort:[[self serverApp] serverPort]];
-	[bindings setBindServerPortMinValue:1];
-	[bindings setBindServerPortMaxValue:65535];
-	[bindings setBindIsBackupEnabled:[[self serverApp] isBackupEnabled]];
-	
-	// set the tab view
-	if([self serverState]==0) {
-		// set tab to install/uninstall
-		[bindings setBindTabViewIndex:1];
-	} else {
-		// set tab to start/stop
-		[bindings setBindTabViewIndex:0];
-	}	
-		
-	// update status
+	// update settings & status
+	[self _updateSettingsFromServer];
 	[self _updateStatus];
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Observe when connection dies
+
+-(void)connectionDidDie:(NSNotification* )theNotification {
+	// connection died, try to start again
+	[self _startConnection];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -277,7 +283,21 @@ const NSTimeInterval PostgresPrefPaneFastInterval = 0.5;
 		[[self serverApp] setIsBackupEnabled:[bindings bindIsBackupEnabled]];	
 		if([bindings bindIsBackupEnabled]) {
 			[[self serverApp] fireBackupCycle];
+			[bindings setBindBackupIntervalEnabled:YES];
+			[bindings setBindBackupFreeSpaceEnabled:YES];
+		} else {
+			[bindings setBindBackupIntervalEnabled:NO];
+			[bindings setBindBackupFreeSpaceEnabled:NO];
 		}
+	}
+	if([keyPath isEqualTo:@"bindBackupIntervalTag"]) {
+		NSTimeInterval theInterval = [bindings backupTimeIntervalFromTag];
+		if(theInterval) {
+			[[self serverApp] setBackupTimeInterval:theInterval];
+		}
+	}
+	if([keyPath isEqualTo:@"bindBackupFreeSpaceTag"]) {
+		[[self serverApp] setBackupFreeSpacePercent:[bindings backupFreeSpacePercentFromTag]];
 	}
 }
 	

@@ -1,17 +1,19 @@
 
 #import "FLXServer.h"
 #include <sys/sysctl.h>
+#import <zlib.h>
 
 static FLXServer* FLXSharedServer = nil;
 const unsigned FLXDefaultPostgresPort = 5432;
 
 @interface FLXServer (Private)
--(BOOL)_createDataPath;
+-(BOOL)_createPath:(NSString* )thePath;
 -(NSString* )_backupFilePathForFolder:(NSString* )thePath;
 -(int)_processIdentifierFromDataPath;
 -(void)_delegateServerMessage:(NSString* )theMessage;
 -(void)_delegateServerStateDidChange:(NSString* )theMessage;  
--(NSString* )_messageFromState;
+-(void)_delegateBackupStateDidChange:(NSString* )theMessage;
+-(NSString* )_messageFromState:(FLXServerState)theState;
 -(int)_doesProcessExist:(int)thePid;
 @end
 
@@ -68,6 +70,7 @@ const unsigned FLXDefaultPostgresPort = 5432;
 	if(self) {
 		m_theDataPath = nil;
 		m_theState = FLXServerStateUnknown;
+		m_theBackupState = FLXBackupStateIdle;
 		m_theProcessIdentifier = -1;
 		m_theHostname = @""; // defaults to socket-based communication
 		m_thePort = FLXDefaultPostgresPort;    // default postgres port
@@ -100,15 +103,32 @@ const unsigned FLXDefaultPostgresPort = 5432;
 	return m_theState;
 }
 
+-(FLXServerState)backupState {
+	return m_theBackupState;
+}
+
 -(NSString* )stateAsString {
-	return [self _messageFromState];
+	return [self _messageFromState:[self state]];
+}
+
+-(NSString* )backupStateAsString {
+	return [self _messageFromState:[self backupState]];
 }
 
 -(void)setState:(FLXServerState)theState {
 	@synchronized(self) {
 		if(m_theState != theState) {
 			m_theState = theState;
-			[self _delegateServerStateDidChange:[self _messageFromState]];
+			[self _delegateServerStateDidChange:[self _messageFromState:m_theState]];
+		}     
+	}
+}
+
+-(void)setBackupState:(FLXServerState)theState {
+	@synchronized(self) {
+		if(m_theBackupState != theState) {
+			m_theBackupState = theState;
+			[self _delegateBackupStateDidChange:[self _messageFromState:m_theBackupState]];
 		}     
 	}
 }
@@ -227,7 +247,7 @@ const unsigned FLXDefaultPostgresPort = 5432;
 		return NO;
 	}
 	// create the data path if nesessary
-	if([self _createDataPath]==NO) {
+	if([self _createPath:[self dataPath]]==NO) {
 		[self setState:FLXServerStateStartingError];
 		[self _delegateServerMessage:[NSString stringWithFormat:@"Unable to create data directory: %@",[self dataPath]]];
 		return NO;    
@@ -316,9 +336,28 @@ const unsigned FLXDefaultPostgresPort = 5432;
 	}
 }
 
-// performs a backup of the local postgres database using the superuser account
-// TODO: actually store the file, and compress it as it comes through
-// returns the path to the backup file
+-(BOOL)backupInBackgroundToFolderPath:(NSString* )thePath {
+	NSParameterAssert(thePath);
+	// return NO if already running
+	if([self backupState] == FLXBackupStateRunning) {
+		return NO;
+	}
+	// create the backup path if nesessary
+	if([self _createPath:thePath]==NO) {
+		[self setBackupState:FLXBackupStateError];
+		[self _delegateServerMessage:[NSString stringWithFormat:@"Unable to create backup directory: %@",thePath]];
+		return NO;    
+	}
+	
+	// start the background thread to perform backup
+	[NSThread detachNewThreadSelector:@selector(_backgroundBackupThread:) toTarget:self withObject:thePath];
+	
+	// return YES
+	return YES;
+}
+
+// performs a backup of the local postgres database using the superuser account, returns the path to the backup file
+// performs .gz compression on the file
 -(NSString* )backupToFolderPath:(NSString* )thePath {
 	NSParameterAssert(thePath);
 
@@ -340,6 +379,10 @@ const unsigned FLXDefaultPostgresPort = 5432;
 		return nil;
 	}	
 
+	// create gzip file descriptor
+	gzFile theCompressedOutputFile = gzdopen([theOutputFile fileDescriptor],"wb");
+	NSParameterAssert(theCompressedOutputFile);
+	
 	// setup the task
 	NSPipe* theOutPipe = [[NSPipe alloc] init];
 	NSPipe* theErrPipe = [[NSPipe alloc] init];
@@ -354,9 +397,13 @@ const unsigned FLXDefaultPostgresPort = 5432;
 	
 	NSData* theData = nil;
 	while((theData = [[theOutPipe fileHandleForReading] availableData]) && [theData length]) {
-		[theOutputFile writeData:theData];
+		NSInteger bytesWritten = gzwrite(theCompressedOutputFile,[theData bytes],[theData length]);
+		NSParameterAssert(bytesWritten);
 	}  
 
+	// close the compressed stream
+	gzclose(theCompressedOutputFile);
+	
 	// TODO: get error information....
 	
 	// wait until task is actually completed
@@ -378,8 +425,8 @@ const unsigned FLXDefaultPostgresPort = 5432;
 ////////////////////////////////////////////////////////////////////////////////
 // private methods
 
--(NSString* )_messageFromState {
-	switch([self state]) {
+-(NSString* )_messageFromState:(FLXServerState)theState {
+	switch(theState) {
 		case FLXServerStateAlreadyRunning:
 			return @"Already Running";
 		case FLXServerStateIgnition:
@@ -389,11 +436,17 @@ const unsigned FLXDefaultPostgresPort = 5432;
 		case FLXServerStateStarting:
 			return @"Starting";
 		case FLXServerStateStarted:
-			return @"Started";
+			return @"Running";
 		case FLXServerStateStartingError:
 			return @"Error whilst starting server";
 		case FLXServerStateStopping:
 			return @"Stopping";
+		case FLXBackupStateIdle:
+			return @"Backup idle";
+		case FLXBackupStateError:
+			return @"Backup error";
+		case FLXBackupStateRunning:
+			return @"Backup in progress";			
 		case FLXServerStateStopped:
 		default:
 			return @"Stopped";
@@ -474,6 +527,12 @@ const unsigned FLXDefaultPostgresPort = 5432;
 	}
 }
 
+-(void)_delegateBackupStateDidChange:(NSString* )theMessage {
+	if([[self delegate] respondsToSelector:@selector(backupStateDidChange:)]) {
+		[[self delegate] performSelectorOnMainThread:@selector(backupStateDidChange:) withObject:theMessage waitUntilDone:YES];
+	}
+}
+
 -(int)_processIdentifierFromDataPath {  
 	NSString* thePath = [[self dataPath] stringByAppendingPathComponent:@"postmaster.pid"];
 	if([[NSFileManager defaultManager] fileExistsAtPath:thePath]==NO) {
@@ -506,13 +565,13 @@ const unsigned FLXDefaultPostgresPort = 5432;
 	// success - return decimal number
 	return [thePid intValue];
 }
-
--(BOOL)_createDataPath {
-	// if data directory already exists
+	
+-(BOOL)_createPath:(NSString* )thePath {
+	// if directory already exists
 	BOOL isDirectory = NO;
-	if([[NSFileManager defaultManager] fileExistsAtPath:[self dataPath] isDirectory:&isDirectory]==NO) {
+	if([[NSFileManager defaultManager] fileExistsAtPath:thePath isDirectory:&isDirectory]==NO) {
 		// create the directory
-		if([[NSFileManager defaultManager] createDirectoryAtPath:[self dataPath] attributes:nil]==NO) {
+		if([[NSFileManager defaultManager] createDirectoryAtPath:thePath attributes:nil]==NO) {
 			return NO;
 		}
 	} else if(isDirectory==NO) {
@@ -597,6 +656,24 @@ const unsigned FLXDefaultPostgresPort = 5432;
 	[self _delegateServerMessage:[NSString stringWithFormat:@"Start method returned status %d",theReturnCode]];
 	
 	return theReturnCode ? NO : YES;
+}
+
+-(void)_backgroundBackupThread:(NSString* )thePath {
+	NSParameterAssert(thePath);
+	NSParameterAssert([self backupState] != FLXBackupStateRunning);
+
+	NSAutoreleasePool* thePool = [[NSAutoreleasePool alloc] init];
+
+	[self setBackupState:FLXBackupStateRunning];
+	NSString* theBackupFilePath = [self backupToFolderPath:thePath];
+	if(theBackupFilePath==nil) {
+		[self setBackupState:FLXBackupStateError];
+	} else {
+		[self _delegateServerMessage:[NSString stringWithFormat:@"Backup completed to file: %@",theBackupFilePath]];
+		[self setBackupState:FLXBackupStateIdle];		
+	}
+	
+	[thePool release];	
 }
 
 -(void)_backgroundThread:(id)anObject {

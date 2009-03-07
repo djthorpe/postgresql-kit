@@ -10,11 +10,15 @@ typedef enum {
   FLXServerStateStartingError,
   FLXServerStateStarted,
   FLXServerStateStopping,
-  FLXServerStateStopped
+  FLXServerStateStopped,
+  FLXBackupStateIdle,
+  FLXBackupStateRunning,
+  FLXBackupStateError	
 } FLXServerState;
 
 @interface FLXServer : NSObject {
   FLXServerState m_theState;
+  FLXServerState m_theBackupState;
   NSString* m_theDataPath;
   int m_theProcessIdentifier;
   NSString* m_theHostname;
@@ -40,16 +44,20 @@ typedef enum {
 +(NSString* )superUsername;
 +(NSString* )backupFileSuffix;
 
-// properties - determine server state
+// properties - determine server/backup state
 -(int)processIdentifier;
 -(FLXServerState)state;
+-(FLXServerState)backupState;
 -(NSString* )stateAsString;
+-(NSString* )backupStateAsString;
 -(BOOL)isRunning;
 
-// methods
+// methods - start/stop server
 -(BOOL)startWithDataPath:(NSString* )thePath;
 -(BOOL)stop;
+
+// methods - backup database
 -(NSString* )backupToFolderPath:(NSString* )thePath;
-//-(BOOL)backupInBackgroundToFolderPath:(NSString* )thePath;
+-(BOOL)backupInBackgroundToFolderPath:(NSString* )thePath;
 
 @end

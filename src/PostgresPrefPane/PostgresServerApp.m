@@ -3,6 +3,7 @@
 #import "PostgresPrefPaneShared.h"
 
 NSTimeInterval PostgresServerAppBackupTimerInterval = 5 * 60.0; // Backup fires once every five minutes
+NSInteger PostgresServerAppBackupPercent = 50; // purges disk for backup when free space reaches this
 
 @implementation PostgresServerApp
 
@@ -10,6 +11,7 @@ NSTimeInterval PostgresServerAppBackupTimerInterval = 5 * 60.0; // Backup fires 
 @synthesize connection;
 @synthesize dataPath;
 @synthesize backupPath;
+@synthesize backupFreeSpacePercent;
 @synthesize lastBackupTime;
 @synthesize isRemoteAccess;
 @synthesize isBackupEnabled;
@@ -18,7 +20,48 @@ NSTimeInterval PostgresServerAppBackupTimerInterval = 5 * 60.0; // Backup fires 
 @synthesize defaultServerPort;
 @synthesize backupTimer;
 
+
+////////////////////////////////////////////////////////////////////////////////
+// private methods
+
+-(void)_loadSettingsFromUserDefaults {
+	// TODO: Load from system settings
+	/*
+	NSUserDefaults* theDefaults = [NSUserDefaults standardUserDefaults];
+	if(theDefaults==nil) {
+		[self serverMessage:@"Unable to load user defaults object"];
+		return;
+	}
+	[self setIsBackupEnabled:[theDefaults boolForKey:@"isBackupEnabled"]];
+	[self setBackupTimeInterval:[theDefaults floatForKey:@"backupTimeInterval"]];
+	[self setBackupFreeSpacePercent:[theDefaults integerForKey:@"backupFreeSpacePercent"]];
+	[self setIsRemoteAccess:[theDefaults boolForKey:@"isRemoteAccess"]];
+	[self setServerPort:[theDefaults integerForKey:@"serverPort"]];
+	 */
+}
+
+-(void)_saveSettingsToUserDefaults {
+	// TODO: Save to system settings
+	/*
+	NSUserDefaults* theDefaults = [NSUserDefaults standardUserDefaults];
+	if(theDefaults==nil) {
+		[self serverMessage:@"Unable to load user defaults object"];
+		return;
+	}
+	[theDefaults setBool:[self isBackupEnabled] forKey:@"isBackupEnabled"];
+	[theDefaults setFloat:[self backupTimeInterval] forKey:@"backupTimeInterval"];
+	[theDefaults setInteger:[self backupFreeSpacePercent] forKey:@"backupFreeSpacePercent"];
+	[theDefaults setBool:[self isRemoteAccess] forKey:@"isRemoteAccess"];
+	[theDefaults setInteger:[self serverPort] forKey:@"serverPort"];
+	[theDefaults synchronize]; 
+	 */
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 -(void)dealloc {
+	// save user defaults here
+	[self _saveSettingsToUserDefaults];
 	// release objects
 	[self setDataPath:nil];
 	[self setBackupPath:nil];
@@ -54,6 +97,12 @@ NSTimeInterval PostgresServerAppBackupTimerInterval = 5 * 60.0; // Backup fires 
 	defaultServerPort = [FLXServer defaultPort];	
 	[self setServerPort:defaultServerPort];
 	
+	// set default percent
+	[self setBackupFreeSpacePercent:PostgresServerAppBackupPercent];
+	
+	// retrieve settings from defaults file
+	[self _loadSettingsFromUserDefaults];
+	
 	// success
 	return YES;
 }
@@ -62,15 +111,14 @@ NSTimeInterval PostgresServerAppBackupTimerInterval = 5 * 60.0; // Backup fires 
 // messages
 
 -(void)startServer {
-
 	// set server info
 	if([self isRemoteAccess]) {
 		[[self server] setHostname:@"*"];
 		[[self server] setPort:[self serverPort]];
-		NSLog(@"Setting hostname as %@ and port as %d",[[self server] hostname],[[self server] port]);
+		[self serverMessage:[NSString stringWithFormat:@"Setting hostname as %@ and port as %d",[[self server] hostname],[[self server] port]]];
 	} else {
 		[[self server] setHostname:nil];
-		NSLog(@"Setting hostname as nil");
+		[self serverMessage:@"Setting hostname as nil (no remote connections)"];
 	}
 		
 	// create application support path
@@ -94,8 +142,10 @@ NSTimeInterval PostgresServerAppBackupTimerInterval = 5 * 60.0; // Backup fires 
 }
 
 -(void)stopServer {
+	// stop backup timer
 	[[self backupTimer] invalidate];
 	[self setBackupTimer:nil];	
+	// stop server
 	[[self server] stop];
 }
 
@@ -207,19 +257,19 @@ NSTimeInterval PostgresServerAppBackupTimerInterval = 5 * 60.0; // Backup fires 
 		return;
 	}
 	// TODO: perform the free space purge, based on size of last backup file plus 10%
-	// but don't remove the last backup
+	// ...but don't remove the last backup
+	// do {
+		// estimated_backup_size = last_backup_size * 1.1
+		// freespace_in_percent = (free_space - estimated_backup_size) * 100 / total_space
+	// while(freespace_in_percent <= freespace_threshold)
+	
 	NSLog(@"TODO: purge backup directory %@",theDirectory);
 
 	// write the file
 	[self serverMessage:@"Initiating backup"];
-	// TODO: do this in the background
-	
-	NSString* theBackupFile = [[self server] backupToFolderPath:theDirectory];
-	if(theBackupFile) {
-		[self serverMessage:[NSString stringWithFormat:@"Completed backup to: %@",[theBackupFile lastPathComponent]]];
-	} else {
-		[self serverMessage:@"Backup failed"];
-	}
+
+	// perform backup in background
+	[[self server] backupInBackgroundToFolderPath:theDirectory];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -230,6 +280,10 @@ NSTimeInterval PostgresServerAppBackupTimerInterval = 5 * 60.0; // Backup fires 
 
 -(void)serverStateDidChange:(NSString* )theMessage {
 	NSLog(@"server state did change: %@",theMessage);	
+}
+
+-(void)backupStateDidChange:(NSString* )theMessage {
+	NSLog(@"backup state did change: %@",theMessage);	
 }
 
 @end

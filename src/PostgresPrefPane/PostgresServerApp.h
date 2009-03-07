@@ -11,6 +11,7 @@
 	BOOL isBackupEnabled;
 	NSTimeInterval backupTimeInterval;
 	NSDate* lastBackupTime;
+	NSInteger backupFreeSpacePercent;
 	NSUInteger serverPort;
 	NSUInteger defaultServerPort;
 	NSTimer* backupTimer;
@@ -22,12 +23,14 @@
 @property (retain) NSString* dataPath;
 @property (retain) NSString* backupPath;
 @property (retain) NSDate* lastBackupTime;
+@property (assign) NSInteger backupFreeSpacePercent;
 @property (retain) NSTimer* backupTimer;
 @property (assign) BOOL isRemoteAccess;
 @property (assign) BOOL isBackupEnabled;
 @property (assign) NSTimeInterval backupTimeInterval;
 @property (assign) NSUInteger serverPort;
 @property (assign, readonly) NSUInteger defaultServerPort;
+
 
 // methods
 -(BOOL)awakeThread;

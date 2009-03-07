@@ -23,7 +23,11 @@
 	NSInteger bindPortMatrixIndex;
 	BOOL bindPortMatrixEnabled;		
 	NSInteger bindTabViewIndex;	
-	BOOL bindIsBackupEnabled;		
+	BOOL bindIsBackupEnabled;	
+	NSInteger bindBackupIntervalTag;
+	BOOL bindBackupIntervalEnabled;	
+	NSInteger bindBackupFreeSpaceTag;
+	BOOL bindBackupFreeSpaceEnabled;	
 }
 
 @property (retain) NSString* bindServerVersion;
@@ -46,5 +50,16 @@
 @property (assign) NSInteger bindTabViewIndex;
 
 @property (assign) BOOL bindIsBackupEnabled;
+@property (assign) NSInteger bindBackupIntervalTag;
+@property (assign) BOOL bindBackupIntervalEnabled;
+@property (assign) NSInteger bindBackupFreeSpaceTag;
+@property (assign) BOOL bindBackupFreeSpaceEnabled;
+
+// methods
+-(void)setBackupIntervalTagFromInterval:(NSTimeInterval)theInterval;
+-(NSTimeInterval)backupTimeIntervalFromTag;
+
+-(void)setBackupFreeSpaceTagFromPercent:(NSInteger)thePercent;
+-(NSInteger)backupFreeSpacePercentFromTag;
 
 @end

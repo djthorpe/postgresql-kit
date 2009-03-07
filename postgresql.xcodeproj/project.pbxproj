@@ -96,6 +96,7 @@
 		6EC1F8FD0F49FCB3006A2A12 /* PostgresInstallerMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC1F8FC0F49FCB3006A2A12 /* PostgresInstallerMain.m */; };
 		6EC1F93C0F4A02B9006A2A12 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E23CC610DCDD8A60041AA57 /* Foundation.framework */; };
 		6EC4148C0F4B446E00E1A76B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EB516600F48257F00C8F8A4 /* Security.framework */; };
+		6ECC89DC0F618F30000993F9 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ECC89DB0F618F30000993F9 /* libz.dylib */; };
 		6ED44E270DD6E58E008CB6E5 /* CreateDropDatabaseController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ED44E260DD6E58E008CB6E5 /* CreateDropDatabaseController.m */; };
 		6EDA14A60F611F6300CB5A0B /* PostgresPrefPaneHelp in Copy Help Files */ = {isa = PBXBuildFile; fileRef = 6EDA14A30F611F5500CB5A0B /* PostgresPrefPaneHelp */; };
 /* End PBXBuildFile section */
@@ -305,6 +306,7 @@
 		6EB5169F0F482C7D00C8F8A4 /* PostgresPrefPaneServerStartupItem.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PostgresPrefPaneServerStartupItem.plist; sourceTree = "<group>"; };
 		6EC1F8EA0F49FC02006A2A12 /* PostgresInstallerApp */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PostgresInstallerApp; sourceTree = BUILT_PRODUCTS_DIR; };
 		6EC1F8FC0F49FCB3006A2A12 /* PostgresInstallerMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostgresInstallerMain.m; sourceTree = "<group>"; };
+		6ECC89DB0F618F30000993F9 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = /usr/lib/libz.dylib; sourceTree = "<absolute>"; };
 		6ED44E250DD6E58E008CB6E5 /* CreateDropDatabaseController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateDropDatabaseController.h; sourceTree = "<group>"; };
 		6ED44E260DD6E58E008CB6E5 /* CreateDropDatabaseController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateDropDatabaseController.m; sourceTree = "<group>"; };
 		6ED44E360DD6EB52008CB6E5 /* main.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = main.h; sourceTree = "<group>"; };
@@ -316,6 +318,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6ECC89DC0F618F30000993F9 /* libz.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -408,6 +411,7 @@
 		1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6ECC89DB0F618F30000993F9 /* libz.dylib */,
 				6EB516600F48257F00C8F8A4 /* Security.framework */,
 				6E62108F0F436C1200BE396D /* PreferencePanes.framework */,
 				6E9FD7070DD593F700353077 /* Cocoa.framework */,
@@ -799,7 +803,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "VERSION=postgresql-8.2.5\nTAR=${SOURCE_ROOT}/tar/${VERSION}.tar\nUNARCHIVE=${DERIVED_SOURCES_DIR}\nBUILD=${BUILT_PRODUCTS_DIR}\nPREFIX=${BUILD}/${VERSION}\n\necho \"Unarchiving sources to ${UNARCHIVE}\"\necho \"Built postgres with be installed at ${PREFIX}\"\n\n# remove existing build directory, unarchive\nrm -fr \"${UNARCHIVE}\"\nmkdir \"${UNARCHIVE}\"\ncd \"${UNARCHIVE}\"\ntar -xvf \"${TAR}\"\ncd \"${VERSION}\"\n\n# configure\nexport CFLAGS=\"-isysroot /Developer/SDKs/MacOSX10.5.sdk -arch i386 -arch ppc\"\nexport LDFLAGS=\"-arch i386 -arch ppc\"\n./configure --prefix=\"${PREFIX}\" --enable-thread-safety --without-docdir --without-readline --disable-dependency-tracking\n\n# convert to universal binary\nfind . -name Makefile -print -exec perl -p -i.backup -e 's/\\Q$(LD) $(LDREL) $(LDOUT)\\E (\\S+) (.+)/\\$(LD) -arch ppc \\$(LDREL) \\$(LDOUT) $1.ppc $2; \\$(LD) -arch i386 \\$(LDREL) \\$(LDOUT) $1.i386 $2; lipo -create -output $1 $1.ppc $1.i386/' {} \\; \n\n# make and install\nmake\nmake install\n\nexit 0\n\n";
+			shellScript = "VERSION=postgresql-8.2.5\nTAR=${SOURCE_ROOT}/tar/${VERSION}.tar\nUNARCHIVE=${DERIVED_SOURCES_DIR}\nBUILD=${BUILT_PRODUCTS_DIR}\nPREFIX=${BUILD}/${VERSION}\n\necho \"Unarchiving sources to ${UNARCHIVE}\"\necho \"Built postgres with be installed at ${PREFIX}\"\n\n# remove existing build directory, unarchive\nrm -fr \"${UNARCHIVE}\"\nmkdir \"${UNARCHIVE}\"\ncd \"${UNARCHIVE}\"\ntar -xvf \"${TAR}\"\ncd \"${VERSION}\"\n\n# configure\nexport CFLAGS=\"-isysroot /Developer/SDKs/MacOSX10.5.sdk -arch i386 -arch ppc\"\nexport LDFLAGS=\"-arch i386 -arch ppc\"\n./configure --prefix=\"${PREFIX}\" --enable-thread-safety --without-docdir --without-readline --with-bonjour --with-openssl --disable-dependency-tracking\n\n# convert to universal binary\nfind . -name Makefile -print -exec perl -p -i.backup -e 's/\\Q$(LD) $(LDREL) $(LDOUT)\\E (\\S+) (.+)/\\$(LD) -arch ppc \\$(LDREL) \\$(LDOUT) $1.ppc $2; \\$(LD) -arch i386 \\$(LDREL) \\$(LDOUT) $1.i386 $2; lipo -create -output $1 $1.ppc $1.i386/' {} \\; \n\n# make and install\nmake\nmake install\n\nexit 0\n\n";
 		};
 		6E23CC3F0DCDD7330041AA57 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
