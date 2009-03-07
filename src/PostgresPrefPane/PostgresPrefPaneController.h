@@ -17,6 +17,7 @@
 	
 	// bindings object
 	IBOutlet PostgresPrefPaneBindings* bindings;	
+	IBOutlet NSWindow* ibPasswordSheet;
 	IBOutlet NSButton* ibStopButton;
 	IBOutlet NSButton* ibStartButton;	
 	IBOutlet NSButton* ibInstallButton;
@@ -33,5 +34,7 @@
 -(IBAction)doStopServer:(id)sender;
 -(IBAction)doInstall:(id)sender;
 -(IBAction)doUninstall:(id)sender;
+-(IBAction)doPassword:(id)sender;
+-(IBAction)doPasswordEndSheet:(id)sender;
 
 @end

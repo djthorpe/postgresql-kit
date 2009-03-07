@@ -258,6 +258,18 @@ const NSTimeInterval PostgresPrefPaneFastInterval = 0.5;
 	[self _startConnection];
 }
 
+
+////////////////////////////////////////////////////////////////////////////////
+// Observe when connection dies
+
+-(void)passwordSheetDidEnd:(NSWindow *)theSheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
+	[theSheet orderOut:self];
+	if(returnCode==NSOKButton) {		
+		// TODO: set admin password
+		NSLog(@"TODO: set new password");
+	}
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // Observe changes to UI, and update the UI
 	
@@ -338,5 +350,20 @@ const NSTimeInterval PostgresPrefPaneFastInterval = 0.5;
 	
 	[self setConnection:nil];
 }
+
+-(IBAction)doPassword:(id)sender {
+	// open up the sheet for changing the password
+	[NSApp beginSheet:ibPasswordSheet modalForWindow:[[self mainView] window] modalDelegate:self didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) contextInfo:nil];
+}
+
+-(IBAction)doPasswordEndSheet:(id)sender {
+	NSButton* theButton = (NSButton* )sender;
+	NSInteger returnCode = NSCancelButton;
+	if([theButton isKindOfClass:[NSButton class]] && [[theButton title] isEqual:@"OK"]) {
+		returnCode = NSOKButton;
+	}
+	[NSApp endSheet:ibPasswordSheet returnCode:returnCode];
+}
+ 
 
 @end
