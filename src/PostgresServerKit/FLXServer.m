@@ -210,6 +210,10 @@ const unsigned FLXDefaultPostgresPort = 5432;
 	return [[self bundlePath] stringByAppendingPathComponent:@"Resources/postgresql-current/bin/initdb"];
 }
 
++(NSString* )postgresLibPath {
+	return [[self bundlePath] stringByAppendingPathComponent:@"Resources/postgresql-current/lib"];
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
 
@@ -315,7 +319,8 @@ const unsigned FLXDefaultPostgresPort = 5432;
 	[theTask setStandardError:theOutPipe];
 	[theTask setLaunchPath:[[self class] postgresServerPath]];  
 	[theTask setArguments:[NSArray arrayWithObject:@"--version"]];
-	
+	[theTask setEnvironment:[NSDictionary dictionaryWithObject:[[self class] postgresLibPath] forKey:@"DYLD_LIBRARY_PATH"]];
+
 	// get the version number
 	[theTask launch];                                                 
 	
@@ -395,7 +400,9 @@ const unsigned FLXDefaultPostgresPort = 5432;
 	
 	if([thePassword length]) {
 		// set the PGPASSWORD env variable
-		[theTask setEnvironment:[NSDictionary dictionaryWithObject:thePassword forKey:@"PGPASSWORD"]];
+		[theTask setEnvironment:[NSDictionary dictionaryWithObjectsAndKeys:thePassword,@"PGPASSWORD",[[self class] postgresLibPath],@"DYLD_LIBRARY_PATH",nil]];
+	} else {
+		[theTask setEnvironment:[NSDictionary dictionaryWithObject:[[self class] postgresLibPath] forKey:@"DYLD_LIBRARY_PATH"]];
 	}
 	
 	// perform the backup
@@ -607,6 +614,7 @@ const unsigned FLXDefaultPostgresPort = 5432;
 	[theTask setStandardError:theOutPipe];
 	[theTask setLaunchPath:[[self class] postgresInitPath]];
 	[theTask setArguments:[NSArray arrayWithObjects:@"-D",[self dataPath],@"--encoding=UTF8",@"--no-locale",@"-U",[[self class] superUsername],nil]];
+	[theTask setEnvironment:[NSDictionary dictionaryWithObject:[[self class] postgresLibPath] forKey:@"DYLD_LIBRARY_PATH"]];
 	
 	// launch the init method
 	[theTask launch];
@@ -632,6 +640,7 @@ const unsigned FLXDefaultPostgresPort = 5432;
 	[theTask setStandardOutput:theOutPipe];
 	[theTask setStandardError:theOutPipe];
 	[theTask setLaunchPath:[[self class] postgresServerPath]];
+	[theTask setEnvironment:[NSDictionary dictionaryWithObject:[[self class] postgresLibPath] forKey:@"DYLD_LIBRARY_PATH"]];
 	
 	// set arguments
 	NSMutableArray* theArguments = [NSMutableArray arrayWithObjects:@"-D",[self dataPath],nil];
