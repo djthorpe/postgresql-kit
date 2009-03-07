@@ -97,7 +97,6 @@
 		6EC1F93C0F4A02B9006A2A12 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E23CC610DCDD8A60041AA57 /* Foundation.framework */; };
 		6EC4148C0F4B446E00E1A76B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EB516600F48257F00C8F8A4 /* Security.framework */; };
 		6ECC89DC0F618F30000993F9 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ECC89DB0F618F30000993F9 /* libz.dylib */; };
-		6ECC8B870F62849B000993F9 /* elephant-256x256.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ECC8B860F628495000993F9 /* elephant-256x256.png */; };
 		6ECC8B900F628525000993F9 /* strapline-200x40.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ECC8B8F0F628525000993F9 /* strapline-200x40.png */; };
 		6ECC8B960F628709000993F9 /* elephant-64x64.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ECC8B950F628709000993F9 /* elephant-64x64.png */; };
 		6ED44E270DD6E58E008CB6E5 /* CreateDropDatabaseController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ED44E260DD6E58E008CB6E5 /* CreateDropDatabaseController.m */; };
@@ -278,7 +277,7 @@
 		6E620FF00F43681D00BE396D /* PostgresPrefPane-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "PostgresPrefPane-Info.plist"; sourceTree = "<group>"; };
 		6E620FF40F4368F400BE396D /* PostgresPrefPane-icon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "PostgresPrefPane-icon.tiff"; sourceTree = "<group>"; };
 		6E620FF50F4368F400BE396D /* PostgresPrefPane-nib.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "PostgresPrefPane-nib.xib"; sourceTree = "<group>"; };
-		6E6210450F4369B500BE396D /* PostgreSQL.prefPane */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PostgreSQL.prefPane; sourceTree = BUILT_PRODUCTS_DIR; };
+		6E6210450F4369B500BE396D /* PostgresPrefPane.prefPane */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PostgresPrefPane.prefPane; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E62107A0F436B7500BE396D /* PostgresPrefPaneController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostgresPrefPaneController.h; sourceTree = "<group>"; };
 		6E62107B0F436B7500BE396D /* PostgresPrefPaneController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostgresPrefPaneController.m; sourceTree = "<group>"; };
 		6E62108F0F436C1200BE396D /* PreferencePanes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PreferencePanes.framework; path = /System/Library/Frameworks/PreferencePanes.framework; sourceTree = "<absolute>"; };
@@ -395,7 +394,7 @@
 				6E23CBEE0DCDD29F0041AA57 /* PostgresServerKit.framework */,
 				6E23CC5A0DCDD88A0041AA57 /* PostgresTest */,
 				6E9FD6FB0DD593D900353077 /* PostgresQuery.app */,
-				6E6210450F4369B500BE396D /* PostgreSQL.prefPane */,
+				6E6210450F4369B500BE396D /* PostgresPrefPane.prefPane */,
 				6E6211DB0F43849700BE396D /* PostgresServerApp */,
 				6EC1F8EA0F49FC02006A2A12 /* PostgresInstallerApp */,
 			);
@@ -673,7 +672,7 @@
 			);
 			name = PostgresPrefPane;
 			productName = PostgresPrefPane;
-			productReference = 6E6210450F4369B500BE396D /* PostgreSQL.prefPane */;
+			productReference = 6E6210450F4369B500BE396D /* PostgresPrefPane.prefPane */;
 			productType = "com.apple.product-type.bundle";
 		};
 		6E6211DA0F43849700BE396D /* PostgresServerApp */ = {
@@ -784,7 +783,6 @@
 				6E5EA74F0F57753400B702EC /* yellow.tiff in Resources */,
 				6E5EA7500F57753400B702EC /* red.tiff in Resources */,
 				6E5EA7510F57753400B702EC /* green.tiff in Resources */,
-				6ECC8B870F62849B000993F9 /* elephant-256x256.png in Resources */,
 				6ECC8B900F628525000993F9 /* strapline-200x40.png in Resources */,
 				6ECC8B960F628709000993F9 /* elephant-64x64.png in Resources */,
 			);
@@ -1248,7 +1246,7 @@
 					AppKit,
 				);
 				PREBINDING = NO;
-				PRODUCT_NAME = PostgreSQL;
+				PRODUCT_NAME = PostgresPrefPane;
 				WRAPPER_EXTENSION = prefPane;
 			};
 			name = Debug;
@@ -1272,7 +1270,7 @@
 					AppKit,
 				);
 				PREBINDING = NO;
-				PRODUCT_NAME = PostgreSQL;
+				PRODUCT_NAME = PostgresPrefPane;
 				WRAPPER_EXTENSION = prefPane;
 				ZERO_LINK = NO;
 			};

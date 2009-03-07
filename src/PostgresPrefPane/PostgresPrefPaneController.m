@@ -17,8 +17,6 @@ const NSTimeInterval PostgresPrefPaneFastInterval = 0.5;
 // constructor
 
 -(void)dealloc {
-	// remove notification
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	// invalidate timer
 	[[self timer] invalidate];
 	// release objects
@@ -73,17 +71,7 @@ const NSTimeInterval PostgresPrefPaneFastInterval = 0.5;
 	if([[self connection] isValid]==NO) {
 		[bindings setBindServerStatus:@"Server is not installed"];
 		[bindings setBindServerStatusImage:[self _statusImageForState:0]];
-		[self setServerState:0];
-		
-		// update start/stop dialog
-		[bindings setBindIsRemoteAccessEnabled:NO];
-		[bindings setBindIsRemoteAccess:NO];
-
-		// update install/uninstall buttons
-		[bindings setBindInstallButtonEnabled:YES];
-		[bindings setBindUninstallButtonEnabled:NO];
-
-		// return 
+		[self setServerState:0];		
 		return;
 	}
 		
@@ -200,6 +188,17 @@ const NSTimeInterval PostgresPrefPaneFastInterval = 0.5;
 	return [NSString stringWithCString:[theString bytes] length:[theString length]];
 }
 
+-(void)_closePreferencePane {
+	// discover the 'show all' item
+	for(NSToolbarItem* theItem in [[[[self mainView] window] toolbar] items]) {
+		NSString* theSelector = NSStringFromSelector([theItem action]);
+		if([theSelector isEqual:@"showAllMenuAction:"]) {
+			// perform selector
+			[[theItem target] performSelector:[theItem action]];
+		}
+	}
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // Public methods
 
@@ -226,16 +225,7 @@ const NSTimeInterval PostgresPrefPaneFastInterval = 0.5;
 	}
 }
 
--(void)mainViewDidLoad {
-	// set state to minus one - so that status is always updated
-	[self setServerState:-1];
-	
-	// fire the timer - will connect to remote application, set up the timer, etc.
-	[self timerDidFire:nil];
-
-	// notification center obsevrer	
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(connectionDidDie:) name:NSConnectionDidDieNotification object:nil];
-	
+-(void)mainViewDidLoad {	
 	// key-value observing
 	[bindings addObserver:self forKeyPath:@"bindIsRemoteAccess" options:NSKeyValueObservingOptionNew context:nil];
 	[bindings addObserver:self forKeyPath:@"bindIsRemoteAccessEnabled" options:NSKeyValueObservingOptionNew context:nil];
@@ -246,10 +236,36 @@ const NSTimeInterval PostgresPrefPaneFastInterval = 0.5;
 	[bindings addObserver:self forKeyPath:@"bindIsBackupEnabled" options:NSKeyValueObservingOptionNew context:nil];
 	[bindings addObserver:self forKeyPath:@"bindBackupIntervalTag" options:NSKeyValueObservingOptionNew context:nil];
 	[bindings addObserver:self forKeyPath:@"bindBackupFreeSpaceTag" options:NSKeyValueObservingOptionNew context:nil];
+}
 
+-(void)didSelect {
+	// set state to minus one - so that status is always updated
+	[self setServerState:-1];
+	
+	// fire the timer - will connect to remote application, set up the timer, etc.
+	[self timerDidFire:nil];
+	
+	// notification center obsevrer	
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(connectionDidDie:) name:NSConnectionDidDieNotification object:nil];
+	
 	// update settings & status
 	[self _updateSettingsFromServer];
 	[self _updateStatus];
+	
+	// if server needs installed, show sheet
+	if([self serverState]==0) {
+		[NSApp beginSheet:ibInstallSheet modalForWindow:[[self mainView] window] modalDelegate:self didEndSelector:@selector(installSheetDidEnd:returnCode:contextInfo:) contextInfo:nil];
+	}	
+}
+
+-(void)didUnselect {
+	// stop the timer
+	[[self timer] invalidate];
+	[self setTimer:nil];
+	// stop the connection
+	[self setConnection:nil];
+	// remove notification
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -260,15 +276,28 @@ const NSTimeInterval PostgresPrefPaneFastInterval = 0.5;
 	[self _startConnection];
 }
 
-
 ////////////////////////////////////////////////////////////////////////////////
-// Observe when connection dies
+// Sheeets ended
 
 -(void)passwordSheetDidEnd:(NSWindow *)theSheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
 	[theSheet orderOut:self];
 	if(returnCode==NSOKButton) {		
 		// TODO: set admin password
 		NSLog(@"TODO: set new password");
+	}
+}
+
+-(void)installSheetDidEnd:(NSWindow *)theSheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
+	[theSheet orderOut:self];
+	if(returnCode==NSOKButton) {		
+		AuthorizationRef theAuthorization = [self _authorizeUser];
+		if(theAuthorization) {
+			[self _execute:@"PostgresInstallerApp" withAuthorization:theAuthorization withArguments:[NSArray arrayWithObject:@"install"]];
+			AuthorizationFree(theAuthorization,kAuthorizationFlagDefaults);
+		}
+		[self _startConnection];
+	} else {
+		[self _closePreferencePane];
 	}
 }
 
@@ -334,13 +363,13 @@ const NSTimeInterval PostgresPrefPaneFastInterval = 0.5;
 	[self timerDidFire:nil];
 }
 
--(IBAction)doInstall:(id)sender {
-	AuthorizationRef theAuthorization = [self _authorizeUser];
-	if(theAuthorization) {
-		[self _execute:@"PostgresInstallerApp" withAuthorization:theAuthorization withArguments:[NSArray arrayWithObject:@"install"]];
-		AuthorizationFree(theAuthorization,kAuthorizationFlagDefaults);
+-(IBAction)doInstallEndSheet:(id)sender {
+	NSButton* theButton = (NSButton* )sender;
+	NSInteger returnCode = NSCancelButton;
+	if([theButton isKindOfClass:[NSButton class]] && [[theButton title] isEqual:@"Install"]) {
+		returnCode = NSOKButton;
 	}
-	[self _startConnection];
+	[NSApp endSheet:ibInstallSheet returnCode:returnCode];
 }
 
 -(IBAction)doUninstall:(id)sender {
@@ -348,9 +377,8 @@ const NSTimeInterval PostgresPrefPaneFastInterval = 0.5;
 	if(theAuthorization) {
 		[self _execute:@"PostgresInstallerApp" withAuthorization:theAuthorization withArguments:[NSArray arrayWithObject:@"uninstall"]];
 		AuthorizationFree(theAuthorization,kAuthorizationFlagDefaults);
-	}
-	
-	[self setConnection:nil];
+	}	
+	[self _closePreferencePane];
 }
 
 -(IBAction)doPassword:(id)sender {

@@ -18,6 +18,7 @@
 	// bindings object
 	IBOutlet PostgresPrefPaneBindings* bindings;	
 	IBOutlet NSWindow* ibPasswordSheet;
+	IBOutlet NSWindow* ibInstallSheet;
 }
 
 // instance variables
@@ -28,9 +29,9 @@
 // IBAction
 -(IBAction)doStartServer:(id)sender;
 -(IBAction)doStopServer:(id)sender;
--(IBAction)doInstall:(id)sender;
 -(IBAction)doUninstall:(id)sender;
 -(IBAction)doPassword:(id)sender;
 -(IBAction)doPasswordEndSheet:(id)sender;
+-(IBAction)doInstallEndSheet:(id)sender;
 
 @end
