@@ -9,7 +9,7 @@
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<integer value="398"/>
-			<integer value="229"/>
+			<integer value="6"/>
 			<integer value="362"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
@@ -441,7 +441,8 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 													<int key="NSPeriodicDelay">400</int>
 													<int key="NSPeriodicInterval">75</int>
 												</object>
-												<reference key="NSSelectedCell" ref="70047878"/>
+												<int key="NSSelectedRow">-1</int>
+												<int key="NSSelectedCol">-1</int>
 												<reference key="NSBackgroundColor" ref="98879243"/>
 												<object class="NSColor" key="NSCellBackgroundColor" id="900816596">
 													<int key="NSColorSpace">3</int>
@@ -722,6 +723,17 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 														<string key="NSTitle">OtherViews</string>
 														<object class="NSMutableArray" key="NSMenuItems">
 															<bool key="EncodedWithXMLCoder">YES</bool>
+															<object class="NSMenuItem" id="822191195">
+																<reference key="NSMenu" ref="706229826"/>
+																<string key="NSTitle">25%</string>
+																<string key="NSKeyEquiv"/>
+																<int key="NSMnemonicLoc">2147483647</int>
+																<reference key="NSOnImage" ref="738118251"/>
+																<reference key="NSMixedImage" ref="63923389"/>
+																<string key="NSAction">_popUpItemAction:</string>
+																<int key="NSTag">25</int>
+																<reference key="NSTarget" ref="693043498"/>
+															</object>
 															<reference ref="464089173"/>
 															<object class="NSMenuItem" id="558171892">
 																<reference key="NSMenu" ref="706229826"/>
@@ -771,6 +783,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 															</object>
 														</object>
 													</object>
+													<int key="NSSelectedIndex">1</int>
 													<int key="NSPreferredEdge">1</int>
 													<bool key="NSUsesItemFromMenu">YES</bool>
 													<bool key="NSAltersState">YES</bool>
@@ -2328,6 +2341,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							<reference ref="558171892"/>
 							<reference ref="464089173"/>
 							<reference ref="256063920"/>
+							<reference ref="822191195"/>
 						</object>
 						<reference key="parent" ref="693043498"/>
 					</object>
@@ -2741,6 +2755,11 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<reference key="object" ref="841226622"/>
 						<reference key="parent" ref="213235346"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">478</int>
+						<reference key="object" ref="822191195"/>
+						<reference key="parent" ref="706229826"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -2866,6 +2885,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<string>453.IBPluginDependency</string>
 					<string>454.IBPluginDependency</string>
 					<string>477.IBPluginDependency</string>
+					<string>478.IBPluginDependency</string>
 					<string>6.IBPluginDependency</string>
 					<string>6.ImportedFromIB2</string>
 				</object>
@@ -2926,7 +2946,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{702, 340}, {100, 103}}</string>
+					<string>{{702, 286}, {100, 123}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -2972,6 +2992,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<string>{{324, 945}, {471, 203}}</string>
 					<string>{{324, 945}, {471, 203}}</string>
 					<reference ref="6"/>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -3014,7 +3035,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">477</int>
+			<int key="maxID">478</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">

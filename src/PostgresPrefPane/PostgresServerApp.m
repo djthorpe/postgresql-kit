@@ -305,6 +305,16 @@ NSInteger PostgresServerAppBackupPercent = 50; // purges disk for backup when fr
 	return (NSUInteger)floor(thePercentFree);
 }
 
+-(NSUInteger)backupSpaceUsedAsPercentWithAdditionalSize:(unsigned long long)theBytes {
+	NSParameterAssert([self backupPath]);
+	NSDictionary* theDictionary = [[NSFileManager defaultManager] fileSystemAttributesAtPath:[self backupPath]];
+	if(theDictionary==nil) return 0;
+	unsigned long long theTotalBytes = [[theDictionary objectForKey:NSFileSystemSize] unsignedLongLongValue];
+	unsigned long long theFreeBytes = [[theDictionary objectForKey:NSFileSystemFreeSize] unsignedLongLongValue];
+	double thePercentFree = (double)(theFreeBytes - theBytes) * 100.0 / (double)theTotalBytes;
+	return (NSUInteger)(100 - floor(thePercentFree));
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 
 -(void)backupTimerDidFire:(id)sender {
@@ -344,6 +354,7 @@ NSInteger PostgresServerAppBackupPercent = 50; // purges disk for backup when fr
 	NSString* theFile = nil;
 	NSDate* theLastFileDate = nil;
 	NSString* theLastFileName = nil;
+	unsigned long long theLastFileSize = 0;
 	while(theFile = [theEnumerator nextObject]) {
 		// ignore hidden files
 		if([theFile hasPrefix:@"."]) continue;
@@ -363,6 +374,7 @@ NSInteger PostgresServerAppBackupPercent = 50; // purges disk for backup when fr
 		if(theLastFileDate==nil || [theLastFileDate isLessThan:theDate]) {
 			theLastFileDate = theDate;
 			theLastFileName = theFile;
+			theLastFileSize = [[theEnumerator fileAttributes] fileSize];
 		}
 	}
 	// no backup performed if backupTimeInterval not reached
@@ -370,15 +382,12 @@ NSInteger PostgresServerAppBackupPercent = 50; // purges disk for backup when fr
 		return;
 	}
 	
-	
-	// TODO: perform the free space purge, based on size of last backup file plus 10%
-	// ...but don't remove the last backup
-	// do {
-		// estimated_backup_size = last_backup_size * 1.1
-		// freespace_in_percent = (free_space - estimated_backup_size) * 100 / total_space
-	// while(freespace_in_percent <= freespace_threshold)
-	
-	NSLog(@"TODO: purge backup directory %@",theDirectory);
+	// test purge
+	NSUInteger thePercentUsed = [self backupSpaceUsedAsPercentWithAdditionalSize:theLastFileSize];
+	if(thePercentUsed >= [self backupFreeSpacePercent]) {
+		// TODO: perform the free space purge
+		NSLog(@"TODO: purge backup directory %@",theDirectory);
+	}
 
 	// write the file
 	[self serverMessage:@"Initiating backup"];
