@@ -18,10 +18,6 @@
 	// bindings object
 	IBOutlet PostgresPrefPaneBindings* bindings;	
 	IBOutlet NSWindow* ibPasswordSheet;
-	IBOutlet NSButton* ibStopButton;
-	IBOutlet NSButton* ibStartButton;	
-	IBOutlet NSButton* ibInstallButton;
-	IBOutlet NSButton* ibUninstallButton;
 }
 
 // instance variables

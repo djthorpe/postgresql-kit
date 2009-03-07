@@ -54,10 +54,13 @@ const NSTimeInterval PostgresPrefPaneFastInterval = 0.5;
 	[bindings setBindDiskUsage:[NSString stringWithFormat:@"%@ free",[[self serverApp] dataSpaceFreeAsString]]];
 }
 
+-(void)_updateVersion {
+	[bindings setBindServerVersion:[NSString stringWithFormat:@"Version: %@",[[self serverApp] serverVersion]]];	
+}
+
 -(void)_updateSettingsFromServer {	
 	// set remote access checkbox, and port, etc from server app settings
 	[bindings setBindIsRemoteAccess:[[self serverApp] isRemoteAccess]];
-	[bindings setBindServerVersion:[[self serverApp] serverVersion]];
 	[bindings setBindServerPort:[[self serverApp] serverPort]];
 	[bindings setBindServerPortMinValue:1];
 	[bindings setBindServerPortMaxValue:65535];
@@ -77,8 +80,8 @@ const NSTimeInterval PostgresPrefPaneFastInterval = 0.5;
 		[bindings setBindIsRemoteAccess:NO];
 
 		// update install/uninstall buttons
-		[ibInstallButton setEnabled:YES];
-		[ibUninstallButton setEnabled:NO];
+		[bindings setBindInstallButtonEnabled:YES];
+		[bindings setBindUninstallButtonEnabled:NO];
 
 		// return 
 		return;
@@ -95,9 +98,9 @@ const NSTimeInterval PostgresPrefPaneFastInterval = 0.5;
 	
 	// update the "stop" button state
 	if([self serverState]==FLXServerStateStarted) {
-		[ibStopButton setEnabled:YES];		
+		[bindings setBindStopButtonEnabled:YES];
 	} else {
-		[ibStopButton setEnabled:NO];		
+		[bindings setBindStopButtonEnabled:NO];
 	}
 	
 	// update the isremoteaccess dialog
@@ -109,23 +112,22 @@ const NSTimeInterval PostgresPrefPaneFastInterval = 0.5;
 	
 	// update the "install" and "uninstall" button states
 	if([self serverState]==FLXServerStateStopped || [self serverState]==FLXServerStateUnknown  || [self serverState]==FLXServerStateStartingError) {
-		[ibStartButton setEnabled:YES];			
-		[ibInstallButton setEnabled:NO];
-		[ibUninstallButton setEnabled:YES];
+		[bindings setBindStartButtonEnabled:YES];
+		[bindings setBindInstallButtonEnabled:NO];
+		[bindings setBindUninstallButtonEnabled:YES];
 	} else {
-		[ibStartButton setEnabled:NO];
-		[ibInstallButton setEnabled:NO];
-		[ibUninstallButton setEnabled:NO];
+		[bindings setBindStartButtonEnabled:NO];
+		[bindings setBindInstallButtonEnabled:NO];
+		[bindings setBindUninstallButtonEnabled:NO];
 	}
-	
-	// update disk usage
-	[self _updateDiskUsage];
 }
 
 -(void)_startConnection {
 	[self setConnection:[NSConnection connectionWithRegisteredName:PostgresServerAppIdentifier host:nil]];
 	if([[self connection] isValid]) {
 		[self _updateSettingsFromServer];
+		[self _updateDiskUsage];
+		[self _updateVersion];
 	} else {
 		[bindings setBindServerVersion:@""];	
 		[bindings setBindDiskUsage:@""];
@@ -353,7 +355,7 @@ const NSTimeInterval PostgresPrefPaneFastInterval = 0.5;
 
 -(IBAction)doPassword:(id)sender {
 	// open up the sheet for changing the password
-	[NSApp beginSheet:ibPasswordSheet modalForWindow:[[self mainView] window] modalDelegate:self didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) contextInfo:nil];
+	[NSApp beginSheet:ibPasswordSheet modalForWindow:[[self mainView] window] modalDelegate:self didEndSelector:@selector(passwordSheetDidEnd:returnCode:contextInfo:) contextInfo:nil];
 }
 
 -(IBAction)doPasswordEndSheet:(id)sender {

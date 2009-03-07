@@ -22,12 +22,16 @@
 	BOOL bindIsRemoteAccessEnabled;
 	NSInteger bindPortMatrixIndex;
 	BOOL bindPortMatrixEnabled;		
-	NSInteger bindTabViewIndex;	
 	BOOL bindIsBackupEnabled;	
 	NSInteger bindBackupIntervalTag;
 	BOOL bindBackupIntervalEnabled;	
 	NSInteger bindBackupFreeSpaceTag;
-	BOOL bindBackupFreeSpaceEnabled;	
+	BOOL bindBackupFreeSpaceEnabled;		
+	BOOL bindStartButtonEnabled;
+	BOOL bindStopButtonEnabled;
+	BOOL bindInstallButtonEnabled;
+	BOOL bindUninstallButtonEnabled;
+	NSInteger bindTabViewIndex;	
 }
 
 @property (retain) NSString* bindServerVersion;
@@ -54,6 +58,11 @@
 @property (assign) BOOL bindBackupIntervalEnabled;
 @property (assign) NSInteger bindBackupFreeSpaceTag;
 @property (assign) BOOL bindBackupFreeSpaceEnabled;
+
+@property (assign) BOOL bindStartButtonEnabled;
+@property (assign) BOOL bindStopButtonEnabled;
+@property (assign) BOOL bindInstallButtonEnabled;
+@property (assign) BOOL bindUninstallButtonEnabled;
 
 // methods
 -(void)setBackupIntervalTagFromInterval:(NSTimeInterval)theInterval;

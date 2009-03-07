@@ -36,6 +36,10 @@ NSTimeInterval PostgresBackupTimeInterval_Fortnightly = (NSTimeInterval)(60.0 * 
 @synthesize bindBackupIntervalEnabled;
 @synthesize bindBackupFreeSpaceTag;
 @synthesize bindBackupFreeSpaceEnabled;
+@synthesize bindStartButtonEnabled;
+@synthesize bindStopButtonEnabled;
+@synthesize bindInstallButtonEnabled;
+@synthesize bindUninstallButtonEnabled;
 
 ////////////////////////////////////////////////////////////////////////////////
 // destructor
