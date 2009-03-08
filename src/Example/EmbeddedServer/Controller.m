@@ -12,6 +12,7 @@
 @synthesize server;
 @synthesize client;
 @synthesize timer;
+@synthesize bindings;
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -19,15 +20,16 @@
 	[self setTimer:nil];
 	[self setClient:nil];
 	[self setServer:nil];
+	[self setBindings:nil];	
 	[super dealloc];
 }
 
 -(void)close {
 	[[self timer] invalidate];
-	[self setTimer:nil];
 	[[self client] disconnect];
-	[self setClient:nil];
 	[[self server] stop];
+	[self setTimer:nil];
+	[self setClient:nil];
 	[self setServer:nil];	
 }
 
@@ -40,6 +42,10 @@
 	
 	// set server delegate
 	[[self server] setDelegate:self];
+	
+	// key-value observing
+	[bindings addObserver:self forKeyPath:@"input" options:NSKeyValueObservingOptionNew context:nil];
+	[bindings addObserver:self forKeyPath:@"output" options:NSKeyValueObservingOptionNew context:nil];
 	
 	// create the timer which will fire up the database
 	[self setTimer:[NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerDidFire:) userInfo:nil repeats:YES]];	
@@ -80,6 +86,19 @@
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+// execute command when input
+
+-(void)observeValueForKeyPath:(NSString* )keyPath ofObject:(id)object change:(NSDictionary* )change context:(void* )context {
+	if([keyPath isEqualTo:@"input"] && [bindings input]) {
+		[self serverMessage:[bindings input]];
+		[bindings setInput:nil];
+	}
+	if([keyPath isEqualTo:@"output"]) {
+		NSLog(@"output = %@",[bindings output]);
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////
 // client: connect and disconnect from server
 
 -(void)_connectToServer {
@@ -106,12 +125,11 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
--(void)timerDidFire:(id)sender {	
+-(void)timerDidFire:(id)sender {
 	if([[self server] isRunning]==NO) {
-		NSLog(@"starting server....");
 		[self _startServer];
 	} else {		
-		NSLog(@"timer did fire, server state = %d",[[self server] state]);
+		// do nothing right now
 	}
 }
 
@@ -119,11 +137,18 @@
 // FLXServer delegate messages
 
 -(void)serverMessage:(NSString* )theMessage {
-	NSLog(@"server message: %@",theMessage);
+	NSMutableString* theString = [NSMutableString stringWithString:[bindings output]];
+	[theString appendString:theMessage];
+	[theString appendString:@"\n"];
+	[bindings setOutput:theString];
 }
 
 -(void)serverStateDidChange:(NSString* )theMessage {
-	NSLog(@"server state did change: %@",theMessage);
+	// output message
+	[self serverMessage:[NSString stringWithFormat:@"Server state: %@",theMessage]];
+	
+	// only enable the input when server status is running
+	[bindings setIsInputEnabled:([[self server] state]==FLXServerStateStarted) ? YES : NO];
 }
 
 @end
