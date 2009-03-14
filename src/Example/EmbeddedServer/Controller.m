@@ -11,13 +11,11 @@
 @implementation Controller
 @synthesize server;
 @synthesize client;
-@synthesize timer;
 @synthesize bindings;
 
 ////////////////////////////////////////////////////////////////////////////////
 
 -(void)dealloc {
-	[self setTimer:nil];
 	[self setClient:nil];
 	[self setServer:nil];
 	[self setBindings:nil];	
@@ -25,10 +23,8 @@
 }
 
 -(void)close {
-	[[self timer] invalidate];
 	[[self client] disconnect];
 	[[self server] stop];
-	[self setTimer:nil];
 	[self setClient:nil];
 	[self setServer:nil];	
 }
@@ -46,9 +42,6 @@
 	// key-value observing
 	[bindings addObserver:self forKeyPath:@"input" options:NSKeyValueObservingOptionNew context:nil];
 	[bindings addObserver:self forKeyPath:@"output" options:NSKeyValueObservingOptionNew context:nil];
-	
-	// create the timer which will fire up the database
-	[self setTimer:[NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerDidFire:) userInfo:nil repeats:YES]];	
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -90,11 +83,13 @@
 
 -(void)observeValueForKeyPath:(NSString* )keyPath ofObject:(id)object change:(NSDictionary* )change context:(void* )context {
 	if([keyPath isEqualTo:@"input"] && [bindings input]) {
-		[self serverMessage:[bindings input]];
-		[bindings setInput:nil];
+		//[self serverMessage:[bindings input]];
+		//[bindings setInput:nil];
+		NSLog(@"input changed");
 	}
 	if([keyPath isEqualTo:@"output"]) {
-		NSLog(@"output = %@",[bindings output]);
+		// output changed
+		NSLog(@"output changed");
 	}
 }
 
@@ -124,23 +119,35 @@
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+// IBAction
 
--(void)timerDidFire:(id)sender {
+-(IBAction)doStartServer:(id)sender {
 	if([[self server] isRunning]==NO) {
 		[self _startServer];
-	} else {		
-		// do nothing right now
 	}
+}
+
+-(IBAction)doStopServer:(id)sender {
+	if([[self server] isRunning]==YES) {
+		[self _stopServer];
+	} 		
+}
+
+-(IBAction)doBackupServer:(id)sender {
+	NSLog(@"TODO: backup server");
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // FLXServer delegate messages
 
 -(void)serverMessage:(NSString* )theMessage {
-	NSMutableString* theString = [NSMutableString stringWithString:[bindings output]];
-	[theString appendString:theMessage];
-	[theString appendString:@"\n"];
-	[bindings setOutput:theString];
+	NSMutableAttributedString* theAttributedMessage = [[[NSMutableAttributedString alloc] init] autorelease];
+	if([bindings output]) {
+		[theAttributedMessage appendAttributedString:[bindings output]];
+	}
+	[theAttributedMessage replaceCharactersInRange:NSMakeRange([theAttributedMessage length],0) withString:theMessage];
+	[theAttributedMessage replaceCharactersInRange:NSMakeRange([theAttributedMessage length],0) withString:@"\n"];
+	[bindings setOutput:theAttributedMessage];
 }
 
 -(void)serverStateDidChange:(NSString* )theMessage {
