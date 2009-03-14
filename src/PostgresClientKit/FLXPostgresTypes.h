@@ -3,13 +3,13 @@
 
 typedef enum {
   FLXPostgresTypeUnknown  = -1,
-  FLXPostgresTypeString   = 0,
-  FLXPostgresTypeInteger  = 1,
-  FLXPostgresTypeReal     = 2,
-  FLXPostgresTypeBool     = 3,
-  FLXPostgresTypeData     = 4,
-  FLXPostgresTypeDate     = 5,
-  FLXPostgresTypeDatetime = 6
+  FLXPostgresTypeString   = 1,
+  FLXPostgresTypeInteger  = 2, // int1, int2 and int4
+  FLXPostgresTypeReal     = 3,
+  FLXPostgresTypeBool     = 5,
+  FLXPostgresTypeData     = 6,
+  FLXPostgresTypeDate     = 7,
+  FLXPostgresTypeDatetime = 8
 } FLXPostgresType;
 
 @interface FLXPostgresTypes : NSObject {

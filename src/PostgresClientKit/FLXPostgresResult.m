@@ -65,12 +65,10 @@
 		return [FLXPostgresTypes dateFromBytes:theBytes length:theLength];
 	case FLXPostgresTypeDatetime:
 		return [FLXPostgresTypes datetimeFromBytes:theBytes length:theLength];
+	default:
+		// default to returning data
+		return [FLXPostgresTypes dataFromBytes:theBytes length:theLength];			
 	}
-	// unsupported type
-	NSString* theTypeString = [[self types] stringAtIndex:PQftype([self result],theColumn)];
-	[FLXPostgresException raise:@"FLXPostgresConnectionError" 
-						 reason:[NSString stringWithFormat:@"Unsupported data type returned from database: %@",theTypeString]];
-	return nil;	
 }
 
 ////////////////////////////////////////////////////////////////////////////////

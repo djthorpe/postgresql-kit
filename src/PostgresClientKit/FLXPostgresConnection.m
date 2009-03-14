@@ -204,7 +204,6 @@
 	if([self connection]==nil) {
 		[FLXPostgresException raise:@"FLXPostgresConnectionError" reason:@"No Connection"];        
 	}
-	
 	// execute the command - we always use the binding version so we can get the data
 	// back as binary
 	PGresult* theResult = PQexecParams([self connection],[theQuery UTF8String],0,nil,nil,nil,nil,1);
@@ -310,7 +309,6 @@
 	// return a result object
 	return [[[FLXPostgresResult alloc] initWithResult:theResult types:[self types]] autorelease];
 }
-
 
 -(NSString* )_quoteData:(NSData* )theData {
 	size_t theLength = 0;

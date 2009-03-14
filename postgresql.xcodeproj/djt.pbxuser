@@ -3,13 +3,12 @@
 	0867D690FE84028FC02AAC07 /* Project object */ = {
 		activeBuildConfigurationName = Debug;
 		activeExecutable = 6E6211DC0F43849700BE396D /* PostgresServerApp */;
-		activeTarget = 6E620F3D0F4366C100BE396D /* Build Everything Useful! */;
+		activeTarget = 6EC0A5650F6703F200DED98A /* UnitTests */;
 		addToTargets = (
-			6EC0A5650F6703F200DED98A /* UnitTests */,
+			6E23CD7E0DCDE3C80041AA57 /* PostgresClientKit */,
 		);
 		breakpoints = (
 			6E23D04F0DCF0A8A0041AA57 /* [NSException raise] */,
-			6E23D30D0DCF81180041AA57 /* FLXPostgresTypes.m:114 */,
 		);
 		codeSenseManager = 6E23CBC30DCDCF600041AA57 /* Code sense */;
 		executables = (
@@ -44,6 +43,20 @@
 					PBXBreakpointsDataSource_ConditionID,
 					PBXBreakpointsDataSource_IgnoreCountID,
 					PBXBreakpointsDataSource_ContinueID,
+				);
+			};
+			PBXConfiguration.PBXFileTableDataSource3.PBXErrorsWarningsDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXErrorsWarningsDataSource_LocationID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					300,
+					658,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXErrorsWarningsDataSource_TypeID,
+					PBXErrorsWarningsDataSource_MessageID,
+					PBXErrorsWarningsDataSource_LocationID,
 				);
 			};
 			PBXConfiguration.PBXFileTableDataSource3.PBXExecutablesDataSource = {
@@ -128,8 +141,8 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 258626149;
-			PBXWorkspaceStateSaveDate = 258626149;
+			PBXPerProjectTemplateStateSaveDate = 258717956;
+			PBXWorkspaceStateSaveDate = 258717956;
 		};
 		perUserProjectItems = {
 			6E23CC4C0DCDD74C0041AA57 = 6E23CC4C0DCDD74C0041AA57 /* PBXTextBookmark */;
@@ -154,26 +167,42 @@
 			6E23D1190DCF2DC60041AA57 = 6E23D1190DCF2DC60041AA57 /* PBXTextBookmark */;
 			6E23D1220DCF2DC60041AA57 = 6E23D1220DCF2DC60041AA57 /* PBXTextBookmark */;
 			6E23D1C40DCF5C690041AA57 = 6E23D1C40DCF5C690041AA57 /* PBXTextBookmark */;
-			6E23D1C70DCF5C690041AA57 = 6E23D1C70DCF5C690041AA57 /* PBXTextBookmark */;
 			6E23D1E80DCF5C690041AA57 = 6E23D1E80DCF5C690041AA57 /* PBXTextBookmark */;
 			6E23D26B0DCF6ABB0041AA57 = 6E23D26B0DCF6ABB0041AA57 /* PBXTextBookmark */;
 			6E27C2AD0DD60194004BFE98 = 6E27C2AD0DD60194004BFE98 /* PBXTextBookmark */;
 			6E27C2B20DD60194004BFE98 = 6E27C2B20DD60194004BFE98 /* PBXTextBookmark */;
-			6E3E40EF0F6A579F000D9FED /* PBXTextBookmark */ = 6E3E40EF0F6A579F000D9FED /* PBXTextBookmark */;
-			6E3E40F00F6A579F000D9FED /* PBXTextBookmark */ = 6E3E40F00F6A579F000D9FED /* PBXTextBookmark */;
-			6E3E40F30F6A57D9000D9FED /* PBXTextBookmark */ = 6E3E40F30F6A57D9000D9FED /* PBXTextBookmark */;
-			6E3E40F60F6A57E8000D9FED /* PBXTextBookmark */ = 6E3E40F60F6A57E8000D9FED /* PBXTextBookmark */;
-			6E3E40FE0F6A57FA000D9FED /* PBXTextBookmark */ = 6E3E40FE0F6A57FA000D9FED /* PBXTextBookmark */;
+			6E29D9500F6B0B11009D5E81 = 6E29D9500F6B0B11009D5E81 /* PBXTextBookmark */;
+			6E29D9510F6B0B11009D5E81 = 6E29D9510F6B0B11009D5E81 /* PBXTextBookmark */;
+			6E29D9570F6B0B11009D5E81 = 6E29D9570F6B0B11009D5E81 /* PBXTextBookmark */;
+			6E3786F90F6BB8FE00DF8EC7 = 6E3786F90F6BB8FE00DF8EC7 /* PBXTextBookmark */;
+			6E3786FA0F6BB8FE00DF8EC7 = 6E3786FA0F6BB8FE00DF8EC7 /* PBXTextBookmark */;
+			6E3786FB0F6BB8FE00DF8EC7 = 6E3786FB0F6BB8FE00DF8EC7 /* PBXTextBookmark */;
+			6E3786FC0F6BB8FE00DF8EC7 = 6E3786FC0F6BB8FE00DF8EC7 /* PBXTextBookmark */;
+			6E3786FD0F6BB8FE00DF8EC7 = 6E3786FD0F6BB8FE00DF8EC7 /* PBXTextBookmark */;
+			6E3786FE0F6BB8FE00DF8EC7 = 6E3786FE0F6BB8FE00DF8EC7 /* PBXTextBookmark */;
+			6E3786FF0F6BB8FE00DF8EC7 = 6E3786FF0F6BB8FE00DF8EC7 /* PBXTextBookmark */;
+			6E3787000F6BB8FE00DF8EC7 = 6E3787000F6BB8FE00DF8EC7 /* PBXTextBookmark */;
+			6E3787010F6BB8FE00DF8EC7 = 6E3787010F6BB8FE00DF8EC7 /* PBXTextBookmark */;
+			6E3787020F6BB8FE00DF8EC7 = 6E3787020F6BB8FE00DF8EC7 /* PBXTextBookmark */;
+			6E3787030F6BB8FE00DF8EC7 = 6E3787030F6BB8FE00DF8EC7 /* PBXTextBookmark */;
+			6E3787040F6BB8FE00DF8EC7 = 6E3787040F6BB8FE00DF8EC7 /* PBXTextBookmark */;
+			6E3787050F6BB8FE00DF8EC7 = 6E3787050F6BB8FE00DF8EC7 /* PBXTextBookmark */;
+			6E3787060F6BB8FE00DF8EC7 = 6E3787060F6BB8FE00DF8EC7 /* PBXTextBookmark */;
+			6E3787070F6BB8FE00DF8EC7 = 6E3787070F6BB8FE00DF8EC7 /* PBXTextBookmark */;
+			6E3787080F6BB8FE00DF8EC7 = 6E3787080F6BB8FE00DF8EC7 /* PBXTextBookmark */;
+			6E3E41280F6A619B000D9FED = 6E3E41280F6A619B000D9FED /* PBXTextBookmark */;
+			6E3E41290F6A619B000D9FED = 6E3E41290F6A619B000D9FED /* PBXTextBookmark */;
+			6E3E412B0F6A619B000D9FED = 6E3E412B0F6A619B000D9FED /* PBXTextBookmark */;
+			6E3E412C0F6A619B000D9FED = 6E3E412C0F6A619B000D9FED /* PBXTextBookmark */;
+			6E3E412D0F6A619B000D9FED = 6E3E412D0F6A619B000D9FED /* PBXTextBookmark */;
+			6E3E412E0F6A619B000D9FED = 6E3E412E0F6A619B000D9FED /* PBXTextBookmark */;
+			6E3E412F0F6A619B000D9FED = 6E3E412F0F6A619B000D9FED /* PBXTextBookmark */;
+			6E3E41360F6A619B000D9FED = 6E3E41360F6A619B000D9FED /* PBXTextBookmark */;
+			6E3E41410F6A619B000D9FED = 6E3E41410F6A619B000D9FED /* PBXTextBookmark */;
 			6E51C8A20DD62F2800C7DBA3 = 6E51C8A20DD62F2800C7DBA3 /* PBXBookmark */;
 			6E52997A0F66758700483985 = 6E52997A0F66758700483985 /* PBXTextBookmark */;
-			6E52997B0F66758700483985 = 6E52997B0F66758700483985 /* PBXTextBookmark */;
 			6E52997C0F66758700483985 = 6E52997C0F66758700483985 /* PBXTextBookmark */;
 			6E52999F0F66885F00483985 = 6E52999F0F66885F00483985 /* PBXTextBookmark */;
-			6E5299A00F66885F00483985 = 6E5299A00F66885F00483985 /* PBXTextBookmark */;
-			6E5299A60F6691DB00483985 = 6E5299A60F6691DB00483985 /* PBXTextBookmark */;
-			6E620FF70F43690500BE396D = 6E620FF70F43690500BE396D /* PBXTextBookmark */;
-			6E620FF90F43690500BE396D = 6E620FF90F43690500BE396D /* PBXTextBookmark */;
-			6E620FFB0F43690500BE396D = 6E620FFB0F43690500BE396D /* PBXTextBookmark */;
 			6E620FFD0F43690500BE396D = 6E620FFD0F43690500BE396D /* PBXTextBookmark */;
 			6E620FFE0F43690500BE396D = 6E620FFE0F43690500BE396D /* PBXTextBookmark */;
 			6E6210040F43690500BE396D = 6E6210040F43690500BE396D /* PBXBookmark */;
@@ -203,10 +232,6 @@
 			6E6A469F0F6317300067008B = 6E6A469F0F6317300067008B /* PBXTextBookmark */;
 			6E6D8DC70F48AD0F00F5FC76 = 6E6D8DC70F48AD0F00F5FC76 /* PBXTextBookmark */;
 			6E6D8DCA0F48AD0F00F5FC76 = 6E6D8DCA0F48AD0F00F5FC76 /* PBXTextBookmark */;
-			6E7E92C50F6844AA008469A9 = 6E7E92C50F6844AA008469A9 /* PBXTextBookmark */;
-			6E7E92C60F6844AA008469A9 = 6E7E92C60F6844AA008469A9 /* PBXTextBookmark */;
-			6E7E92C70F6844AA008469A9 = 6E7E92C70F6844AA008469A9 /* PBXTextBookmark */;
-			6E7E92C80F6844AA008469A9 = 6E7E92C80F6844AA008469A9 /* PBXTextBookmark */;
 			6E8F363A0DFC53CD00A00260 = 6E8F363A0DFC53CD00A00260 /* PBXTextBookmark */;
 			6E8F363C0DFC53CD00A00260 = 6E8F363C0DFC53CD00A00260 /* PBXTextBookmark */;
 			6E90C0240F6431460040B36C = 6E90C0240F6431460040B36C /* PBXBookmark */;
@@ -229,16 +254,12 @@
 			6E9FD7930DD5ACA800353077 = 6E9FD7930DD5ACA800353077 /* PBXTextBookmark */;
 			6EB516420F48253100C8F8A4 = 6EB516420F48253100C8F8A4 /* PBXTextBookmark */;
 			6EB517050F4832F300C8F8A4 = 6EB517050F4832F300C8F8A4 /* PBXTextBookmark */;
-			6EC0A59D0F67050900DED98A = 6EC0A59D0F67050900DED98A /* PBXTextBookmark */;
 			6EC0A59E0F67050900DED98A = 6EC0A59E0F67050900DED98A /* PlistBookmark */;
 			6EC0A5A00F67050900DED98A = 6EC0A5A00F67050900DED98A /* PlistBookmark */;
-			6EC0A5B80F6706D100DED98A = 6EC0A5B80F6706D100DED98A /* PBXTextBookmark */;
 			6EC0A5BB0F6706D100DED98A = 6EC0A5BB0F6706D100DED98A /* PBXTextBookmark */;
 			6EC0A5BC0F6706D100DED98A = 6EC0A5BC0F6706D100DED98A /* PBXTextBookmark */;
 			6EC0A60E0F6707C100DED98A = 6EC0A60E0F6707C100DED98A /* PBXTextBookmark */;
 			6EC0A6640F67126B00DED98A = 6EC0A6640F67126B00DED98A /* PBXTextBookmark */;
-			6EC0A6790F67143500DED98A = 6EC0A6790F67143500DED98A /* PBXTextBookmark */;
-			6EC0A67A0F67143500DED98A = 6EC0A67A0F67143500DED98A /* PBXTextBookmark */;
 			6EC0A67C0F67143500DED98A = 6EC0A67C0F67143500DED98A /* PBXTextBookmark */;
 			6EC1F9750F4A0A9B006A2A12 = 6EC1F9750F4A0A9B006A2A12 /* PBXTextBookmark */;
 			6ECC8BA60F628849000993F9 = 6ECC8BA60F628849000993F9 /* PBXBookmark */;
@@ -256,7 +277,6 @@
 			6ECC8E8D0F62D525000993F9 = 6ECC8E8D0F62D525000993F9 /* PBXTextBookmark */;
 			6ECC8EC30F62D655000993F9 = 6ECC8EC30F62D655000993F9 /* PBXTextBookmark */;
 			6ECC8EC40F62D655000993F9 = 6ECC8EC40F62D655000993F9 /* PBXTextBookmark */;
-			6ECC8F110F62DD3C000993F9 = 6ECC8F110F62DD3C000993F9 /* PBXTextBookmark */;
 			6ECC8F5D0F62EB36000993F9 = 6ECC8F5D0F62EB36000993F9 /* PBXTextBookmark */;
 			6ECC8F7C0F62EF18000993F9 = 6ECC8F7C0F62EF18000993F9 /* PBXTextBookmark */;
 			6ECC8F7D0F62EF18000993F9 = 6ECC8F7D0F62EF18000993F9 /* PBXTextBookmark */;
@@ -317,9 +337,9 @@
 	};
 	6E23CC1A0DCDD5180041AA57 /* FLXServer.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {946, 10584}}";
-			sepNavSelRange = "{20251, 0}";
-			sepNavVisRange = "{22297, 1503}";
+			sepNavIntBoundsRect = "{{0, 0}, {1110, 10738}}";
+			sepNavSelRange = "{23045, 0}";
+			sepNavVisRange = "{12954, 1404}";
 		};
 	};
 	6E23CC280DCDD6D80041AA57 /* PostgresServerKit-Info.plist */ = {
@@ -396,7 +416,7 @@
 	6E23CD5A0DCDE29A0041AA57 /* PostgresClientKit.h */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {946, 671}}";
-			sepNavSelRange = "{175, 0}";
+			sepNavSelRange = "{111, 0}";
 			sepNavVisRange = "{0, 278}";
 		};
 	};
@@ -470,30 +490,30 @@
 	};
 	6E23CDAA0DCDE4FD0041AA57 /* FLXPostgresResult.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {958, 767}}";
+			sepNavIntBoundsRect = "{{0, 0}, {946, 671}}";
 			sepNavSelRange = "{359, 0}";
 			sepNavVisRange = "{0, 686}";
 		};
 	};
 	6E23CDAB0DCDE4FD0041AA57 /* FLXPostgresResult.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1126, 2072}}";
-			sepNavSelRange = "{2059, 0}";
-			sepNavVisRange = "{2723, 1620}";
+			sepNavIntBoundsRect = "{{0, 0}, {946, 2044}}";
+			sepNavSelRange = "{1768, 0}";
+			sepNavVisRange = "{0, 1207}";
 		};
 	};
 	6E23CDAC0DCDE4FD0041AA57 /* FLXPostgresTypes.h */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {946, 671}}";
-			sepNavSelRange = "{269, 0}";
-			sepNavVisRange = "{0, 772}";
+			sepNavSelRange = "{260, 0}";
+			sepNavVisRange = "{0, 795}";
 		};
 	};
 	6E23CDAD0DCDE4FD0041AA57 /* FLXPostgresTypes.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1126, 2856}}";
-			sepNavSelRange = "{674, 0}";
-			sepNavVisRange = "{284, 2840}";
+			sepNavIntBoundsRect = "{{0, 0}, {1026, 3948}}";
+			sepNavSelRange = "{4969, 0}";
+			sepNavVisRange = "{4355, 1383}";
 		};
 	};
 	6E23CDC90DCDE6420041AA57 /* PBXTextBookmark */ = {
@@ -693,16 +713,6 @@
 		path = /Developer/SDKs/MacOSX10.5.sdk/usr/include/sys/_endian.h;
 		sourceTree = "<absolute>";
 	};
-	6E23D1C70DCF5C690041AA57 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 6E23D0F50DCF240B0041AA57 /* MacTypes.h */;
-		name = "MacTypes.h: 192";
-		rLen = 0;
-		rLoc = 6408;
-		rType = 0;
-		vrLen = 2608;
-		vrLoc = 5245;
-	};
 	6E23D1E80DCF5C690041AA57 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 6E23D1E90DCF5C690041AA57 /* _endian.h */;
@@ -722,7 +732,7 @@
 	};
 	6E23D2470DCF68110041AA57 /* PostgresClientKitPrivate.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1126, 857}}";
+			sepNavIntBoundsRect = "{{0, 0}, {946, 671}}";
 			sepNavSelRange = "{105, 0}";
 			sepNavVisRange = "{0, 824}";
 		};
@@ -736,23 +746,6 @@
 		rType = 0;
 		vrLen = 190;
 		vrLoc = 0;
-	};
-	6E23D30D0DCF81180041AA57 /* FLXPostgresTypes.m:114 */ = {
-		isa = PBXFileBreakpoint;
-		actions = (
-		);
-		breakpointStyle = 0;
-		continueAfterActions = 0;
-		countType = 0;
-		delayBeforeContinue = 0;
-		fileReference = 6E23CDAD0DCDE4FD0041AA57 /* FLXPostgresTypes.m */;
-		functionName = "+timeFromBytes:length:";
-		hitCount = 0;
-		ignoreCount = 0;
-		lineNumber = 114;
-		location = PostgresClientKit;
-		modificationTime = 258410543.877325;
-		state = 0;
 	};
 	6E27C2980DD5FF58004BFE98 /* FLXPostgresConnection+Utils.h */ = {
 		uiCtxt = {
@@ -788,53 +781,308 @@
 		vrLen = 1568;
 		vrLoc = 0;
 	};
-	6E3E40EF0F6A579F000D9FED /* PBXTextBookmark */ = {
+	6E29D9500F6B0B11009D5E81 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
-		comments = "error: Failed tests for architecture 'i386' (GC OFF)";
-		fRef = 6EC0A5950F6704CE00DED98A /* RunPlatformUnitTests.include */;
+		fRef = 6E23D2470DCF68110041AA57 /* PostgresClientKitPrivate.h */;
+		name = "PostgresClientKitPrivate.h: 7";
+		rLen = 0;
+		rLoc = 105;
+		rType = 0;
+		vrLen = 824;
+		vrLoc = 0;
+	};
+	6E29D9510F6B0B11009D5E81 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 6E23CDAA0DCDE4FD0041AA57 /* FLXPostgresResult.h */;
+		name = "FLXPostgresResult.h: 17";
+		rLen = 0;
+		rLoc = 359;
+		rType = 0;
+		vrLen = 686;
+		vrLoc = 0;
+	};
+	6E29D9570F6B0B11009D5E81 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 6EC0A5A20F67056100DED98A /* ClientConnection.h */;
+		name = "ClientConnection.h: 5";
+		rLen = 0;
+		rLoc = 137;
+		rType = 0;
+		vrLen = 331;
+		vrLoc = 0;
+	};
+	6E3786F90F6BB8FE00DF8EC7 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 6EC0A5A30F67056100DED98A /* ClientConnection.m */;
+		name = "ClientConnection.m: 146";
+		rLen = 0;
+		rLoc = 5214;
+		rType = 0;
+		vrLen = 2201;
+		vrLoc = 3877;
+	};
+	6E3786FA0F6BB8FE00DF8EC7 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 6E23CD5A0DCDE29A0041AA57 /* PostgresClientKit.h */;
+		name = "PostgresClientKit.h: 6";
+		rLen = 0;
+		rLoc = 111;
+		rType = 0;
+		vrLen = 278;
+		vrLoc = 0;
+	};
+	6E3786FB0F6BB8FE00DF8EC7 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 6E23CDAC0DCDE4FD0041AA57 /* FLXPostgresTypes.h */;
+		name = "FLXPostgresTypes.h: 10";
+		rLen = 0;
+		rLoc = 260;
+		rType = 0;
+		vrLen = 795;
+		vrLoc = 0;
+	};
+	6E3786FC0F6BB8FE00DF8EC7 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 6E23CDAB0DCDE4FD0041AA57 /* FLXPostgresResult.m */;
+		name = "FLXPostgresResult.m: 60";
+		rLen = 0;
+		rLoc = 1768;
+		rType = 0;
+		vrLen = 1207;
+		vrLoc = 0;
+	};
+	6E3786FD0F6BB8FE00DF8EC7 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 6E23CDAD0DCDE4FD0041AA57 /* FLXPostgresTypes.m */;
+		name = "FLXPostgresTypes.m: 128";
+		rLen = 0;
+		rLoc = 4944;
+		rType = 0;
+		vrLen = 1503;
+		vrLoc = 3890;
+	};
+	6E3786FE0F6BB8FE00DF8EC7 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 6E23D0F50DCF240B0041AA57 /* MacTypes.h */;
 		rLen = 1;
-		rLoc = 383;
+		rLoc = 189;
 		rType = 1;
 	};
-	6E3E40F00F6A579F000D9FED /* PBXTextBookmark */ = {
+	6E3786FF0F6BB8FE00DF8EC7 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
-		fRef = 6EC0A5950F6704CE00DED98A /* RunPlatformUnitTests.include */;
-		name = "RunPlatformUnitTests.include: 384";
+		fRef = 6EC0A5A30F67056100DED98A /* ClientConnection.m */;
+		name = "ClientConnection.m: 146";
 		rLen = 0;
-		rLoc = 13120;
+		rLoc = 5214;
 		rType = 0;
-		vrLen = 604;
-		vrLoc = 12856;
+		vrLen = 2201;
+		vrLoc = 3877;
 	};
-	6E3E40F30F6A57D9000D9FED /* PBXTextBookmark */ = {
+	6E3787000F6BB8FE00DF8EC7 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
-		fRef = 6EC0A5950F6704CE00DED98A /* RunPlatformUnitTests.include */;
-		name = "RunPlatformUnitTests.include: 384";
-		rLen = 0;
-		rLoc = 13120;
+		fRef = 6E23CDAC0DCDE4FD0041AA57 /* FLXPostgresTypes.h */;
+		name = "FLXPostgresTypes.h: 2";
+		rLen = 33;
+		rLoc = 1;
 		rType = 0;
-		vrLen = 604;
-		vrLoc = 12856;
+		vrLen = 852;
+		vrLoc = 0;
 	};
-	6E3E40F60F6A57E8000D9FED /* PBXTextBookmark */ = {
+	6E3787010F6BB8FE00DF8EC7 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
-		fRef = 6EC0A5950F6704CE00DED98A /* RunPlatformUnitTests.include */;
-		name = "RunPlatformUnitTests.include: 384";
+		fRef = 6E23CDAD0DCDE4FD0041AA57 /* FLXPostgresTypes.m */;
+		name = "FLXPostgresTypes.m: 16";
 		rLen = 0;
-		rLoc = 13120;
+		rLoc = 360;
 		rType = 0;
-		vrLen = 604;
-		vrLoc = 12856;
+		vrLen = 1500;
+		vrLoc = 0;
 	};
-	6E3E40FE0F6A57FA000D9FED /* PBXTextBookmark */ = {
+	6E3787020F6BB8FE00DF8EC7 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 6E23CDAC0DCDE4FD0041AA57 /* FLXPostgresTypes.h */;
+		name = "FLXPostgresTypes.h: 12";
+		rLen = 0;
+		rLoc = 292;
+		rType = 0;
+		vrLen = 795;
+		vrLoc = 0;
+	};
+	6E3787030F6BB8FE00DF8EC7 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 6E23CD5A0DCDE29A0041AA57 /* PostgresClientKit.h */;
+		name = "PostgresClientKit.h: 6";
+		rLen = 0;
+		rLoc = 111;
+		rType = 0;
+		vrLen = 278;
+		vrLoc = 0;
+	};
+	6E3787040F6BB8FE00DF8EC7 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 6E23CDAC0DCDE4FD0041AA57 /* FLXPostgresTypes.h */;
+		name = "FLXPostgresTypes.h: 10";
+		rLen = 0;
+		rLoc = 260;
+		rType = 0;
+		vrLen = 795;
+		vrLoc = 0;
+	};
+	6E3787050F6BB8FE00DF8EC7 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 6E23CDAD0DCDE4FD0041AA57 /* FLXPostgresTypes.m */;
+		name = "FLXPostgresTypes.m: 59";
+		rLen = 0;
+		rLoc = 2146;
+		rType = 0;
+		vrLen = 2331;
+		vrLoc = 1342;
+	};
+	6E3787060F6BB8FE00DF8EC7 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 6E23CDAB0DCDE4FD0041AA57 /* FLXPostgresResult.m */;
+		name = "FLXPostgresResult.m: 60";
+		rLen = 0;
+		rLoc = 1768;
+		rType = 0;
+		vrLen = 1207;
+		vrLoc = 0;
+	};
+	6E3787070F6BB8FE00DF8EC7 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 6E23CDAD0DCDE4FD0041AA57 /* FLXPostgresTypes.m */;
+		name = "FLXPostgresTypes.m: 128";
+		rLen = 0;
+		rLoc = 4944;
+		rType = 0;
+		vrLen = 1503;
+		vrLoc = 3890;
+	};
+	6E3787080F6BB8FE00DF8EC7 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 6E3787090F6BB8FE00DF8EC7 /* MacTypes.h */;
+		name = "MacTypes.h: 196";
+		rLen = 0;
+		rLoc = 6477;
+		rType = 0;
+		vrLen = 2370;
+		vrLoc = 13675;
+	};
+	6E3787090F6BB8FE00DF8EC7 /* MacTypes.h */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.h;
+		name = MacTypes.h;
+		path = /Developer/SDKs/MacOSX10.5.sdk/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/CarbonCore.framework/Versions/A/Headers/MacTypes.h;
+		sourceTree = "<absolute>";
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {946, 10920}}";
+			sepNavSelRange = "{6477, 0}";
+			sepNavVisRange = "{13675, 2311}";
+		};
+	};
+	6E3E41280F6A619B000D9FED /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 6E90BFFE0F6430B30040B36C /* test.m */;
+		name = "test.m: 8";
+		rLen = 0;
+		rLoc = 149;
+		rType = 0;
+		vrLen = 1155;
+		vrLoc = 0;
+	};
+	6E3E41290F6A619B000D9FED /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 6E3E412A0F6A619B000D9FED /* SenTestCase_Macros.h */;
+		name = "SenTestCase_Macros.h: 266";
+		rLen = 0;
+		rLoc = 11679;
+		rType = 0;
+		vrLen = 2591;
+		vrLoc = 12242;
+	};
+	6E3E412A0F6A619B000D9FED /* SenTestCase_Macros.h */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.h;
+		name = SenTestCase_Macros.h;
+		path = /Developer/Library/Frameworks/SenTestingKit.framework/Versions/A/Headers/SenTestCase_Macros.h;
+		sourceTree = "<absolute>";
+	};
+	6E3E412B0F6A619B000D9FED /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 6EC0A5950F6704CE00DED98A /* RunPlatformUnitTests.include */;
-		name = "RunPlatformUnitTests.include: 384";
+		name = "RunPlatformUnitTests.include: 390";
 		rLen = 0;
-		rLoc = 13120;
+		rLoc = 13369;
 		rType = 0;
-		vrLen = 604;
-		vrLoc = 12856;
+		vrLen = 1572;
+		vrLoc = 12107;
+	};
+	6E3E412C0F6A619B000D9FED /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 6E90BFFF0F6430B30040B36C /* TestDelegate.h */;
+		name = "TestDelegate.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 332;
+		vrLoc = 0;
+	};
+	6E3E412D0F6A619B000D9FED /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 6E23CC1A0DCDD5180041AA57 /* FLXServer.m */;
+		name = "FLXServer.m: 719";
+		rLen = 0;
+		rLoc = 23045;
+		rType = 0;
+		vrLen = 1404;
+		vrLoc = 12954;
+	};
+	6E3E412E0F6A619B000D9FED /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 6E23CDA60DCDE4FD0041AA57 /* FLXPostgresConnection.h */;
+		name = "FLXPostgresConnection.h: 6";
+		rLen = 0;
+		rLoc = 129;
+		rType = 0;
+		vrLen = 907;
+		vrLoc = 0;
+	};
+	6E3E412F0F6A619B000D9FED /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 6E90C0000F6430B30040B36C /* TestDelegate.m */;
+		name = "TestDelegate.m: 104";
+		rLen = 0;
+		rLoc = 2506;
+		rType = 0;
+		vrLen = 837;
+		vrLoc = 0;
+	};
+	6E3E41360F6A619B000D9FED /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 6E3E41370F6A619B000D9FED /* SenTestCase_Macros.h */;
+		name = "SenTestCase_Macros.h: 266";
+		rLen = 0;
+		rLoc = 11679;
+		rType = 0;
+		vrLen = 2591;
+		vrLoc = 12242;
+	};
+	6E3E41370F6A619B000D9FED /* SenTestCase_Macros.h */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.h;
+		name = SenTestCase_Macros.h;
+		path = /Developer/Library/Frameworks/SenTestingKit.framework/Versions/A/Headers/SenTestCase_Macros.h;
+		sourceTree = "<absolute>";
+	};
+	6E3E41410F6A619B000D9FED /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 6E90BFFF0F6430B30040B36C /* TestDelegate.h */;
+		name = "TestDelegate.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 332;
+		vrLoc = 0;
 	};
 	6E51C8A20DD62F2800C7DBA3 /* PBXBookmark */ = {
 		isa = PBXBookmark;
@@ -849,16 +1097,6 @@
 		rType = 0;
 		vrLen = 1444;
 		vrLoc = 3374;
-	};
-	6E52997B0F66758700483985 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 6E23CC1A0DCDD5180041AA57 /* FLXServer.m */;
-		name = "FLXServer.m: 644";
-		rLen = 0;
-		rLoc = 20251;
-		rType = 0;
-		vrLen = 1503;
-		vrLoc = 22297;
 	};
 	6E52997C0F66758700483985 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
@@ -880,26 +1118,6 @@
 		vrLen = 230;
 		vrLoc = 0;
 	};
-	6E5299A00F66885F00483985 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 6E23CD5A0DCDE29A0041AA57 /* PostgresClientKit.h */;
-		name = "PostgresClientKit.h: 9";
-		rLen = 0;
-		rLoc = 175;
-		rType = 0;
-		vrLen = 278;
-		vrLoc = 0;
-	};
-	6E5299A60F6691DB00483985 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 6E23CDAC0DCDE4FD0041AA57 /* FLXPostgresTypes.h */;
-		name = "FLXPostgresTypes.h: 12";
-		rLen = 0;
-		rLoc = 269;
-		rType = 0;
-		vrLen = 772;
-		vrLoc = 0;
-	};
 	6E5EA7DD0F57944E00B702EC /* PostgresPrefPaneBindings.h */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {958, 1218}}";
@@ -916,36 +1134,6 @@
 	};
 	6E620F3D0F4366C100BE396D /* Build Everything Useful! */ = {
 		activeExec = 0;
-	};
-	6E620FF70F43690500BE396D /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 6E23D2470DCF68110041AA57 /* PostgresClientKitPrivate.h */;
-		name = "PostgresClientKitPrivate.h: 7";
-		rLen = 0;
-		rLoc = 105;
-		rType = 0;
-		vrLen = 824;
-		vrLoc = 0;
-	};
-	6E620FF90F43690500BE396D /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 6E23CDAD0DCDE4FD0041AA57 /* FLXPostgresTypes.m */;
-		name = "FLXPostgresTypes.m: 30";
-		rLen = 0;
-		rLoc = 674;
-		rType = 0;
-		vrLen = 2840;
-		vrLoc = 284;
-	};
-	6E620FFB0F43690500BE396D /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 6E23CDAB0DCDE4FD0041AA57 /* FLXPostgresResult.m */;
-		name = "FLXPostgresResult.m: 66";
-		rLen = 0;
-		rLoc = 2059;
-		rType = 0;
-		vrLen = 1620;
-		vrLoc = 2723;
 	};
 	6E620FFD0F43690500BE396D /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
@@ -1229,46 +1417,6 @@
 		vrLen = 1467;
 		vrLoc = 5246;
 	};
-	6E7E92C50F6844AA008469A9 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 6EC0A5A30F67056100DED98A /* ClientConnection.m */;
-		name = "ClientConnection.m: 22";
-		rLen = 0;
-		rLoc = 3275;
-		rType = 0;
-		vrLen = 885;
-		vrLoc = 0;
-	};
-	6E7E92C60F6844AA008469A9 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 6E90BFFE0F6430B30040B36C /* test.m */;
-		name = "test.m: 1";
-		rLen = 0;
-		rLoc = 0;
-		rType = 0;
-		vrLen = 1155;
-		vrLoc = 0;
-	};
-	6E7E92C70F6844AA008469A9 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 6EC0A5A30F67056100DED98A /* ClientConnection.m */;
-		name = "ClientConnection.m: 22";
-		rLen = 0;
-		rLoc = 3275;
-		rType = 0;
-		vrLen = 885;
-		vrLoc = 0;
-	};
-	6E7E92C80F6844AA008469A9 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 6E90BFFE0F6430B30040B36C /* test.m */;
-		name = "test.m: 8";
-		rLen = 0;
-		rLoc = 149;
-		rType = 0;
-		vrLen = 1155;
-		vrLoc = 0;
-	};
 	6E8F36310DFC50A600A00260 /* LICENSE */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1126, 857}}";
@@ -1331,11 +1479,18 @@
 			sepNavVisRange = "{0, 1155}";
 		};
 	};
+	6E90BFFF0F6430B30040B36C /* TestDelegate.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {946, 671}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 332}";
+		};
+	};
 	6E90C0000F6430B30040B36C /* TestDelegate.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1044, 9422}}";
-			sepNavSelRange = "{265, 0}";
-			sepNavVisRange = "{496, 1297}";
+			sepNavIntBoundsRect = "{{0, 0}, {1044, 8862}}";
+			sepNavSelRange = "{2506, 0}";
+			sepNavVisRange = "{0, 837}";
 		};
 	};
 	6E90C00C0F6430DB0040B36C /* EmbeddedServer */ = {
@@ -1618,21 +1773,6 @@
 		name = RunPlatformUnitTests.include;
 		path = /Developer/Tools/RunPlatformUnitTests.include;
 		sourceTree = "<absolute>";
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1152, 5810}}";
-			sepNavSelRange = "{13120, 0}";
-			sepNavVisRange = "{12856, 604}";
-		};
-	};
-	6EC0A59D0F67050900DED98A /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 6E23CDA60DCDE4FD0041AA57 /* FLXPostgresConnection.h */;
-		name = "FLXPostgresConnection.h: 6";
-		rLen = 0;
-		rLoc = 129;
-		rType = 0;
-		vrLen = 907;
-		vrLoc = 0;
 	};
 	6EC0A59E0F67050900DED98A /* PlistBookmark */ = {
 		isa = PlistBookmark;
@@ -1659,26 +1799,16 @@
 	6EC0A5A20F67056100DED98A /* ClientConnection.h */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {946, 671}}";
-			sepNavSelRange = "{213, 0}";
-			sepNavVisRange = "{0, 255}";
+			sepNavSelRange = "{137, 0}";
+			sepNavVisRange = "{0, 331}";
 		};
 	};
 	6EC0A5A30F67056100DED98A /* ClientConnection.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {946, 1736}}";
-			sepNavSelRange = "{3060, 0}";
-			sepNavVisRange = "{0, 1696}";
+			sepNavIntBoundsRect = "{{0, 0}, {946, 2378}}";
+			sepNavSelRange = "{5214, 0}";
+			sepNavVisRange = "{3877, 2201}";
 		};
-	};
-	6EC0A5B80F6706D100DED98A /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 6EC0A5950F6704CE00DED98A /* RunPlatformUnitTests.include */;
-		name = "RunPlatformUnitTests.include: 384";
-		rLen = 110;
-		rLoc = 13021;
-		rType = 0;
-		vrLen = 1572;
-		vrLoc = 12107;
 	};
 	6EC0A5BB0F6706D100DED98A /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
@@ -1695,7 +1825,7 @@
 		fRef = 6EC0A5A20F67056100DED98A /* ClientConnection.h */;
 		name = "ClientConnection.h: 3";
 		rLen = 0;
-		rLoc = 89;
+		rLoc = 137;
 		rType = 0;
 		vrLen = 95;
 		vrLoc = 0;
@@ -1705,7 +1835,7 @@
 		fRef = 6EC0A5A30F67056100DED98A /* ClientConnection.m */;
 		name = "ClientConnection.m: 13";
 		rLen = 0;
-		rLoc = 3422;
+		rLoc = 5315;
 		rType = 0;
 		vrLen = 277;
 		vrLoc = 0;
@@ -1718,26 +1848,6 @@
 		rLoc = 0;
 		rType = 0;
 		vrLen = 1155;
-		vrLoc = 0;
-	};
-	6EC0A6790F67143500DED98A /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 6E90C0000F6430B30040B36C /* TestDelegate.m */;
-		name = "TestDelegate.m: 16";
-		rLen = 0;
-		rLoc = 265;
-		rType = 0;
-		vrLen = 1297;
-		vrLoc = 496;
-	};
-	6EC0A67A0F67143500DED98A /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 6EC0A5A20F67056100DED98A /* ClientConnection.h */;
-		name = "ClientConnection.h: 9";
-		rLen = 0;
-		rLoc = 203;
-		rType = 0;
-		vrLen = 201;
 		vrLoc = 0;
 	};
 	6EC0A67C0F67143500DED98A /* PBXTextBookmark */ = {
@@ -1962,16 +2072,6 @@
 		rLoc = 2694;
 		rType = 0;
 		vrLen = 1694;
-		vrLoc = 0;
-	};
-	6ECC8F110F62DD3C000993F9 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 6E23CDAA0DCDE4FD0041AA57 /* FLXPostgresResult.h */;
-		name = "FLXPostgresResult.h: 17";
-		rLen = 0;
-		rLoc = 359;
-		rType = 0;
-		vrLen = 686;
 		vrLoc = 0;
 	};
 	6ECC8F5D0F62EB36000993F9 /* PBXTextBookmark */ = {

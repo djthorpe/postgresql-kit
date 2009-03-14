@@ -1,6 +1,9 @@
 
 #import "PostgresClientKit.h"
 #include <pgtypes_date.h>
+//#include <pgtypes_numeric.h>
+#include <pgtypes_timestamp.h>
+#include <pgtypes_interval.h>
 
 @implementation FLXPostgresTypes
 
@@ -49,6 +52,7 @@
 	} else if([theType isEqual:@"char"] || [theType isEqual:@"text"] || [theType isEqual:@"varchar"] || [theType isEqual:@"name"]) {
 		theInternalType = FLXPostgresTypeString;
 	} else if([theType isEqual:@"int8"] || [theType isEqual:@"int4"] || [theType isEqual:@"int2"]) {
+		// int2 = smallint, int4 = integer, int8 = bigint
 		theInternalType = FLXPostgresTypeInteger;    
 	} else if([theType isEqual:@"float4"] || [theType isEqual:@"float8"] || [theType isEqual:@"money"]) {
 		theInternalType = FLXPostgresTypeReal;    
@@ -62,27 +66,50 @@
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
-// support for conversion from postgresql binary representations to NSObjects
+// string
 
 +(NSString* )stringFromBytes:(const char* )theBytes length:(NSUInteger)theLength {
 	// note that the string is always terminated with NULL so we don't need the length field
 	return [NSString stringWithUTF8String:theBytes];
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////
+// integer
+
+#if defined(__ppc__) || defined(__ppc64__)
 +(NSNumber* )integerFromBytes:(const char* )theBytes length:(NSUInteger)theLength {
 	switch(theLength) {
-	case 2:
-		return [NSNumber numberWithInteger:*((SInt16* )theBytes)];
-	case 4:
-		return [NSNumber numberWithInteger:*((SInt32* )theBytes)];
-	case 8:
-		return [NSNumber numberWithLong:*((SInt64* )theBytes)];
+		case 2:
+			return [NSNumber numberWithInteger:*((SInt16* )theBytes)];
+		case 4:
+			return [NSNumber numberWithInteger:*((SInt32* )theBytes)];
+		case 8:
+			return [NSNumber numberWithLongLong:*((SInt64* )theBytes)];
 	}
 	// we shouldn't get here - we only support int2, int4 and int8
 	NSParameterAssert(FALSE);
 	return nil;				
 }
+#else
++(NSNumber* )integerFromBytes:(const char* )theBytes length:(NSUInteger)theLength {
+	switch(theLength) {
+		case 2:
+			return [NSNumber numberWithInteger:EndianS16_BtoN(*((SInt16* )theBytes))];
+		case 4:
+			return [NSNumber numberWithInteger:EndianS32_BtoN(*((SInt32* )theBytes))];
+		case 8:
+			return [NSNumber numberWithLongLong:EndianS64_BtoN(*((SInt64* )theBytes))];
+	}
+	// we shouldn't get here - we only support int2, int4 and int8
+	NSParameterAssert(FALSE);
+	return nil;				
+}
+#endif
 
+////////////////////////////////////////////////////////////////////////////////////////////////
+// real (floating point numbers)
+
+#if defined(__ppc__) || defined(__ppc64__)
 +(NSNumber* )realFromBytes:(const char* )theBytes length:(NSUInteger)theLength {
 	switch(theLength) {
 	case 4:
@@ -90,19 +117,47 @@
 	case 8:
 		return [NSNumber numberWithDouble:*((Float64* )theBytes)];
 	}
-	// we shouldn't get here unless the integer is some strange type
+	// we shouldn't get here unless the real is some strange type
 	NSParameterAssert(FALSE);
 	return nil;				
 }
+#else
++(NSNumber* )realFromBytes:(const char* )theBytes length:(NSUInteger)theLength {		
+    union { Float64 r; UInt64 i; } u64;
+    union { Float32 r; UInt32 i; } u32;
+	switch(theLength) {
+		case 4:
+			u32.r = *((Float32* )theBytes);		
+			u32.i = CFSwapInt32HostToBig(u32.i);			
+			return [NSNumber numberWithFloat:u32.r];
+		case 8:
+			u64.r = *((Float64* )theBytes);		
+			u64.i = CFSwapInt64HostToBig(u64.i);			
+			return [NSNumber numberWithFloat:u64.r];
+	}
+	// we shouldn't get here unless the real is some strange type
+	NSParameterAssert(FALSE);
+	return nil;				
+}
+#endif
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+// boolean
 
 +(NSNumber* )booleanFromBytes:(const char* )theBytes length:(NSUInteger)theLength {
 	NSParameterAssert(theLength==1);
 	return [NSNumber numberWithBool:(*theBytes ? YES : NO)];	
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////
+// data
+
 +(NSData* )dataFromBytes:(const char* )theBytes length:(NSUInteger)theLength {	
 	return [NSData dataWithBytes:theBytes length:theLength];	
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+// dates
 
 +(NSDate* )dateFromBytes:(const char* )theBytes length:(NSUInteger)theLength {
 	NSParameterAssert(theLength==4);
@@ -123,16 +178,16 @@
 @end
 
 /*
- 2007-10-22 12:47:54.824 PostgresServerTool[2438] 16 => bool
- 2007-10-22 12:47:54.824 PostgresServerTool[2438] 17 => bytea
- 2007-10-22 12:47:54.824 PostgresServerTool[2438] 18 => char
- 2007-10-22 12:47:54.824 PostgresServerTool[2438] 19 => name
- 2007-10-22 12:47:54.825 PostgresServerTool[2438] 20 => int8
- 2007-10-22 12:47:54.825 PostgresServerTool[2438] 21 => int2
+ 2007-10-22 12:47:54.824 PostgresServerTool[2438] 16 => bool         - done
+ 2007-10-22 12:47:54.824 PostgresServerTool[2438] 17 => bytea        - done
+ 2007-10-22 12:47:54.824 PostgresServerTool[2438] 18 => char         - done
+ 2007-10-22 12:47:54.824 PostgresServerTool[2438] 19 => name         - done
+ 2007-10-22 12:47:54.825 PostgresServerTool[2438] 20 => int8         - done 
+ 2007-10-22 12:47:54.825 PostgresServerTool[2438] 21 => int2         - done
  2007-10-22 12:47:54.825 PostgresServerTool[2438] 22 => int2vector
- 2007-10-22 12:47:54.825 PostgresServerTool[2438] 23 => int4
+ 2007-10-22 12:47:54.825 PostgresServerTool[2438] 23 => int4         - done
  2007-10-22 12:47:54.825 PostgresServerTool[2438] 24 => regproc
- 2007-10-22 12:47:54.825 PostgresServerTool[2438] 25 => text
+ 2007-10-22 12:47:54.825 PostgresServerTool[2438] 25 => text         - done
  2007-10-22 12:47:54.825 PostgresServerTool[2438] 26 => oid
  2007-10-22 12:47:54.825 PostgresServerTool[2438] 27 => tid
  2007-10-22 12:47:54.826 PostgresServerTool[2438] 28 => xid
@@ -149,20 +204,20 @@
  2007-10-22 12:47:54.827 PostgresServerTool[2438] 603 => box
  2007-10-22 12:47:54.827 PostgresServerTool[2438] 604 => polygon
  2007-10-22 12:47:54.827 PostgresServerTool[2438] 628 => line
- 2007-10-22 12:47:54.827 PostgresServerTool[2438] 700 => float4
- 2007-10-22 12:47:54.827 PostgresServerTool[2438] 701 => float8
+ 2007-10-22 12:47:54.827 PostgresServerTool[2438] 700 => float4         - done
+ 2007-10-22 12:47:54.827 PostgresServerTool[2438] 701 => float8         - done
  2007-10-22 12:47:54.827 PostgresServerTool[2438] 702 => abstime
  2007-10-22 12:47:54.827 PostgresServerTool[2438] 703 => reltime
  2007-10-22 12:47:54.827 PostgresServerTool[2438] 704 => tinterval
  2007-10-22 12:47:54.827 PostgresServerTool[2438] 705 => unknown
  2007-10-22 12:47:54.827 PostgresServerTool[2438] 718 => circle
- 2007-10-22 12:47:54.827 PostgresServerTool[2438] 790 => money
+ 2007-10-22 12:47:54.827 PostgresServerTool[2438] 790 => money          - done
  2007-10-22 12:47:54.827 PostgresServerTool[2438] 829 => macaddr
  2007-10-22 12:47:54.827 PostgresServerTool[2438] 869 => inet
  2007-10-22 12:47:54.827 PostgresServerTool[2438] 650 => cidr
  2007-10-22 12:47:54.828 PostgresServerTool[2438] 1033 => aclitem
  2007-10-22 12:47:54.828 PostgresServerTool[2438] 1042 => bpchar
- 2007-10-22 12:47:54.828 PostgresServerTool[2438] 1043 => varchar
+ 2007-10-22 12:47:54.828 PostgresServerTool[2438] 1043 => varchar       - done
  2007-10-22 12:47:54.828 PostgresServerTool[2438] 1082 => date
  2007-10-22 12:47:54.828 PostgresServerTool[2438] 1083 => time
  2007-10-22 12:47:54.828 PostgresServerTool[2438] 1114 => timestamp
@@ -171,7 +226,7 @@
  2007-10-22 12:47:54.828 PostgresServerTool[2438] 1266 => timetz
  2007-10-22 12:47:54.828 PostgresServerTool[2438] 1560 => bit
  2007-10-22 12:47:54.828 PostgresServerTool[2438] 1562 => varbit
- 2007-10-22 12:47:54.828 PostgresServerTool[2438] 1700 => numeric
+ 2007-10-22 12:47:54.828 PostgresServerTool[2438] 1700 => numeric       - done
  2007-10-22 12:47:54.828 PostgresServerTool[2438] 1790 => refcursor
  2007-10-22 12:47:54.828 PostgresServerTool[2438] 2202 => regprocedure
  2007-10-22 12:47:54.829 PostgresServerTool[2438] 2203 => regoper
