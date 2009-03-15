@@ -305,7 +305,7 @@
 		STAssertEqualObjects(theValue,theOriginal,@"Returned from database = %@ and original = %@",theValue,theOriginal);		
 	}
 }
-
+/*
 -(void)test200_InsertIntegersBindings {
 	// generate 1000 random numbers
 	NSMutableArray* theData = [NSMutableArray array];
@@ -333,7 +333,7 @@
 		STAssertEqualObjects(theValue,theOriginal,@"Returned from database = %@ and original = %@",theValue,theOriginal);		
 	}
 }
-
+*/
 
 /*
 

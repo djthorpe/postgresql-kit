@@ -27,6 +27,7 @@
 				6E620F410F4366C800BE396D /* PBXTargetDependency */,
 				6E620F430F4366C800BE396D /* PBXTargetDependency */,
 				6E620F450F4366C800BE396D /* PBXTargetDependency */,
+				6EF3E6550F6D347C001AFA38 /* PBXTargetDependency */,
 				6E6210720F436B0400BE396D /* PBXTargetDependency */,
 				6EC0A6500F67098900DED98A /* PBXTargetDependency */,
 			);
@@ -217,6 +218,13 @@
 			remoteGlobalIDString = 6E23CD7E0DCDE3C80041AA57;
 			remoteInfo = PostgresClientKit;
 		};
+		6EF3E6540F6D347C001AFA38 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6E90C00C0F6430DB0040B36C;
+			remoteInfo = EmbeddedServer;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -344,6 +352,10 @@
 		6EC0A5A30F67056100DED98A /* ClientConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClientConnection.m; sourceTree = "<group>"; };
 		6EC1F8EA0F49FC02006A2A12 /* PostgresInstallerApp */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PostgresInstallerApp; sourceTree = BUILT_PRODUCTS_DIR; };
 		6EC1F8FC0F49FCB3006A2A12 /* PostgresInstallerMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostgresInstallerMain.m; sourceTree = "<group>"; };
+		6EC49A340F6D5CC90039D454 /* upload-file.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "upload-file.sh"; sourceTree = "<group>"; };
+		6EC49A350F6D5CDD0039D454 /* googlecode_upload.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = googlecode_upload.py; sourceTree = "<group>"; };
+		6EC49A620F6D66870039D454 /* ClientConnect.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClientConnect.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6EC49A640F6D66870039D454 /* ClientConnect-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ClientConnect-Info.plist"; sourceTree = "<group>"; };
 		6ECC89DB0F618F30000993F9 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = /usr/lib/libz.dylib; sourceTree = "<absolute>"; };
 		6ECC8B850F6283EC000993F9 /* logo_w_elephant.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = logo_w_elephant.pdf; sourceTree = "<group>"; };
 		6ECC8B8F0F628525000993F9 /* strapline-200x40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "strapline-200x40.png"; sourceTree = "<group>"; };
@@ -423,6 +435,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6EC49A600F6D66870039D454 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -436,6 +455,7 @@
 				6EC1F8EA0F49FC02006A2A12 /* PostgresInstallerApp */,
 				6E90C00D0F6430DB0040B36C /* EmbeddedServer.app */,
 				6EC0A5660F6703F200DED98A /* UnitTests.octest */,
+				6EC49A620F6D66870039D454 /* ClientConnect.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -443,12 +463,14 @@
 		0867D691FE84028FC02AAC07 /* postgresql */ = {
 			isa = PBXGroup;
 			children = (
+				6EC49A330F6D5CB10039D454 /* etc */,
 				6E23CC530DCDD7890041AA57 /* doc */,
 				6E23CC150DCDD4CE0041AA57 /* src */,
 				6E23CC020DCDD3400041AA57 /* resources */,
 				6E23CBD40DCDD00F0041AA57 /* tar */,
 				1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */,
 				034768DFFF38A50411DB9C8B /* Products */,
+				6EC49A640F6D66870039D454 /* ClientConnect-Info.plist */,
 			);
 			name = postgresql;
 			sourceTree = "<group>";
@@ -561,6 +583,7 @@
 		6E90BFE80F6430430040B36C /* Example */ = {
 			isa = PBXGroup;
 			children = (
+				6EC49A590F6D66630039D454 /* ClientConnect */,
 				6E90BFE90F6430430040B36C /* EmbeddedServer */,
 			);
 			path = Example;
@@ -625,6 +648,22 @@
 				6EC0A5A30F67056100DED98A /* ClientConnection.m */,
 			);
 			path = UnitTests;
+			sourceTree = "<group>";
+		};
+		6EC49A330F6D5CB10039D454 /* etc */ = {
+			isa = PBXGroup;
+			children = (
+				6EC49A350F6D5CDD0039D454 /* googlecode_upload.py */,
+				6EC49A340F6D5CC90039D454 /* upload-file.sh */,
+			);
+			path = etc;
+			sourceTree = "<group>";
+		};
+		6EC49A590F6D66630039D454 /* ClientConnect */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ClientConnect;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -793,6 +832,23 @@
 			productReference = 6EC1F8EA0F49FC02006A2A12 /* PostgresInstallerApp */;
 			productType = "com.apple.product-type.tool";
 		};
+		6EC49A610F6D66870039D454 /* ClientConnect */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6EC49A670F6D66870039D454 /* Build configuration list for PBXNativeTarget "ClientConnect" */;
+			buildPhases = (
+				6EC49A5E0F6D66870039D454 /* Resources */,
+				6EC49A5F0F6D66870039D454 /* Sources */,
+				6EC49A600F6D66870039D454 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ClientConnect;
+			productName = ClientConnect;
+			productReference = 6EC49A620F6D66870039D454 /* ClientConnect.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -815,6 +871,7 @@
 				6E6210440F4369B500BE396D /* PostgresPrefPane */,
 				6EC1F8E90F49FC02006A2A12 /* PostgresInstallerApp */,
 				6E6211DA0F43849700BE396D /* PostgresServerApp */,
+				6EC49A610F6D66870039D454 /* ClientConnect */,
 				6E90C00C0F6430DB0040B36C /* EmbeddedServer */,
 				6EC0A5650F6703F200DED98A /* UnitTests */,
 				6E620F3D0F4366C100BE396D /* Build Everything Useful! */,
@@ -867,6 +924,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		6EC0A5610F6703F200DED98A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6EC49A5E0F6D66870039D454 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -999,6 +1063,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6EC49A5F0F6D66870039D454 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -1081,6 +1152,11 @@
 			isa = PBXTargetDependency;
 			target = 6E23CD7E0DCDE3C80041AA57 /* PostgresClientKit */;
 			targetProxy = 6ECC8E850F62D3DC000993F9 /* PBXContainerItemProxy */;
+		};
+		6EF3E6550F6D347C001AFA38 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6E90C00C0F6430DB0040B36C /* EmbeddedServer */;
+			targetProxy = 6EF3E6540F6D347C001AFA38 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1521,6 +1597,54 @@
 			};
 			name = Release;
 		};
+		6EC49A650F6D66870039D454 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "ClientConnect-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = ClientConnect;
+			};
+			name = Debug;
+		};
+		6EC49A660F6D66870039D454 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "ClientConnect-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = ClientConnect;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1610,6 +1734,15 @@
 			buildConfigurations = (
 				6EC1F8EC0F49FC03006A2A12 /* Debug */,
 				6EC1F8ED0F49FC03006A2A12 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6EC49A670F6D66870039D454 /* Build configuration list for PBXNativeTarget "ClientConnect" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6EC49A650F6D66870039D454 /* Debug */,
+				6EC49A660F6D66870039D454 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
