@@ -14,7 +14,7 @@
 	self = [super init];
 	if (self != nil) {
 		[self setNetServiceBrowser:[[[NSNetServiceBrowser alloc] init] autorelease]];
-		[self setSettings:[NSMutableDictionary dictionary]];
+		[self setSettings:[NSMutableArray array]];
 	}
 	return self;
 }
@@ -66,7 +66,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 -(void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser didFindService:(NSNetService *)netService moreComing:(BOOL)moreServicesComing {
-	NSLog(@"found service %@",netService);
+	[settings addObject:[NSDictionary dictionaryWithObject:netService forKey:@"title"]];
+
+	NSLog(@"found service %@",settings);
+
 }
 
 -(void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser didRemoveService:(NSNetService *)netService moreComing:(BOOL)moreServicesComing {
