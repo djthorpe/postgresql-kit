@@ -3,11 +3,14 @@
 
 @interface FLXPostgresConnectWindowController : NSWindowController {
 	NSNetServiceBrowser* netServiceBrowser;
-	NSMutableArray* settings;
+
+	// IBOutlets
+	IBOutlet NSArrayController* settings;
+	IBOutlet NSButton* ibAdvancedSettingsButton;
+	IBOutlet NSView* ibAdvancedSettingsView;	
 }
 
 @property (retain) NSNetServiceBrowser* netServiceBrowser;
-@property (retain) NSMutableArray* settings;
 
 // methods
 -(void)beginSheetForWindow:(NSWindow* )mainWindow;
@@ -15,5 +18,6 @@
 
 // IBAction
 -(IBAction)doEndSheet:(id)sender;
+-(IBAction)doAdvancedSettings:(id)sender;
 
 @end

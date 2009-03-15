@@ -80,12 +80,15 @@
 		6E90C05E0F6434770040B36C /* PostgresClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E23CD7F0DCDE3C80041AA57 /* PostgresClientKit.framework */; };
 		6E90C06C0F64349A0040B36C /* PostgresClientKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6E23CD7F0DCDE3C80041AA57 /* PostgresClientKit.framework */; };
 		6E90C0760F64349D0040B36C /* PostgresServerKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6E23CBEE0DCDD29F0041AA57 /* PostgresServerKit.framework */; };
+		6E9C84600F6D9DB100651864 /* strapline-200x40.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ECC8B8F0F628525000993F9 /* strapline-200x40.png */; };
 		6EB5160B0F48243C00C8F8A4 /* PostgresPrefPaneShared.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB5160A0F48243C00C8F8A4 /* PostgresPrefPaneShared.m */; };
 		6EB5160C0F48243C00C8F8A4 /* PostgresPrefPaneShared.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB5160A0F48243C00C8F8A4 /* PostgresPrefPaneShared.m */; };
 		6EB5161D0F48252400C8F8A4 /* PostgresServerApp in Copy Applications */ = {isa = PBXBuildFile; fileRef = 6E6211DB0F43849700BE396D /* PostgresServerApp */; };
 		6EB516560F48254400C8F8A4 /* PostgresServerKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 6E23CBEE0DCDD29F0041AA57 /* PostgresServerKit.framework */; };
 		6EB516610F48257F00C8F8A4 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EB516600F48257F00C8F8A4 /* Security.framework */; };
 		6EB516A00F482C7D00C8F8A4 /* PostgresPrefPaneServerStartupItem.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6EB5169F0F482C7D00C8F8A4 /* PostgresPrefPaneServerStartupItem.plist */; };
+		6EBCA4120F6DA73A00FB960C /* gradient-1.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EBCA4110F6DA73A00FB960C /* gradient-1.png */; };
+		6EBCA4150F6DA84400FB960C /* gear-14x14.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EBCA4140F6DA84400FB960C /* gear-14x14.png */; };
 		6EC0A56F0F67040D00DED98A /* PostgresClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E23CD7F0DCDE3C80041AA57 /* PostgresClientKit.framework */; };
 		6EC0A5700F67040D00DED98A /* PostgresServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E23CBEE0DCDD29F0041AA57 /* PostgresServerKit.framework */; };
 		6EC0A5A40F67056100DED98A /* ClientConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC0A5A30F67056100DED98A /* ClientConnection.m */; };
@@ -356,6 +359,8 @@
 		6EB5160A0F48243C00C8F8A4 /* PostgresPrefPaneShared.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostgresPrefPaneShared.m; sourceTree = "<group>"; };
 		6EB516600F48257F00C8F8A4 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
 		6EB5169F0F482C7D00C8F8A4 /* PostgresPrefPaneServerStartupItem.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PostgresPrefPaneServerStartupItem.plist; sourceTree = "<group>"; };
+		6EBCA4110F6DA73A00FB960C /* gradient-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gradient-1.png"; sourceTree = "<group>"; };
+		6EBCA4140F6DA84400FB960C /* gear-14x14.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gear-14x14.png"; sourceTree = "<group>"; };
 		6EC0A5660F6703F200DED98A /* UnitTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnitTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6EC0A58A0F67047E00DED98A /* UnitTests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "UnitTests-Info.plist"; sourceTree = "<group>"; };
 		6EC0A5A20F67056100DED98A /* ClientConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientConnection.h; sourceTree = "<group>"; };
@@ -627,6 +632,8 @@
 		6E90C01B0F64312D0040B36C /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				6EBCA4140F6DA84400FB960C /* gear-14x14.png */,
+				6EBCA4110F6DA73A00FB960C /* gradient-1.png */,
 				6E4B31650F6BDDBD003504FB /* start.tiff */,
 				6E4B31670F6BDDCC003504FB /* stop.tiff */,
 				6E4B317D0F6BDEC8003504FB /* backup.tiff */,
@@ -971,6 +978,9 @@
 			files = (
 				6EE3AED30F6D6B0F000E000F /* ClientConnect.xib in Resources */,
 				6E83E3EF0F6D7817003C09AC /* ConnectPanel.xib in Resources */,
+				6E9C84600F6D9DB100651864 /* strapline-200x40.png in Resources */,
+				6EBCA4120F6DA73A00FB960C /* gradient-1.png in Resources */,
+				6EBCA4150F6DA84400FB960C /* gear-14x14.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
