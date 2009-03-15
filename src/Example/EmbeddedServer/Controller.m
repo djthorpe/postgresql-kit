@@ -209,12 +209,13 @@
 	[bindings appendOutputString:theCommand color:[NSColor grayColor] bold:YES];
 	[bindings setInputString:@""];
 	FLXPostgresResult* theResult = [self _executeQuery:theCommand];	
+	if(theResult==nil) return;
 	if([theResult isDataReturned]==NO) {
 		// output OK
-		[bindings appendOutputString:[NSString stringWithFormat:@"OK, %u rows affected",[theResult affectedRows]] color:nil bold:YES];		
+		[bindings appendOutputString:[NSString stringWithFormat:@"OK, %u rows affected",[theResult affectedRows]] color:[NSColor grayColor] bold:YES];		
 	} else {
 		[self _outputResult:theResult];
-		[bindings appendOutputString:[NSString stringWithFormat:@"%u rows returned",[theResult affectedRows]] color:nil bold:YES];	
+		[bindings appendOutputString:[NSString stringWithFormat:@"%u rows returned",[theResult affectedRows]] color:[NSColor grayColor] bold:YES];	
 	}
 }
 
@@ -222,7 +223,17 @@
 	if([[self client] connected]==NO) return;
 	
 	// set databases
-	[bindings setDatabases:[[self client] databases]];
+	NSArray* theDatabases = [[self client] databases];
+	NSMutableArray* theRows = [NSMutableArray arrayWithCapacity:[theDatabases count]];
+	NSUInteger theRow = 0;
+	for(NSString* theDatabase in theDatabases) {
+		if([theDatabase isEqual:[[self client] database]]) {
+			[bindings setSelectedDatabaseIndex:[NSIndexSet indexSetWithIndex:theRow]];
+		}
+		[theRows addObject:[NSDictionary dictionaryWithObject:theDatabase forKey:@"database"]];
+		theRow++;
+	}	
+	[bindings setDatabases:theRows];
 	
 	if([[self server] isRunning]==YES) {		
 		[NSApp beginSheet:[bindings selectWindow] modalForWindow:[bindings mainWindow] modalDelegate:self didEndSelector:@selector(selectSheetDidEnd:returnCode:contextInfo:) contextInfo:nil];
@@ -231,6 +242,10 @@
 
 -(IBAction)doEndSelectDatabase:(id)sender {
 	[NSApp endSheet:[bindings selectWindow] returnCode:NSOKButton];
+}
+
+-(IBAction)doClearOutput:(id)sender {
+	[bindings clearOutput];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -255,7 +270,17 @@
 -(void)selectSheetDidEnd:(NSWindow* )sheet returnCode:(int)returnCode  contextInfo:(void* )contextInfo {
 	[sheet orderOut:self];
 	if(returnCode==NSOKButton) {
-		NSLog(@"TODO: select database");
+		NSDictionary* theRow = [[bindings databases] objectAtIndex:[[bindings selectedDatabaseIndex] firstIndex]];
+		NSString* theDatabase = [theRow objectForKey:@"database"];
+		if([[[self client] databases] containsObject:theDatabase]) {
+			@try {
+				[self _selectDatabase:theDatabase];
+			} @catch(NSException* theException) {
+				[bindings appendOutputString:[theException description] color:[NSColor redColor] bold:NO];
+				return;
+			}
+			[bindings appendOutputString:[NSString stringWithFormat:@"Selected database: %@",theDatabase] color:[NSColor grayColor] bold:YES];	
+		}
 	}
 }
 
@@ -276,7 +301,7 @@
 }
 
 -(void)serverStateDidChange:(NSString* )theMessage {
-	[bindings appendOutputString:[NSString stringWithFormat:@"Server state: %@",theMessage] color:[NSColor blueColor] bold:YES];
+	[bindings appendOutputString:[NSString stringWithFormat:@"Server state: %@",theMessage] color:[NSColor grayColor] bold:YES];
 
 	// only enable the input when server status is running
 	[bindings setInputEnabled:([[self server] state]==FLXServerStateStarted) ? YES : NO];

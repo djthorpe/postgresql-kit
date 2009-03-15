@@ -10,6 +10,7 @@
 
 @implementation Bindings
 @synthesize databases;
+@synthesize selectedDatabaseIndex;
 
 -(NSWindow* )mainWindow {
 	return ibMainWindow;

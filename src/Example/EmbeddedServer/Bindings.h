@@ -8,9 +8,11 @@
 	IBOutlet NSTextField* ibInput;
 	
 	NSArray* databases;
+	NSIndexSet* selectedDatabaseIndex;
 }
 
 @property (retain) NSArray* databases;
+@property (retain) NSIndexSet* selectedDatabaseIndex;
 
 -(NSWindow* )mainWindow;
 -(NSWindow* )selectWindow;

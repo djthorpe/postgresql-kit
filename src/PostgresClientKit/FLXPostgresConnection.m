@@ -153,16 +153,16 @@
 	
 	// construct the parameters
 	NSMutableString* theParameters = [NSMutableString string];
-	if([self host] && [[self host] length]) {
+	if([[self host] length]) {
 		[theParameters appendFormat:@"host='%@' ",[self host]];
 	}
 	if([self port]) {
 		[theParameters appendFormat:@"port=%d ",[self port]];
 	}
-	if([self database] && [[self database] length]) {
+	if([[self database] length]) {
 		[theParameters appendFormat:@"dbname='%@' ",[self database]];
 	}
-	if([self user] && [[self user] length]) {
+	if([[self user] length]) {
 		[theParameters appendFormat:@"user='%@' ",[self user]];
 	}
 	if(thePassword != nil) {
