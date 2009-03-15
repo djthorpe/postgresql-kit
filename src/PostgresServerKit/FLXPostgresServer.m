@@ -1,12 +1,12 @@
 
-#import "FLXServer.h"
+#import "FLXPostgresServer.h"
 #include <sys/sysctl.h>
 #import <zlib.h>
 
-static FLXServer* FLXSharedServer = nil;
+static FLXPostgresServer* FLXSharedServer = nil;
 const unsigned FLXDefaultPostgresPort = 5432;
 
-@interface FLXServer (Private)
+@interface FLXPostgresServer (Private)
 -(BOOL)_createPath:(NSString* )thePath;
 -(NSString* )_backupFilePathForFolder:(NSString* )thePath;
 -(int)_processIdentifierFromDataPath;
@@ -18,13 +18,13 @@ const unsigned FLXDefaultPostgresPort = 5432;
 -(int)_doesProcessExist:(int)thePid;
 @end
 
-@implementation FLXServer
+@implementation FLXPostgresServer
 
 ////////////////////////////////////////////////////////////////////////////////
 // singleton design pattern
 // see http://www.cocoadev.com/index.pl?SingletonDesignPattern
 
-+(FLXServer* )sharedServer {
++(FLXPostgresServer* )sharedServer {
 	@synchronized(self) {
 		if (FLXSharedServer == nil) {
 			[[self alloc] init]; // assignment not done here

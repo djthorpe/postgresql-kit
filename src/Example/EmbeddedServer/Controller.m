@@ -35,7 +35,7 @@
 
 -(void)awakeFromNib {
 	// create the server object
-	[self setServer:[FLXServer sharedServer]];
+	[self setServer:[FLXPostgresServer sharedServer]];
 	NSParameterAssert([self server]);
 	// create the client object
 	[self setClient:[[[FLXPostgresConnection alloc] init] autorelease]];
@@ -92,12 +92,12 @@
 
 -(void)_connectToServer {
 	NSParameterAssert([[self client] connected]==NO);
-	[[self client] setDatabase:[FLXServer superUsername]];
-	[[self client] setUser:[FLXServer superUsername]];
+	[[self client] setDatabase:[FLXPostgresServer superUsername]];
+	[[self client] setUser:[FLXPostgresServer superUsername]];
 	[[self client] connect];
 	NSParameterAssert([[self client] connected]);
 	NSParameterAssert([[self client] database]);
-	NSParameterAssert([[[self client] database] isEqual:[FLXServer superUsername]]);
+	NSParameterAssert([[[self client] database] isEqual:[FLXPostgresServer superUsername]]);
 }
 
 -(void)_disconnectFromServer {

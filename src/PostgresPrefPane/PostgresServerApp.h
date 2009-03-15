@@ -7,7 +7,7 @@
 @interface PostgresServerApp : NSObject {
 	NSString* dataPath;
 	NSString* backupPath;
-	FLXServer* server;
+	FLXPostgresServer* server;
 	FLXPostgresConnection* client;
 	NSConnection* connection;
 	BOOL isRemoteAccess;
@@ -23,7 +23,7 @@
 }
 
 // properties
-@property (retain) FLXServer* server;
+@property (retain) FLXPostgresServer* server;
 @property (retain) FLXPostgresConnection* client;
 @property (retain) NSConnection* connection;
 @property (retain) NSString* dataPath;

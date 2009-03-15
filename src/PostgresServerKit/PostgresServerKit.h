@@ -1,5 +1,5 @@
 
-#import "FLXServer.h"
+#import "FLXPostgresServer.h"
 
 // delegate
 @interface NSObject (FLXServerDelegate)

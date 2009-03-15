@@ -4,11 +4,11 @@
 #import <PostgresClientKit/PostgresClientKit.h>
 
 @interface ClientConnection : SenTestCase {
-	FLXServer* server;
+	FLXPostgresServer* server;
 	FLXPostgresConnection* client;
 }
 
-@property (retain) FLXServer* server;
+@property (retain) FLXPostgresServer* server;
 @property (retain) FLXPostgresConnection* client;
 
 @end

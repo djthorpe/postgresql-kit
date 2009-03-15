@@ -73,8 +73,8 @@ NSInteger PostgresServerAppBackupPercent = 50; // purges disk for backup when fr
 -(BOOL)_connectClientUsingPassword:(NSString* )thePassword {
 	[self setClient:[[[FLXPostgresConnection alloc] init] autorelease]];
 	// client connection is always done through sockets	
-	[[self client] setUser:[FLXServer superUsername]];
-	[[self client] setDatabase:[FLXServer superUsername]];
+	[[self client] setUser:[FLXPostgresServer superUsername]];
+	[[self client] setDatabase:[FLXPostgresServer superUsername]];
 	
 	@try {
 		[[self client] connectWithPassword:thePassword];
@@ -87,7 +87,7 @@ NSInteger PostgresServerAppBackupPercent = 50; // purges disk for backup when fr
 -(BOOL)_setClientPassword:(NSString* )thePassword {
 	NSParameterAssert([[self client] connected]);
 	@try {
-		[[self client] execute:[NSString stringWithFormat:@"ALTER USER %@ WITH PASSWORD %@",[FLXServer superUsername],[[self client] quote:thePassword]]];
+		[[self client] execute:[NSString stringWithFormat:@"ALTER USER %@ WITH PASSWORD %@",[FLXPostgresServer superUsername],[[self client] quote:thePassword]]];
 	} @catch(NSException* theException) {
 		[self serverMessage:[NSString stringWithFormat:@"Unable to perform password change in database server: %@",theException]];
 		return NO;		
@@ -115,7 +115,7 @@ NSInteger PostgresServerAppBackupPercent = 50; // purges disk for backup when fr
 -(BOOL)awakeThread {
 
 	// set up shared postgres object
-	[self setServer:[FLXServer sharedServer]];
+	[self setServer:[FLXPostgresServer sharedServer]];
 	if([self server]==nil) {
 		return NO;
 	}
@@ -131,7 +131,7 @@ NSInteger PostgresServerAppBackupPercent = 50; // purges disk for backup when fr
 	}
 
 	// set server port to default
-	defaultServerPort = [FLXServer defaultPort];	
+	defaultServerPort = [FLXPostgresServer defaultPort];	
 	[self setServerPort:defaultServerPort];
 	
 	// set default percent
@@ -222,7 +222,7 @@ NSInteger PostgresServerAppBackupPercent = 50; // purges disk for backup when fr
 
 -(BOOL)setSuperuserPassword:(NSString* )theNewPassword existingPassword:(NSString* )theOldPassword {
 	// retrieve existing password
-	NSString* theExistingPassword = [[self keychain] passwordForAccount:[FLXServer superUsername]];
+	NSString* theExistingPassword = [[self keychain] passwordForAccount:[FLXPostgresServer superUsername]];
 	if(theExistingPassword==nil) {
 		[self serverMessage:@"Unable to retrieve the existing superuser password, assuming not yet set"];
 	} else if([theExistingPassword isEqual:theOldPassword]==NO) {
@@ -250,7 +250,7 @@ NSInteger PostgresServerAppBackupPercent = 50; // purges disk for backup when fr
 	}
 	
 	// set new password
-	BOOL isSuccess = [[self keychain] setPassword:theNewPassword forAccount:[FLXServer superUsername]];
+	BOOL isSuccess = [[self keychain] setPassword:theNewPassword forAccount:[FLXPostgresServer superUsername]];
 	if(isSuccess==YES) {
 		[self serverMessage:@"Success when setting new superuser password"];
 	} else {
@@ -268,7 +268,7 @@ NSInteger PostgresServerAppBackupPercent = 50; // purges disk for backup when fr
 
 -(BOOL)hasSuperuserPassword {
 	// retrieve existing password
-	NSString* theExistingPassword = [[self keychain] passwordForAccount:[FLXServer superUsername]];
+	NSString* theExistingPassword = [[self keychain] passwordForAccount:[FLXPostgresServer superUsername]];
 	return ([theExistingPassword length]==0) ? NO : YES;
 }
 
@@ -357,7 +357,7 @@ NSInteger PostgresServerAppBackupPercent = 50; // purges disk for backup when fr
 		// ignore non-files
 		if([[theEnumerator fileAttributes] fileType] != NSFileTypeRegular) continue;
 		// ignore files which do not have correct suffix
-		if([theFile hasSuffix:[FLXServer backupFileSuffix]]==NO) continue;
+		if([theFile hasSuffix:[FLXPostgresServer backupFileSuffix]]==NO) continue;
 		// get the creation date
 		NSDate* theDate = [[theEnumerator fileAttributes] fileCreationDate];
 		if(theDate==nil) {
@@ -389,7 +389,7 @@ NSInteger PostgresServerAppBackupPercent = 50; // purges disk for backup when fr
 	[self serverMessage:@"Initiating backup"];
 
 	// perform backup in background
-	NSString* thePassword = [[self keychain] passwordForAccount:[FLXServer superUsername]];
+	NSString* thePassword = [[self keychain] passwordForAccount:[FLXPostgresServer superUsername]];
 	[[self server] backupInBackgroundToFolderPath:theDirectory superPassword:thePassword];
 }
 

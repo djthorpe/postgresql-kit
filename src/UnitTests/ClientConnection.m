@@ -7,7 +7,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-+(void)stopServer:(FLXServer* )theServer {	
++(void)stopServer:(FLXPostgresServer* )theServer {	
 	// stop the server
 	BOOL isSuccess = YES;
 	isSuccess = [theServer stop];
@@ -27,7 +27,7 @@
 	}	
 }
 
-+(void)startServer:(FLXServer* )theServer {
++(void)startServer:(FLXPostgresServer* )theServer {
 	NSLog(@"starting server....");
 	
 	// Path should be home directory
@@ -83,10 +83,10 @@
 +(void)tearDown {
 	NSLog(@"doing teardown");
 	
-	[self stopServer:[FLXServer sharedServer]];
+	[self stopServer:[FLXPostgresServer sharedServer]];
 	
 	// remove the data directory
-	NSString* theDataDirectory = [[FLXServer sharedServer] dataPath];
+	NSString* theDataDirectory = [[FLXPostgresServer sharedServer] dataPath];
 	BOOL isSuccess = YES;
 	NSError* theError = nil;	
 	if([[NSFileManager defaultManager] fileExistsAtPath:theDataDirectory]==YES) {
@@ -99,7 +99,7 @@
 -(void)setUp {
 	
 	//////// server
-	[self setServer:[FLXServer sharedServer]];		
+	[self setServer:[FLXPostgresServer sharedServer]];		
 	if([[self server] isRunning]==NO) {
 		[[self class] startServer:[self server]];
 	}
@@ -107,7 +107,7 @@
 	//////// client
 	FLXPostgresConnection* theConnection = [[[FLXPostgresConnection alloc] init] autorelease];
 	[theConnection setDatabase:@"postgres"];
-	[theConnection setUser:[FLXServer superUsername]];
+	[theConnection setUser:[FLXPostgresServer superUsername]];
 	STAssertNoThrow([theConnection connect],@"Connect to database");
 	STAssertTrue([theConnection connected],@"Connection not made");	
 	[self setClient:theConnection];

@@ -16,7 +16,7 @@ typedef enum {
   FLXBackupStateError	
 } FLXServerState;
 
-@interface FLXServer : NSObject {
+@interface FLXPostgresServer : NSObject {
   FLXServerState m_theState;
   FLXServerState m_theBackupState;
   NSString* m_theDataPath;
@@ -26,7 +26,7 @@ typedef enum {
   id m_theDelegate;
 }
 
-+(FLXServer* )sharedServer;
++(FLXPostgresServer* )sharedServer;
 
 // delegates
 -(void)setDelegate:(id)theDelegate;

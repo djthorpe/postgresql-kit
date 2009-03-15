@@ -5,14 +5,14 @@
 #import "Bindings.h"
 
 @interface Controller : NSObject {
-	FLXServer* server;
+	FLXPostgresServer* server;
 	FLXPostgresConnection* client;
 
 	// IBOutlet
 	IBOutlet Bindings* bindings;
 }
 
-@property (retain) FLXServer* server;
+@property (retain) FLXPostgresServer* server;
 @property (retain) FLXPostgresConnection* client;
 @property (retain) Bindings* bindings;
 
