@@ -7,7 +7,6 @@
 @interface Controller : NSObject {
 	FLXServer* server;
 	FLXPostgresConnection* client;
-	NSTimer* timer;
 
 	// IBOutlet
 	IBOutlet Bindings* bindings;
@@ -15,7 +14,14 @@
 
 @property (retain) FLXServer* server;
 @property (retain) FLXPostgresConnection* client;
-@property (retain) NSTimer* timer;
 @property (retain) Bindings* bindings;
+
+// actions
+-(IBAction)doStartServer:(id)sender;
+-(IBAction)doStopServer:(id)sender;
+-(IBAction)doBackupServer:(id)sender;
+-(IBAction)doExecuteCommand:(id)sender;
+-(IBAction)doSelectDatabase:(id)sender;
+-(IBAction)doEndSelectDatabase:(id)sender;
 
 @end

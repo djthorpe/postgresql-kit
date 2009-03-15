@@ -8,6 +8,10 @@
 
 #import "Controller.h"
 
+@interface Controller (Private) 
+-(void)_startServer;
+@end
+
 @implementation Controller
 @synthesize server;
 @synthesize client;
@@ -38,10 +42,15 @@
 	
 	// set server delegate
 	[[self server] setDelegate:self];
+
+	// set the application delegate
+	[[NSApplication sharedApplication] setDelegate:self];
 	
-	// key-value observing
-	[bindings addObserver:self forKeyPath:@"input" options:NSKeyValueObservingOptionNew context:nil];
-	[bindings addObserver:self forKeyPath:@"output" options:NSKeyValueObservingOptionNew context:nil];
+	// clear output
+	[bindings clearOutput];
+	
+	// start the server
+	[self _startServer];
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -79,27 +88,12 @@
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-// execute command when input
-
--(void)observeValueForKeyPath:(NSString* )keyPath ofObject:(id)object change:(NSDictionary* )change context:(void* )context {
-	if([keyPath isEqualTo:@"input"] && [bindings input]) {
-		//[self serverMessage:[bindings input]];
-		//[bindings setInput:nil];
-		NSLog(@"input changed");
-	}
-	if([keyPath isEqualTo:@"output"]) {
-		// output changed
-		NSLog(@"output changed");
-	}
-}
-
-///////////////////////////////////////////////////////////////////////////////
 // client: connect and disconnect from server
 
 -(void)_connectToServer {
 	NSParameterAssert([[self client] connected]==NO);
-	[[self client] setPort:9001];
 	[[self client] setDatabase:[FLXServer superUsername]];
+	[[self client] setUser:[FLXServer superUsername]];
 	[[self client] connect];
 	NSParameterAssert([[self client] connected]);
 	NSParameterAssert([[self client] database]);
@@ -118,8 +112,73 @@
 	NSParameterAssert([[self client] connected]);
 }
 
+-(FLXPostgresResult* )_executeQuery:(NSString* )theQuery {
+	FLXPostgresResult* theResult = nil;
+	@try {
+		theResult = [[self client] execute:theQuery];
+	} @catch(NSException* theException) {
+		[bindings appendOutputString:[theException description] color:[NSColor redColor] bold:NO];
+		theResult = nil;
+	}
+	return theResult;
+}	
+
+-(NSString* )_formattedRow:(NSArray* )theRow widths:(NSUInteger* )columnWidths {
+	NSMutableString* theLine = [NSMutableString string];
+	[theLine appendString:@"|"];
+	for(NSUInteger i = 0; i < [theRow count]; i++) {
+		NSString* theValue = [[theRow objectAtIndex:i] description];
+		NSUInteger theWidth = columnWidths[i];
+		[theLine appendString:[theValue stringByPaddingToLength:theWidth withString:@" " startingAtIndex:0]];
+		[theLine appendString:@"|"];
+	}
+	return theLine;
+}
+
+-(void)_outputResult:(FLXPostgresResult* )theResult {
+	NSUInteger numberOfColumns = [theResult numberOfColumns];
+	NSUInteger* columnWidths = malloc(sizeof(NSUInteger) * numberOfColumns);
+	// determine width of headers
+	for(NSUInteger i = 0; i < numberOfColumns; i++) {
+		columnWidths[i] = [[[theResult columns] objectAtIndex:i] length];		
+	}
+	// determine width of cells
+	NSArray* theRow;
+	while(theRow = [theResult fetchRowAsArray]) {
+		for(NSUInteger i = 0; i < [theRow count]; i++) {
+			NSString* theValue = [[theRow objectAtIndex:i] description];
+			NSUInteger theWidth = [[theValue description] length];
+			if(theWidth < 40 && theWidth > columnWidths[i]) {
+				columnWidths[i] = theWidth;
+			}
+		}
+	}
+	[theResult dataSeek:0];
+	NSUInteger totalColumnWidth = 0;
+	for(NSUInteger i = 0; i < numberOfColumns; i++) {
+		totalColumnWidth += columnWidths[i];
+	}
+	totalColumnWidth += (numberOfColumns + 1);
+	
+	// output column header
+	NSString* theHorizonalLine = [[NSString string] stringByPaddingToLength:totalColumnWidth withString:@"-" startingAtIndex:0];
+	[bindings appendOutputString:theHorizonalLine color:nil bold:NO];
+	// output header
+	NSString* theLine = [self _formattedRow:[theResult columns] widths:columnWidths];
+	[bindings appendOutputString:theLine color:nil bold:NO];
+	[bindings appendOutputString:theHorizonalLine color:nil bold:NO];
+	// output data
+	while(theRow = [theResult fetchRowAsArray]) {
+		NSString* theLine = [self _formattedRow:theRow widths:columnWidths];		
+		[bindings appendOutputString:theLine color:nil bold:NO];		
+	}
+	[bindings appendOutputString:theHorizonalLine color:nil bold:NO];
+	free(columnWidths);		
+}
+
+
 ////////////////////////////////////////////////////////////////////////////////
-// IBAction
+// IBActions
 
 -(IBAction)doStartServer:(id)sender {
 	if([[self server] isRunning]==NO) {
@@ -134,28 +193,101 @@
 }
 
 -(IBAction)doBackupServer:(id)sender {
-	NSLog(@"TODO: backup server");
+	if([[self server] isRunning]==YES) {
+		NSOpenPanel* thePanel = [NSOpenPanel openPanel];
+		[thePanel setCanChooseFiles:NO];
+		[thePanel setCanChooseDirectories:YES];
+		[thePanel setAllowsMultipleSelection:NO];
+		[thePanel beginSheetForDirectory:nil file:nil types:nil modalForWindow:[bindings mainWindow] modalDelegate:self didEndSelector:@selector(backupPanelDidEnd:returnCode:contextInfo:) contextInfo:nil];
+	}
 }
 
+-(IBAction)doExecuteCommand:(id)sender {
+	if([[self server] isRunning]==NO) return;
+	NSString* theCommand = [bindings inputString];
+	if([theCommand length]==0) return;
+	[bindings appendOutputString:theCommand color:[NSColor grayColor] bold:YES];
+	[bindings setInputString:@""];
+	FLXPostgresResult* theResult = [self _executeQuery:theCommand];	
+	if([theResult isDataReturned]==NO) {
+		// output OK
+		[bindings appendOutputString:[NSString stringWithFormat:@"OK, %u rows affected",[theResult affectedRows]] color:nil bold:YES];		
+	} else {
+		[self _outputResult:theResult];
+		[bindings appendOutputString:[NSString stringWithFormat:@"%u rows returned",[theResult affectedRows]] color:nil bold:YES];	
+	}
+}
+
+-(IBAction)doSelectDatabase:(id)sender {	
+	if([[self client] connected]==NO) return;
+	
+	// set databases
+	[bindings setDatabases:[[self client] databases]];
+	
+	if([[self server] isRunning]==YES) {		
+		[NSApp beginSheet:[bindings selectWindow] modalForWindow:[bindings mainWindow] modalDelegate:self didEndSelector:@selector(selectSheetDidEnd:returnCode:contextInfo:) contextInfo:nil];
+	}
+}
+
+-(IBAction)doEndSelectDatabase:(id)sender {
+	[NSApp endSheet:[bindings selectWindow] returnCode:NSOKButton];
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// NSApplication delegate messages
+
+-(void)applicationWillTerminate:(NSNotification *)aNotification {
+	if([[self client] connected]) {
+		[self _disconnectFromServer];
+	}
+	if([[self server] isRunning]) {
+		[self _stopServer];
+	}
+}
+
+-(BOOL)applicationShouldHandleReopen:(NSApplication*)application hasVisibleWindows:(BOOL)visibleWindows {
+	[[bindings mainWindow] makeKeyAndOrderFront:nil];
+	return YES;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+-(void)selectSheetDidEnd:(NSWindow* )sheet returnCode:(int)returnCode  contextInfo:(void* )contextInfo {
+	[sheet orderOut:self];
+	if(returnCode==NSOKButton) {
+		NSLog(@"TODO: select database");
+	}
+}
+
+-(void)backupPanelDidEnd:(NSOpenPanel *)panel returnCode:(int)returnCode  contextInfo:(void  *)contextInfo {
+	if(returnCode==NSOKButton) {
+		NSParameterAssert([[panel filenames] count]==1);
+		NSString* theBackupPath = [[panel filenames] objectAtIndex:0];
+		[[self server] backupInBackgroundToFolderPath:theBackupPath superPassword:nil];
+	}
+}
+	
 ////////////////////////////////////////////////////////////////////////////////
 // FLXServer delegate messages
 
 -(void)serverMessage:(NSString* )theMessage {
-	NSMutableAttributedString* theAttributedMessage = [[[NSMutableAttributedString alloc] init] autorelease];
-	if([bindings output]) {
-		[theAttributedMessage appendAttributedString:[bindings output]];
-	}
-	[theAttributedMessage replaceCharactersInRange:NSMakeRange([theAttributedMessage length],0) withString:theMessage];
-	[theAttributedMessage replaceCharactersInRange:NSMakeRange([theAttributedMessage length],0) withString:@"\n"];
-	[bindings setOutput:theAttributedMessage];
+	// message from the server
+	[bindings appendOutputString:theMessage color:nil bold:YES];
 }
 
 -(void)serverStateDidChange:(NSString* )theMessage {
-	// output message
-	[self serverMessage:[NSString stringWithFormat:@"Server state: %@",theMessage]];
-	
+	[bindings appendOutputString:[NSString stringWithFormat:@"Server state: %@",theMessage] color:[NSColor blueColor] bold:YES];
+
 	// only enable the input when server status is running
-	[bindings setIsInputEnabled:([[self server] state]==FLXServerStateStarted) ? YES : NO];
+	[bindings setInputEnabled:([[self server] state]==FLXServerStateStarted) ? YES : NO];
+	
+	// connect client to server
+	if([[self server] state]==FLXServerStateStarted) {
+		[self _connectToServer];
+	} else if([[self server] state]==FLXServerStateStopping) {
+		[self _disconnectFromServer];
+	}
+		
 }
 
 @end
