@@ -1,10 +1,3 @@
-//
-//  Controller.m
-//  postgresql
-//
-//  Created by David Thorpe on 08/03/2009.
-//  Copyright 2009 __MyCompanyName__. All rights reserved.
-//
 
 #import "Controller.h"
 
