@@ -2,20 +2,17 @@
 #import "Controller.h"
 
 @implementation Controller
-@synthesize client;
 @synthesize connectPanel;
 
 -(id)init {
 	self = [super init];
 	if (self != nil) {
-		[self setClient:[[[FLXPostgresConnection alloc] init] autorelease]];
 		[self setConnectPanel:nil];
 	}
 	return self;
 }
 
 -(void)dealloc {
-	[self setClient:nil];
 	[self setConnectPanel:nil];
 	[super dealloc];
 }
