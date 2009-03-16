@@ -25,12 +25,12 @@
 -(void)windowDidBecomeMain:(NSNotification *)notification {
 	// show sheet if not already visible
 	if([connectPanel isVisible]==NO) {
-		[connectPanel beginSheetForWindow:ibMainWindow modalDelegate:self didEndSelector:@selector(didLogin:password:)];
+		[connectPanel beginSheetForWindow:ibMainWindow modalDelegate:self didEndSelector:@selector(doLogin:password:)];
 	}
 }
 
--(void)didLogin:(FLXPostgresConnection* )connection password:(NSString* )thePassword {
-	NSLog(@"Performed login, host = %@, database = %@, user = %@, port = %u, password = %@",[connection host],
+-(void)doLogin:(FLXPostgresConnection* )connection password:(NSString* )thePassword {
+	NSLog(@"TODO: Perform login, host = %@, database = %@, user = %@, port = %u, password = %@",[connection host],
 		  [connection database],[connection user],[connection port],thePassword);
 }
 

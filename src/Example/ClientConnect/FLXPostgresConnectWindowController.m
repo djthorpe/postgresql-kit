@@ -52,6 +52,9 @@
 	NSParameterAssert(mainWindow);
 	NSParameterAssert(theDelegate);
 	NSParameterAssert(theSelector);
+
+	// hide the advanced settings
+	[self doAdvancedSettings:nil];
 	
 	// begin sheet
 	NSArray* contextInfo = [NSArray arrayWithObjects:theDelegate,NSStringFromSelector(theSelector),nil];
@@ -76,10 +79,10 @@
 	
 	// set connect properties
 	FLXPostgresConnectSetting* theSetting = nil;
-	if([[settings selectedObjects] count]==0) {
+	if([[ibSettingsController selectedObjects] count]==0) {
 		[self setReturnCode:NSCancelButton];
 	} else {
-		theSetting = [[settings selectedObjects] objectAtIndex:0];
+		theSetting = [[ibSettingsController selectedObjects] objectAtIndex:0];
 		NSParameterAssert([theSetting isKindOfClass:[FLXPostgresConnectSetting class]]);
 		[self setReturnCode:theReturnCode];		
 		[[self connection] setHost:[theSetting host]];
@@ -95,40 +98,41 @@
 }
 
 -(IBAction)doAdvancedSettings:(id)sender {
-	if([ibAdvancedSettingsButton state]==NSOnState) {
-		[ibAdvancedSettingsView setHidden:NO];
-		[ibAdvancedSettingsView setNeedsDisplay:YES];
-				
-		NSRect theNewFrame = [[self window] frame];
-		theNewFrame.size.height += 100;
-		theNewFrame.origin.y -= 100;
-		// resize window
-		[[self window] setFrame:theNewFrame display:YES animate:YES];
+	NSButton* ibAdvancedSettingsButton = [[[self window] contentView] viewWithTag:-1002];
+	NSView* ibAdvancedSettingsView = [[[self window] contentView] viewWithTag:-1001];	
+	NSRect theNewFrame = [[self window] frame];
+	if([ibAdvancedSettingsButton state] != NSOnState) {
+		[ibAdvancedSettingsButton setState:NSOffState];
+		if([ibAdvancedSettingsView isHidden]==NO) {
+			[ibAdvancedSettingsView setHidden:YES];
+			theNewFrame.size.height -= 100;
+			theNewFrame.origin.y += 100;
+		}
 	} else {
-		[ibAdvancedSettingsView setHidden:YES];
-		[ibAdvancedSettingsView setNeedsDisplay:YES];
-		NSRect theNewFrame = [[self window] frame];
-		theNewFrame.size.height -= 100;
-		theNewFrame.origin.y += 100;
-		// resize window
-		[[self window] setFrame:theNewFrame display:YES animate:YES];
+		[ibAdvancedSettingsButton setState:NSOnState];
+		if([ibAdvancedSettingsView isHidden]==YES) {
+			[ibAdvancedSettingsView setHidden:NO];
+			theNewFrame.size.height += 100;
+			theNewFrame.origin.y -= 100;
+		}
 	}
+	// resize window
+	[[self window] setFrame:theNewFrame display:YES animate:YES];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 -(void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser didFindService:(NSNetService *)netService moreComing:(BOOL)moreServicesComing {	
 	FLXPostgresConnectSetting* theSetting = [FLXPostgresConnectSetting settingWithNetService:netService];
-	if([[settings arrangedObjects] containsObject:theSetting]==NO) {
-		[settings addObject:theSetting];
-		NSLog(@"added %@",theSetting);
+	if([[ibSettingsController arrangedObjects] containsObject:theSetting]==NO) {
+		[ibSettingsController addObject:theSetting];
 	}
 }
 
 -(void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser didRemoveService:(NSNetService *)netService moreComing:(BOOL)moreServicesComing {
 	FLXPostgresConnectSetting* theSetting = [FLXPostgresConnectSetting settingWithNetService:netService];
-	if([[settings arrangedObjects] containsObject:theSetting]) {
-		[settings removeObject:netService];
+	if([[ibSettingsController arrangedObjects] containsObject:theSetting]) {
+		[ibSettingsController removeObject:theSetting];
 	}	
 }
 

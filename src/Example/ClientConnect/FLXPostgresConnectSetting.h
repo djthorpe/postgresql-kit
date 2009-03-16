@@ -2,6 +2,7 @@
 #import <Foundation/Foundation.h>
 
 @interface FLXPostgresConnectSetting : NSObject {
+	NSNetService* netService;
 	NSString* name;
 	NSString* host;
 	NSUInteger port;
@@ -10,6 +11,7 @@
 	NSString* password;
 }
 
+@property (retain) NSNetService* netService;
 @property (retain) NSString* name;
 @property (retain) NSString* host;
 @property (assign) NSUInteger port;

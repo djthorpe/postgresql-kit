@@ -3,15 +3,10 @@
 #import <PostgresClientKit/PostgresClientKit.h>
 
 @interface FLXPostgresConnectWindowController : NSWindowController {
-
 	NSNetServiceBrowser* netServiceBrowser;
 	NSInteger returnCode;
 	FLXPostgresConnection* connection;	
-	
-	// IBOutlets
-	IBOutlet NSArrayController* settings;
-	IBOutlet NSButton* ibAdvancedSettingsButton;
-	IBOutlet NSView* ibAdvancedSettingsView;	
+	IBOutlet NSArrayController* ibSettingsController;
 }
 
 @property (retain) NSNetServiceBrowser* netServiceBrowser;
