@@ -217,16 +217,13 @@
 	
 	// set databases
 	NSArray* theDatabases = [[self client] databases];
-	NSMutableArray* theRows = [NSMutableArray arrayWithCapacity:[theDatabases count]];
 	NSUInteger theRow = 0;
 	for(NSString* theDatabase in theDatabases) {
-		if([theDatabase isEqual:[[self client] database]]) {
-			[bindings setSelectedDatabaseIndex:[NSIndexSet indexSetWithIndex:theRow]];
-		}
-		[theRows addObject:[NSDictionary dictionaryWithObject:theDatabase forKey:@"database"]];
+		if([theDatabase isEqual:theDatabases]==NO) continue;
+		[bindings setSelectedDatabaseIndex:[NSIndexSet indexSetWithIndex:theRow]];
 		theRow++;
 	}	
-	[bindings setDatabases:theRows];
+	[bindings setDatabases:theDatabases];
 	
 	if([[self server] isRunning]==YES) {		
 		[NSApp beginSheet:[bindings selectWindow] modalForWindow:[bindings mainWindow] modalDelegate:self didEndSelector:@selector(selectSheetDidEnd:returnCode:contextInfo:) contextInfo:nil];
@@ -263,8 +260,7 @@
 -(void)selectSheetDidEnd:(NSWindow* )sheet returnCode:(int)returnCode  contextInfo:(void* )contextInfo {
 	[sheet orderOut:self];
 	if(returnCode==NSOKButton) {
-		NSDictionary* theRow = [[bindings databases] objectAtIndex:[[bindings selectedDatabaseIndex] firstIndex]];
-		NSString* theDatabase = [theRow objectForKey:@"database"];
+		NSString* theDatabase = [[bindings databases] objectAtIndex:[[bindings selectedDatabaseIndex] firstIndex]];
 		if([[[self client] databases] containsObject:theDatabase]) {
 			@try {
 				[self _selectDatabase:theDatabase];
