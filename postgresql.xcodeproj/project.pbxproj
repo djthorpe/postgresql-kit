@@ -81,6 +81,7 @@
 		6E90C06C0F64349A0040B36C /* PostgresClientKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6E23CD7F0DCDE3C80041AA57 /* PostgresClientKit.framework */; };
 		6E90C0760F64349D0040B36C /* PostgresServerKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6E23CBEE0DCDD29F0041AA57 /* PostgresServerKit.framework */; };
 		6E9C84600F6D9DB100651864 /* strapline-200x40.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ECC8B8F0F628525000993F9 /* strapline-200x40.png */; };
+		6EB0133B0F6E420A004C2879 /* FLXPostgresConnectSetting.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB0133A0F6E420A004C2879 /* FLXPostgresConnectSetting.m */; };
 		6EB5160B0F48243C00C8F8A4 /* PostgresPrefPaneShared.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB5160A0F48243C00C8F8A4 /* PostgresPrefPaneShared.m */; };
 		6EB5160C0F48243C00C8F8A4 /* PostgresPrefPaneShared.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB5160A0F48243C00C8F8A4 /* PostgresPrefPaneShared.m */; };
 		6EB5161D0F48252400C8F8A4 /* PostgresServerApp in Copy Applications */ = {isa = PBXBuildFile; fileRef = 6E6211DB0F43849700BE396D /* PostgresServerApp */; };
@@ -355,6 +356,8 @@
 		6E90C0510F64333E0040B36C /* Controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Controller.h; sourceTree = "<group>"; };
 		6E90C0520F64333E0040B36C /* Controller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Controller.m; sourceTree = "<group>"; };
 		6E9FD7070DD593F700353077 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		6EB013390F6E420A004C2879 /* FLXPostgresConnectSetting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLXPostgresConnectSetting.h; sourceTree = "<group>"; };
+		6EB0133A0F6E420A004C2879 /* FLXPostgresConnectSetting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLXPostgresConnectSetting.m; sourceTree = "<group>"; };
 		6EB516090F48243C00C8F8A4 /* PostgresPrefPaneShared.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostgresPrefPaneShared.h; sourceTree = "<group>"; };
 		6EB5160A0F48243C00C8F8A4 /* PostgresPrefPaneShared.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostgresPrefPaneShared.m; sourceTree = "<group>"; };
 		6EB516600F48257F00C8F8A4 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
@@ -686,6 +689,8 @@
 				6E83E3AB0F6D6F17003C09AC /* Controller.m */,
 				6E83E3E40F6D7272003C09AC /* FLXPostgresConnectWindowController.h */,
 				6E83E3E50F6D7272003C09AC /* FLXPostgresConnectWindowController.m */,
+				6EB013390F6E420A004C2879 /* FLXPostgresConnectSetting.h */,
+				6EB0133A0F6E420A004C2879 /* FLXPostgresConnectSetting.m */,
 			);
 			path = ClientConnect;
 			sourceTree = "<group>";
@@ -1117,6 +1122,7 @@
 				6EE3AED00F6D6AEA000E000F /* main.m in Sources */,
 				6E83E3AC0F6D6F17003C09AC /* Controller.m in Sources */,
 				6E83E3E60F6D7272003C09AC /* FLXPostgresConnectWindowController.m in Sources */,
+				6EB0133B0F6E420A004C2879 /* FLXPostgresConnectSetting.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

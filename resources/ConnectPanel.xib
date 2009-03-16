@@ -179,7 +179,7 @@
 									<int key="NSsFlags">1</int>
 									<reference key="NSTarget" ref="369378333"/>
 									<string key="NSAction">_doScroller:</string>
-									<double key="NSCurValue">2.928572e-01</double>
+									<double key="NSCurValue">3.000001e-01</double>
 									<double key="NSPercent">9.920000e-01</double>
 								</object>
 							</object>
@@ -374,8 +374,8 @@
 						</object>
 						<object class="NSButton" id="579126856">
 							<reference key="NSNextResponder" ref="1021774806"/>
-							<int key="NSvFlags">289</int>
-							<string key="NSFrame">{{309, 10}, {96, 32}}</string>
+							<int key="NSvFlags">265</int>
+							<string key="NSFrame">{{309, 167}, {96, 32}}</string>
 							<reference key="NSSuperview" ref="1021774806"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="217138091">
@@ -537,7 +537,7 @@
 									<string>NeXT TIFF v4.0 pasteboard type</string>
 								</object>
 							</object>
-							<string key="NSFrameSize">{140, 23}</string>
+							<string key="NSFrame">{{36, 0}, {104, 23}}</string>
 							<reference key="NSSuperview" ref="1021774806"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSImageCell" key="NSCell" id="635556671">
@@ -557,7 +557,7 @@
 						<object class="NSPopUpButton" id="78029755">
 							<reference key="NSNextResponder" ref="1021774806"/>
 							<int key="NSvFlags">292</int>
-							<string key="NSFrameSize">{37, 23}</string>
+							<string key="NSFrameSize">{36, 23}</string>
 							<reference key="NSSuperview" ref="1021774806"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSPopUpButtonCell" key="NSCell" id="519536951">
@@ -569,7 +569,7 @@
 								<int key="NSButtonFlags2">134</int>
 								<object class="NSCustomResource" key="NSNormalImage">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">NSActionTemplate</string>
+									<string key="NSResourceName">gear-14x14</string>
 								</object>
 								<string key="NSAlternateContents"/>
 								<string key="NSKeyEquivalent"/>
@@ -586,10 +586,6 @@
 									<object class="NSCustomResource" key="NSImage">
 										<string key="NSClassName">NSImage</string>
 										<string key="NSResourceName">gear-14x14</string>
-									</object>
-									<object class="NSCustomResource" key="NSOnImage">
-										<string key="NSClassName">NSImage</string>
-										<string key="NSResourceName">clear</string>
 									</object>
 									<object class="NSCustomResource" key="NSMixedImage" id="313445049">
 										<string key="NSClassName">NSImage</string>
@@ -631,7 +627,6 @@
 										</object>
 									</object>
 								</object>
-								<int key="NSSelectedIndex">2</int>
 								<bool key="NSPullDown">YES</bool>
 								<int key="NSPreferredEdge">1</int>
 								<bool key="NSUsesItemFromMenu">YES</bool>
@@ -652,6 +647,26 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>title</string>
 					<string>name</string>
+					<string>selected.database</string>
+					<object class="NSMutableString">
+						<characters key="NS.bytes">user</characters>
+					</object>
+					<object class="NSMutableString">
+						<characters key="NS.bytes">database</characters>
+					</object>
+					<object class="NSMutableString">
+						<characters key="NS.bytes">password</characters>
+					</object>
+					<object class="NSMutableString">
+						<characters key="NS.bytes">host</characters>
+					</object>
+					<object class="NSMutableString">
+						<characters key="NS.bytes">port</characters>
+					</object>
+					<string>self.user</string>
+					<string>self.password</string>
+					<string>self.host</string>
+					<string>self.port</string>
 				</object>
 				<bool key="NSEditable">YES</bool>
 				<object class="_NSManagedProxy" key="_NSManagedProxy"/>
@@ -745,6 +760,102 @@
 					</object>
 					<int key="connectionID">71</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: selection.self.user</string>
+						<reference key="source" ref="774036260"/>
+						<reference key="destination" ref="955031992"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="774036260"/>
+							<reference key="NSDestination" ref="955031992"/>
+							<string key="NSLabel">value: selection.self.user</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">selection.self.user</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">110</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: selection.database</string>
+						<reference key="source" ref="425324834"/>
+						<reference key="destination" ref="955031992"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="425324834"/>
+							<reference key="NSDestination" ref="955031992"/>
+							<string key="NSLabel">value: selection.database</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">selection.database</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">113</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: selection.user</string>
+						<reference key="source" ref="23733739"/>
+						<reference key="destination" ref="955031992"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="23733739"/>
+							<reference key="NSDestination" ref="955031992"/>
+							<string key="NSLabel">value: selection.user</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">selection.user</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">114</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: selection.password</string>
+						<reference key="source" ref="776273204"/>
+						<reference key="destination" ref="955031992"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="776273204"/>
+							<reference key="NSDestination" ref="955031992"/>
+							<string key="NSLabel">value: selection.password</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">selection.password</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">115</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: selection.host</string>
+						<reference key="source" ref="494042707"/>
+						<reference key="destination" ref="955031992"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="494042707"/>
+							<reference key="NSDestination" ref="955031992"/>
+							<string key="NSLabel">value: selection.host</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">selection.host</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">116</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: selection.port</string>
+						<reference key="source" ref="273764816"/>
+						<reference key="destination" ref="955031992"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="273764816"/>
+							<reference key="NSDestination" ref="955031992"/>
+							<string key="NSLabel">value: selection.port</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">selection.port</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">117</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -790,7 +901,6 @@
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="1003760925"/>
-							<reference ref="579126856"/>
 							<reference ref="551370024"/>
 							<reference ref="649370307"/>
 							<reference ref="369378333"/>
@@ -805,6 +915,7 @@
 							<reference ref="766487075"/>
 							<reference ref="337213790"/>
 							<reference ref="78029755"/>
+							<reference ref="579126856"/>
 						</object>
 						<reference key="parent" ref="182444784"/>
 					</object>
@@ -1277,7 +1388,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">85</int>
+			<int key="maxID">117</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
