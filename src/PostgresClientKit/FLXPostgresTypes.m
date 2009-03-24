@@ -62,7 +62,7 @@
 */
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
-// object from 
+// object from data
 
 -(NSObject* )objectForResult:(PGresult* )theResult row:(NSUInteger)theRow column:(NSUInteger)theColumn {
 	// check for null
@@ -83,13 +83,22 @@
 		case FLXPostgresTypeInt8:
 		case FLXPostgresTypeInt2:
 		case FLXPostgresTypeInt4:
-		case FLXPostgresTypeOid:
 			return [self integerFromBytes:theBytes length:theLength];
+		case FLXPostgresTypeOid:
+			return [self unsignedIntegerFromBytes:theBytes length:theLength];			
 		case FLXPostgresTypeFloat4:
 		case FLXPostgresTypeFloat8:
 			return [self realFromBytes:theBytes length:theLength];
 		case FLXPostgresTypeBool:
 			return [self booleanFromBytes:theBytes length:theLength];
+		case FLXPostgresTypeAbsTime:
+			return [self abstimeFromBytes:theBytes length:theLength];
+		case FLXPostgresTypeDate:
+			return [self dateFromBytes:theBytes length:theLength];				
+		case FLXPostgresTypeTimestamp:
+			return [self timestampFromBytes:theBytes length:theLength];				
+		case FLXPostgresTypeArrayInt4:
+			return [self integerArrayFromBytes:theBytes length:theLength];	
 		case FLXPostgresTypeData:
 		default:
 			return [self dataFromBytes:theBytes length:theLength];
@@ -99,61 +108,79 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // string
 
--(NSString* )stringFromBytes:(const char* )theBytes length:(NSUInteger)theLength {
+-(NSString* )stringFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
 	// note that the string is always terminated with NULL so we don't need the length field
 	return [NSString stringWithUTF8String:theBytes];
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
-// integer
+// integer and unsigned integer
 
+-(NSNumber* )integerFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
+	NSParameterAssert(theBytes);
+	NSParameterAssert(theLength==2 || theLength==4 || theLength==8);
 #if defined(__ppc__) || defined(__ppc64__)
--(NSNumber* )integerFromBytes:(const char* )theBytes length:(NSUInteger)theLength {
 	switch(theLength) {
 		case 2:
-			return [NSNumber numberWithInteger:*((SInt16* )theBytes)];
+			return [NSNumber numberWithShort:*((SInt16* )theBytes)];
 		case 4:
 			return [NSNumber numberWithInteger:*((SInt32* )theBytes)];
 		case 8:
 			return [NSNumber numberWithLongLong:*((SInt64* )theBytes)];
 	}
-	// we shouldn't get here - we only support int2, int4 and int8
-	NSParameterAssert(FALSE);
-	return nil;				
-}
 #else
--(NSNumber* )integerFromBytes:(const char* )theBytes length:(NSUInteger)theLength {
 	switch(theLength) {
 		case 2:
-			return [NSNumber numberWithInteger:EndianS16_BtoN(*((SInt16* )theBytes))];
+			return [NSNumber numberWithShort:EndianS16_BtoN(*((SInt16* )theBytes))];
 		case 4:
 			return [NSNumber numberWithInteger:EndianS32_BtoN(*((SInt32* )theBytes))];
 		case 8:
 			return [NSNumber numberWithLongLong:EndianS64_BtoN(*((SInt64* )theBytes))];
-	}
-	// we shouldn't get here - we only support int2, int4 and int8
-	NSParameterAssert(FALSE);
-	return nil;				
-}
+	}	
 #endif
+	return nil;
+}
+
+
+-(NSNumber* )unsignedIntegerFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
+	NSParameterAssert(theBytes);
+	NSParameterAssert(theLength==2 || theLength==4 || theLength==8);
+#if defined(__ppc__) || defined(__ppc64__)
+	switch(theLength) {
+		case 2:
+			return [NSNumber numberWithUnsignedShort:*((SInt16* )theBytes)];
+		case 4:
+			return [NSNumber numberWithUnsignedInteger:*((SInt32* )theBytes)];
+		case 8:
+			return [NSNumber numberWithUnsignedLongLong:*((SInt64* )theBytes)];
+	}
+#else
+	switch(theLength) {
+		case 2:
+			return [NSNumber numberWithUnsignedShort:EndianS16_BtoN(*((SInt16* )theBytes))];
+		case 4:
+			return [NSNumber numberWithUnsignedInteger:EndianS32_BtoN(*((SInt32* )theBytes))];
+		case 8:
+			return [NSNumber numberWithUnsignedLongLong:EndianS64_BtoN(*((SInt64* )theBytes))];
+	}	
+#endif
+	return nil;
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // real (floating point numbers)
 
+-(NSNumber* )realFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
+	NSParameterAssert(theBytes);
+	NSParameterAssert(theLength==4 || theLength==8);
 #if defined(__ppc__) || defined(__ppc64__)
--(NSNumber* )realFromBytes:(const char* )theBytes length:(NSUInteger)theLength {
 	switch(theLength) {
 	case 4:
 		return [NSNumber numberWithFloat:*((Float32* )theBytes)];
 	case 8:
 		return [NSNumber numberWithDouble:*((Float64* )theBytes)];
 	}
-	// we shouldn't get here unless the real is some strange type
-	NSParameterAssert(FALSE);
-	return nil;				
-}
 #else
--(NSNumber* )realFromBytes:(const char* )theBytes length:(NSUInteger)theLength {		
     union { Float64 r; UInt64 i; } u64;
     union { Float32 r; UInt32 i; } u32;
 	switch(theLength) {
@@ -165,30 +192,66 @@
 			u64.r = *((Float64* )theBytes);		
 			u64.i = CFSwapInt64HostToBig(u64.i);			
 			return [NSNumber numberWithFloat:u64.r];
-	}
-	// we shouldn't get here unless the real is some strange type
-	NSParameterAssert(FALSE);
-	return nil;				
-}
+	}	
 #endif
+	return nil;
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // boolean
 
--(NSNumber* )booleanFromBytes:(const char* )theBytes length:(NSUInteger)theLength {
+-(NSNumber* )booleanFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
+	NSParameterAssert(theBytes);
 	NSParameterAssert(theLength==1);
-	return [NSNumber numberWithBool:(*theBytes ? YES : NO)];	
+	return [NSNumber numberWithBool:(*((const int8_t* )theBytes) ? YES : NO)];	
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
-// data
+// data (bytea)
 
--(NSData* )dataFromBytes:(const char* )theBytes length:(NSUInteger)theLength {	
+-(NSData* )dataFromBytes:(const void* )theBytes length:(NSUInteger)theLength {	
+	NSParameterAssert(theBytes);
 	return [NSData dataWithBytes:theBytes length:theLength];	
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
-// dates
+// abstime
+
+-(NSDate* )abstimeFromBytes:(const void* )theBytes length:(NSUInteger)theLength {	
+	NSParameterAssert(theBytes);
+	NSParameterAssert(theLength==4);
+	// convert bytes into integer
+	NSNumber* theTime = [self integerFromBytes:theBytes length:theLength];
+	return [NSDate dateWithTimeIntervalSince1970:(NSTimeInterval)[theTime doubleValue]];
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+// date
+
+-(NSDate* )dateFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
+	NSParameterAssert(theBytes);
+	NSParameterAssert(theLength==4);
+	// this is number of days since 1st January 2000
+	NSNumber* theDays = [self integerFromBytes:theBytes length:theLength];
+	NSCalendarDate* theEpoch = [NSCalendarDate dateWithYear:2000 month:1 day:1 hour:0 minute:0 second:0 timeZone:nil];
+	NSCalendarDate* theDate = [theEpoch dateByAddingYears:0 months:0 days:[theDays integerValue] hours:0 minutes:0 seconds:0];	
+	[theDate setCalendarFormat:@"%Y-%m-%d"];
+	return theDate;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+// timestamp
+
+-(NSNumber* )timestampFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
+	NSParameterAssert(theBytes);
+	NSParameterAssert(theLength==8);
+	// this is number of microseconds since 1st January 2000
+	NSNumber* theMicroseconds = [self integerFromBytes:theBytes length:theLength];	
+	// TODO!
+	return theMicroseconds;
+}
+
+
 /*
 +(NSDate* )dateFromBytes:(const char* )theBytes length:(NSUInteger)theLength {
 	NSParameterAssert(theLength==4);

@@ -122,7 +122,11 @@
 	for(NSUInteger i = 0; i < [theRow count]; i++) {
 		NSString* theValue = [[theRow objectAtIndex:i] description];
 		NSUInteger theWidth = columnWidths[i];
-		[theLine appendString:[theValue stringByPaddingToLength:theWidth withString:@" " startingAtIndex:0]];
+		if(theValue==nil) {
+			[theLine appendString:@"nil"];
+		} else {
+			[theLine appendString:[theValue stringByPaddingToLength:theWidth withString:@" " startingAtIndex:0]];
+		}
 		[theLine appendString:@"|"];
 	}
 	return theLine;

@@ -24,6 +24,7 @@ typedef enum {
 	FLXPostgresTypePolygon = 604,
 	FLXPostgresTypeFloat4 = 700,
 	FLXPostgresTypeFloat8 = 701,
+	FLXPostgresTypeAbsTime = 702,
 	FLXPostgresTypeCircle = 718,
 	FLXPostgresTypeMoney = 790,
 	FLXPostgresTypeMacAddr = 829,
