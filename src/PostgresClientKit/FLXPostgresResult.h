@@ -9,8 +9,6 @@
   NSUInteger m_theRow;
 }
 
--(id)initWithResult:(void* )theResult types:(FLXPostgresTypes* )theTypes;
-
 // properties
 -(BOOL)isDataReturned;
 -(NSUInteger)affectedRows;
@@ -18,7 +16,7 @@
 // properties - columns and types
 -(NSUInteger)numberOfColumns;
 -(NSArray* )columns;
--(FLXPostgresType)typeForColumn:(NSUInteger)theColumn;
+-(FLXPostgresOid)typeForColumn:(NSUInteger)theColumn;
 -(NSInteger)modifierForColumn:(NSUInteger)theColumn;
 -(NSUInteger)sizeForColumn:(NSUInteger)theColumn;
 

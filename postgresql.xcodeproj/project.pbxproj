@@ -54,6 +54,8 @@
 		6E23CDB50DCDE4FD0041AA57 /* FLXPostgresTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E23CDAD0DCDE4FD0041AA57 /* FLXPostgresTypes.m */; };
 		6E27C29A0DD5FF58004BFE98 /* FLXPostgresConnection+Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E27C2980DD5FF58004BFE98 /* FLXPostgresConnection+Utils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E27C29B0DD5FF58004BFE98 /* FLXPostgresConnection+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E27C2990DD5FF58004BFE98 /* FLXPostgresConnection+Utils.m */; };
+		6E462F250F6EF89B009C3655 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E462F240F6EF89B009C3655 /* main.m */; };
+		6E462F270F6EF916009C3655 /* PostgresClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E23CD7F0DCDE3C80041AA57 /* PostgresClientKit.framework */; };
 		6E4B31660F6BDDBD003504FB /* start.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6E4B31650F6BDDBD003504FB /* start.tiff */; };
 		6E4B31680F6BDDCC003504FB /* stop.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6E4B31670F6BDDCC003504FB /* stop.tiff */; };
 		6E4B317E0F6BDEC8003504FB /* backup.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6E4B317D0F6BDEC8003504FB /* backup.tiff */; };
@@ -117,6 +119,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		6E462F370F6EFA7D009C3655 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6E23CD7E0DCDE3C80041AA57;
+			remoteInfo = PostgresClientKit;
+		};
 		6E620F400F4366C800BE396D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
@@ -324,6 +333,8 @@
 		6E23D2470DCF68110041AA57 /* PostgresClientKitPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostgresClientKitPrivate.h; sourceTree = "<group>"; };
 		6E27C2980DD5FF58004BFE98 /* FLXPostgresConnection+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FLXPostgresConnection+Utils.h"; sourceTree = "<group>"; };
 		6E27C2990DD5FF58004BFE98 /* FLXPostgresConnection+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FLXPostgresConnection+Utils.m"; sourceTree = "<group>"; };
+		6E462F1A0F6EF843009C3655 /* TypeTests */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TypeTests; sourceTree = BUILT_PRODUCTS_DIR; };
+		6E462F240F6EF89B009C3655 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		6E4B31650F6BDDBD003504FB /* start.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = start.tiff; sourceTree = "<group>"; };
 		6E4B31670F6BDDCC003504FB /* stop.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = stop.tiff; sourceTree = "<group>"; };
 		6E4B317D0F6BDEC8003504FB /* backup.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = backup.tiff; sourceTree = "<group>"; };
@@ -411,6 +422,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6E462F180F6EF843009C3655 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6E462F270F6EF916009C3655 /* PostgresClientKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6E6210430F4369B500BE396D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -480,6 +499,7 @@
 				6E90C00D0F6430DB0040B36C /* EmbeddedServer.app */,
 				6EC49A620F6D66870039D454 /* ClientConnect.app */,
 				6EC0A5660F6703F200DED98A /* UnitTests.octest */,
+				6E462F1A0F6EF843009C3655 /* TypeTests */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -585,6 +605,14 @@
 			path = PostgresClientKit;
 			sourceTree = "<group>";
 		};
+		6E462F230F6EF888009C3655 /* TypeTests */ = {
+			isa = PBXGroup;
+			children = (
+				6E462F240F6EF89B009C3655 /* main.m */,
+			);
+			path = TypeTests;
+			sourceTree = "<group>";
+		};
 		6E6210790F436B7500BE396D /* PostgresPrefPane */ = {
 			isa = PBXGroup;
 			children = (
@@ -607,6 +635,7 @@
 		6E90BFE80F6430430040B36C /* Example */ = {
 			isa = PBXGroup;
 			children = (
+				6E462F230F6EF888009C3655 /* TypeTests */,
 				6EC49A590F6D66630039D454 /* ClientConnect */,
 				6E90BFE90F6430430040B36C /* EmbeddedServer */,
 				6EE3AECE0F6D6AD9000E000F /* Other Files */,
@@ -785,6 +814,23 @@
 			productReference = 6E23CD7F0DCDE3C80041AA57 /* PostgresClientKit.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		6E462F190F6EF843009C3655 /* TypeTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6E462F200F6EF869009C3655 /* Build configuration list for PBXNativeTarget "TypeTests" */;
+			buildPhases = (
+				6E462F170F6EF843009C3655 /* Sources */,
+				6E462F180F6EF843009C3655 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6E462F380F6EFA7D009C3655 /* PBXTargetDependency */,
+			);
+			name = TypeTests;
+			productName = TypeTests;
+			productReference = 6E462F1A0F6EF843009C3655 /* TypeTests */;
+			productType = "com.apple.product-type.tool";
+		};
 		6E6210440F4369B500BE396D /* PostgresPrefPane */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6E6210490F4369B600BE396D /* Build configuration list for PBXNativeTarget "PostgresPrefPane" */;
@@ -927,6 +973,7 @@
 				6E90C00C0F6430DB0040B36C /* EmbeddedServer */,
 				6EC0A5650F6703F200DED98A /* UnitTests */,
 				6E620F3D0F4366C100BE396D /* Build Everything Useful! */,
+				6E462F190F6EF843009C3655 /* TypeTests */,
 			);
 		};
 /* End PBXProject section */
@@ -1073,6 +1120,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6E462F170F6EF843009C3655 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6E462F250F6EF89B009C3655 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6E6210420F4369B500BE396D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1135,6 +1190,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		6E462F380F6EFA7D009C3655 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6E23CD7E0DCDE3C80041AA57 /* PostgresClientKit */;
+			targetProxy = 6E462F370F6EFA7D009C3655 /* PBXContainerItemProxy */;
+		};
 		6E620F410F4366C800BE396D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 6E23CBD70DCDD0AB0041AA57 /* Build PostgreSQL */;
@@ -1390,6 +1450,52 @@
 				PREBINDING = NO;
 				PRELINK_LIBS = "${BUILT_PRODUCTS_DIR}/postgresql-current/lib/libpgtypes.a ${BUILT_PRODUCTS_DIR}/postgresql-current/lib/libpq.a";
 				PRODUCT_NAME = PostgresClientKit;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		6E462F1C0F6EF844009C3655 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INSTALL_PATH = /usr/local/bin;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = TypeTests;
+			};
+			name = Debug;
+		};
+		6E462F1D0F6EF844009C3655 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INSTALL_PATH = /usr/local/bin;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = TypeTests;
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -1742,6 +1848,15 @@
 			buildConfigurations = (
 				6E23CD810DCDE3CA0041AA57 /* Debug */,
 				6E23CD820DCDE3CA0041AA57 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6E462F200F6EF869009C3655 /* Build configuration list for PBXNativeTarget "TypeTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6E462F1C0F6EF844009C3655 /* Debug */,
+				6E462F1D0F6EF844009C3655 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

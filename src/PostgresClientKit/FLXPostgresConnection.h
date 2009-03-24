@@ -34,6 +34,6 @@
 // execution methods
 -(NSString* )quote:(NSObject* )theObject;
 -(FLXPostgresResult* )execute:(NSString* )theQuery;
--(FLXPostgresResult* )execute:(NSString* )theQuery values:(NSArray* )theValues types:(NSArray* )theTypes;
+//-(FLXPostgresResult* )execute:(NSString* )theQuery values:(NSArray* )theValues types:(NSArray* )theTypes;
 
 @end

@@ -1,10 +1,6 @@
 
 #import "PostgresClientKit.h"
-#include <pgtypes_date.h>
-//#include <pgtypes_numeric.h>
-#include <pgtypes_timestamp.h>
-#include <pgtypes_interval.h>
-
+#import "PostgresClientKitPrivate.h"
 @implementation FLXPostgresTypes
 
 -(id)init {
@@ -22,10 +18,13 @@
 	[super dealloc];
 }
 
+
 +(FLXPostgresTypes* )array {
 	return [[[FLXPostgresTypes alloc] init] autorelease];
 }
 
+////////////////////////////////////////////////////////////////////////////////
+/*
 -(NSString* )stringAtIndex:(NSUInteger)theIndex {
 	NSArray* theType = [m_theDictionary objectForKey:[NSNumber numberWithUnsignedInteger:theIndex]];
 	return theType ? [theType objectAtIndex:0] : nil;
@@ -54,21 +53,53 @@
 	} else if([theType isEqual:@"int8"] || [theType isEqual:@"int4"] || [theType isEqual:@"int2"]) {
 		// int2 = smallint, int4 = integer, int8 = bigint
 		theInternalType = FLXPostgresTypeInteger;    
-	} else if([theType isEqual:@"float4"] || [theType isEqual:@"float8"] || [theType isEqual:@"money"]) {
+	} else if([theType isEqual:@"float4"] || [theType isEqual:@"float8"]) {
 		theInternalType = FLXPostgresTypeReal;    
-	} else if([theType isEqual:@"date"]) {
-		theInternalType = FLXPostgresTypeDate;        
-	} else if([theType isEqual:@"timestamp"] || [theType isEqual:@"timestamptz"]) {
-		theInternalType = FLXPostgresTypeDatetime;            
-	}	
+	}
 	[m_theDictionary setObject:[NSArray arrayWithObjects:theType,[NSNumber numberWithInteger:theInternalType],nil] forKey:[NSNumber numberWithUnsignedInteger:theIndex]];
 	[m_theReverseDictionary setObject:[NSNumber numberWithUnsignedInteger:theIndex] forKey:[NSNumber numberWithInteger:theInternalType]];
+}
+*/
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+// object from 
+
+-(NSObject* )objectForResult:(PGresult* )theResult row:(NSUInteger)theRow column:(NSUInteger)theColumn {
+	// check for null
+	if(PQgetisnull(theResult,theRow,theColumn)) {
+		return [NSNull null];
+	}
+	// get bytes, length
+	const void* theBytes = PQgetvalue(theResult,theRow,theColumn);
+	NSUInteger theLength = PQgetlength(theResult,theRow,theColumn);
+	FLXPostgresOid theType = PQftype(theResult,theColumn);
+	// return based on type
+	switch(theType) {
+		case FLXPostgresTypeChar:
+		case FLXPostgresTypeName:
+		case FLXPostgresTypeText:
+		case FLXPostgresTypeVarchar:
+			return [self stringFromBytes:theBytes length:theLength];			
+		case FLXPostgresTypeInt8:
+		case FLXPostgresTypeInt2:
+		case FLXPostgresTypeInt4:
+		case FLXPostgresTypeOid:
+			return [self integerFromBytes:theBytes length:theLength];
+		case FLXPostgresTypeFloat4:
+		case FLXPostgresTypeFloat8:
+			return [self realFromBytes:theBytes length:theLength];
+		case FLXPostgresTypeBool:
+			return [self booleanFromBytes:theBytes length:theLength];
+		case FLXPostgresTypeData:
+		default:
+			return [self dataFromBytes:theBytes length:theLength];
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // string
 
-+(NSString* )stringFromBytes:(const char* )theBytes length:(NSUInteger)theLength {
+-(NSString* )stringFromBytes:(const char* )theBytes length:(NSUInteger)theLength {
 	// note that the string is always terminated with NULL so we don't need the length field
 	return [NSString stringWithUTF8String:theBytes];
 }
@@ -77,7 +108,7 @@
 // integer
 
 #if defined(__ppc__) || defined(__ppc64__)
-+(NSNumber* )integerFromBytes:(const char* )theBytes length:(NSUInteger)theLength {
+-(NSNumber* )integerFromBytes:(const char* )theBytes length:(NSUInteger)theLength {
 	switch(theLength) {
 		case 2:
 			return [NSNumber numberWithInteger:*((SInt16* )theBytes)];
@@ -91,7 +122,7 @@
 	return nil;				
 }
 #else
-+(NSNumber* )integerFromBytes:(const char* )theBytes length:(NSUInteger)theLength {
+-(NSNumber* )integerFromBytes:(const char* )theBytes length:(NSUInteger)theLength {
 	switch(theLength) {
 		case 2:
 			return [NSNumber numberWithInteger:EndianS16_BtoN(*((SInt16* )theBytes))];
@@ -110,7 +141,7 @@
 // real (floating point numbers)
 
 #if defined(__ppc__) || defined(__ppc64__)
-+(NSNumber* )realFromBytes:(const char* )theBytes length:(NSUInteger)theLength {
+-(NSNumber* )realFromBytes:(const char* )theBytes length:(NSUInteger)theLength {
 	switch(theLength) {
 	case 4:
 		return [NSNumber numberWithFloat:*((Float32* )theBytes)];
@@ -122,7 +153,7 @@
 	return nil;				
 }
 #else
-+(NSNumber* )realFromBytes:(const char* )theBytes length:(NSUInteger)theLength {		
+-(NSNumber* )realFromBytes:(const char* )theBytes length:(NSUInteger)theLength {		
     union { Float64 r; UInt64 i; } u64;
     union { Float32 r; UInt32 i; } u32;
 	switch(theLength) {
@@ -144,7 +175,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // boolean
 
-+(NSNumber* )booleanFromBytes:(const char* )theBytes length:(NSUInteger)theLength {
+-(NSNumber* )booleanFromBytes:(const char* )theBytes length:(NSUInteger)theLength {
 	NSParameterAssert(theLength==1);
 	return [NSNumber numberWithBool:(*theBytes ? YES : NO)];	
 }
@@ -152,29 +183,29 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // data
 
-+(NSData* )dataFromBytes:(const char* )theBytes length:(NSUInteger)theLength {	
+-(NSData* )dataFromBytes:(const char* )theBytes length:(NSUInteger)theLength {	
 	return [NSData dataWithBytes:theBytes length:theLength];	
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // dates
-
+/*
 +(NSDate* )dateFromBytes:(const char* )theBytes length:(NSUInteger)theLength {
 	NSParameterAssert(theLength==4);
 	SInt32 theDate = *((SInt32* )theBytes);
 	NSString* theString = [NSString stringWithUTF8String:PGTYPESdate_to_asc(theDate)];
-	NSParameterAssert([theString length]==10);
+//	NSParameterAssert([theString length]==10);
 	return [NSCalendarDate dateWithString:theString calendarFormat:@"%Y-%m-%d"];
 }
 
 +(NSDate* )datetimeFromBytes:(const char* )theBytes length:(NSUInteger)theLength {
-	NSParameterAssert(theLength==4);
+//	NSParameterAssert(theLength==4);
 	SInt32 theDate = *((SInt32* )theBytes);
 	NSString* theString = [NSString stringWithUTF8String:PGTYPESdate_to_asc(theDate)];
 	NSLog(@"datetime = %@",theString);
 	return [NSCalendarDate calendarDate];
 }
-
+*/
 @end
 
 /*

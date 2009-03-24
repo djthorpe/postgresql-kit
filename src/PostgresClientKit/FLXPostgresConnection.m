@@ -1,6 +1,6 @@
 
 #import "PostgresClientKit.h"
-#include <libpq-fe.h>
+#import "PostgresClientKitPrivate.h"
 
 @implementation FLXPostgresConnection
 
@@ -113,12 +113,12 @@
 	NSInteger theNumberOfRows = PQntuples(theResult);	
 	for(NSInteger i = 0; i < theNumberOfRows; i++) {
 		NSString* theOid = [NSString stringWithUTF8String:PQgetvalue(theResult,i,0)];
-		NSString* theType = [NSString stringWithUTF8String:PQgetvalue(theResult,i,1)];
+		// TODO NSString* theType = [NSString stringWithUTF8String:PQgetvalue(theResult,i,1)];
 		// convert Oid to unsigned int
 		int theOidInteger = atoi([theOid UTF8String]);
 		NSParameterAssert(theOidInteger >= 0);		
 		// insert into array
-		[theTypes insertString:theType atIndex:theOidInteger];    
+		// TODO: [theTypes insertString:theType atIndex:theOidInteger];    
 	}	
 	PQclear(theResult);
 	// set the types, return success
@@ -219,8 +219,8 @@
 	// return a result object
 	return [[[FLXPostgresResult alloc] initWithResult:theResult types:[self types]] autorelease];
 }
-
--(FLXPostgresResult* )execute:(NSString* )theQuery values:(NSArray* )theValues types:(NSArray* )theTypes {
+/*
+-(FLXPostgresResult* )execute:(NSString* )theQuery values:(NSArray* )theValues {
 	NSParameterAssert(theQuery && theValues && theTypes && [theValues count]==[theTypes count]);
 	if([self connection]==nil) {
 		[FLXPostgresException raise:@"FLXPostgresConnectionError" reason:@"No Connection"];        
@@ -309,6 +309,7 @@
 	// return a result object
 	return [[[FLXPostgresResult alloc] initWithResult:theResult types:[self types]] autorelease];
 }
+*/
 
 -(NSString* )_quoteData:(NSData* )theData {
 	size_t theLength = 0;
