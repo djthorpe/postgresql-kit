@@ -7,7 +7,7 @@
 
 @property (retain) NSData* data;
 
--(id)initWithBytes:(const void* )theBytes;
--(NS
++(FLXMacAddr* )macAddrWithData:(NSData* )theData;
+-(NSString* )stringValue;
 
 @end

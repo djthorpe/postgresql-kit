@@ -255,6 +255,15 @@
 }
 
 
+////////////////////////////////////////////////////////////////////////////////////////////////
+// mac addr
+
+-(FLXMacAddr* )macaddrFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
+	NSParameterAssert(theBytes);
+	NSParameterAssert(theLength==6);
+	return [FLXMacAddr macAddrWithData:[NSData dataWithBytes:theBytes length:theLength]];
+}
+
 /*
 +(NSDate* )dateFromBytes:(const char* )theBytes length:(NSUInteger)theLength {
 	NSParameterAssert(theLength==4);

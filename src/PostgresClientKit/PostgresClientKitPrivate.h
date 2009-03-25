@@ -24,6 +24,7 @@
 -(NSDate* )abstimeFromBytes:(const void* )theBytes length:(NSUInteger)theLength;
 -(NSNumber* )timestampFromBytes:(const void* )theBytes length:(NSUInteger)theLength;
 -(NSDate* )dateFromBytes:(const void* )theBytes length:(NSUInteger)theLength;
+-(FLXMacAddr* )macaddrFromBytes:(const void* )theBytes length:(NSUInteger)theLength;
 
 // arrays
 -(NSArray* )integerArrayFromBytes:(const void* )theBytes length:(NSUInteger)theLength;
