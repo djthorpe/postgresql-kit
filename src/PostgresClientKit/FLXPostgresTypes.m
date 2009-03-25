@@ -24,44 +24,6 @@
 	return [[[FLXPostgresTypes alloc] init] autorelease];
 }
 
-////////////////////////////////////////////////////////////////////////////////
-/*
--(NSString* )stringAtIndex:(NSUInteger)theIndex {
-	NSArray* theType = [m_theDictionary objectForKey:[NSNumber numberWithUnsignedInteger:theIndex]];
-	return theType ? [theType objectAtIndex:0] : nil;
-}
-
--(FLXPostgresType)typeAtIndex:(NSUInteger)theIndex {
-	NSArray* theType = [m_theDictionary objectForKey:[NSNumber numberWithUnsignedInteger:theIndex]];
-	if(theType==nil) return FLXPostgresTypeUnknown;
-	NSParameterAssert([theType isKindOfClass:[NSArray class]] && [theType count] >= 2);
-	return (FLXPostgresType)[[theType objectAtIndex:1] integerValue];
-}
-
--(NSUInteger)indexForType:(FLXPostgresType)theType {
-	NSNumber* theIndex = [m_theReverseDictionary objectForKey:[NSNumber numberWithInteger:theType]];
-	return ((theIndex==nil) ? 0 : [theIndex unsignedIntegerValue]);  
-}
-
--(void)insertString:(NSString* )theType atIndex:(NSUInteger)theIndex {
-	NSInteger theInternalType = FLXPostgresTypeUnknown;
-	if([theType isEqual:@"bool"]) {
-		theInternalType = FLXPostgresTypeBool;
-	} else if([theType isEqual:@"bytea"]) {
-		theInternalType = FLXPostgresTypeData;    
-	} else if([theType isEqual:@"char"] || [theType isEqual:@"text"] || [theType isEqual:@"varchar"] || [theType isEqual:@"name"]) {
-		theInternalType = FLXPostgresTypeString;
-	} else if([theType isEqual:@"int8"] || [theType isEqual:@"int4"] || [theType isEqual:@"int2"]) {
-		// int2 = smallint, int4 = integer, int8 = bigint
-		theInternalType = FLXPostgresTypeInteger;    
-	} else if([theType isEqual:@"float4"] || [theType isEqual:@"float8"]) {
-		theInternalType = FLXPostgresTypeReal;    
-	}
-	[m_theDictionary setObject:[NSArray arrayWithObjects:theType,[NSNumber numberWithInteger:theInternalType],nil] forKey:[NSNumber numberWithUnsignedInteger:theIndex]];
-	[m_theReverseDictionary setObject:[NSNumber numberWithUnsignedInteger:theIndex] forKey:[NSNumber numberWithInteger:theInternalType]];
-}
-*/
-
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // object from data
 
@@ -97,11 +59,15 @@
 		case FLXPostgresTypeDate:
 			return [self dateFromBytes:theBytes length:theLength];				
 		case FLXPostgresTypeTimestamp:
-			return [self timestampFromBytes:theBytes length:theLength];		
+			return [self timestampFromBytes:theBytes length:theLength];	
+		case FLXPostgresTypeInterval:
+			return [self intervalFromBytes:theBytes length:theLength];
 		case FLXPostgresTypeMacAddr:
-			return [self macaddrFromBytes:theBytes length:theLength];					
-		case FLXPostgresTypeArrayInt4:
-			return [self integerArrayFromBytes:theBytes length:theLength];	
+			return [self macaddrFromBytes:theBytes length:theLength];
+		case FLXPostgresTypePoint:
+			return [self pointFromBytes:theBytes length:theLength];
+//		case FLXPostgresTypeArrayInt4:
+//			return [self integerArrayFromBytes:theBytes length:theLength];	
 		case FLXPostgresTypeData:
 		default:
 			return [self dataFromBytes:theBytes length:theLength];
@@ -254,7 +220,6 @@
 	return theMicroseconds;
 }
 
-
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // mac addr
 
@@ -263,6 +228,72 @@
 	NSParameterAssert(theLength==6);
 	return [FLXMacAddr macAddrWithData:[NSData dataWithBytes:theBytes length:theLength]];
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+// point
+
+-(NSValue* )pointFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
+	NSParameterAssert(theBytes);
+	NSParameterAssert(theLength==16);
+	const Float64* theFloats = theBytes;
+	NSNumber* x = [self realFromBytes:theFloats length:8];
+	NSNumber* y = [self realFromBytes:(theFloats+1) length:8];
+	// Note: possible loss of precision on 32 bit platforms as NSPoint uses Float32, not Float64
+	return [NSValue valueWithPoint:NSMakePoint([x doubleValue],[y doubleValue])];
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+// time interval
+
+-(FLXTimeInterval* )intervalFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
+	// TODO
+	return nil;
+}
+
+@end
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+// floxsom and jexson
+
+/*
+ -(NSString* )stringAtIndex:(NSUInteger)theIndex {
+ NSArray* theType = [m_theDictionary objectForKey:[NSNumber numberWithUnsignedInteger:theIndex]];
+ return theType ? [theType objectAtIndex:0] : nil;
+ }
+ 
+ -(FLXPostgresType)typeAtIndex:(NSUInteger)theIndex {
+ NSArray* theType = [m_theDictionary objectForKey:[NSNumber numberWithUnsignedInteger:theIndex]];
+ if(theType==nil) return FLXPostgresTypeUnknown;
+ NSParameterAssert([theType isKindOfClass:[NSArray class]] && [theType count] >= 2);
+ return (FLXPostgresType)[[theType objectAtIndex:1] integerValue];
+ }
+ 
+ -(NSUInteger)indexForType:(FLXPostgresType)theType {
+ NSNumber* theIndex = [m_theReverseDictionary objectForKey:[NSNumber numberWithInteger:theType]];
+ return ((theIndex==nil) ? 0 : [theIndex unsignedIntegerValue]);  
+ }
+ 
+ -(void)insertString:(NSString* )theType atIndex:(NSUInteger)theIndex {
+ NSInteger theInternalType = FLXPostgresTypeUnknown;
+ if([theType isEqual:@"bool"]) {
+ theInternalType = FLXPostgresTypeBool;
+ } else if([theType isEqual:@"bytea"]) {
+ theInternalType = FLXPostgresTypeData;    
+ } else if([theType isEqual:@"char"] || [theType isEqual:@"text"] || [theType isEqual:@"varchar"] || [theType isEqual:@"name"]) {
+ theInternalType = FLXPostgresTypeString;
+ } else if([theType isEqual:@"int8"] || [theType isEqual:@"int4"] || [theType isEqual:@"int2"]) {
+ // int2 = smallint, int4 = integer, int8 = bigint
+ theInternalType = FLXPostgresTypeInteger;    
+ } else if([theType isEqual:@"float4"] || [theType isEqual:@"float8"]) {
+ theInternalType = FLXPostgresTypeReal;    
+ }
+ [m_theDictionary setObject:[NSArray arrayWithObjects:theType,[NSNumber numberWithInteger:theInternalType],nil] forKey:[NSNumber numberWithUnsignedInteger:theIndex]];
+ [m_theReverseDictionary setObject:[NSNumber numberWithUnsignedInteger:theIndex] forKey:[NSNumber numberWithInteger:theInternalType]];
+ }
+ */
+
 
 /*
 +(NSDate* )dateFromBytes:(const char* )theBytes length:(NSUInteger)theLength {
@@ -281,73 +312,3 @@
 	return [NSCalendarDate calendarDate];
 }
 */
-@end
-
-/*
- 2007-10-22 12:47:54.824 PostgresServerTool[2438] 16 => bool         - done
- 2007-10-22 12:47:54.824 PostgresServerTool[2438] 17 => bytea        - done
- 2007-10-22 12:47:54.824 PostgresServerTool[2438] 18 => char         - done
- 2007-10-22 12:47:54.824 PostgresServerTool[2438] 19 => name         - done
- 2007-10-22 12:47:54.825 PostgresServerTool[2438] 20 => int8         - done 
- 2007-10-22 12:47:54.825 PostgresServerTool[2438] 21 => int2         - done
- 2007-10-22 12:47:54.825 PostgresServerTool[2438] 22 => int2vector
- 2007-10-22 12:47:54.825 PostgresServerTool[2438] 23 => int4         - done
- 2007-10-22 12:47:54.825 PostgresServerTool[2438] 24 => regproc
- 2007-10-22 12:47:54.825 PostgresServerTool[2438] 25 => text         - done
- 2007-10-22 12:47:54.825 PostgresServerTool[2438] 26 => oid
- 2007-10-22 12:47:54.825 PostgresServerTool[2438] 27 => tid
- 2007-10-22 12:47:54.826 PostgresServerTool[2438] 28 => xid
- 2007-10-22 12:47:54.826 PostgresServerTool[2438] 29 => cid
- 2007-10-22 12:47:54.826 PostgresServerTool[2438] 30 => oidvector
- 2007-10-22 12:47:54.826 PostgresServerTool[2438] 71 => pg_type
- 2007-10-22 12:47:54.826 PostgresServerTool[2438] 75 => pg_attribute
- 2007-10-22 12:47:54.826 PostgresServerTool[2438] 81 => pg_proc
- 2007-10-22 12:47:54.826 PostgresServerTool[2438] 83 => pg_class
- 2007-10-22 12:47:54.826 PostgresServerTool[2438] 210 => smgr
- 2007-10-22 12:47:54.826 PostgresServerTool[2438] 600 => point
- 2007-10-22 12:47:54.826 PostgresServerTool[2438] 601 => lseg
- 2007-10-22 12:47:54.826 PostgresServerTool[2438] 602 => path
- 2007-10-22 12:47:54.827 PostgresServerTool[2438] 603 => box
- 2007-10-22 12:47:54.827 PostgresServerTool[2438] 604 => polygon
- 2007-10-22 12:47:54.827 PostgresServerTool[2438] 628 => line
- 2007-10-22 12:47:54.827 PostgresServerTool[2438] 700 => float4         - done
- 2007-10-22 12:47:54.827 PostgresServerTool[2438] 701 => float8         - done
- 2007-10-22 12:47:54.827 PostgresServerTool[2438] 702 => abstime
- 2007-10-22 12:47:54.827 PostgresServerTool[2438] 703 => reltime
- 2007-10-22 12:47:54.827 PostgresServerTool[2438] 704 => tinterval
- 2007-10-22 12:47:54.827 PostgresServerTool[2438] 705 => unknown
- 2007-10-22 12:47:54.827 PostgresServerTool[2438] 718 => circle
- 2007-10-22 12:47:54.827 PostgresServerTool[2438] 790 => money          - done
- 2007-10-22 12:47:54.827 PostgresServerTool[2438] 829 => macaddr
- 2007-10-22 12:47:54.827 PostgresServerTool[2438] 869 => inet
- 2007-10-22 12:47:54.827 PostgresServerTool[2438] 650 => cidr
- 2007-10-22 12:47:54.828 PostgresServerTool[2438] 1033 => aclitem
- 2007-10-22 12:47:54.828 PostgresServerTool[2438] 1042 => bpchar
- 2007-10-22 12:47:54.828 PostgresServerTool[2438] 1043 => varchar       - done
- 2007-10-22 12:47:54.828 PostgresServerTool[2438] 1082 => date
- 2007-10-22 12:47:54.828 PostgresServerTool[2438] 1083 => time
- 2007-10-22 12:47:54.828 PostgresServerTool[2438] 1114 => timestamp
- 2007-10-22 12:47:54.828 PostgresServerTool[2438] 1184 => timestamptz
- 2007-10-22 12:47:54.828 PostgresServerTool[2438] 1186 => interval
- 2007-10-22 12:47:54.828 PostgresServerTool[2438] 1266 => timetz
- 2007-10-22 12:47:54.828 PostgresServerTool[2438] 1560 => bit
- 2007-10-22 12:47:54.828 PostgresServerTool[2438] 1562 => varbit
- 2007-10-22 12:47:54.828 PostgresServerTool[2438] 1700 => numeric       - done
- 2007-10-22 12:47:54.828 PostgresServerTool[2438] 1790 => refcursor
- 2007-10-22 12:47:54.828 PostgresServerTool[2438] 2202 => regprocedure
- 2007-10-22 12:47:54.829 PostgresServerTool[2438] 2203 => regoper
- 2007-10-22 12:47:54.829 PostgresServerTool[2438] 2204 => regoperator
- 2007-10-22 12:47:54.829 PostgresServerTool[2438] 2205 => regclass
- 2007-10-22 12:47:54.829 PostgresServerTool[2438] 2206 => regtype
- 2007-10-22 12:47:54.829 PostgresServerTool[2438] 2249 => record
- 2007-10-22 12:47:54.829 PostgresServerTool[2438] 2275 => cstring
- 2007-10-22 12:47:54.829 PostgresServerTool[2438] 2276 => any
- 2007-10-22 12:47:54.829 PostgresServerTool[2438] 2277 => anyarray
- 2007-10-22 12:47:54.829 PostgresServerTool[2438] 2278 => void
- 2007-10-22 12:47:54.829 PostgresServerTool[2438] 2279 => trigger
- 2007-10-22 12:47:54.829 PostgresServerTool[2438] 2280 => language_handler
- 2007-10-22 12:47:54.829 PostgresServerTool[2438] 2281 => internal
- 2007-10-22 12:47:54.829 PostgresServerTool[2438] 2282 => opaque
- 2007-10-22 12:47:54.829 PostgresServerTool[2438] 2283 => anyelement
- */
-

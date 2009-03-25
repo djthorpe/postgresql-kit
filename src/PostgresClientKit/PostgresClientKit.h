@@ -6,6 +6,7 @@
 
 // additional types
 @class FLXMacAddr;
+@class FLXTimeInterval;
 
 #import "FLXPostgresTypes.h"
 #import "FLXPostgresConnection.h"
@@ -14,4 +15,6 @@
 #import "FLXPostgresException.h"
 
 #import "FLXMacAddr.h"
+#import "FLXTimeInterval.h"
+
 
