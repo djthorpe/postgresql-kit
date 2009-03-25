@@ -6,7 +6,6 @@
 // http://doxygen.postgresql.org/include_2catalog_2pg__type_8h-source.html
 
 typedef enum {
-	FLXPostgresTypeUnknown = -1,
 	FLXPostgresTypeBool = 16,
 	FLXPostgresTypeData = 17,
 	FLXPostgresTypeChar = 18,
@@ -25,6 +24,7 @@ typedef enum {
 	FLXPostgresTypeFloat4 = 700,
 	FLXPostgresTypeFloat8 = 701,
 	FLXPostgresTypeAbsTime = 702,
+	FLXPostgresTypeUnknown = 705,
 	FLXPostgresTypeCircle = 718,
 	FLXPostgresTypeMoney = 790,
 	FLXPostgresTypeMacAddr = 829,

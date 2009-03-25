@@ -2,7 +2,23 @@
 #import "PostgresClientKit.h"
 #import "PostgresClientKitPrivate.h"
 
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+// for intervals and timestamps, make sure we're not using Int64 types
+// but double float types - could be changed later if necessary
+#undef HAVE_INT64_TIMESTAMP
+
+// number of microseconds per second
+#define USECS_PER_SEC ((double)1000000)
+
+// maximum number of dimensions for arrays
+#define ARRAY_MAXDIM   6
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
 @implementation FLXPostgresTypes
+
+////////////////////////////////////////////////////////////////////////////////////////////////
 
 -(id)init {
 	self = [super init];
@@ -36,12 +52,14 @@
 	const void* theBytes = PQgetvalue(theResult,theRow,theColumn);
 	NSUInteger theLength = PQgetlength(theResult,theRow,theColumn);
 	FLXPostgresOid theType = PQftype(theResult,theColumn);
+	
 	// return based on type
 	switch(theType) {
 		case FLXPostgresTypeChar:
 		case FLXPostgresTypeName:
 		case FLXPostgresTypeText:
 		case FLXPostgresTypeVarchar:
+		case FLXPostgresTypeUnknown:
 			return [self stringFromBytes:theBytes length:theLength];			
 		case FLXPostgresTypeInt8:
 		case FLXPostgresTypeInt2:
@@ -66,10 +84,14 @@
 			return [self macaddrFromBytes:theBytes length:theLength];
 		case FLXPostgresTypePoint:
 			return [self pointFromBytes:theBytes length:theLength];
-//		case FLXPostgresTypeArrayInt4:
-//			return [self integerArrayFromBytes:theBytes length:theLength];	
+		case FLXPostgresTypeArrayInt4:
+			return [self arrayFromBytes:theBytes length:theLength type:FLXPostgresTypeInt4];	
+		case FLXPostgresTypeArrayText:
+			return [self arrayFromBytes:theBytes length:theLength type:FLXPostgresTypeText];	
 		case FLXPostgresTypeData:
+			return [self dataFromBytes:theBytes length:theLength];
 		default:
+			NSLog(@"Unknown type, %d, returning data",theType);
 			return [self dataFromBytes:theBytes length:theLength];
 	}
 }
@@ -211,13 +233,32 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // timestamp
 
--(NSNumber* )timestampFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
+-(NSDate* )timestampFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
 	NSParameterAssert(theBytes);
 	NSParameterAssert(theLength==8);
-	// this is number of microseconds since 1st January 2000
+	NSCalendarDate* theEpoch = [NSCalendarDate dateWithYear:2000 month:1 day:1 hour:0 minute:0 second:0 timeZone:nil];
+#ifdef HAVE_INT64_TIMESTAMP	
+	// this is number of microseconds since 1st January 2000 - I THINK
 	NSNumber* theMicroseconds = [self integerFromBytes:theBytes length:theLength];	
-	// TODO!
-	return theMicroseconds;
+	return [theEpoch addTimeInterval:([theMicroseconds doubleValue] * USECS_PER_SEC)];
+#else
+	NSNumber* theSeconds = [self realFromBytes:theBytes length:theLength];	
+	return [theEpoch addTimeInterval:[theSeconds doubleValue]];
+#endif	
+}
+
+-(NSCalendarDate* )timestampTZFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
+	NSParameterAssert(theBytes);
+	NSParameterAssert(theLength==8);
+	NSCalendarDate* theEpoch = [NSCalendarDate dateWithYear:2000 month:1 day:1 hour:0 minute:0 second:0 timeZone:nil];
+#ifdef HAVE_INT64_TIMESTAMP	
+	// this is number of microseconds since 1st January 2000 - I THINK
+	NSNumber* theMicroseconds = [self integerFromBytes:theBytes length:theLength];	
+	return [theEpoch addTimeInterval:([theMicroseconds doubleValue] * USECS_PER_SEC)];
+#else
+	NSNumber* theSeconds = [self realFromBytes:theBytes length:theLength];	
+	return [theEpoch addTimeInterval:[theSeconds doubleValue]];
+#endif	
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -246,13 +287,46 @@
 // time interval
 
 -(FLXTimeInterval* )intervalFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
-	// TODO
-	return nil;
+	NSParameterAssert(theBytes);
+	NSParameterAssert(theLength==16);
+
+#ifdef HAVE_INT64_TIMESTAMP
+	// int64 interval
+	// TODO: I doubt number is seconds, propably microseconds, so need to adjust
+	NSNumber* interval = [self integerFromBytes:theBytes length:8];
+#else
+	// float8 interval 
+	NSNumber* interval = [self realFromBytes:theBytes length:8];
+#endif
+	const UInt32* thePtr = theBytes;
+	NSNumber* day = [self integerFromBytes:(thePtr + 2) length:4];
+	NSNumber* month = [self integerFromBytes:(thePtr + 3) length:4];
+	return [FLXTimeInterval intervalWithSeconds:interval days:day months:month];
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+// arrays
+
+-(NSArray* )arrayFromBytes:(const void* )theBytes length:(NSUInteger)theLength type:(FLXPostgresOid)theType {
+	NSParameterAssert(theBytes);
+	// use 4 byte alignment
+	const UInt32* thePtr = theBytes;
+	// get number of dimensions - we allow zero-dimension arrays
+	NSInteger dim = [[self integerFromBytes:thePtr length:4] integerValue];
+	NSParameterAssert(dim >= 0 && dim <= ARRAY_MAXDIM);
+	// get flags - should be zero or one
+	NSInteger flags = [[self integerFromBytes:(thePtr+1) length:4] integerValue];
+	NSParameterAssert(flags==0 || flags==1);
+	// get type of array
+	FLXPostgresOid type = [[self unsignedIntegerFromBytes:(thePtr+2) length:4] unsignedIntegerValue];
+	NSParameterAssert(type==theType);
+	
+	NSLog(@"dims = %d flags = %d type = %d",dim,flags,type);
+	
+	return [NSArray array];
 }
 
 @end
-
-
 
 ////////////////////////////////////////////////////////////////////////////////
 // floxsom and jexson
