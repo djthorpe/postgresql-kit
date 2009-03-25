@@ -110,6 +110,8 @@
 		6ECC8D180F62B7E0000993F9 /* PostgresServerKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ECC8D170F62B7E0000993F9 /* PostgresServerKeychain.m */; };
 		6ECC8E810F62D3C9000993F9 /* PostgresClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E23CD7F0DCDE3C80041AA57 /* PostgresClientKit.framework */; };
 		6ECC8EB50F62D60D000993F9 /* PostgresClientKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 6E23CD7F0DCDE3C80041AA57 /* PostgresClientKit.framework */; };
+		6ED484CE0F7A1FCC002AC5AC /* FLXMacAddr.h in Headers */ = {isa = PBXBuildFile; fileRef = 6ED484CC0F7A1FCC002AC5AC /* FLXMacAddr.h */; };
+		6ED484CF0F7A1FCC002AC5AC /* FLXMacAddr.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ED484CD0F7A1FCC002AC5AC /* FLXMacAddr.m */; };
 		6ED6D5E90F64604200A3D4FC /* Bindings.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ED6D5E80F64604200A3D4FC /* Bindings.m */; };
 		6EDA14A60F611F6300CB5A0B /* PostgresPrefPaneHelp in Copy Help Files */ = {isa = PBXBuildFile; fileRef = 6EDA14A30F611F5500CB5A0B /* PostgresPrefPaneHelp */; };
 		6EE3AED00F6D6AEA000E000F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE3AECF0F6D6AEA000E000F /* main.m */; };
@@ -394,6 +396,8 @@
 		6ECC8C300F6297BB000993F9 /* elephant-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "elephant-32.png"; sourceTree = "<group>"; };
 		6ECC8D160F62B7E0000993F9 /* PostgresServerKeychain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostgresServerKeychain.h; sourceTree = "<group>"; };
 		6ECC8D170F62B7E0000993F9 /* PostgresServerKeychain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostgresServerKeychain.m; sourceTree = "<group>"; };
+		6ED484CC0F7A1FCC002AC5AC /* FLXMacAddr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLXMacAddr.h; sourceTree = "<group>"; };
+		6ED484CD0F7A1FCC002AC5AC /* FLXMacAddr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLXMacAddr.m; sourceTree = "<group>"; };
 		6ED6D5E70F64604200A3D4FC /* Bindings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Bindings.h; sourceTree = "<group>"; };
 		6ED6D5E80F64604200A3D4FC /* Bindings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Bindings.m; sourceTree = "<group>"; };
 		6EDA14A30F611F5500CB5A0B /* PostgresPrefPaneHelp */ = {isa = PBXFileReference; lastKnownFileType = folder; path = PostgresPrefPaneHelp; sourceTree = "<group>"; };
@@ -601,6 +605,7 @@
 				6E23CDAB0DCDE4FD0041AA57 /* FLXPostgresResult.m */,
 				6E23CDAC0DCDE4FD0041AA57 /* FLXPostgresTypes.h */,
 				6E23CDAD0DCDE4FD0041AA57 /* FLXPostgresTypes.m */,
+				6ED484CB0F7A1F80002AC5AC /* Additional Types */,
 			);
 			path = PostgresClientKit;
 			sourceTree = "<group>";
@@ -729,6 +734,15 @@
 			path = ClientConnect;
 			sourceTree = "<group>";
 		};
+		6ED484CB0F7A1F80002AC5AC /* Additional Types */ = {
+			isa = PBXGroup;
+			children = (
+				6ED484CC0F7A1FCC002AC5AC /* FLXMacAddr.h */,
+				6ED484CD0F7A1FCC002AC5AC /* FLXMacAddr.m */,
+			);
+			name = "Additional Types";
+			sourceTree = "<group>";
+		};
 		6EE3AEC80F6D6A86000E000F /* ClientConnect */ = {
 			isa = PBXGroup;
 			children = (
@@ -769,6 +783,7 @@
 				6E23CDB20DCDE4FD0041AA57 /* FLXPostgresResult.h in Headers */,
 				6E23CDB40DCDE4FD0041AA57 /* FLXPostgresTypes.h in Headers */,
 				6E27C29A0DD5FF58004BFE98 /* FLXPostgresConnection+Utils.h in Headers */,
+				6ED484CE0F7A1FCC002AC5AC /* FLXMacAddr.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1117,6 +1132,7 @@
 				6E23CDB30DCDE4FD0041AA57 /* FLXPostgresResult.m in Sources */,
 				6E23CDB50DCDE4FD0041AA57 /* FLXPostgresTypes.m in Sources */,
 				6E27C29B0DD5FF58004BFE98 /* FLXPostgresConnection+Utils.m in Sources */,
+				6ED484CF0F7A1FCC002AC5AC /* FLXMacAddr.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

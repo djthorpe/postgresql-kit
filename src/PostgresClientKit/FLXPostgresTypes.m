@@ -1,6 +1,7 @@
 
 #import "PostgresClientKit.h"
 #import "PostgresClientKitPrivate.h"
+
 @implementation FLXPostgresTypes
 
 -(id)init {
@@ -96,7 +97,9 @@
 		case FLXPostgresTypeDate:
 			return [self dateFromBytes:theBytes length:theLength];				
 		case FLXPostgresTypeTimestamp:
-			return [self timestampFromBytes:theBytes length:theLength];				
+			return [self timestampFromBytes:theBytes length:theLength];		
+		case FLXPostgresTypeMacAddr:
+			return [self macaddrFromBytes:theBytes length:theLength];					
 		case FLXPostgresTypeArrayInt4:
 			return [self integerArrayFromBytes:theBytes length:theLength];	
 		case FLXPostgresTypeData:
