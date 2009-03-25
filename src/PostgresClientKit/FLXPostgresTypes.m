@@ -247,20 +247,6 @@
 #endif	
 }
 
--(NSCalendarDate* )timestampTZFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
-	NSParameterAssert(theBytes);
-	NSParameterAssert(theLength==8);
-	NSCalendarDate* theEpoch = [NSCalendarDate dateWithYear:2000 month:1 day:1 hour:0 minute:0 second:0 timeZone:nil];
-#ifdef HAVE_INT64_TIMESTAMP	
-	// this is number of microseconds since 1st January 2000 - I THINK
-	NSNumber* theMicroseconds = [self integerFromBytes:theBytes length:theLength];	
-	return [theEpoch addTimeInterval:([theMicroseconds doubleValue] * USECS_PER_SEC)];
-#else
-	NSNumber* theSeconds = [self realFromBytes:theBytes length:theLength];	
-	return [theEpoch addTimeInterval:[theSeconds doubleValue]];
-#endif	
-}
-
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // mac addr
 

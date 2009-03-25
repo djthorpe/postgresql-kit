@@ -22,7 +22,7 @@
 -(NSData* )dataFromBytes:(const void* )theBytes length:(NSUInteger)theLength;
 -(NSNumber* )booleanFromBytes:(const void* )theBytes length:(NSUInteger)theLength;
 -(NSDate* )abstimeFromBytes:(const void* )theBytes length:(NSUInteger)theLength;
--(NSNumber* )timestampFromBytes:(const void* )theBytes length:(NSUInteger)theLength;
+-(NSDate* )timestampFromBytes:(const void* )theBytes length:(NSUInteger)theLength;
 -(FLXTimeInterval* )intervalFromBytes:(const void* )theBytes length:(NSUInteger)theLength;
 -(NSDate* )dateFromBytes:(const void* )theBytes length:(NSUInteger)theLength;
 -(FLXMacAddr* )macaddrFromBytes:(const void* )theBytes length:(NSUInteger)theLength;
