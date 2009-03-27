@@ -299,9 +299,9 @@
 	// only enable the input when server status is running
 	[bindings setInputEnabled:([[self server] state]==FLXServerStateStarted) ? YES : NO];
 	
-	// connect client to server
+	// connect client to server, or disconnect...wait for 1 second after server becomes ready
 	if([[self server] state]==FLXServerStateStarted) {
-		[self _connectToServer];
+		[self performSelector:@selector(_connectToServer) withObject:self afterDelay:1.0];
 	} else if([[self server] state]==FLXServerStateStopping) {
 		[self _disconnectFromServer];
 	}
