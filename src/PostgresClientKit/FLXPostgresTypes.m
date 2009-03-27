@@ -300,14 +300,22 @@
 	// get number of dimensions - we allow zero-dimension arrays
 	NSInteger dim = [[self integerFromBytes:thePtr length:4] integerValue];
 	NSParameterAssert(dim >= 0 && dim <= ARRAY_MAXDIM);
+	// return empty array if dim is zero
+	if(dim==0) return [NSArray array];	
 	// get flags - should be zero or one
 	NSInteger flags = [[self integerFromBytes:(thePtr+1) length:4] integerValue];
 	NSParameterAssert(flags==0 || flags==1);
 	// get type of array
 	FLXPostgresOid type = [[self unsignedIntegerFromBytes:(thePtr+2) length:4] unsignedIntegerValue];
 	NSParameterAssert(type==theType);
-	
+	// for each dimension, retrieve dimension and lower bound
 	NSLog(@"dims = %d flags = %d type = %d",dim,flags,type);
+	for(NSInteger i = 0; i < dim; i++) {
+		NSInteger dim2 = [[self integerFromBytes:(thePtr+(3+(i*2))) length:4] integerValue];
+		NSInteger lbound2 =  [[self integerFromBytes:(thePtr+(4+(i*2))) length:4] integerValue];
+		NSLog(@" dim %d = %d lbound = %d",i,dim2,lbound2);
+	}
+
 	
 	return [NSArray array];
 }
