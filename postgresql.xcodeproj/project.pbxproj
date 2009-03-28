@@ -59,6 +59,8 @@
 		6E4B31660F6BDDBD003504FB /* start.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6E4B31650F6BDDBD003504FB /* start.tiff */; };
 		6E4B31680F6BDDCC003504FB /* stop.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6E4B31670F6BDDCC003504FB /* stop.tiff */; };
 		6E4B317E0F6BDEC8003504FB /* backup.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6E4B317D0F6BDEC8003504FB /* backup.tiff */; };
+		6E4FFCA90F7E9F5300A11AAD /* FLXPostgresArray.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E4FFCA70F7E9F5300A11AAD /* FLXPostgresArray.h */; };
+		6E4FFCAA0F7E9F5300A11AAD /* FLXPostgresArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E4FFCA80F7E9F5300A11AAD /* FLXPostgresArray.m */; };
 		6E5EA74F0F57753400B702EC /* yellow.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6E5EA74C0F57753400B702EC /* yellow.tiff */; };
 		6E5EA7500F57753400B702EC /* red.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6E5EA74D0F57753400B702EC /* red.tiff */; };
 		6E5EA7510F57753400B702EC /* green.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6E5EA74E0F57753400B702EC /* green.tiff */; };
@@ -342,6 +344,8 @@
 		6E4B31650F6BDDBD003504FB /* start.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = start.tiff; sourceTree = "<group>"; };
 		6E4B31670F6BDDCC003504FB /* stop.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = stop.tiff; sourceTree = "<group>"; };
 		6E4B317D0F6BDEC8003504FB /* backup.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = backup.tiff; sourceTree = "<group>"; };
+		6E4FFCA70F7E9F5300A11AAD /* FLXPostgresArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLXPostgresArray.h; sourceTree = "<group>"; };
+		6E4FFCA80F7E9F5300A11AAD /* FLXPostgresArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLXPostgresArray.m; sourceTree = "<group>"; };
 		6E5EA74C0F57753400B702EC /* yellow.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = yellow.tiff; sourceTree = "<group>"; };
 		6E5EA74D0F57753400B702EC /* red.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = red.tiff; sourceTree = "<group>"; };
 		6E5EA74E0F57753400B702EC /* green.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = green.tiff; sourceTree = "<group>"; };
@@ -745,6 +749,8 @@
 				6ED484CD0F7A1FCC002AC5AC /* FLXMacAddr.m */,
 				6ED4852D0F7A2886002AC5AC /* FLXTimeInterval.h */,
 				6ED4852E0F7A2886002AC5AC /* FLXTimeInterval.m */,
+				6E4FFCA70F7E9F5300A11AAD /* FLXPostgresArray.h */,
+				6E4FFCA80F7E9F5300A11AAD /* FLXPostgresArray.m */,
 			);
 			name = "Additional Types";
 			sourceTree = "<group>";
@@ -791,6 +797,7 @@
 				6E27C29A0DD5FF58004BFE98 /* FLXPostgresConnection+Utils.h in Headers */,
 				6ED484CE0F7A1FCC002AC5AC /* FLXMacAddr.h in Headers */,
 				6ED4852F0F7A2886002AC5AC /* FLXTimeInterval.h in Headers */,
+				6E4FFCA90F7E9F5300A11AAD /* FLXPostgresArray.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1141,6 +1148,7 @@
 				6E27C29B0DD5FF58004BFE98 /* FLXPostgresConnection+Utils.m in Sources */,
 				6ED484CF0F7A1FCC002AC5AC /* FLXMacAddr.m in Sources */,
 				6ED485300F7A2886002AC5AC /* FLXTimeInterval.m in Sources */,
+				6E4FFCAA0F7E9F5300A11AAD /* FLXPostgresArray.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -3,10 +3,9 @@
 @class FLXPostgresResult;
 @class FLXPostgresException;
 @class FLXPostgresTypes;
-
-// additional types
 @class FLXMacAddr;
 @class FLXTimeInterval;
+@class FLXPostgresArray;
 
 #import "FLXPostgresTypes.h"
 #import "FLXPostgresConnection.h"
@@ -16,5 +15,6 @@
 
 #import "FLXMacAddr.h"
 #import "FLXTimeInterval.h"
+#import "FLXPostgresArray.h"
 
 

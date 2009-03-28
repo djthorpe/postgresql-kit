@@ -1,7 +1,7 @@
 
 #import <Foundation/Foundation.h>
 
-// encapsulates a NSTimeInterval value (a double float)
+// encapsulates a NSTimeInterval value (a double float) and the day and month intervals
 
 @interface FLXTimeInterval : NSObject {
 	NSTimeInterval interval;

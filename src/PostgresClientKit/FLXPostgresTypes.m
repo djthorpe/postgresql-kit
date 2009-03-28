@@ -43,17 +43,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // object from data
 
--(NSObject* )objectForResult:(PGresult* )theResult row:(NSUInteger)theRow column:(NSUInteger)theColumn {
-	// check for null
-	if(PQgetisnull(theResult,theRow,theColumn)) {
-		return [NSNull null];
-	}
-	// get bytes, length
-	const void* theBytes = PQgetvalue(theResult,theRow,theColumn);
-	NSUInteger theLength = PQgetlength(theResult,theRow,theColumn);
-	FLXPostgresOid theType = PQftype(theResult,theColumn);
-	
-	// return based on type
+-(NSObject* )objectFromBytes:(const void* )theBytes length:(NSUInteger)theLength type:(FLXPostgresOid)theType {
 	switch(theType) {
 		case FLXPostgresTypeChar:
 		case FLXPostgresTypeName:
@@ -94,6 +84,19 @@
 			NSLog(@"Unknown type, %d, returning data",theType);
 			return [self dataFromBytes:theBytes length:theLength];
 	}
+}
+
+-(NSObject* )objectForResult:(PGresult* )theResult row:(NSUInteger)theRow column:(NSUInteger)theColumn {
+	// check for null
+	if(PQgetisnull(theResult,theRow,theColumn)) {
+		return [NSNull null];
+	}
+	// get bytes, length
+	const void* theBytes = PQgetvalue(theResult,theRow,theColumn);
+	NSUInteger theLength = PQgetlength(theResult,theRow,theColumn);
+	FLXPostgresOid theType = PQftype(theResult,theColumn);
+	// return object
+	return [self objectFromBytes:theBytes length:theLength type:theType];
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -298,26 +301,56 @@
 	// use 4 byte alignment
 	const UInt32* thePtr = theBytes;
 	// get number of dimensions - we allow zero-dimension arrays
-	NSInteger dim = [[self integerFromBytes:thePtr length:4] integerValue];
+	NSInteger dim = [[self integerFromBytes:(thePtr++) length:4] integerValue];
 	NSParameterAssert(dim >= 0 && dim <= ARRAY_MAXDIM);
+	NSParameterAssert(thePtr < ((const UInt8* )theBytes + theLength));
 	// return empty array if dim is zero
 	if(dim==0) return [NSArray array];	
 	// get flags - should be zero or one
-	NSInteger flags = [[self integerFromBytes:(thePtr+1) length:4] integerValue];
+	NSInteger flags = [[self integerFromBytes:(thePtr++) length:4] integerValue];
 	NSParameterAssert(flags==0 || flags==1);
+	NSParameterAssert(thePtr < ((const UInt8* )theBytes + theLength));
 	// get type of array
-	FLXPostgresOid type = [[self unsignedIntegerFromBytes:(thePtr+2) length:4] unsignedIntegerValue];
+	FLXPostgresOid type = [[self unsignedIntegerFromBytes:(thePtr++) length:4] unsignedIntegerValue];
 	NSParameterAssert(type==theType);
-	// for each dimension, retrieve dimension and lower bound
-	NSLog(@"dims = %d flags = %d type = %d",dim,flags,type);
-	for(NSInteger i = 0; i < dim; i++) {
-		NSInteger dim2 = [[self integerFromBytes:(thePtr+(3+(i*2))) length:4] integerValue];
-		NSInteger lbound2 =  [[self integerFromBytes:(thePtr+(4+(i*2))) length:4] integerValue];
-		NSLog(@" dim %d = %d lbound = %d",i,dim2,lbound2);
-	}
+	NSParameterAssert(thePtr < ((const UInt8* )theBytes + theLength));
 
+	// create an array to hold tuples
+	FLXPostgresArray* theArray = [FLXPostgresArray arrayWithType:theType];
 	
-	return [NSArray array];
+	// for each dimension, retrieve dimension and lower bound
+	NSInteger tuples = dim ?  1 : 0;
+	for(NSInteger i = 0; i < dim; i++) {
+		NSInteger dimsize = [[self integerFromBytes:(thePtr++) length:4] integerValue];
+		NSParameterAssert(thePtr < ((const UInt8* )theBytes + theLength));
+		NSInteger bound =  [[self integerFromBytes:(thePtr++) length:4] integerValue];
+		NSParameterAssert(thePtr < ((const UInt8* )theBytes + theLength));
+		NSParameterAssert(dimsize > 0);
+		NSParameterAssert(bound >= 0);		
+		// set dim-n size and lower bound
+		[theArray setDimension:i size:dimsize lowerBound:bound];
+		// calculate number of tuples
+		tuples = tuples * dim2;
+	}
+	// iterate through the tuples
+	for(NSInteger i = 0; i < tuples; i++) {
+		NSUInteger length = [[self unsignedIntegerFromBytes:(thePtr++) length:4] unsignedIntegerValue];
+		NSParameterAssert(thePtr < ((const UInt8* )theBytes + theLength));
+		NSObject* theObject = nil;
+		if(length==((NSUInteger)0xFFFFFFFF)) {
+			theObject = [NSNull null];
+		} else {
+			theObject = [self objectFromBytes:thePtr length:length type:theType];
+		}
+		NSParameterAssert(theObject);
+		// add tuple
+		[theArray setTuple:i object:theObject];
+		// increment ptr by bytes
+		thePtr = (const UInt32* )((const UInt8* )thePtr + length);
+		NSParameterAssert(thePtr < ((const UInt8* )theBytes + theLength));
+	}
+	
+	return [theArray array];
 }
 
 @end
