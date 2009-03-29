@@ -1,5 +1,5 @@
 
-#import "FLXPostgresDataCache.h"
+#import "PostgresDataKit.h"
 
 static FLXPostgresDataCache* FLXSharedCache = nil;
 
@@ -9,6 +9,7 @@ static FLXPostgresDataCache* FLXSharedCache = nil;
 
 @synthesize delegate;
 @synthesize connection;
+@synthesize context;
 
 ////////////////////////////////////////////////////////////////////////////////
 // singleton design pattern
@@ -16,7 +17,7 @@ static FLXPostgresDataCache* FLXSharedCache = nil;
 
 +(FLXPostgresDataCache* )sharedCache {
 	@synchronized(self) {
-		if (FLXSharedServer == nil) {
+		if (FLXSharedCache == nil) {
 			[[self alloc] init]; // assignment not done here
 		}
 	}
@@ -59,6 +60,7 @@ static FLXPostgresDataCache* FLXSharedCache = nil;
 -(id)init {
 	self = [super init];
 	if(self) {
+		[self setContext:[[NSMutableDictionary alloc] init]];
 	}
 	return self;
 }
@@ -66,15 +68,23 @@ static FLXPostgresDataCache* FLXSharedCache = nil;
 -(void)dealloc {
 	[self setDelegate:nil];
 	[self setConnection:nil];
+	[self setContext:nil];
 	[super dealloc];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// get a single object
+// get object context for class
 
--(FLXPostgresDataObject* )fetchObjectForClass:(Class)theClass primaryKey:(NSObject* )primaryKey {
-	NSParameterAssert
-	
+
+
+-(NSString* )tableNameForClass:(Class)theClass {
+	if([theClass isKindOfClass:[FLXPostgresDataObject class]]==NO) {
+		return nil;
+	}
+	return [theClass tableName];
+}
+
+-(NSString* )primaryKeyForClass:(Class)theClass {
 }
 
 @end

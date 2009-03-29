@@ -1,14 +1,37 @@
-//
-//  FLXPostgresDataObject.m
-//  postgresql
-//
-//  Created by David Thorpe on 29/03/2009.
-//  Copyright 2009 __MyCompanyName__. All rights reserved.
-//
 
-#import "FLXPostgresDataObject.h"
-
+#import "PostgresDataKit.h"
 
 @implementation FLXPostgresDataObject
+
+////////////////////////////////////////////////////////////////////////////////
+
+@synthesize values;
+@synthesize modified;
+
+////////////////////////////////////////////////////////////////////////////////
+
+-(id)init {
+	self = [super init];
+	if (self != nil) {
+		[self setValues:[[NSMutableDictionary alloc] init]];
+		[self setModified:NO];
+	}
+	return self;
+}
+
+-(void)dealloc {
+	[self setValues:nil];
+	[super dealloc];
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
++(NSString* )tableName {
+	return nil;
+}
+
++(NSArray* )tableColumns {
+	return @"id";
+}
 
 @end

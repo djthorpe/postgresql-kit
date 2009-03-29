@@ -52,6 +52,14 @@
 		6E23CDB30DCDE4FD0041AA57 /* FLXPostgresResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E23CDAB0DCDE4FD0041AA57 /* FLXPostgresResult.m */; };
 		6E23CDB40DCDE4FD0041AA57 /* FLXPostgresTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E23CDAC0DCDE4FD0041AA57 /* FLXPostgresTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E23CDB50DCDE4FD0041AA57 /* FLXPostgresTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E23CDAD0DCDE4FD0041AA57 /* FLXPostgresTypes.m */; };
+		6E26AB0A0F7FC53F009F6162 /* FLXPostgresDataCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E26AAEC0F7FC312009F6162 /* FLXPostgresDataCache.m */; };
+		6E26AB0B0F7FC540009F6162 /* FLXPostgresDataObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E26AAEA0F7FBFF8009F6162 /* FLXPostgresDataObject.m */; };
+		6E26AB0C0F7FC558009F6162 /* FLXPostgresDataObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E26AAE90F7FBFF8009F6162 /* FLXPostgresDataObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6E26AB0D0F7FC55A009F6162 /* FLXPostgresDataCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E26AAEB0F7FC312009F6162 /* FLXPostgresDataCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6E26AB0E0F7FC55B009F6162 /* PostgresDataKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E26AAED0F7FC340009F6162 /* PostgresDataKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6E26AB4E0F7FDF32009F6162 /* PostgresClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E23CD7F0DCDE3C80041AA57 /* PostgresClientKit.framework */; };
+		6E26AB690F7FE61E009F6162 /* FLXPostgresDataObjectContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E26AB670F7FE61E009F6162 /* FLXPostgresDataObjectContext.h */; };
+		6E26AB6A0F7FE61E009F6162 /* FLXPostgresDataObjectContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E26AB680F7FE61E009F6162 /* FLXPostgresDataObjectContext.m */; };
 		6E27C29A0DD5FF58004BFE98 /* FLXPostgresConnection+Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E27C2980DD5FF58004BFE98 /* FLXPostgresConnection+Utils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E27C29B0DD5FF58004BFE98 /* FLXPostgresConnection+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E27C2990DD5FF58004BFE98 /* FLXPostgresConnection+Utils.m */; };
 		6E462F250F6EF89B009C3655 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E462F240F6EF89B009C3655 /* main.m */; };
@@ -59,8 +67,10 @@
 		6E4B31660F6BDDBD003504FB /* start.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6E4B31650F6BDDBD003504FB /* start.tiff */; };
 		6E4B31680F6BDDCC003504FB /* stop.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6E4B31670F6BDDCC003504FB /* stop.tiff */; };
 		6E4B317E0F6BDEC8003504FB /* backup.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6E4B317D0F6BDEC8003504FB /* backup.tiff */; };
-		6E4FFCA90F7E9F5300A11AAD /* FLXPostgresArray.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E4FFCA70F7E9F5300A11AAD /* FLXPostgresArray.h */; };
+		6E4FFCA90F7E9F5300A11AAD /* FLXPostgresArray.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E4FFCA70F7E9F5300A11AAD /* FLXPostgresArray.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E4FFCAA0F7E9F5300A11AAD /* FLXPostgresArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E4FFCA80F7E9F5300A11AAD /* FLXPostgresArray.m */; };
+		6E4FFD690F7F853900A11AAD /* FLXPostgresStatement.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E4FFD670F7F853900A11AAD /* FLXPostgresStatement.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6E4FFD6A0F7F853900A11AAD /* FLXPostgresStatement.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E4FFD680F7F853900A11AAD /* FLXPostgresStatement.m */; };
 		6E5EA74F0F57753400B702EC /* yellow.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6E5EA74C0F57753400B702EC /* yellow.tiff */; };
 		6E5EA7500F57753400B702EC /* red.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6E5EA74D0F57753400B702EC /* red.tiff */; };
 		6E5EA7510F57753400B702EC /* green.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6E5EA74E0F57753400B702EC /* green.tiff */; };
@@ -112,9 +122,9 @@
 		6ECC8D180F62B7E0000993F9 /* PostgresServerKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ECC8D170F62B7E0000993F9 /* PostgresServerKeychain.m */; };
 		6ECC8E810F62D3C9000993F9 /* PostgresClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E23CD7F0DCDE3C80041AA57 /* PostgresClientKit.framework */; };
 		6ECC8EB50F62D60D000993F9 /* PostgresClientKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 6E23CD7F0DCDE3C80041AA57 /* PostgresClientKit.framework */; };
-		6ED484CE0F7A1FCC002AC5AC /* FLXMacAddr.h in Headers */ = {isa = PBXBuildFile; fileRef = 6ED484CC0F7A1FCC002AC5AC /* FLXMacAddr.h */; };
+		6ED484CE0F7A1FCC002AC5AC /* FLXMacAddr.h in Headers */ = {isa = PBXBuildFile; fileRef = 6ED484CC0F7A1FCC002AC5AC /* FLXMacAddr.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6ED484CF0F7A1FCC002AC5AC /* FLXMacAddr.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ED484CD0F7A1FCC002AC5AC /* FLXMacAddr.m */; };
-		6ED4852F0F7A2886002AC5AC /* FLXTimeInterval.h in Headers */ = {isa = PBXBuildFile; fileRef = 6ED4852D0F7A2886002AC5AC /* FLXTimeInterval.h */; };
+		6ED4852F0F7A2886002AC5AC /* FLXTimeInterval.h in Headers */ = {isa = PBXBuildFile; fileRef = 6ED4852D0F7A2886002AC5AC /* FLXTimeInterval.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6ED485300F7A2886002AC5AC /* FLXTimeInterval.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ED4852E0F7A2886002AC5AC /* FLXTimeInterval.m */; };
 		6ED6D5E90F64604200A3D4FC /* Bindings.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ED6D5E80F64604200A3D4FC /* Bindings.m */; };
 		6EDA14A60F611F6300CB5A0B /* PostgresPrefPaneHelp in Copy Help Files */ = {isa = PBXBuildFile; fileRef = 6EDA14A30F611F5500CB5A0B /* PostgresPrefPaneHelp */; };
@@ -125,6 +135,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		6E26AB4C0F7FDF27009F6162 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6E23CD7E0DCDE3C80041AA57 /* PostgresClientKit */;
+			remoteInfo = PostgresClientKit;
+		};
 		6E462F370F6EFA7D009C3655 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
@@ -337,6 +354,15 @@
 		6E23CDAC0DCDE4FD0041AA57 /* FLXPostgresTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLXPostgresTypes.h; sourceTree = "<group>"; };
 		6E23CDAD0DCDE4FD0041AA57 /* FLXPostgresTypes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLXPostgresTypes.m; sourceTree = "<group>"; };
 		6E23D2470DCF68110041AA57 /* PostgresClientKitPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostgresClientKitPrivate.h; sourceTree = "<group>"; };
+		6E26AAE90F7FBFF8009F6162 /* FLXPostgresDataObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLXPostgresDataObject.h; sourceTree = "<group>"; };
+		6E26AAEA0F7FBFF8009F6162 /* FLXPostgresDataObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLXPostgresDataObject.m; sourceTree = "<group>"; };
+		6E26AAEB0F7FC312009F6162 /* FLXPostgresDataCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLXPostgresDataCache.h; sourceTree = "<group>"; };
+		6E26AAEC0F7FC312009F6162 /* FLXPostgresDataCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLXPostgresDataCache.m; sourceTree = "<group>"; };
+		6E26AAED0F7FC340009F6162 /* PostgresDataKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostgresDataKit.h; sourceTree = "<group>"; };
+		6E26AAFE0F7FC518009F6162 /* PostgresDataKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PostgresDataKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6E26AAFF0F7FC518009F6162 /* PostgresDataKit-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PostgresDataKit-Info.plist"; sourceTree = "<group>"; };
+		6E26AB670F7FE61E009F6162 /* FLXPostgresDataObjectContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLXPostgresDataObjectContext.h; sourceTree = "<group>"; };
+		6E26AB680F7FE61E009F6162 /* FLXPostgresDataObjectContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLXPostgresDataObjectContext.m; sourceTree = "<group>"; };
 		6E27C2980DD5FF58004BFE98 /* FLXPostgresConnection+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FLXPostgresConnection+Utils.h"; sourceTree = "<group>"; };
 		6E27C2990DD5FF58004BFE98 /* FLXPostgresConnection+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FLXPostgresConnection+Utils.m"; sourceTree = "<group>"; };
 		6E462F1A0F6EF843009C3655 /* TypeTests */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TypeTests; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -346,6 +372,8 @@
 		6E4B317D0F6BDEC8003504FB /* backup.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = backup.tiff; sourceTree = "<group>"; };
 		6E4FFCA70F7E9F5300A11AAD /* FLXPostgresArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLXPostgresArray.h; sourceTree = "<group>"; };
 		6E4FFCA80F7E9F5300A11AAD /* FLXPostgresArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLXPostgresArray.m; sourceTree = "<group>"; };
+		6E4FFD670F7F853900A11AAD /* FLXPostgresStatement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLXPostgresStatement.h; sourceTree = "<group>"; };
+		6E4FFD680F7F853900A11AAD /* FLXPostgresStatement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLXPostgresStatement.m; sourceTree = "<group>"; };
 		6E5EA74C0F57753400B702EC /* yellow.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = yellow.tiff; sourceTree = "<group>"; };
 		6E5EA74D0F57753400B702EC /* red.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = red.tiff; sourceTree = "<group>"; };
 		6E5EA74E0F57753400B702EC /* green.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = green.tiff; sourceTree = "<group>"; };
@@ -434,6 +462,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6E26AAFC0F7FC518009F6162 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6E26AB4E0F7FDF32009F6162 /* PostgresClientKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6E462F180F6EF843009C3655 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -512,6 +548,7 @@
 				6EC49A620F6D66870039D454 /* ClientConnect.app */,
 				6EC0A5660F6703F200DED98A /* UnitTests.octest */,
 				6E462F1A0F6EF843009C3655 /* TypeTests */,
+				6E26AAFE0F7FC518009F6162 /* PostgresDataKit.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -526,6 +563,7 @@
 				6E23CBD40DCDD00F0041AA57 /* tar */,
 				1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */,
 				034768DFFF38A50411DB9C8B /* Products */,
+				6E26AAFF0F7FC518009F6162 /* PostgresDataKit-Info.plist */,
 			);
 			name = postgresql;
 			sourceTree = "<group>";
@@ -571,6 +609,7 @@
 			children = (
 				6E6210790F436B7500BE396D /* PostgresPrefPane */,
 				6E23CD540DCDE1FC0041AA57 /* PostgresClientKit */,
+				6E26AAE80F7FBFA1009F6162 /* PostgresData */,
 				6E23CC160DCDD4CE0041AA57 /* PostgresServerKit */,
 				6E90BFE80F6430430040B36C /* Example */,
 				6EC0A59C0F67050200DED98A /* UnitTests */,
@@ -609,6 +648,8 @@
 				6E27C2990DD5FF58004BFE98 /* FLXPostgresConnection+Utils.m */,
 				6E23CDA80DCDE4FD0041AA57 /* FLXPostgresException.h */,
 				6E23CDA90DCDE4FD0041AA57 /* FLXPostgresException.m */,
+				6E4FFD670F7F853900A11AAD /* FLXPostgresStatement.h */,
+				6E4FFD680F7F853900A11AAD /* FLXPostgresStatement.m */,
 				6E23CDAA0DCDE4FD0041AA57 /* FLXPostgresResult.h */,
 				6E23CDAB0DCDE4FD0041AA57 /* FLXPostgresResult.m */,
 				6E23CDAC0DCDE4FD0041AA57 /* FLXPostgresTypes.h */,
@@ -616,6 +657,20 @@
 				6ED484CB0F7A1F80002AC5AC /* Additional Types */,
 			);
 			path = PostgresClientKit;
+			sourceTree = "<group>";
+		};
+		6E26AAE80F7FBFA1009F6162 /* PostgresData */ = {
+			isa = PBXGroup;
+			children = (
+				6E26AAED0F7FC340009F6162 /* PostgresDataKit.h */,
+				6E26AAEB0F7FC312009F6162 /* FLXPostgresDataCache.h */,
+				6E26AAEC0F7FC312009F6162 /* FLXPostgresDataCache.m */,
+				6E26AAE90F7FBFF8009F6162 /* FLXPostgresDataObject.h */,
+				6E26AAEA0F7FBFF8009F6162 /* FLXPostgresDataObject.m */,
+				6E26AB670F7FE61E009F6162 /* FLXPostgresDataObjectContext.h */,
+				6E26AB680F7FE61E009F6162 /* FLXPostgresDataObjectContext.m */,
+			);
+			path = PostgresData;
 			sourceTree = "<group>";
 		};
 		6E462F230F6EF888009C3655 /* TypeTests */ = {
@@ -798,6 +853,18 @@
 				6ED484CE0F7A1FCC002AC5AC /* FLXMacAddr.h in Headers */,
 				6ED4852F0F7A2886002AC5AC /* FLXTimeInterval.h in Headers */,
 				6E4FFCA90F7E9F5300A11AAD /* FLXPostgresArray.h in Headers */,
+				6E4FFD690F7F853900A11AAD /* FLXPostgresStatement.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6E26AAF90F7FC518009F6162 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6E26AB0C0F7FC558009F6162 /* FLXPostgresDataObject.h in Headers */,
+				6E26AB0D0F7FC55A009F6162 /* FLXPostgresDataCache.h in Headers */,
+				6E26AB0E0F7FC55B009F6162 /* PostgresDataKit.h in Headers */,
+				6E26AB690F7FE61E009F6162 /* FLXPostgresDataObjectContext.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -841,6 +908,25 @@
 			name = PostgresClientKit;
 			productName = PostgresClientKit;
 			productReference = 6E23CD7F0DCDE3C80041AA57 /* PostgresClientKit.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		6E26AAFD0F7FC518009F6162 /* PostgresDataKit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6E26AB020F7FC519009F6162 /* Build configuration list for PBXNativeTarget "PostgresDataKit" */;
+			buildPhases = (
+				6E26AAF90F7FC518009F6162 /* Headers */,
+				6E26AAFA0F7FC518009F6162 /* Resources */,
+				6E26AAFB0F7FC518009F6162 /* Sources */,
+				6E26AAFC0F7FC518009F6162 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6E26AB4D0F7FDF27009F6162 /* PBXTargetDependency */,
+			);
+			name = PostgresDataKit;
+			productName = PostgresDataKit;
+			productReference = 6E26AAFE0F7FC518009F6162 /* PostgresDataKit.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		6E462F190F6EF843009C3655 /* TypeTests */ = {
@@ -995,6 +1081,7 @@
 				6E23CBD70DCDD0AB0041AA57 /* Build PostgreSQL */,
 				6E23CD7E0DCDE3C80041AA57 /* PostgresClientKit */,
 				6E23CBED0DCDD29F0041AA57 /* PostgresServerKit */,
+				6E26AAFD0F7FC518009F6162 /* PostgresDataKit */,
 				6E6210440F4369B500BE396D /* PostgresPrefPane */,
 				6EC1F8E90F49FC02006A2A12 /* PostgresInstallerApp */,
 				6E6211DA0F43849700BE396D /* PostgresServerApp */,
@@ -1016,6 +1103,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		6E23CD7B0DCDE3C80041AA57 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6E26AAFA0F7FC518009F6162 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1149,6 +1243,17 @@
 				6ED484CF0F7A1FCC002AC5AC /* FLXMacAddr.m in Sources */,
 				6ED485300F7A2886002AC5AC /* FLXTimeInterval.m in Sources */,
 				6E4FFCAA0F7E9F5300A11AAD /* FLXPostgresArray.m in Sources */,
+				6E4FFD6A0F7F853900A11AAD /* FLXPostgresStatement.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6E26AAFB0F7FC518009F6162 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6E26AB0A0F7FC53F009F6162 /* FLXPostgresDataCache.m in Sources */,
+				6E26AB0B0F7FC540009F6162 /* FLXPostgresDataObject.m in Sources */,
+				6E26AB6A0F7FE61E009F6162 /* FLXPostgresDataObjectContext.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1222,6 +1327,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		6E26AB4D0F7FDF27009F6162 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6E23CD7E0DCDE3C80041AA57 /* PostgresClientKit */;
+			targetProxy = 6E26AB4C0F7FDF27009F6162 /* PBXContainerItemProxy */;
+		};
 		6E462F380F6EFA7D009C3655 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 6E23CD7E0DCDE3C80041AA57 /* PostgresClientKit */;
@@ -1482,6 +1592,60 @@
 				PREBINDING = NO;
 				PRELINK_LIBS = "${BUILT_PRODUCTS_DIR}/postgresql-current/lib/libpgtypes.a ${BUILT_PRODUCTS_DIR}/postgresql-current/lib/libpq.a";
 				PRODUCT_NAME = PostgresClientKit;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		6E26AB000F7FC519009F6162 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "PostgresDataKit-Info.plist";
+				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = PostgresDataKit;
+			};
+			name = Debug;
+		};
+		6E26AB010F7FC519009F6162 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "PostgresDataKit-Info.plist";
+				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = PostgresDataKit;
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -1880,6 +2044,15 @@
 			buildConfigurations = (
 				6E23CD810DCDE3CA0041AA57 /* Debug */,
 				6E23CD820DCDE3CA0041AA57 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6E26AB020F7FC519009F6162 /* Build configuration list for PBXNativeTarget "PostgresDataKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6E26AB000F7FC519009F6162 /* Debug */,
+				6E26AB010F7FC519009F6162 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

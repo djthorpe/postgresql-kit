@@ -21,7 +21,9 @@
 
 @class FLXPostgresDataCache;
 @class FLXPostgresDataObject;
+@class FLXPostgresDataObjectContext;
 
 #import "FLXPostgresDataCache.h"
 #import "FLXPostgresDataObject.h"
+#import "FLXPostgresDataObjectContext.h"
 

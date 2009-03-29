@@ -223,8 +223,7 @@
 	// free the result object
 	PQclear(theResult);
 	// return a statement object
-	FLXPostgresStatement* theStatement = [[[FLXPostgresStatement alloc] initWithStatementName:theStatementName] autorelease];
-
+	FLXPostgresStatement* theStatement = [[[FLXPostgresStatement alloc] initWithName:theStatementName] autorelease];
 	return theStatement;	
 }
 
@@ -273,6 +272,27 @@
 	FLXPostgresResult* theResult = [self execute:theString];
 	[theString release];
 	return theResult;
+}
+
+-(FLXPostgresResult* )executePrepared:(FLXPostgresStatement* )theStatement {
+	NSParameterAssert(theStatement);
+	if([self connection]==nil) {
+		[FLXPostgresException raise:@"FLXPostgresConnectionError" reason:@"No Connection"];        
+	}
+	// execute the command - we always use the binding version so we can get the data
+	// back as binary
+	PGresult* theResult = PQexecPrepared([self connection],[[theStatement name] UTF8String],0,nil,nil,nil,1);
+	if(theResult==nil) {
+		[FLXPostgresException raise:@"FLXPostgresConnectionError" connection:[self connection]];
+	}
+	// check returned result
+	if(PQresultStatus(theResult)==PGRES_BAD_RESPONSE || PQresultStatus(theResult)==PGRES_FATAL_ERROR) {
+		NSString* theMessage = [NSString stringWithUTF8String:PQresultErrorMessage(theResult)];
+		PQclear(theResult);
+		[FLXPostgresException raise:@"FLXPostgresConnectionError" reason:theMessage];
+	}
+	// return a result object
+	return [[[FLXPostgresResult alloc] initWithResult:theResult types:[self types]] autorelease];	
 }
 
 /*

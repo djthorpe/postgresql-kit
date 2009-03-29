@@ -76,6 +76,7 @@
 		return [NSArray arrayWithArray:[self tuples]];
 	}
 	// TODO - other dimensions
+	NSParameterAssert(NO);
 	return [self tuples];
 }
 
