@@ -15,6 +15,11 @@
 
 +(FLXPostgresDataCache* )sharedCache;
 
+-(FLXPostgresDataObjectContext* )objectContextForClass:(Class)theClass;
+
+//-(id)newObjectForClass:(Class)theClass;
+//-(id)fetchObjectForClass:(Class)theClass primaryKeyValue:(id)theValue;
+
 @end
 
 @interface NSObject (FLXPostgresDataCacheDelegate)

@@ -142,7 +142,7 @@ static FLXPostgresDataCache* FLXSharedCache = nil;
 		NSString* theSchemaQ = [[self connection] quote:[self schema]];
 		NSString* theTableNameQ = [[self connection] quote:theTableName];
 		NSString* theJoin = @"information_schema.table_constraints T INNER JOIN information_schema.key_column_usage K ON T.constraint_name=K.constraint_name";
-		FLXPostgresResult* theResult = [[self connection] executeWithFormat:@"SELECT K.column_name FROM %@ WHERE T.constaint_type='PRIMARY KEY' AND T.table_catalog=%@ AND T.table_schema=%@ AND T.table_name=%@",theJoin,theDatabaseQ,theSchemaQ,theTableNameQ];
+		FLXPostgresResult* theResult = [[self connection] executeWithFormat:@"SELECT K.column_name FROM %@ WHERE T.constraint_type='PRIMARY KEY' AND T.table_catalog=%@ AND T.table_schema=%@ AND T.table_name=%@",theJoin,theDatabaseQ,theSchemaQ,theTableNameQ];
 		if([theResult affectedRows] != 1) return nil;
 		NSArray* theRow = [theResult fetchRowAsArray];
 		NSParameterAssert([theRow count]==1);
@@ -169,10 +169,10 @@ static FLXPostgresDataCache* FLXSharedCache = nil;
 	if(theContext) {
 		return theContext;
 	}
-	// check class is of right kind
-	if([theClass isKindOfClass:[FLXPostgresDataObject class]]==NO) {
-		return nil;
-	}
+	// TODO: check class is of right kind
+//	if([theClass isKindOfClass:[FLXPostgresDataObject class]]==NO) {
+//		return nil;
+//	}
 	// get table name
 	NSString* theTableName = [theClass tableName];
 	if([FLXPostgresDataCache _isValidIdentifier:theTableName]==NO) {
@@ -204,6 +204,10 @@ static FLXPostgresDataCache* FLXSharedCache = nil;
 	}
 	// create an object
 	theContext = [[[FLXPostgresDataObjectContext alloc] init] autorelease];
+	[theContext setClassName:theClassString];
+	[theContext setDatabase:[[self connection] database]];
+	[theContext setSchema:[self schema]];
+	[theContext setClassName:theClassString];
 	[theContext setTableName:theTableName];
 	[theContext setPrimaryKey:thePrimaryKey];
 	[theContext setTableColumns:theTableColumns];

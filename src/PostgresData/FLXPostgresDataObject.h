@@ -14,7 +14,7 @@
 +(NSString* )primaryKey;
 
 /*
--(NSObject* )primaryValue;
+ -(NSObject* )primaryValue;
 
 -(NSObject* )valueForKey:(NSString* )theKey;
 -(void)setValue:(NSObject* )theObject forKey:(NSString* )theKey;
