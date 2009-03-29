@@ -31,8 +31,15 @@
 	return nil;
 }
 
-+(NSArray* )tableColumns {
++(NSArray* )tableColumns { // optional
 	return nil;
 }
+
++(NSString* )primaryKey { // optional
+	return nil;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 
 @end

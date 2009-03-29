@@ -11,6 +11,7 @@
 
 +(NSString* )tableName;
 +(NSArray* )tableColumns;
++(NSString* )primaryKey;
 
 /*
 -(NSObject* )primaryValue;
