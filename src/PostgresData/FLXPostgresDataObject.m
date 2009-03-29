@@ -25,13 +25,14 @@
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+// methods which need to be overridden
 
 +(NSString* )tableName {
 	return nil;
 }
 
 +(NSArray* )tableColumns {
-	return @"id";
+	return nil;
 }
 
 @end
