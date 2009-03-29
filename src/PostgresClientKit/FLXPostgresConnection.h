@@ -31,9 +31,16 @@
 -(void)connectWithPassword:(NSString* )thePassword;
 -(void)reset;
 
-// execution methods
--(NSString* )quote:(NSObject* )theObject;
+// prepare / execute methods
+-(FLXPostgresStatement* )prepare:(NSString* )theQuery;
+-(FLXPostgresStatement* )prepareWithFormat:(NSString* )theQuery,...;
 -(FLXPostgresResult* )execute:(NSString* )theQuery;
+-(FLXPostgresResult* )executeWithFormat:(NSString* )theQuery,...;
+
+// TODO: methods for bindings
 //-(FLXPostgresResult* )execute:(NSString* )theQuery values:(NSArray* )theValues types:(NSArray* )theTypes;
+
+// quote method
+-(NSString* )quote:(NSObject* )theObject;
 
 @end

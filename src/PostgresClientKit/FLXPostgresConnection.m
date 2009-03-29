@@ -199,6 +199,50 @@
 	}
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// prepare
+
+-(FLXPostgresStatement* )prepare:(NSString* )theQuery {
+	NSParameterAssert(theQuery);
+	if([self connection]==nil) {
+		[FLXPostgresException raise:@"FLXPostgresConnectionError" reason:@"No Connection"];        
+	}
+	// generate a staement name
+	NSString* theStatementName = [[NSProcessInfo processInfo] globallyUniqueString];
+	// prepare the statement
+	PGresult* theResult = PQprepare([self connection],[theStatementName UTF8String],[theQuery UTF8String],0,nil);
+	if(theResult==nil) {
+		[FLXPostgresException raise:@"FLXPostgresConnectionError" connection:[self connection]];
+	}
+	// check returned result
+	if(PQresultStatus(theResult)==PGRES_BAD_RESPONSE || PQresultStatus(theResult)==PGRES_FATAL_ERROR) {
+		NSString* theMessage = [NSString stringWithUTF8String:PQresultErrorMessage(theResult)];
+		PQclear(theResult);
+		[FLXPostgresException raise:@"FLXPostgresConnectionError" reason:theMessage];
+	}
+	// free the result object
+	PQclear(theResult);
+	// return a statement object
+	FLXPostgresStatement* theStatement = [[[FLXPostgresStatement alloc] initWithStatementName:theStatementName] autorelease];
+
+	return theStatement;	
+}
+
+-(FLXPostgresStatement* )prepareWithFormat:(NSString* )theQuery,... {
+	NSParameterAssert(theQuery);	
+	va_list argumentList;
+	va_start(argumentList,theQuery);
+	NSMutableString* theString = [[NSMutableString alloc] init];
+	CFStringAppendFormatAndArguments((CFMutableStringRef)theString,(CFDictionaryRef)nil,(CFStringRef)theQuery,argumentList);
+	va_end(argumentList);   
+	FLXPostgresStatement* theStatement = [self prepare:theString];
+	[theString release];
+	return theStatement;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// execute
+
 -(FLXPostgresResult* )execute:(NSString* )theQuery {
 	NSParameterAssert(theQuery);
 	if([self connection]==nil) {
@@ -219,6 +263,18 @@
 	// return a result object
 	return [[[FLXPostgresResult alloc] initWithResult:theResult types:[self types]] autorelease];
 }
+
+-(FLXPostgresResult* )executeWithFormat:(NSString* )theQuery,... {
+	va_list argumentList;
+	va_start(argumentList,theQuery);
+	NSMutableString* theString = [[NSMutableString alloc] init];
+	CFStringAppendFormatAndArguments((CFMutableStringRef)theString,(CFDictionaryRef)nil,(CFStringRef)theQuery,argumentList);
+	va_end(argumentList);   
+	FLXPostgresResult* theResult = [self execute:theString];
+	[theString release];
+	return theResult;
+}
+
 /*
 -(FLXPostgresResult* )execute:(NSString* )theQuery values:(NSArray* )theValues {
 	NSParameterAssert(theQuery && theValues && theTypes && [theValues count]==[theTypes count]);
@@ -310,6 +366,9 @@
 	return [[[FLXPostgresResult alloc] initWithResult:theResult types:[self types]] autorelease];
 }
 */
+
+////////////////////////////////////////////////////////////////////////////////
+// quote
 
 -(NSString* )_quoteData:(NSData* )theData {
 	size_t theLength = 0;

@@ -11,6 +11,10 @@
 -(PGresult* )result;
 @end
 
+@interface FLXPostgresStatement (Private)
+-(id)initWithName:(NSString* )theName;
+@end
+
 @interface FLXPostgresTypes (Private)
 -(NSObject* )objectForResult:(PGresult* )theResult row:(NSUInteger)theRow column:(NSUInteger)theColumn;
 
