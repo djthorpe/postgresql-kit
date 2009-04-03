@@ -1,5 +1,6 @@
 
 #import "FLXPostgresServer.h"
+#import "FLXPostgresHostAccessTuple.h"
 
 // delegate
 @interface NSObject (FLXServerDelegate)

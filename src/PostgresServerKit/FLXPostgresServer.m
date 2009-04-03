@@ -768,7 +768,7 @@ const unsigned FLXDefaultPostgresPort = 5432;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// Host-based access
+// Host-based access file reading
 
 -(NSString* )_readAccessFile {
 	if([self state] != FLXServerStateStarted && [self state] != FLXServerStateAlreadyRunning) {
