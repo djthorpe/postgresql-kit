@@ -13,8 +13,6 @@
 @property (assign) BOOL modified;
 @property (retain) FLXPostgresDataObjectContext* context;
 
--(id)initWithContext:(FLXPostgresDataObjectContext* )theContext;
-
 +(NSString* )tableName;
 +(NSArray* )tableColumns;
 +(NSString* )primaryKey;

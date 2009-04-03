@@ -1,5 +1,6 @@
 
 #import "PostgresDataKit.h"
+#import "PostgresDataKitPrivate.h"
 
 @implementation FLXPostgresDataObject
 

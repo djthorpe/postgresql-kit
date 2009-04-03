@@ -32,6 +32,9 @@ int main(int argc, char *argv[]) {
 		
 		[theName setValue:@"David Thorpe" forKey:@"name"];
 		
+		// commit changes to database
+		[theCache commit];		
+		
 		NSLog(@"name = %@",theName);
 		
 		// unset connection
