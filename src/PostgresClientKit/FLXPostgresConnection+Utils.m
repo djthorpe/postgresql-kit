@@ -111,5 +111,40 @@
 	return [theQuotedObjects componentsJoinedByString:@","];
 }
 
+-(NSString* )primaryKeyForTable:(NSString* )theTable inSchema:(NSString* )theSchema {
+	NSParameterAssert([self connected]);
+	NSParameterAssert(theTable);
+	NSParameterAssert(theSchema);
+	NSString* theDatabaseQ = [self quote:[self database]];
+	NSString* theSchemaQ = [self quote:theSchema];
+	NSString* theTableNameQ = [self quote:theTable];
+	NSString* theJoin = @"information_schema.table_constraints T INNER JOIN information_schema.key_column_usage K ON T.constraint_name=K.constraint_name";
+	NSString* theWhere = [NSString stringWithFormat:@"T.constraint_type='PRIMARY KEY' AND T.table_catalog=%@ AND T.table_schema=%@ AND T.table_name=%@",theDatabaseQ,theSchemaQ,theTableNameQ];
+	FLXPostgresResult* theResult = [self executeWithFormat:@"SELECT K.column_name FROM %@ WHERE %@",theJoin,theWhere];
+	NSParameterAssert(theResult && [theResult affectedRows] == 1);
+	NSArray* theRow = [theResult fetchRowAsArray];
+	NSParameterAssert([theRow count]==1);
+	NSParameterAssert([[theRow objectAtIndex:0] isKindOfClass:[NSString class]]);
+	return [theRow objectAtIndex:0];
+}
+
+-(NSArray* )columnNamesForTable:(NSString* )theTable inSchema:(NSString* )theSchema {
+	NSParameterAssert([self connected]);
+	NSParameterAssert(theTable);
+	NSParameterAssert(theSchema);
+	NSString* theDatabaseQ = [self quote:[self database]];
+	NSString* theSchemaQ = [self quote:theSchema];
+	NSString* theTableNameQ = [self quote:theTable];
+	FLXPostgresResult* theResult = [self executeWithFormat:@"SELECT column_name FROM information_schema.columns WHERE table_catalog=%@ AND table_schema=%@ AND table_name=%@",theDatabaseQ,theSchemaQ,theTableNameQ];
+	NSParameterAssert(theResult && [theResult affectedRows]);
+	NSMutableArray* theColumns = [NSMutableArray arrayWithCapacity:[theResult affectedRows]];
+	NSArray* theRow = nil;
+	while(theRow = [theResult fetchRowAsArray]) {
+		NSParameterAssert([theRow count]==1);
+		NSParameterAssert([[theRow objectAtIndex:0] isKindOfClass:[NSString class]]);
+		[theColumns addObject:[theRow objectAtIndex:0]];
+	}
+	return theColumns;
+}
 
 @end

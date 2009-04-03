@@ -6,6 +6,10 @@
 //#include <pgtypes_timestamp.h>
 //#include <pgtypes_interval.h>
 
+@interface FLXPostgresConnection (Private)
+-(void)_noticeProcessorWithMessage:(NSString* )theMessage;
+@end
+
 @interface FLXPostgresResult (Private)
 -(id)initWithResult:(PGresult* )theResult types:(FLXPostgresTypes* )theTypes;
 -(PGresult* )result;

@@ -11,4 +11,6 @@
 -(BOOL)tableExistsWithName:(NSString* )theTable inSchema:(NSString* )theSchema;
 -(NSString* )quoteArray:(NSArray* )theArray;
 
+-(NSString* )primaryKeyForTable:(NSString* )theTable inSchema:(NSString* )theSchema;
+-(NSArray* )columnNamesForTable:(NSString* )theTable inSchema:(NSString* )theSchema;
 @end

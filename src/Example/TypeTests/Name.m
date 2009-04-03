@@ -7,8 +7,4 @@
 	return @"name";
 }
 
-+(NSArray* )tableColumns {
-	return [NSArray arrayWithObjects:@"name",nil];
-}
-
 @end

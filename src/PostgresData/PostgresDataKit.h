@@ -19,6 +19,10 @@
 
 #import <PostgresClientKit/PostgresClientKit.h>
 
+typedef enum {
+	FLXPostgresDataObjectSimple = 1 	// simple type only requires a primary key	
+} FLXPostgresDataObjectType;
+
 @class FLXPostgresDataCache;
 @class FLXPostgresDataObject;
 @class FLXPostgresDataObjectContext;

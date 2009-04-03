@@ -2,6 +2,17 @@
 #import "PostgresClientKit.h"
 #import "PostgresClientKitPrivate.h"
 
+////////////////////////////////////////////////////////////////////////////////
+
+void FLXPostgresConnectionNoticeProcessor(void* arg,const char* theMessage) {
+	FLXPostgresConnection* theObject = (FLXPostgresConnection* )arg;
+	if([theObject isKindOfClass:[FLXPostgresConnection class]]) {
+		[theObject _noticeProcessorWithMessage:[NSString stringWithUTF8String:theMessage]];
+	}
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 @implementation FLXPostgresConnection
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -180,6 +191,9 @@
 	
 	// set the internal connection structure
 	m_theConnection = theConnection;
+
+	// set the notice processor
+	PQsetNoticeProcessor(theConnection,FLXPostgresConnectionNoticeProcessor,self);
 	
 	// load the types
 	if([self reloadTypes]==NO) {
@@ -421,6 +435,14 @@
 	// we should never get here
 	NSParameterAssert(NO);
 	return nil;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// notice processor
+
+-(void)_noticeProcessorWithMessage:(NSString* )theMessage {
+	// TODO
+	NSLog(@"NOTICE....%@",theMessage);
 }
 
 @end

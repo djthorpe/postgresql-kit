@@ -37,7 +37,6 @@
 -(FLXPostgresResult* )execute:(NSString* )theQuery;
 -(FLXPostgresResult* )executeWithFormat:(NSString* )theQuery,...;
 -(FLXPostgresResult* )executePrepared:(FLXPostgresStatement* )theStatement;
-
 // TODO: methods for bindings
 //-(FLXPostgresResult* )execute:(NSString* )theQuery values:(NSArray* )theValues;
 //-(FLXPostgresResult* )executePrepared:(FLXPostgresStatement* )theStatement values:(NSArray* )theValues;

@@ -214,6 +214,10 @@ const unsigned FLXDefaultPostgresPort = 5432;
 	return [[self bundlePath] stringByAppendingPathComponent:@"Resources/postgresql-current/lib"];
 }
 
++(NSString* )postgresAccessPathForDataPath:(NSString* )thePath {
+	return [thePath stringByAppendingPathComponent:@"data/pg_hba.conf"];
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
 
@@ -763,4 +767,28 @@ const unsigned FLXDefaultPostgresPort = 5432;
 	}
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// Host-based access
+
+-(NSString* )_readAccessFile {
+	if([self state] != FLXServerStateStarted && [self state] != FLXServerStateAlreadyRunning) {
+		return nil;
+	}
+	NSString* thePath = [FLXPostgresServer postgresAccessPathForDataPath:[self dataPath]];
+	if([[NSFileManager defaultManager] isReadableFileAtPath:thePath]==NO) {
+		return nil;
+	}
+	NSString* theContents = [NSString stringWithContentsOfFile:thePath];
+	if(theContents==nil) {
+		return nil;
+	}
+	// split into lines
+	NSArray* theLines = [theContents componentsSeparatedByString:@"\n"];
+	NSMutableArray* theQueue = [NSMutableArray arrayWithCapacity:2];
+	for(NSString* theLine in theLines) {
+		NSString* theLine2 = [theLine stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+	}
+}
+
+	
 @end

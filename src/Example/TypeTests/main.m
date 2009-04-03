@@ -20,18 +20,22 @@ int main(int argc, char *argv[]) {
 		}
 		
 		// create table
-		[connection execute:@"CREATE TABLE name (id INTEGER PRIMARY KEY,name VARCHAR(80))"];
+		[connection execute:@"CREATE TABLE name (id INTEGER PRIMARY KEY,name VARCHAR(80),email VARCHAR(80))"];
 		
-		// data cache
-		[[FLXPostgresDataCache sharedCache] setConnection:connection];
+		FLXPostgresDataCache* theCache = [FLXPostgresDataCache sharedCache];
 
-		// get context
-		FLXPostgresDataObjectContext* theContext = [[FLXPostgresDataCache sharedCache] objectContextForClass:[Name class]];
+		// data cache
+		[theCache setConnection:connection];
+
+		// create a new name object
+		Name* theName = [theCache newObjectForClass:[Name class]];
 		
-		NSLog(@"context = %@",theContext);
+		[theName setValue:@"David Thorpe" forKey:@"name"];
+		
+		NSLog(@"name = %@",theName);
 		
 		// unset connection
-		[[FLXPostgresDataCache sharedCache] setConnection:nil];		
+		[theCache setConnection:nil];		
 		
 	} @catch(NSException* theException) {
 		NSLog(@"Error: %@",theException);

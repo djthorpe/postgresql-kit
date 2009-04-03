@@ -98,56 +98,23 @@ static FLXPostgresDataCache* FLXSharedCache = nil;
 
 -(NSArray* )_columnsForTableName:(NSString* )theTableName {
 	if([self connection]==nil) return nil;
-	if([[self connection] connected]==NO) return nil;
-
-	NSMutableArray* theColumns = nil;
+	NSArray* theColumns = nil;
 	@try {
-		NSString* theDatabaseQ = [[self connection] quote:[[self connection] database]];
-		NSString* theSchemaQ = [[self connection] quote:[self schema]];
-		NSString* theTableNameQ = [[self connection] quote:theTableName];
-		FLXPostgresResult* theResult = [[self connection] executeWithFormat:@"SELECT column_name FROM information_schema.columns WHERE table_catalog=%@ AND table_schema=%@ AND table_name=%@",theDatabaseQ,theSchemaQ,theTableNameQ];
-		if([theResult affectedRows]==0) return nil;
-		theColumns = [NSMutableArray arrayWithCapacity:[theResult affectedRows]];
-		NSArray* theRow = nil;
-		while(theRow = [theResult fetchRowAsArray]) {
-			NSParameterAssert([theRow count]==1);
-			NSParameterAssert([[theRow objectAtIndex:0] isKindOfClass:[NSString class]]);
-			[theColumns addObject:[theRow objectAtIndex:0]];
-		}
+		theColumns = [[self connection] columnNamesForTable:theTableName inSchema:[self schema]];
+		NSParameterAssert(theColumns);
 	} @catch(NSException* theException) {
 		[self _delegateException:theException];
 		return nil;
-	}
-
-	return theColumns;
+	}	
+	return theColumns;	
 }
 
 -(NSString* )_primaryKeyForTableName:(NSString* )theTableName {
 	if([self connection]==nil) return nil;
-	if([[self connection] connected]==NO) return nil;
-	if([self connection]==nil) return nil;
-	if([[self connection] connected]==NO) return nil;	
 	NSString* theKey = nil;
 	@try {
-		// SELECT 
-		//   K.column_name 
-		// FROM
-		//   information_schema.table_constraints T INNER JOIN information_schema.key_column_usage K ON T.constraint_name = K.constraint_name
-		// WHERE
-		//   T.constaint_type='PRIMARY KEY' 
-		//   AND T.table_catalog = XXX
-		//   AND T.table_schema = YYY
-		//   AND T.table_name = ZZZ
-		NSString* theDatabaseQ = [[self connection] quote:[[self connection] database]];
-		NSString* theSchemaQ = [[self connection] quote:[self schema]];
-		NSString* theTableNameQ = [[self connection] quote:theTableName];
-		NSString* theJoin = @"information_schema.table_constraints T INNER JOIN information_schema.key_column_usage K ON T.constraint_name=K.constraint_name";
-		FLXPostgresResult* theResult = [[self connection] executeWithFormat:@"SELECT K.column_name FROM %@ WHERE T.constraint_type='PRIMARY KEY' AND T.table_catalog=%@ AND T.table_schema=%@ AND T.table_name=%@",theJoin,theDatabaseQ,theSchemaQ,theTableNameQ];
-		if([theResult affectedRows] != 1) return nil;
-		NSArray* theRow = [theResult fetchRowAsArray];
-		NSParameterAssert([theRow count]==1);
-		NSParameterAssert([[theRow objectAtIndex:0] isKindOfClass:[NSString class]]);
-		theKey = [theRow objectAtIndex:0];
+		theKey = [[self connection] primaryKeyForTable:theTableName inSchema:[self schema]];
+		NSParameterAssert(theKey);
 	} @catch(NSException* theException) {
 		[self _delegateException:theException];
 		return nil;
@@ -216,5 +183,22 @@ static FLXPostgresDataCache* FLXSharedCache = nil;
 	// return the cbject
 	return theContext;
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// create a new object
+
+-(id)newObjectForClass:(Class)theClass {
+	id theObject = [[theClass alloc] initWithContext:[self objectContextForClass:theClass]];
+	if(theObject==nil || [theObject isKindOfClass:[FLXPostgresDataObject class]]==NO) {
+		[theObject release];
+		return nil;
+	}
+
+	// do stuff with object here
+	
+	return [theObject autorelease];
+}
+
+
 
 @end
