@@ -12,9 +12,13 @@ int main(int argc, char *argv[]) {
 	[connection setDatabase:@"postgres"];
 	
 	@try {
+		FLXPostgresDataCache* theCache = [FLXPostgresDataCache sharedCache];
+		// set data cache connection, and connect
+		[theCache setConnection:connection];
 		[connection connect];
 
-		NSArray* theTables = [connection tablesForSchema:@"public"];
+		// create 'name' table		
+		NSArray* theTables = [connection tablesInSchema:@"public"];
 		if([theTables containsObject:@"name"]) {
 			[connection execute:@"DROP TABLE name"];
 		}
@@ -22,10 +26,6 @@ int main(int argc, char *argv[]) {
 		// create table
 		[connection execute:@"CREATE TABLE name (id INTEGER PRIMARY KEY,name VARCHAR(80),email VARCHAR(80))"];
 		
-		FLXPostgresDataCache* theCache = [FLXPostgresDataCache sharedCache];
-
-		// data cache
-		[theCache setConnection:connection];
 
 		// create a new name object
 		Name* theName = [theCache newObjectForClass:[Name class]];
@@ -33,7 +33,7 @@ int main(int argc, char *argv[]) {
 		[theName setValue:@"David Thorpe" forKey:@"name"];
 		
 		// commit changes to database
-		[theCache commit];		
+		//[theCache commit];		
 		
 		NSLog(@"name = %@",theName);
 		
