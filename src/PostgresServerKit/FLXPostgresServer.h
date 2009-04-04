@@ -55,6 +55,8 @@ typedef enum {
 // methods - start/stop server
 -(BOOL)startWithDataPath:(NSString* )thePath;
 -(BOOL)stop;
+// reload configuration files
+-(BOOL)reload;
 
 // methods - backup database
 -(NSString* )backupToFolderPath:(NSString* )thePath superPassword:(NSString* )thePassword;

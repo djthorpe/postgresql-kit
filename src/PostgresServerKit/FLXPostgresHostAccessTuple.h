@@ -19,6 +19,7 @@
 @property (retain) NSString* option;
 @property (retain) NSString* comment;
 
++(FLXPostgresHostAccessTuple* )hostAccessTupleForLine:(NSString* )theLine;
 -(NSString* )stringValue;
 
 @end

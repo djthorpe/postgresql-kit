@@ -131,6 +131,7 @@
 		6ED6D5E90F64604200A3D4FC /* Bindings.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ED6D5E80F64604200A3D4FC /* Bindings.m */; };
 		6ED7681B0F868E74008F2097 /* FLXPostgresHostAccessTuple.h in Headers */ = {isa = PBXBuildFile; fileRef = 6ED768190F868E74008F2097 /* FLXPostgresHostAccessTuple.h */; };
 		6ED7681C0F868E74008F2097 /* FLXPostgresHostAccessTuple.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ED7681A0F868E74008F2097 /* FLXPostgresHostAccessTuple.m */; };
+		6ED768710F8777FF008F2097 /* PostgresServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E23CBEE0DCDD29F0041AA57 /* PostgresServerKit.framework */; };
 		6EDA14A60F611F6300CB5A0B /* PostgresPrefPaneHelp in Copy Help Files */ = {isa = PBXBuildFile; fileRef = 6EDA14A30F611F5500CB5A0B /* PostgresPrefPaneHelp */; };
 		6EE3AED00F6D6AEA000E000F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE3AECF0F6D6AEA000E000F /* main.m */; };
 		6EE3AED10F6D6AEA000E000F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE3AECF0F6D6AEA000E000F /* main.m */; };
@@ -271,6 +272,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 6E23CD7E0DCDE3C80041AA57;
 			remoteInfo = PostgresClientKit;
+		};
+		6ED7686F0F8777FB008F2097 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6E23CBED0DCDD29F0041AA57 /* PostgresServerKit */;
+			remoteInfo = PostgresServerKit;
 		};
 		6EF3E6540F6D347C001AFA38 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -492,6 +500,7 @@
 			files = (
 				6E462F270F6EF916009C3655 /* PostgresClientKit.framework in Frameworks */,
 				6E26AC1B0F7FFE9F009F6162 /* PostgresDataKit.framework in Frameworks */,
+				6ED768710F8777FF008F2097 /* PostgresServerKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -964,6 +973,7 @@
 			dependencies = (
 				6E462F380F6EFA7D009C3655 /* PBXTargetDependency */,
 				6E26AC370F7FFFFB009F6162 /* PBXTargetDependency */,
+				6ED768700F8777FB008F2097 /* PBXTargetDependency */,
 			);
 			name = TypeTests;
 			productName = TypeTests;
@@ -1447,6 +1457,11 @@
 			isa = PBXTargetDependency;
 			target = 6E23CD7E0DCDE3C80041AA57 /* PostgresClientKit */;
 			targetProxy = 6ECC8E850F62D3DC000993F9 /* PBXContainerItemProxy */;
+		};
+		6ED768700F8777FB008F2097 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6E23CBED0DCDD29F0041AA57 /* PostgresServerKit */;
+			targetProxy = 6ED7686F0F8777FB008F2097 /* PBXContainerItemProxy */;
 		};
 		6EF3E6550F6D347C001AFA38 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

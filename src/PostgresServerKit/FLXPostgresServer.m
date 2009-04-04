@@ -1,5 +1,5 @@
 
-#import "FLXPostgresServer.h"
+#import "PostgresServerKit.h"
 #include <sys/sysctl.h>
 #import <zlib.h>
 
@@ -274,6 +274,23 @@ const unsigned FLXDefaultPostgresPort = 5432;
 	return YES;  
 }
 
+-(BOOL)reload {
+	if([self state] != FLXServerStateStarted && [self state] != FLXServerStateAlreadyRunning) {
+		[self _delegateServerMessage:@"Server cannot be reloaded, not running"];
+		return NO;    
+	}
+	if([self processIdentifier] <= 0) {
+		[self _delegateServerMessage:@"Server cannot be reloaded, cannot identify PID"];
+		return NO;
+	}
+
+	[self _delegateServerMessage:[NSString stringWithFormat:@"Sending HUP signal: %d",[self processIdentifier]]];
+	kill([self processIdentifier],SIGHUP);
+	
+	// return success
+	return YES;
+}
+
 -(BOOL)stop {
 	if([self state] != FLXServerStateStarted && [self state] != FLXServerStateAlreadyRunning) {
 		[self _delegateServerMessage:@"Server cannot be stopped, not running"];
@@ -528,6 +545,7 @@ const unsigned FLXDefaultPostgresPort = 5432;
 	if([theMessage hasSuffix:@"database system is ready"] && [self state]==FLXServerStateStarting) {
 		[self setState:FLXServerStateStarted];
 	}
+	NSLog(@"%@",theMessage);
 }
 
 -(void)_delegateServerMessageFromData:(NSData* )theData {
@@ -770,7 +788,7 @@ const unsigned FLXDefaultPostgresPort = 5432;
 ////////////////////////////////////////////////////////////////////////////////
 // Host-based access file reading
 
--(NSString* )_readAccessFile {
+-(NSArray* )_readAccessFile {
 	if([self state] != FLXServerStateStarted && [self state] != FLXServerStateAlreadyRunning) {
 		return nil;
 	}
@@ -782,13 +800,30 @@ const unsigned FLXDefaultPostgresPort = 5432;
 	if(theContents==nil) {
 		return nil;
 	}
-	// split into lines
 	NSArray* theLines = [theContents componentsSeparatedByString:@"\n"];
-	NSMutableArray* theQueue = [NSMutableArray arrayWithCapacity:2];
+	NSMutableArray* theTuples = [NSMutableArray arrayWithCapacity:[theLines count]];
+	NSString* theComment = nil;
 	for(NSString* theLine in theLines) {
-		NSString* theLine2 = [theLine stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+		NSString* theTrimmedLine = [theLine stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+		if([theTrimmedLine length]==0) {
+			[theTuples addObject:theLine];
+		} else if([theTrimmedLine hasPrefix:@"#"]) {
+			theComment = [theTrimmedLine substringFromIndex:1];
+			[theTuples addObject:theLine];
+		} else {
+			FLXPostgresHostAccessTuple* theTuple = [FLXPostgresHostAccessTuple hostAccessTupleForLine:theTrimmedLine];
+			if(theTuple==nil) {
+				return NO;
+			}
+			if(theComment) {
+				[theTuple setComment:theComment];
+				[theTuples removeLastObject];
+				theComment = nil;
+			}
+			[theTuples addObject:theTuple];
+		}
 	}
+	return theTuples;
 }
 
-	
 @end

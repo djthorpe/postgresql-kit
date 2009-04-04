@@ -1,6 +1,12 @@
 
 #import "PostgresServerKit.h"
 
+@interface FLXPostgresHostAccessTuple (Private)
+-(BOOL)_parseLine:(NSString* )theLine;
+@end
+
+////////////////////////////////////////////////////////////////////////////////
+
 @implementation FLXPostgresHostAccessTuple
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -39,6 +45,96 @@
 	[self setComment:nil];
 	[super dealloc];
 }
+
++(FLXPostgresHostAccessTuple* )hostAccessTupleForLine:(NSString* )theLine {
+	FLXPostgresHostAccessTuple* theTuple = [[FLXPostgresHostAccessTuple alloc] init];
+	if([theTuple _parseLine:theLine]==NO) {
+		[theTuple release];
+		return nil;
+	} else {
+		[theTuple autorelease];
+		return theTuple;
+	}
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+-(BOOL)_parseLineEject:(NSMutableString* )theString state:(NSUInteger* )theState {
+	NSString* theToken = [theString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+	// comment
+	if(*theState==100 || [theToken hasPrefix:@"#"]) {
+		*theState = 100;
+		return YES;
+	}
+	switch((*theState)) {
+		case 0:
+			if([theToken isEqual:@"local"] || [theToken isEqual:@"host"] || [theToken isEqual:@"hostssl"] || [theToken isEqual:@"hostnossl"]) {
+				[self setType:theToken];
+			} else {
+				return NO;
+			}
+			break;
+		case 1:
+			[self setDatabase:theToken];
+			break;
+		case 2:
+			[self setUser:theToken];
+			break;
+		case 3:
+			[self setAddress:theToken];
+			break;
+		case 4:
+			[self setMethod:theToken];
+			break;
+		case 5:
+			[self setOption:theToken];
+			break;		
+		default:
+			return NO;
+	}
+	(*theState)++;
+	[theString setString:@""];
+	return YES;
+}
+
+-(BOOL)_parseLine:(NSString* )theLine {
+	NSScanner* theScanner = [NSScanner scannerWithString:theLine];
+	[theScanner setCharactersToBeSkipped:nil];
+	NSString* theString = nil;
+    NSCharacterSet* delimCharactersSet = [NSCharacterSet whitespaceCharacterSet];	
+    NSCharacterSet* quoteCharactersSet = [NSCharacterSet characterSetWithCharactersInString:@"\""];	
+    NSMutableCharacterSet* delimQuoteCharactersSet = [delimCharactersSet mutableCopy];	
+	[delimQuoteCharactersSet formUnionWithCharacterSet:quoteCharactersSet];
+	BOOL insideQuotes = NO;
+	NSUInteger theState = 0;
+	NSMutableString* theToken = [NSMutableString string];
+	while([theScanner isAtEnd]==NO) {
+		if([theScanner scanCharactersFromSet:delimCharactersSet intoString:&theString]) {
+			if(insideQuotes) {
+				[theToken appendString:theString];
+			} else {
+				if([self _parseLineEject:theToken state:&theState]==NO) {
+					return NO;
+				}
+			}
+		} else if([theScanner scanCharactersFromSet:quoteCharactersSet intoString:&theString]) {
+			[theToken appendString:theString];
+			insideQuotes = !insideQuotes;
+		} else if([theScanner scanUpToCharactersFromSet:delimQuoteCharactersSet intoString:&theString]) {			
+			[theToken appendString:theString];
+		} else {
+			return NO;
+		}
+	}
+	if(insideQuotes) {
+		return NO;
+	}
+	return [self _parseLineEject:theToken state:&theState];
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+
 
 -(NSString* )stringValue {
 	NSMutableString* theString = [NSMutableString string];

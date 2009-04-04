@@ -5,48 +5,30 @@
 #import <PostgresDataKit/PostgresDataKit.h>
 #import "Name.h"
 
-BOOL readAccessFile() {
-	NSString* thePath = @"/Users/djt/pg_hba.conf";
-	if([[NSFileManager defaultManager] isReadableFileAtPath:thePath]==NO) {
-		return NO;
-	}
-	NSString* theContents = [NSString stringWithContentsOfFile:thePath];
-	if(theContents==nil) {
-		return NO;
-	}
-	NSScanner* theScanner = [NSScanner scannerWithString:theContents];
-	[theScanner setCharactersToBeSkipped:nil];
-	NSCharacterSet* newlineCharacterSet = [NSCharacterSet characterSetWithCharactersInString:@"\n\r"];
-	NSCharacterSet* whitespaceCharacterSet = [NSCharacterSet whitespaceCharacterSet];
-	NSString* theString = nil;	
-	while([theScanner isAtEnd]==NO) {
-		if([theScanner scanString:@"#" intoString:nil]==YES) {
-			if([theScanner scanUpToCharactersFromSet:newlineCharacterSet intoString:&theString]==YES) {
-				NSLog(@"comment = %@",theString);					
-			} else {
-				NSLog(@"comment = EMPTY");
-			}
-			[theScanner scanCharactersFromSet:newlineCharacterSet intoString:nil];
-		} else if([theScanner scanCharactersFromSet:whitespaceCharacterSet intoString:nil]) {
-			continue;
-		} else if([theScanner scanCharactersFromSet:newlineCharacterSet intoString:nil]) {
-			continue;			
-		} else if([theScanner scanUpToCharactersFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet] intoString:&theString]) {
-			[theScanner scanCharactersFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet] intoString:nil];
-			NSLog(@"string1 = %@",theString);
-		} else {
-			return NO;
-		}
-	}
-	return YES;
-}
-
-
 
 int main(int argc, char *argv[]) {
 	NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+	FLXPostgresServer* theServer = [FLXPostgresServer sharedServer];
 	
-	readAccessFile();
+	[theServer setPort:9002];
+	[theServer startWithDataPath:@"/Users/djt/test"];
+	
+	while([theServer state] != FLXServerStateStarted) {
+		NSLog(@"State = %@",[theServer stateAsString]);
+		[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
+	 }
+
+	[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:2.0]];
+
+	
+	[theServer restart];
+	
+	[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:2.0]];
+	
+	
+	
+	[theServer stop];
+	
 	
 	/*
 	FLXPostgresConnection* connection = [[FLXPostgresConnection alloc] init];
