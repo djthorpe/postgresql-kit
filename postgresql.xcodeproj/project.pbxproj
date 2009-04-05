@@ -380,7 +380,6 @@
 		6E26AAEC0F7FC312009F6162 /* FLXPostgresDataCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLXPostgresDataCache.m; sourceTree = "<group>"; };
 		6E26AAED0F7FC340009F6162 /* PostgresDataKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostgresDataKit.h; sourceTree = "<group>"; };
 		6E26AAFE0F7FC518009F6162 /* PostgresDataKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PostgresDataKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6E26AAFF0F7FC518009F6162 /* PostgresDataKit-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PostgresDataKit-Info.plist"; sourceTree = "<group>"; };
 		6E26AB670F7FE61E009F6162 /* FLXPostgresDataObjectContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLXPostgresDataObjectContext.h; sourceTree = "<group>"; };
 		6E26AB680F7FE61E009F6162 /* FLXPostgresDataObjectContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLXPostgresDataObjectContext.m; sourceTree = "<group>"; };
 		6E26AC130F7FFDE9009F6162 /* Name.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Name.h; sourceTree = "<group>"; };
@@ -427,6 +426,7 @@
 		6E90C0520F64333E0040B36C /* Controller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Controller.m; sourceTree = "<group>"; };
 		6E9FD7070DD593F700353077 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		6EAF8E9F0F87D07300B8B5DA /* stop2.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = stop2.tiff; sourceTree = "<group>"; };
+		6EAF91C80F896B1D00B8B5DA /* PostgresDataKit-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "PostgresDataKit-Info.plist"; sourceTree = "<group>"; };
 		6EB013390F6E420A004C2879 /* FLXPostgresConnectSetting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLXPostgresConnectSetting.h; sourceTree = "<group>"; };
 		6EB0133A0F6E420A004C2879 /* FLXPostgresConnectSetting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLXPostgresConnectSetting.m; sourceTree = "<group>"; };
 		6EB014240F6EE1BC004C2879 /* FLXTaggedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLXTaggedView.h; sourceTree = "<group>"; };
@@ -591,7 +591,6 @@
 				6E23CBD40DCDD00F0041AA57 /* tar */,
 				1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */,
 				034768DFFF38A50411DB9C8B /* Products */,
-				6E26AAFF0F7FC518009F6162 /* PostgresDataKit-Info.plist */,
 			);
 			name = postgresql;
 			sourceTree = "<group>";
@@ -626,6 +625,7 @@
 				6EE3AEC80F6D6A86000E000F /* ClientConnect */,
 				6E90C01A0F6431130040B36C /* PostgresPrefPane */,
 				6E23CD920DCDE4590041AA57 /* PostgresClientKit-Info.plist */,
+				6EAF91C80F896B1D00B8B5DA /* PostgresDataKit-Info.plist */,
 				6E23CC280DCDD6D80041AA57 /* PostgresServerKit-Info.plist */,
 				6EC0A58A0F67047E00DED98A /* UnitTests-Info.plist */,
 			);
@@ -1660,7 +1660,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				INFOPLIST_FILE = "PostgresDataKit-Info.plist";
+				INFOPLIST_FILE = "resources/PostgresDataKit-Info.plist";
 				INSTALL_PATH = "$(HOME)/Library/Frameworks";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -1686,7 +1686,7 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				INFOPLIST_FILE = "PostgresDataKit-Info.plist";
+				INFOPLIST_FILE = "resources/PostgresDataKit-Info.plist";
 				INSTALL_PATH = "$(HOME)/Library/Frameworks";
 				OTHER_LDFLAGS = (
 					"-framework",
