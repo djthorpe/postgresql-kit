@@ -4,6 +4,14 @@
 
 static FLXPostgresDataCache* FLXSharedCache = nil;
 
+void dynamicPropertySetter(id self, SEL _cmd, id object) {
+	NSLog(@"dynamic set %@ %@ => %@",self,NSStringFromSelector(_cmd),object);
+}
+
+void dynamicPropertyGetter(id self, SEL _cmd) {
+	NSLog(@"dynamic get %@ %@",self,NSStringFromSelector(_cmd));	
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 
 @implementation FLXPostgresDataCache
@@ -97,6 +105,16 @@ static FLXPostgresDataCache* FLXSharedCache = nil;
 	return (theRange.location==NSNotFound) ? YES : NO;
 }
 
++(NSString* )_camelCaseForIdentifier:(NSString* )theName {
+	NSParameterAssert(theName && [theName length] > 0);
+	if([theName length]==1) {
+		return [theName uppercaseString];
+	}
+	NSString* firstChar = [[theName substringToIndex:1] uppercaseString];
+	NSString* restOfChars = [theName substringFromIndex:1];
+	return [NSString stringWithFormat:@"%@%@",firstChar,restOfChars];
+}
+
 -(NSArray* )_columnsForTableName:(NSString* )theTableName {
 	if([self connection]==nil) return nil;
 	NSArray* theColumns = nil;
@@ -120,6 +138,48 @@ static FLXPostgresDataCache* FLXSharedCache = nil;
 		return nil;
 	}	
 	return theKey;	
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+// register setter and getter properties for a class
+
+-(void)_registerPropertyImplementationForContext:(FLXPostgresDataObjectContext* )theContext {
+	NSParameterAssert(theContext);
+	Class theClass = NSClassFromString([theContext className]);
+	NSParameterAssert(theClass);
+	// get properties from the object, determine if there are implementations
+	// for these properties - if not, then they are dynamic and we need to put
+	// our own versions in place, I think!
+	unsigned int numProperties;	
+	objc_property_t* properties = class_copyPropertyList(theClass,&numProperties);
+	for(unsigned int i = 0; i < numProperties; i++) {
+		const char* propertyName = property_getName(properties[i]);
+		const char* propertyAttributes = property_getAttributes(properties[i]);
+		// continue if property is not the same as a column name
+		if([[theContext tableColumns] containsObject:[NSString stringWithUTF8String:propertyName]]==NO) continue;
+		// determine setter & getter
+		SEL theSetter;
+		if(strlen(propertyName)==1) {
+			theSetter = NSSelectorFromString([NSString stringWithFormat:@"set%c:",toupper(propertyName[0])]);
+		} else {
+			theSetter = NSSelectorFromString([NSString stringWithFormat:@"set%c%s:",toupper(propertyName[0]),propertyName+1]);
+		}			
+		SEL theGetter = NSSelectorFromString([NSString stringWithFormat:@"%s",propertyName]);	
+		IMP setterImplementation = (IMP)dynamicPropertySetter;
+		IMP getterImplementation = (IMP)dynamicPropertyGetter;
+
+		NSLog(@"property %s setter = %@, getter = %@, attributes = %s",propertyName,NSStringFromSelector(theSetter),NSStringFromSelector(theGetter),propertyAttributes);
+		
+		// add these methods to the class
+		if(class_addMethod(theClass,theSetter,setterImplementation,"v@:@")==NO) {
+			NSLog(@"Unable to add setter method '%@' for class %@",NSStringFromSelector(theSetter),[theContext className]);
+		}
+		if(class_addMethod(theClass,theGetter,getterImplementation,"v@:")==NO) {
+			NSLog(@"Unable to add getter method '%@' for class %@",NSStringFromSelector(theGetter),[theContext className]);
+		}			
+	}
+    free(properties);	
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -177,8 +237,10 @@ static FLXPostgresDataCache* FLXSharedCache = nil;
 	[theContext setTableName:theTableName];
 	[theContext setPrimaryKey:thePrimaryKey];
 	[theContext setTableColumns:theTableColumns];
+	// register the properties
+	[self _registerPropertyImplementationForContext:theContext];
 	// place object in cache
-	[[self context] setObject:theContext forKey:theClassString];
+	[[self context] setObject:theContext forKey:theClassString];	
 	// return the cbject
 	return theContext;
 }

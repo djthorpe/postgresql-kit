@@ -102,24 +102,6 @@
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// resolve getting and setting of properties
-
-+(BOOL)resolveInstanceMethod:(SEL)aSEL {
-	NSLog(@"sel = %@",NSStringFromSelector(aSEL));
-	FLXPostgresDataCache* theCache = [FLXPostgresDataCache sharedCache];
-	if(theCache==nil) return [super resolveInstanceMethod:aSEL];
-	FLXPostgresDataObjectContext* theContext = [theCache objectContextForClass:[self class]];
-	if(theContext==nil) return [super resolveInstanceMethod:aSEL];
-	IMP theMethod = [theContext implementationForSelector:aSEL];
-	if(theMethod) {
-		class_addMethod([self class],aSEL,theMethod,"v@:");
-		return YES;
-    }
-    return [super resolveInstanceMethod:aSEL];
-}
-
-
-////////////////////////////////////////////////////////////////////////////////
 // debugging
 
 -(NSString* )description {

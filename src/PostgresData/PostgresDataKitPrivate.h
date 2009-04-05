@@ -1,6 +1,6 @@
 
 
-#import <Foundation/NSObjCRuntime.h>
+#import <objc/runtime.h>
 
 @interface FLXPostgresDataObject (Private)
 -(id)initWithContext:(FLXPostgresDataObjectContext* )theContext;
