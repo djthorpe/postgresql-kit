@@ -15,7 +15,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
--(id)initWithDimensions:(NSUInteger)theDimensions type:(FLXPostgresOid)theType {
+-(id)initWithDimensions:(NSUInteger)theDimensions type:(FLXPostgresType)theType {
 	self = [super init];
 	if (self != nil) {
 		[self setType:theType];
@@ -38,7 +38,7 @@
 	[super dealloc];
 }
 
-+(FLXPostgresArray* )arrayWithDimensions:(NSUInteger)theDimensions type:(FLXPostgresOid)theType {
++(FLXPostgresArray* )arrayWithDimensions:(NSUInteger)theDimensions type:(FLXPostgresType)theType {
 	return [[[FLXPostgresArray alloc] initWithDimensions:theDimensions type:theType] autorelease];
 }
 

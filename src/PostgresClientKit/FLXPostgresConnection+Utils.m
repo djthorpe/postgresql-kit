@@ -59,7 +59,9 @@
 	NSString* theJoin = @"information_schema.table_constraints T INNER JOIN information_schema.key_column_usage K ON T.constraint_name=K.constraint_name";
 	NSString* theWhere = [NSString stringWithFormat:@"T.constraint_type='PRIMARY KEY' AND T.table_catalog=%@ AND T.table_schema=%@ AND T.table_name=%@",theDatabaseQ,theSchemaQ,theTableNameQ];
 	FLXPostgresResult* theResult = [self executeWithFormat:@"SELECT K.column_name FROM %@ WHERE %@",theJoin,theWhere];
-	NSParameterAssert(theResult && [theResult affectedRows] == 1);
+	NSParameterAssert(theResult);
+	NSParameterAssert([theResult affectedRows]==0 || [theResult affectedRows]==1);
+	if([theResult affectedRows] == 0) return nil; // no primary key
 	NSArray* theRow = [theResult fetchRowAsArray];
 	NSParameterAssert([theRow count]==1);
 	NSParameterAssert([[theRow objectAtIndex:0] isKindOfClass:[NSString class]]);
@@ -119,7 +121,7 @@
 	NSMutableString* theBindingsQ = [NSMutableString string];
 	for(NSUInteger i = 0; i <= [theColumns count]; i++) {
 		if(i==0) {
-			[theBindingsQ appendFormat:@"%@=$1",thePrimaryValue];
+			// do nothing
 		} else {
 			[theBindingsQ appendFormat:@",%@=$%u",[theColumns objectAtIndex:(i-1)],(i+1)];
 		}

@@ -51,7 +51,9 @@
 // methods for key/value pairs
 
 -(NSObject* )primaryValue {
-	return [self valueForKey:[[self context] primaryKey]];	
+	// always return primary value from existing set of values,
+	// not from modified set of values
+	return [[self values] objectForKey:[[self context] primaryKey]];
 }
 
 -(NSObject* )valueForKey:(NSString* )theKey {
@@ -82,6 +84,40 @@
 	// new object if primary value has not been set yet
 	return ([self primaryValue]==nil) ? YES : NO;
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// commit & rollback
+
+-(void)commit {
+	for(NSString* theKey in [[self modifiedValues] allKeys]) {
+		[[self values] setObject:[[self modifiedValues] objectForKey:theKey] forKey:theKey];
+	}
+	[[self modifiedValues] removeAllObjects];
+	[self setModified:NO];	
+}
+
+-(void)rollback {
+	[[self modifiedValues] removeAllObjects];
+	[self setModified:NO];
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// resolve getting and setting of properties
+
++(BOOL)resolveInstanceMethod:(SEL)aSEL {
+	NSLog(@"sel = %@",NSStringFromSelector(aSEL));
+	FLXPostgresDataCache* theCache = [FLXPostgresDataCache sharedCache];
+	if(theCache==nil) return [super resolveInstanceMethod:aSEL];
+	FLXPostgresDataObjectContext* theContext = [theCache objectContextForClass:[self class]];
+	if(theContext==nil) return [super resolveInstanceMethod:aSEL];
+	IMP theMethod = [theContext implementationForSelector:aSEL];
+	if(theMethod) {
+		class_addMethod([self class],aSEL,theMethod,"v@:");
+		return YES;
+    }
+    return [super resolveInstanceMethod:aSEL];
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // debugging

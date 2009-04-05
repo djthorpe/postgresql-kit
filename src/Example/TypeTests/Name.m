@@ -3,6 +3,11 @@
 
 @implementation Name
 
+@dynamic id;
+@dynamic name;
+@dynamic email;
+@dynamic male;
+
 +(NSString* )tableName {
 	return @"name";
 }

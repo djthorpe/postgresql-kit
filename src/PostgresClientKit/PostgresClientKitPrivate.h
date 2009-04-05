@@ -6,6 +6,8 @@
 //#include <pgtypes_timestamp.h>
 //#include <pgtypes_interval.h>
 
+typedef Oid FLXPostgresOid;
+
 @interface FLXPostgresConnection (Private)
 -(void)_noticeProcessorWithMessage:(NSString* )theMessage;
 @end
@@ -20,6 +22,7 @@
 @end
 
 @interface FLXPostgresTypes (Private)
+-(NSObject* )boundValueFromObject:(NSObject* )theObject type:(FLXPostgresOid* )theType;
 -(NSObject* )objectForResult:(PGresult* )theResult row:(NSUInteger)theRow column:(NSUInteger)theColumn;
 
 // convert into NSObjects from received data

@@ -41,13 +41,72 @@
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
-// text from object
+// bound value from object - returns NSNull, NSString or NSData
 
--(NSString* )textFromObject:(NSString* )theObject {
-	NSParameterAssert(theObject);
-	if([theObject isKindOfClass:[NSNull class]]) {
-		
+-(NSString* )_boundValueFromNumber:(NSNumber* )theNumber type:(FLXPostgresOid* )theTypeOid {
+	NSString* theType = [NSString stringWithUTF8String:[theNumber objCType]];
+
+	// boolean
+	if([theType isEqual:@"c"] || [theType isEqual:@"C"] || [theType isEqual:@"B"]) {
+		(*theTypeOid) = FLXPostgresTypeBool;
+		return [theNumber boolValue] ? @"true" : @"false";
 	}
+
+	// integer and long
+	if([theType isEqual:@"i"] || [theType isEqual:@"l"] || [theType isEqual:@"I"] || [theType isEqual:@"L"]) {
+		(*theTypeOid) = FLXPostgresTypeInt4;
+		return [theNumber stringValue];
+	}
+	
+	// short
+	if([theType isEqual:@"s"] || [theType isEqual:@"S"]) {
+		(*theTypeOid) = FLXPostgresTypeInt2;
+		return [theNumber stringValue];
+	}
+	
+	// long long
+	if([theType isEqual:@"q"] || [theType isEqual:@"Q"]) {
+		(*theTypeOid) = FLXPostgresTypeInt8;
+		return [theNumber stringValue];
+	}
+
+	// float
+	if([theType isEqual:@"f"]) {
+		(*theTypeOid) = FLXPostgresTypeFloat4;
+		return [theNumber stringValue];
+	}
+
+	// double
+	if([theType isEqual:@"d"]) {
+		(*theTypeOid) = FLXPostgresTypeFloat8;
+		return [theNumber stringValue];
+	}
+
+	return nil;
+}
+
+-(NSObject* )boundValueFromObject:(NSObject* )theObject type:(FLXPostgresOid* )theType {
+	NSParameterAssert(theObject);
+	// NSNull
+	if([theObject isKindOfClass:[NSNull class]]) {
+		return theObject;
+	}
+	// NSString
+	if([theObject isKindOfClass:[NSString class]]) {
+		(*theType) = FLXPostgresTypeVarchar;
+		return theObject;
+	}
+	// NSData
+	if([theObject isKindOfClass:[NSData class]]) {
+		(*theType) = FLXPostgresTypeData;		
+		return theObject;
+	}
+	// NSNumber booleans are converted to strings
+	if([theObject isKindOfClass:[NSNumber class]]) {
+		return [self _boundValueFromNumber:(NSNumber* )theObject type:theType];
+	}
+	// TODO: we don't support other types yet
+	return nil;	
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

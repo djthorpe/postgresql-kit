@@ -11,6 +11,8 @@
 @synthesize tableColumns;
 @synthesize type;
 
+///////////////////////////////////////////////////////////////////////////////
+
 -(id)init {
 	self = [super init];
 	if (self != nil) {
@@ -29,10 +31,15 @@
 	[super dealloc];
 }
 
+///////////////////////////////////////////////////////////////////////////////
+
+
+///////////////////////////////////////////////////////////////////////////////
+
 -(NSString* )description {
 	switch([self type]) {
 		case FLXPostgresDataObjectSimple:
-			return [NSString stringWithFormat:@"{%@ => %@.%@.%@, primary key = %@, columns = { %@ }}",[self className],[self database],[self schema],[self tableName],[self primaryKey],[[self tableColumns] componentsJoinedByString:@","]];
+			return [NSString stringWithFormat:@"{%@ => %@.%@, primary key = %@, columns = { %@ }}",[self className],[self schema],[self tableName],[self primaryKey],[[self tableColumns] componentsJoinedByString:@","]];
 		default:
 			return [super description];
 	}

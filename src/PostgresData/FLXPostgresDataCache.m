@@ -115,7 +115,6 @@ static FLXPostgresDataCache* FLXSharedCache = nil;
 	NSString* theKey = nil;
 	@try {
 		theKey = [[self connection] primaryKeyForTable:theTableName inSchema:[self schema]];
-		NSParameterAssert(theKey);
 	} @catch(NSException* theException) {
 		[self _delegateException:theException];
 		return nil;
@@ -163,9 +162,9 @@ static FLXPostgresDataCache* FLXSharedCache = nil;
 		}
 	}
 	// get primary key
-	NSString* thePrimaryKey = [theClass primaryKey];
+	NSString* thePrimaryKey = [theClass primaryKey] ? [theClass primaryKey] : [self _primaryKeyForTableName:theTableName];
 	if(thePrimaryKey==nil) {
-		thePrimaryKey = [self _primaryKeyForTableName:theTableName];
+		return nil;
 	}
 	if([FLXPostgresDataCache _isValidIdentifier:((NSString* )thePrimaryKey)]==NO) {
 		return nil;
@@ -221,10 +220,15 @@ static FLXPostgresDataCache* FLXSharedCache = nil;
 	}
 	// save object
 	if([theObject isNewObject]) {
-		[[self connection] insertRowForTable:[theContext tableName] values:columnValues columns:columnNames primaryKey:[theContext primaryKey] inSchema:[theContext schema]];
+		NSObject* thePrimaryValue = [[self connection] insertRowForTable:[theContext tableName] values:columnValues columns:columnNames primaryKey:[theContext primaryKey] inSchema:[theContext schema]];
+		NSParameterAssert(thePrimaryValue);
+		// set the primary value
+		[theObject setValue:thePrimaryValue forKey:[theContext primaryKey]];
 	} else {
 		[[self connection] updateRowForTable:[theContext tableName] values:columnValues columns:columnNames primaryKey:[theContext primaryKey] primaryValue:[theObject primaryValue] inSchema:[theContext schema]];
 	}
+	// commit modified information
+	[theObject commit];
 	// return success
 	return YES;
 }

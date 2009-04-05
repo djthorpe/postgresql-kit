@@ -7,4 +7,6 @@
 
 @property (retain) NSString* name;
 
+-(const char* )UTF8String;
+
 @end

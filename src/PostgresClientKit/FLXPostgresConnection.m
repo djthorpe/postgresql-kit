@@ -256,25 +256,119 @@ void FLXPostgresConnectionNoticeProcessor(void* arg,const char* theMessage) {
 ////////////////////////////////////////////////////////////////////////////////
 // execute
 
--(FLXPostgresResult* )execute:(NSString* )theQuery {
+-(FLXPostgresResult* )_execute:(NSObject* )theQuery values:(NSArray* )theValues {
 	NSParameterAssert(theQuery);
+	NSParameterAssert([theQuery isKindOfClass:[NSString class]] || [theQuery isKindOfClass:[FLXPostgresStatement class]]);
 	if([self connection]==nil) {
 		[FLXPostgresException raise:@"FLXPostgresConnectionError" reason:@"No Connection"];        
+		return nil;
 	}
-	// execute the command - we always use the binding version so we can get the data
-	// back as binary
-	PGresult* theResult = PQexecParams([self connection],[theQuery UTF8String],0,nil,nil,nil,nil,1);
+
+	if(theValues) {
+		NSLog(@"execute: %@ => %@",theQuery,theValues);
+	} else {
+		NSLog(@"execute: %@",theQuery);
+	}		
+	
+	// create values, lengths and format arrays
+	NSUInteger nParams = theValues ? [theValues count] : 0;
+	const void** paramValues = nil;	
+	FLXPostgresOid* paramTypes = nil;
+	int* paramLengths = nil;
+	int* paramFormats = nil;
+	if(nParams) {
+		paramValues = malloc(sizeof(void*) * nParams);
+		paramTypes = malloc(sizeof(FLXPostgresOid) * nParams);
+		paramLengths = malloc(sizeof(int) * nParams);
+		paramFormats = malloc(sizeof(int) * nParams);
+		if(paramValues==nil || paramLengths==nil || paramFormats==nil) {
+			free(paramValues);
+			free(paramTypes);
+			free(paramLengths);
+			free(paramFormats);
+			[FLXPostgresException raise:@"FLXPostgresConnectionError" reason:@"Memory allocation error"];
+		}
+	}
+	// fill the data structures
+	for(NSUInteger i = 0; i < nParams; i++) {
+		FLXPostgresOid theType = 0;
+		NSObject* theObject = [[self types] boundValueFromObject:[theValues objectAtIndex:i] type:&theType];
+		if(theObject==nil) {
+			[FLXPostgresException raise:@"FLXPostgresConnectionError" reason:[NSString stringWithFormat:@"Parameter $%u cannot be converted into a bound value",(i+1)]];
+		}			
+		NSParameterAssert(theObject);
+		NSParameterAssert([theObject isKindOfClass:[NSString class]] || [theObject isKindOfClass:[NSData class]] || [theObject isKindOfClass:[NSNull class]]);
+
+		const void* theValue = nil;
+		NSUInteger theLength = 0;
+		BOOL isBinary = NO;
+
+		// assign value and length
+		if([theObject isKindOfClass:[NSNull class]]) {
+			// NULL value
+			theValue = nil;
+		} else if([theObject isKindOfClass:[NSString class]]) {
+			// convert from string
+			theValue = [(NSString* )theObject UTF8String];
+			theLength = [(NSString* )theObject lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
+		} else if([theObject isKindOfClass:[NSData class]]) {
+			// convert from data
+			theValue = [(NSData* )theObject bytes];
+			theLength = [(NSData* )theObject length];
+			isBinary = YES;
+		} else {
+			// Internal error - should not get here
+			NSParameterAssert(NO);
+		}
+		
+		// check length of data
+		if(theLength > INT_MAX) {
+			free(paramValues);
+			free(paramTypes);
+			free(paramLengths);
+			free(paramFormats);
+			[FLXPostgresException raise:@"FLXPostgresConnectionError" reason:[NSString stringWithFormat:@"Bound value %u exceeds maximum size",i]];			
+		}
+
+		// assign data
+		paramValues[i] = theValue;
+		paramTypes[i] = theType;
+		paramLengths[i] = (int)theLength;			
+		paramFormats[i] = isBinary ? 1 : 0;		
+	}	
+
+	// execute the command - return data in binary
+	PGresult* theResult = nil;
+	if([theQuery isKindOfClass:[NSString class]]) {
+		NSString* theStatement = (NSString* )theQuery;
+		theResult = PQexecParams([self connection],[theStatement UTF8String],nParams,paramTypes,(const char** )paramValues,(const int* )paramLengths,(const int* )paramFormats,1);
+	} else {
+		FLXPostgresStatement* theStatement = (FLXPostgresStatement* )theQuery;
+		theResult = PQexecPrepared([self connection],[theStatement UTF8String],nParams,(const char** )paramValues,(const int* )paramLengths,(const int* )paramFormats,1);
+	}		
+		
+	// free the data structures
+	free(paramValues);
+	free(paramTypes);
+	free(paramLengths);
+	free(paramFormats);	
+	
+	// check returned result
 	if(theResult==nil) {
 		[FLXPostgresException raise:@"FLXPostgresConnectionError" connection:[self connection]];
 	}
-	// check returned result
 	if(PQresultStatus(theResult)==PGRES_BAD_RESPONSE || PQresultStatus(theResult)==PGRES_FATAL_ERROR) {
 		NSString* theMessage = [NSString stringWithUTF8String:PQresultErrorMessage(theResult)];
 		PQclear(theResult);
 		[FLXPostgresException raise:@"FLXPostgresConnectionError" reason:theMessage];
 	}
+	
 	// return a result object
 	return [[[FLXPostgresResult alloc] initWithResult:theResult types:[self types]] autorelease];
+}
+
+-(FLXPostgresResult* )execute:(NSString* )theQuery {
+	return [self _execute:theQuery values:nil];
 }
 
 -(FLXPostgresResult* )executeWithFormat:(NSString* )theQuery,... {
@@ -283,177 +377,30 @@ void FLXPostgresConnectionNoticeProcessor(void* arg,const char* theMessage) {
 	NSMutableString* theString = [[NSMutableString alloc] init];
 	CFStringAppendFormatAndArguments((CFMutableStringRef)theString,(CFDictionaryRef)nil,(CFStringRef)theQuery,argumentList);
 	va_end(argumentList);   
-	FLXPostgresResult* theResult = [self execute:theString];
+	FLXPostgresResult* theResult = [self _execute:theString values:nil];
 	[theString release];
 	return theResult;
 }
 
--(FLXPostgresResult* )executePrepared:(FLXPostgresStatement* )theStatement {
-	NSParameterAssert(theStatement);
-	if([self connection]==nil) {
-		[FLXPostgresException raise:@"FLXPostgresConnectionError" reason:@"No Connection"];        
-	}
-	// execute the command - we always use the binding version so we can get the data
-	// back as binary
-	PGresult* theResult = PQexecPrepared([self connection],[[theStatement name] UTF8String],0,nil,nil,nil,1);
-	if(theResult==nil) {
-		[FLXPostgresException raise:@"FLXPostgresConnectionError" connection:[self connection]];
-	}
-	// check returned result
-	if(PQresultStatus(theResult)==PGRES_BAD_RESPONSE || PQresultStatus(theResult)==PGRES_FATAL_ERROR) {
-		NSString* theMessage = [NSString stringWithUTF8String:PQresultErrorMessage(theResult)];
-		PQclear(theResult);
-		[FLXPostgresException raise:@"FLXPostgresConnectionError" reason:theMessage];
-	}
-	// return a result object
-	return [[[FLXPostgresResult alloc] initWithResult:theResult types:[self types]] autorelease];	
-}
-
 -(FLXPostgresResult* )execute:(NSString* )theQuery value:(NSObject* )theValue {
-	return [self execute:theQuery value:[NSArray arrayWithObject:theValue]];
+	return [self _execute:theQuery values:[NSArray arrayWithObject:theValue]];
 }
 
 -(FLXPostgresResult* )executePrepared:(FLXPostgresStatement* )theStatement value:(NSObject* )theValue {
-	return [self executePrepared:theStatement values:[NSArray arrayWithObject:theValue]];
+	return [self _execute:theStatement values:[NSArray arrayWithObject:theValue]];
 }
 
--(FLXPostgresResult* )execute:(NSString* )theQuery values:(NSArray* )theValues {
-	NSParameterAssert(theQuery);
-	if([self connection]==nil) {
-		[FLXPostgresException raise:@"FLXPostgresConnectionError" reason:@"No Connection"];        
-	}
-	// create data structures
-	NSUInteger nParams = [theValues count];
-	const void** paramValues = malloc(sizeof(void*) * nParams);
-	NSUInteger* paramLengths = malloc(sizeof(NSUInteger) * nParams);
-	NSUInteger* paramFormats = malloc(sizeof(NSUInteger) * nParams);
-	NSParameterAssert(paramValues);
-	NSParameterAssert(paramLengths);
-	NSParameterAssert(paramFormats);	
-	// fill the data structures
-	for(NSUInteger i = 0; i < nParams; i++) {
-		NSObject* theObject = [theValues objectAtIndex:i];
-		NSParameterAssert(theObject);
-		if([theObject isKindOfClass:[NSString class]]) {
-			// convert from string
-		}
-		// TODO: fejfopejfjopew
-	}	
-	// execute the command - return data in binary
-	PGresult* theResult = PQexecParams([self connection],[theQuery UTF8String],nParams,nil,paramValues,paramLengths,paramFormats,1);
-	// free the data structures
-	free(paramValues);
-	free(paramLengths);
-	free(paramFormats);	
-	// check returned result
-	if(theResult==nil) {
-		[FLXPostgresException raise:@"FLXPostgresConnectionError" connection:[self connection]];
-	}
-	if(PQresultStatus(theResult)==PGRES_BAD_RESPONSE || PQresultStatus(theResult)==PGRES_FATAL_ERROR) {
-		NSString* theMessage = [NSString stringWithUTF8String:PQresultErrorMessage(theResult)];
-		PQclear(theResult);
-		[FLXPostgresException raise:@"FLXPostgresConnectionError" reason:theMessage];
-	}
-	// return a result object
-	return [[[FLXPostgresResult alloc] initWithResult:theResult types:[self types]] autorelease];
+-(FLXPostgresResult* )executePrepared:(FLXPostgresStatement* )theStatement {
+	return [self _execute:theStatement values:nil];
 }
 
 -(FLXPostgresResult* )executePrepared:(FLXPostgresStatement* )theStatement values:(NSArray* )theValues {
-	NSLog(@"TODO: execute prepared %@ %@",theStatement,theValues);	
-	return nil;
+	return [self _execute:theStatement values:theValues];
 }
 
-/*
 -(FLXPostgresResult* )execute:(NSString* )theQuery values:(NSArray* )theValues {
-	NSParameterAssert(theQuery && theValues && theTypes && [theValues count]==[theTypes count]);
-	if([self connection]==nil) {
-		[FLXPostgresException raise:@"FLXPostgresConnectionError" reason:@"No Connection"];        
-	}
-	// if no bound values, try the normal version
-	if([theValues count]==0) {
-		return [self execute:theQuery];
-	}
-	// construct the arrays
-	const char** paramValue = malloc(sizeof(const char* ) * [theValues count]);
-	NSUInteger* paramLength = malloc(sizeof(NSUInteger) * [theValues count]);
-	NSUInteger* paramFormat = malloc(sizeof(NSUInteger) * [theValues count]);
-	for(NSUInteger i = 0; i < [theValues count]; i++) {
-		NSObject* theValue = [theValues objectAtIndex:i];
-		NSNumber* theType = [theTypes objectAtIndex:i];
-		NSParameterAssert([theType isKindOfClass:[NSNumber class]]);
-		// special case where value is NULL
-		if([theValue isKindOfClass:[NSNull class]]) {
-			paramValue[i] = nil;
-			paramLength[i] = 0; // not used
-			paramFormat[i] = 0; // not used
-			continue;
-		}
-		switch([theType integerValue]) {
-			case FLXPostgresTypeString:
-				NSParameterAssert([theValue isKindOfClass:[NSString class]]);
-				paramValue[i] = [(NSString* )theValue UTF8String];
-				paramLength[i] = 0; // not used
-				paramFormat[i] = 0; // text
-				break;
-			case FLXPostgresTypeInteger:
-			case FLXPostgresTypeReal:
-				NSParameterAssert([theValue isKindOfClass:[NSNumber class]]);
-				paramValue[i] = [[(NSNumber* )theValue stringValue] UTF8String];
-				paramLength[i] = 0; // no used
-				paramFormat[i] = 0; // text
-				break;
-			case FLXPostgresTypeBool:
-				NSParameterAssert([theValue isKindOfClass:[NSNumber class]]);
-				paramValue[i] = [(NSNumber* )theValue boolValue] ? "t" : "f";
-				paramLength[i] = 0; // not used
-				paramFormat[i] = 0; // text
-				break;
-			case FLXPostgresTypeData:
-				NSParameterAssert([theValue isKindOfClass:[NSData class]]);
-				paramValue[i] = [(NSData* )theValue bytes];
-				paramLength[i] = (NSUInteger)[(NSData* )theValue length];
-				paramFormat[i] = 1; // binary
-				break;        
-			case FLXPostgresTypeDate: {
-					NSParameterAssert([theValue isKindOfClass:[NSDate class]]);
-					NSString* theDateAsString = [(NSDate* )theValue descriptionWithCalendarFormat:@"%Y-%m-%d" timeZone:nil locale:nil];
-					paramValue[i] = [theDateAsString UTF8String];
-					paramLength[i] = (NSUInteger)[theDateAsString length];
-					paramFormat[i] = 0; // text
-				}
-				break;        				
-			case FLXPostgresTypeDatetime:
-				// TODO
-				free(paramValue);
-				free(paramLength);
-				free(paramFormat);
-				[FLXPostgresException raise:@"FLXPostgresConnectionError" reason:@"Unsupported date/time bound value type"];
-			default:
-				free(paramValue);
-				free(paramLength);   
-				free(paramFormat);
-				[FLXPostgresException raise:@"FLXPostgresConnectionError" reason:@"Unsupported bound value type"];
-		}
-	}  
-	// execute the command
-	PGresult* theResult = PQexecParams([self connection],[theQuery UTF8String],[theValues count],nil,paramValue,(const int* )paramLength,(const int* )paramFormat,1);
-	// free the bound values
-	free(paramValue);
-	free(paramLength); 
-	free(paramFormat);
-	// check returned result
-	if(theResult==nil) {
-		[FLXPostgresException raise:@"FLXPostgresConnectionError" connection:[self connection]];
-	}
-	if(PQresultStatus(theResult)==PGRES_BAD_RESPONSE || PQresultStatus(theResult)==PGRES_FATAL_ERROR) {
-		NSString* theMessage = [NSString stringWithUTF8String:PQresultErrorMessage(theResult)];
-		PQclear(theResult);
-		[FLXPostgresException raise:@"FLXPostgresConnectionError" reason:theMessage];
-	}
-	// return a result object
-	return [[[FLXPostgresResult alloc] initWithResult:theResult types:[self types]] autorelease];
+	return [self _execute:theQuery values:theValues];
 }
-*/
 
 ////////////////////////////////////////////////////////////////////////////////
 // quote

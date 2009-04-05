@@ -20,4 +20,12 @@
 	[super dealloc];
 }
 
+-(const char* )UTF8String {
+	return [[self name] UTF8String];
+}
+
+-(NSString* )description {
+	return [NSString stringWithFormat:@"<FLXPostgresStatement %@>",[self name]];
+}
+
 @end

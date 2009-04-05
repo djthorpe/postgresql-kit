@@ -26,18 +26,23 @@ int main(int argc, char *argv[]) {
 		}
 		
 		// create table
-		[connection execute:@"CREATE TABLE name (id INTEGER PRIMARY KEY,name VARCHAR(80),email VARCHAR(80))"];
-		
+		[connection execute:@"CREATE TABLE name (id INTEGER PRIMARY KEY,name VARCHAR(80),email VARCHAR(80),male BOOL)"];
 
 		// create a new name object
-		Name* theName = [theCache newObjectForClass:[Name class]];
+		Name* theName1 = [theCache newObjectForClass:[Name class]];
 		
-		[theName setValue:@"David Thorpe" forKey:@"name"];
-		
+		theName1.name = @"David Thorpe";
+		theName1.email = @"djt@mutablelogic.com";
+		theName1.male = YES;
+		theName1.id = 100;
+				
 		// commit changes to database
-		[theCache saveObject:theName];		
+		[theCache saveObject:theName1];		
 		
-		NSLog(@"name = %@",theName);
+		// fetch single object from database
+		//Name* theObject = [theCache fetchObjectForClass:[Name class] withPrimaryValue:[NSNumber numberWithInt:100]];
+		
+		NSLog(@"names = %@ %@",theName1);
 		
 		// unset connection
 		[theCache setConnection:nil];		

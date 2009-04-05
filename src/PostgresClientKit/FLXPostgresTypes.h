@@ -56,8 +56,6 @@ typedef enum {
 	FLXPostgresTypeNumeric = 1700
 } FLXPostgresType;
 
-typedef NSInteger FLXPostgresOid;
-
 @interface FLXPostgresTypes : NSObject {
   NSMutableDictionary* m_theDictionary;
   NSMutableDictionary* m_theReverseDictionary;  
