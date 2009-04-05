@@ -15,7 +15,6 @@
 
 +(FLXPostgresDataCache* )sharedCache;
 
--(FLXPostgresDataObjectContext* )objectContextForClass:(Class)theClass;
 -(id)newObjectForClass:(Class)theClass;
 //-(id)fetchObjectForClass:(Class)theClass primaryKeyValue:(id)theValue;
 -(BOOL)saveObject:(FLXPostgresDataObject* )theObject;

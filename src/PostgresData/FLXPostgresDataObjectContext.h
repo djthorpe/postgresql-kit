@@ -19,8 +19,4 @@
 @property (retain) NSString* primaryKey;
 @property (retain) NSArray* tableColumns;
 
-// methods
--(IMP)implementationForSelector:(SEL)aSEL;
-
-
 @end

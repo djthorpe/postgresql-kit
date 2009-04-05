@@ -7,3 +7,7 @@
 -(void)commit;
 -(void)rollback;
 @end
+
+@interface FLXPostgresDataCache (Private)
+-(FLXPostgresDataObjectContext* )objectContextForClass:(Class)theClass;
+@end

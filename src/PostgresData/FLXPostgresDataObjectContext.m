@@ -33,14 +33,6 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 
--(IMP)implementationForSelector:(SEL)aSEL {
-	NSLog(@"implementation for selector: %@",NSStringFromSelector(aSEL));
-	return nil;
-}
-
-
-///////////////////////////////////////////////////////////////////////////////
-
 -(NSString* )description {
 	switch([self type]) {
 		case FLXPostgresDataObjectSimple:
