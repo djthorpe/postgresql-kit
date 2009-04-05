@@ -8,29 +8,6 @@
 
 int main(int argc, char *argv[]) {
 	NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-	FLXPostgresServer* theServer = [FLXPostgresServer sharedServer];
-	
-	[theServer setPort:9002];
-	[theServer startWithDataPath:@"/Users/djt/test"];
-	
-	while([theServer state] != FLXServerStateStarted) {
-		NSLog(@"State = %@",[theServer stateAsString]);
-		[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
-	 }
-
-	[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:2.0]];
-
-	
-	[theServer restart];
-	
-	[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:2.0]];
-	
-	
-	
-	[theServer stop];
-	
-	
-	/*
 	FLXPostgresConnection* connection = [[FLXPostgresConnection alloc] init];
 
 	[connection setUser:@"postgres"];
@@ -58,7 +35,7 @@ int main(int argc, char *argv[]) {
 		[theName setValue:@"David Thorpe" forKey:@"name"];
 		
 		// commit changes to database
-		//[theCache commit];		
+		[theCache saveObject:theName];		
 		
 		NSLog(@"name = %@",theName);
 		
@@ -72,12 +49,6 @@ int main(int argc, char *argv[]) {
 	////////////////////////////////////////////////////////////////////////////
 
 	[connection release];
-	 
-	 */
-	
-	
-	
-	
 	[pool release];
 	return 0;
 }

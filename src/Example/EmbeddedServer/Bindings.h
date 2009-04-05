@@ -4,6 +4,7 @@
 @interface Bindings : NSObject {
 	IBOutlet NSWindow* ibMainWindow;
 	IBOutlet NSWindow* ibSelectWindow;
+	IBOutlet NSWindow* ibAccessWindow;
 	IBOutlet NSTextView* ibOutput;
 	IBOutlet NSTextField* ibInput;
 	
@@ -16,6 +17,7 @@
 
 -(NSWindow* )mainWindow;
 -(NSWindow* )selectWindow;
+-(NSWindow* )accessWindow;
 -(void)clearOutput;
 -(void)appendOutputString:(NSString* )theString color:(NSColor* )theColor bold:(BOOL)isBold;
 -(void)setInputEnabled:(BOOL)isEnabled;

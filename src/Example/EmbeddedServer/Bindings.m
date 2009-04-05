@@ -13,6 +13,10 @@
 	return ibSelectWindow;
 }
 
+-(NSWindow* )accessWindow {
+	return ibAccessWindow;
+}
+
 -(NSMutableAttributedString* )outputString {
 	return [ibOutput textStorage];
 }

@@ -20,5 +20,7 @@
 -(NSObject* )primaryValue;
 -(NSObject* )valueForKey:(NSString* )theKey;
 -(void)setValue:(NSObject* )theValue forKey:(NSString* )theKey;
+-(NSArray* )modifiedTableColumns;
+-(BOOL)isNewObject;
 
 @end

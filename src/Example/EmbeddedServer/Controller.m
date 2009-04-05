@@ -242,6 +242,24 @@
 	[bindings clearOutput];
 }
 
+-(IBAction)doAccessEdit:(id)sender {
+	
+// retrieve the access tuples
+//	NSArray* hostAccessEntries = [[self server] hostAccessEntries];
+//	if(hostAccessEntries==nil) return;	
+//	NSLog(@"access tuples = %@",theAccessTuples);
+		
+	if([[self server] isRunning]==YES) {		
+		[NSApp beginSheet:[bindings accessWindow] modalForWindow:[bindings mainWindow] modalDelegate:self didEndSelector:@selector(accessSheetDidEnd:returnCode:contextInfo:) contextInfo:nil];
+	}	
+}
+
+-(IBAction)doEndAccessEdit:(id)sender {
+	[NSApp endSheet:[bindings accessWindow] returnCode:NSOKButton];	
+}
+
+
+
 ////////////////////////////////////////////////////////////////////////////////
 // NSApplication delegate messages
 
@@ -274,6 +292,13 @@
 			}
 			[bindings appendOutputString:[NSString stringWithFormat:@"Selected database: %@",theDatabase] color:[NSColor grayColor] bold:YES];	
 		}
+	}
+}
+
+-(void)accessSheetDidEnd:(NSWindow* )sheet returnCode:(int)returnCode contextInfo:(void* )contextInfo {
+	[sheet orderOut:self];
+	if(returnCode==NSOKButton) {
+		NSLog(@"TODO: save access information");
 	}
 }
 

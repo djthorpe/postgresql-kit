@@ -37,9 +37,10 @@
 -(FLXPostgresResult* )execute:(NSString* )theQuery;
 -(FLXPostgresResult* )executeWithFormat:(NSString* )theQuery,...;
 -(FLXPostgresResult* )executePrepared:(FLXPostgresStatement* )theStatement;
-// TODO: methods for bindings
-//-(FLXPostgresResult* )execute:(NSString* )theQuery values:(NSArray* )theValues;
-//-(FLXPostgresResult* )executePrepared:(FLXPostgresStatement* )theStatement values:(NSArray* )theValues;
+-(FLXPostgresResult* )execute:(NSString* )theQuery values:(NSArray* )theValues;
+-(FLXPostgresResult* )execute:(NSString* )theQuery value:(NSObject* )theValue;
+-(FLXPostgresResult* )executePrepared:(FLXPostgresStatement* )theStatement values:(NSArray* )theValues;
+-(FLXPostgresResult* )executePrepared:(FLXPostgresStatement* )theStatement value:(NSObject* )theValue;
 
 // quote method
 -(NSString* )quote:(NSObject* )theObject;

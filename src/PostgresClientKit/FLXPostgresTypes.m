@@ -41,6 +41,16 @@
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
+// text from object
+
+-(NSString* )textFromObject:(NSString* )theObject {
+	NSParameterAssert(theObject);
+	if([theObject isKindOfClass:[NSNull class]]) {
+		
+	}
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////
 // object from data
 
 -(NSObject* )objectFromBytes:(const void* )theBytes length:(NSUInteger)theLength type:(FLXPostgresOid)theType {

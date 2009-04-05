@@ -173,7 +173,6 @@ static FLXPostgresDataCache* FLXSharedCache = nil;
 	// create an object
 	theContext = [[[FLXPostgresDataObjectContext alloc] init] autorelease];
 	[theContext setClassName:theClassString];
-	[theContext setDatabase:[[self connection] database]];
 	[theContext setSchema:[self schema]];
 	[theContext setClassName:theClassString];
 	[theContext setTableName:theTableName];
@@ -200,6 +199,38 @@ static FLXPostgresDataCache* FLXSharedCache = nil;
 	return [theObject autorelease];
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// commit changes to object - can throw an exception
 
+-(BOOL)saveObject:(FLXPostgresDataObject* )theObject full:(BOOL)isFullCommit {
+	NSParameterAssert(theObject);
+	FLXPostgresDataObjectContext* theContext = [theObject context];
+	NSParameterAssert(theContext);
+	NSArray* columnNames = isFullCommit ? [theContext tableColumns] : [theObject modifiedTableColumns];
+	NSParameterAssert(columnNames);
+	if([columnNames count]==0) {
+		// nothing to save!
+		return YES;
+	}
+	// construct name, value arrays
+	NSMutableArray* columnValues = [NSMutableArray arrayWithCapacity:[columnNames count]];
+	for(NSString* theKey in columnNames) {
+		NSObject* theValue = [theObject valueForKey:theKey];
+		NSParameterAssert(theValue);
+		[columnValues addObject:theValue];
+	}
+	// save object
+	if([theObject isNewObject]) {
+		[[self connection] insertRowForTable:[theContext tableName] values:columnValues columns:columnNames primaryKey:[theContext primaryKey] inSchema:[theContext schema]];
+	} else {
+		[[self connection] updateRowForTable:[theContext tableName] values:columnValues columns:columnNames primaryKey:[theContext primaryKey] primaryValue:[theObject primaryValue] inSchema:[theContext schema]];
+	}
+	// return success
+	return YES;
+}
+
+-(BOOL)saveObject:(FLXPostgresDataObject* )theObject {
+	return [self saveObject:theObject full:NO];
+}
 
 @end

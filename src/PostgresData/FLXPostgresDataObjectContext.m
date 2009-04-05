@@ -5,7 +5,6 @@
 @implementation FLXPostgresDataObjectContext
 
 @synthesize className;
-@synthesize database;
 @synthesize schema;
 @synthesize tableName;
 @synthesize primaryKey;
@@ -23,7 +22,6 @@
 
 -(void)dealloc {
 	[self setClassName:nil];
-	[self setDatabase:nil];
 	[self setSchema:nil];
 	[self setTableName:nil];
 	[self setPrimaryKey:nil];

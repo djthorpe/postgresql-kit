@@ -69,9 +69,18 @@
 	NSParameterAssert([[[self context] tableColumns] containsObject:theKey]);
 	NSObject* existingValue = [self valueForKey:theKey];
 	if([existingValue isEqual:theValue]==NO) {
-		[[self modifiedValues] setObject:theValue forKey:theKey];
+		[[self modifiedValues] setObject:theValue forKey:theKey];		
 		[self setModified:YES];
 	}
+}
+
+-(NSArray* )modifiedTableColumns {
+	return [[self modifiedValues] allKeys];
+}
+
+-(BOOL)isNewObject {
+	// new object if primary value has not been set yet
+	return ([self primaryValue]==nil) ? YES : NO;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

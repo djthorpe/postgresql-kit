@@ -309,6 +309,60 @@ void FLXPostgresConnectionNoticeProcessor(void* arg,const char* theMessage) {
 	return [[[FLXPostgresResult alloc] initWithResult:theResult types:[self types]] autorelease];	
 }
 
+-(FLXPostgresResult* )execute:(NSString* )theQuery value:(NSObject* )theValue {
+	return [self execute:theQuery value:[NSArray arrayWithObject:theValue]];
+}
+
+-(FLXPostgresResult* )executePrepared:(FLXPostgresStatement* )theStatement value:(NSObject* )theValue {
+	return [self executePrepared:theStatement values:[NSArray arrayWithObject:theValue]];
+}
+
+-(FLXPostgresResult* )execute:(NSString* )theQuery values:(NSArray* )theValues {
+	NSParameterAssert(theQuery);
+	if([self connection]==nil) {
+		[FLXPostgresException raise:@"FLXPostgresConnectionError" reason:@"No Connection"];        
+	}
+	// create data structures
+	NSUInteger nParams = [theValues count];
+	const void** paramValues = malloc(sizeof(void*) * nParams);
+	NSUInteger* paramLengths = malloc(sizeof(NSUInteger) * nParams);
+	NSUInteger* paramFormats = malloc(sizeof(NSUInteger) * nParams);
+	NSParameterAssert(paramValues);
+	NSParameterAssert(paramLengths);
+	NSParameterAssert(paramFormats);	
+	// fill the data structures
+	for(NSUInteger i = 0; i < nParams; i++) {
+		NSObject* theObject = [theValues objectAtIndex:i];
+		NSParameterAssert(theObject);
+		if([theObject isKindOfClass:[NSString class]]) {
+			// convert from string
+		}
+		// TODO: fejfopejfjopew
+	}	
+	// execute the command - return data in binary
+	PGresult* theResult = PQexecParams([self connection],[theQuery UTF8String],nParams,nil,paramValues,paramLengths,paramFormats,1);
+	// free the data structures
+	free(paramValues);
+	free(paramLengths);
+	free(paramFormats);	
+	// check returned result
+	if(theResult==nil) {
+		[FLXPostgresException raise:@"FLXPostgresConnectionError" connection:[self connection]];
+	}
+	if(PQresultStatus(theResult)==PGRES_BAD_RESPONSE || PQresultStatus(theResult)==PGRES_FATAL_ERROR) {
+		NSString* theMessage = [NSString stringWithUTF8String:PQresultErrorMessage(theResult)];
+		PQclear(theResult);
+		[FLXPostgresException raise:@"FLXPostgresConnectionError" reason:theMessage];
+	}
+	// return a result object
+	return [[[FLXPostgresResult alloc] initWithResult:theResult types:[self types]] autorelease];
+}
+
+-(FLXPostgresResult* )executePrepared:(FLXPostgresStatement* )theStatement values:(NSArray* )theValues {
+	NSLog(@"TODO: execute prepared %@ %@",theStatement,theValues);	
+	return nil;
+}
+
 /*
 -(FLXPostgresResult* )execute:(NSString* )theQuery values:(NSArray* )theValues {
 	NSParameterAssert(theQuery && theValues && theTypes && [theValues count]==[theTypes count]);
@@ -441,7 +495,7 @@ void FLXPostgresConnectionNoticeProcessor(void* arg,const char* theMessage) {
 // notice processor
 
 -(void)_noticeProcessorWithMessage:(NSString* )theMessage {
-	// TODO
+	// TODO: send to delegate
 	NSLog(@"NOTICE....%@",theMessage);
 }
 

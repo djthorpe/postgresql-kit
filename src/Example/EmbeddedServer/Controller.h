@@ -24,5 +24,7 @@
 -(IBAction)doSelectDatabase:(id)sender;
 -(IBAction)doEndSelectDatabase:(id)sender;
 -(IBAction)doClearOutput:(id)sender;
+-(IBAction)doAccessEdit:(id)sender;
+-(IBAction)doEndAccessEdit:(id)sender;
 
 @end

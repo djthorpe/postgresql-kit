@@ -3,7 +3,6 @@
 
 @interface FLXPostgresDataObjectContext : NSObject {
 	NSString* className;
-	NSString* database;
 	NSString* schema;
 	FLXPostgresDataObjectType type;
 
@@ -13,7 +12,6 @@
 }
 
 @property (retain) NSString* className;
-@property (retain) NSString* database;
 @property (retain) NSString* schema;
 @property (assign) FLXPostgresDataObjectType type;
 
