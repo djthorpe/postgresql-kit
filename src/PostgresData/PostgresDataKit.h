@@ -20,7 +20,9 @@
 #import <PostgresClientKit/PostgresClientKit.h>
 
 typedef enum {
-	FLXPostgresDataObjectSimple = 1 	// simple type only requires a primary key	
+	FLXPostgresDataObjectSimple  = 0,  	 // simple type requires a primary key	
+	FLXPostgresDataObjectSerial  = 1,    // object serial means there is a '_serial' column for the table
+	FLXPostgresDataTableSerial   = 2     // table serial means there is a '_serial' table for this object
 } FLXPostgresDataObjectType;
 
 @class FLXPostgresDataCache;
@@ -30,4 +32,5 @@ typedef enum {
 #import "FLXPostgresDataCache.h"
 #import "FLXPostgresDataObject.h"
 #import "FLXPostgresDataObjectContext.h"
+#import "FLXPostgresConnection+DataUtils.h"
 

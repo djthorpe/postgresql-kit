@@ -4,8 +4,10 @@
 
 @interface FLXPostgresDataObject (Private)
 -(id)initWithContext:(FLXPostgresDataObjectContext* )theContext;
--(void)commit;
--(void)rollback;
+-(NSArray* )_modifiedTableColumns;
+-(BOOL)_isNewObject;
+-(void)_commit;
+-(void)_rollback;
 @end
 
 @interface FLXPostgresDataCache (Private)

@@ -7,12 +7,11 @@ static FLXPostgresDataCache* FLXSharedCache = nil;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void dynamicPropertySetter_obj(FLXPostgresDataObject* self, SEL _cmd,id object) {
+void dynamicPropertySetter_obj(FLXPostgresDataObject* self, SEL _cmd,id object) {	
 	NSLog(@"dynamic set %@ %@ => %@",self,NSStringFromSelector(_cmd),object);
 }
 
 id dynamicPropertyGetter_obj(FLXPostgresDataObject* self, SEL _cmd) {
-	NSLog(@"dynamic get %@ %@",self,NSStringFromSelector(_cmd));	
 	return [self valueForKey:NSStringFromSelector(_cmd)];
 }
 
@@ -21,7 +20,7 @@ void dynamicPropertySetter_char(FLXPostgresDataObject* self, SEL _cmd,char value
 }
 
 char dynamicPropertyGetter_char(FLXPostgresDataObject* self, SEL _cmd) {
-	
+
 }
 
 void dynamicPropertySetter_int(FLXPostgresDataObject* self, SEL _cmd,int value) {
@@ -44,15 +43,41 @@ void dynamicPropertySetter_long(FLXPostgresDataObject* self, SEL _cmd,long value
 	
 }
 
-getterImplementation = (IMP)dynamicPropertyGetter_long(id self, SEL _cmd);			
-voiddynamicPropertySetter_longlong;
-getterImplementation = (IMP)dynamicPropertyGetter_longlong(id self, SEL _cmd);			
-voiddynamicPropertySetter_unsignedchar;
-getterImplementation = (IMP)dynamicPropertyGetter_unsignedchar(id self, SEL _cmd);			
-voiddynamicPropertySetter_unsignedint;
-getterImplementation = (IMP)dynamicPropertyGetter_unsignedin(id self, SEL _cmd)t;			
-voiddynamicPropertySetter_unsignedshort;
-getterImplementation = (IMP)dynamicPropertyGetter_unsignedshort(id self, SEL _cmd);			
+long dynamicPropertyGetter_long(id self, SEL _cmd) {
+	
+}
+
+void dynamicPropertySetter_longlong(id self, SEL _cmd,long long value) {
+	
+}
+
+long long dynamicPropertyGetter_longlong(id self, SEL _cmd) {
+	
+}
+
+void dynamicPropertySetter_unsignedchar(id self, SEL _cmd,unsigned char value) {
+	
+}
+
+unsigned char dynamicPropertyGetter_unsignedchar(id self, SEL _cmd) {
+	
+}
+
+void dynamicPropertySetter_unsignedint(id self, SEL _cmd,unsigned int value) {
+	
+}
+
+unsigned int dynamicPropertyGetter_unsignedint(id self, SEL _cmd) {
+	
+}
+
+void dynamicPropertySetter_unsignedshort(id self, SEL _cmd,unsigned short value) {
+	
+}
+
+unsigned short dynamicPropertyGetter_unsignedshort(id self, SEL _cmd) {
+	
+}
 
 void dynamicPropertySetter_unsignedlong(id self, SEL _cmd,unsigned long value) {
 	
@@ -350,8 +375,9 @@ double dynamicPropertyGetter_double(id self, SEL _cmd) {
 	objc_property_t* properties = class_copyPropertyList(theClass,&numProperties);
 	for(unsigned int i = 0; i < numProperties; i++) {
 		BOOL isRegistered = [self _registerPropertyImplementationForContext:theContext property:properties[i]];
-		if(isRegisters==NO) {
-			NSLog(@"Unable to create implementation for dynamic property %@, class %@",);
+		if(isRegistered==NO) {
+			// TODO: fix this
+			NSLog(@"Unable to create implementation for dynamic property '%@', class '%@'");
 		}
 	}
     free(properties);	
@@ -394,7 +420,7 @@ double dynamicPropertyGetter_double(id self, SEL _cmd) {
 		}
 		if([FLXPostgresDataCache _isValidIdentifier:((NSString* )theColumn)]==NO) {
 			return nil;
-		}
+		}				
 	}
 	// get primary key
 	NSString* thePrimaryKey = [theClass primaryKey] ? [theClass primaryKey] : [self _primaryKeyForTableName:theTableName];
@@ -404,13 +430,21 @@ double dynamicPropertyGetter_double(id self, SEL _cmd) {
 	if([FLXPostgresDataCache _isValidIdentifier:((NSString* )thePrimaryKey)]==NO) {
 		return nil;
 	}
+	// get object type
+	FLXPostgresDataObjectType theObjectType = [theClass objectType];
+	// get serial column
+	NSString* theSerialKey = nil;
+	if(theObjectType | FLXPostgresDataObjectSerial) {
+		theSerialKey = [theClass serialKey];
+	}
 	// create an object
 	theContext = [[[FLXPostgresDataObjectContext alloc] init] autorelease];
 	[theContext setClassName:theClassString];
-	[theContext setSchema:[self schema]];
-	[theContext setClassName:theClassString];
 	[theContext setTableName:theTableName];
+	[theContext setSchema:[self schema]];
 	[theContext setPrimaryKey:thePrimaryKey];
+	[theContext setSerialKey:theSerialKey];
+	[theContext setType:theObjectType];
 	[theContext setTableColumns:theTableColumns];
 	// register the properties
 	[self _registerPropertyImplementationForContext:theContext];
@@ -442,7 +476,7 @@ double dynamicPropertyGetter_double(id self, SEL _cmd) {
 	NSParameterAssert(theObject);
 	FLXPostgresDataObjectContext* theContext = [theObject context];
 	NSParameterAssert(theContext);
-	NSArray* columnNames = isFullCommit ? [theContext tableColumns] : [theObject modifiedTableColumns];
+	NSArray* columnNames = isFullCommit ? [theContext tableColumns] : [theObject _modifiedTableColumns];
 	NSParameterAssert(columnNames);
 	if([columnNames count]==0) {
 		// nothing to save!
@@ -456,7 +490,7 @@ double dynamicPropertyGetter_double(id self, SEL _cmd) {
 		[columnValues addObject:theValue];
 	}
 	// save object
-	if([theObject isNewObject]) {
+	if([theObject _isNewObject]) {
 		NSObject* thePrimaryValue = [[self connection] insertRowForTable:[theContext tableName] values:columnValues columns:columnNames primaryKey:[theContext primaryKey] inSchema:[theContext schema]];
 		NSParameterAssert(thePrimaryValue);
 		// set the primary value
@@ -465,7 +499,7 @@ double dynamicPropertyGetter_double(id self, SEL _cmd) {
 		[[self connection] updateRowForTable:[theContext tableName] values:columnValues columns:columnNames primaryKey:[theContext primaryKey] primaryValue:[theObject primaryValue] inSchema:[theContext schema]];
 	}
 	// commit modified information
-	[theObject commit];
+	[theObject _commit];
 	// return success
 	return YES;
 }

@@ -13,20 +13,12 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 
--(id)init {
-	self = [super init];
-	if (self != nil) {
-		// we only support simple object types at the moment
-		[self setType:FLXPostgresDataObjectSimple];
-	}
-	return self;
-}
-
 -(void)dealloc {
 	[self setClassName:nil];
 	[self setSchema:nil];
 	[self setTableName:nil];
 	[self setPrimaryKey:nil];
+	[self setSerialKey:nil];
 	[self setTableColumns:nil];
 	[super dealloc];
 }

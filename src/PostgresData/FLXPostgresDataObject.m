@@ -33,9 +33,9 @@
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// methods which need to be overridden
+// methods which can be overridden
 
-+(NSString* )tableName {
++(NSString* )tableName { // optional
 	return nil;
 }
 
@@ -45,6 +45,14 @@
 
 +(NSString* )primaryKey { // optional
 	return nil;
+}
+
++(NSString* )serialKey { 
+	return @"_serial";
+}
+
++(FLXPostgresDataObjectType)objectType { // optional
+	return FLXPostgresDataObjectSimple;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -88,7 +96,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // commit & rollback
 
--(void)commit {
+-(void)_commit {
 	for(NSString* theKey in [[self modifiedValues] allKeys]) {
 		[[self values] setObject:[[self modifiedValues] objectForKey:theKey] forKey:theKey];
 	}
@@ -96,7 +104,7 @@
 	[self setModified:NO];	
 }
 
--(void)rollback {
+-(void)_rollback {
 	[[self modifiedValues] removeAllObjects];
 	[self setModified:NO];
 }

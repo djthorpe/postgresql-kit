@@ -13,14 +13,15 @@
 @property (assign) BOOL modified;
 @property (retain) FLXPostgresDataObjectContext* context;
 
+// methods which can be subclassed
 +(NSString* )tableName;
 +(NSArray* )tableColumns;
 +(NSString* )primaryKey;
++(NSString* )serialKey;
++(FLXPostgresDataObjectType)objectType;
 
 -(NSObject* )primaryValue;
 -(NSObject* )valueForKey:(NSString* )theKey;
 -(void)setValue:(NSObject* )theValue forKey:(NSString* )theKey;
--(NSArray* )modifiedTableColumns;
--(BOOL)isNewObject;
 
 @end
