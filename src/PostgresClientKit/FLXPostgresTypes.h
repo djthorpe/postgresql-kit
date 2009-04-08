@@ -5,6 +5,7 @@
 // include/server/catalog/pg_type.h
 // http://doxygen.postgresql.org/include_2catalog_2pg__type_8h-source.html
 
+// these are the types we should support
 typedef enum {
 	FLXPostgresTypeBool = 16,
 	FLXPostgresTypeData = 17,

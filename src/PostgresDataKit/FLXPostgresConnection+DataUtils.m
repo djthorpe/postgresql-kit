@@ -1,4 +1,7 @@
 
+#import "PostgresDataKit.h"
+#import "PostgresDataKitPrivate.h"
+
 @implementation FLXPostgresConnection (DataUtils)
 
 -(NSObject* )insertRowForTable:(NSString* )theTable values:(NSArray* )theValues columns:(NSArray* )theColumns primaryKey:(NSString* )thePrimaryKey inSchema:(NSString* )theSchema {

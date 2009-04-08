@@ -1,11 +1,12 @@
 
 #import <PostgresDataKit/PostgresDataKit.h>
 
-@interface Name : FLXPostgresDataObject {
-
+@interface Name : FLXPostgresDataObject {	
+	NSString* name;
+	NSString* email;
+	BOOL male;
 }
 
-@property (assign) NSInteger id;
 @property (retain) NSString* name;
 @property (retain) NSString* email;
 @property (assign) BOOL male;

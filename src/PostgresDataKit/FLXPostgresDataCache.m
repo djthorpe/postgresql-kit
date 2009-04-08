@@ -4,113 +4,6 @@
 
 static FLXPostgresDataCache* FLXSharedCache = nil;
 
-
-////////////////////////////////////////////////////////////////////////////////
-
-void dynamicPropertySetter_obj(FLXPostgresDataObject* self, SEL _cmd,id object) {	
-	NSLog(@"dynamic set %@ %@ => %@",self,NSStringFromSelector(_cmd),object);
-}
-
-id dynamicPropertyGetter_obj(FLXPostgresDataObject* self, SEL _cmd) {
-	return [self valueForKey:NSStringFromSelector(_cmd)];
-}
-
-void dynamicPropertySetter_char(FLXPostgresDataObject* self, SEL _cmd,char value) {
-
-}
-
-char dynamicPropertyGetter_char(FLXPostgresDataObject* self, SEL _cmd) {
-
-}
-
-void dynamicPropertySetter_int(FLXPostgresDataObject* self, SEL _cmd,int value) {
-	
-}
-
-int dynamicPropertyGetter_int(FLXPostgresDataObject* self, SEL _cmd) {
-	
-}
-
-void dynamicPropertySetter_short(FLXPostgresDataObject* self, SEL _cmd,short value) {
-	
-}
-
-short dynamicPropertyGetter_short(FLXPostgresDataObject* self, SEL _cmd) {
-
-}
-
-void dynamicPropertySetter_long(FLXPostgresDataObject* self, SEL _cmd,long value) {
-	
-}
-
-long dynamicPropertyGetter_long(id self, SEL _cmd) {
-	
-}
-
-void dynamicPropertySetter_longlong(id self, SEL _cmd,long long value) {
-	
-}
-
-long long dynamicPropertyGetter_longlong(id self, SEL _cmd) {
-	
-}
-
-void dynamicPropertySetter_unsignedchar(id self, SEL _cmd,unsigned char value) {
-	
-}
-
-unsigned char dynamicPropertyGetter_unsignedchar(id self, SEL _cmd) {
-	
-}
-
-void dynamicPropertySetter_unsignedint(id self, SEL _cmd,unsigned int value) {
-	
-}
-
-unsigned int dynamicPropertyGetter_unsignedint(id self, SEL _cmd) {
-	
-}
-
-void dynamicPropertySetter_unsignedshort(id self, SEL _cmd,unsigned short value) {
-	
-}
-
-unsigned short dynamicPropertyGetter_unsignedshort(id self, SEL _cmd) {
-	
-}
-
-void dynamicPropertySetter_unsignedlong(id self, SEL _cmd,unsigned long value) {
-	
-}
-
-unsigned long dynamicPropertyGetter_unsignedlong(id self, SEL _cmd) {
-	
-}
-
-void dynamicPropertySetter_unsignedlonglong(id self, SEL _cmd,unsigned long long value) {
-
-}
-
-unsigned long long dynamicPropertyGetter_unsignedlonglong(id self, SEL _cmd) {
-	
-}
-
-void dynamicPropertySetter_float(id self, SEL _cmd,float value) {
-	
-}
-
-float dynamicPropertyGetter_float(id self, SEL _cmd) {
-	
-}
-
-void dynamicPropertySetter_double(id self, SEL _cmd,double value)  {
-	
-}
-
-double dynamicPropertyGetter_double(id self, SEL _cmd) {
-	
-}
-
 ////////////////////////////////////////////////////////////////////////////////
 
 @implementation FLXPostgresDataCache
@@ -204,16 +97,6 @@ double dynamicPropertyGetter_double(id self, SEL _cmd) {
 	return (theRange.location==NSNotFound) ? YES : NO;
 }
 
-+(NSString* )_camelCaseForIdentifier:(NSString* )theName {
-	NSParameterAssert(theName && [theName length] > 0);
-	if([theName length]==1) {
-		return [theName uppercaseString];
-	}
-	NSString* firstChar = [[theName substringToIndex:1] uppercaseString];
-	NSString* restOfChars = [theName substringFromIndex:1];
-	return [NSString stringWithFormat:@"%@%@",firstChar,restOfChars];
-}
-
 -(NSArray* )_columnsForTableName:(NSString* )theTableName {
 	if([self connection]==nil) return nil;
 	NSArray* theColumns = nil;
@@ -263,103 +146,6 @@ double dynamicPropertyGetter_double(id self, SEL _cmd) {
 	if([[NSString stringWithUTF8String:propertyAttributes]hasSuffix:@",D"] == NO) {
 		return NO;
 	}
-	
-	// determine setter and getter implementations
-	IMP setterImplementation;
-	IMP getterImplementation;
-	NSString* setterEncoding = [NSString stringWithFormat:@"v@:%c",propertyAttributes[1]];
-	NSString* getterEncoding = [NSString stringWithFormat:@"%@@:",propertyAttributes[1]];
-	BOOL isValid = NO;
-	switch(propertyAttributes[1]) {
-		case '@':
-			setterImplementation = (IMP)dynamicPropertySetter_obj;
-			getterImplementation = (IMP)dynamicPropertyGetter_obj;
-			isValid = YES;
-			break;
-		case 'c':
-			setterImplementation = (IMP)dynamicPropertySetter_char;
-			getterImplementation = (IMP)dynamicPropertyGetter_char;			
-			isValid = YES;
-			break;
-		case 'i':
-			setterImplementation = (IMP)dynamicPropertySetter_int;
-			getterImplementation = (IMP)dynamicPropertyGetter_int;			
-			isValid = YES;
-			break;
-		case 's':
-			setterImplementation = (IMP)dynamicPropertySetter_short;
-			getterImplementation = (IMP)dynamicPropertyGetter_short;			
-			isValid = YES;
-			break;
-		case 'l':
-			setterImplementation = (IMP)dynamicPropertySetter_long;
-			getterImplementation = (IMP)dynamicPropertyGetter_long;			
-			isValid = YES;
-			break;
-		case 'q':
-			setterImplementation = (IMP)dynamicPropertySetter_longlong;
-			getterImplementation = (IMP)dynamicPropertyGetter_longlong;			
-			isValid = YES;
-			break;
-		case 'C':
-			setterImplementation = (IMP)dynamicPropertySetter_unsignedchar;
-			getterImplementation = (IMP)dynamicPropertyGetter_unsignedchar;			
-			isValid = YES;
-			break;
-		case 'I':
-			setterImplementation = (IMP)dynamicPropertySetter_unsignedint;
-			getterImplementation = (IMP)dynamicPropertyGetter_unsignedint;			
-			isValid = YES;
-			break;
-		case 'S':
-			setterImplementation = (IMP)dynamicPropertySetter_unsignedshort;
-			getterImplementation = (IMP)dynamicPropertyGetter_unsignedshort;			
-			isValid = YES;
-			break;
-		case 'L':
-			setterImplementation = (IMP)dynamicPropertySetter_unsignedlong;
-			getterImplementation = (IMP)dynamicPropertyGetter_unsignedlong;			
-			isValid = YES;
-			break;
-		case 'Q':
-			setterImplementation = (IMP)dynamicPropertySetter_unsignedlonglong;
-			getterImplementation = (IMP)dynamicPropertyGetter_unsignedlonglong;			
-			isValid = YES;
-			break;
-		case 'f':
-			setterImplementation = (IMP)dynamicPropertySetter_float;
-			getterImplementation = (IMP)dynamicPropertyGetter_float;			
-			isValid = YES;
-			break;
-		case 'd':
-			setterImplementation = (IMP)dynamicPropertySetter_double;
-			getterImplementation = (IMP)dynamicPropertyGetter_double;			
-			isValid = YES;
-			break;
-		default:
-			break;
-	}
-
-	if(isValid==NO) {
-		return NO;
-	}
-	
-	// determine setter & getter names
-	SEL theSetter;
-	SEL theGetter = NSSelectorFromString([NSString stringWithFormat:@"%s",propertyName]);	
-	if(strlen(propertyName)==1) {
-		theSetter = NSSelectorFromString([NSString stringWithFormat:@"set%c:",toupper(propertyName[0])]);
-	} else {
-		theSetter = NSSelectorFromString([NSString stringWithFormat:@"set%c%s:",toupper(propertyName[0]),propertyName+1]);
-	}			
-	
-	// add these methods to the class
-	if(class_addMethod(theClass,theSetter,setterImplementation,[setterEncoding UTF8String])==NO) {
-		return NO;
-	}
-	if(class_addMethod(theClass,theGetter,getterImplementation,[getterEncoding UTF8String])==NO) {
-		return NO;
-	}			
 
 	return YES;
 }
@@ -368,16 +154,14 @@ double dynamicPropertyGetter_double(id self, SEL _cmd) {
 	NSParameterAssert(theContext);
 	Class theClass = NSClassFromString([theContext className]);
 	NSParameterAssert(theClass);
-	// get properties from the object, determine if there are implementations
-	// for these properties - if not, then they are dynamic and we need to put
-	// our own versions in place, I think!
+	// get properties from the object
 	unsigned int numProperties;	
 	objc_property_t* properties = class_copyPropertyList(theClass,&numProperties);
 	for(unsigned int i = 0; i < numProperties; i++) {
 		BOOL isRegistered = [self _registerPropertyImplementationForContext:theContext property:properties[i]];
 		if(isRegistered==NO) {
-			// TODO: fix this
-			NSLog(@"Unable to create implementation for dynamic property '%@', class '%@'");
+			const char* propertyName = property_getName(properties[i]);
+			NSLog(@"Unable to create implementation for dynamic property '%s', class '%@'",propertyName,[theContext className]);
 		}
 	}
     free(properties);	
@@ -397,18 +181,27 @@ double dynamicPropertyGetter_double(id self, SEL _cmd) {
 	if(theContext) {
 		return theContext;
 	}
-	// TODO: check class is of right kind
-//	if([theClass isKindOfClass:[FLXPostgresDataObject class]]==NO) {
-//		return nil;
-//	}
+	// check class has superclass of FLXPostgresDataObject
+	Class superClass = theClass;
+	do {
+		superClass = class_getSuperclass(superClass);
+	} while(superClass != nil && superClass != [FLXPostgresDataObject class]);
+	if(superClass==nil) {
+		return nil;
+	}
 	// get table name
 	NSString* theTableName = [theClass tableName];
+	if(theTableName==nil) {
+		theTableName = NSStringFromClass(theClass);
+	}
 	if([FLXPostgresDataCache _isValidIdentifier:theTableName]==NO) {
 		return nil;
 	}
-	// get table columns
+	// TODO: get table columns from class properties
 	NSArray* theTableColumns = [theClass tableColumns];
 	if(theTableColumns==nil) {		
+		// get table columns from properties
+		
 		theTableColumns = [self _columnsForTableName:theTableName];
 	}
 	if([theTableColumns count]==0) {
@@ -464,9 +257,23 @@ double dynamicPropertyGetter_double(id self, SEL _cmd) {
 		return nil;
 	}
 
-	// do stuff with object here
+	// observe the key/value updating on the object for each property
+	NSArray* theKeyPaths = [[(FLXPostgresDataObject* )theObject context] tableColumns];
+	for(NSString* theKeyPath in theKeyPaths) {
+		[theObject addObserver:self forKeyPath:theKeyPath options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:nil];
+	}
+	
+	// call awakeFromInsert
+	[theObject awakeFromInsert];
 	
 	return [theObject autorelease];
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// observe object changes
+
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+	NSLog(@"object = %@ key = %@ change = %@",object,keyPath,change);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -490,6 +297,7 @@ double dynamicPropertyGetter_double(id self, SEL _cmd) {
 		[columnValues addObject:theValue];
 	}
 	// save object
+	// TODO: also do modify _serial column and _serial table as necessary
 	if([theObject _isNewObject]) {
 		NSObject* thePrimaryValue = [[self connection] insertRowForTable:[theContext tableName] values:columnValues columns:columnNames primaryKey:[theContext primaryKey] inSchema:[theContext schema]];
 		NSParameterAssert(thePrimaryValue);
@@ -509,3 +317,225 @@ double dynamicPropertyGetter_double(id self, SEL _cmd) {
 }
 
 @end
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+/*
+ void dynamicPropertySetter_obj(FLXPostgresDataObject* self, SEL _cmd,id object) {	
+ NSLog(@"dynamic set %@ %@ => %@",self,NSStringFromSelector(_cmd),object);
+ }
+ 
+ id dynamicPropertyGetter_obj(FLXPostgresDataObject* self, SEL _cmd) {
+ return [self valueForKey:NSStringFromSelector(_cmd)];
+ }
+ 
+ void dynamicPropertySetter_char(FLXPostgresDataObject* self, SEL _cmd,char value) {
+ 
+ }
+ 
+ char dynamicPropertyGetter_char(FLXPostgresDataObject* self, SEL _cmd) {
+ 
+ }
+ 
+ void dynamicPropertySetter_int(FLXPostgresDataObject* self, SEL _cmd,int value) {
+ 
+ }
+ 
+ int dynamicPropertyGetter_int(FLXPostgresDataObject* self, SEL _cmd) {
+ 
+ }
+ 
+ void dynamicPropertySetter_short(FLXPostgresDataObject* self, SEL _cmd,short value) {
+ 
+ }
+ 
+ short dynamicPropertyGetter_short(FLXPostgresDataObject* self, SEL _cmd) {
+ 
+ }
+ 
+ void dynamicPropertySetter_long(FLXPostgresDataObject* self, SEL _cmd,long value) {
+ 
+ }
+ 
+ long dynamicPropertyGetter_long(id self, SEL _cmd) {
+ 
+ }
+ 
+ void dynamicPropertySetter_longlong(id self, SEL _cmd,long long value) {
+ 
+ }
+ 
+ long long dynamicPropertyGetter_longlong(id self, SEL _cmd) {
+ 
+ }
+ 
+ void dynamicPropertySetter_unsignedchar(id self, SEL _cmd,unsigned char value) {
+ 
+ }
+ 
+ unsigned char dynamicPropertyGetter_unsignedchar(id self, SEL _cmd) {
+ 
+ }
+ 
+ void dynamicPropertySetter_unsignedint(id self, SEL _cmd,unsigned int value) {
+ 
+ }
+ 
+ unsigned int dynamicPropertyGetter_unsignedint(id self, SEL _cmd) {
+ 
+ }
+ 
+ void dynamicPropertySetter_unsignedshort(id self, SEL _cmd,unsigned short value) {
+ 
+ }
+ 
+ unsigned short dynamicPropertyGetter_unsignedshort(id self, SEL _cmd) {
+ 
+ }
+ 
+ void dynamicPropertySetter_unsignedlong(id self, SEL _cmd,unsigned long value) {
+ 
+ }
+ 
+ unsigned long dynamicPropertyGetter_unsignedlong(id self, SEL _cmd) {
+ 
+ }
+ 
+ void dynamicPropertySetter_unsignedlonglong(id self, SEL _cmd,unsigned long long value) {
+ 
+ }
+ 
+ unsigned long long dynamicPropertyGetter_unsignedlonglong(id self, SEL _cmd) {
+ 
+ }
+ 
+ void dynamicPropertySetter_float(id self, SEL _cmd,float value) {
+ 
+ }
+ 
+ float dynamicPropertyGetter_float(id self, SEL _cmd) {
+ 
+ }
+ 
+ void dynamicPropertySetter_double(id self, SEL _cmd,double value)  {
+ 
+ }
+ 
+ double dynamicPropertyGetter_double(id self, SEL _cmd) {
+ 
+ }
+ */
+/*
++(NSString* )_camelCaseForIdentifier:(NSString* )theName {
+	NSParameterAssert(theName && [theName length] > 0);
+	if([theName length]==1) {
+		return [theName uppercaseString];
+	}
+	NSString* firstChar = [[theName substringToIndex:1] uppercaseString];
+	NSString* restOfChars = [theName substringFromIndex:1];
+	return [NSString stringWithFormat:@"%@%@",firstChar,restOfChars];
+}
+ 
+ */
+/*
+ switch(propertyAttributes[1]) {
+ case '@':
+ setterImplementation = (IMP)dynamicPropertySetter_obj;
+ getterImplementation = (IMP)dynamicPropertyGetter_obj;
+ isValid = YES;
+ break;
+ case 'c':
+ setterImplementation = (IMP)dynamicPropertySetter_char;
+ getterImplementation = (IMP)dynamicPropertyGetter_char;			
+ isValid = YES;
+ break;
+ case 'i':
+ setterImplementation = (IMP)dynamicPropertySetter_int;
+ getterImplementation = (IMP)dynamicPropertyGetter_int;			
+ isValid = YES;
+ break;
+ case 's':
+ setterImplementation = (IMP)dynamicPropertySetter_short;
+ getterImplementation = (IMP)dynamicPropertyGetter_short;			
+ isValid = YES;
+ break;
+ case 'l':
+ setterImplementation = (IMP)dynamicPropertySetter_long;
+ getterImplementation = (IMP)dynamicPropertyGetter_long;			
+ isValid = YES;
+ break;
+ case 'q':
+ setterImplementation = (IMP)dynamicPropertySetter_longlong;
+ getterImplementation = (IMP)dynamicPropertyGetter_longlong;			
+ isValid = YES;
+ break;
+ case 'C':
+ setterImplementation = (IMP)dynamicPropertySetter_unsignedchar;
+ getterImplementation = (IMP)dynamicPropertyGetter_unsignedchar;			
+ isValid = YES;
+ break;
+ case 'I':
+ setterImplementation = (IMP)dynamicPropertySetter_unsignedint;
+ getterImplementation = (IMP)dynamicPropertyGetter_unsignedint;			
+ isValid = YES;
+ break;
+ case 'S':
+ setterImplementation = (IMP)dynamicPropertySetter_unsignedshort;
+ getterImplementation = (IMP)dynamicPropertyGetter_unsignedshort;			
+ isValid = YES;
+ break;
+ case 'L':
+ setterImplementation = (IMP)dynamicPropertySetter_unsignedlong;
+ getterImplementation = (IMP)dynamicPropertyGetter_unsignedlong;			
+ isValid = YES;
+ break;
+ case 'Q':
+ setterImplementation = (IMP)dynamicPropertySetter_unsignedlonglong;
+ getterImplementation = (IMP)dynamicPropertyGetter_unsignedlonglong;			
+ isValid = YES;
+ break;
+ case 'f':
+ setterImplementation = (IMP)dynamicPropertySetter_float;
+ getterImplementation = (IMP)dynamicPropertyGetter_float;			
+ isValid = YES;
+ break;
+ case 'd':
+ setterImplementation = (IMP)dynamicPropertySetter_double;
+ getterImplementation = (IMP)dynamicPropertyGetter_double;			
+ isValid = YES;
+ break;
+ default:
+ break;
+ }
+ 
+ if(isValid==NO) {
+ return NO;
+ }
+ 
+ // determine setter & getter names
+ SEL theSetter;
+ SEL theGetter = NSSelectorFromString([NSString stringWithFormat:@"%s",propertyName]);	
+ if(strlen(propertyName)==1) {
+ theSetter = NSSelectorFromString([NSString stringWithFormat:@"set%c:",toupper(propertyName[0])]);
+ } else {
+ theSetter = NSSelectorFromString([NSString stringWithFormat:@"set%c%s:",toupper(propertyName[0]),propertyName+1]);
+ }			
+ 
+ // add these methods to the class
+ if(class_addMethod(theClass,theSetter,setterImplementation,[setterEncoding UTF8String])==NO) {
+ return NO;
+ }
+ if(class_addMethod(theClass,theGetter,getterImplementation,[getterEncoding UTF8String])==NO) {
+ return NO;
+ }			
+ */
+/*
+ // determine setter and getter implementations
+ IMP setterImplementation;
+ IMP getterImplementation;
+ NSString* setterEncoding = [NSString stringWithFormat:@"v@:%c",propertyAttributes[1]];
+ NSString* getterEncoding = [NSString stringWithFormat:@"%@@:",propertyAttributes[1]];
+ BOOL isValid = NO;
+ */

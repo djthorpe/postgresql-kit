@@ -8,6 +8,7 @@
 @synthesize schema;
 @synthesize tableName;
 @synthesize primaryKey;
+@synthesize serialKey;
 @synthesize tableColumns;
 @synthesize type;
 

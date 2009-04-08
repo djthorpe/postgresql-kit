@@ -24,4 +24,7 @@
 -(NSObject* )valueForKey:(NSString* )theKey;
 -(void)setValue:(NSObject* )theValue forKey:(NSString* )theKey;
 
+-(void)awakeFromInsert;
+-(void)awakeFromFetch;
+
 @end

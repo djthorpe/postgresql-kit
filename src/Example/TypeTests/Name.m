@@ -3,14 +3,22 @@
 
 @implementation Name
 
-+(NSString* )tableName {
-	return @"name";
+@synthesize name;
+@synthesize email;
+@synthesize male;
+
+////////////////////////////////////////////////////////////////////////////////
+
+-(void)awakeFromInsert {
+	[super awakeFromInsert];
+	[self setMale:YES];	
 }
 
-@dynamic id;
-@dynamic name;
-@dynamic email;
-@dynamic male;
+-(void)dealloc {
+	[self setName:nil];
+	[self setEmail:nil];
+	[super dealloc];
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 

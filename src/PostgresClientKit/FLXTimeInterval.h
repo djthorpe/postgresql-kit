@@ -4,12 +4,12 @@
 // encapsulates a NSTimeInterval value (a double float) and the day and month intervals
 
 @interface FLXTimeInterval : NSObject {
-	NSTimeInterval interval;
+	NSTimeInterval seconds;
 	NSInteger days;
 	NSInteger months;	
 }
 
-@property (assign) NSTimeInterval interval;
+@property (assign) NSTimeInterval seconds;
 @property (assign) NSInteger days;
 @property (assign) NSInteger months;
 

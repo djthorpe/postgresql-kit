@@ -76,7 +76,7 @@
 	NSString* theSchemaQ = [self quote:theSchema];
 	NSString* theTableNameQ = [self quote:theTable];
 	FLXPostgresResult* theResult = [self executeWithFormat:@"SELECT column_name FROM information_schema.columns WHERE table_catalog=%@ AND table_schema=%@ AND table_name=%@",theDatabaseQ,theSchemaQ,theTableNameQ];
-	NSParameterAssert(theResult && [theResult affectedRows]);
+	NSParameterAssert(theResult);
 	NSMutableArray* theColumns = [NSMutableArray arrayWithCapacity:[theResult affectedRows]];
 	NSArray* theRow = nil;
 	while(theRow = [theResult fetchRowAsArray]) {
