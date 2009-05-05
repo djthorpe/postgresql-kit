@@ -136,6 +136,7 @@
 		6EE3AED00F6D6AEA000E000F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE3AECF0F6D6AEA000E000F /* main.m */; };
 		6EE3AED10F6D6AEA000E000F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE3AECF0F6D6AEA000E000F /* main.m */; };
 		6EE3AED30F6D6B0F000E000F /* ClientConnect.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6EE3AED20F6D6B0F000E000F /* ClientConnect.xib */; };
+		6EEA67010FB023E700BF5D08 /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEA67000FB023E700BF5D08 /* Application.m */; };
 		6EF3E6420F6D3335001AFA38 /* clear.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6EF3E6410F6D3335001AFA38 /* clear.tiff */; };
 /* End PBXBuildFile section */
 
@@ -451,6 +452,8 @@
 		6EE3AEC90F6D6A97000E000F /* ClientConnect-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ClientConnect-Info.plist"; sourceTree = "<group>"; };
 		6EE3AECF0F6D6AEA000E000F /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		6EE3AED20F6D6B0F000E000F /* ClientConnect.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ClientConnect.xib; sourceTree = "<group>"; };
+		6EEA66FF0FB023E700BF5D08 /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
+		6EEA67000FB023E700BF5D08 /* Application.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Application.m; sourceTree = "<group>"; };
 		6EF3E6410F6D3335001AFA38 /* clear.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = clear.tiff; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -693,6 +696,8 @@
 			isa = PBXGroup;
 			children = (
 				6E462F240F6EF89B009C3655 /* main.m */,
+				6EEA66FF0FB023E700BF5D08 /* Application.h */,
+				6EEA67000FB023E700BF5D08 /* Application.m */,
 			);
 			path = TypeTests;
 			sourceTree = "<group>";
@@ -1284,6 +1289,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E462F250F6EF89B009C3655 /* main.m in Sources */,
+				6EEA67010FB023E700BF5D08 /* Application.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
