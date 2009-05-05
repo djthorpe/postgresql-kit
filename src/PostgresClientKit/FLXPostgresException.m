@@ -1,6 +1,6 @@
 
 #import "PostgresClientKit.h"
-#include <libpq-fe.h>
+#import "PostgresClientKitPrivate.h"
 
 @implementation FLXPostgresException
 

@@ -58,21 +58,7 @@ typedef enum {
 } FLXPostgresType;
 
 @interface FLXPostgresTypes : NSObject {
-  NSMutableDictionary* m_theDictionary;
-  NSMutableDictionary* m_theReverseDictionary;  
+
 }
-
-// constructor
-+(FLXPostgresTypes* )array;
-
-/*
-// get type properties
--(NSString* )stringAtIndex:(NSUInteger)theIndex;
--(FLXPostgresType)typeAtIndex:(NSUInteger)theIndex;
--(NSUInteger)indexForType:(FLXPostgresType)theType;
-
-// set type properties
--(void)insertString:(NSString* )theType atIndex:(NSUInteger)theIndex;
-*/
 
 @end

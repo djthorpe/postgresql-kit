@@ -19,31 +19,9 @@
 @implementation FLXPostgresTypes
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
-
--(id)init {
-	self = [super init];
-	if (self != nil) {
-		m_theDictionary = [[NSMutableDictionary alloc] init];
-		m_theReverseDictionary = [[NSMutableDictionary alloc] init];
-	}
-	return self;
-}
-
--(void)dealloc {
-	[m_theReverseDictionary release];
-	[m_theDictionary release];
-	[super dealloc];
-}
-
-
-+(FLXPostgresTypes* )array {
-	return [[[FLXPostgresTypes alloc] init] autorelease];
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////
 // bound value from object - returns NSNull, NSString or NSData
 
--(NSString* )_boundValueFromNumber:(NSNumber* )theNumber type:(FLXPostgresOid* )theTypeOid {
++(NSString* )_boundValueFromNumber:(NSNumber* )theNumber type:(FLXPostgresOid* )theTypeOid {
 	NSString* theType = [NSString stringWithUTF8String:[theNumber objCType]];
 
 	// boolean
@@ -85,7 +63,7 @@
 	return nil;
 }
 
--(NSObject* )boundValueFromObject:(NSObject* )theObject type:(FLXPostgresOid* )theType {
++(NSObject* )boundValueFromObject:(NSObject* )theObject type:(FLXPostgresOid* )theType {
 	NSParameterAssert(theObject);
 	// NSNull
 	if([theObject isKindOfClass:[NSNull class]]) {
@@ -112,7 +90,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // object from data
 
--(NSObject* )objectFromBytes:(const void* )theBytes length:(NSUInteger)theLength type:(FLXPostgresOid)theType {
++(NSObject* )objectFromBytes:(const void* )theBytes length:(NSUInteger)theLength type:(FLXPostgresOid)theType {
 	switch(theType) {
 		case FLXPostgresTypeChar:
 		case FLXPostgresTypeName:
@@ -155,7 +133,7 @@
 	}
 }
 
--(NSObject* )objectForResult:(PGresult* )theResult row:(NSUInteger)theRow column:(NSUInteger)theColumn {
++(NSObject* )objectForResult:(PGresult* )theResult row:(NSUInteger)theRow column:(NSUInteger)theColumn {
 	// check for null
 	if(PQgetisnull(theResult,theRow,theColumn)) {
 		return [NSNull null];
@@ -171,7 +149,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // string
 
--(NSString* )stringFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
++(NSString* )stringFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
 	// note that the string is always terminated with NULL so we don't need the length field
 	return [NSString stringWithUTF8String:theBytes];
 }
@@ -179,7 +157,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // integer and unsigned integer
 
--(NSNumber* )integerFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
++(NSNumber* )integerFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
 	NSParameterAssert(theBytes);
 	NSParameterAssert(theLength==2 || theLength==4 || theLength==8);
 #if defined(__ppc__) || defined(__ppc64__)
@@ -205,7 +183,7 @@
 }
 
 
--(NSNumber* )unsignedIntegerFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
++(NSNumber* )unsignedIntegerFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
 	NSParameterAssert(theBytes);
 	NSParameterAssert(theLength==2 || theLength==4 || theLength==8);
 #if defined(__ppc__) || defined(__ppc64__)
@@ -233,7 +211,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // real (floating point numbers)
 
--(NSNumber* )realFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
++(NSNumber* )realFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
 	NSParameterAssert(theBytes);
 	NSParameterAssert(theLength==4 || theLength==8);
 #if defined(__ppc__) || defined(__ppc64__)
@@ -263,7 +241,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // boolean
 
--(NSNumber* )booleanFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
++(NSNumber* )booleanFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
 	NSParameterAssert(theBytes);
 	NSParameterAssert(theLength==1);
 	return [NSNumber numberWithBool:(*((const int8_t* )theBytes) ? YES : NO)];	
@@ -272,7 +250,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // data (bytea)
 
--(NSData* )dataFromBytes:(const void* )theBytes length:(NSUInteger)theLength {	
++(NSData* )dataFromBytes:(const void* )theBytes length:(NSUInteger)theLength {	
 	NSParameterAssert(theBytes);
 	return [NSData dataWithBytes:theBytes length:theLength];	
 }
@@ -280,7 +258,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // abstime
 
--(NSDate* )abstimeFromBytes:(const void* )theBytes length:(NSUInteger)theLength {	
++(NSDate* )abstimeFromBytes:(const void* )theBytes length:(NSUInteger)theLength {	
 	NSParameterAssert(theBytes);
 	NSParameterAssert(theLength==4);
 	// convert bytes into integer
@@ -291,7 +269,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // date
 
--(NSDate* )dateFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
++(NSDate* )dateFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
 	NSParameterAssert(theBytes);
 	NSParameterAssert(theLength==4);
 	// this is number of days since 1st January 2000
@@ -305,7 +283,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // timestamp
 
--(NSDate* )timestampFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
++(NSDate* )timestampFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
 	NSParameterAssert(theBytes);
 	NSParameterAssert(theLength==8);
 	NSCalendarDate* theEpoch = [NSCalendarDate dateWithYear:2000 month:1 day:1 hour:0 minute:0 second:0 timeZone:nil];
@@ -322,7 +300,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // mac addr
 
--(FLXMacAddr* )macaddrFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
++(FLXMacAddr* )macaddrFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
 	NSParameterAssert(theBytes);
 	NSParameterAssert(theLength==6);
 	return [FLXMacAddr macAddrWithData:[NSData dataWithBytes:theBytes length:theLength]];
@@ -331,7 +309,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // point
 
--(NSValue* )pointFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
++(NSValue* )pointFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
 	NSParameterAssert(theBytes);
 	NSParameterAssert(theLength==16);
 	const Float64* theFloats = theBytes;
@@ -344,7 +322,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // time interval
 
--(FLXTimeInterval* )intervalFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
++(FLXTimeInterval* )intervalFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
 	NSParameterAssert(theBytes);
 	NSParameterAssert(theLength==16);
 
@@ -365,7 +343,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // arrays
 
--(NSArray* )arrayFromBytes:(const void* )theBytes length:(NSUInteger)theLength type:(FLXPostgresOid)theType {
++(NSArray* )arrayFromBytes:(const void* )theBytes length:(NSUInteger)theLength type:(FLXPostgresOid)theType {
 	NSParameterAssert(theBytes);
 	// use 4 byte alignment
 	const UInt32* thePtr = theBytes;
@@ -427,61 +405,3 @@
 
 @end
 
-////////////////////////////////////////////////////////////////////////////////
-// floxsom and jexson
-
-/*
- -(NSString* )stringAtIndex:(NSUInteger)theIndex {
- NSArray* theType = [m_theDictionary objectForKey:[NSNumber numberWithUnsignedInteger:theIndex]];
- return theType ? [theType objectAtIndex:0] : nil;
- }
- 
- -(FLXPostgresType)typeAtIndex:(NSUInteger)theIndex {
- NSArray* theType = [m_theDictionary objectForKey:[NSNumber numberWithUnsignedInteger:theIndex]];
- if(theType==nil) return FLXPostgresTypeUnknown;
- NSParameterAssert([theType isKindOfClass:[NSArray class]] && [theType count] >= 2);
- return (FLXPostgresType)[[theType objectAtIndex:1] integerValue];
- }
- 
- -(NSUInteger)indexForType:(FLXPostgresType)theType {
- NSNumber* theIndex = [m_theReverseDictionary objectForKey:[NSNumber numberWithInteger:theType]];
- return ((theIndex==nil) ? 0 : [theIndex unsignedIntegerValue]);  
- }
- 
- -(void)insertString:(NSString* )theType atIndex:(NSUInteger)theIndex {
- NSInteger theInternalType = FLXPostgresTypeUnknown;
- if([theType isEqual:@"bool"]) {
- theInternalType = FLXPostgresTypeBool;
- } else if([theType isEqual:@"bytea"]) {
- theInternalType = FLXPostgresTypeData;    
- } else if([theType isEqual:@"char"] || [theType isEqual:@"text"] || [theType isEqual:@"varchar"] || [theType isEqual:@"name"]) {
- theInternalType = FLXPostgresTypeString;
- } else if([theType isEqual:@"int8"] || [theType isEqual:@"int4"] || [theType isEqual:@"int2"]) {
- // int2 = smallint, int4 = integer, int8 = bigint
- theInternalType = FLXPostgresTypeInteger;    
- } else if([theType isEqual:@"float4"] || [theType isEqual:@"float8"]) {
- theInternalType = FLXPostgresTypeReal;    
- }
- [m_theDictionary setObject:[NSArray arrayWithObjects:theType,[NSNumber numberWithInteger:theInternalType],nil] forKey:[NSNumber numberWithUnsignedInteger:theIndex]];
- [m_theReverseDictionary setObject:[NSNumber numberWithUnsignedInteger:theIndex] forKey:[NSNumber numberWithInteger:theInternalType]];
- }
- */
-
-
-/*
-+(NSDate* )dateFromBytes:(const char* )theBytes length:(NSUInteger)theLength {
-	NSParameterAssert(theLength==4);
-	SInt32 theDate = *((SInt32* )theBytes);
-	NSString* theString = [NSString stringWithUTF8String:PGTYPESdate_to_asc(theDate)];
-//	NSParameterAssert([theString length]==10);
-	return [NSCalendarDate dateWithString:theString calendarFormat:@"%Y-%m-%d"];
-}
-
-+(NSDate* )datetimeFromBytes:(const char* )theBytes length:(NSUInteger)theLength {
-//	NSParameterAssert(theLength==4);
-	SInt32 theDate = *((SInt32* )theBytes);
-	NSString* theString = [NSString stringWithUTF8String:PGTYPESdate_to_asc(theDate)];
-	NSLog(@"datetime = %@",theString);
-	return [NSCalendarDate calendarDate];
-}
-*/

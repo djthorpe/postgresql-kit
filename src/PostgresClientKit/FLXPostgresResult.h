@@ -3,7 +3,6 @@
 
 @interface FLXPostgresResult : NSObject {
   void* m_theResult;
-  FLXPostgresTypes* m_theTypes;
   NSString* m_theAffectedRows;
   NSUInteger m_theNumberOfRows;
   NSUInteger m_theRow;

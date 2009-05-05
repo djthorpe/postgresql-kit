@@ -2,14 +2,20 @@
 #import <Foundation/Foundation.h>
 
 @interface FLXPostgresConnection : NSObject {
-  void* m_theConnection;
-  NSString* m_theHost;
-  int m_thePort;
-  NSString* m_theUser;
-  NSString* m_theDatabase;
-  int m_theTimeout;
-  FLXPostgresTypes* m_theTypes;
+	void* m_theConnection;
+	NSString* m_theHost;
+	int m_thePort;
+	NSString* m_theUser;
+	NSString* m_theDatabase;
+	int m_theTimeout;
+	id delegate;
 }
+
+@property (assign) id delegate;
+
+// init with URL, use scheme pgsql only
+// pgsql://<username>@<hostname>:<port>/<database>/
++(FLXPostgresConnection* )connectionWithURL:(NSURL* )theURL;
 
 // properties
 -(NSString* )host;
@@ -45,4 +51,11 @@
 // quote method
 -(NSString* )quote:(NSObject* )theObject;
 
+@end
+
+// delegate
+
+@interface NSObject (FLXPostgresConnectionDelegate)
+-(void)connection:(FLXPostgresConnection* )theConnection notice:(NSString* )theNotice;
+-(void)connection:(FLXPostgresConnection* )theConnection willExecute:(NSObject* )theQuery values:(NSArray* )theValues;
 @end

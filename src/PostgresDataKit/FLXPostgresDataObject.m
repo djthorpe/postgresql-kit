@@ -35,19 +35,23 @@
 ////////////////////////////////////////////////////////////////////////////////
 // methods which can be overridden
 
-+(NSString* )tableName { // optional
++(NSString* )tableName { 
+	// if not overridden, will return the class name
+	return NSStringFromClass(self);
+}
+
++(NSArray* )tableColumns {
+	// if not overridden, will return nil
 	return nil;
 }
 
-+(NSArray* )tableColumns { // optional
-	return nil;
-}
-
-+(NSString* )primaryKey { // optional
++(NSString* )primaryKey {
+	// if not overridden, will return nil
 	return nil;
 }
 
 +(NSString* )serialKey { 
+	// if not overridden, will return _serial
 	return @"_serial";
 }
 

@@ -4,6 +4,48 @@
 
 @implementation FLXPostgresConnection (DataUtils)
 
+////////////////////////////////////////////////////////////////////////////////
+// public methods
+
+-(NSObject* )insertRowForObject:(FLXPostgresDataObject* )theObject full:(BOOL)isFullCommit {
+	NSParameterAssert([self connected]);
+	NSParameterAssert(theObject);
+	FLXPostgresDataObjectContext* theContext = [theObject context];
+	NSParameterAssert(theContext);
+	// obtain set of column names
+	NSArray* columnNames = isFullCommit ? [theContext tableColumns] : [theObject _modifiedTableColumns];
+	NSParameterAssert(columnNames);
+
+	// construct array of column names, column values
+	NSMutableString* theInsertStatement1 = [NSMutableString stringWithFormat:@"INSERT INTO %@ (",[theContext tableSchemaName]];
+	NSMutableArray* columnValues = [NSMutableArray arrayWithCapacity:[columnNames count]];	
+	for(NSUInteger i = 0; i < [columnNames count]; i++) {
+		
+		
+	}		
+	if([columnNames count]==0) {
+		// nothing to save!
+		return YES;
+	}
+	// construct array of values and bindings
+	for(NSString* theKey in columnNames) {
+		NSObject* theValue = [theObject valueForKey:theKey];
+		NSParameterAssert(theValue);
+		[columnValues addObject:theValue];
+	}
+	
+}
+
+-(void)updateRowForObject:(FLXPostgresDataObject* )theObject full:(BOOL)isFullCommit {
+	
+}
+
+-(void)deleteRowForObject:(FLXPostgresDataObject* )theObject {
+	
+}
+
+
+
 -(NSObject* )insertRowForTable:(NSString* )theTable values:(NSArray* )theValues columns:(NSArray* )theColumns primaryKey:(NSString* )thePrimaryKey inSchema:(NSString* )theSchema {
 	NSParameterAssert([self connected]);
 	NSParameterAssert([theValues count] > 0);

@@ -19,4 +19,6 @@
 @property (retain) NSString* serialKey;
 @property (retain) NSArray* tableColumns;
 
+-(NSString* )tableSchemaName;
+
 @end

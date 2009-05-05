@@ -3,12 +3,12 @@
 #import "PostgresDataKitPrivate.h"
 
 static FLXPostgresDataCache* FLXSharedCache = nil;
+static NSString* FLXPostgresDataCacheDomain = @"FLXPostgresDataCache";
 
 ////////////////////////////////////////////////////////////////////////////////
 
 @implementation FLXPostgresDataCache
 
-@synthesize delegate;
 @synthesize connection;
 @synthesize context;
 @synthesize schema;
@@ -69,7 +69,6 @@ static FLXPostgresDataCache* FLXSharedCache = nil;
 }
 
 -(void)dealloc {
-	[self setDelegate:nil];
 	[self setConnection:nil];
 	[self setContext:nil];
 	[self setSchema:nil];
@@ -79,17 +78,6 @@ static FLXPostgresDataCache* FLXSharedCache = nil;
 ////////////////////////////////////////////////////////////////////////////////
 // private methods
 
--(void)_delegateException:(NSException* )theException {
-	// create an error
-	NSError* theError = [NSError errorWithDomain:@"FLXPostgresDataCacheError" code:-1 userInfo:[NSDictionary dictionaryWithObject:[theException description] forKey:NSLocalizedDescriptionKey]];
-	if([[self delegate] respondsToSelector:@selector(dataCache:error:)]) {
-		[[self delegate] dataCache:self error:theError];
-	} else {
-		// re-throw the exception
-		@throw theException;
-	}
-}
-
 +(BOOL)_isValidIdentifier:(NSString* )theName {
 	NSCharacterSet* illegalCharacterSet = [[NSCharacterSet characterSetWithCharactersInString:@"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_"] invertedSet];
 	if([theName length]==0) return NO;
@@ -97,31 +85,20 @@ static FLXPostgresDataCache* FLXSharedCache = nil;
 	return (theRange.location==NSNotFound) ? YES : NO;
 }
 
--(NSArray* )_columnsForTableName:(NSString* )theTableName {
+-(NSArray* )_columnsFromDatabaseForTableName:(NSString* )theTableName {
+	NSParameterAssert(theTableName);
 	if([self connection]==nil) return nil;
-	NSArray* theColumns = nil;
-	@try {
-		theColumns = [[self connection] columnNamesForTable:theTableName inSchema:[self schema]];
-		NSParameterAssert(theColumns);
-	} @catch(NSException* theException) {
-		[self _delegateException:theException];
-		return nil;
-	}	
+	NSArray* theColumns = [[self connection] columnNamesForTable:theTableName inSchema:[self schema]];
+	NSParameterAssert(theColumns);
 	return theColumns;	
 }
 
--(NSString* )_primaryKeyForTableName:(NSString* )theTableName {
+-(NSString* )_primaryKeyFromDatabaseForTableName:(NSString* )theTableName {
+	NSParameterAssert(theTableName);
 	if([self connection]==nil) return nil;
-	NSString* theKey = nil;
-	@try {
-		theKey = [[self connection] primaryKeyForTable:theTableName inSchema:[self schema]];
-	} @catch(NSException* theException) {
-		[self _delegateException:theException];
-		return nil;
-	}	
+	NSString* theKey = [[self connection] primaryKeyForTable:theTableName inSchema:[self schema]];
 	return theKey;	
 }
-
 
 ////////////////////////////////////////////////////////////////////////////////
 // register setter and getter properties for a class
@@ -174,6 +151,7 @@ static FLXPostgresDataCache* FLXSharedCache = nil;
 	// turn class into a string
 	NSString* theClassString = NSStringFromClass(theClass);
 	if(theClassString==nil) {
+		[NSException raise:FLXPostgresDataCacheDomain format:@"objectContextForClass: Invalid class"];
 		return nil;
 	}
 	// fetch context from cache
@@ -187,40 +165,47 @@ static FLXPostgresDataCache* FLXSharedCache = nil;
 		superClass = class_getSuperclass(superClass);
 	} while(superClass != nil && superClass != [FLXPostgresDataObject class]);
 	if(superClass==nil) {
+		[NSException raise:FLXPostgresDataCacheDomain format:@"objectContextForClass: Does not inherit FLXPostgresDataObject superclass"];
 		return nil;
 	}
 	// get table name
 	NSString* theTableName = [theClass tableName];
 	if(theTableName==nil) {
-		theTableName = NSStringFromClass(theClass);
-	}
-	if([FLXPostgresDataCache _isValidIdentifier:theTableName]==NO) {
+		[NSException raise:FLXPostgresDataCacheDomain format:@"objectContextForClass: Invalid table name"];
 		return nil;
 	}
-	// TODO: get table columns from class properties
+	if([FLXPostgresDataCache _isValidIdentifier:theTableName]==NO) {
+		[NSException raise:FLXPostgresDataCacheDomain format:@"objectContextForClass: Invalid table name: '%@'" arguments:theTableName];
+		return nil;
+	}
+	// get table columns from class
 	NSArray* theTableColumns = [theClass tableColumns];
 	if(theTableColumns==nil) {		
-		// get table columns from properties
-		
-		theTableColumns = [self _columnsForTableName:theTableName];
+		// get table columns from the database		
+		theTableColumns = [self _columnsFromDatabaseForTableName:theTableName];
 	}
-	if([theTableColumns count]==0) {
+	if([theTableColumns isKindOfClass:[NSArray class]]==NO || [theTableColumns count]==0) {
+		[NSException raise:FLXPostgresDataCacheDomain format:@"objectContextForClass: Invalid table columns"];
 		return nil;
 	}
 	for(NSObject* theColumn in theTableColumns) {
 		if([theColumn isKindOfClass:[NSString class]]==NO) {
+			[NSException raise:FLXPostgresDataCacheDomain format:@"objectContextForClass: Invalid table column"];
 			return nil;
 		}
 		if([FLXPostgresDataCache _isValidIdentifier:((NSString* )theColumn)]==NO) {
+			[NSException raise:FLXPostgresDataCacheDomain format:@"objectContextForClass: Invalid table column '%@'" arguments:theColumn];
 			return nil;
 		}				
 	}
 	// get primary key
-	NSString* thePrimaryKey = [theClass primaryKey] ? [theClass primaryKey] : [self _primaryKeyForTableName:theTableName];
+	NSString* thePrimaryKey = [theClass primaryKey] ? [theClass primaryKey] : [self _primaryKeyFromDatabaseForTableName:theTableName];
 	if(thePrimaryKey==nil) {
+		[NSException raise:FLXPostgresDataCacheDomain format:@"objectContextForClass: Invalid primary key"];
 		return nil;
 	}
 	if([FLXPostgresDataCache _isValidIdentifier:((NSString* )thePrimaryKey)]==NO) {
+		[NSException raise:FLXPostgresDataCacheDomain format:@"objectContextForClass: Invalid primary key '%@'" arguments:thePrimaryKey];
 		return nil;
 	}
 	// get object type
@@ -281,6 +266,7 @@ static FLXPostgresDataCache* FLXSharedCache = nil;
 
 -(BOOL)saveObject:(FLXPostgresDataObject* )theObject full:(BOOL)isFullCommit {
 	NSParameterAssert(theObject);
+/*
 	FLXPostgresDataObjectContext* theContext = [theObject context];
 	NSParameterAssert(theContext);
 	NSArray* columnNames = isFullCommit ? [theContext tableColumns] : [theObject _modifiedTableColumns];
@@ -296,15 +282,15 @@ static FLXPostgresDataCache* FLXSharedCache = nil;
 		NSParameterAssert(theValue);
 		[columnValues addObject:theValue];
 	}
+ */
 	// save object
-	// TODO: also do modify _serial column and _serial table as necessary
 	if([theObject _isNewObject]) {
-		NSObject* thePrimaryValue = [[self connection] insertRowForTable:[theContext tableName] values:columnValues columns:columnNames primaryKey:[theContext primaryKey] inSchema:[theContext schema]];
+		NSObject* thePrimaryValue = [[self connection] insertRowForObject:theObject];
 		NSParameterAssert(thePrimaryValue);
 		// set the primary value
 		[theObject setValue:thePrimaryValue forKey:[theContext primaryKey]];
 	} else {
-		[[self connection] updateRowForTable:[theContext tableName] values:columnValues columns:columnNames primaryKey:[theContext primaryKey] primaryValue:[theObject primaryValue] inSchema:[theContext schema]];
+		[[self connection] updateRowForObject:theObject];
 	}
 	// commit modified information
 	[theObject _commit];

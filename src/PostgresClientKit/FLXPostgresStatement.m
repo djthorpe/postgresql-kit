@@ -5,27 +5,38 @@
 @implementation FLXPostgresStatement
 
 @synthesize name;
+@synthesize statement;
 
--(id)initWithName:(NSString* )theName {
-	NSParameterAssert(theName);
+-(id)initWithStatement:(NSString* )theStatement {
+	NSParameterAssert(theStatement);
 	self = [super init];
 	if (self != nil) {
-		[self setName:theName];
+		[self setStatement:theStatement];
+		[self setName:nil];
 	}
 	return self;
 }
 
 -(void)dealloc {
 	[self setName:nil];
+	[self setStatement:nil];
 	[super dealloc];
 }
 
--(const char* )UTF8String {
+-(const char* )UTF8Name {
 	return [[self name] UTF8String];
 }
 
+-(const char* )UTF8Statement {
+	return [[self statement] UTF8String];	
+}
+
 -(NSString* )description {
-	return [NSString stringWithFormat:@"<FLXPostgresStatement %@>",[self name]];
+	if([self name]) {
+		return [NSString stringWithFormat:@"<FLXPostgresStatement %@>",[self name]];
+	} else {
+		return [NSString stringWithFormat:@"<FLXPostgresStatement>"];
+	}		
 }
 
 @end

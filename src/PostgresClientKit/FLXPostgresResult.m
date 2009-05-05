@@ -1,5 +1,4 @@
 
-#include <libpq-fe.h>
 #import "PostgresClientKit.h"
 #import "PostgresClientKitPrivate.h"
 
@@ -8,13 +7,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 // constructors
 
--(id)initWithResult:(PGresult* )theResult types:(FLXPostgresTypes* )theTypes {
+-(id)initWithResult:(PGresult* )theResult {
 	NSParameterAssert(theResult);
-	NSParameterAssert(theTypes);
 	self = [super init];
 	if(self) {
 		m_theResult = theResult;
-		m_theTypes = [theTypes retain];
 		m_theNumberOfRows = PQntuples([self result]);
 		m_theAffectedRows = [[NSString stringWithUTF8String:PQcmdTuples([self result])] retain];
 		m_theRow = 0;
@@ -24,7 +21,6 @@
 
 -(void)dealloc {
 	PQclear(m_theResult);
-	[m_theTypes release];
 	[m_theAffectedRows release];
 	[super dealloc];
 }
@@ -34,10 +30,6 @@
 
 -(PGresult* )result {
 	return m_theResult;
-}
-
--(FLXPostgresTypes* )types {
-	return m_theTypes;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -99,7 +91,7 @@
 	NSMutableArray* theRowArray = [NSMutableArray arrayWithCapacity:[self numberOfColumns]];
 	// fill in the columns
 	for(NSUInteger theColumn = 0; theColumn < [self numberOfColumns]; theColumn++) {
-		[theRowArray addObject:[[self types] objectForResult:[self result] row:m_theRow column:theColumn]];
+		[theRowArray addObject:[FLXPostgresTypes objectForResult:[self result] row:m_theRow column:theColumn]];
 	}
 	// increment to next row
 	m_theRow++;
