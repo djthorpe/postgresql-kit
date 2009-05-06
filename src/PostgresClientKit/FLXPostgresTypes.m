@@ -21,45 +21,66 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // bound value from object - returns NSNull, NSString or NSData
 
-+(NSString* )_boundValueFromNumber:(NSNumber* )theNumber type:(FLXPostgresOid* )theTypeOid {
++(NSData* )_boundFloat:(float)theValue {
+	NSParameterAssert(sizeof(float)==4);
+	union { Float32 r; UInt32 i; } u32;
+	u32.r = theValue;
+#if defined(__ppc__) || defined(__ppc64__)
+	// don't swap
+#else
+	u32.i = CFSwapInt32HostToBig(u32.i);			
+#endif
+	NSData* theData = [NSData dataWithBytes:&u32 length:sizeof(u32)];	
+	return theData;
+}
+
++(NSData* )_boundDouble:(double)theValue {
+	NSParameterAssert(sizeof(double)==8);
+	union { Float64 r; UInt64 i; } u64;
+	u64.r = theValue;
+#if defined(__ppc__) || defined(__ppc64__)
+	// don't swap
+#else
+	u64.i = CFSwapInt64HostToBig(u64.i);			
+#endif
+	NSData* theData = [NSData dataWithBytes:&u64 length:sizeof(u64)];	
+	return theData;
+}
+
++(NSObject* )_boundValueFromNumber:(NSNumber* )theNumber type:(FLXPostgresOid* )theTypeOid {
 	NSString* theType = [NSString stringWithUTF8String:[theNumber objCType]];
-
-	// boolean
-	if([theType isEqual:@"c"] || [theType isEqual:@"C"] || [theType isEqual:@"B"]) {
-		(*theTypeOid) = FLXPostgresTypeBool;
-		return [theNumber boolValue] ? @"true" : @"false";
+	NSParameterAssert([theType length]==1);
+	switch([theType UTF8String][0]) {
+		case 'c':
+		case 'C':
+		case 'B': // boolean
+			(*theTypeOid) = FLXPostgresTypeBool;
+			return [theNumber boolValue] ? @"true" : @"false";
+		case 'I':
+		case 'L': // unsigned integer (might be an Oid)
+			(*theTypeOid) = FLXPostgresTypeOid;
+			return [theNumber stringValue];		
+		case 'i':
+		case 'l': // integer and long
+			(*theTypeOid) = FLXPostgresTypeInt4;
+			return [theNumber stringValue];
+		case 's':
+		case 'S': // short
+			(*theTypeOid) = FLXPostgresTypeInt2;
+			return [theNumber stringValue];
+		case 'q':
+		case 'Q': // long long
+			(*theTypeOid) = FLXPostgresTypeInt8;
+			return [theNumber stringValue];
+		case 'f': // float
+			(*theTypeOid) = FLXPostgresTypeFloat4;
+			return [self _boundFloat:[theNumber floatValue]];
+		case 'd': // double
+			(*theTypeOid) = FLXPostgresTypeFloat8;
+			return [self _boundDouble:[theNumber doubleValue]];
 	}
 
-	// integer and long
-	if([theType isEqual:@"i"] || [theType isEqual:@"l"] || [theType isEqual:@"I"] || [theType isEqual:@"L"]) {
-		(*theTypeOid) = FLXPostgresTypeInt4;
-		return [theNumber stringValue];
-	}
-	
-	// short
-	if([theType isEqual:@"s"] || [theType isEqual:@"S"]) {
-		(*theTypeOid) = FLXPostgresTypeInt2;
-		return [theNumber stringValue];
-	}
-	
-	// long long
-	if([theType isEqual:@"q"] || [theType isEqual:@"Q"]) {
-		(*theTypeOid) = FLXPostgresTypeInt8;
-		return [theNumber stringValue];
-	}
-
-	// float
-	if([theType isEqual:@"f"]) {
-		(*theTypeOid) = FLXPostgresTypeFloat4;
-		return [theNumber stringValue];
-	}
-
-	// double
-	if([theType isEqual:@"d"]) {
-		(*theTypeOid) = FLXPostgresTypeFloat8;
-		return [theNumber stringValue];
-	}
-
+	// we shouldn't reach here
 	return nil;
 }
 
@@ -79,7 +100,7 @@
 		(*theType) = FLXPostgresTypeData;		
 		return theObject;
 	}
-	// NSNumber booleans are converted to strings
+	// NSNumber booleans are converted to strings, floats and doubles are converted to data
 	if([theObject isKindOfClass:[NSNumber class]]) {
 		return [self _boundValueFromNumber:(NSNumber* )theObject type:theType];
 	}

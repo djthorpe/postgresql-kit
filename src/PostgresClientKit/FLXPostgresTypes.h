@@ -9,7 +9,6 @@
 typedef enum {
 	FLXPostgresTypeBool = 16,
 	FLXPostgresTypeData = 17,
-	FLXPostgresTypeChar = 18,
 	FLXPostgresTypeName = 19,
 	FLXPostgresTypeInt8 = 20,
 	FLXPostgresTypeInt2 = 21,
@@ -45,6 +44,7 @@ typedef enum {
 	FLXPostgresTypeArrayMacAddr = 1040,
 	FLXPostgresTypeArrayIPAddr = 1041,
 	FLXPostgresTypeArrayNetAddr = 651,
+	FLXPostgresTypeChar = 1042,
 	FLXPostgresTypeVarchar = 1043,
 	FLXPostgresTypeDate = 1082,
 	FLXPostgresTypeTime = 1083,
