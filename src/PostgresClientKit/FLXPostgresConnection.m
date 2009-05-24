@@ -14,6 +14,7 @@ void FLXPostgresConnectionNoticeProcessor(void* arg,const char* theMessage) {
 ////////////////////////////////////////////////////////////////////////////////
 
 NSString* FLXPostgresConnectionErrorDomain = @"FLXPostgresConnectionError";
+NSString* FLXPostgresConnectionEmptyString = @"";
 
 @implementation FLXPostgresConnection
 @synthesize delegate;
@@ -287,15 +288,14 @@ NSString* FLXPostgresConnectionErrorDomain = @"FLXPostgresConnectionError";
 			theLength = [(NSString* )theObject lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
 		} else if([theObject isKindOfClass:[NSData class]]) {
 			// convert from data
-			theValue = [(NSData* )theObject bytes];
 			theLength = [(NSData* )theObject length];
-			isBinary = YES;
-			// note: if data length is zero, we encode as text instead
 			if(theLength==0) {
-				NSString* theEmptyString = @"";
-				theValue = [theEmptyString UTF8String];
-				theLength = [theEmptyString lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
-				isBinary = NO;
+				// note: if data length is zero, we encode as text instead, as NSData returns 0 for
+				// empty data, and it gets encoded as a NULL
+				theValue = [FLXPostgresConnectionEmptyString UTF8String];
+			} else {			
+				theValue = [(NSData* )theObject bytes];
+				isBinary = YES;
 			}
 		} else {
 			// Internal error - should not get here

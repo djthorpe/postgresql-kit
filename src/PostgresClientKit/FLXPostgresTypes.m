@@ -252,8 +252,8 @@
 			return [NSNumber numberWithFloat:u32.r];
 		case 8:
 			u64.r = *((Float64* )theBytes);		
-			u64.i = CFSwapInt64HostToBig(u64.i);			
-			return [NSNumber numberWithFloat:u64.r];
+			u64.i = CFSwapInt64HostToBig(u64.i);
+			return [NSNumber numberWithDouble:u64.r];
 	}	
 #endif
 	return nil;
