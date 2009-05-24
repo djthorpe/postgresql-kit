@@ -47,42 +47,81 @@
 	return theData;
 }
 
++(NSData* )_boundLongLong:(SInt64)theValue {
+	NSParameterAssert(sizeof(SInt64)==8);
+#if defined(__ppc__) || defined(__ppc64__)
+	// don't swap
+#else
+	theValue = EndianS64_NtoB(theValue);
+#endif	
+	return [NSData dataWithBytes:&theValue length:sizeof(theValue)];
+}
+
++(NSData* )_boundInteger:(SInt32)theValue {
+	NSParameterAssert(sizeof(SInt32)==4);
+#if defined(__ppc__) || defined(__ppc64__)
+	// don't swap
+#else
+	theValue = EndianS32_NtoB(theValue);
+#endif	
+	return [NSData dataWithBytes:&theValue length:sizeof(theValue)];
+}
+
 +(NSObject* )_boundValueFromNumber:(NSNumber* )theNumber type:(FLXPostgresOid* )theTypeOid {
-	NSString* theType = [NSString stringWithUTF8String:[theNumber objCType]];
-	NSParameterAssert([theType length]==1);
-	switch([theType UTF8String][0]) {
+	const char* type = [theNumber objCType];
+	switch(type[0]) {
 		case 'c':
 		case 'C':
 		case 'B': // boolean
 			(*theTypeOid) = FLXPostgresTypeBool;
 			return [theNumber boolValue] ? @"true" : @"false";
-		case 'I':
-		case 'L': // unsigned integer (might be an Oid)
-			(*theTypeOid) = FLXPostgresTypeOid;
-			return [theNumber stringValue];		
-		case 'i':
-		case 'l': // integer and long
+		case 'i': // integer
+		case 'l': // long
+		case 'S': // unsigned short
 			(*theTypeOid) = FLXPostgresTypeInt4;
 			return [theNumber stringValue];
 		case 's':
-		case 'S': // short
 			(*theTypeOid) = FLXPostgresTypeInt2;
 			return [theNumber stringValue];
-		case 'q':
-		case 'Q': // long long
+		case 'q': // long long
+		case 'Q': // unsigned long long
+		case 'I': // unsigned integer
+		case 'L': // unsigned long
 			(*theTypeOid) = FLXPostgresTypeInt8;
-			return [theNumber stringValue];
+			return [self _boundLongLong:[theNumber longLongValue]];
 		case 'f': // float
 			(*theTypeOid) = FLXPostgresTypeFloat4;
 			return [self _boundFloat:[theNumber floatValue]];
 		case 'd': // double
 			(*theTypeOid) = FLXPostgresTypeFloat8;
 			return [self _boundDouble:[theNumber doubleValue]];
+		default:
+			// we shouldn't get here
+			NSParameterAssert(NO);
 	}
 
 	// we shouldn't reach here
 	return nil;
 }
+
++(NSObject* )_boundValueFromInterval:(FLXTimeInterval* )theInterval type:(FLXPostgresOid* )theTypeOid {
+	NSParameterAssert(theInterval);
+	(*theTypeOid) = FLXPostgresTypeInterval;	
+	// data = <8 bytes integer or 8 bytes real>
+	// then 4 bytes day
+	// then 4 bytes month
+	NSMutableData* theData = [NSMutableData dataWithCapacity:16];
+#ifdef HAVE_INT64_TIMESTAMP
+	[theData appendData:[self _boundLongLong:(long long)([theInterval seconds] * USECS_PER_SEC)]];
+#else
+	[theData appendData:[self _boundDouble:[theInterval seconds]]];
+#endif
+	[theData appendData:[self _boundInteger:[theInterval days]]];
+	[theData appendData:[self _boundInteger:[theInterval months]]];
+	return theData;
+}
+
+////////////////////////////////////////////////////////////////////////////////
 
 +(NSObject* )boundValueFromObject:(NSObject* )theObject type:(FLXPostgresOid* )theType {
 	NSParameterAssert(theObject);
@@ -104,6 +143,11 @@
 	if([theObject isKindOfClass:[NSNumber class]]) {
 		return [self _boundValueFromNumber:(NSNumber* )theObject type:theType];
 	}
+	// FLXTimeInterval
+	if([theObject isKindOfClass:[FLXTimeInterval class]]) {
+		return [self _boundValueFromInterval:(FLXTimeInterval* )theObject type:theType];		
+	}
+	
 	// TODO: we don't support other types yet
 	return nil;	
 }
@@ -309,9 +353,9 @@
 	NSParameterAssert(theLength==8);
 	NSCalendarDate* theEpoch = [NSCalendarDate dateWithYear:2000 month:1 day:1 hour:0 minute:0 second:0 timeZone:nil];
 #ifdef HAVE_INT64_TIMESTAMP	
-	// this is number of microseconds since 1st January 2000 - I THINK
+	// this is number of microseconds since 1st January 2000
 	NSNumber* theMicroseconds = [self integerFromBytes:theBytes length:theLength];	
-	return [theEpoch addTimeInterval:([theMicroseconds doubleValue] * USECS_PER_SEC)];
+	return [theEpoch addTimeInterval:([theMicroseconds doubleValue] / (double)USECS_PER_SEC)];
 #else
 	NSNumber* theSeconds = [self realFromBytes:theBytes length:theLength];	
 	return [theEpoch addTimeInterval:[theSeconds doubleValue]];
@@ -346,7 +390,6 @@
 +(FLXTimeInterval* )intervalFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
 	NSParameterAssert(theBytes);
 	NSParameterAssert(theLength==16);
-
 #ifdef HAVE_INT64_TIMESTAMP
 	// int64 interval
 	// TODO: I doubt number is seconds, propably microseconds, so need to adjust
@@ -358,7 +401,7 @@
 	const UInt32* thePtr = theBytes;
 	NSNumber* day = [self integerFromBytes:(thePtr + 2) length:4];
 	NSNumber* month = [self integerFromBytes:(thePtr + 3) length:4];
-	return [FLXTimeInterval intervalWithSeconds:interval days:day months:month];
+	return [FLXTimeInterval intervalWithSeconds:[interval doubleValue] days:[day integerValue] months:[month integerValue]];
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

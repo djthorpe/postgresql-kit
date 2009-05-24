@@ -13,6 +13,7 @@
 @property (assign) NSInteger days;
 @property (assign) NSInteger months;
 
-+(FLXTimeInterval* )intervalWithSeconds:(NSNumber* )theSeconds days:(NSNumber* )days months:(NSNumber* )months;
++(FLXTimeInterval* )interval;
++(FLXTimeInterval* )intervalWithSeconds:(NSTimeInterval)theSeconds days:(NSInteger)days months:(NSInteger)months;
 
 @end

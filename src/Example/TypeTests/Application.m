@@ -84,7 +84,7 @@
 	} else if(row==3) {
 		return [NSNull null];
 	} else {
-		return [NSNumber numberWithLongLong:rand()];
+		return [NSNumber numberWithLongLong:(long long)(rand() * 100)];
 	}		
 }
 
@@ -224,18 +224,22 @@
 
 -(NSObject* )unsignedIntegerValueForRow:(NSNumber* )theRow {
 	NSUInteger row = [theRow unsignedIntegerValue];
+	NSNumber* theNumber = nil;
 	switch(row) {
 		case 0:
-			// NOTE: not a valid Oid?
-			return [NSNumber numberWithUnsignedInt:0];
+			theNumber = [NSNumber numberWithUnsignedInt:((unsigned int)UINT_MAX)];
+			break;
 		case 1:
-			NSLog(@"type = %@",[NSString stringWithUTF8String:[[NSNumber numberWithUnsignedLong:((unsigned int)UINT_MAX)] objCType]]);
-			return [NSNumber numberWithUnsignedInteger:UINT_MAX];
+			// NOTE: not a valid Oid?
+			theNumber = [NSNumber numberWithUnsignedInt:0];
+			break;
 		case 2:
 			return [NSNull null];
 		default:
-			return [NSNumber numberWithUnsignedInt:row];
+			theNumber = [NSNumber numberWithUnsignedInt:((unsigned int)row)];
+			break;
 	}			
+	return theNumber;
 }
 
 -(NSObject* )dataValueForRow:(NSNumber* )theRow {
@@ -252,6 +256,21 @@
 	NSData* theData = [NSData dataWithContentsOfFile:theFilename];
 	if(theData==nil)  return [NSNull null];
 	return theData;
+}
+
+
+-(NSObject* )intervalValueForRow:(NSNumber* )theRow {
+	NSUInteger row = [theRow unsignedIntegerValue];
+	switch(row) {
+		case 0:
+			return [FLXTimeInterval interval];
+			break;
+		case 1:
+			return [NSNull null];
+			break;
+		default:
+			return [FLXTimeInterval intervalWithSeconds:(NSTimeInterval)(rand() - 10000.0) days:rand() months:rand()];
+	}			
 }
 
 ////////////////////////////////////////////////////////////////////////////
@@ -273,7 +292,9 @@
 	 [NSArray arrayWithObjects:@"float4",@"NSNumber",@"floatValueForRow:",nil],
 	 [NSArray arrayWithObjects:@"float8",@"NSNumber",@"doubleValueForRow:",nil],
 	 [NSArray arrayWithObjects:@"oid",@"NSNumber",@"unsignedIntegerValueForRow:",nil],
-	 [NSArray arrayWithObjects:@"interval",@"FLXTimeInterval",@"intervalValueForRow:",nil],nil];
+	 [NSArray arrayWithObjects:@"interval",@"FLXTimeInterval",@"intervalValueForRow:",nil],
+     [NSArray arrayWithObjects:@"time",@"NSDateComponents",@"timeValueForRow:",nil],
+						  nil];
 
 	// connect to database
 	[[self connection] connect];

@@ -7,13 +7,33 @@
 @synthesize days;
 @synthesize months;
 
-+(FLXTimeInterval* )intervalWithSeconds:(NSNumber* )theSeconds days:(NSNumber* )theDays months:(NSNumber* )theMonths {
-	FLXTimeInterval* theObject = [[[FLXTimeInterval alloc] init] autorelease];
-	[theObject setSeconds:[theSeconds doubleValue]];
-	[theObject setDays:[theDays integerValue]];
-	[theObject setMonths:[theMonths integerValue]];	
+////////////////////////////////////////////////////////////////////////////////
+// Constructor
+
++(FLXTimeInterval* )interval {
+	return [[[FLXTimeInterval alloc] init] autorelease];
+}
+
++(FLXTimeInterval* )intervalWithSeconds:(NSTimeInterval)theSeconds days:(NSInteger)days months:(NSInteger)months {
+	FLXTimeInterval* theObject = [self interval];
+	[theObject setSeconds:theSeconds];
+	[theObject setDays:days];
+	[theObject setMonths:months];	
 	return theObject;
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// NSCopying
+
+-(id)copyWithZone:(NSZone* )zone {
+	FLXTimeInterval* otherObject = [[FLXTimeInterval allocWithZone:zone] init];
+	[otherObject setSeconds:[self seconds]];
+	[otherObject setDays:[self days]];
+	[otherObject setMonths:[self months]];
+	return otherObject;
+}
+
+////////////////////////////////////////////////////////////////////////////////
 
 -(NSString* )stringValue {
 	NSString* secondsPart = [self seconds] ? [NSString stringWithFormat:@"%g secs ",[self seconds]] : @"";
@@ -22,8 +42,19 @@
 	return [[NSString stringWithFormat:@"%@%@%@",secondsPart,daysPart,monthsPart] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// NSObject
+
 -(NSString* )description {
-	return [self stringValue];
+	return [NSString stringWithFormat:@"<FLXTimeInterval %@>",[self stringValue]];
+}
+
+-(BOOL)isEqual:(id)anObject {
+	if([anObject isKindOfClass:[FLXTimeInterval class]]==NO) return NO;
+	if([anObject seconds] != [self seconds]) return NO;
+	if([anObject days] != [self days]) return NO;
+	if([anObject months] != [self months]) return NO;
+	return YES;
 }
 
 @end
