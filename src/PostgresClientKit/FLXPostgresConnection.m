@@ -13,6 +13,8 @@ void FLXPostgresConnectionNoticeProcessor(void* arg,const char* theMessage) {
 
 ////////////////////////////////////////////////////////////////////////////////
 
+NSString* FLXPostgresConnectionErrorDomain = @"FLXPostgresConnectionError";
+
 @implementation FLXPostgresConnection
 @synthesize delegate;
 
@@ -137,7 +139,7 @@ void FLXPostgresConnectionNoticeProcessor(void* arg,const char* theMessage) {
 
 -(void)connectWithPassword:(NSString* )thePassword {
 	if([self connection] != nil) {
-		[FLXPostgresException raise:@"FLXPostgresConnectionError" reason:@"Connection is already made"];    
+		[FLXPostgresException raise:FLXPostgresConnectionErrorDomain reason:@"Connection is already made"];    
 	}
 	
 	// construct the parameters
@@ -164,7 +166,7 @@ void FLXPostgresConnectionNoticeProcessor(void* arg,const char* theMessage) {
 	// perform the connection
 	PGconn* theConnection = PQconnectdb([theParameters UTF8String]);
 	if(theConnection==nil || PQstatus(theConnection) != CONNECTION_OK) {
-		[FLXPostgresException raise:@"FLXPostgresConnectionError" connection:theConnection];
+		[FLXPostgresException raise:FLXPostgresConnectionErrorDomain connection:theConnection];
 	}
 	
 	// set the internal connection structure
@@ -176,7 +178,7 @@ void FLXPostgresConnectionNoticeProcessor(void* arg,const char* theMessage) {
 
 -(void)reset {
 	if([self connection]==nil) {
-		[FLXPostgresException raise:@"FLXPostgresConnectionError" reason:@"Connection cannot be reset"];    
+		[FLXPostgresException raise:FLXPostgresConnectionErrorDomain reason:@"Connection cannot be reset"];    
 	}	
 	// perform the reset
 	PQreset([self connection]);	
@@ -188,7 +190,7 @@ void FLXPostgresConnectionNoticeProcessor(void* arg,const char* theMessage) {
 -(FLXPostgresStatement* )prepare:(NSString* )theQuery {
 	NSParameterAssert(theQuery);
 	if([self connection]==nil) {
-		[FLXPostgresException raise:@"FLXPostgresConnectionError" reason:@"No Connection"];        
+		[FLXPostgresException raise:FLXPostgresConnectionErrorDomain reason:@"No Connection"];        
 	}
 	return [[[FLXPostgresStatement alloc] initWithStatement:theQuery] autorelease];
 }
@@ -213,13 +215,13 @@ void FLXPostgresConnectionNoticeProcessor(void* arg,const char* theMessage) {
 	// prepare the statement
 	PGresult* theResult = PQprepare([self connection],[theName UTF8String],[theStatement UTF8Statement],nParams,paramTypes);
 	if(theResult==nil) {
-		[FLXPostgresException raise:@"FLXPostgresConnectionError" connection:self];
+		[FLXPostgresException raise:FLXPostgresConnectionErrorDomain connection:self];
 	}
 	// check returned result
 	if(PQresultStatus(theResult)==PGRES_BAD_RESPONSE || PQresultStatus(theResult)==PGRES_FATAL_ERROR) {
 		NSString* theMessage = [NSString stringWithUTF8String:PQresultErrorMessage(theResult)];
 		PQclear(theResult);
-		[FLXPostgresException raise:@"FLXPostgresConnectionError" reason:theMessage];
+		[FLXPostgresException raise:FLXPostgresConnectionErrorDomain reason:theMessage];
 	}
 	// free the result object
 	PQclear(theResult);
@@ -234,7 +236,7 @@ void FLXPostgresConnectionNoticeProcessor(void* arg,const char* theMessage) {
 	NSParameterAssert(theQuery);
 	NSParameterAssert([theQuery isKindOfClass:[NSString class]] || [theQuery isKindOfClass:[FLXPostgresStatement class]]);
 	if([self connection]==nil) {
-		[FLXPostgresException raise:@"FLXPostgresConnectionError" reason:@"No Connection"];        
+		[FLXPostgresException raise:FLXPostgresConnectionErrorDomain reason:@"No Connection"];        
 		return nil;
 	}
 
@@ -258,7 +260,7 @@ void FLXPostgresConnectionNoticeProcessor(void* arg,const char* theMessage) {
 			free(paramTypes);
 			free(paramLengths);
 			free(paramFormats);
-			[FLXPostgresException raise:@"FLXPostgresConnectionError" reason:@"Memory allocation error"];
+			[FLXPostgresException raise:FLXPostgresConnectionErrorDomain reason:@"Memory allocation error"];
 		}
 	}
 	// fill the data structures
@@ -266,7 +268,7 @@ void FLXPostgresConnectionNoticeProcessor(void* arg,const char* theMessage) {
 		FLXPostgresOid theType = 0;
 		NSObject* theObject = [FLXPostgresTypes boundValueFromObject:[theValues objectAtIndex:i] type:&theType];
 		if(theObject==nil) {
-			[FLXPostgresException raise:@"FLXPostgresConnectionError" reason:[NSString stringWithFormat:@"Parameter $%u cannot be converted into a bound value",(i+1)]];
+			[FLXPostgresException raise:FLXPostgresConnectionErrorDomain reason:[NSString stringWithFormat:@"Parameter $%u cannot be converted into a bound value",(i+1)]];
 		}			
 		NSParameterAssert(theObject);
 		NSParameterAssert([theObject isKindOfClass:[NSString class]] || [theObject isKindOfClass:[NSData class]] || [theObject isKindOfClass:[NSNull class]]);
@@ -288,6 +290,13 @@ void FLXPostgresConnectionNoticeProcessor(void* arg,const char* theMessage) {
 			theValue = [(NSData* )theObject bytes];
 			theLength = [(NSData* )theObject length];
 			isBinary = YES;
+			// note: if data length is zero, we encode as text instead
+			if(theLength==0) {
+				NSString* theEmptyString = @"";
+				theValue = [theEmptyString UTF8String];
+				theLength = [theEmptyString lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
+				isBinary = NO;
+			}
 		} else {
 			// Internal error - should not get here
 			NSParameterAssert(NO);
@@ -299,7 +308,7 @@ void FLXPostgresConnectionNoticeProcessor(void* arg,const char* theMessage) {
 			free(paramTypes);
 			free(paramLengths);
 			free(paramFormats);
-			[FLXPostgresException raise:@"FLXPostgresConnectionError" reason:[NSString stringWithFormat:@"Bound value %u exceeds maximum size",i]];			
+			[FLXPostgresException raise:FLXPostgresConnectionErrorDomain reason:[NSString stringWithFormat:@"Bound value %u exceeds maximum size",i]];			
 		}
 
 		// assign data
@@ -334,12 +343,12 @@ void FLXPostgresConnectionNoticeProcessor(void* arg,const char* theMessage) {
 	
 	// check returned result
 	if(theResult==nil) {
-		[FLXPostgresException raise:@"FLXPostgresConnectionError" connection:[self connection]];
+		[FLXPostgresException raise:FLXPostgresConnectionErrorDomain connection:[self connection]];
 	}
 	if(PQresultStatus(theResult)==PGRES_BAD_RESPONSE || PQresultStatus(theResult)==PGRES_FATAL_ERROR) {
 		NSString* theMessage = [NSString stringWithUTF8String:PQresultErrorMessage(theResult)];
 		PQclear(theResult);
-		[FLXPostgresException raise:@"FLXPostgresConnectionError" reason:theMessage];
+		[FLXPostgresException raise:FLXPostgresConnectionErrorDomain reason:theMessage];
 	}
 	
 	// return a result object
@@ -388,7 +397,7 @@ void FLXPostgresConnectionNoticeProcessor(void* arg,const char* theMessage) {
 	size_t theLength = 0;
 	unsigned char* theBuffer = PQescapeByteaConn([self connection],[theData bytes],[theData length],&theLength);
 	if(theBuffer==nil) {
-		[FLXPostgresException raise:@"FLXPostgresConnectionError" connection:[self connection]];      
+		[FLXPostgresException raise:FLXPostgresConnectionErrorDomain connection:[self connection]];      
 	}
 	NSMutableString* theNewString = [[NSMutableString alloc] initWithBytesNoCopy:theBuffer length:(theLength-1) encoding:NSUTF8StringEncoding freeWhenDone:YES];
 	// add quotes
@@ -411,7 +420,7 @@ void FLXPostgresConnectionNoticeProcessor(void* arg,const char* theMessage) {
 	if([theObject isKindOfClass:[NSString class]]) {
 		return [self _quoteData:[(NSString* )theObject dataUsingEncoding:NSUTF8StringEncoding]];
 	}
-	// TODO: NSDate
+	// TODO: NSDate and other types that we support
 	// we should never get here
 	NSParameterAssert(NO);
 	return nil;

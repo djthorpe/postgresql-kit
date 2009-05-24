@@ -2,8 +2,12 @@
 #import <Foundation/Foundation.h>
 
 @interface FLXPostgresObject : NSObject {
-
+	FLXPostgresConnection* connection;
+	NSUInteger fileDescriptor;
 }
+
+@property (retain,readonly) FLXPostgresConnection* connection;
+@property (assign,readonly) NSUInteger fileDescriptor;
 
 +(FLXPostgresObject* )newFileDescriptorForConnection:(FLXPostgresConnection* )theConnection;
 +(FLXPostgresObject* )openFileDescriptor:(NSUInteger)fd forConnection:(FLXPostgresConnection* )theConnection;
@@ -15,7 +19,6 @@
 -(NSUInteger)offsetInFile;
 -(NSUInteger)seekToEndOfFile;
 -(void)seekToFileOffset:(NSUInteger)offset;
--(NSUInteger)fileDescriptor;
 -(void)closeFile;
 
 @end

@@ -1,5 +1,7 @@
 
 #include <libpq-fe.h>
+#include <libpq/libpq-fs.h> // for large object support
+
 
 //#include <pgtypes_date.h>
 //#include <pgtypes_numeric.h>
@@ -9,6 +11,7 @@
 typedef Oid FLXPostgresOid;
 
 @interface FLXPostgresConnection (Private)
+-(PGconn* )connection;
 -(void)_noticeProcessorWithMessage:(NSString* )theMessage;
 @end
 

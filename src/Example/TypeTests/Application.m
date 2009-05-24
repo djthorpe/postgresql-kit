@@ -5,6 +5,7 @@
 
 @implementation Application
 @synthesize connection;
+@synthesize stringCache;
 
 -(id)initWithURL:(NSURL* )theURL {
 	self = [super init];
@@ -16,13 +17,28 @@
 		}
 		[theConnection setDelegate:self];
 		[self setConnection:theConnection];
+		[self setStringCache:[[NSMutableDictionary alloc] init]];
 	}
 	return self;
 }
 
 -(void)dealloc {
 	[self setConnection:nil];
+	[self setStringCache:nil];
 	[super dealloc];
+}
+
+////////////////////////////////////////////////////////////////////////////
+
+-(NSString* )stringForURL:(NSURL* )theURL {
+	NSString* theString = [[self stringCache] objectForKey:theURL];
+	if(theString==nil) {
+		theString = [NSString stringWithContentsOfURL:theURL];
+		if(theString) {
+			[[self stringCache] setObject:theString forKey:theURL];
+		}
+	}
+	return theString;
 }
 
 ////////////////////////////////////////////////////////////////////////////
@@ -140,18 +156,22 @@
 		case 0:
 			return [NSString string];
 		case 1:
-			return [NSString stringWithContentsOfURL:[NSURL URLWithString:@"http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/front_page/rss.xml"]];
-		case 2:
-			return [NSString stringWithContentsOfURL:[NSURL URLWithString:@"http://newsrss.bbc.co.uk/rss/arabic/news/rss.xml"]];
-		case 3:
-			return [NSString stringWithContentsOfURL:[NSURL URLWithString:@"http://www.bbc.co.uk/mundo/index.xml"]];
-		case 4:
-			return [NSString stringWithContentsOfURL:[NSURL URLWithString:@"http://www.bbc.co.uk/russian/index.xml"]];
-		case 5:
-			return [NSString stringWithContentsOfURL:[NSURL URLWithString:@"http://newsrss.bbc.co.uk/rss/chinese/simp/news/rss.xml"]];
-		default:
 			return [NSNull null];		
+		case 2:
+			return [self stringForURL:[NSURL URLWithString:@"http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/front_page/rss.xml"]];
+		case 3:
+			return [self stringForURL:[NSURL URLWithString:@"http://newsrss.bbc.co.uk/rss/arabic/news/rss.xml"]];
+		case 4:
+			return [self stringForURL:[NSURL URLWithString:@"http://www.bbc.co.uk/mundo/index.xml"]];
+		case 5:
+			return [self stringForURL:[NSURL URLWithString:@"http://www.bbc.co.uk/russian/index.xml"]];
+		case 6:
+			return [self stringForURL:[NSURL URLWithString:@"http://newsrss.bbc.co.uk/rss/chinese/simp/news/rss.xml"]];
 	}
+	
+	NSString* theString = (NSString* )[self stringValueForRow:[NSNumber numberWithUnsignedInteger:((row % 5) + 2)]];
+	NSParameterAssert([theString isKindOfClass:[NSString class]]);
+	return [theString substringToIndex:row];
 }
 
 -(NSObject* )varcharValueForRow:(NSNumber* )theRow {
@@ -166,15 +186,16 @@
 }
 
 -(NSObject* )charValueForRow:(NSNumber* )theRow {
-	NSUInteger row = [theRow unsignedIntegerValue];
-	switch(row) {
-		case 0:
-			return @"abcdefghijklmnopqrstuvwxzy";
-		case 1:
-			return @"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-		default:
-			return [NSNull null];
-	}			
+	NSUInteger theLength = (NSUInteger)(rand() % 80);
+	NSObject* theObject = [self stringValueForRow:theRow];
+	if([theObject isKindOfClass:[NSNull class]]) return theObject;
+	
+	NSString* theString = (NSString* )theObject;
+	if([theString length] > 80) {
+		theString = [theString substringToIndex:theLength];
+	}
+	// pad to 80 characters
+	return [theString stringByPaddingToLength:80 withString:@" " startingAtIndex:0];
 }
 
 -(NSObject* )nameValueForRow:(NSNumber* )theRow {
@@ -231,7 +252,6 @@
 	NSData* theData = [NSData dataWithContentsOfFile:theFilename];
 	if(theData==nil)  return [NSNull null];
 	return theData;
-		
 }
 
 ////////////////////////////////////////////////////////////////////////////
@@ -304,13 +324,13 @@
 			NSObject* theValue = [theData objectAtIndex:row];
 			NSObject* theFetchedValue = [theRow objectAtIndex:0];
 			if([theValue isKindOfClass:[theFetchedValue class]]==NO) {
-				NSLog(@"  ERROR: obj_class=>%@ fetched_obj_class=>%@",[theValue class],[theFetchedValue class]);
+				NSLog(@"  ERROR: obj_class=>%@ fetched_obj_class=>%@ (row %u)",[theValue class],[theFetchedValue class],row);
 				errors++;		
 				continue;
 			}
 			NSParameterAssert([theFetchedValue isKindOfClass:[NSNull class]] || [theFetchedValue isKindOfClass:theObjectClass]);
 			if([theFetchedValue isEqual:theValue]==NO) {
-				NSLog(@"  ERROR: obj_value=>%@ fetched_obj_value=>%@",theValue,theFetchedValue);
+				NSLog(@"  ERROR: obj_value=>%@ fetched_obj_value=>%@ (row %u)",theValue,theFetchedValue,row);
 				errors++;
 			}
 		}

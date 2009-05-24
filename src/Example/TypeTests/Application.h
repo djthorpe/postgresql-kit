@@ -4,11 +4,13 @@
 
 @interface Application : NSObject {
 	FLXPostgresConnection* connection;
+	NSMutableDictionary* stringCache;
 }
 
 //
 
 @property (retain) FLXPostgresConnection* connection;
+@property (retain) NSMutableDictionary* stringCache;
 
 //
 
