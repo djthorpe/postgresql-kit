@@ -1,5 +1,6 @@
 
-#import "FLXMacAddr.h"
+#import "PostgresClientKit.h"
+#import "PostgresClientKitPrivate.h"
 
 @implementation FLXMacAddr
 @synthesize data;

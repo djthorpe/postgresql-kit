@@ -1,5 +1,6 @@
 
-#import "FLXTimeInterval.h"
+#import "PostgresClientKit.h"
+#import "PostgresClientKitPrivate.h"
 
 @implementation FLXTimeInterval
 

@@ -25,7 +25,7 @@
 @class FLXMacAddr;
 @class FLXTimeInterval;
 @class FLXPostgresArray;
-@class FLXPostgresObject;
+@class FLXGeometry;
 
 #import "FLXPostgresTypes.h"
 #import "FLXPostgresConnection.h"
@@ -33,10 +33,8 @@
 #import "FLXPostgresStatement.h"
 #import "FLXPostgresResult.h"
 #import "FLXPostgresException.h"
-#import "FLXPostgresObject.h"
 
 #import "FLXMacAddr.h"
 #import "FLXTimeInterval.h"
 #import "FLXPostgresArray.h"
-
-
+#import "FLXGeometry.h"

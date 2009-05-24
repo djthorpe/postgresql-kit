@@ -62,6 +62,8 @@
 		6E26AB6A0F7FE61E009F6162 /* FLXPostgresDataObjectContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E26AB680F7FE61E009F6162 /* FLXPostgresDataObjectContext.m */; };
 		6E27C29A0DD5FF58004BFE98 /* FLXPostgresConnection+Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E27C2980DD5FF58004BFE98 /* FLXPostgresConnection+Utils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E27C29B0DD5FF58004BFE98 /* FLXPostgresConnection+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E27C2990DD5FF58004BFE98 /* FLXPostgresConnection+Utils.m */; };
+		6E2C40FF0FC9A37F006CD7BD /* FLXGeometry.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E2C40FD0FC9A37F006CD7BD /* FLXGeometry.h */; };
+		6E2C41000FC9A37F006CD7BD /* FLXGeometry.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2C40FE0FC9A37F006CD7BD /* FLXGeometry.m */; };
 		6E326DB60F8B3DA60007C101 /* FLXPostgresConnection+DataUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E326DB40F8B3DA60007C101 /* FLXPostgresConnection+DataUtils.h */; };
 		6E326DB70F8B3DA60007C101 /* FLXPostgresConnection+DataUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E326DB50F8B3DA60007C101 /* FLXPostgresConnection+DataUtils.m */; };
 		6E462F250F6EF89B009C3655 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E462F240F6EF89B009C3655 /* main.m */; };
@@ -106,8 +108,6 @@
 		6EB516560F48254400C8F8A4 /* PostgresServerKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 6E23CBEE0DCDD29F0041AA57 /* PostgresServerKit.framework */; };
 		6EB516610F48257F00C8F8A4 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EB516600F48257F00C8F8A4 /* Security.framework */; };
 		6EB516A00F482C7D00C8F8A4 /* PostgresPrefPaneServerStartupItem.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6EB5169F0F482C7D00C8F8A4 /* PostgresPrefPaneServerStartupItem.plist */; };
-		6EBAEA2B0FB17A35007F7F26 /* FLXPostgresObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EBAEA290FB17A35007F7F26 /* FLXPostgresObject.h */; };
-		6EBAEA2C0FB17A35007F7F26 /* FLXPostgresObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EBAEA2A0FB17A35007F7F26 /* FLXPostgresObject.m */; };
 		6EBCA4120F6DA73A00FB960C /* gradient-1.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EBCA4110F6DA73A00FB960C /* gradient-1.png */; };
 		6EBCA4150F6DA84400FB960C /* gear-14x14.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EBCA4140F6DA84400FB960C /* gear-14x14.png */; };
 		6EC0A56F0F67040D00DED98A /* PostgresClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E23CD7F0DCDE3C80041AA57 /* PostgresClientKit.framework */; };
@@ -372,6 +372,8 @@
 		6E26AB680F7FE61E009F6162 /* FLXPostgresDataObjectContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLXPostgresDataObjectContext.m; sourceTree = "<group>"; };
 		6E27C2980DD5FF58004BFE98 /* FLXPostgresConnection+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FLXPostgresConnection+Utils.h"; sourceTree = "<group>"; };
 		6E27C2990DD5FF58004BFE98 /* FLXPostgresConnection+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FLXPostgresConnection+Utils.m"; sourceTree = "<group>"; };
+		6E2C40FD0FC9A37F006CD7BD /* FLXGeometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLXGeometry.h; sourceTree = "<group>"; };
+		6E2C40FE0FC9A37F006CD7BD /* FLXGeometry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLXGeometry.m; sourceTree = "<group>"; };
 		6E326DB40F8B3DA60007C101 /* FLXPostgresConnection+DataUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FLXPostgresConnection+DataUtils.h"; sourceTree = "<group>"; };
 		6E326DB50F8B3DA60007C101 /* FLXPostgresConnection+DataUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FLXPostgresConnection+DataUtils.m"; sourceTree = "<group>"; };
 		6E462F1A0F6EF843009C3655 /* TypeTests */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TypeTests; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -834,6 +836,8 @@
 				6ED4852E0F7A2886002AC5AC /* FLXTimeInterval.m */,
 				6E4FFCA70F7E9F5300A11AAD /* FLXPostgresArray.h */,
 				6E4FFCA80F7E9F5300A11AAD /* FLXPostgresArray.m */,
+				6E2C40FD0FC9A37F006CD7BD /* FLXGeometry.h */,
+				6E2C40FE0FC9A37F006CD7BD /* FLXGeometry.m */,
 			);
 			name = "Additional Types";
 			sourceTree = "<group>";
@@ -883,7 +887,7 @@
 				6ED4852F0F7A2886002AC5AC /* FLXTimeInterval.h in Headers */,
 				6E4FFCA90F7E9F5300A11AAD /* FLXPostgresArray.h in Headers */,
 				6E4FFD690F7F853900A11AAD /* FLXPostgresStatement.h in Headers */,
-				6EBAEA2B0FB17A35007F7F26 /* FLXPostgresObject.h in Headers */,
+				6E2C40FF0FC9A37F006CD7BD /* FLXGeometry.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1277,7 +1281,7 @@
 				6ED485300F7A2886002AC5AC /* FLXTimeInterval.m in Sources */,
 				6E4FFCAA0F7E9F5300A11AAD /* FLXPostgresArray.m in Sources */,
 				6E4FFD6A0F7F853900A11AAD /* FLXPostgresStatement.m in Sources */,
-				6EBAEA2C0FB17A35007F7F26 /* FLXPostgresObject.m in Sources */,
+				6E2C41000FC9A37F006CD7BD /* FLXGeometry.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
