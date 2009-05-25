@@ -40,7 +40,7 @@
 }
 
 +(FLXGeometry* )circleWithCentre:(FLXGeometryPoint)thePoint radius:(Float64)theRadius {
-	return [[[FLXGeometry alloc] initWithType:FLXGeometryTypePoint points:&thePoint size:1 radius:theRadius] autorelease];	
+	return [[[FLXGeometry alloc] initWithType:FLXGeometryTypeCircle points:&thePoint size:1 radius:theRadius] autorelease];	
 }
 
 +(FLXGeometry* )lineWithOrigin:(FLXGeometryPoint)theOrigin destination:(FLXGeometryPoint)theDestination {
@@ -49,6 +49,20 @@
 }
 
 +(FLXGeometry* )boxWithPoint:(FLXGeometryPoint)theOrigin point:(FLXGeometryPoint)theDestination {
+	// for boxes, the origin is always top right, and the destination is bottom left
+	// swap x values
+	if(theOrigin.x < theDestination.x) {
+		Float64 swap = theOrigin.x;
+		theOrigin.x = theDestination.x;
+		theDestination.x = swap;
+	}
+	// swap y values
+	if(theOrigin.y < theDestination.y) {
+		Float64 swap = theOrigin.y;
+		theOrigin.y = theDestination.y;
+		theDestination.y = swap;
+	}
+	// make points
 	FLXGeometryPoint thePoints[2] = { theOrigin, theDestination };
 	return [[[FLXGeometry alloc] initWithType:FLXGeometryTypeBox points:thePoints size:2 radius:0.0] autorelease];	
 }

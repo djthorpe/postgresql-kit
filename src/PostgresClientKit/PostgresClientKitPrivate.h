@@ -35,12 +35,26 @@ typedef Oid FLXPostgresOid;
 +(NSNumber* )realFromBytes:(const void* )theBytes length:(NSUInteger)theLength;
 +(NSData* )dataFromBytes:(const void* )theBytes length:(NSUInteger)theLength;
 +(NSNumber* )booleanFromBytes:(const void* )theBytes length:(NSUInteger)theLength;
+
+// date, time types
 +(NSDate* )abstimeFromBytes:(const void* )theBytes length:(NSUInteger)theLength;
 +(NSDate* )timestampFromBytes:(const void* )theBytes length:(NSUInteger)theLength;
 +(FLXTimeInterval* )intervalFromBytes:(const void* )theBytes length:(NSUInteger)theLength;
 +(NSDate* )dateFromBytes:(const void* )theBytes length:(NSUInteger)theLength;
+
+// network addresses
 +(FLXMacAddr* )macaddrFromBytes:(const void* )theBytes length:(NSUInteger)theLength;
+
+// geometry
 +(FLXGeometry* )pointFromBytes:(const void* )theBytes length:(NSUInteger)theLength;
++(FLXGeometry* )lineFromBytes:(const void* )theBytes length:(NSUInteger)theLength;
++(FLXGeometry* )boxFromBytes:(const void* )theBytes length:(NSUInteger)theLength;
++(FLXGeometry* )circleFromBytes:(const void* )theBytes length:(NSUInteger)theLength;
++(FLXGeometry* )pathFromBytes:(const void* )theBytes length:(NSUInteger)theLength;
++(FLXGeometry* )polygonFromBytes:(const void* )theBytes length:(NSUInteger)theLength;
+
+// arrays
 +(NSArray* )arrayFromBytes:(const void* )theBytes length:(NSUInteger)theLength type:(FLXPostgresOid)theType;
+
 @end
 

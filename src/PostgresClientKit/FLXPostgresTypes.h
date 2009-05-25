@@ -17,7 +17,7 @@ typedef enum {
 	FLXPostgresTypeOid = 26,
 	FLXPostgresTypeXML = 142,
 	FLXPostgresTypePoint = 600,
-	FLXPostgresTypeLine = 601,
+	FLXPostgresTypeLSeg = 601,
 	FLXPostgresTypePath = 602,
 	FLXPostgresTypeBox = 603,
 	FLXPostgresTypePolygon = 604,

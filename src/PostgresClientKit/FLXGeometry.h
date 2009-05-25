@@ -4,7 +4,7 @@
 // these are the geometric types
 typedef enum {
 	FLXGeometryTypePoint = FLXPostgresTypePoint,
-	FLXGeometryTypeLine = FLXPostgresTypeLine,
+	FLXGeometryTypeLine = FLXPostgresTypeLSeg,
 	FLXGeometryTypePath = FLXPostgresTypePath,
 	FLXGeometryTypeBox = FLXPostgresTypeBox,
 	FLXGeometryTypePolygon = FLXPostgresTypePolygon,
