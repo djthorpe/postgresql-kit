@@ -40,7 +40,7 @@ typedef Oid FLXPostgresOid;
 +(FLXTimeInterval* )intervalFromBytes:(const void* )theBytes length:(NSUInteger)theLength;
 +(NSDate* )dateFromBytes:(const void* )theBytes length:(NSUInteger)theLength;
 +(FLXMacAddr* )macaddrFromBytes:(const void* )theBytes length:(NSUInteger)theLength;
-+(NSValue* )pointFromBytes:(const void* )theBytes length:(NSUInteger)theLength;
++(FLXGeometry* )pointFromBytes:(const void* )theBytes length:(NSUInteger)theLength;
 +(NSArray* )arrayFromBytes:(const void* )theBytes length:(NSUInteger)theLength type:(FLXPostgresOid)theType;
 @end
 

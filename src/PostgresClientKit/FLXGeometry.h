@@ -18,6 +18,8 @@ typedef struct {
 
 // methods
 FLXGeometryPoint FLXMakePoint(Float64 x,Float64 y);
+NSString* NSStringFromFLXPoint(FLXGeometryPoint p);
+NSString* NSStringFromFLXPointArray(const FLXGeometryPoint* points,NSUInteger size);
 
 ////////////////////////////////////////////////////////////////////////////////
 // class
@@ -29,6 +31,18 @@ FLXGeometryPoint FLXMakePoint(Float64 x,Float64 y);
 	NSUInteger size;
 }
 
-+(FLXGeometry* )pointWithPoint:(FLXGeometryPoint)point;
+// constructors
++(FLXGeometry* )pointWithOrigin:(FLXGeometryPoint)thePoint;
++(FLXGeometry* )circleWithCentre:(FLXGeometryPoint)thePoint radius:(Float64)theRadius;
++(FLXGeometry* )lineWithOrigin:(FLXGeometryPoint)theOrigin destination:(FLXGeometryPoint)theDestination;
++(FLXGeometry* )boxWithPoint:(FLXGeometryPoint)theOrigin point:(FLXGeometryPoint)theDestination;
+
+// methods
+-(FLXGeometryType)type;
+-(FLXGeometryPoint)pointAtIndex:(NSUInteger)theIndex;
+-(FLXGeometryPoint)origin;
+-(FLXGeometryPoint)centre;
+-(Float64)radius;
+-(NSUInteger)count;
 
 @end

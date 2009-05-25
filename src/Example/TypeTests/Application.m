@@ -273,6 +273,33 @@
 	}			
 }
 
+-(NSObject* )pointValueForRow:(NSNumber* )theRow {
+	FLXGeometryPoint p = FLXMakePoint((double)rand() / (double)rand(),(double)rand() / (double)rand());
+	FLXGeometry* thePoint = [FLXGeometry pointWithOrigin:p];
+	return thePoint;
+}
+
+-(NSObject* )lineValueForRow:(NSNumber* )theRow {
+	FLXGeometryPoint p1 = FLXMakePoint((double)rand() / (double)rand(),(double)rand() / (double)rand());
+	FLXGeometryPoint p2 = FLXMakePoint((double)rand() / (double)rand(),(double)rand() / (double)rand());
+	FLXGeometry* theLine = [FLXGeometry lineWithOrigin:p1 destination:p2];
+	return theLine;
+}
+
+-(NSObject* )boxValueForRow:(NSNumber* )theRow {
+	FLXGeometryPoint p1 = FLXMakePoint((double)rand() / (double)rand(),(double)rand() / (double)rand());
+	FLXGeometryPoint p2 = FLXMakePoint((double)rand() / (double)rand(),(double)rand() / (double)rand());
+	FLXGeometry* theBox = [FLXGeometry boxWithPoint:p1 point:p2];
+	return theBox;
+}
+
+-(NSObject* )circleValueForRow:(NSNumber* )theRow {
+	FLXGeometryPoint p = FLXMakePoint((double)rand() / (double)rand(),(double)rand() / (double)rand());
+	double r = (double)rand() / (double)rand();
+	FLXGeometry* theCircle = [FLXGeometry circleWithCentre:p radius:r];
+	return theCircle;
+}
+
 ////////////////////////////////////////////////////////////////////////////
 
  -(void)doWork { 
@@ -292,8 +319,11 @@
 	 [NSArray arrayWithObjects:@"float4",@"NSNumber",@"floatValueForRow:",nil],
 	 [NSArray arrayWithObjects:@"float8",@"NSNumber",@"doubleValueForRow:",nil],
 	 [NSArray arrayWithObjects:@"oid",@"NSNumber",@"unsignedIntegerValueForRow:",nil],
+     [NSArray arrayWithObjects:@"point",@"FLXGeometry",@"pointValueForRow:",nil],
+	 [NSArray arrayWithObjects:@"lseg",@"FLXGeometry",@"lineValueForRow:",nil],
+	 [NSArray arrayWithObjects:@"box",@"FLXGeometry",@"boxValueForRow:",nil],
+	 [NSArray arrayWithObjects:@"circle",@"FLXGeometry",@"circleValueForRow:",nil],
 	 [NSArray arrayWithObjects:@"interval",@"FLXTimeInterval",@"intervalValueForRow:",nil],
-     [NSArray arrayWithObjects:@"time",@"NSDateComponents",@"timeValueForRow:",nil],
 						  nil];
 
 	// connect to database

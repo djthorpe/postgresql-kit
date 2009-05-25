@@ -67,6 +67,21 @@
 	return [NSData dataWithBytes:&theValue length:sizeof(theValue)];
 }
 
++(NSData* )_boundPoint:(FLXGeometryPoint)point {
+	union u { Float64 r; UInt64 i; };
+	struct { union u a; union u b; } theValue;
+	theValue.a.r = point.x;
+	theValue.b.r = point.y;
+	NSParameterAssert(sizeof(theValue)==16);
+#if defined(__ppc__) || defined(__ppc64__)
+	// don't swap
+#else
+	theValue.a.i = CFSwapInt64HostToBig(theValue.a.i);			
+	theValue.b.i = CFSwapInt64HostToBig(theValue.b.i);
+#endif
+	return [NSData dataWithBytes:&theValue length:sizeof(theValue)];
+}
+
 +(NSObject* )_boundValueFromNumber:(NSNumber* )theNumber type:(FLXPostgresOid* )theTypeOid {
 	const char* type = [theNumber objCType];
 	switch(type[0]) {
@@ -111,6 +126,7 @@
 	// then 4 bytes day
 	// then 4 bytes month
 	NSMutableData* theData = [NSMutableData dataWithCapacity:16];
+	NSParameterAssert(theData);
 #ifdef HAVE_INT64_TIMESTAMP
 	[theData appendData:[self _boundLongLong:(long long)([theInterval seconds] * USECS_PER_SEC)]];
 #else
@@ -118,6 +134,51 @@
 #endif
 	[theData appendData:[self _boundInteger:[theInterval days]]];
 	[theData appendData:[self _boundInteger:[theInterval months]]];
+	return theData;
+}
+
++(NSObject* )_boundValueFromGeometry:(FLXGeometry* )theGeometry type:(FLXPostgresOid* )theTypeOid {
+	NSParameterAssert(theGeometry);
+	NSParameterAssert(theTypeOid);
+	NSMutableData* theData = nil;
+	switch([theGeometry type]) {
+
+		case FLXGeometryTypePoint:
+			theData = [NSMutableData dataWithCapacity:(sizeof(Float64) * 2)];
+			NSParameterAssert(theData);
+			(*theTypeOid) = FLXPostgresTypePoint;
+			[theData appendData:[self _boundPoint:[theGeometry origin]]];
+			break;
+			
+		case FLXGeometryTypeLine:
+			theData = [NSMutableData dataWithCapacity:(sizeof(Float64) * 4)];
+			NSParameterAssert(theData);
+			(*theTypeOid) = FLXPostgresTypeLine;
+			[theData appendData:[self _boundPoint:[theGeometry pointAtIndex:0]]];
+			[theData appendData:[self _boundPoint:[theGeometry pointAtIndex:1]]];
+			break;
+
+		case FLXGeometryTypeBox:
+			theData = [NSMutableData dataWithCapacity:(sizeof(Float64) * 4)];
+			NSParameterAssert(theData);
+			(*theTypeOid) = FLXPostgresTypeBox;
+			[theData appendData:[self _boundPoint:[theGeometry pointAtIndex:0]]];
+			[theData appendData:[self _boundPoint:[theGeometry pointAtIndex:1]]];
+			break;
+			
+		case FLXGeometryTypeCircle:
+			theData = [NSMutableData dataWithCapacity:(sizeof(Float64) * 3)];
+			NSParameterAssert(theData);
+			(*theTypeOid) = FLXPostgresTypeCircle;
+			[theData appendData:[self _boundPoint:[theGeometry centre]]];
+			[theData appendData:[self _boundDouble:[theGeometry radius]]];
+			break;
+			
+		default:
+			// should never get here
+			return nil;
+	}			
+
 	return theData;
 }
 
@@ -146,6 +207,10 @@
 	// FLXTimeInterval
 	if([theObject isKindOfClass:[FLXTimeInterval class]]) {
 		return [self _boundValueFromInterval:(FLXTimeInterval* )theObject type:theType];		
+	}
+	// FLXGeometry
+	if([theObject isKindOfClass:[FLXGeometry class]]) {
+		return [self _boundValueFromGeometry:(FLXGeometry* )theObject type:theType];
 	}
 	
 	// TODO: we don't support other types yet
@@ -374,14 +439,13 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // point
 
-+(NSValue* )pointFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
++(FLXGeometry* )pointFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
 	NSParameterAssert(theBytes);
 	NSParameterAssert(theLength==16);
 	const Float64* theFloats = theBytes;
-	NSNumber* x = [self realFromBytes:theFloats length:8];
-	NSNumber* y = [self realFromBytes:(theFloats+1) length:8];
-	// Note: possible loss of precision on 32 bit platforms as NSPoint uses Float32, not Float64
-	return [NSValue valueWithPoint:NSMakePoint([x doubleValue],[y doubleValue])];
+	NSNumber* x = [self realFromBytes:theFloats length:sizeof(Float64)];
+	NSNumber* y = [self realFromBytes:(theFloats+1) length:sizeof(Float64)];
+	return [FLXGeometry pointWithOrigin:FLXMakePoint([x doubleValue],[y doubleValue])];
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
