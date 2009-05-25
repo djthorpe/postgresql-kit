@@ -4,37 +4,34 @@
 @interface FLXPostgresConnection : NSObject {
 	void* m_theConnection;
 	NSString* m_theHost;
-	int m_thePort;
+	NSUInteger m_thePort;
 	NSString* m_theUser;
 	NSString* m_theDatabase;
-	int m_theTimeout;
+	NSDictionary* m_theParameters;
+	NSUInteger m_theTimeout;
 	id delegate;
 }
 
 @property (assign) id delegate;
+@property (assign) NSUInteger port;
+@property (assign) NSUInteger timeout;
+@property (retain) NSString* host;
+@property (retain) NSString* user;
+@property (retain) NSString* database;
+@property (readonly,retain) NSDictionary* parameters;
 
 // init with URL, use scheme pgsql only
 // pgsql://<username>@<hostname>:<port>/<database>/
 +(FLXPostgresConnection* )connectionWithURL:(NSURL* )theURL;
 
 // properties
--(NSString* )host;
--(NSString* )user;
--(NSString* )database;
--(int)port;
--(int)timeout;
-
--(void)setHost:(NSString* )theHost;
--(void)setUser:(NSString* )theUser;
--(void)setDatabase:(NSString* )theDatabase;
--(void)setPort:(int)thePort;
--(void)setTimeout:(int)theTimeout;  
+-(NSString* )scheme;
 
 // connection methods
--(void)disconnect;
--(BOOL)connected;
 -(void)connect;
 -(void)connectWithPassword:(NSString* )thePassword;
+-(void)disconnect;
+-(BOOL)connected;
 -(void)reset;
 
 // prepare / execute methods

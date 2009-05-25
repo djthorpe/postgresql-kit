@@ -14,10 +14,27 @@ void FLXPostgresConnectionNoticeProcessor(void* arg,const char* theMessage) {
 ////////////////////////////////////////////////////////////////////////////////
 
 NSString* FLXPostgresConnectionErrorDomain = @"FLXPostgresConnectionError";
+NSString* FLXPostgresConnectionScheme = @"pgsql";
 NSString* FLXPostgresConnectionEmptyString = @"";
+
+NSString* FLXPostgresParameterServerVersion = @"server_version";
+NSString* FLXPostgresParameterServerEncoding = @"server_encoding";
+NSString* FLXPostgresParameterClientEncoding = @"client_encoding";
+NSString* FLXPostgresParameterSuperUser = @"is_superuser";
+NSString* FLXPostgresParameterSessionAuthorization = @"session_authorization";
+NSString* FLXPostgresParameterDateStyle = @"DateStyle";
+NSString* FLXPostgresParameterTimeZone = @"TimeZone";
+NSString* FLXPostgresParameterIntegerDateTimes = @"integer_datetimes";
+NSString* FLXPostgresParameterStandardConformingStrings = @"standard_conforming_strings";
 
 @implementation FLXPostgresConnection
 @synthesize delegate;
+@synthesize parameters = m_theParameters;
+@synthesize timeout = m_theTimeout;
+@synthesize port = m_thePort;
+@synthesize host = m_theHost;
+@synthesize user = m_theUser;
+@synthesize database = m_theDatabase;
 
 ////////////////////////////////////////////////////////////////////////////////
 // constructors
@@ -26,11 +43,6 @@ NSString* FLXPostgresConnectionEmptyString = @"";
 	self = [super init];
 	if (self != nil) {
 		m_theConnection = nil;
-		m_theHost = nil;
-		m_thePort = 0;
-		m_theUser = nil;
-		m_theDatabase = nil;
-		m_theTimeout = 0;   
 	}
 	return self;
 }
@@ -40,6 +52,7 @@ NSString* FLXPostgresConnectionEmptyString = @"";
 	[m_theHost release];
 	[m_theUser release];
 	[m_theDatabase release];
+	[m_theParameters release];
 	[super dealloc];
 }
 
@@ -47,7 +60,7 @@ NSString* FLXPostgresConnectionEmptyString = @"";
 
 +(FLXPostgresConnection* )connectionWithURL:(NSURL* )theURL {
 	// check URL
-	if(theURL==nil || [[theURL scheme] isEqual:@"pgsql"]==NO) {
+	if(theURL==nil || [[theURL scheme] isEqual:FLXPostgresConnectionScheme]==NO) {
 		return nil;
 	}
 	FLXPostgresConnection* theConnection = [[[FLXPostgresConnection alloc] init] autorelease];
@@ -70,52 +83,8 @@ NSString* FLXPostgresConnectionEmptyString = @"";
 	return (PGconn* )m_theConnection;
 }
 
--(NSString* )host {
-	return m_theHost;
-}
-
--(void)setHost:(NSString* )theHost {
-	[theHost retain];
-	[m_theHost release];
-	m_theHost = theHost;
-}
-
--(NSString* )user {
-	return m_theUser;
-}
-
--(void)setUser:(NSString* )theUser {
-	[theUser retain];
-	[m_theUser release];
-	m_theUser = theUser;
-}
-
--(NSString* )database {
-	return m_theDatabase;
-}
-
--(void)setDatabase:(NSString* )theDatabase {
-	[theDatabase retain];
-	[m_theDatabase release];
-	m_theDatabase = theDatabase;
-}
-
--(int)port {
-	return m_thePort;
-}
-
--(void)setPort:(int)thePort {
-	NSParameterAssert(thePort >= 0);
-	m_thePort = thePort;
-}
-
--(int)timeout {
-	return m_theTimeout;
-}
-
--(void)setTimeout:(int)theTimeout {
-	NSParameterAssert(theTimeout >= 0);
-	m_theTimeout = theTimeout;
+-(NSString* )scheme {
+	return FLXPostgresConnectionScheme;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -142,24 +111,37 @@ NSString* FLXPostgresConnectionEmptyString = @"";
 	if([self connection] != nil) {
 		[FLXPostgresException raise:FLXPostgresConnectionErrorDomain reason:@"Connection is already made"];    
 	}
+
+	// set the username if not yet set
+	if([[self user] length]==0) {
+		[self setUser:NSUserName()];
+	}
+	
+	// set the database name if not yet set
+	if([[self database] length]==0) {
+		[self setDatabase:[self user]];
+	}
 	
 	// construct the parameters
 	NSMutableString* theParameters = [NSMutableString string];
 	if([[self host] length]) {
 		[theParameters appendFormat:@"host='%@' ",[self host]];
+		// if not hostname, it will default to socket on localhost
 	}
+	
 	if([self port]) {
 		[theParameters appendFormat:@"port=%d ",[self port]];
 	}
-	if([[self database] length]) {
-		[theParameters appendFormat:@"dbname='%@' ",[self database]];
-	}
-	if([[self user] length]) {
-		[theParameters appendFormat:@"user='%@' ",[self user]];
-	}
+	
+	[theParameters appendFormat:@"user='%@' ",[self user]];
+	[theParameters appendFormat:@"dbname='%@' ",[self database]];
+
+	// set password
 	if(thePassword != nil) {
 		[theParameters appendFormat:@"password='%@' ",thePassword];
 	}
+	
+	// set timeout
 	if([self timeout]) {
 		[theParameters appendFormat:@"connect_timeout=%d ",[self timeout]];    
 	}
@@ -175,6 +157,17 @@ NSString* FLXPostgresConnectionEmptyString = @"";
 
 	// set the notice processor
 	PQsetNoticeProcessor(theConnection,FLXPostgresConnectionNoticeProcessor,self);
+	
+	// read the parameters
+	NSMutableDictionary* theDictionary = [[NSMutableDictionary alloc] initWithCapacity:10];
+	NSArray* theKeys = [NSArray arrayWithObjects:FLXPostgresParameterServerVersion,FLXPostgresParameterServerEncoding,FLXPostgresParameterClientEncoding,FLXPostgresParameterSuperUser,FLXPostgresParameterSessionAuthorization,FLXPostgresParameterDateStyle,FLXPostgresParameterTimeZone,FLXPostgresParameterIntegerDateTimes,FLXPostgresParameterStandardConformingStrings,nil];
+	for(NSString* theKey in theKeys) {
+		const char* theValue = PQparameterStatus(theConnection, [theKey UTF8String]);
+		if(theValue==nil) continue;
+		[theDictionary setObject:[NSString stringWithUTF8String:theValue] forKey:theKey];
+	}
+	[m_theParameters release];
+	m_theParameters = theDictionary;
 }
 
 -(void)reset {

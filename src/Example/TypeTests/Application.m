@@ -328,7 +328,9 @@
 
 	// connect to database
 	[[self connection] connect];
-	
+	 
+	 NSLog(@"paramaters = %@",[[self connection] parameters]);
+	 
 	// iterate through the types
 	for(NSUInteger i = 0; i < [theTypes count]; i++) {
 		NSArray* theTypeArray = [theTypes objectAtIndex:i];
