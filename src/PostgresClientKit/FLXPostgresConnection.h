@@ -19,14 +19,14 @@
 @property (retain) NSString* host;
 @property (retain) NSString* user;
 @property (retain) NSString* database;
-@property (readonly,retain) NSDictionary* parameters;
-@property (readonly,retain) FLXPostgresTypes* types;
+@property (retain) NSDictionary* parameters;
+@property (retain) FLXPostgresTypes* types;
 
 // init with URL, use scheme pgsql only
 // pgsql://<username>@<hostname>:<port>/<database>/
 +(FLXPostgresConnection* )connectionWithURL:(NSURL* )theURL;
 
-// properties
+// return the 'scheme' used to construct a URL
 -(NSString* )scheme;
 
 // connection methods

@@ -110,7 +110,7 @@
 	NSMutableArray* theRowArray = [NSMutableArray arrayWithCapacity:[self numberOfColumns]];
 	// fill in the columns
 	for(NSUInteger theColumn = 0; theColumn < [self numberOfColumns]; theColumn++) {
-		[theRowArray addObject:[FLXPostgresTypes objectForResult:[self result] row:m_theRow column:theColumn]];
+		[theRowArray addObject:[self _objectForRow:m_theRow column:theColumn]];
 	}
 	// increment to next row
 	m_theRow++;

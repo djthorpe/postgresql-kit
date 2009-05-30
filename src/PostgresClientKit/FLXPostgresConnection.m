@@ -44,18 +44,18 @@ NSString* FLXPostgresParameterStandardConformingStrings = @"standard_conforming_
 	self = [super init];
 	if (self != nil) {
 		m_theConnection = nil;
-		m_theTypes = [[FLXPostgresTypes alloc] initWithConnection:self];
+		m_theTypes = nil;
 	}
 	return self;
 }
 
 -(void)dealloc {
 	[self disconnect];
-	[m_theHost release];
-	[m_theUser release];
-	[m_theDatabase release];
-	[m_theParameters release];
-	[m_theTypes release];
+	[self setHost:nil];
+	[self setUser:nil];
+	[self setDatabase:nil];
+	[self setParameters:nil];
+	[self setTypes:nil];
 	[super dealloc];
 }
 
@@ -69,7 +69,7 @@ NSString* FLXPostgresParameterStandardConformingStrings = @"standard_conforming_
 	FLXPostgresConnection* theConnection = [[[FLXPostgresConnection alloc] init] autorelease];
 	if([theURL user]) [theConnection setUser:[theURL user]];
 	if([theURL host]) [theConnection setHost:[theURL host]];
-	if([theURL port]) [theConnection setPort:[[theURL port] intValue]];
+	if([theURL port]) [theConnection setPort:[[theURL port] unsignedIntegerValue]];
 	if([theURL path]) {
 		NSString* thePath = [[theURL path] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"/"]];
 		if([thePath length]) {
@@ -104,6 +104,8 @@ NSString* FLXPostgresParameterStandardConformingStrings = @"standard_conforming_
 	if([self connection]==nil) return;
 	PQfinish([self connection]);
 	m_theConnection = nil;
+	[self setParameters:nil];
+	[self setTypes:nil];
 }
 
 -(void)connect {
@@ -133,7 +135,7 @@ NSString* FLXPostgresParameterStandardConformingStrings = @"standard_conforming_
 	}
 	
 	if([self port]) {
-		[theParameters appendFormat:@"port=%d ",[self port]];
+		[theParameters appendFormat:@"port=%u ",[self port]];
 	}
 	
 	[theParameters appendFormat:@"user='%@' ",[self user]];
@@ -162,15 +164,26 @@ NSString* FLXPostgresParameterStandardConformingStrings = @"standard_conforming_
 	PQsetNoticeProcessor(theConnection,FLXPostgresConnectionNoticeProcessor,self);
 	
 	// read the parameters
-	NSMutableDictionary* theDictionary = [[NSMutableDictionary alloc] initWithCapacity:10];
 	NSArray* theKeys = [NSArray arrayWithObjects:FLXPostgresParameterServerVersion,FLXPostgresParameterServerEncoding,FLXPostgresParameterClientEncoding,FLXPostgresParameterSuperUser,FLXPostgresParameterSessionAuthorization,FLXPostgresParameterDateStyle,FLXPostgresParameterTimeZone,FLXPostgresParameterIntegerDateTimes,FLXPostgresParameterStandardConformingStrings,nil];
+	NSMutableDictionary* theDictionary = [NSMutableDictionary dictionaryWithCapacity:[theKeys count]];
 	for(NSString* theKey in theKeys) {
 		const char* theValue = PQparameterStatus(theConnection, [theKey UTF8String]);
 		if(theValue==nil) continue;
-		[theDictionary setObject:[NSString stringWithUTF8String:theValue] forKey:theKey];
+		NSString* theValue2 = [NSString stringWithUTF8String:theValue];
+		if([theKey isEqual:FLXPostgresParameterSuperUser] || [theKey isEqual:FLXPostgresParameterIntegerDateTimes] || [theKey isEqual:FLXPostgresParameterStandardConformingStrings]) {
+			// convert to boolean
+			if([theValue2 isEqual:@"on"] || [theValue2 isEqual:@"yes"] || [theValue2 isEqual:@"true"]) {
+				[theDictionary setObject:[NSNumber numberWithBool:YES] forKey:theKey];
+			} else {
+				[theDictionary setObject:[NSNumber numberWithBool:NO] forKey:theKey];
+			}
+		} else {
+			[theDictionary setObject:theValue2 forKey:theKey];
+		}
 	}
-	[m_theParameters release];
-	m_theParameters = theDictionary;
+	// set types and parameters
+	[self setParameters:theDictionary];
+	[self setTypes:[[[FLXPostgresTypes alloc] initWithParameters:theDictionary] autorelease]];
 }
 
 -(void)reset {
@@ -263,7 +276,7 @@ NSString* FLXPostgresParameterStandardConformingStrings = @"standard_conforming_
 	// fill the data structures
 	for(NSUInteger i = 0; i < nParams; i++) {
 		FLXPostgresOid theType = 0;
-		NSObject* theObject = [FLXPostgresTypes boundValueFromObject:[theValues objectAtIndex:i] type:&theType];
+		NSObject* theObject = [[self types] boundValueFromObject:[theValues objectAtIndex:i] type:&theType];
 		if(theObject==nil) {
 			[FLXPostgresException raise:FLXPostgresConnectionErrorDomain reason:[NSString stringWithFormat:@"Parameter $%u cannot be converted into a bound value",(i+1)]];
 		}			
@@ -348,7 +361,7 @@ NSString* FLXPostgresParameterStandardConformingStrings = @"standard_conforming_
 	}
 	
 	// return a result object
-	return [[[FLXPostgresResult alloc] initWithTypes:[self type] result:theResult] autorelease];
+	return [[[FLXPostgresResult alloc] initWithTypes:[self types] result:theResult] autorelease];
 }
 
 -(FLXPostgresResult* )execute:(NSString* )theQuery {
