@@ -406,9 +406,7 @@
 ////////////////////////////////////////////////////////////////////////////
 
 -(void)connection:(FLXPostgresConnection* )theConnection notice:(NSString* )theNotice {
-	/*
-	NSLog(@"Notice: %@",theNotice);
-	 */
+	NSLog(@"%@",theNotice);
 }
 
 -(void)connection:(FLXPostgresConnection* )theConnection willExecute:(NSObject* )theQuery values:(NSArray* )theValues {
