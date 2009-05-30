@@ -4,6 +4,7 @@
 
 #import "FLXPostgresTypes+NSString.h"
 #import "FLXPostgresTypes+NSData.h"
+#import "FLXPostgresTypes+NSNumber.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -48,52 +49,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // bound value from object - returns NSNull, NSString or NSData
 
--(NSData* )_boundFloat:(float)theValue {
-	NSParameterAssert(sizeof(float)==4);
-	union { Float32 r; UInt32 i; } u32;
-	u32.r = theValue;
-#if defined(__ppc__) || defined(__ppc64__)
-	// don't swap
-#else
-	u32.i = CFSwapInt32HostToBig(u32.i);			
-#endif
-	NSData* theData = [NSData dataWithBytes:&u32 length:sizeof(u32)];	
-	return theData;
-}
-
--(NSData* )_boundDouble:(double)theValue {
-	NSParameterAssert(sizeof(double)==8);
-	union { Float64 r; UInt64 i; } u64;
-	u64.r = theValue;
-#if defined(__ppc__) || defined(__ppc64__)
-	// don't swap
-#else
-	u64.i = CFSwapInt64HostToBig(u64.i);			
-#endif
-	NSData* theData = [NSData dataWithBytes:&u64 length:sizeof(u64)];	
-	return theData;
-}
-
--(NSData* )_boundLongLong:(SInt64)theValue {
-	NSParameterAssert(sizeof(SInt64)==8);
-#if defined(__ppc__) || defined(__ppc64__)
-	// don't swap
-#else
-	theValue = EndianS64_NtoB(theValue);
-#endif	
-	return [NSData dataWithBytes:&theValue length:sizeof(theValue)];
-}
-
--(NSData* )_boundInteger:(SInt32)theValue {
-	NSParameterAssert(sizeof(SInt32)==4);
-#if defined(__ppc__) || defined(__ppc64__)
-	// don't swap
-#else
-	theValue = EndianS32_NtoB(theValue);
-#endif	
-	return [NSData dataWithBytes:&theValue length:sizeof(theValue)];
-}
-
 -(NSData* )_boundPoint:(FLXGeometryPt)point {
 	union u { Float64 r; UInt64 i; };
 	struct { union u a; union u b; } theValue;
@@ -107,43 +62,6 @@
 	theValue.b.i = CFSwapInt64HostToBig(theValue.b.i);
 #endif
 	return [NSData dataWithBytes:&theValue length:sizeof(theValue)];
-}
-
--(NSObject* )_boundValueFromNumber:(NSNumber* )theNumber type:(FLXPostgresOid* )theTypeOid {
-	const char* type = [theNumber objCType];
-	switch(type[0]) {
-		case 'c':
-		case 'C':
-		case 'B': // boolean
-			(*theTypeOid) = FLXPostgresTypeBool;
-			return [theNumber boolValue] ? @"true" : @"false";
-		case 'i': // integer
-		case 'l': // long
-		case 'S': // unsigned short
-			(*theTypeOid) = FLXPostgresTypeInt4;
-			return [theNumber stringValue];
-		case 's':
-			(*theTypeOid) = FLXPostgresTypeInt2;
-			return [theNumber stringValue];
-		case 'q': // long long
-		case 'Q': // unsigned long long
-		case 'I': // unsigned integer
-		case 'L': // unsigned long
-			(*theTypeOid) = FLXPostgresTypeInt8;
-			return [self _boundLongLong:[theNumber longLongValue]];
-		case 'f': // float
-			(*theTypeOid) = FLXPostgresTypeFloat4;
-			return [self _boundFloat:[theNumber floatValue]];
-		case 'd': // double
-			(*theTypeOid) = FLXPostgresTypeFloat8;
-			return [self _boundDouble:[theNumber doubleValue]];
-		default:
-			// we shouldn't get here
-			NSParameterAssert(NO);
-	}
-
-	// we shouldn't reach here
-	return nil;
 }
 
 -(NSObject* )_boundValueFromInterval:(FLXTimeInterval* )theInterval type:(FLXPostgresOid* )theTypeOid {
@@ -218,21 +136,22 @@
 -(NSObject* )boundValueFromObject:(NSObject* )theObject type:(FLXPostgresOid* )theType {
 	NSParameterAssert(theObject);
 	NSParameterAssert(theType);
+	
 	// NSNull
 	if([theObject isKindOfClass:[NSNull class]]) {
 		return theObject;
 	}
 	// NSString
 	if([theObject isKindOfClass:[NSString class]]) {
-		return [self boundValueFromNSString:(NSString* )theObject type:theType];
+		return [self boundValueFromString:(NSString* )theObject type:theType];
 	}
 	// NSData
 	if([theObject isKindOfClass:[NSData class]]) {
-		return [self boundValueFromNSData:(NSData* )theObject type:theType];
+		return [self boundValueFromData:(NSData* )theObject type:theType];
 	}
 	// NSNumber booleans are converted to strings, floats and doubles are converted to data
 	if([theObject isKindOfClass:[NSNumber class]]) {
-		return [self _boundValueFromNumber:(NSNumber* )theObject type:theType];
+		return [self boundValueFromNumber:(NSNumber* )theObject type:theType];
 	}
 	// FLXTimeInterval
 	if([theObject isKindOfClass:[FLXTimeInterval class]]) {
@@ -253,7 +172,7 @@
 	NSParameterAssert(theBytes);
 	NSParameterAssert(theLength==4);
 	// convert bytes into integer
-	NSNumber* theTime = [self integerFromBytes:theBytes length:theLength];
+	NSNumber* theTime = [self integerObjectFromBytes:theBytes length:theLength];
 	return [NSDate dateWithTimeIntervalSince1970:(NSTimeInterval)[theTime doubleValue]];
 }
 
@@ -264,7 +183,7 @@
 	NSParameterAssert(theBytes);
 	NSParameterAssert(theLength==4);
 	// this is number of days since 1st January 2000
-	NSNumber* theDays = [self integerFromBytes:theBytes length:theLength];
+	NSNumber* theDays = [self integerObjectFromBytes:theBytes length:theLength];
 	NSCalendarDate* theEpoch = [NSCalendarDate dateWithYear:2000 month:1 day:1 hour:0 minute:0 second:0 timeZone:nil];
 	NSCalendarDate* theDate = [theEpoch dateByAddingYears:0 months:0 days:[theDays integerValue] hours:0 minutes:0 seconds:0];	
 	[theDate setCalendarFormat:@"%Y-%m-%d"];
@@ -280,7 +199,7 @@
 	NSCalendarDate* theEpoch = [NSCalendarDate dateWithYear:2000 month:1 day:1 hour:0 minute:0 second:0 timeZone:nil];
 	if([self isIntegerTimestamp]) {
 		// this is number of microseconds since 1st January 2000
-		NSNumber* theMicroseconds = [self integerFromBytes:theBytes length:theLength];	
+		NSNumber* theMicroseconds = [self integerObjectFromBytes:theBytes length:theLength];	
 		return [theEpoch addTimeInterval:([theMicroseconds doubleValue] / (double)USECS_PER_SEC)];
 	} else {
 		double theSeconds = [self doubleFromBytes:theBytes];	
@@ -446,14 +365,14 @@
 		case FLXPostgresTypeInt8:
 		case FLXPostgresTypeInt2:
 		case FLXPostgresTypeInt4:
-			return [self integerFromBytes:theBytes length:theLength];
+			return [self integerObjectFromBytes:theBytes length:theLength];
 		case FLXPostgresTypeOid:
-			return [self unsignedIntegerFromBytes:theBytes length:theLength];			
+			return [self unsignedIntegerObjectFromBytes:theBytes length:theLength];			
 		case FLXPostgresTypeFloat4:
 		case FLXPostgresTypeFloat8:
-			return [self realFromBytes:theBytes length:theLength];
+			return [self realObjectFromBytes:theBytes length:theLength];
 		case FLXPostgresTypeBool:
-			return [self booleanFromBytes:theBytes length:theLength];
+			return [self booleanObjectFromBytes:theBytes length:theLength];
 		case FLXPostgresTypeAbsTime:
 			return [self abstimeFromBytes:theBytes length:theLength];
 		case FLXPostgresTypeDate:
