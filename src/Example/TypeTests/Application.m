@@ -319,10 +319,10 @@
 	 [NSArray arrayWithObjects:@"float4",@"NSNumber",@"floatValueForRow:",nil],
 	 [NSArray arrayWithObjects:@"float8",@"NSNumber",@"doubleValueForRow:",nil],
 	 [NSArray arrayWithObjects:@"oid",@"NSNumber",@"unsignedIntegerValueForRow:",nil],
-     [NSArray arrayWithObjects:@"point",@"FLXGeometryPoint",@"pointValueForRow:",nil],
-	 [NSArray arrayWithObjects:@"lseg",@"FLXGeometryLine",@"lineValueForRow:",nil],
-	 [NSArray arrayWithObjects:@"box",@"FLXGeometryBox",@"boxValueForRow:",nil],
-	 [NSArray arrayWithObjects:@"circle",@"FLXGeometryCircle",@"circleValueForRow:",nil],
+     [NSArray arrayWithObjects:@"point",@"FLXGeometry",@"pointValueForRow:",nil],
+	 [NSArray arrayWithObjects:@"lseg",@"FLXGeometry",@"lineValueForRow:",nil],
+	 [NSArray arrayWithObjects:@"box",@"FLXGeometry",@"boxValueForRow:",nil],
+	 [NSArray arrayWithObjects:@"circle",@"FLXGeometry",@"circleValueForRow:",nil],
 	 [NSArray arrayWithObjects:@"interval",@"FLXTimeInterval",@"intervalValueForRow:",nil],
 						  nil];
 
