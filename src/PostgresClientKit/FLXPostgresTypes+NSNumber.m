@@ -28,53 +28,86 @@
 	return [NSData dataWithBytes:&theValue length:sizeof(theValue)];
 }
 
+-(SInt16)int16FromBytes:(const void* )theBytes {
+	NSParameterAssert(theBytes);
+#if defined(__ppc__) || defined(__ppc64__)
+	return *((SInt16* )theBytes);
+#else
+	return EndianS16_BtoN(*((SInt16* )theBytes));
+#endif
+}
+
+-(SInt32)int32FromBytes:(const void* )theBytes {
+	NSParameterAssert(theBytes);
+#if defined(__ppc__) || defined(__ppc64__)
+	return *((SInt32* )theBytes);
+#else
+	return EndianS32_BtoN(*((SInt32* )theBytes));
+#endif	
+}
+
+-(SInt64)int64FromBytes:(const void* )theBytes {
+	NSParameterAssert(theBytes);
+	NSParameterAssert(theBytes);
+#if defined(__ppc__) || defined(__ppc64__)
+	return *((SInt64* )theBytes);
+#else
+	return EndianS64_BtoN(*((SInt64* )theBytes));
+#endif		
+}
+
+-(UInt16)unsignedInt16FromBytes:(const void* )theBytes {
+	NSParameterAssert(theBytes);
+#if defined(__ppc__) || defined(__ppc64__)
+	return *((UInt16* )theBytes);
+#else
+	return EndianU16_BtoN(*((UInt16* )theBytes));
+#endif		
+}
+
+-(UInt32)unsignedInt32FromBytes:(const void* )theBytes {
+	NSParameterAssert(theBytes);
+#if defined(__ppc__) || defined(__ppc64__)
+	return *((UInt32* )theBytes);
+#else
+	return EndianU32_BtoN(*((UInt32* )theBytes));
+#endif		
+}
+
+-(UInt64)unsignedInt64FromBytes:(const void* )theBytes {
+	NSParameterAssert(theBytes);
+#if defined(__ppc__) || defined(__ppc64__)
+	return *((UInt64* )theBytes);
+#else
+	return EndianU64_BtoN(*((UInt64* )theBytes));
+#endif		
+}
+
 -(NSNumber* )integerObjectFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
 	NSParameterAssert(theBytes);
 	NSParameterAssert(theLength==2 || theLength==4 || theLength==8);
-#if defined(__ppc__) || defined(__ppc64__)
 	switch(theLength) {
 		case 2:
-			return [NSNumber numberWithShort:*((SInt16* )theBytes)];
+			return [NSNumber numberWithShort:[self int16FromBytes:theBytes]];
 		case 4:
-			return [NSNumber numberWithInteger:*((SInt32* )theBytes)];
+			return [NSNumber numberWithInteger:[self int32FromBytes:theBytes]];
 		case 8:
-			return [NSNumber numberWithLongLong:*((SInt64* )theBytes)];
+			return [NSNumber numberWithLongLong:[self int64FromBytes:theBytes]];
 	}
-#else
-	switch(theLength) {
-		case 2:
-			return [NSNumber numberWithShort:EndianS16_BtoN(*((SInt16* )theBytes))];
-		case 4:
-			return [NSNumber numberWithInteger:EndianS32_BtoN(*((SInt32* )theBytes))];
-		case 8:
-			return [NSNumber numberWithLongLong:EndianS64_BtoN(*((SInt64* )theBytes))];
-	}	
-#endif
 	return nil;
 }
 
 -(NSNumber* )unsignedIntegerObjectFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
 	NSParameterAssert(theBytes);
 	NSParameterAssert(theLength==2 || theLength==4 || theLength==8);
-#if defined(__ppc__) || defined(__ppc64__)
 	switch(theLength) {
 		case 2:
-			return [NSNumber numberWithUnsignedShort:*((SInt16* )theBytes)];
+			return [NSNumber numberWithUnsignedShort:[self unsignedInt16FromBytes:theBytes]];
 		case 4:
-			return [NSNumber numberWithUnsignedInteger:*((SInt32* )theBytes)];
+			return [NSNumber numberWithUnsignedInteger:[self unsignedInt32FromBytes:theBytes]];
 		case 8:
-			return [NSNumber numberWithUnsignedLongLong:*((SInt64* )theBytes)];
+			return [NSNumber numberWithUnsignedLongLong:[self unsignedInt64FromBytes:theBytes]];
 	}
-#else
-	switch(theLength) {
-		case 2:
-			return [NSNumber numberWithUnsignedShort:EndianS16_BtoN(*((SInt16* )theBytes))];
-		case 4:
-			return [NSNumber numberWithUnsignedInteger:EndianS32_BtoN(*((SInt32* )theBytes))];
-		case 8:
-			return [NSNumber numberWithUnsignedLongLong:EndianS64_BtoN(*((SInt64* )theBytes))];
-	}	
-#endif
 	return nil;
 }
 

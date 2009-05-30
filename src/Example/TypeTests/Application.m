@@ -300,6 +300,34 @@
 	return theCircle;
 }
 
+-(NSObject* )polygonValueForRow:(NSNumber* )theRow {
+	// how many points?
+	NSUInteger numPoints = [theRow unsignedIntegerValue];
+	
+	// return null if number of points is less than three
+	if(numPoints < 3) {
+		return [NSNull null];
+	}
+
+	// set polygon radius
+	double theRadius = (double)rand() / (double)rand();
+	double theAngleStep = (2.0 * M_PI) / numPoints;
+	
+	// create the points
+	FLXGeometryPt* points = malloc(sizeof(FLXGeometryPt) * numPoints);
+	NSParameterAssert(points);
+	for(NSUInteger i = 0; i < numPoints; i++) {
+		double theAngle = theAngleStep * (double)i;
+		points[i] = FLXMakePoint(cos(theAngle) * theRadius,sin(theAngle) * theRadius);
+	}
+	// create the polygon
+	FLXGeometry* thePolygon = [FLXGeometry polygonWithPoints:points count:numPoints];
+	// free points
+	free(points);
+	// return polygon
+	return thePolygon;
+}
+
 ////////////////////////////////////////////////////////////////////////////
 
  -(void)doWork { 
@@ -307,7 +335,7 @@
 	 NSString* theTable = @"test";
 	 NSUInteger numberOfRows = 1000;
 	 NSArray* theTypes = [NSArray arrayWithObjects:
-	[NSArray arrayWithObjects:@"text",@"NSString",@"stringValueForRow:",nil],						 
+/*	[NSArray arrayWithObjects:@"text",@"NSString",@"stringValueForRow:",nil],						 
 	 [NSArray arrayWithObjects:@"char(80)",@"NSString",@"charValueForRow:",nil],
 	 [NSArray arrayWithObjects:@"varchar(80)",@"NSString",@"varcharValueForRow:",nil],
 	 [NSArray arrayWithObjects:@"name",@"NSString",@"nameValueForRow:",nil],
@@ -322,7 +350,8 @@
      [NSArray arrayWithObjects:@"point",@"FLXGeometry",@"pointValueForRow:",nil],
 	 [NSArray arrayWithObjects:@"lseg",@"FLXGeometry",@"lineValueForRow:",nil],
 	 [NSArray arrayWithObjects:@"box",@"FLXGeometry",@"boxValueForRow:",nil],
-	 [NSArray arrayWithObjects:@"circle",@"FLXGeometry",@"circleValueForRow:",nil],
+	 [NSArray arrayWithObjects:@"circle",@"FLXGeometry",@"circleValueForRow:",nil], */
+     [NSArray arrayWithObjects:@"polygon",@"FLXGeometry",@"polygonValueForRow:",nil],
 	 [NSArray arrayWithObjects:@"interval",@"FLXTimeInterval",@"intervalValueForRow:",nil],
 						  nil];
 

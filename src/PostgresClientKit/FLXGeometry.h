@@ -36,6 +36,7 @@ NSString* NSStringFromFLXPointArray(const FLXGeometryPt* points,NSUInteger size)
 +(FLXGeometry* )circleWithCentre:(FLXGeometryPt)thePoint radius:(Float64)theRadius;
 +(FLXGeometry* )lineWithOrigin:(FLXGeometryPt)theOrigin destination:(FLXGeometryPt)theDestination;
 +(FLXGeometry* )boxWithPoint:(FLXGeometryPt)theOrigin point:(FLXGeometryPt)theDestination;
++(FLXGeometry* )polygonWithPoints:(const FLXGeometryPt* )thePoints count:(NSUInteger)theCount;
 
 // methods
 -(FLXGeometryType)type;

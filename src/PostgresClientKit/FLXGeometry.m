@@ -67,7 +67,12 @@
 	return [[[FLXGeometry alloc] initWithType:FLXGeometryTypeBox points:thePoints size:2 radius:0.0] autorelease];	
 }
 
-// TODO: path and polygon TBD
++(FLXGeometry* )polygonWithPoints:(const FLXGeometryPt* )thePoints count:(NSUInteger)theCount {
+	NSParameterAssert(theCount >= 3); // must be at least three points for a polygon
+	return [[[FLXGeometry alloc] initWithType:FLXGeometryTypePolygon points:thePoints size:theCount radius:0.0] autorelease];
+}
+
+// TODO: path
 
 ////////////////////////////////////////////////////////////////////////////////
 

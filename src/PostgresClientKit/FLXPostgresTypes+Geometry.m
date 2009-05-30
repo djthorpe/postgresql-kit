@@ -24,6 +24,20 @@
 	return [NSData dataWithBytes:&theValue length:sizeof(theValue)];
 }
 
+-(NSObject* )boundValueFromPolygon:(FLXGeometry* )theGeometry type:(FLXPostgresOid* )theType {
+	NSParameterAssert(theGeometry);
+	NSParameterAssert([theGeometry type]==FLXGeometryTypePolygon);
+	NSParameterAssert(theType);
+	(*theType) = FLXPostgresTypePolygon;
+	NSMutableData* theData = [NSMutableData dataWithCapacity:((sizeof(Float32) * [theGeometry count]) + sizeof(SInt64))];
+	NSParameterAssert(theData);
+	[theData appendData:[self boundDataFromInt32:[theGeometry count]]];
+	for(NSUInteger i = 0; i < [theGeometry count]; i++) {
+		[theData appendData:[self boundDataFromPoint:[theGeometry pointAtIndex:i]]];
+	}
+	return theData;
+}
+
 -(NSObject* )boundValueFromGeometry:(FLXGeometry* )theGeometry type:(FLXPostgresOid* )theTypeOid {
 	NSParameterAssert(theGeometry);
 	NSParameterAssert(theTypeOid);
@@ -60,6 +74,9 @@
 			[theData appendData:[self boundDataFromPoint:[theGeometry centre]]];
 			[theData appendData:[self boundDataFromFloat64:[(FLXGeometryCircle* )theGeometry radius]]];
 			break;
+
+		case FLXGeometryTypePolygon:
+			return [self boundValueFromPolygon:theGeometry type:theTypeOid];
 			
 		default:
 			// should never get here
@@ -108,14 +125,21 @@
 	return [FLXGeometry circleWithCentre:centre radius:radius];
 }
 
+-(FLXGeometry* )polygonFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
+	NSParameterAssert(theBytes);
+	NSParameterAssert(theLength >= 4);
+	const SInt32* theBytes2 = theBytes;
+	// read the count
+	NSUInteger theCount = [self int32FromBytes:theBytes];
+	// ensure data length is correct
+	NSParameterAssert(theLength==((theCount * sizeof(FLXGeometryPt)) + sizeof(SInt32)));
+	// read the data
+	return [FLXGeometry polygonWithPoints:(const FLXGeometryPt* )(theBytes2 + 1) count:theCount];
+}
+
 -(FLXGeometry* )pathFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
 	// TODO
+	NSLog(@"TO BE IMPLEMENTED: pathFromBytes");
 	return nil;
 }
-
--(FLXGeometry* )polygonFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
-	// TODO
-	return nil;
-}
-
 @end
