@@ -10,7 +10,7 @@
 typedef Oid FLXPostgresOid;
 
 @interface FLXPostgresConnection (Private)
--(PGconn* )connection;
+-(PGconn* )PGconn;
 -(void)_noticeProcessorWithMessage:(NSString* )theMessage;
 @end
 
@@ -24,9 +24,10 @@ typedef Oid FLXPostgresOid;
 @end
 
 @interface FLXPostgresTypes (Private)
--(id)initWithParameters:(NSDictionary* )theParameters;
+-(id)initWithConnection:(FLXPostgresConnection* )theConnection;
 -(BOOL)isIntegerTimestamp;
 -(NSObject* )boundValueFromObject:(NSObject* )theObject type:(FLXPostgresOid* )theType;
 -(NSObject* )objectFromBytes:(const void* )theBytes length:(NSUInteger)theLength type:(FLXPostgresOid)theType;
+-(NSString* )quotedStringFromObject:(NSObject* )theObject;
 @end
 

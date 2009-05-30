@@ -2,6 +2,9 @@
 #import "PostgresClientKit.h"
 #import "PostgresClientKitPrivate.h"
 
+#import "FLXPostgresTypes+NSString.h"
+#import "FLXPostgresTypes+NSData.h"
+
 ////////////////////////////////////////////////////////////////////////////////
 
 // number of microseconds per second
@@ -13,21 +16,21 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 @implementation FLXPostgresTypes
-@synthesize parameters = m_theParameters;
+@synthesize connection = m_theConnection;
 
 ////////////////////////////////////////////////////////////////////////////////
 // constructor
 
--(id)initWithParameters:(NSDictionary* )theParameters {
+-(id)initWithConnection:(FLXPostgresConnection* )theConnection {
 	self = [super init];
 	if (self != nil) {
-		m_theParameters = [theParameters retain];
+		m_theConnection = [theConnection retain];
 	}
 	return self;	
 }
 
 -(void)dealloc {
-	[m_theParameters release];
+	[m_theConnection release];
 	[super dealloc];
 }
 
@@ -35,7 +38,9 @@
 // properties from the server which affect how types are interpreted
 
 -(BOOL)isIntegerTimestamp {
-	NSNumber* propertyValue = [[self parameters] objectForKey:FLXPostgresParameterIntegerDateTimes];
+	NSDictionary* parameters = [[self connection] parameters];
+	NSParameterAssert(parameters);
+	NSNumber* propertyValue = [parameters objectForKey:FLXPostgresParameterIntegerDateTimes];
 	NSParameterAssert([propertyValue isKindOfClass:[NSNumber class]]);
 	return [propertyValue boolValue];
 }
@@ -89,7 +94,7 @@
 	return [NSData dataWithBytes:&theValue length:sizeof(theValue)];
 }
 
--(NSData* )_boundPoint:(FLXGeometryPoint)point {
+-(NSData* )_boundPoint:(FLXGeometryPt)point {
 	union u { Float64 r; UInt64 i; };
 	struct { union u a; union u b; } theValue;
 	theValue.a.r = point.x;
@@ -193,9 +198,9 @@
 			NSParameterAssert(theData);
 			(*theTypeOid) = FLXPostgresTypeCircle;
 			[theData appendData:[self _boundPoint:[theGeometry centre]]];
-			[theData appendData:[self _boundDouble:[theGeometry radius]]];
+			[theData appendData:[self _boundDouble:[(FLXGeometryCircle* )theGeometry radius]]];
 			break;
-			
+
 		default:
 			// should never get here
 			return nil;
@@ -219,13 +224,11 @@
 	}
 	// NSString
 	if([theObject isKindOfClass:[NSString class]]) {
-		(*theType) = FLXPostgresTypeVarchar;
-		return theObject;
+		return [self boundValueFromNSString:(NSString* )theObject type:theType];
 	}
 	// NSData
 	if([theObject isKindOfClass:[NSData class]]) {
-		(*theType) = FLXPostgresTypeData;		
-		return theObject;
+		return [self boundValueFromNSData:(NSData* )theObject type:theType];
 	}
 	// NSNumber booleans are converted to strings, floats and doubles are converted to data
 	if([theObject isKindOfClass:[NSNumber class]]) {
@@ -241,123 +244,6 @@
 	}
 	// TODO: we don't support other types yet
 	return nil;	
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-// string
-
--(NSString* )stringFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
-	// note that the string is always terminated with NULL so we don't need the length field
-	return [NSString stringWithUTF8String:theBytes];
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-// integer and unsigned integer
-
--(NSNumber* )integerFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
-	NSParameterAssert(theBytes);
-	NSParameterAssert(theLength==2 || theLength==4 || theLength==8);
-#if defined(__ppc__) || defined(__ppc64__)
-	switch(theLength) {
-		case 2:
-			return [NSNumber numberWithShort:*((SInt16* )theBytes)];
-		case 4:
-			return [NSNumber numberWithInteger:*((SInt32* )theBytes)];
-		case 8:
-			return [NSNumber numberWithLongLong:*((SInt64* )theBytes)];
-	}
-#else
-	switch(theLength) {
-		case 2:
-			return [NSNumber numberWithShort:EndianS16_BtoN(*((SInt16* )theBytes))];
-		case 4:
-			return [NSNumber numberWithInteger:EndianS32_BtoN(*((SInt32* )theBytes))];
-		case 8:
-			return [NSNumber numberWithLongLong:EndianS64_BtoN(*((SInt64* )theBytes))];
-	}	
-#endif
-	return nil;
-}
-
-
--(NSNumber* )unsignedIntegerFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
-	NSParameterAssert(theBytes);
-	NSParameterAssert(theLength==2 || theLength==4 || theLength==8);
-#if defined(__ppc__) || defined(__ppc64__)
-	switch(theLength) {
-		case 2:
-			return [NSNumber numberWithUnsignedShort:*((SInt16* )theBytes)];
-		case 4:
-			return [NSNumber numberWithUnsignedInteger:*((SInt32* )theBytes)];
-		case 8:
-			return [NSNumber numberWithUnsignedLongLong:*((SInt64* )theBytes)];
-	}
-#else
-	switch(theLength) {
-		case 2:
-			return [NSNumber numberWithUnsignedShort:EndianS16_BtoN(*((SInt16* )theBytes))];
-		case 4:
-			return [NSNumber numberWithUnsignedInteger:EndianS32_BtoN(*((SInt32* )theBytes))];
-		case 8:
-			return [NSNumber numberWithUnsignedLongLong:EndianS64_BtoN(*((SInt64* )theBytes))];
-	}	
-#endif
-	return nil;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-// real (floating point numbers)
-
--(Float32)floatFromBytes:(const void* )theBytes {
-	NSParameterAssert(theBytes);
-#if defined(__ppc__) || defined(__ppc64__)
-	return *((Float32* )theBytes);
-#else
-    union { Float32 r; UInt32 i; } u32;
-	u32.r = *((Float32* )theBytes);		
-	u32.i = CFSwapInt32HostToBig(u32.i);			
-	return u32.r;
-#endif		
-}
-
--(Float64)doubleFromBytes:(const void* )theBytes {
-	NSParameterAssert(theBytes);
-#if defined(__ppc__) || defined(__ppc64__)
-	return *((Float64* )theBytes);
-#else
-    union { Float64 r; UInt64 i; } u64;
-	u64.r = *((Float64* )theBytes);		
-	u64.i = CFSwapInt64HostToBig(u64.i);			
-	return u64.r;
-#endif		
-}
-
--(NSNumber* )realFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
-	NSParameterAssert(theLength==4 || theLength==8);
-	switch(theLength) {
-	case 4:
-		return [NSNumber numberWithFloat:[self floatFromBytes:theBytes]];
-	case 8:
-		return [NSNumber numberWithDouble:[self doubleFromBytes:theBytes]];
-	}
-	return nil;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-// boolean
-
--(NSNumber* )booleanFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
-	NSParameterAssert(theBytes);
-	NSParameterAssert(theLength==1);
-	return [NSNumber numberWithBool:(*((const int8_t* )theBytes) ? YES : NO)];	
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-// data (bytea)
-
--(NSData* )dataFromBytes:(const void* )theBytes length:(NSUInteger)theLength {	
-	NSParameterAssert(theBytes);
-	return [NSData dataWithBytes:theBytes length:theLength];	
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -427,8 +313,8 @@
 	NSParameterAssert(theBytes);
 	NSParameterAssert(theLength==32);
 	const Float64* theFloats = theBytes;
-	FLXGeometryPoint p1 = FLXMakePoint([self doubleFromBytes:theFloats], [self doubleFromBytes:(theFloats+1)]);
-	FLXGeometryPoint p2 = FLXMakePoint([self doubleFromBytes:(theFloats+2)], [self doubleFromBytes:(theFloats+3)]);
+	FLXGeometryPt p1 = FLXMakePoint([self doubleFromBytes:theFloats], [self doubleFromBytes:(theFloats+1)]);
+	FLXGeometryPt p2 = FLXMakePoint([self doubleFromBytes:(theFloats+2)], [self doubleFromBytes:(theFloats+3)]);
 	return [FLXGeometry lineWithOrigin:p1 destination:p2];
 }
 
@@ -436,8 +322,8 @@
 	NSParameterAssert(theBytes);
 	NSParameterAssert(theLength==32);
 	const Float64* theFloats = theBytes;
-	FLXGeometryPoint p1 = FLXMakePoint([self doubleFromBytes:theFloats], [self doubleFromBytes:(theFloats+1)]);
-	FLXGeometryPoint p2 = FLXMakePoint([self doubleFromBytes:(theFloats+2)], [self doubleFromBytes:(theFloats+3)]);
+	FLXGeometryPt p1 = FLXMakePoint([self doubleFromBytes:theFloats], [self doubleFromBytes:(theFloats+1)]);
+	FLXGeometryPt p2 = FLXMakePoint([self doubleFromBytes:(theFloats+2)], [self doubleFromBytes:(theFloats+3)]);
 	return [FLXGeometry boxWithPoint:p1 point:p2];
 }
 
@@ -445,7 +331,7 @@
 	NSParameterAssert(theBytes);
 	NSParameterAssert(theLength==24);
 	const Float64* theFloats = theBytes;
-	FLXGeometryPoint centre = FLXMakePoint([self doubleFromBytes:theFloats], [self doubleFromBytes:(theFloats+1)]);
+	FLXGeometryPt centre = FLXMakePoint([self doubleFromBytes:theFloats], [self doubleFromBytes:(theFloats+1)]);
 	Float64 radius = [self doubleFromBytes:(theFloats+2)];
 	return [FLXGeometry circleWithCentre:centre radius:radius];
 }
@@ -556,7 +442,7 @@
 		case FLXPostgresTypeText:
 		case FLXPostgresTypeVarchar:
 		case FLXPostgresTypeUnknown:
-			return [self stringFromBytes:theBytes length:theLength];			
+			return [self stringObjectFromBytes:theBytes length:theLength];			
 		case FLXPostgresTypeInt8:
 		case FLXPostgresTypeInt2:
 		case FLXPostgresTypeInt4:
@@ -595,10 +481,10 @@
 		case FLXPostgresTypeArrayText:
 			return [self arrayFromBytes:theBytes length:theLength type:FLXPostgresTypeText];	
 		case FLXPostgresTypeData:
-			return [self dataFromBytes:theBytes length:theLength];
+			return [self dataObjectFromBytes:theBytes length:theLength];
 		default:
-			NSLog(@"Unknown type, %d, returning data",theType);
-			return [self dataFromBytes:theBytes length:theLength];
+			[[self connection] _noticeProcessorWithMessage:[NSString stringWithFormat:@"Unknown type, %d, returning data object",theType]];
+			return [self dataObjectFromBytes:theBytes length:theLength];
 	}
 }
 

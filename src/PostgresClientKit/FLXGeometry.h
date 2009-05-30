@@ -14,15 +14,15 @@ typedef enum {
 typedef struct {
 	Float64 x;
 	Float64 y;
-} FLXGeometryPoint;
+} FLXGeometryPt;
 
 // methods
-FLXGeometryPoint FLXMakePoint(Float64 x,Float64 y);
-NSString* NSStringFromFLXPoint(FLXGeometryPoint p);
-NSString* NSStringFromFLXPointArray(const FLXGeometryPoint* points,NSUInteger size);
+FLXGeometryPt FLXMakePoint(Float64 x,Float64 y);
+NSString* NSStringFromFLXPoint(FLXGeometryPt p);
+NSString* NSStringFromFLXPointArray(const FLXGeometryPt* points,NSUInteger size);
 
 ////////////////////////////////////////////////////////////////////////////////
-// class
+// base class
 
 @interface FLXGeometry : NSObject {
 	FLXGeometryType type;
@@ -32,17 +32,76 @@ NSString* NSStringFromFLXPointArray(const FLXGeometryPoint* points,NSUInteger si
 }
 
 // constructors
-+(FLXGeometry* )pointWithOrigin:(FLXGeometryPoint)thePoint;
-+(FLXGeometry* )circleWithCentre:(FLXGeometryPoint)thePoint radius:(Float64)theRadius;
-+(FLXGeometry* )lineWithOrigin:(FLXGeometryPoint)theOrigin destination:(FLXGeometryPoint)theDestination;
-+(FLXGeometry* )boxWithPoint:(FLXGeometryPoint)theOrigin point:(FLXGeometryPoint)theDestination;
++(FLXGeometry* )pointWithOrigin:(FLXGeometryPt)thePoint;
++(FLXGeometry* )circleWithCentre:(FLXGeometryPt)thePoint radius:(Float64)theRadius;
++(FLXGeometry* )lineWithOrigin:(FLXGeometryPt)theOrigin destination:(FLXGeometryPt)theDestination;
++(FLXGeometry* )boxWithPoint:(FLXGeometryPt)theOrigin point:(FLXGeometryPt)theDestination;
 
 // methods
 -(FLXGeometryType)type;
--(FLXGeometryPoint)pointAtIndex:(NSUInteger)theIndex;
--(FLXGeometryPoint)origin;
--(FLXGeometryPoint)centre;
--(Float64)radius;
+-(FLXGeometryPt)pointAtIndex:(NSUInteger)theIndex;
+-(FLXGeometryPt)origin;
+-(FLXGeometryPt)centre;
 -(NSUInteger)count;
 
 @end
+
+////////////////////////////////////////////////////////////////////////////////
+// point class
+
+@interface FLXGeometryPoint : FLXGeometry {
+	
+}
+
+@end
+
+////////////////////////////////////////////////////////////////////////////////
+// line class
+
+@interface FLXGeometryLine : FLXGeometry {
+	
+}
+
+@end
+
+////////////////////////////////////////////////////////////////////////////////
+// box class
+
+@interface FLXGeometryBox : FLXGeometry {
+	
+}
+
+@end
+
+////////////////////////////////////////////////////////////////////////////////
+// circle class
+
+@interface FLXGeometryCircle : FLXGeometry {
+	
+}
+
+-(Float64)radius;
+
+@end
+
+////////////////////////////////////////////////////////////////////////////////
+// polygon class
+
+@interface FLXGeometryPolygon : FLXGeometry {
+	
+}
+
+@end
+
+////////////////////////////////////////////////////////////////////////////////
+// path class
+
+@interface FLXGeometryPath : FLXGeometry {
+	
+}
+
+@end
+
+
+
+

@@ -58,9 +58,9 @@ typedef enum {
 } FLXPostgresType;
 
 @interface FLXPostgresTypes : NSObject {
-	NSDictionary* m_theParameters;
+	FLXPostgresConnection* m_theConnection;
 }
 
-@property (readonly,retain) NSDictionary* parameters;
+@property (readonly,retain) FLXPostgresConnection* connection;
 
 @end

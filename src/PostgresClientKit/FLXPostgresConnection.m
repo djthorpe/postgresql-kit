@@ -82,7 +82,7 @@ NSString* FLXPostgresParameterStandardConformingStrings = @"standard_conforming_
 ////////////////////////////////////////////////////////////////////////////////
 // properties
 
--(PGconn* )connection {
+-(PGconn* )PGconn {
 	return (PGconn* )m_theConnection;
 }
 
@@ -94,15 +94,15 @@ NSString* FLXPostgresParameterStandardConformingStrings = @"standard_conforming_
 // public methods
 
 -(BOOL)connected {
-	if([self connection]==nil) return NO;
-	ConnStatusType theStatus = PQstatus([self connection]);
+	if([self PGconn]==nil) return NO;
+	ConnStatusType theStatus = PQstatus([self PGconn]);
 	if(theStatus==CONNECTION_OK) return YES;
 	return NO;
 }
 
 -(void)disconnect {
-	if([self connection]==nil) return;
-	PQfinish([self connection]);
+	if([self PGconn]==nil) return;
+	PQfinish([self PGconn]);
 	m_theConnection = nil;
 	[self setParameters:nil];
 	[self setTypes:nil];
@@ -113,7 +113,7 @@ NSString* FLXPostgresParameterStandardConformingStrings = @"standard_conforming_
 }
 
 -(void)connectWithPassword:(NSString* )thePassword {
-	if([self connection] != nil) {
+	if([self PGconn] != nil) {
 		[FLXPostgresException raise:FLXPostgresConnectionErrorDomain reason:@"Connection is already made"];    
 	}
 
@@ -183,15 +183,15 @@ NSString* FLXPostgresParameterStandardConformingStrings = @"standard_conforming_
 	}
 	// set types and parameters
 	[self setParameters:theDictionary];
-	[self setTypes:[[[FLXPostgresTypes alloc] initWithParameters:theDictionary] autorelease]];
+	[self setTypes:[[[FLXPostgresTypes alloc] initWithConnection:self] autorelease]];
 }
 
 -(void)reset {
-	if([self connection]==nil) {
+	if([self PGconn]==nil) {
 		[FLXPostgresException raise:FLXPostgresConnectionErrorDomain reason:@"Connection cannot be reset"];    
 	}	
 	// perform the reset
-	PQreset([self connection]);	
+	PQreset([self PGconn]);	
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -199,7 +199,7 @@ NSString* FLXPostgresParameterStandardConformingStrings = @"standard_conforming_
 
 -(FLXPostgresStatement* )prepare:(NSString* )theQuery {
 	NSParameterAssert(theQuery);
-	if([self connection]==nil) {
+	if([self PGconn]==nil) {
 		[FLXPostgresException raise:FLXPostgresConnectionErrorDomain reason:@"No Connection"];        
 	}
 	return [[[FLXPostgresStatement alloc] initWithStatement:theQuery] autorelease];
@@ -223,7 +223,7 @@ NSString* FLXPostgresParameterStandardConformingStrings = @"standard_conforming_
 	// generate a statement name
 	NSString* theName = [[NSProcessInfo processInfo] globallyUniqueString];
 	// prepare the statement
-	PGresult* theResult = PQprepare([self connection],[theName UTF8String],[theStatement UTF8Statement],nParams,paramTypes);
+	PGresult* theResult = PQprepare([self PGconn],[theName UTF8String],[theStatement UTF8Statement],nParams,paramTypes);
 	if(theResult==nil) {
 		[FLXPostgresException raise:FLXPostgresConnectionErrorDomain connection:self];
 	}
@@ -245,7 +245,7 @@ NSString* FLXPostgresParameterStandardConformingStrings = @"standard_conforming_
 -(FLXPostgresResult* )_execute:(NSObject* )theQuery values:(NSArray* )theValues {
 	NSParameterAssert(theQuery);
 	NSParameterAssert([theQuery isKindOfClass:[NSString class]] || [theQuery isKindOfClass:[FLXPostgresStatement class]]);
-	if([self connection]==nil) {
+	if([self PGconn]==nil) {
 		[FLXPostgresException raise:FLXPostgresConnectionErrorDomain reason:@"No Connection"];        
 		return nil;
 	}
@@ -331,7 +331,7 @@ NSString* FLXPostgresParameterStandardConformingStrings = @"standard_conforming_
 	PGresult* theResult = nil;
 	if([theQuery isKindOfClass:[NSString class]]) {
 		NSString* theStatement = (NSString* )theQuery;
-		theResult = PQexecParams([self connection],[theStatement UTF8String],nParams,paramTypes,(const char** )paramValues,(const int* )paramLengths,(const int* )paramFormats,1);
+		theResult = PQexecParams([self PGconn],[theStatement UTF8String],nParams,paramTypes,(const char** )paramValues,(const int* )paramLengths,(const int* )paramFormats,1);
 	} else if([theQuery isKindOfClass:[FLXPostgresStatement class]]) {
 		FLXPostgresStatement* theStatement = (FLXPostgresStatement* )theQuery;
 		if([theStatement name]==nil) {
@@ -339,7 +339,7 @@ NSString* FLXPostgresParameterStandardConformingStrings = @"standard_conforming_
 			[self _prepare:theStatement num:nParams types:paramTypes];
 			NSParameterAssert([theStatement name]);
 		}
-		theResult = PQexecPrepared([self connection],[theStatement UTF8Name],nParams,(const char** )paramValues,(const int* )paramLengths,(const int* )paramFormats,1);		
+		theResult = PQexecPrepared([self PGconn],[theStatement UTF8Name],nParams,(const char** )paramValues,(const int* )paramLengths,(const int* )paramFormats,1);		
 	} else {
 		NSParameterAssert(NO);
 	}
@@ -352,7 +352,7 @@ NSString* FLXPostgresParameterStandardConformingStrings = @"standard_conforming_
 	
 	// check returned result
 	if(theResult==nil) {
-		[FLXPostgresException raise:FLXPostgresConnectionErrorDomain connection:[self connection]];
+		[FLXPostgresException raise:FLXPostgresConnectionErrorDomain connection:[self PGconn]];
 	}
 	if(PQresultStatus(theResult)==PGRES_BAD_RESPONSE || PQresultStatus(theResult)==PGRES_FATAL_ERROR) {
 		NSString* theMessage = [NSString stringWithUTF8String:PQresultErrorMessage(theResult)];
@@ -404,9 +404,9 @@ NSString* FLXPostgresParameterStandardConformingStrings = @"standard_conforming_
 
 -(NSString* )_quoteData:(NSData* )theData {
 	size_t theLength = 0;
-	unsigned char* theBuffer = PQescapeByteaConn([self connection],[theData bytes],[theData length],&theLength);
+	unsigned char* theBuffer = PQescapeByteaConn([self PGconn],[theData bytes],[theData length],&theLength);
 	if(theBuffer==nil) {
-		[FLXPostgresException raise:FLXPostgresConnectionErrorDomain connection:[self connection]];      
+		[FLXPostgresException raise:FLXPostgresConnectionErrorDomain connection:[self PGconn]];      
 	}
 	NSMutableString* theNewString = [[NSMutableString alloc] initWithBytesNoCopy:theBuffer length:(theLength-1) encoding:NSUTF8StringEncoding freeWhenDone:YES];
 	// add quotes

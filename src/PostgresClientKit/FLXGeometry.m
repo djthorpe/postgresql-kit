@@ -6,7 +6,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
--(id)initWithType:(FLXGeometryType)theType points:(const FLXGeometryPoint* )thePoints size:(NSUInteger)theSize radius:(Float64)theRadius {
+-(id)initWithType:(FLXGeometryType)theType points:(const FLXGeometryPt* )thePoints size:(NSUInteger)theSize radius:(Float64)theRadius {
 	NSParameterAssert(theSize > 0);
 	NSParameterAssert(thePoints);
 	self = [super init];
@@ -14,9 +14,9 @@
 		type = theType;
 		radius = theRadius;
 		size = theSize;
-		data = [[NSMutableData alloc] initWithCapacity:(sizeof(FLXGeometryPoint) * size)];
+		data = [[NSMutableData alloc] initWithCapacity:(sizeof(FLXGeometryPt) * size)];
 		NSParameterAssert(data);
-		memcpy([(NSMutableData* )data mutableBytes],thePoints,sizeof(FLXGeometryPoint) * size);
+		memcpy([(NSMutableData* )data mutableBytes],thePoints,sizeof(FLXGeometryPt) * size);
 	}
 	return self;
 }
@@ -35,20 +35,20 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-+(FLXGeometry* )pointWithOrigin:(FLXGeometryPoint)thePoint {
++(FLXGeometry* )pointWithOrigin:(FLXGeometryPt)thePoint {
 	return [[[FLXGeometry alloc] initWithType:FLXGeometryTypePoint points:&thePoint size:1 radius:0.0] autorelease];	
 }
 
-+(FLXGeometry* )circleWithCentre:(FLXGeometryPoint)thePoint radius:(Float64)theRadius {
++(FLXGeometry* )circleWithCentre:(FLXGeometryPt)thePoint radius:(Float64)theRadius {
 	return [[[FLXGeometry alloc] initWithType:FLXGeometryTypeCircle points:&thePoint size:1 radius:theRadius] autorelease];	
 }
 
-+(FLXGeometry* )lineWithOrigin:(FLXGeometryPoint)theOrigin destination:(FLXGeometryPoint)theDestination {
-	FLXGeometryPoint thePoints[2] = { theOrigin, theDestination };
++(FLXGeometry* )lineWithOrigin:(FLXGeometryPt)theOrigin destination:(FLXGeometryPt)theDestination {
+	FLXGeometryPt thePoints[2] = { theOrigin, theDestination };
 	return [[[FLXGeometry alloc] initWithType:FLXGeometryTypeLine points:thePoints size:2 radius:0.0] autorelease];	
 }
 
-+(FLXGeometry* )boxWithPoint:(FLXGeometryPoint)theOrigin point:(FLXGeometryPoint)theDestination {
++(FLXGeometry* )boxWithPoint:(FLXGeometryPt)theOrigin point:(FLXGeometryPt)theDestination {
 	// for boxes, the origin is always top right, and the destination is bottom left
 	// swap x values
 	if(theOrigin.x < theDestination.x) {
@@ -63,7 +63,7 @@
 		theDestination.y = swap;
 	}
 	// make points
-	FLXGeometryPoint thePoints[2] = { theOrigin, theDestination };
+	FLXGeometryPt thePoints[2] = { theOrigin, theDestination };
 	return [[[FLXGeometry alloc] initWithType:FLXGeometryTypeBox points:thePoints size:2 radius:0.0] autorelease];	
 }
 
@@ -75,17 +75,17 @@
 	return type;
 }
 
--(FLXGeometryPoint)pointAtIndex:(NSUInteger)theIndex {
+-(FLXGeometryPt)pointAtIndex:(NSUInteger)theIndex {
 	NSParameterAssert(theIndex < size);
-	FLXGeometryPoint* thePoints = (FLXGeometryPoint* )[data bytes];
+	FLXGeometryPt* thePoints = (FLXGeometryPt* )[data bytes];
 	return thePoints[theIndex];
 }
 
--(FLXGeometryPoint)origin {
+-(FLXGeometryPt)origin {
 	return [self pointAtIndex:0];
 }
 
--(FLXGeometryPoint)centre {
+-(FLXGeometryPt)centre {
 	NSParameterAssert(type == FLXGeometryTypeCircle || type == FLXGeometryTypePoint);
 	// TODO: centre point is different for boxes, lines, etc.
 	return [self pointAtIndex:0];
@@ -111,8 +111,8 @@
 		if([anObject radius] != radius) return NO;
 	}
 	for(NSUInteger i = 0; i < size; i++) {
-		FLXGeometryPoint a = [self pointAtIndex:i];
-		FLXGeometryPoint b = [anObject pointAtIndex:i];
+		FLXGeometryPt a = [self pointAtIndex:i];
+		FLXGeometryPt b = [anObject pointAtIndex:i];
 		if(a.x != b.x) return NO;
 		if(a.y != b.y) return NO;
 	}
@@ -141,17 +141,17 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-FLXGeometryPoint FLXMakePoint(Float64 x,Float64 y) {
-	FLXGeometryPoint p;
+FLXGeometryPt FLXMakePoint(Float64 x,Float64 y) {
+	FLXGeometryPt p;
 	p.x = x; p.y = y;
 	return p;
 }
 
-NSString* NSStringFromFLXPoint(FLXGeometryPoint p) {
+NSString* NSStringFromFLXPoint(FLXGeometryPt p) {
 	return [NSString stringWithFormat:@"{ %f,%f }",p.x,p.y];
 }
 
-NSString* NSStringFromFLXPointArray(const FLXGeometryPoint* points,NSUInteger size) {
+NSString* NSStringFromFLXPointArray(const FLXGeometryPt* points,NSUInteger size) {
 	NSMutableString* theString = [NSMutableString string];
 	for(NSUInteger i = 0; i < size; i++) {
 		if(i > 0) {
