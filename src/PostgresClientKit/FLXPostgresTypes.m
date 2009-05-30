@@ -73,12 +73,12 @@
 	NSMutableData* theData = [NSMutableData dataWithCapacity:16];
 	NSParameterAssert(theData);
 	if([self isIntegerTimestamp]) {
-		[theData appendData:[self _boundLongLong:(long long)([theInterval seconds] * USECS_PER_SEC)]];
+		[theData appendData:[self boundDataFromInt64:(long long)([theInterval seconds] * USECS_PER_SEC)]];
 	} else {
-		[theData appendData:[self _boundDouble:[theInterval seconds]]];
+		[theData appendData:[self boundDataFromFloat64:[theInterval seconds]]];
 	}
-	[theData appendData:[self _boundInteger:[theInterval days]]];
-	[theData appendData:[self _boundInteger:[theInterval months]]];
+	[theData appendData:[self boundDataFromInt32:[theInterval days]]];
+	[theData appendData:[self boundDataFromInt32:[theInterval months]]];
 	return theData;
 }
 

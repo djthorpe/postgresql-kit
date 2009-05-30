@@ -8,7 +8,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // integer and unsigned integer
 
--(NSData* )_boundLongLong:(SInt64)theValue {
+-(NSData* )boundDataFromInt64:(SInt64)theValue {
 	NSParameterAssert(sizeof(SInt64)==8);
 #if defined(__ppc__) || defined(__ppc64__)
 	// don't swap
@@ -18,7 +18,7 @@
 	return [NSData dataWithBytes:&theValue length:sizeof(theValue)];
 }
 
--(NSData* )_boundInteger:(SInt32)theValue {
+-(NSData* )boundDataFromInt32:(SInt32)theValue {
 	NSParameterAssert(sizeof(SInt32)==4);
 #if defined(__ppc__) || defined(__ppc64__)
 	// don't swap
@@ -81,7 +81,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // real (floating point numbers)
 
--(Float32)floatFromBytes:(const void* )theBytes {
+-(Float32)float32FromBytes:(const void* )theBytes {
 	NSParameterAssert(theBytes);
 #if defined(__ppc__) || defined(__ppc64__)
 	return *((Float32* )theBytes);
@@ -93,7 +93,7 @@
 #endif		
 }
 
--(Float64)doubleFromBytes:(const void* )theBytes {
+-(Float64)float64FromBytes:(const void* )theBytes {
 	NSParameterAssert(theBytes);
 #if defined(__ppc__) || defined(__ppc64__)
 	return *((Float64* )theBytes);
@@ -105,8 +105,8 @@
 #endif		
 }
 
--(NSData* )_boundFloat:(float)theValue {
-	NSParameterAssert(sizeof(float)==4);
+-(NSData* )boundDataFromFloat32:(Float32)theValue {
+	NSParameterAssert(sizeof(Float32)==4);
 	union { Float32 r; UInt32 i; } u32;
 	u32.r = theValue;
 #if defined(__ppc__) || defined(__ppc64__)
@@ -118,8 +118,8 @@
 	return theData;
 }
 
--(NSData* )_boundDouble:(double)theValue {
-	NSParameterAssert(sizeof(double)==8);
+-(NSData* )boundDataFromFloat64:(Float64)theValue {
+	NSParameterAssert(sizeof(Float64)==8);
 	union { Float64 r; UInt64 i; } u64;
 	u64.r = theValue;
 #if defined(__ppc__) || defined(__ppc64__)
@@ -135,9 +135,9 @@
 	NSParameterAssert(theLength==4 || theLength==8);
 	switch(theLength) {
 		case 4:
-			return [NSNumber numberWithFloat:[self floatFromBytes:theBytes]];
+			return [NSNumber numberWithFloat:[self float32FromBytes:theBytes]];
 		case 8:
-			return [NSNumber numberWithDouble:[self doubleFromBytes:theBytes]];
+			return [NSNumber numberWithDouble:[self float64FromBytes:theBytes]];
 	}
 	return nil;
 }
@@ -174,13 +174,13 @@
 		case 'I': // unsigned integer
 		case 'L': // unsigned long
 			(*theTypeOid) = FLXPostgresTypeInt8;
-			return [self _boundLongLong:[theNumber longLongValue]];
+			return [self boundDataFromInt64:[theNumber longLongValue]];
 		case 'f': // float
 			(*theTypeOid) = FLXPostgresTypeFloat4;
-			return [self _boundFloat:[theNumber floatValue]];
+			return [self boundDataFromFloat32:[theNumber floatValue]];
 		case 'd': // double
 			(*theTypeOid) = FLXPostgresTypeFloat8;
-			return [self _boundDouble:[theNumber doubleValue]];
+			return [self boundDataFromFloat64:[theNumber doubleValue]];
 		default:
 			// we shouldn't get here
 			NSParameterAssert(NO);
@@ -192,7 +192,12 @@
 
 -(NSString* )quotedStringFromNumber:(NSNumber* )theNumber {
 	NSParameterAssert(theNumber);
-	return [theNumber stringValue];
+	const char* type = [theNumber objCType];
+	if(type[0]=='c' || type[0]=='C' || type[0]=='B') {
+		return ([theNumber boolValue] ? @"true" : @"false");
+	} else {
+		return [theNumber stringValue];
+	}
 }
 
 @end
