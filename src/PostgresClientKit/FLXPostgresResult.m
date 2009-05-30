@@ -3,14 +3,16 @@
 #import "PostgresClientKitPrivate.h"
 
 @implementation FLXPostgresResult
+@synthesize types = m_theTypes;
 
 ////////////////////////////////////////////////////////////////////////////////
 // constructors
 
--(id)initWithResult:(PGresult* )theResult {
+-(id)initWithTypes:(FLXPostgresTypes* )theTypes result:(PGresult* )theResult {
 	NSParameterAssert(theResult);
 	self = [super init];
 	if(self) {
+		m_theTypes = [theTypes retain];
 		m_theResult = theResult;
 		m_theNumberOfRows = PQntuples([self result]);
 		m_theAffectedRows = [[NSString stringWithUTF8String:PQcmdTuples([self result])] retain];
@@ -22,6 +24,7 @@
 -(void)dealloc {
 	PQclear(m_theResult);
 	[m_theAffectedRows release];
+	[m_theTypes release];
 	[super dealloc];
 }
 
@@ -70,6 +73,22 @@
 
 -(BOOL)isDataReturned {
 	return PQresultStatus([self result])==PGRES_TUPLES_OK ? YES : NO;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// provate methods
+
+-(NSObject* )_objectForRow:(NSUInteger)theRow column:(NSUInteger)theColumn {
+	// check for null
+	if(PQgetisnull([self result],theRow,theColumn)) {
+		return [NSNull null];
+	}
+	// get bytes, length
+	const void* theBytes = PQgetvalue([self result],theRow,theColumn);
+	NSUInteger theLength = PQgetlength([self result],theRow,theColumn);
+	FLXPostgresOid theType = PQftype([self result],theColumn);
+	// return object
+	return [[self types] objectFromBytes:theBytes length:theLength type:theType];
 }
 
 ////////////////////////////////////////////////////////////////////////////////

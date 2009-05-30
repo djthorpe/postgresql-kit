@@ -2,11 +2,7 @@
 #import "PostgresClientKit.h"
 #import "PostgresClientKitPrivate.h"
 
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-// for intervals and timestamps, make sure we're not using Int64 types
-// but double float types - could be changed later if necessary
-#undef HAVE_INT64_TIMESTAMP
+////////////////////////////////////////////////////////////////////////////////
 
 // number of microseconds per second
 #define USECS_PER_SEC ((double)1000000)
@@ -14,14 +10,40 @@
 // maximum number of dimensions for arrays
 #define ARRAY_MAXDIM   6
 
-////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 
 @implementation FLXPostgresTypes
+@synthesize parameters = m_theParameters;
 
-////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+// constructor
+
+-(id)initWithParameters:(NSDictionary* )theParameters {
+	self = [super init];
+	if (self != nil) {
+		m_theParameters = [theParameters retain];
+	}
+	return self;	
+}
+
+-(void)dealloc {
+	[m_theParameters release];
+	[super dealloc];
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// properties from the server which affect how types are interpreted
+
+-(BOOL)isIntegerTimestamp {
+	NSNumber* propertyValue = [[self parameters] objectForKey:FLXPostgresParameterIntegerDateTimes];
+	NSParameterAssert([propertyValue isKindOfClass:[NSNumber class]]);
+	return [propertyValue boolValue];
+}
+
+////////////////////////////////////////////////////////////////////////////////
 // bound value from object - returns NSNull, NSString or NSData
 
-+(NSData* )_boundFloat:(float)theValue {
+-(NSData* )_boundFloat:(float)theValue {
 	NSParameterAssert(sizeof(float)==4);
 	union { Float32 r; UInt32 i; } u32;
 	u32.r = theValue;
@@ -34,7 +56,7 @@
 	return theData;
 }
 
-+(NSData* )_boundDouble:(double)theValue {
+-(NSData* )_boundDouble:(double)theValue {
 	NSParameterAssert(sizeof(double)==8);
 	union { Float64 r; UInt64 i; } u64;
 	u64.r = theValue;
@@ -47,7 +69,7 @@
 	return theData;
 }
 
-+(NSData* )_boundLongLong:(SInt64)theValue {
+-(NSData* )_boundLongLong:(SInt64)theValue {
 	NSParameterAssert(sizeof(SInt64)==8);
 #if defined(__ppc__) || defined(__ppc64__)
 	// don't swap
@@ -57,7 +79,7 @@
 	return [NSData dataWithBytes:&theValue length:sizeof(theValue)];
 }
 
-+(NSData* )_boundInteger:(SInt32)theValue {
+-(NSData* )_boundInteger:(SInt32)theValue {
 	NSParameterAssert(sizeof(SInt32)==4);
 #if defined(__ppc__) || defined(__ppc64__)
 	// don't swap
@@ -67,7 +89,7 @@
 	return [NSData dataWithBytes:&theValue length:sizeof(theValue)];
 }
 
-+(NSData* )_boundPoint:(FLXGeometryPoint)point {
+-(NSData* )_boundPoint:(FLXGeometryPoint)point {
 	union u { Float64 r; UInt64 i; };
 	struct { union u a; union u b; } theValue;
 	theValue.a.r = point.x;
@@ -82,7 +104,7 @@
 	return [NSData dataWithBytes:&theValue length:sizeof(theValue)];
 }
 
-+(NSObject* )_boundValueFromNumber:(NSNumber* )theNumber type:(FLXPostgresOid* )theTypeOid {
+-(NSObject* )_boundValueFromNumber:(NSNumber* )theNumber type:(FLXPostgresOid* )theTypeOid {
 	const char* type = [theNumber objCType];
 	switch(type[0]) {
 		case 'c':
@@ -119,7 +141,7 @@
 	return nil;
 }
 
-+(NSObject* )_boundValueFromInterval:(FLXTimeInterval* )theInterval type:(FLXPostgresOid* )theTypeOid {
+-(NSObject* )_boundValueFromInterval:(FLXTimeInterval* )theInterval type:(FLXPostgresOid* )theTypeOid {
 	NSParameterAssert(theInterval);
 	(*theTypeOid) = FLXPostgresTypeInterval;	
 	// data = <8 bytes integer or 8 bytes real>
@@ -127,17 +149,17 @@
 	// then 4 bytes month
 	NSMutableData* theData = [NSMutableData dataWithCapacity:16];
 	NSParameterAssert(theData);
-#ifdef HAVE_INT64_TIMESTAMP
-	[theData appendData:[self _boundLongLong:(long long)([theInterval seconds] * USECS_PER_SEC)]];
-#else
-	[theData appendData:[self _boundDouble:[theInterval seconds]]];
-#endif
+	if([self isIntegerTimestamp]) {
+		[theData appendData:[self _boundLongLong:(long long)([theInterval seconds] * USECS_PER_SEC)]];
+	} else {
+		[theData appendData:[self _boundDouble:[theInterval seconds]]];
+	}
 	[theData appendData:[self _boundInteger:[theInterval days]]];
 	[theData appendData:[self _boundInteger:[theInterval months]]];
 	return theData;
 }
 
-+(NSObject* )_boundValueFromGeometry:(FLXGeometry* )theGeometry type:(FLXPostgresOid* )theTypeOid {
+-(NSObject* )_boundValueFromGeometry:(FLXGeometry* )theGeometry type:(FLXPostgresOid* )theTypeOid {
 	NSParameterAssert(theGeometry);
 	NSParameterAssert(theTypeOid);
 	NSMutableData* theData = nil;
@@ -183,9 +205,14 @@
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+// boundValueFromObject converts from an NSObject to something which can be
+// transmitted to the remote postgresql server. Returns NSNull, NSString or NSData
+// and sets type. NSString is transmitted as text, and NSData is
+// transmitted as binary.
 
-+(NSObject* )boundValueFromObject:(NSObject* )theObject type:(FLXPostgresOid* )theType {
+-(NSObject* )boundValueFromObject:(NSObject* )theObject type:(FLXPostgresOid* )theType {
 	NSParameterAssert(theObject);
+	NSParameterAssert(theType);
 	// NSNull
 	if([theObject isKindOfClass:[NSNull class]]) {
 		return theObject;
@@ -212,84 +239,14 @@
 	if([theObject isKindOfClass:[FLXGeometry class]]) {
 		return [self _boundValueFromGeometry:(FLXGeometry* )theObject type:theType];
 	}
-	
 	// TODO: we don't support other types yet
 	return nil;	
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
-// object from data
-
-+(NSObject* )objectFromBytes:(const void* )theBytes length:(NSUInteger)theLength type:(FLXPostgresOid)theType {
-	switch(theType) {
-		case FLXPostgresTypeChar:
-		case FLXPostgresTypeName:
-		case FLXPostgresTypeText:
-		case FLXPostgresTypeVarchar:
-		case FLXPostgresTypeUnknown:
-			return [self stringFromBytes:theBytes length:theLength];			
-		case FLXPostgresTypeInt8:
-		case FLXPostgresTypeInt2:
-		case FLXPostgresTypeInt4:
-			return [self integerFromBytes:theBytes length:theLength];
-		case FLXPostgresTypeOid:
-			return [self unsignedIntegerFromBytes:theBytes length:theLength];			
-		case FLXPostgresTypeFloat4:
-		case FLXPostgresTypeFloat8:
-			return [self realFromBytes:theBytes length:theLength];
-		case FLXPostgresTypeBool:
-			return [self booleanFromBytes:theBytes length:theLength];
-		case FLXPostgresTypeAbsTime:
-			return [self abstimeFromBytes:theBytes length:theLength];
-		case FLXPostgresTypeDate:
-			return [self dateFromBytes:theBytes length:theLength];				
-		case FLXPostgresTypeTimestamp:
-			return [self timestampFromBytes:theBytes length:theLength];	
-		case FLXPostgresTypeInterval:
-			return [self intervalFromBytes:theBytes length:theLength];
-		case FLXPostgresTypeMacAddr:
-			return [self macaddrFromBytes:theBytes length:theLength];
-		case FLXPostgresTypePoint:
-			return [self pointFromBytes:theBytes length:theLength];
-		case FLXPostgresTypeLSeg:
-			return [self lineFromBytes:theBytes length:theLength];
-		case FLXPostgresTypeBox:
-			return [self boxFromBytes:theBytes length:theLength];
-		case FLXPostgresTypePath:
-			return [self pathFromBytes:theBytes length:theLength];
-		case FLXPostgresTypePolygon:
-			return [self polygonFromBytes:theBytes length:theLength];
-		case FLXPostgresTypeCircle:
-			return [self circleFromBytes:theBytes length:theLength];
-		case FLXPostgresTypeArrayInt4:
-			return [self arrayFromBytes:theBytes length:theLength type:FLXPostgresTypeInt4];	
-		case FLXPostgresTypeArrayText:
-			return [self arrayFromBytes:theBytes length:theLength type:FLXPostgresTypeText];	
-		case FLXPostgresTypeData:
-			return [self dataFromBytes:theBytes length:theLength];
-		default:
-			NSLog(@"Unknown type, %d, returning data",theType);
-			return [self dataFromBytes:theBytes length:theLength];
-	}
-}
-
-+(NSObject* )objectForResult:(PGresult* )theResult row:(NSUInteger)theRow column:(NSUInteger)theColumn {
-	// check for null
-	if(PQgetisnull(theResult,theRow,theColumn)) {
-		return [NSNull null];
-	}
-	// get bytes, length
-	const void* theBytes = PQgetvalue(theResult,theRow,theColumn);
-	NSUInteger theLength = PQgetlength(theResult,theRow,theColumn);
-	FLXPostgresOid theType = PQftype(theResult,theColumn);
-	// return object
-	return [self objectFromBytes:theBytes length:theLength type:theType];
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////
 // string
 
-+(NSString* )stringFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
+-(NSString* )stringFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
 	// note that the string is always terminated with NULL so we don't need the length field
 	return [NSString stringWithUTF8String:theBytes];
 }
@@ -297,7 +254,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // integer and unsigned integer
 
-+(NSNumber* )integerFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
+-(NSNumber* )integerFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
 	NSParameterAssert(theBytes);
 	NSParameterAssert(theLength==2 || theLength==4 || theLength==8);
 #if defined(__ppc__) || defined(__ppc64__)
@@ -323,7 +280,7 @@
 }
 
 
-+(NSNumber* )unsignedIntegerFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
+-(NSNumber* )unsignedIntegerFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
 	NSParameterAssert(theBytes);
 	NSParameterAssert(theLength==2 || theLength==4 || theLength==8);
 #if defined(__ppc__) || defined(__ppc64__)
@@ -351,7 +308,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // real (floating point numbers)
 
-+(Float32)floatFromBytes:(const void* )theBytes {
+-(Float32)floatFromBytes:(const void* )theBytes {
 	NSParameterAssert(theBytes);
 #if defined(__ppc__) || defined(__ppc64__)
 	return *((Float32* )theBytes);
@@ -363,7 +320,7 @@
 #endif		
 }
 
-+(Float64)doubleFromBytes:(const void* )theBytes {
+-(Float64)doubleFromBytes:(const void* )theBytes {
 	NSParameterAssert(theBytes);
 #if defined(__ppc__) || defined(__ppc64__)
 	return *((Float64* )theBytes);
@@ -375,7 +332,7 @@
 #endif		
 }
 
-+(NSNumber* )realFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
+-(NSNumber* )realFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
 	NSParameterAssert(theLength==4 || theLength==8);
 	switch(theLength) {
 	case 4:
@@ -389,7 +346,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // boolean
 
-+(NSNumber* )booleanFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
+-(NSNumber* )booleanFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
 	NSParameterAssert(theBytes);
 	NSParameterAssert(theLength==1);
 	return [NSNumber numberWithBool:(*((const int8_t* )theBytes) ? YES : NO)];	
@@ -398,7 +355,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // data (bytea)
 
-+(NSData* )dataFromBytes:(const void* )theBytes length:(NSUInteger)theLength {	
+-(NSData* )dataFromBytes:(const void* )theBytes length:(NSUInteger)theLength {	
 	NSParameterAssert(theBytes);
 	return [NSData dataWithBytes:theBytes length:theLength];	
 }
@@ -406,7 +363,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // abstime
 
-+(NSDate* )abstimeFromBytes:(const void* )theBytes length:(NSUInteger)theLength {	
+-(NSDate* )abstimeFromBytes:(const void* )theBytes length:(NSUInteger)theLength {	
 	NSParameterAssert(theBytes);
 	NSParameterAssert(theLength==4);
 	// convert bytes into integer
@@ -417,7 +374,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // date
 
-+(NSDate* )dateFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
+-(NSDate* )dateFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
 	NSParameterAssert(theBytes);
 	NSParameterAssert(theLength==4);
 	// this is number of days since 1st January 2000
@@ -431,24 +388,24 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // timestamp
 
-+(NSDate* )timestampFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
+-(NSDate* )timestampFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
 	NSParameterAssert(theBytes);
 	NSParameterAssert(theLength==8);
 	NSCalendarDate* theEpoch = [NSCalendarDate dateWithYear:2000 month:1 day:1 hour:0 minute:0 second:0 timeZone:nil];
-#ifdef HAVE_INT64_TIMESTAMP	
-	// this is number of microseconds since 1st January 2000
-	NSNumber* theMicroseconds = [self integerFromBytes:theBytes length:theLength];	
-	return [theEpoch addTimeInterval:([theMicroseconds doubleValue] / (double)USECS_PER_SEC)];
-#else
-	double theSeconds = [self doubleFromBytes:theBytes];	
-	return [theEpoch addTimeInterval:theSeconds];
-#endif	
+	if([self isIntegerTimestamp]) {
+		// this is number of microseconds since 1st January 2000
+		NSNumber* theMicroseconds = [self integerFromBytes:theBytes length:theLength];	
+		return [theEpoch addTimeInterval:([theMicroseconds doubleValue] / (double)USECS_PER_SEC)];
+	} else {
+		double theSeconds = [self doubleFromBytes:theBytes];	
+		return [theEpoch addTimeInterval:theSeconds];
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // mac addr
 
-+(FLXMacAddr* )macaddrFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
+-(FLXMacAddr* )macaddrFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
 	NSParameterAssert(theBytes);
 	NSParameterAssert(theLength==6);
 	return [FLXMacAddr macAddrWithData:[NSData dataWithBytes:theBytes length:theLength]];
@@ -457,7 +414,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // geometry
 
-+(FLXGeometry* )pointFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
+-(FLXGeometry* )pointFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
 	NSParameterAssert(theBytes);
 	NSParameterAssert(theLength==16);
 	const Float64* theFloats = theBytes;
@@ -466,7 +423,7 @@
 	return [FLXGeometry pointWithOrigin:FLXMakePoint(x,y)];
 }
 
-+(FLXGeometry* )lineFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
+-(FLXGeometry* )lineFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
 	NSParameterAssert(theBytes);
 	NSParameterAssert(theLength==32);
 	const Float64* theFloats = theBytes;
@@ -475,7 +432,7 @@
 	return [FLXGeometry lineWithOrigin:p1 destination:p2];
 }
 
-+(FLXGeometry* )boxFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
+-(FLXGeometry* )boxFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
 	NSParameterAssert(theBytes);
 	NSParameterAssert(theLength==32);
 	const Float64* theFloats = theBytes;
@@ -484,7 +441,7 @@
 	return [FLXGeometry boxWithPoint:p1 point:p2];
 }
 
-+(FLXGeometry* )circleFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
+-(FLXGeometry* )circleFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
 	NSParameterAssert(theBytes);
 	NSParameterAssert(theLength==24);
 	const Float64* theFloats = theBytes;
@@ -493,12 +450,12 @@
 	return [FLXGeometry circleWithCentre:centre radius:radius];
 }
 
-+(FLXGeometry* )pathFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
+-(FLXGeometry* )pathFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
 	// TODO
 	return nil;
 }
 
-+(FLXGeometry* )polygonFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
+-(FLXGeometry* )polygonFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
 	// TODO
 	return nil;
 }
@@ -506,17 +463,18 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // time interval
 
-+(FLXTimeInterval* )intervalFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
+-(FLXTimeInterval* )intervalFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
 	NSParameterAssert(theBytes);
 	NSParameterAssert(theLength==16);
-#ifdef HAVE_INT64_TIMESTAMP
-	// int64 interval
-	// TODO: I doubt number is seconds, propably microseconds, so need to adjust
-	NSNumber* interval = [self integerFromBytes:theBytes length:8];
-#else
-	// float8 interval 
-	NSNumber* interval = [self realFromBytes:theBytes length:8];
-#endif
+	NSNumber* interval= nil;
+	if([self isIntegerTimestamp]) {
+		// int64 interval
+		// TODO: I doubt number is seconds, propably microseconds, so need to adjust
+		interval = [self integerFromBytes:theBytes length:8];
+	} else {
+		// float8 interval 
+		interval = [self realFromBytes:theBytes length:8];
+	}
 	const UInt32* thePtr = theBytes;
 	NSNumber* day = [self integerFromBytes:(thePtr + 2) length:4];
 	NSNumber* month = [self integerFromBytes:(thePtr + 3) length:4];
@@ -526,7 +484,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // arrays
 
-+(NSArray* )arrayFromBytes:(const void* )theBytes length:(NSUInteger)theLength type:(FLXPostgresOid)theType {
+-(NSArray* )arrayFromBytes:(const void* )theBytes length:(NSUInteger)theLength type:(FLXPostgresOid)theType {
 	NSParameterAssert(theBytes);
 	// use 4 byte alignment
 	const UInt32* thePtr = theBytes;
@@ -584,6 +542,64 @@
 	}
 	
 	return [theArray array];
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// returns the NSObject from a data buffer, which is received from the
+// postgresql server if the type is not recognized, then NSData object is
+// returned instead.
+
+-(NSObject* )objectFromBytes:(const void* )theBytes length:(NSUInteger)theLength type:(FLXPostgresOid)theType {
+	switch(theType) {
+		case FLXPostgresTypeChar:
+		case FLXPostgresTypeName:
+		case FLXPostgresTypeText:
+		case FLXPostgresTypeVarchar:
+		case FLXPostgresTypeUnknown:
+			return [self stringFromBytes:theBytes length:theLength];			
+		case FLXPostgresTypeInt8:
+		case FLXPostgresTypeInt2:
+		case FLXPostgresTypeInt4:
+			return [self integerFromBytes:theBytes length:theLength];
+		case FLXPostgresTypeOid:
+			return [self unsignedIntegerFromBytes:theBytes length:theLength];			
+		case FLXPostgresTypeFloat4:
+		case FLXPostgresTypeFloat8:
+			return [self realFromBytes:theBytes length:theLength];
+		case FLXPostgresTypeBool:
+			return [self booleanFromBytes:theBytes length:theLength];
+		case FLXPostgresTypeAbsTime:
+			return [self abstimeFromBytes:theBytes length:theLength];
+		case FLXPostgresTypeDate:
+			return [self dateFromBytes:theBytes length:theLength];				
+		case FLXPostgresTypeTimestamp:
+			return [self timestampFromBytes:theBytes length:theLength];	
+		case FLXPostgresTypeInterval:
+			return [self intervalFromBytes:theBytes length:theLength];
+		case FLXPostgresTypeMacAddr:
+			return [self macaddrFromBytes:theBytes length:theLength];
+		case FLXPostgresTypePoint:
+			return [self pointFromBytes:theBytes length:theLength];
+		case FLXPostgresTypeLSeg:
+			return [self lineFromBytes:theBytes length:theLength];
+		case FLXPostgresTypeBox:
+			return [self boxFromBytes:theBytes length:theLength];
+		case FLXPostgresTypePath:
+			return [self pathFromBytes:theBytes length:theLength];
+		case FLXPostgresTypePolygon:
+			return [self polygonFromBytes:theBytes length:theLength];
+		case FLXPostgresTypeCircle:
+			return [self circleFromBytes:theBytes length:theLength];
+		case FLXPostgresTypeArrayInt4:
+			return [self arrayFromBytes:theBytes length:theLength type:FLXPostgresTypeInt4];	
+		case FLXPostgresTypeArrayText:
+			return [self arrayFromBytes:theBytes length:theLength type:FLXPostgresTypeText];	
+		case FLXPostgresTypeData:
+			return [self dataFromBytes:theBytes length:theLength];
+		default:
+			NSLog(@"Unknown type, %d, returning data",theType);
+			return [self dataFromBytes:theBytes length:theLength];
+	}
 }
 
 @end

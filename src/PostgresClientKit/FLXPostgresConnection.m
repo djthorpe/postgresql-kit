@@ -35,6 +35,7 @@ NSString* FLXPostgresParameterStandardConformingStrings = @"standard_conforming_
 @synthesize host = m_theHost;
 @synthesize user = m_theUser;
 @synthesize database = m_theDatabase;
+@synthesize types = m_theTypes;
 
 ////////////////////////////////////////////////////////////////////////////////
 // constructors
@@ -43,6 +44,7 @@ NSString* FLXPostgresParameterStandardConformingStrings = @"standard_conforming_
 	self = [super init];
 	if (self != nil) {
 		m_theConnection = nil;
+		m_theTypes = [[FLXPostgresTypes alloc] initWithConnection:self];
 	}
 	return self;
 }
@@ -53,6 +55,7 @@ NSString* FLXPostgresParameterStandardConformingStrings = @"standard_conforming_
 	[m_theUser release];
 	[m_theDatabase release];
 	[m_theParameters release];
+	[m_theTypes release];
 	[super dealloc];
 }
 
@@ -345,7 +348,7 @@ NSString* FLXPostgresParameterStandardConformingStrings = @"standard_conforming_
 	}
 	
 	// return a result object
-	return [[[FLXPostgresResult alloc] initWithResult:theResult] autorelease];
+	return [[[FLXPostgresResult alloc] initWithTypes:[self type] result:theResult] autorelease];
 }
 
 -(FLXPostgresResult* )execute:(NSString* )theQuery {

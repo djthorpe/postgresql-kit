@@ -27,6 +27,18 @@
 @class FLXPostgresArray;
 @class FLXGeometry;
 
+// server properties
+extern NSString* FLXPostgresParameterServerVersion;
+extern NSString* FLXPostgresParameterServerEncoding;
+extern NSString* FLXPostgresParameterClientEncoding;
+extern NSString* FLXPostgresParameterSuperUser;
+extern NSString* FLXPostgresParameterSessionAuthorization;
+extern NSString* FLXPostgresParameterDateStyle;
+extern NSString* FLXPostgresParameterTimeZone;
+extern NSString* FLXPostgresParameterIntegerDateTimes;
+extern NSString* FLXPostgresParameterStandardConformingStrings;
+
+
 #import "FLXPostgresTypes.h"
 #import "FLXPostgresConnection.h"
 #import "FLXPostgresConnection+Utils.h"

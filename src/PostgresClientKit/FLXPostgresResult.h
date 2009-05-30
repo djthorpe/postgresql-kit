@@ -6,7 +6,10 @@
   NSString* m_theAffectedRows;
   NSUInteger m_theNumberOfRows;
   NSUInteger m_theRow;
+  FLXPostgresTypes* m_theTypes;
 }
+
+@property (readonly,retain) FLXPostgresTypes* types;
 
 // properties
 -(BOOL)isDataReturned;

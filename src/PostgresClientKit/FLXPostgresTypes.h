@@ -58,7 +58,9 @@ typedef enum {
 } FLXPostgresType;
 
 @interface FLXPostgresTypes : NSObject {
-
+	NSDictionary* m_theParameters;
 }
+
+@property (readonly,retain) NSDictionary* parameters;
 
 @end
