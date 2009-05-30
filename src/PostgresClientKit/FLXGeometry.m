@@ -153,16 +153,18 @@ FLXGeometryPt FLXMakePoint(Float64 x,Float64 y) {
 }
 
 NSString* NSStringFromFLXPoint(FLXGeometryPt p) {
-	return [NSString stringWithFormat:@"{ %f,%f }",p.x,p.y];
+	return [NSString stringWithFormat:@"( %f,%f )",p.x,p.y];
 }
 
 NSString* NSStringFromFLXPointArray(const FLXGeometryPt* points,NSUInteger size) {
 	NSMutableString* theString = [NSMutableString string];
+	[theString appendString:@"( "];
 	for(NSUInteger i = 0; i < size; i++) {
 		if(i > 0) {
 			[theString appendString:@","];
 		}
 		[theString appendString:NSStringFromFLXPoint(points[i])];
 	}
+	[theString appendString:@" )"];
 	return theString;
 }
