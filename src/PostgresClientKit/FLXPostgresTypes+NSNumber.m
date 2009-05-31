@@ -178,10 +178,15 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // boolean
 
+-(BOOL)booleanFromBytes:(const void* )theBytes {
+	NSParameterAssert(theBytes);
+	return (*((const int8_t* )theBytes) ? YES : NO);
+}
+
 -(NSNumber* )booleanObjectFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
 	NSParameterAssert(theBytes);
 	NSParameterAssert(theLength==1);
-	return [NSNumber numberWithBool:(*((const int8_t* )theBytes) ? YES : NO)];	
+	return [NSNumber numberWithBool:[self booleanFromBytes:theBytes];	
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

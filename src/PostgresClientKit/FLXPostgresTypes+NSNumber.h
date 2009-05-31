@@ -11,6 +11,7 @@
 -(UInt16)unsignedInt16FromBytes:(const void* )theBytes;
 -(UInt32)unsignedInt32FromBytes:(const void* )theBytes;
 -(UInt64)unsignedInt64FromBytes:(const void* )theBytes;
+-(BOOL)booleanFromBytes:(const void* )theBytes;
 
 -(NSData* )boundDataFromFloat32:(Float32)theValue;
 -(NSData* )boundDataFromFloat64:(Float64)theValue;

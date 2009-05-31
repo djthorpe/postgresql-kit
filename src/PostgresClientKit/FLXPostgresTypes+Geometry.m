@@ -38,6 +38,22 @@
 	return theData;
 }
 
+
+-(NSObject* )boundValueFromPath:(FLXGeometry* )theGeometry type:(FLXPostgresOid* )theType {
+	NSParameterAssert(theGeometry);
+	NSParameterAssert([theGeometry type]==FLXGeometryTypePath);
+	NSParameterAssert(theType);
+	(*theType) = FLXPostgresTypePath;
+	NSMutableData* theData = [NSMutableData dataWithCapacity:((sizeof(Float32) * [theGeometry count]) + sizeof(SInt64))];
+	NSParameterAssert(theData);
+	[theData appendData:[self boundDataFromInt32:[theGeometry count]]];
+	for(NSUInteger i = 0; i < [theGeometry count]; i++) {
+		[theData appendData:[self boundDataFromPoint:[theGeometry pointAtIndex:i]]];
+	}
+	return theData;
+}
+
+
 -(NSObject* )boundValueFromGeometry:(FLXGeometry* )theGeometry type:(FLXPostgresOid* )theTypeOid {
 	NSParameterAssert(theGeometry);
 	NSParameterAssert(theTypeOid);
@@ -77,6 +93,9 @@
 
 		case FLXGeometryTypePolygon:
 			return [self boundValueFromPolygon:theGeometry type:theTypeOid];
+
+		case FLXGeometryTypePath:
+			return [self boundValueFromPath:theGeometry type:theTypeOid];
 			
 		default:
 			// should never get here
