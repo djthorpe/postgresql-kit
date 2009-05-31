@@ -89,21 +89,24 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // convert to geometry object from bytes
 
+-(FLXGeometryPt)pointFromBytes:(const void* )theBytes {
+	NSParameterAssert(theBytes);
+	const Float64* theFloats = theBytes;
+	return FLXMakePoint([self float64FromBytes:theFloats],[self float64FromBytes:(theFloats+1)]);	
+}
+
 -(FLXGeometry* )pointFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
 	NSParameterAssert(theBytes);
 	NSParameterAssert(theLength==16);
-	const Float64* theFloats = theBytes;
-	double x = [self float64FromBytes:theFloats];
-	double y = [self float64FromBytes:(theFloats+1)];
-	return [FLXGeometry pointWithOrigin:FLXMakePoint(x,y)];
+	return [FLXGeometry pointWithOrigin:[self pointFromBytes:theBytes]];
 }
 
 -(FLXGeometry* )lineFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
 	NSParameterAssert(theBytes);
 	NSParameterAssert(theLength==32);
 	const Float64* theFloats = theBytes;
-	FLXGeometryPt p1 = FLXMakePoint([self float64FromBytes:theFloats], [self float64FromBytes:(theFloats+1)]);
-	FLXGeometryPt p2 = FLXMakePoint([self float64FromBytes:(theFloats+2)], [self float64FromBytes:(theFloats+3)]);
+	FLXGeometryPt p1 = [self pointFromBytes:theFloats];
+	FLXGeometryPt p2 = [self pointFromBytes:(theFloats+2)];
 	return [FLXGeometry lineWithOrigin:p1 destination:p2];
 }
 
@@ -111,8 +114,8 @@
 	NSParameterAssert(theBytes);
 	NSParameterAssert(theLength==32);
 	const Float64* theFloats = theBytes;
-	FLXGeometryPt p1 = FLXMakePoint([self float64FromBytes:theFloats], [self float64FromBytes:(theFloats+1)]);
-	FLXGeometryPt p2 = FLXMakePoint([self float64FromBytes:(theFloats+2)], [self float64FromBytes:(theFloats+3)]);
+	FLXGeometryPt p1 = [self pointFromBytes:theFloats];
+	FLXGeometryPt p2 = [self pointFromBytes:(theFloats+2)];
 	return [FLXGeometry boxWithPoint:p1 point:p2];
 }
 
@@ -120,7 +123,7 @@
 	NSParameterAssert(theBytes);
 	NSParameterAssert(theLength==24);
 	const Float64* theFloats = theBytes;
-	FLXGeometryPt centre = FLXMakePoint([self float64FromBytes:theFloats], [self float64FromBytes:(theFloats+1)]);
+	FLXGeometryPt centre = [self pointFromBytes:theFloats];
 	Float64 radius = [self float64FromBytes:(theFloats+2)];
 	return [FLXGeometry circleWithCentre:centre radius:radius];
 }
@@ -130,11 +133,28 @@
 	NSParameterAssert(theLength >= 4);
 	const SInt32* theBytes2 = theBytes;
 	// read the count
-	NSUInteger theCount = [self int32FromBytes:theBytes];
+	NSUInteger theCount = [self int32FromBytes:theBytes];	
 	// ensure data length is correct
 	NSParameterAssert(theLength==((theCount * sizeof(FLXGeometryPt)) + sizeof(SInt32)));
-	// read the data
-	return [FLXGeometry polygonWithPoints:(const FLXGeometryPt* )(theBytes2 + 1) count:theCount];
+
+	// read in the points
+	const FLXGeometryPt* thePointsIn = (const FLXGeometryPt* )((const SInt32* )theBytes2 + 1);
+	FLXGeometryPt* thePointsOut = malloc(sizeof(FLXGeometryPt) * theCount);
+	if(thePointsOut==nil) {
+		return nil;
+	}
+	
+	NSParameterAssert(thePointsOut);
+	for(NSUInteger i = 0; i < theCount; i++) {
+		thePointsOut[i] = [self pointFromBytes:(thePointsIn + i)];
+	}
+
+	// create polygon object
+	FLXGeometry* thePolygon = [FLXGeometry polygonWithPoints:thePointsOut count:theCount];
+	// free the temporary data structure
+	free(thePointsOut);
+	// return the polygon
+	return thePolygon;
 }
 
 -(FLXGeometry* )pathFromBytes:(const void* )theBytes length:(NSUInteger)theLength {

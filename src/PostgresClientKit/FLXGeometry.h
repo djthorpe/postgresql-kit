@@ -29,6 +29,7 @@ NSString* NSStringFromFLXPointArray(const FLXGeometryPt* points,NSUInteger size)
 	NSData* data;
 	Float64 radius; // for FLXGeometryTypeCircle
 	NSUInteger size;
+	BOOL closed; // for FLXGeometryTypePath
 }
 
 // constructors
@@ -37,6 +38,7 @@ NSString* NSStringFromFLXPointArray(const FLXGeometryPt* points,NSUInteger size)
 +(FLXGeometry* )lineWithOrigin:(FLXGeometryPt)theOrigin destination:(FLXGeometryPt)theDestination;
 +(FLXGeometry* )boxWithPoint:(FLXGeometryPt)theOrigin point:(FLXGeometryPt)theDestination;
 +(FLXGeometry* )polygonWithPoints:(const FLXGeometryPt* )thePoints count:(NSUInteger)theCount;
++(FLXGeometry* )pathWithPoints:(const FLXGeometryPt* )thePoints count:(NSUInteger)theCount closed:(BOOL)isClosedPath;
 
 // methods
 -(FLXGeometryType)type;
@@ -100,6 +102,8 @@ NSString* NSStringFromFLXPointArray(const FLXGeometryPt* points,NSUInteger size)
 @interface FLXGeometryPath : FLXGeometry {
 	
 }
+
+-(BOOL)closed;
 
 @end
 

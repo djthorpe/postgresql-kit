@@ -304,8 +304,8 @@
 	// how many points?
 	NSUInteger numPoints = [theRow unsignedIntegerValue];
 	
-	// return null if number of points is less than three
-	if(numPoints < 3) {
+	// return null if number of points is less than one
+	if(numPoints < 1) {
 		return [NSNull null];
 	}
 
@@ -328,6 +328,31 @@
 	return thePolygon;
 }
 
+-(NSObject* )pathValueForRow:(NSNumber* )theRow {
+	// how many points?
+	NSUInteger numPoints = [theRow unsignedIntegerValue];
+	
+	// return null if number of points is less than one
+	if(numPoints < 1) {
+		return [NSNull null];
+	}
+	
+	// is closed path?
+	BOOL isClosedPath = (numPoints % 2) ? YES : NO;
+	// create the points
+	FLXGeometryPt* points = malloc(sizeof(FLXGeometryPt) * numPoints);
+	NSParameterAssert(points);
+	for(NSUInteger i = 0; i < numPoints; i++) {
+		points[i] = FLXMakePoint((double)rand(),(double)rand());
+	}
+	// create the path
+	FLXGeometry* thePath = [FLXGeometry pathWithPoints:points count:numPoints closed:isClosedPath];
+	// free points
+	free(points);
+	// return path
+	return thePath;
+}
+
 ////////////////////////////////////////////////////////////////////////////
 
  -(void)doWork { 
@@ -335,8 +360,10 @@
 	 NSString* theTable = @"test";
 	 NSUInteger numberOfRows = 1000;
 	 NSArray* theTypes = [NSArray arrayWithObjects:
-/*	[NSArray arrayWithObjects:@"text",@"NSString",@"stringValueForRow:",nil],						 
-	 [NSArray arrayWithObjects:@"char(80)",@"NSString",@"charValueForRow:",nil],
+	[NSArray arrayWithObjects:@"text",@"NSString",@"stringValueForRow:",nil],						 
+
+						  /*
+						  [NSArray arrayWithObjects:@"char(80)",@"NSString",@"charValueForRow:",nil],
 	 [NSArray arrayWithObjects:@"varchar(80)",@"NSString",@"varcharValueForRow:",nil],
 	 [NSArray arrayWithObjects:@"name",@"NSString",@"nameValueForRow:",nil],
 	 [NSArray arrayWithObjects:@"boolean",@"NSNumber",@"booleanValueForRow:",nil],
@@ -347,18 +374,18 @@
 	 [NSArray arrayWithObjects:@"float4",@"NSNumber",@"floatValueForRow:",nil],
 	 [NSArray arrayWithObjects:@"float8",@"NSNumber",@"doubleValueForRow:",nil],
 	 [NSArray arrayWithObjects:@"oid",@"NSNumber",@"unsignedIntegerValueForRow:",nil],
-     [NSArray arrayWithObjects:@"point",@"FLXGeometry",@"pointValueForRow:",nil],
-	 [NSArray arrayWithObjects:@"lseg",@"FLXGeometry",@"lineValueForRow:",nil],
-	 [NSArray arrayWithObjects:@"box",@"FLXGeometry",@"boxValueForRow:",nil],
-	 [NSArray arrayWithObjects:@"circle",@"FLXGeometry",@"circleValueForRow:",nil], */
-     [NSArray arrayWithObjects:@"polygon",@"FLXGeometry",@"polygonValueForRow:",nil],
+						  */
+     [NSArray arrayWithObjects:@"point",@"FLXGeometryPoint",@"pointValueForRow:",nil],
+	 [NSArray arrayWithObjects:@"lseg",@"FLXGeometryLine",@"lineValueForRow:",nil],
+	 [NSArray arrayWithObjects:@"box",@"FLXGeometryBox",@"boxValueForRow:",nil],
+	 [NSArray arrayWithObjects:@"circle",@"FLXGeometryCircle",@"circleValueForRow:",nil], 
+     [NSArray arrayWithObjects:@"polygon",@"FLXGeometryPolygon",@"polygonValueForRow:",nil],
+     [NSArray arrayWithObjects:@"path",@"FLXGeometryPath",@"pathValueForRow:",nil],
 	 [NSArray arrayWithObjects:@"interval",@"FLXTimeInterval",@"intervalValueForRow:",nil],
 						  nil];
 
 	// connect to database
 	[[self connection] connect];
-	 
-	 NSLog(@"parameters = %@",[[self connection] parameters]);
 	 
 	// iterate through the types
 	for(NSUInteger i = 0; i < [theTypes count]; i++) {
