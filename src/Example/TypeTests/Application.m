@@ -353,6 +353,10 @@
 	return thePath;
 }
 
+-(NSObject* )dateValueForRow:(NSNumber* )theRow {
+	return [NSDate date];
+}
+
 ////////////////////////////////////////////////////////////////////////////
 
  -(void)doWork { 
@@ -361,7 +365,6 @@
 	 NSUInteger numberOfRows = 1000;
 	 NSArray* theTypes = [NSArray arrayWithObjects:
 	[NSArray arrayWithObjects:@"text",@"NSString",@"stringValueForRow:",nil],						 
-
      [NSArray arrayWithObjects:@"char(80)",@"NSString",@"charValueForRow:",nil],
 	 [NSArray arrayWithObjects:@"varchar(80)",@"NSString",@"varcharValueForRow:",nil],
 	 [NSArray arrayWithObjects:@"name",@"NSString",@"nameValueForRow:",nil],
@@ -379,6 +382,7 @@
 	 [NSArray arrayWithObjects:@"circle",@"FLXGeometryCircle",@"circleValueForRow:",nil], 
      [NSArray arrayWithObjects:@"polygon",@"FLXGeometryPolygon",@"polygonValueForRow:",nil],
      [NSArray arrayWithObjects:@"path",@"FLXGeometryPath",@"pathValueForRow:",nil],
+     [NSArray arrayWithObjects:@"timestamp",@"NSDate",@"dateValueForRow:",nil],
 	 [NSArray arrayWithObjects:@"interval",@"FLXTimeInterval",@"intervalValueForRow:",nil],
 						  nil];
 

@@ -10,6 +10,13 @@
 #define USECS_PER_SEC ((double)1000000)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
+// return epoch
+
+-(NSCalendarDate* )_epochDate {
+	return [NSCalendarDate dateWithYear:2000 month:1 day:1 hour:0 minute:0 second:0 timeZone:nil];
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////
 // time interval
 
 -(NSObject* )boundValueFromInterval:(FLXTimeInterval* )theInterval type:(FLXPostgresOid* )theTypeOid {
@@ -67,8 +74,7 @@
 	NSParameterAssert(theLength==4);
 	// this is number of days since 1st January 2000
 	NSNumber* theDays = [self integerObjectFromBytes:theBytes length:theLength];
-	NSCalendarDate* theEpoch = [NSCalendarDate dateWithYear:2000 month:1 day:1 hour:0 minute:0 second:0 timeZone:nil];
-	NSCalendarDate* theDate = [theEpoch dateByAddingYears:0 months:0 days:[theDays integerValue] hours:0 minutes:0 seconds:0];	
+	NSCalendarDate* theDate = [[self _epochDate] dateByAddingYears:0 months:0 days:[theDays integerValue] hours:0 minutes:0 seconds:0];	
 	[theDate setCalendarFormat:@"%Y-%m-%d"];
 	return theDate;
 }
@@ -79,14 +85,13 @@
 -(NSDate* )timestampFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
 	NSParameterAssert(theBytes);
 	NSParameterAssert(theLength==8);
-	NSCalendarDate* theEpoch = [NSCalendarDate dateWithYear:2000 month:1 day:1 hour:0 minute:0 second:0 timeZone:nil];
 	if([self isIntegerTimestamp]) {
 		// this is number of microseconds since 1st January 2000
 		NSNumber* theMicroseconds = [self integerObjectFromBytes:theBytes length:theLength];	
-		return [theEpoch addTimeInterval:([theMicroseconds doubleValue] / (double)USECS_PER_SEC)];
+		return [[self _epochDate] addTimeInterval:([theMicroseconds doubleValue] / (double)USECS_PER_SEC)];
 	} else {
 		double theSeconds = [self float64FromBytes:theBytes];	
-		return [theEpoch addTimeInterval:theSeconds];
+		return [[self _epochDate] addTimeInterval:theSeconds];
 	}
 }
 
