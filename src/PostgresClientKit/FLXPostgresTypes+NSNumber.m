@@ -178,6 +178,10 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // boolean
 
+-(NSData* )boundDataFromBoolean:(BOOL)theValue {
+	return [NSData dataWithBytes:&theValue length:1];
+}
+
 -(BOOL)booleanFromBytes:(const void* )theBytes {
 	NSParameterAssert(theBytes);
 	return (*((const int8_t* )theBytes) ? YES : NO);
@@ -186,7 +190,7 @@
 -(NSNumber* )booleanObjectFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
 	NSParameterAssert(theBytes);
 	NSParameterAssert(theLength==1);
-	return [NSNumber numberWithBool:[self booleanFromBytes:theBytes];	
+	return [NSNumber numberWithBool:[self booleanFromBytes:theBytes]];
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -198,7 +202,7 @@
 		case 'C':
 		case 'B': // boolean
 			(*theTypeOid) = FLXPostgresTypeBool;
-			return [theNumber boolValue] ? @"true" : @"false";
+			return [self boundDataFromBoolean:[theNumber boolValue]];
 		case 'i': // integer
 		case 'l': // long
 		case 'S': // unsigned short

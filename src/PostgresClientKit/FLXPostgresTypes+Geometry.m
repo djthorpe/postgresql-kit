@@ -39,13 +39,14 @@
 }
 
 
--(NSObject* )boundValueFromPath:(FLXGeometry* )theGeometry type:(FLXPostgresOid* )theType {
+-(NSObject* )boundValueFromPath:(FLXGeometryPath* )theGeometry type:(FLXPostgresOid* )theType {
 	NSParameterAssert(theGeometry);
 	NSParameterAssert([theGeometry type]==FLXGeometryTypePath);
 	NSParameterAssert(theType);
 	(*theType) = FLXPostgresTypePath;
-	NSMutableData* theData = [NSMutableData dataWithCapacity:((sizeof(Float32) * [theGeometry count]) + sizeof(SInt64))];
+	NSMutableData* theData = [NSMutableData dataWithCapacity:((sizeof(Float32) * [theGeometry count]) + sizeof(UInt8) + sizeof(SInt64))];
 	NSParameterAssert(theData);
+	[theData appendData:[self boundDataFromBoolean:[theGeometry closed]]];
 	[theData appendData:[self boundDataFromInt32:[theGeometry count]]];
 	for(NSUInteger i = 0; i < [theGeometry count]; i++) {
 		[theData appendData:[self boundDataFromPoint:[theGeometry pointAtIndex:i]]];
@@ -95,7 +96,7 @@
 			return [self boundValueFromPolygon:theGeometry type:theTypeOid];
 
 		case FLXGeometryTypePath:
-			return [self boundValueFromPath:theGeometry type:theTypeOid];
+			return [self boundValueFromPath:(FLXGeometryPath* )theGeometry type:theTypeOid];
 			
 		default:
 			// should never get here
@@ -177,8 +178,33 @@
 }
 
 -(FLXGeometry* )pathFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
-	// TODO
-	NSLog(@"TO BE IMPLEMENTED: pathFromBytes");
-	return nil;
+	NSParameterAssert(theBytes);
+	NSParameterAssert(theLength >= 5);
+	const UInt8* theBytes2 = theBytes;
+	const SInt32* theBytes3 = (const SInt32* )((const UInt8* )theBytes2 + 1);
+	// read the closed path boolean
+	BOOL isClosed = [self booleanFromBytes:theBytes];
+	// read the count
+	NSUInteger theCount = [self int32FromBytes:theBytes3];	
+	// ensure data length is correct
+	NSParameterAssert(theLength==((theCount * sizeof(FLXGeometryPt)) + sizeof(SInt32) + sizeof(UInt8)));
+	// read in the points
+	const FLXGeometryPt* thePointsIn = (const FLXGeometryPt* )((const SInt32* )theBytes3 + 1);
+	FLXGeometryPt* thePointsOut = malloc(sizeof(FLXGeometryPt) * theCount);
+	if(thePointsOut==nil) {
+		return nil;
+	}
+	
+	NSParameterAssert(thePointsOut);
+	for(NSUInteger i = 0; i < theCount; i++) {
+		thePointsOut[i] = [self pointFromBytes:(thePointsIn + i)];
+	}
+	
+	// create polygon object
+	FLXGeometry* thePath = [FLXGeometry pathWithPoints:thePointsOut count:theCount closed:isClosed];
+	// free the temporary data structure
+	free(thePointsOut);
+	// return the polygon
+	return thePath;
 }
 @end

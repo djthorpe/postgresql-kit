@@ -71,7 +71,8 @@
 	if([theObject isKindOfClass:[FLXGeometry class]]) {
 		return [self boundValueFromGeometry:(FLXGeometry* )theObject type:theType];
 	}
-	// TODO: we don't support other types yet
+
+	// Unsupported type: we don't support other types yet
 	return nil;	
 }
 

@@ -17,6 +17,7 @@
 -(NSData* )boundDataFromFloat64:(Float64)theValue;
 -(NSData* )boundDataFromInt32:(SInt32)theValue;
 -(NSData* )boundDataFromInt64:(SInt64)theValue;
+-(NSData* )boundDataFromBoolean:(BOOL)theValue;
 
 -(NSObject* )boundValueFromNumber:(NSNumber* )theNumber type:(FLXPostgresOid* )theType;
 -(NSString* )quotedStringFromNumber:(NSNumber* )theNumber;

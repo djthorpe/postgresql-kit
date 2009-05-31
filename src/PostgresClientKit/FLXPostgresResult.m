@@ -110,7 +110,11 @@
 	NSMutableArray* theRowArray = [NSMutableArray arrayWithCapacity:[self numberOfColumns]];
 	// fill in the columns
 	for(NSUInteger theColumn = 0; theColumn < [self numberOfColumns]; theColumn++) {
-		[theRowArray addObject:[self _objectForRow:m_theRow column:theColumn]];
+		NSObject* theObject = [self _objectForRow:m_theRow column:theColumn];
+		if(theObject==nil) {
+			[FLXPostgresException raise:@"FLXPostgresResultError" reason:[NSString stringWithFormat:@"Unable to retrieve data at resultset row %u, column %u",m_theRow,theColumn]];
+		}
+		[theRowArray addObject:theObject];
 	}
 	// increment to next row
 	m_theRow++;

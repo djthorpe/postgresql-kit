@@ -362,8 +362,7 @@
 	 NSArray* theTypes = [NSArray arrayWithObjects:
 	[NSArray arrayWithObjects:@"text",@"NSString",@"stringValueForRow:",nil],						 
 
-						  /*
-						  [NSArray arrayWithObjects:@"char(80)",@"NSString",@"charValueForRow:",nil],
+     [NSArray arrayWithObjects:@"char(80)",@"NSString",@"charValueForRow:",nil],
 	 [NSArray arrayWithObjects:@"varchar(80)",@"NSString",@"varcharValueForRow:",nil],
 	 [NSArray arrayWithObjects:@"name",@"NSString",@"nameValueForRow:",nil],
 	 [NSArray arrayWithObjects:@"boolean",@"NSNumber",@"booleanValueForRow:",nil],
@@ -374,7 +373,6 @@
 	 [NSArray arrayWithObjects:@"float4",@"NSNumber",@"floatValueForRow:",nil],
 	 [NSArray arrayWithObjects:@"float8",@"NSNumber",@"doubleValueForRow:",nil],
 	 [NSArray arrayWithObjects:@"oid",@"NSNumber",@"unsignedIntegerValueForRow:",nil],
-						  */
      [NSArray arrayWithObjects:@"point",@"FLXGeometryPoint",@"pointValueForRow:",nil],
 	 [NSArray arrayWithObjects:@"lseg",@"FLXGeometryLine",@"lineValueForRow:",nil],
 	 [NSArray arrayWithObjects:@"box",@"FLXGeometryBox",@"boxValueForRow:",nil],

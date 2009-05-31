@@ -110,7 +110,9 @@
 	if([anObject isKindOfClass:[FLXGeometry class]]==NO) return NO;
 	if([(FLXGeometry* )anObject type] != [self type]) return NO;
 	if([anObject count] != size) return NO;
-	if(type==FLXGeometryTypeCircle) {
+	if(type==FLXGeometryTypePath) {
+		if([anObject closed] != closed) return NO;
+	} else if(type==FLXGeometryTypeCircle) {
 		if([anObject radius] != radius) return NO;
 	}
 	for(NSUInteger i = 0; i < size; i++) {
