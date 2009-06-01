@@ -357,6 +357,10 @@
 	return [NSDate date];
 }
 
+-(NSObject* )macaddrValueForRow:(NSNumber* )theRow {
+	return [[[FLXMacAddr alloc] init] autorelease];
+}
+
 ////////////////////////////////////////////////////////////////////////////
 
  -(void)doWork { 
@@ -364,10 +368,14 @@
 	 NSString* theTable = @"test";
 	 NSUInteger numberOfRows = 1000;
 	 NSArray* theTypes = [NSArray arrayWithObjects:
-	[NSArray arrayWithObjects:@"text",@"NSString",@"stringValueForRow:",nil],						 
+						  
+	 // text
+	 [NSArray arrayWithObjects:@"text",@"NSString",@"stringValueForRow:",nil],						 
      [NSArray arrayWithObjects:@"char(80)",@"NSString",@"charValueForRow:",nil],
 	 [NSArray arrayWithObjects:@"varchar(80)",@"NSString",@"varcharValueForRow:",nil],
 	 [NSArray arrayWithObjects:@"name",@"NSString",@"nameValueForRow:",nil],
+						  
+	 // numbers
 	 [NSArray arrayWithObjects:@"boolean",@"NSNumber",@"booleanValueForRow:",nil],
      [NSArray arrayWithObjects:@"bytea",@"NSData",@"dataValueForRow:",nil],
 	 [NSArray arrayWithObjects:@"int2",@"NSNumber",@"shortValueForRow:",nil],
@@ -376,12 +384,19 @@
 	 [NSArray arrayWithObjects:@"float4",@"NSNumber",@"floatValueForRow:",nil],
 	 [NSArray arrayWithObjects:@"float8",@"NSNumber",@"doubleValueForRow:",nil],
 	 [NSArray arrayWithObjects:@"oid",@"NSNumber",@"unsignedIntegerValueForRow:",nil],
+						  
+	 // geometry
      [NSArray arrayWithObjects:@"point",@"FLXGeometryPoint",@"pointValueForRow:",nil],
 	 [NSArray arrayWithObjects:@"lseg",@"FLXGeometryLine",@"lineValueForRow:",nil],
 	 [NSArray arrayWithObjects:@"box",@"FLXGeometryBox",@"boxValueForRow:",nil],
 	 [NSArray arrayWithObjects:@"circle",@"FLXGeometryCircle",@"circleValueForRow:",nil], 
      [NSArray arrayWithObjects:@"polygon",@"FLXGeometryPolygon",@"polygonValueForRow:",nil],
      [NSArray arrayWithObjects:@"path",@"FLXGeometryPath",@"pathValueForRow:",nil],
+						  
+	 // network addresses
+     [NSArray arrayWithObjects:@"macaddr",@"FLXMacAddr",@"macaddrValueForRow:",nil],
+						  
+	 // date and time types
      [NSArray arrayWithObjects:@"timestamp",@"NSDate",@"dateValueForRow:",nil],
 	 [NSArray arrayWithObjects:@"interval",@"FLXTimeInterval",@"intervalValueForRow:",nil],
 						  nil];
