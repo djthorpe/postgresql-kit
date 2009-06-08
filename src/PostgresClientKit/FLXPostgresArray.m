@@ -75,7 +75,7 @@
 	if([self dimensions]==1) {
 		return [NSArray arrayWithArray:[self tuples]];
 	}
-	// TODO - other dimensions
+	// TODO: other dimensions?
 	NSParameterAssert(NO);
 	return [self tuples];
 }

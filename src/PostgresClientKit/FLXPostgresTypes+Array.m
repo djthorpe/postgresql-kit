@@ -9,9 +9,80 @@
 #define ARRAY_MAXDIM   6
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
+
+-(BOOL)_validBoundValueForArray:(NSArray* )theArray hasNull:(BOOL* )hasNull type:(FLXPostgresOid* )theTypePtr {
+	NSParameterAssert(theArray);
+	NSParameterAssert(hasNull);
+	NSParameterAssert(theTypePtr);
+	
+	FLXPostgresOid theType = 0;
+	(*hasNull) = NO; 	// init null flag
+
+	for(NSObject* theObject in theArray) {
+		// we allow NSNull objects regardless
+		if([theObject isKindOfClass:[NSNull class]]) {
+			(*hasNull) = YES;
+			continue;
+		}
+		// we don't allow nested arrays
+		if([theObject isKindOfClass:[NSArray class]]) {
+			return NO;
+		}
+		// set the class
+		if(theType==0) {
+			theType = [self typeForObject:theObject];
+			continue;
+		}
+		// ensure all objects have the same class
+		if([theObject isKindOfClass:theClass]==NO) {
+			return NO;
+		}
+	}	
+	
+	return YES;
+}
+
+-(Int32)_dimensionsForArray:(NSArray* )theArray {
+	NSParameterAssert(theArray);
+	if([theArray count]==0) return 0;
+	return 1;
+}
+
+-(NSObject* )boundValueFromArray:(NSArray* )theArray type:(FLXPostgresOid* )theTypeOid {
+	NSParameterAssert(theArray);
+	NSParameterAssert(theTypeOid);
+
+	BOOL hasNull;
+	FLXPostgresOid theType;
+	NSMutableData* theBytes = [NSMutableData data];
+	
+	// arrays must be empty or one-dimensional, with either one class or NSNull
+	if([self _validBoundValueForArray:theArray hasNull:&hasNull type:&theType]==NO) {
+		return nil;
+	}
+	
+	// insert number of dimensions
+	Int32 dim = [self _dimensionsForArray:theArray];
+	NSParameterAssert(dim >= 0 && dim <= ARRAY_MAXDIM);
+	[theBytes appendData:[self boundDataFromInt32:dim]];
+
+	// if dimensions is zero, return directly
+	if(dim==0) return theBytes;
+
+	// set flags - should be 0 or 1
+	[theBytes appendData:[self boundDataFromInt32:(hasNull ? 1 : 0)]];
+	
+	// set the type of the tuples in the array
+	
+	
+	return theBytes;
+	
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////
 // arrays
 
--(NSArray* )arrayFromBytes:(const void* )theBytes length:(NSUInteger)theLength type:(FLXPostgresOid)theType {
+-(NSObject* )arrayFromBytes:(const void* )theBytes length:(NSUInteger)theLength type:(FLXPostgresOid)theType {
 	NSParameterAssert(theBytes);
 	// use 4 byte alignment
 	const UInt32* thePtr = theBytes;
@@ -67,7 +138,12 @@
 		NSParameterAssert(thePtr <= (const UInt32* )((const UInt8* )theBytes + theLength));
 	}
 	
-	return [theArray array];
+	// if the array is one-dimensional, return an NSArray or else return the FLXPostgresArray type
+	if(dim==1) {
+		return [theArray array];
+	} else {
+		return theArray;
+	}
 }
 
 @end

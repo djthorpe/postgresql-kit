@@ -66,7 +66,10 @@
 	if([theObject isKindOfClass:[FLXMacAddr class]]) {
 		return [self boundValueFromMacAddr:(FLXMacAddr* )theObject type:theType];
 	}
-
+	// NSArray
+	if([theObject isKindOfClass:[NSArray class]]) {
+		return [self boundValueFromArray:(NSArray* )theObject type:theType];
+	}
 	// Unsupported type: we don't support other types yet
 	return nil;	
 }
