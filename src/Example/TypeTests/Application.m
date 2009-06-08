@@ -358,7 +358,17 @@
 }
 
 -(NSObject* )macaddrValueForRow:(NSNumber* )theRow {
-	return [[[FLXMacAddr alloc] init] autorelease];
+	// create data structure to hold data
+	NSMutableData* theData = [NSMutableData dataWithCapacity:6];
+	for(NSUInteger i = 0; i < 6; i++) {
+		char c = rand() % 0xFF;		
+		[theData appendBytes:&c length:1];
+	}
+	return [FLXMacAddr macAddrWithBytes:[theData bytes]];
+}
+
+-(NSObject* )arrayValueForRow:(NSNumber* )theRow {
+	return [NSArray array];
 }
 
 ////////////////////////////////////////////////////////////////////////////
@@ -395,10 +405,13 @@
 						  
 	 // network addresses
      [NSArray arrayWithObjects:@"macaddr",@"FLXMacAddr",@"macaddrValueForRow:",nil],
-						  
+
 	 // date and time types
-     [NSArray arrayWithObjects:@"timestamp",@"NSDate",@"dateValueForRow:",nil],
 	 [NSArray arrayWithObjects:@"interval",@"FLXTimeInterval",@"intervalValueForRow:",nil],
+						  
+	 // array of text
+	 [NSArray arrayWithObjects:@"text[]",@"NSArray",@"arrayValueForRow:",nil],					  
+						  
 						  nil];
 
 	// connect to database
