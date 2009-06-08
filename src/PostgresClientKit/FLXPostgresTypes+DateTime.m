@@ -17,6 +17,17 @@
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
+// whether server uses integer timestamp
+
+-(BOOL)isIntegerTimestamp {
+	NSDictionary* parameters = [[self connection] parameters];
+	NSParameterAssert(parameters);
+	NSNumber* propertyValue = [parameters objectForKey:FLXPostgresParameterIntegerDateTimes];
+	NSParameterAssert([propertyValue isKindOfClass:[NSNumber class]]);
+	return [propertyValue boolValue];
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////
 // time interval
 
 -(NSObject* )boundValueFromInterval:(FLXTimeInterval* )theInterval type:(FLXPostgresOid* )theTypeOid {

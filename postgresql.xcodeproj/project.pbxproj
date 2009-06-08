@@ -122,6 +122,8 @@
 		6E9C84600F6D9DB100651864 /* strapline-200x40.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ECC8B8F0F628525000993F9 /* strapline-200x40.png */; };
 		6EA8ED910FDCD8F0002C6C67 /* FLXPostgresTypes+NetAddr.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EA8ED8F0FDCD8F0002C6C67 /* FLXPostgresTypes+NetAddr.h */; };
 		6EA8ED920FDCD8F0002C6C67 /* FLXPostgresTypes+NetAddr.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EA8ED900FDCD8F0002C6C67 /* FLXPostgresTypes+NetAddr.m */; };
+		6EA8EE170FDCE766002C6C67 /* FLXPostgresTypes+Array.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EA8EE150FDCE766002C6C67 /* FLXPostgresTypes+Array.h */; };
+		6EA8EE180FDCE766002C6C67 /* FLXPostgresTypes+Array.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EA8EE160FDCE766002C6C67 /* FLXPostgresTypes+Array.m */; };
 		6EAF8EA00F87D07300B8B5DA /* stop2.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6EAF8E9F0F87D07300B8B5DA /* stop2.tiff */; };
 		6EB0133B0F6E420A004C2879 /* FLXPostgresConnectSetting.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB0133A0F6E420A004C2879 /* FLXPostgresConnectSetting.m */; };
 		6EB014260F6EE1BC004C2879 /* FLXTaggedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB014250F6EE1BC004C2879 /* FLXTaggedView.m */; };
@@ -457,6 +459,8 @@
 		6E9FD7070DD593F700353077 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		6EA8ED8F0FDCD8F0002C6C67 /* FLXPostgresTypes+NetAddr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FLXPostgresTypes+NetAddr.h"; sourceTree = "<group>"; };
 		6EA8ED900FDCD8F0002C6C67 /* FLXPostgresTypes+NetAddr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FLXPostgresTypes+NetAddr.m"; sourceTree = "<group>"; };
+		6EA8EE150FDCE766002C6C67 /* FLXPostgresTypes+Array.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FLXPostgresTypes+Array.h"; sourceTree = "<group>"; };
+		6EA8EE160FDCE766002C6C67 /* FLXPostgresTypes+Array.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FLXPostgresTypes+Array.m"; sourceTree = "<group>"; };
 		6EAF8E9F0F87D07300B8B5DA /* stop2.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = stop2.tiff; sourceTree = "<group>"; };
 		6EAF91C80F896B1D00B8B5DA /* PostgresDataKit-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "PostgresDataKit-Info.plist"; sourceTree = "<group>"; };
 		6EB013390F6E420A004C2879 /* FLXPostgresConnectSetting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLXPostgresConnectSetting.h; sourceTree = "<group>"; };
@@ -660,6 +664,8 @@
 				6E1EA4BB0FD153B70039B9FF /* FLXPostgresTypes+DateTime.m */,
 				6EA8ED8F0FDCD8F0002C6C67 /* FLXPostgresTypes+NetAddr.h */,
 				6EA8ED900FDCD8F0002C6C67 /* FLXPostgresTypes+NetAddr.m */,
+				6EA8EE150FDCE766002C6C67 /* FLXPostgresTypes+Array.h */,
+				6EA8EE160FDCE766002C6C67 /* FLXPostgresTypes+Array.m */,
 			);
 			name = Types;
 			sourceTree = "<group>";
@@ -956,6 +962,7 @@
 				6E1EA4AC0FD14FA00039B9FF /* FLXPostgresTypes+Geometry.h in Headers */,
 				6E1EA4BC0FD153B70039B9FF /* FLXPostgresTypes+DateTime.h in Headers */,
 				6EA8ED910FDCD8F0002C6C67 /* FLXPostgresTypes+NetAddr.h in Headers */,
+				6EA8EE170FDCE766002C6C67 /* FLXPostgresTypes+Array.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1371,6 +1378,7 @@
 				6E1EA4AD0FD14FA00039B9FF /* FLXPostgresTypes+Geometry.m in Sources */,
 				6E1EA4BD0FD153B70039B9FF /* FLXPostgresTypes+DateTime.m in Sources */,
 				6EA8ED920FDCD8F0002C6C67 /* FLXPostgresTypes+NetAddr.m in Sources */,
+				6EA8EE180FDCE766002C6C67 /* FLXPostgresTypes+Array.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
