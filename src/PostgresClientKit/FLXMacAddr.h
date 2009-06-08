@@ -5,9 +5,9 @@
 	NSData* data;
 }
 
-@property (retain) NSData* data;
+@property (retain,readonly) NSData* data;
 
-+(FLXMacAddr* )macAddrWithData:(NSData* )theData;
++(FLXMacAddr* )macAddrWithBytes:(const void* )theBytes;
 -(NSString* )stringValue;
 
 @end

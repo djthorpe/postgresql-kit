@@ -548,7 +548,6 @@ const unsigned FLXDefaultPostgresPort = 5432;
 	} else if([theMessage hasSuffix:@"database system is ready to accept connections"] && [self state]==FLXServerStateStarting) {
 		[self setState:FLXServerStateStarted];
 	}
-	NSLog(@"%@",theMessage);
 }
 
 -(void)_delegateServerMessageFromData:(NSData* )theData {

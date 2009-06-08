@@ -7,6 +7,7 @@
 #import "FLXPostgresTypes+NSNumber.h"
 #import "FLXPostgresTypes+Geometry.h"
 #import "FLXPostgresTypes+DateTime.h"
+#import "FLXPostgresTypes+NetAddr.h"
 
 // maximum number of dimensions for arrays
 #define ARRAY_MAXDIM   6
@@ -71,18 +72,13 @@
 	if([theObject isKindOfClass:[FLXGeometry class]]) {
 		return [self boundValueFromGeometry:(FLXGeometry* )theObject type:theType];
 	}
+	// FLXMacAddr
+	if([theObject isKindOfClass:[FLXMacAddr class]]) {
+		return [self boundValueFromMacAddr:(FLXMacAddr* )theObject type:theType];
+	}
 
 	// Unsupported type: we don't support other types yet
 	return nil;	
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-// mac addr
-
--(FLXMacAddr* )macaddrFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
-	NSParameterAssert(theBytes);
-	NSParameterAssert(theLength==6);
-	return [FLXMacAddr macAddrWithData:[NSData dataWithBytes:theBytes length:theLength]];
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -181,7 +177,7 @@
 		case FLXPostgresTypeInterval:
 			return [self intervalFromBytes:theBytes length:theLength];
 		case FLXPostgresTypeMacAddr:
-			return [self macaddrFromBytes:theBytes length:theLength];
+			return [self macAddrFromBytes:theBytes length:theLength];
 		case FLXPostgresTypePoint:
 			return [self pointFromBytes:theBytes length:theLength];
 		case FLXPostgresTypeLSeg:

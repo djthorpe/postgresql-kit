@@ -8,29 +8,29 @@
 -(id)init {
 	self = [super init];
 	if (self != nil) {
-		[self setData:[NSData dataWithBytes:"\0\0\0\0\0\0" length:6]];
+		data = [[NSData dataWithBytes:"\0\0\0\0\0\0" length:6] retain];
 	}
 	return self;
 }
 
--(id)initWithData:(NSData* )theData {
+-(id)initWithBytes:(const void* )theBytes {
 	self = [super init];
 	if (self != nil) {
-		if([theData length] != 6) {
-			[self release];
+		if(theBytes==nil) {
 			return nil;
 		}
-		[self setData:theData];
+		data = [[NSData dataWithBytes:theBytes length:6] retain];
 	}
 	return self;	
 }
 
-+(FLXMacAddr* )macAddrWithData:(NSData* )theData {
-	return [[[FLXMacAddr alloc] initWithData:theData] autorelease];
++(FLXMacAddr* )macAddrWithBytes:(const void* )theBytes {
+	NSParameterAssert(theBytes);
+	return [[[FLXMacAddr alloc] initWithBytes:theBytes] autorelease];
 }
 
 -(void)dealloc {
-	[self setData:nil];
+	[data release];
 	[super dealloc];
 }
 
@@ -41,6 +41,11 @@
 
 -(NSString* )description {
 	return [self stringValue];
+}
+
+-(BOOL)isEqual:(id)anObject {
+	if([anObject isKindOfClass:[FLXMacAddr class]]==NO) return NO;
+	return [[self data] isEqual:[anObject data]];
 }
 
 @end
