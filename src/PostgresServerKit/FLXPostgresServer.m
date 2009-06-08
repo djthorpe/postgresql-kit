@@ -541,8 +541,11 @@ const unsigned FLXDefaultPostgresPort = 5432;
 		[[self delegate] performSelectorOnMainThread:@selector(serverMessage:) withObject:theMessage waitUntilDone:NO];
 	}
 	// if message is "database system is ready" and server in state FLXServerStateStarting
-	// then advance state to FLXServerStateStarted
+	// then advance state to FLXServerStateStarted.
+	// For 8.3, the message is "database system is ready to accept connections"
 	if([theMessage hasSuffix:@"database system is ready"] && [self state]==FLXServerStateStarting) {
+		[self setState:FLXServerStateStarted];
+	} else if([theMessage hasSuffix:@"database system is ready to accept connections"] && [self state]==FLXServerStateStarting) {
 		[self setState:FLXServerStateStarted];
 	}
 	NSLog(@"%@",theMessage);
