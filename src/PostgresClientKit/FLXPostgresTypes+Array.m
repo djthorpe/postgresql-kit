@@ -143,15 +143,26 @@
 	// and the lower bound (which is always zero)
 	NSParameterAssert(dim==0 || dim==1);
 	SInt32 theCount = [theArray count];
-	SInt32 theLowerBound = 0;
+	SInt32 theLowerBound = 1;
 	NSParameterAssert([theArray count]==theCount);
 	[theBytes appendData:[self boundDataFromInt32:theCount]];
 	[theBytes appendData:[self boundDataFromInt32:theLowerBound]];
 	
 	// TODO: append the objects
 	for(NSObject* theObject in theArray) {
-	//	if([theObject isKindOfClass:[NSNull class]]) {
-	//	}
+		if([theObject isKindOfClass:[NSNull class]]) {
+			// output 0xFFFFFFFF
+			[theBytes appendData:[self boundDataFromInt32:((SInt32)-1)]];
+		} else {
+			FLXPostgresOid theType = 0;
+			NSData* theData = [self boundValueFromObject:theObject type:&theType];
+			if(theData==nil || theType != theElementType) {
+				[[self connection] _noticeProcessorWithMessage:@"Unable to bind array object"];
+				return nil;
+			}
+			[theBytes appendData:[self boundDataFromInt32:[theData length]]];
+			[theBytes appendData:theData];
+		}
 	}
 	
 	NSLog(@"array = %@",theBytes);
