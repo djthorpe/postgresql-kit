@@ -43,7 +43,6 @@ typedef enum {
 	FLXPostgresTypeArrayFloat8 = 1022,
 	FLXPostgresTypeArrayMacAddr = 1040,
 	FLXPostgresTypeArrayIPAddr = 1041,
-	FLXPostgresTypeArrayNetAddr = 651,
 	FLXPostgresTypeChar = 1042,
 	FLXPostgresTypeVarchar = 1043,
 	FLXPostgresTypeDate = 1082,

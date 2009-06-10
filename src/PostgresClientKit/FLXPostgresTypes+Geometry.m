@@ -106,6 +106,26 @@
 	return theData;
 }
 
+-(FLXPostgresOid)boundTypeFromGeometry:(FLXGeometry* )theGeometry {
+	NSParameterAssert(theGeometry);
+	switch([theGeometry type]) {			
+		case FLXGeometryTypePoint:
+			return FLXPostgresTypePoint;
+		case FLXGeometryTypeLine:
+			return FLXPostgresTypeLSeg;
+		case FLXGeometryTypeBox:
+			return FLXPostgresTypeBox;
+		case FLXGeometryTypeCircle:
+			return FLXPostgresTypeCircle;
+		case FLXGeometryTypePolygon:
+			return FLXPostgresTypePolygon;
+		case FLXGeometryTypePath:
+			return FLXPostgresTypePath;
+	}			
+	return 0;	
+}
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // convert to geometry object from bytes
 

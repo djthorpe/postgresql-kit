@@ -9,8 +9,13 @@
 -(NSObject* )boundValueFromString:(NSString* )theString type:(FLXPostgresOid* )theType {
 	NSParameterAssert(theString);
 	NSParameterAssert(theType);
-	(*theType) = FLXPostgresTypeVarchar;
+	(*theType) = FLXPostgresTypeText;
 	return theString;
+}
+
+-(FLXPostgresOid)boundTypeFromString:(NSString* )theString {
+	NSParameterAssert(theString);
+	return FLXPostgresTypeText;
 }
 
 -(NSString* )quotedStringFromString:(NSString* )theString {

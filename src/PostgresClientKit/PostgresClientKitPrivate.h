@@ -27,6 +27,7 @@ typedef Oid FLXPostgresOid;
 -(id)initWithConnection:(FLXPostgresConnection* )theConnection;
 -(BOOL)isIntegerTimestamp;
 -(NSObject* )boundValueFromObject:(NSObject* )theObject type:(FLXPostgresOid* )theType;
+-(FLXPostgresOid)boundTypeFromObject:(NSObject* )theObject;
 -(NSObject* )objectFromBytes:(const void* )theBytes length:(NSUInteger)theLength type:(FLXPostgresOid)theType;
 -(NSString* )quotedStringFromObject:(NSObject* )theObject;
 @end

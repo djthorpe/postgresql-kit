@@ -368,6 +368,19 @@
 }
 
 -(NSObject* )arrayValueForRow:(NSNumber* )theRow {
+	// how many elements?
+	NSUInteger row = [theRow unsignedIntegerValue];
+	if(row==0) {
+		return [NSNull null];
+	}
+	if(row==1) {
+		return [NSArray array];
+	}
+	if(row==2) {
+		return [NSArray arrayWithObject:@"test"];
+	}
+	
+	// default
 	return [NSArray array];
 }
 
@@ -378,7 +391,7 @@
 	 NSString* theTable = @"test";
 	 NSUInteger numberOfRows = 1000;
 	 NSArray* theTypes = [NSArray arrayWithObjects:
-						  
+/*						  
 	 // text
 	 [NSArray arrayWithObjects:@"text",@"NSString",@"stringValueForRow:",nil],						 
      [NSArray arrayWithObjects:@"char(80)",@"NSString",@"charValueForRow:",nil],
@@ -408,7 +421,7 @@
 
 	 // date and time types
 	 [NSArray arrayWithObjects:@"interval",@"FLXTimeInterval",@"intervalValueForRow:",nil],
-						  
+	*/					  
 	 // array of text
 	 [NSArray arrayWithObjects:@"text[]",@"NSArray",@"arrayValueForRow:",nil],					  
 						  

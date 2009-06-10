@@ -9,15 +9,18 @@
 #define ARRAY_MAXDIM   6
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
+// returns YES if the NSArray to bind includes objects of the same class (and objects can be
+// bound). Also returns if there are any NULL objects, and the Oid of the objects.
 
--(BOOL)_validBoundValueForArray:(NSArray* )theArray hasNull:(BOOL* )hasNull type:(FLXPostgresOid* )theTypePtr {
+-(BOOL)_validBoundValueForArray:(NSArray* )theArray hasNull:(BOOL* )hasNull type:(FLXPostgresOid* )theType {
 	NSParameterAssert(theArray);
 	NSParameterAssert(hasNull);
-	NSParameterAssert(theTypePtr);
+	NSParameterAssert(theType);
 	
-	FLXPostgresOid theType = 0;
+	(*theType) = 0;     // init type
 	(*hasNull) = NO; 	// init null flag
-
+	
+	// iterate through the objects
 	for(NSObject* theObject in theArray) {
 		// we allow NSNull objects regardless
 		if([theObject isKindOfClass:[NSNull class]]) {
@@ -28,52 +31,130 @@
 		if([theObject isKindOfClass:[NSArray class]]) {
 			return NO;
 		}
-		// set the class
-		if(theType==0) {
-			theType = [self typeForObject:theObject];
-			continue;
-		}
-		// ensure all objects have the same class
-		if([theObject isKindOfClass:theClass]==NO) {
+		// set the type
+		FLXPostgresOid theType2 = [self boundTypeFromObject:theObject];
+		if(theType2==0) {
 			return NO;
 		}
+		if((*theType)==0) {
+			(*theType) = theType2;
+		} else if((*theType) != theType2) {
+			return NO;
+		}
+	}	
+	
+	// if type is zero here, then set the type to text
+	if((*theType)==0) {
+		(*theType) = FLXPostgresTypeText;
 	}	
 	
 	return YES;
 }
 
--(Int32)_dimensionsForArray:(NSArray* )theArray {
+////////////////////////////////////////////////////////////////////////////////////////////////
+// return number of dimensions for NSArray - currently zero or one
+
+-(SInt32)_dimensionsForArray:(NSArray* )theArray {
 	NSParameterAssert(theArray);
 	if([theArray count]==0) return 0;
 	return 1;
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+// return type based on tuple type
+
+-(FLXPostgresOid)_arrayTypeForElementType:(FLXPostgresOid)theType {
+	switch(theType) {
+		case FLXPostgresTypeBool:
+			return FLXPostgresTypeArrayBool;
+		case FLXPostgresTypeData:
+			return FLXPostgresTypeArrayData;
+		case FLXPostgresTypeChar:
+			return FLXPostgresTypeArrayChar;
+		case FLXPostgresTypeName:
+			return FLXPostgresTypeArrayName;
+		case FLXPostgresTypeInt2:
+			return FLXPostgresTypeArrayInt2;
+		case FLXPostgresTypeInt4:
+			return FLXPostgresTypeArrayInt4;
+		case FLXPostgresTypeText:
+			return FLXPostgresTypeArrayText;
+		case FLXPostgresTypeVarchar:
+			return FLXPostgresTypeArrayVarchar;
+		case FLXPostgresTypeInt8:
+			return FLXPostgresTypeArrayInt8;
+		case FLXPostgresTypeFloat4:
+			return FLXPostgresTypeArrayFloat4;
+		case FLXPostgresTypeFloat8:
+			return FLXPostgresTypeArrayFloat8;
+		case FLXPostgresTypeMacAddr:
+			return FLXPostgresTypeArrayMacAddr;
+		case FLXPostgresTypeIPAddr:
+			return FLXPostgresTypeArrayIPAddr;
+	}
+	return 0;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+// return bound NSData object
 
 -(NSObject* )boundValueFromArray:(NSArray* )theArray type:(FLXPostgresOid* )theTypeOid {
 	NSParameterAssert(theArray);
 	NSParameterAssert(theTypeOid);
 
 	BOOL hasNull;
-	FLXPostgresOid theType;
+	FLXPostgresOid theElementType;
 	NSMutableData* theBytes = [NSMutableData data];
 	
-	// arrays must be empty or one-dimensional, with either one class or NSNull
-	if([self _validBoundValueForArray:theArray hasNull:&hasNull type:&theType]==NO) {
+	// arrays must be empty or one-dimensional, with either one supported object class type or NSNull
+	if([self _validBoundValueForArray:theArray hasNull:&hasNull type:&theElementType]==NO) {
+		[[self connection] _noticeProcessorWithMessage:@"Unsupported array tuples cannot be bound"];
 		return nil;
 	}
+	NSParameterAssert(theElementType);
+
+	// obtain array type - 0 means unsupported
+	FLXPostgresOid theArrayType = [self _arrayTypeForElementType:theElementType];
+	NSLog(@"array type = %d, element type = %d",theArrayType,theElementType);
+	if(theArrayType==0) {
+		[[self connection] _noticeProcessorWithMessage:@"Unsupported array type cannot be bound"];
+		return nil;
+	}
+	// set the type
+	(*theTypeOid) = theArrayType;
 	
 	// insert number of dimensions
-	Int32 dim = [self _dimensionsForArray:theArray];
+	SInt32 dim = [self _dimensionsForArray:theArray];
 	NSParameterAssert(dim >= 0 && dim <= ARRAY_MAXDIM);
 	[theBytes appendData:[self boundDataFromInt32:dim]];
 
-	// if dimensions is zero, return directly
-	if(dim==0) return theBytes;
-
 	// set flags - should be 0 or 1
 	[theBytes appendData:[self boundDataFromInt32:(hasNull ? 1 : 0)]];
-	
+
 	// set the type of the tuples in the array
+	[theBytes appendData:[self boundDataFromInt32:theElementType]];
+
+	// return if dimensions is zero
+	if(dim==0) {
+		return theBytes;
+	}
 	
+	// for each dimension, output the number of tuples in the dimension
+	// and the lower bound (which is always zero)
+	NSParameterAssert(dim==0 || dim==1);
+	SInt32 theCount = [theArray count];
+	SInt32 theLowerBound = 0;
+	NSParameterAssert([theArray count]==theCount);
+	[theBytes appendData:[self boundDataFromInt32:theCount]];
+	[theBytes appendData:[self boundDataFromInt32:theLowerBound]];
+	
+	// TODO: append the objects
+	for(NSObject* theObject in theArray) {
+	//	if([theObject isKindOfClass:[NSNull class]]) {
+	//	}
+	}
+	
+	NSLog(@"array = %@",theBytes);
 	
 	return theBytes;
 	

@@ -3,6 +3,7 @@
 
 @interface FLXPostgresTypes (Geometry)
 
+-(FLXPostgresOid)boundTypeFromGeometry:(FLXGeometry* )theGeometry;
 -(NSObject* )boundValueFromGeometry:(FLXGeometry* )theGeometry type:(FLXPostgresOid* )theTypeOid;
 -(FLXGeometry* )pointFromBytes:(const void* )theBytes length:(NSUInteger)theLength;
 -(FLXGeometry* )lineFromBytes:(const void* )theBytes length:(NSUInteger)theLength;

@@ -34,6 +34,36 @@
 ////////////////////////////////////////////////////////////////////////////////
 // properties from the server which affect how types are interpreted
 
+-(FLXPostgresOid)boundTypeFromObject:(NSObject* )theObject {
+	NSParameterAssert(theObject);
+	// NSString
+	if([theObject isKindOfClass:[NSString class]]) {
+		return [self boundTypeFromString:(NSString* )theObject];
+	}
+	// NSData
+	if([theObject isKindOfClass:[NSData class]]) {
+		return [self boundTypeFromData:(NSData* )theObject];
+	}
+	// NSNumber booleans are converted to strings, floats and doubles are converted to data
+	if([theObject isKindOfClass:[NSNumber class]]) {
+		return [self boundTypeFromNumber:(NSNumber* )theObject];
+	}
+	// FLXTimeInterval
+	if([theObject isKindOfClass:[FLXTimeInterval class]]) {
+		return [self boundTypeFromInterval:(FLXTimeInterval* )theObject];
+	}
+	// FLXGeometry
+	if([theObject isKindOfClass:[FLXGeometry class]]) {
+		return [self boundTypeFromGeometry:(FLXGeometry* )theObject];
+	}
+	// FLXMacAddr
+	if([theObject isKindOfClass:[FLXMacAddr class]]) {
+		return [self boundTypeFromMacAddr:(FLXMacAddr* )theObject];
+	}
+	// Unsupported type: we don't support other types yet
+	return 0;		
+}
+
 -(NSObject* )boundValueFromObject:(NSObject* )theObject type:(FLXPostgresOid* )theType {
 	NSParameterAssert(theObject);
 	NSParameterAssert(theType);

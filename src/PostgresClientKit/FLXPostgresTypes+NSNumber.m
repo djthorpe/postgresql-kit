@@ -195,6 +195,33 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
+-(FLXPostgresOid)boundTypeFromNumber:(NSNumber* )theNumber {
+	NSParameterAssert(theNumber);
+	const char* type = [theNumber objCType];
+	switch(type[0]) {
+		case 'c':
+		case 'C':
+		case 'B': // boolean
+			return FLXPostgresTypeBool;
+		case 'i': // integer
+		case 'l': // long
+		case 'S': // unsigned short
+			return FLXPostgresTypeInt4;
+		case 's':
+			return FLXPostgresTypeInt2;
+		case 'q': // long long
+		case 'Q': // unsigned long long
+		case 'I': // unsigned integer
+		case 'L': // unsigned long
+			return FLXPostgresTypeInt8;
+		case 'f': // float
+			return FLXPostgresTypeFloat4;
+		case 'd': // double
+			return FLXPostgresTypeFloat8;
+	}
+	return 0;
+}
+
 -(NSObject* )boundValueFromNumber:(NSNumber* )theNumber type:(FLXPostgresOid* )theTypeOid {
 	const char* type = [theNumber objCType];
 	switch(type[0]) {

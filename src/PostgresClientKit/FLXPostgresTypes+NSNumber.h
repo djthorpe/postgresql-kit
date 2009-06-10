@@ -20,6 +20,8 @@
 -(NSData* )boundDataFromBoolean:(BOOL)theValue;
 
 -(NSObject* )boundValueFromNumber:(NSNumber* )theNumber type:(FLXPostgresOid* )theType;
+-(FLXPostgresOid)boundTypeFromNumber:(NSNumber* )theNumber;
+
 -(NSString* )quotedStringFromNumber:(NSNumber* )theNumber;
 -(NSNumber* )integerObjectFromBytes:(const void* )theBytes length:(NSUInteger)theLength;
 -(NSNumber* )unsignedIntegerObjectFromBytes:(const void* )theBytes length:(NSUInteger)theLength;

@@ -12,6 +12,11 @@
 	return theData;
 }
 
+-(FLXPostgresOid)boundTypeFromData:(NSData* )theData {
+	NSParameterAssert(theData);
+	return FLXPostgresTypeData;		
+}
+
 -(NSString* )quotedStringFromData:(NSData* )theData {
 	size_t theLength = 0;
 	unsigned char* theBuffer = PQescapeByteaConn([[self connection] PGconn],[theData bytes],[theData length],&theLength);

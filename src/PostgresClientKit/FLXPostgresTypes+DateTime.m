@@ -30,6 +30,11 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // time interval
 
+-(FLXPostgresOid)boundTypeFromInterval:(FLXTimeInterval* )theInterval {
+	NSParameterAssert(theInterval);
+	return FLXPostgresTypeInterval;
+}
+
 -(NSObject* )boundValueFromInterval:(FLXTimeInterval* )theInterval type:(FLXPostgresOid* )theTypeOid {
 	NSParameterAssert(theInterval);
 	(*theTypeOid) = FLXPostgresTypeInterval;	

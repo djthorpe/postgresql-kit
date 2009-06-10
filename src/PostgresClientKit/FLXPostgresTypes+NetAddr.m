@@ -21,4 +21,9 @@
 	return [theMacAddr data];
 }
 
+-(FLXPostgresOid)boundTypeFromMacAddr:(FLXMacAddr* )theMacAddr {
+	NSParameterAssert(theMacAddr);
+	return FLXPostgresTypeMacAddr;	
+}
+
 @end
