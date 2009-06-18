@@ -367,21 +367,39 @@
 	return [FLXMacAddr macAddrWithBytes:[theData bytes]];
 }
 
--(NSObject* )arrayValueForRow:(NSNumber* )theRow {
-	// how many elements?
+-(NSObject* )stringArrayValueForRow:(NSNumber* )theRow {
 	NSUInteger row = [theRow unsignedIntegerValue];
-	if(row==0) {
-		return [NSNull null];
-	}
-	if(row==1) {
-		return [NSArray array];
-	}
-	if(row==2) {
-		return [NSArray arrayWithObject:@"test"];
+	switch(row) {
+		case 0:
+			return [NSNull null];
+		case 1:
+			return [NSArray array];
+		case 2:
+			return [NSArray arrayWithObject:@"test"];
+		case 3:
+			return [NSArray arrayWithObjects:@"test",[NSNull null],nil];
+		case 4:
+			return [NSArray arrayWithObjects:@"test",[NSNull null],@"test",nil];
+		case 5:
+			return [NSArray arrayWithObjects:[NSNull null],@"test",[NSNull null],@"test",nil];
 	}
 	
-	// default
-	return [NSArray array];
+	// create array with row tuples
+	NSMutableArray* theArray = [NSMutableArray arrayWithCapacity:row];
+	for(NSUInteger i = 0; i < row; i++) {
+		[theArray addObject:[self stringValueForRow:theRow]];
+	}
+	
+	return theArray;
+}
+
+-(NSObject* )booleanArrayValueForRow:(NSNumber* )theRow {
+	NSUInteger row = [theRow unsignedIntegerValue];
+	NSMutableArray* theArray = [NSMutableArray arrayWithCapacity:row];
+	for(NSUInteger i = 0; i < row; i++) {
+		[theArray addObject:[self booleanValueForRow:theRow]];
+	}	
+	return theArray;
 }
 
 ////////////////////////////////////////////////////////////////////////////
@@ -389,14 +407,14 @@
  -(void)doWork { 
 	 NSString* theSchema = @"public";
 	 NSString* theTable = @"test";
-	 NSUInteger numberOfRows = 1000;
+	 NSUInteger numberOfRows = 100;
 	 NSArray* theTypes = [NSArray arrayWithObjects:
-/*						  
 	 // text
 	 [NSArray arrayWithObjects:@"text",@"NSString",@"stringValueForRow:",nil],						 
      [NSArray arrayWithObjects:@"char(80)",@"NSString",@"charValueForRow:",nil],
 	 [NSArray arrayWithObjects:@"varchar(80)",@"NSString",@"varcharValueForRow:",nil],
 	 [NSArray arrayWithObjects:@"name",@"NSString",@"nameValueForRow:",nil],
+	 /*						  
 						  
 	 // numbers
 	 [NSArray arrayWithObjects:@"boolean",@"NSNumber",@"booleanValueForRow:",nil],
@@ -422,9 +440,16 @@
 	 // date and time types
 	 [NSArray arrayWithObjects:@"interval",@"FLXTimeInterval",@"intervalValueForRow:",nil],
 	*/					  
-	 // array of text
-	 [NSArray arrayWithObjects:@"text[]",@"NSArray",@"arrayValueForRow:",nil],					  
-						  
+	 // arrays
+	 [NSArray arrayWithObjects:@"text[]",@"NSArray",@"stringArrayValueForRow:",nil],					  
+     [NSArray arrayWithObjects:@"boolean[]",@"NSArray",@"booleanArrayValueForRow:",nil],					  
+/*     [NSArray arrayWithObjects:@"bytea[]",@"NSArray",@"dataArrayValueForRow:",nil],					  
+     [NSArray arrayWithObjects:@"int2[]",@"NSArray",@"int2ArrayValueForRow:",nil],					  
+	 [NSArray arrayWithObjects:@"int4[]",@"NSArray",@"int4ArrayValueForRow:",nil],					  
+	 [NSArray arrayWithObjects:@"int8[]",@"NSArray",@"int8ArrayValueForRow:",nil],					  
+	 [NSArray arrayWithObjects:@"float4[]",@"NSArray",@"float4ArrayValueForRow:",nil],					  
+     [NSArray arrayWithObjects:@"float8[]",@"NSArray",@"float8ArrayValueForRow:",nil],					  */
+
 						  nil];
 
 	// connect to database
@@ -462,10 +487,16 @@
 		// prepare statement
 		FLXPostgresStatement* theInsert = [[self connection] prepareWithFormat:@"INSERT INTO %@.%@ (value) VALUES ($1)",theSchema,theTable];
 		
+		// debugging
+		NSLog(@"  ...inserting %u rows",numberOfRows);
+		
 		// insert data into the table
 		for(NSUInteger row = 0; row < numberOfRows; row++) {
 			[[self connection] executePrepared:theInsert value:[theData objectAtIndex:row]];
 		}
+		
+		// debugging
+		NSLog(@"  ...retrieving %u rows",numberOfRows);
 		
 		// read data back from table and compare to original data
 		FLXPostgresResult* theResult = [[self connection] executeWithFormat:@"SELECT value FROM %@.%@ ORDER BY id ASC",theSchema,theTable];

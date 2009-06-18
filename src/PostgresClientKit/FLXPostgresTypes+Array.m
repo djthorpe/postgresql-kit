@@ -115,7 +115,6 @@
 
 	// obtain array type - 0 means unsupported
 	FLXPostgresOid theArrayType = [self _arrayTypeForElementType:theElementType];
-	NSLog(@"array type = %d, element type = %d",theArrayType,theElementType);
 	if(theArrayType==0) {
 		[[self connection] _noticeProcessorWithMessage:@"Unsupported array type cannot be bound"];
 		return nil;
@@ -148,27 +147,35 @@
 	[theBytes appendData:[self boundDataFromInt32:theCount]];
 	[theBytes appendData:[self boundDataFromInt32:theLowerBound]];
 	
-	// TODO: append the objects
+	// append the objects
+	NSUInteger i = 0;
 	for(NSObject* theObject in theArray) {
+		i++;
 		if([theObject isKindOfClass:[NSNull class]]) {
 			// output 0xFFFFFFFF
 			[theBytes appendData:[self boundDataFromInt32:((SInt32)-1)]];
-		} else {
-			FLXPostgresOid theType = 0;
-			NSData* theData = [self boundValueFromObject:theObject type:&theType];
-			if(theData==nil || theType != theElementType) {
-				[[self connection] _noticeProcessorWithMessage:@"Unable to bind array object"];
-				return nil;
-			}
-			[theBytes appendData:[self boundDataFromInt32:[theData length]]];
-			[theBytes appendData:theData];
+			continue;
 		}
+		FLXPostgresOid theType;
+		NSData* theBoundObject = (NSData* )[self boundValueFromObject:theObject type:&theType];
+		if(theBoundObject==nil) {
+			[[self connection] _noticeProcessorWithMessage:[NSString stringWithFormat:@"Unable to bind array object (tuple %d)",i]];
+			return nil;
+		}			
+		if([theBoundObject isKindOfClass:[NSData class]]==NO) {
+			[[self connection] _noticeProcessorWithMessage:[NSString stringWithFormat:@"Unable to bind non-data array object (tuple %d)",i]];
+			return nil;			
+		}
+		if(theType != theElementType) {
+			[[self connection] _noticeProcessorWithMessage:[NSString stringWithFormat:@"Unable to bind array object (tuple %d), unexpected type",i]];
+			return nil;			
+		}
+		// TODO: ensure length of data is no greater than 0x7FFFFFFF
+		[theBytes appendData:[self boundDataFromInt32:[theBoundObject length]]];
+		[theBytes appendData:theBoundObject];			   
 	}
 	
-	NSLog(@"array = %@",theBytes);
-	
-	return theBytes;
-	
+	return theBytes;	
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -176,6 +183,7 @@
 
 -(NSObject* )arrayFromBytes:(const void* )theBytes length:(NSUInteger)theLength type:(FLXPostgresOid)theType {
 	NSParameterAssert(theBytes);
+
 	// use 4 byte alignment
 	const UInt32* thePtr = theBytes;
 	// get number of dimensions - we allow zero-dimension arrays

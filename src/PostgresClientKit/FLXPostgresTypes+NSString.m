@@ -10,7 +10,8 @@
 	NSParameterAssert(theString);
 	NSParameterAssert(theType);
 	(*theType) = FLXPostgresTypeText;
-	return theString;
+	// return a UTF8 string as data
+	return [theString dataUsingEncoding:NSUTF8StringEncoding];
 }
 
 -(FLXPostgresOid)boundTypeFromString:(NSString* )theString {
@@ -24,9 +25,8 @@
 }
 
 -(NSObject* )stringObjectFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
-	NSParameterAssert(theBytes);
-	// string is always terminated with NULL so we don't need the length field
-	return [NSString stringWithUTF8String:theBytes];	
+	NSParameterAssert(theBytes);	
+	return [[[NSString alloc] initWithBytes:theBytes length:theLength encoding:NSUTF8StringEncoding] autorelease];
 }
 
 @end
