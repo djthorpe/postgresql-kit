@@ -414,8 +414,6 @@
      [NSArray arrayWithObjects:@"char(80)",@"NSString",@"charValueForRow:",nil],
 	 [NSArray arrayWithObjects:@"varchar(80)",@"NSString",@"varcharValueForRow:",nil],
 	 [NSArray arrayWithObjects:@"name",@"NSString",@"nameValueForRow:",nil],
-	 /*						  
-						  
 	 // numbers
 	 [NSArray arrayWithObjects:@"boolean",@"NSNumber",@"booleanValueForRow:",nil],
      [NSArray arrayWithObjects:@"bytea",@"NSData",@"dataValueForRow:",nil],
@@ -425,7 +423,6 @@
 	 [NSArray arrayWithObjects:@"float4",@"NSNumber",@"floatValueForRow:",nil],
 	 [NSArray arrayWithObjects:@"float8",@"NSNumber",@"doubleValueForRow:",nil],
 	 [NSArray arrayWithObjects:@"oid",@"NSNumber",@"unsignedIntegerValueForRow:",nil],
-						  
 	 // geometry
      [NSArray arrayWithObjects:@"point",@"FLXGeometryPoint",@"pointValueForRow:",nil],
 	 [NSArray arrayWithObjects:@"lseg",@"FLXGeometryLine",@"lineValueForRow:",nil],
@@ -439,9 +436,10 @@
 
 	 // date and time types
 	 [NSArray arrayWithObjects:@"interval",@"FLXTimeInterval",@"intervalValueForRow:",nil],
-	*/					  
-	 // arrays
+
+	  // arrays
 	 [NSArray arrayWithObjects:@"text[]",@"NSArray",@"stringArrayValueForRow:",nil],					  
+     [NSArray arrayWithObjects:@"varchar[]",@"NSArray",@"stringArrayValueForRow:",nil],					  
      [NSArray arrayWithObjects:@"boolean[]",@"NSArray",@"booleanArrayValueForRow:",nil],					  
 /*     [NSArray arrayWithObjects:@"bytea[]",@"NSArray",@"dataArrayValueForRow:",nil],					  
      [NSArray arrayWithObjects:@"int2[]",@"NSArray",@"int2ArrayValueForRow:",nil],					  
@@ -485,7 +483,14 @@
 		}
 
 		// prepare statement
-		FLXPostgresStatement* theInsert = [[self connection] prepareWithFormat:@"INSERT INTO %@.%@ (value) VALUES ($1)",theSchema,theTable];
+		// we use a casting hint if the type is an array
+		FLXPostgresStatement* theInsert = nil;
+		if(YES) {
+			//[thePostgresType hasSuffix:@"[]"]) {
+			theInsert = [[self connection] prepareWithFormat:@"INSERT INTO %@.%@ (value) VALUES ($1::%@)",theSchema,theTable,thePostgresType];
+		} else {
+			theInsert = [[self connection] prepareWithFormat:@"INSERT INTO %@.%@ (value) VALUES ($1)",theSchema,theTable];
+		}
 		
 		// debugging
 		NSLog(@"  ...inserting %u rows",numberOfRows);

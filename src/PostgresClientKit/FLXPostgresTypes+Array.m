@@ -170,6 +170,10 @@
 			[[self connection] _noticeProcessorWithMessage:[NSString stringWithFormat:@"Unable to bind array object (tuple %d), unexpected type",i]];
 			return nil;			
 		}
+		if([theBoundObject length] > ((NSUInteger)0x7FFFFFFF)) {
+			[[self connection] _noticeProcessorWithMessage:[NSString stringWithFormat:@"Unable to bind array object (tuple %d), beyond capacity",i]];
+			return nil;			
+		}			
 		// TODO: ensure length of data is no greater than 0x7FFFFFFF
 		[theBytes appendData:[self boundDataFromInt32:[theBoundObject length]]];
 		[theBytes appendData:theBoundObject];			   

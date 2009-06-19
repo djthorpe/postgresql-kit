@@ -27,7 +27,7 @@
 +(FLXPostgresConnection* )connectionWithURL:(NSURL* )theURL;
 
 // return the 'scheme' used to construct a URL
--(NSString* )scheme;
++(NSString* )scheme;
 
 // connection methods
 -(void)connect;

@@ -18,6 +18,7 @@ NSString* FLXPostgresConnectionScheme = @"pgsql";
 NSString* FLXPostgresConnectionEmptyString = @"";
 
 NSString* FLXPostgresParameterServerVersion = @"server_version";
+NSString* FLXPostgresParameterServerPID = @"server_pid";
 NSString* FLXPostgresParameterServerEncoding = @"server_encoding";
 NSString* FLXPostgresParameterClientEncoding = @"client_encoding";
 NSString* FLXPostgresParameterSuperUser = @"is_superuser";
@@ -26,6 +27,7 @@ NSString* FLXPostgresParameterDateStyle = @"DateStyle";
 NSString* FLXPostgresParameterTimeZone = @"TimeZone";
 NSString* FLXPostgresParameterIntegerDateTimes = @"integer_datetimes";
 NSString* FLXPostgresParameterStandardConformingStrings = @"standard_conforming_strings";
+NSString* FLXPostgresParameterProtocolVersion = @"protocol_version";
 
 @implementation FLXPostgresConnection
 @synthesize delegate;
@@ -86,7 +88,7 @@ NSString* FLXPostgresParameterStandardConformingStrings = @"standard_conforming_
 	return (PGconn* )m_theConnection;
 }
 
--(NSString* )scheme {
++(NSString* )scheme {
 	return FLXPostgresConnectionScheme;
 }
 
@@ -163,7 +165,7 @@ NSString* FLXPostgresParameterStandardConformingStrings = @"standard_conforming_
 	// set the notice processor
 	PQsetNoticeProcessor(theConnection,FLXPostgresConnectionNoticeProcessor,self);
 	
-	// read the parameters
+	// read the standard parameters
 	NSArray* theKeys = [NSArray arrayWithObjects:FLXPostgresParameterServerVersion,FLXPostgresParameterServerEncoding,FLXPostgresParameterClientEncoding,FLXPostgresParameterSuperUser,FLXPostgresParameterSessionAuthorization,FLXPostgresParameterDateStyle,FLXPostgresParameterTimeZone,FLXPostgresParameterIntegerDateTimes,FLXPostgresParameterStandardConformingStrings,nil];
 	NSMutableDictionary* theDictionary = [NSMutableDictionary dictionaryWithCapacity:[theKeys count]];
 	for(NSString* theKey in theKeys) {
@@ -181,6 +183,11 @@ NSString* FLXPostgresParameterStandardConformingStrings = @"standard_conforming_
 			[theDictionary setObject:theValue2 forKey:theKey];
 		}
 	}
+	
+	// add additional parameters
+	[theDictionary setObject:[NSNumber numberWithInt:PQprotocolVersion(theConnection)] forKey:FLXPostgresParameterProtocolVersion];
+	[theDictionary setObject:[NSNumber numberWithInt:PQbackendPID(theConnection)] forKey:FLXPostgresParameterServerPID];	
+	
 	// set types and parameters
 	[self setParameters:theDictionary];
 	[self setTypes:[[[FLXPostgresTypes alloc] initWithConnection:self] autorelease]];
