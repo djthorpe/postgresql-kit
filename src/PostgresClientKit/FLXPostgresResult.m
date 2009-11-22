@@ -58,9 +58,11 @@
 	return theColumns;
 }
 
+/*
 -(FLXPostgresType)typeForColumn:(NSUInteger)theColumn {
 	return (FLXPostgresType)PQftype([self result],theColumn);
 }
+*/
 
 -(NSInteger)modifierForColumn:(NSUInteger)theColumn {
 	return (NSInteger)PQfmod([self result],theColumn);

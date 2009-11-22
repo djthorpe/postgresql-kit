@@ -50,8 +50,3 @@ extern NSString* FLXPostgresParameterStandardConformingStrings;
 #import "FLXPostgresStatement.h"
 #import "FLXPostgresResult.h"
 #import "FLXPostgresException.h"
-
-#import "FLXMacAddr.h"
-#import "FLXTimeInterval.h"
-#import "FLXPostgresArray.h"
-#import "FLXGeometry.h"

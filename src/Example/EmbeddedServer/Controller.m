@@ -63,7 +63,7 @@
 	// create application support path
 	BOOL isDirectory = NO;
 	if([[NSFileManager defaultManager] fileExistsAtPath:[self _dataPath] isDirectory:&isDirectory]==NO) {
-		[[NSFileManager defaultManager] createDirectoryAtPath:[self _dataPath] attributes:nil];
+		[[NSFileManager defaultManager] createDirectoryAtPath:[self _dataPath] withIntermediateDirectories:YES attributes:nil error:nil];
 	}
 	
 	// initialize the data directory if nesessary

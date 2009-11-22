@@ -2,13 +2,16 @@
 #import "PostgresClientKit.h"
 #import "PostgresClientKitPrivate.h"
 
-#import "FLXPostgresTypes+NSString.h"
+#import "FLXPostgresTypeNSString.h"
+
+/*
 #import "FLXPostgresTypes+NSData.h"
 #import "FLXPostgresTypes+NSNumber.h"
 #import "FLXPostgresTypes+Geometry.h"
 #import "FLXPostgresTypes+DateTime.h"
 #import "FLXPostgresTypes+NetAddr.h"
 #import "FLXPostgresTypes+Array.h"
+*/
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -21,7 +24,9 @@
 -(id)initWithConnection:(FLXPostgresConnection* )theConnection {
 	self = [super init];
 	if (self != nil) {
-		m_theConnection = [theConnection retain];
+		m_theConnection = [theConnection retain];		
+		// register internal types
+		[self registerType:[FLXPostgresTypeNSString class]];
 	}
 	return self;	
 }
@@ -31,11 +36,20 @@
 	[super dealloc];
 }
 
+-(void)registerType:(Class)theClass {
+	NSParameterAssert([theClass conformsToProtocol:@protocol(FLXPostgresTypeProtocol)]);
+	// obtain the native class for this class
+	Class theNativeClass = [theClass class];
+	NSParameterAssert([theNativeClass isSubclassOfClass:[NSObject class]]);
+	
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // properties from the server which affect how types are interpreted
 
 -(FLXPostgresOid)boundTypeFromObject:(NSObject* )theObject {
 	NSParameterAssert(theObject);
+	/*
 	// NSString
 	if([theObject isKindOfClass:[NSString class]]) {
 		return [self boundTypeFromString:(NSString* )theObject];
@@ -60,6 +74,7 @@
 	if([theObject isKindOfClass:[FLXMacAddr class]]) {
 		return [self boundTypeFromMacAddr:(FLXMacAddr* )theObject];
 	}
+	 */
 	// Unsupported type: we don't support other types yet
 	return 0;		
 }
@@ -72,6 +87,7 @@
 	if([theObject isKindOfClass:[NSNull class]]) {
 		return theObject;
 	}
+	/*
 	// NSString
 	if([theObject isKindOfClass:[NSString class]]) {
 		return [self boundValueFromString:(NSString* )theObject type:theType];
@@ -100,6 +116,7 @@
 	if([theObject isKindOfClass:[NSArray class]]) {
 		return [self boundValueFromArray:(NSArray* )theObject type:theType];
 	}
+	 */
 	// Unsupported type: we don't support other types yet
 	return nil;	
 }
@@ -110,6 +127,8 @@
 // returned instead.
 
 -(NSObject* )objectFromBytes:(const void* )theBytes length:(NSUInteger)theLength type:(FLXPostgresOid)theType {
+	
+	/*
 	switch(theType) {
 		case FLXPostgresTypeChar:
 		case FLXPostgresTypeName:
@@ -160,6 +179,8 @@
 			[[self connection] _noticeProcessorWithMessage:[NSString stringWithFormat:@"Unknown type, %d, returning data object",theType]];
 			return [self dataObjectFromBytes:theBytes length:theLength];
 	}
+	 */
+	return nil;
 }
 
 @end

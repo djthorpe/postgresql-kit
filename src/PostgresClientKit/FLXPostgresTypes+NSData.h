@@ -1,6 +1,4 @@
 
-#import <Foundation/Foundation.h>
-
 @interface FLXPostgresTypes (NSData)
 
 -(NSObject* )boundValueFromData:(NSData* )theData type:(FLXPostgresOid* )theType;

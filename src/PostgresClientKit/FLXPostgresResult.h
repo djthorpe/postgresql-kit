@@ -18,7 +18,7 @@
 // properties - columns and types
 -(NSUInteger)numberOfColumns;
 -(NSArray* )columns;
--(FLXPostgresType)typeForColumn:(NSUInteger)theColumn;
+//-(FLXPostgresType)typeForColumn:(NSUInteger)theColumn;
 -(NSInteger)modifierForColumn:(NSUInteger)theColumn;
 -(NSUInteger)sizeForColumn:(NSUInteger)theColumn;
 

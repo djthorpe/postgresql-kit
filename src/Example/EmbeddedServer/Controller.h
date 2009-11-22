@@ -4,7 +4,7 @@
 #import <PostgresClientKit/PostgresClientKit.h>
 #import "Bindings.h"
 
-@interface Controller : NSObject {
+@interface Controller : NSObject <NSApplicationDelegate> {
 	FLXPostgresServer* server;
 	FLXPostgresConnection* client;
 

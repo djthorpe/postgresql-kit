@@ -104,10 +104,10 @@
 	if([self isIntegerTimestamp]) {
 		// this is number of microseconds since 1st January 2000
 		NSNumber* theMicroseconds = [self integerObjectFromBytes:theBytes length:theLength];	
-		return [[self _epochDate] addTimeInterval:([theMicroseconds doubleValue] / (double)USECS_PER_SEC)];
+		return [[self _epochDate] dateByAddingTimeInterval:([theMicroseconds doubleValue] / (double)USECS_PER_SEC)];
 	} else {
 		double theSeconds = [self float64FromBytes:theBytes];	
-		return [[self _epochDate] addTimeInterval:theSeconds];
+		return [[self _epochDate] dateByAddingTimeInterval:theSeconds];
 	}
 }
 
