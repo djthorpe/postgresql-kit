@@ -15,7 +15,6 @@ void FLXPostgresConnectionNoticeProcessor(void* arg,const char* theMessage) {
 
 NSString* FLXPostgresConnectionErrorDomain = @"FLXPostgresConnectionError";
 NSString* FLXPostgresConnectionScheme = @"pgsql";
-NSString* FLXPostgresConnectionEmptyString = @"";
 
 NSString* FLXPostgresParameterServerVersion = @"server_version";
 NSString* FLXPostgresParameterServerPID = @"server_pid";
@@ -37,7 +36,6 @@ NSString* FLXPostgresParameterProtocolVersion = @"protocol_version";
 @synthesize host = m_theHost;
 @synthesize user = m_theUser;
 @synthesize database = m_theDatabase;
-@synthesize types = m_theTypes;
 
 ////////////////////////////////////////////////////////////////////////////////
 // constructors
@@ -46,7 +44,6 @@ NSString* FLXPostgresParameterProtocolVersion = @"protocol_version";
 	self = [super init];
 	if (self != nil) {
 		m_theConnection = nil;
-		m_theTypes = nil;
 	}
 	return self;
 }
@@ -57,7 +54,6 @@ NSString* FLXPostgresParameterProtocolVersion = @"protocol_version";
 	[self setUser:nil];
 	[self setDatabase:nil];
 	[self setParameters:nil];
-	[self setTypes:nil];
 	[super dealloc];
 }
 
@@ -107,7 +103,6 @@ NSString* FLXPostgresParameterProtocolVersion = @"protocol_version";
 	PQfinish([self PGconn]);
 	m_theConnection = nil;
 	[self setParameters:nil];
-	[self setTypes:nil];
 }
 
 -(void)connect {
@@ -188,9 +183,11 @@ NSString* FLXPostgresParameterProtocolVersion = @"protocol_version";
 	[theDictionary setObject:[NSNumber numberWithInt:PQprotocolVersion(theConnection)] forKey:FLXPostgresParameterProtocolVersion];
 	[theDictionary setObject:[NSNumber numberWithInt:PQbackendPID(theConnection)] forKey:FLXPostgresParameterServerPID];	
 	
-	// set types and parameters
+	// set parameters
 	[self setParameters:theDictionary];
-	[self setTypes:[[[FLXPostgresTypes alloc] initWithConnection:self] autorelease]];
+	
+	// register types
+	[self _registerStandardTypeHandlers];
 }
 
 -(void)reset {
@@ -281,60 +278,67 @@ NSString* FLXPostgresParameterProtocolVersion = @"protocol_version";
 			free(paramLengths);
 			free(paramFormats);
 			[FLXPostgresException raise:FLXPostgresConnectionErrorDomain reason:@"Memory allocation error"];
+			return nil;
 		}
 	}
 	// fill the data structures
 	for(NSUInteger i = 0; i < nParams; i++) {
-		FLXPostgresOid theType = 0;
-		NSObject* theObject = [[self types] boundValueFromObject:[theValues objectAtIndex:i] type:&theType];
-		if(theObject==nil) {
-			[FLXPostgresException raise:FLXPostgresConnectionErrorDomain reason:[NSString stringWithFormat:@"Parameter $%u cannot be converted into a bound value",(i+1)]];
-		}			
-		NSParameterAssert(theObject);
-		NSParameterAssert([theObject isKindOfClass:[NSString class]] || [theObject isKindOfClass:[NSData class]] || [theObject isKindOfClass:[NSNull class]]);
+		id theNativeObject = [theValues objectAtIndex:i];
+		NSParameterAssert(theNativeObject);
 
-		const void* theValue = nil;
-		NSUInteger theLength = 0;
-		BOOL isBinary = NO;
-
-		// assign value and length
-		if([theObject isKindOfClass:[NSNull class]]) {
-			// NULL value
-			theValue = nil;
-		} else if([theObject isKindOfClass:[NSString class]]) {
-			// convert from string
-			theValue = [(NSString* )theObject UTF8String];
-			theLength = [(NSString* )theObject lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
-		} else if([theObject isKindOfClass:[NSData class]]) {
-			// convert from data
-			theLength = [(NSData* )theObject length];
-			if(theLength==0) {
-				// note: if data length is zero, we encode as text instead, as NSData returns 0 for
-				// empty data, and it gets encoded as a NULL
-				theValue = [FLXPostgresConnectionEmptyString UTF8String];
-			} else {			
-				theValue = [(NSData* )theObject bytes];
-				isBinary = YES;
-			}
-		} else {
-			// Internal error - should not get here
-			NSParameterAssert(NO);
+		// deterime if bound value is an NSNull
+		if([theNativeObject isKindOfClass:[NSNull class]]) {
+			paramValues[i] = nil;
+			paramTypes[i] = 0;
+			paramLengths[i] = 0;			
+			paramFormats[i] = 0;
+			continue;
 		}
 		
+		// obtain correct handler for this class
+		id<FLXPostgresTypeProtocol> theTypeHandler = [self _typeHandlerForClass:[theNativeObject class]];
+		if(theTypeHandler==nil) {
+			free(paramValues);
+			free(paramTypes);
+			free(paramLengths);
+			free(paramFormats);			
+			[FLXPostgresException raise:FLXPostgresConnectionErrorDomain reason:[NSString stringWithFormat:@"Parameter $%u unsupported class %@",(i+1),NSStringFromClass([theNativeObject class])]];
+		}			
+		FLXPostgresOid theType = 0;
+		NSData* theData = [theTypeHandler remoteDataFromObject:theNativeObject type:&theType];
+		if(theData==nil) {
+			free(paramValues);
+			free(paramTypes);
+			free(paramLengths);
+			free(paramFormats);			
+			[FLXPostgresException raise:FLXPostgresConnectionErrorDomain reason:[NSString stringWithFormat:@"Parameter $%u cannot be converted into a bound value",(i+1)]];
+			return nil;
+		}			
+
 		// check length of data
-		if(theLength > INT_MAX) {
+		if([theData length] > INT_MAX) {
 			free(paramValues);
 			free(paramTypes);
 			free(paramLengths);
 			free(paramFormats);
-			[FLXPostgresException raise:FLXPostgresConnectionErrorDomain reason:[NSString stringWithFormat:@"Bound value %u exceeds maximum size",i]];			
+			[FLXPostgresException raise:FLXPostgresConnectionErrorDomain reason:[NSString stringWithFormat:@"Bound value $%u exceeds maximum size",(i+1)]];			
+			return nil;
 		}
-
+				
 		// assign data
-		paramValues[i] = theValue;
-		paramTypes[i] = theType;
-		paramLengths[i] = (int)theLength;			
-		paramFormats[i] = isBinary ? 1 : 0;		
+		paramTypes[i] = theType;		
+		if([theData length]==0) {
+			// note: if data length is zero, we encode as text instead, as NSData returns 0 for
+			// empty data, and it gets encoded as a NULL
+			paramValues[i] = "";
+			paramFormats[i] = 0;
+			paramLengths[i] = 0;						
+		} else {			
+			// send as binary data
+			paramValues[i] = [theData bytes];
+			paramLengths[i] = (int)[theData length];			
+			paramFormats[i] = 1;
+		}
 	}	
 
 	// execute the command - return data in binary
@@ -371,7 +375,7 @@ NSString* FLXPostgresParameterProtocolVersion = @"protocol_version";
 	}
 	
 	// return a result object
-	return [[[FLXPostgresResult alloc] initWithTypes:[self types] result:theResult] autorelease];
+	return [[[FLXPostgresResult alloc] initWithResult:theResult] autorelease];
 }
 
 -(FLXPostgresResult* )execute:(NSString* )theQuery {
@@ -453,5 +457,28 @@ NSString* FLXPostgresParameterProtocolVersion = @"protocol_version";
 		[[self delegate] connection:self notice:theMessage];
 	}
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// register type handlers
+
+-(void)_registerTypeHandler:(Class)theTypeHandlerClass {
+	NSParameterAssert(theTypeHandlerClass);
+	NSParameterAssert([theTypeHandlerClass conformsToProtocol:@protocol(FLXPostgresTypeProtocol)]);
+
+	// create an object of this class
+	id<FLXPostgresTypeProtocol> theHandler = [[[theTypeHandlerClass alloc] initWithConnection:self] autorelease];
+	NSParameterAssert(theHandler);
+	
+	
+}
+
+-(void)_registerStandardTypeHandlers {
+	[self _registerTypeHandler:[FLXPostgresTypeNSString class]];	
+}
+
+-(id<FLXPostgresTypeProtocol>)_typeHandlerForClass:(Class)theClass {
+	return nil;
+}
+
 
 @end

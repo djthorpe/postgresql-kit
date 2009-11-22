@@ -21,7 +21,6 @@
 @class FLXPostgresStatement;
 @class FLXPostgresResult;
 @class FLXPostgresException;
-@class FLXPostgresTypes;
 @class FLXMacAddr;
 @class FLXTimeInterval;
 @class FLXPostgresArray;
@@ -44,7 +43,6 @@ extern NSString* FLXPostgresParameterTimeZone;
 extern NSString* FLXPostgresParameterIntegerDateTimes;
 extern NSString* FLXPostgresParameterStandardConformingStrings;
 
-#import "FLXPostgresTypes.h"
 #import "FLXPostgresConnection.h"
 #import "FLXPostgresConnection+Utils.h"
 #import "FLXPostgresStatement.h"

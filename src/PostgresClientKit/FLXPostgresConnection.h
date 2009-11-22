@@ -10,7 +10,6 @@
 	NSDictionary* m_theParameters;
 	NSUInteger m_theTimeout;
 	id delegate;
-	FLXPostgresTypes* m_theTypes;
 }
 
 @property (assign) id delegate;
@@ -20,7 +19,6 @@
 @property (retain) NSString* user;
 @property (retain) NSString* database;
 @property (retain) NSDictionary* parameters;
-@property (retain) FLXPostgresTypes* types;
 
 // init with URL, use scheme pgsql only
 // pgsql://<username>@<hostname>:<port>/<database>/

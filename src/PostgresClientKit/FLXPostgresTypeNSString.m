@@ -15,7 +15,7 @@ FLXPostgresOid FLXPostgresTypeNSStringBoundTypes[] = { FLXPostgresOidText, 0 };
 	return self;
 }
 
--(void) dealloc {
+-(void)dealloc {
 	[m_theConnection release];
 	[super dealloc];
 }

@@ -1,5 +1,7 @@
 
-@interface FLXPostgresTypeNSString : NSObject <FLXPostgresTypeProtocol> { }
+@interface FLXPostgresTypeNSString : NSObject <FLXPostgresTypeProtocol> {
+	FLXPostgresConnection* m_theConnection;
+}
 
 @end
 

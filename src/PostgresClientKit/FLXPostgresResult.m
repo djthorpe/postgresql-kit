@@ -3,16 +3,14 @@
 #import "PostgresClientKitPrivate.h"
 
 @implementation FLXPostgresResult
-@synthesize types = m_theTypes;
 
 ////////////////////////////////////////////////////////////////////////////////
 // constructors
 
--(id)initWithTypes:(FLXPostgresTypes* )theTypes result:(PGresult* )theResult {
+-(id)initWithResult:(PGresult* )theResult {
 	NSParameterAssert(theResult);
 	self = [super init];
 	if(self) {
-		m_theTypes = [theTypes retain];
 		m_theResult = theResult;
 		m_theNumberOfRows = PQntuples([self result]);
 		m_theAffectedRows = [[NSString stringWithUTF8String:PQcmdTuples([self result])] retain];
@@ -24,7 +22,6 @@
 -(void)dealloc {
 	PQclear(m_theResult);
 	[m_theAffectedRows release];
-	[m_theTypes release];
 	[super dealloc];
 }
 
