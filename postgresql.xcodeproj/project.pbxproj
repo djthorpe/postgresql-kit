@@ -34,16 +34,27 @@
 			name = "Build Everything Useful!";
 			productName = "Build Everything!";
 		};
-		6EA8ED2A0FDCD0EA002C6C67 /* Build PostgreSQL 8.3 */ = {
+		6EA8ED2A0FDCD0EA002C6C67 /* Build PostgreSQL 8.3 (don't use) */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 6EA8ED2C0FDCD0EA002C6C67 /* Build configuration list for PBXAggregateTarget "Build PostgreSQL 8.3" */;
+			buildConfigurationList = 6EA8ED2C0FDCD0EA002C6C67 /* Build configuration list for PBXAggregateTarget "Build PostgreSQL 8.3 (don't use)" */;
 			buildPhases = (
 				6EA8ED2B0FDCD0EA002C6C67 /* ShellScript */,
 			);
 			dependencies = (
 			);
-			name = "Build PostgreSQL 8.3";
+			name = "Build PostgreSQL 8.3 (don't use)";
 			productName = "Build Postgresql";
+		};
+		6EF6335810B9773800288BBB /* Build PostgreSQL 8.4 (64-bit only) */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 6EF6335B10B9778000288BBB /* Build configuration list for PBXAggregateTarget "Build PostgreSQL 8.4 (64-bit only)" */;
+			buildPhases = (
+				6EF6335710B9773800288BBB /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = "Build PostgreSQL 8.4 (64-bit only)";
+			productName = "Build PostgresSQL 8.4";
 		};
 /* End PBXAggregateTarget section */
 
@@ -108,7 +119,6 @@
 		6E6211E70F43853E00BE396D /* PostgresServerApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E6211E60F43853E00BE396D /* PostgresServerApp.m */; };
 		6E6212270F4391DB00BE396D /* PostgresServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E23CBEE0DCDD29F0041AA57 /* PostgresServerKit.framework */; };
 		6E6A45B00F6304B30067008B /* libssl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E6A45AF0F6304B30067008B /* libssl.dylib */; };
-		6E6A45B30F6304D20067008B /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E6A45B20F6304D20067008B /* libcrypto.dylib */; };
 		6E83E3AC0F6D6F17003C09AC /* Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E83E3AB0F6D6F17003C09AC /* Controller.m */; };
 		6E83E3C90F6D70AD003C09AC /* PostgresClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E23CD7F0DCDE3C80041AA57 /* PostgresClientKit.framework */; };
 		6E83E3E60F6D7272003C09AC /* FLXPostgresConnectWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E83E3E50F6D7272003C09AC /* FLXPostgresConnectWindowController.m */; };
@@ -165,6 +175,7 @@
 		6EE3AED30F6D6B0F000E000F /* ClientConnect.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6EE3AED20F6D6B0F000E000F /* ClientConnect.xib */; };
 		6EEA67010FB023E700BF5D08 /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEA67000FB023E700BF5D08 /* Application.m */; };
 		6EF3E6420F6D3335001AFA38 /* clear.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6EF3E6410F6D3335001AFA38 /* clear.tiff */; };
+		6EF633B010B982B300288BBB /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EF633AF10B982B300288BBB /* libcrypto.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -238,20 +249,6 @@
 			remoteGlobalIDString = 6E23CD7E0DCDE3C80041AA57;
 			remoteInfo = PostgresClientKit;
 		};
-		6EA8ED380FDCD131002C6C67 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 6EA8ED2A0FDCD0EA002C6C67;
-			remoteInfo = "Build PostgreSQL 8.3";
-		};
-		6EA8ED3A0FDCD13E002C6C67 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 6EA8ED2A0FDCD0EA002C6C67;
-			remoteInfo = "Build PostgreSQL 8.3";
-		};
 		6EA8ED3F0FDCD157002C6C67 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
@@ -307,6 +304,27 @@
 			proxyType = 1;
 			remoteGlobalIDString = 6E90C00C0F6430DB0040B36C;
 			remoteInfo = EmbeddedServer;
+		};
+		6EF6336D10B97E6D00288BBB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6EF6335810B9773800288BBB /* Build PostgreSQL 8.4 (64-bit only) */;
+			remoteInfo = "Build PostgreSQL 8.4 (64-bit only)";
+		};
+		6EF6339510B981D600288BBB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6EF6335810B9773800288BBB /* Build PostgreSQL 8.4 (64-bit only) */;
+			remoteInfo = "Build PostgreSQL 8.4 (64-bit only)";
+		};
+		6EF633F810B9835E00288BBB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6E23CD7E0DCDE3C80041AA57 /* PostgresClientKit */;
+			remoteInfo = PostgresClientKit;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -443,7 +461,6 @@
 		6E6211E50F43853E00BE396D /* PostgresServerApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostgresServerApp.h; sourceTree = "<group>"; };
 		6E6211E60F43853E00BE396D /* PostgresServerApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostgresServerApp.m; sourceTree = "<group>"; };
 		6E6A45AF0F6304B30067008B /* libssl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libssl.dylib; path = /usr/lib/libssl.dylib; sourceTree = "<absolute>"; };
-		6E6A45B20F6304D20067008B /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = /usr/lib/libcrypto.0.9.7.dylib; sourceTree = "<absolute>"; };
 		6E83E3AA0F6D6F17003C09AC /* Controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Controller.h; sourceTree = "<group>"; };
 		6E83E3AB0F6D6F17003C09AC /* Controller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Controller.m; sourceTree = "<group>"; };
 		6E83E3E40F6D7272003C09AC /* FLXPostgresConnectWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLXPostgresConnectWindowController.h; sourceTree = "<group>"; };
@@ -507,6 +524,9 @@
 		6EEA66FF0FB023E700BF5D08 /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
 		6EEA67000FB023E700BF5D08 /* Application.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Application.m; sourceTree = "<group>"; };
 		6EF3E6410F6D3335001AFA38 /* clear.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = clear.tiff; sourceTree = "<group>"; };
+		6EF6335210B9771000288BBB /* postgresql-8.4.1.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = "postgresql-8.4.1.tar.gz"; sourceTree = "<group>"; };
+		6EF6335310B9771000288BBB /* postgresql-8.3.7.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = "postgresql-8.3.7.tar.gz"; sourceTree = "<group>"; };
+		6EF633AF10B982B300288BBB /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = /usr/lib/libcrypto.dylib; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -524,7 +544,7 @@
 			files = (
 				6E23CD840DCDE3EA0041AA57 /* Foundation.framework in Frameworks */,
 				6E6A45B00F6304B30067008B /* libssl.dylib in Frameworks */,
-				6E6A45B30F6304D20067008B /* libcrypto.dylib in Frameworks */,
+				6EF633B010B982B300288BBB /* libcrypto.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -636,8 +656,8 @@
 		1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				6E6A45B20F6304D20067008B /* libcrypto.dylib */,
 				6E6A45AF0F6304B30067008B /* libssl.dylib */,
+				6EF633AF10B982B300288BBB /* libcrypto.dylib */,
 				6ECC89DB0F618F30000993F9 /* libz.dylib */,
 				6EB516600F48257F00C8F8A4 /* Security.framework */,
 				6E62108F0F436C1200BE396D /* PreferencePanes.framework */,
@@ -673,6 +693,8 @@
 		6E23CBD40DCDD00F0041AA57 /* tar */ = {
 			isa = PBXGroup;
 			children = (
+				6EF6335210B9771000288BBB /* postgresql-8.4.1.tar.gz */,
+				6EF6335310B9771000288BBB /* postgresql-8.3.7.tar.gz */,
 				6E23CBD50DCDD08C0041AA57 /* postgresql-8.2.5.tar */,
 			);
 			path = tar;
@@ -994,7 +1016,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				6EA8ED3B0FDCD13E002C6C67 /* PBXTargetDependency */,
+				6EF6336E10B97E6D00288BBB /* PBXTargetDependency */,
 			);
 			name = PostgresServerKit;
 			productName = PostgresServerKit;
@@ -1013,7 +1035,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				6EA8ED390FDCD131002C6C67 /* PBXTargetDependency */,
+				6EF6339610B981D600288BBB /* PBXTargetDependency */,
 			);
 			name = PostgresClientKit;
 			productName = PostgresClientKit;
@@ -1072,6 +1094,7 @@
 			);
 			dependencies = (
 				6E62104B0F4369BA00BE396D /* PBXTargetDependency */,
+				6EF633F910B9835E00288BBB /* PBXTargetDependency */,
 				6E6211E00F4384AF00BE396D /* PBXTargetDependency */,
 				6EC1F8F20F49FC3B006A2A12 /* PBXTargetDependency */,
 			);
@@ -1191,7 +1214,8 @@
 			targets = (
 				6E620F3D0F4366C100BE396D /* Build Everything Useful! */,
 				6E23CBD70DCDD0AB0041AA57 /* Build PostgreSQL 8.2 (don't use) */,
-				6EA8ED2A0FDCD0EA002C6C67 /* Build PostgreSQL 8.3 */,
+				6EA8ED2A0FDCD0EA002C6C67 /* Build PostgreSQL 8.3 (don't use) */,
+				6EF6335810B9773800288BBB /* Build PostgreSQL 8.4 (64-bit only) */,
 				6E23CD7E0DCDE3C80041AA57 /* PostgresClientKit */,
 				6E23CBED0DCDD29F0041AA57 /* PostgresServerKit */,
 				6E26AAFD0F7FC518009F6162 /* PostgresDataKit */,
@@ -1317,7 +1341,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "VERSION=postgresql-8.3.7\nTAR=${SOURCE_ROOT}/tar/${VERSION}.tar.gz\nUNARCHIVE=${DERIVED_SOURCES_DIR}\nBUILD=${BUILT_PRODUCTS_DIR}\nPREFIX=${BUILD}/${VERSION}\n\nif [ -e ${PREFIX} ]\nthen\n  echo \"Assuming already exists: ${PREFIX}\"\n  exit 0\nfi\n\n\necho \"Unarchiving sources to ${UNARCHIVE}\"\necho \"Built postgres with be installed at ${PREFIX}\"\n\n# remove existing build directory, unarchive\nrm -fr \"${UNARCHIVE}\"\nmkdir \"${UNARCHIVE}\"\ncd \"${UNARCHIVE}\"\ntar -zxvf \"${TAR}\"\ncd \"${VERSION}\"\n\n# configure\nexport CFLAGS=\"-isysroot /Developer/SDKs/MacOSX10.5.sdk -arch i386 -arch ppc\"\nexport LDFLAGS=\"-arch i386 -arch ppc\"\n./configure --prefix=\"${PREFIX}\" --enable-thread-safety --without-docdir --without-readline --with-bonjour --with-openssl --disable-rpath --disable-dependency-tracking\n\n# convert to universal binary\nfind . -name Makefile -print -exec perl -p -i.backup -e 's/\\Q$(LD) $(LDREL) $(LDOUT)\\E (\\S+) (.+)/\\$(LD) -arch ppc \\$(LDREL) \\$(LDOUT) $1.ppc $2; \\$(LD) -arch i386 \\$(LDREL) \\$(LDOUT) $1.i386 $2; lipo -create -output $1 $1.ppc $1.i386/' {} \\; \n\n# make and install\nmake\nmake install\n\n# make symbolic link\nrm -f ${BUILD}/postgresql-current\nln -s ${PREFIX} ${BUILD}/postgresql-current \n\nexit 0\n\n";
+			shellScript = "VERSION=postgresql-8.3.7\nTAR=${SOURCE_ROOT}/tar/${VERSION}.tar\nUNARCHIVE=${DERIVED_SOURCES_DIR}\nBUILD=${BUILT_PRODUCTS_DIR}\nPREFIX=${BUILD}/${VERSION}\n\nif [ -e ${PREFIX} ]\nthen\n  echo \"Assuming already exists: ${PREFIX}\"\n  exit 0\nfi\n\n\necho \"Unarchiving sources to ${UNARCHIVE}\"\necho \"Built postgres with be installed at ${PREFIX}\"\n\n# remove existing build directory, unarchive\nrm -fr \"${UNARCHIVE}\"\nmkdir \"${UNARCHIVE}\"\ncd \"${UNARCHIVE}\"\ntar -xvf \"${TAR}\"\ncd \"${VERSION}\"\n\n# configure\nexport CFLAGS=\"-isysroot /Developer/SDKs/MacOSX10.5.sdk -arch i386 -arch ppc\"\nexport LDFLAGS=\"-arch i386 -arch ppc\"\n./configure --prefix=\"${PREFIX}\" --enable-thread-safety --without-docdir --without-readline --with-bonjour --with-openssl --disable-rpath --disable-dependency-tracking\n\n# convert to universal binary\nfind . -name Makefile -print -exec perl -p -i.backup -e 's/\\Q$(LD) $(LDREL) $(LDOUT)\\E (\\S+) (.+)/\\$(LD) -arch ppc \\$(LDREL) \\$(LDOUT) $1.ppc $2; \\$(LD) -arch i386 \\$(LDREL) \\$(LDOUT) $1.i386 $2; lipo -create -output $1 $1.ppc $1.i386/' {} \\; \n\n# make and install\nmake\nmake install\n\n# make symbolic link\nrm -f ${BUILD}/postgresql-current\nln -s ${PREFIX} ${BUILD}/postgresql-current \n\nexit 0\n\n";
 		};
 		6EC0A5640F6703F200DED98A /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1344,7 +1368,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\nHELP_DIR=\"${PROJECT_DIR}/doc/PostgresPrefPaneHelp\"\n\n# run help indexer\necho \"Running Help Indexer for ${HELP_DIR}\"\n/Developer/Applications/Utilities/Help\\ Indexer.app/Contents/MacOS/Help\\ Indexer \"${HELP_DIR}\"\n";
+			shellScript = "\nHELP_DIR=\"${PROJECT_DIR}/doc/PostgresPrefPaneHelp\"\n\n# run help indexer\necho \"Running Help Indexer for ${HELP_DIR}\"\n# TODO /Developer/Applications/Utilities/Help\\ Indexer.app/Contents/MacOS/Help\\ Indexer \"${HELP_DIR}\"\n";
+		};
+		6EF6335710B9773800288BBB /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "VERSION=postgresql-8.4.1\nTAR=${SOURCE_ROOT}/tar/${VERSION}.tar.gz\nUNARCHIVE=${DERIVED_SOURCES_DIR}\nBUILD=${BUILT_PRODUCTS_DIR}\nPREFIX=${BUILD}/${VERSION}\n\nif [ -e ${PREFIX} ]\nthen\n  echo \"Assuming already exists: ${PREFIX}\"\n  exit 0\nfi\n\n\necho \"Unarchiving sources to ${UNARCHIVE}\"\necho \"Built postgres with be installed at ${PREFIX}\"\n\n# remove existing build directory, unarchive\nrm -fr \"${UNARCHIVE}\"\nmkdir \"${UNARCHIVE}\"\ncd \"${UNARCHIVE}\"\ntar -zxvf \"${TAR}\"\ncd \"${VERSION}\"\n\n# configure - for 10.6, we only support 64-bit architecture\nexport CFLAGS=\"-isysroot /Developer/SDKs/MacOSX10.6.sdk -arch x86_64\"\n\U0013export LDFLAGS=\"-arch x86_64\"\n./configure --prefix=\"${PREFIX}\" --enable-thread-safety --without-docdir --without-readline --with-bonjour --with-openssl --with-libxml --with-libxslt --disable-rpath --disable-dependency-tracking\n\n# make and install\nmake\nmake install\n\n# make symbolic link\nrm -f ${BUILD}/postgresql-current\nln -s ${PREFIX} ${BUILD}/postgresql-current \n\nexit 0\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1514,16 +1551,6 @@
 			target = 6E23CD7E0DCDE3C80041AA57 /* PostgresClientKit */;
 			targetProxy = 6E90C0610F64347F0040B36C /* PBXContainerItemProxy */;
 		};
-		6EA8ED390FDCD131002C6C67 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 6EA8ED2A0FDCD0EA002C6C67 /* Build PostgreSQL 8.3 */;
-			targetProxy = 6EA8ED380FDCD131002C6C67 /* PBXContainerItemProxy */;
-		};
-		6EA8ED3B0FDCD13E002C6C67 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 6EA8ED2A0FDCD0EA002C6C67 /* Build PostgreSQL 8.3 */;
-			targetProxy = 6EA8ED3A0FDCD13E002C6C67 /* PBXContainerItemProxy */;
-		};
 		6EA8ED400FDCD157002C6C67 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 6E23CD7E0DCDE3C80041AA57 /* PostgresClientKit */;
@@ -1531,7 +1558,7 @@
 		};
 		6EA8ED440FDCD167002C6C67 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 6EA8ED2A0FDCD0EA002C6C67 /* Build PostgreSQL 8.3 */;
+			target = 6EA8ED2A0FDCD0EA002C6C67 /* Build PostgreSQL 8.3 (don't use) */;
 			targetProxy = 6EA8ED430FDCD167002C6C67 /* PBXContainerItemProxy */;
 		};
 		6EC0A56C0F6703F900DED98A /* PBXTargetDependency */ = {
@@ -1564,6 +1591,21 @@
 			target = 6E90C00C0F6430DB0040B36C /* EmbeddedServer */;
 			targetProxy = 6EF3E6540F6D347C001AFA38 /* PBXContainerItemProxy */;
 		};
+		6EF6336E10B97E6D00288BBB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6EF6335810B9773800288BBB /* Build PostgreSQL 8.4 (64-bit only) */;
+			targetProxy = 6EF6336D10B97E6D00288BBB /* PBXContainerItemProxy */;
+		};
+		6EF6339610B981D600288BBB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6EF6335810B9773800288BBB /* Build PostgreSQL 8.4 (64-bit only) */;
+			targetProxy = 6EF6339510B981D600288BBB /* PBXContainerItemProxy */;
+		};
+		6EF633F910B9835E00288BBB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6E23CD7E0DCDE3C80041AA57 /* PostgresClientKit */;
+			targetProxy = 6EF633F810B9835E00288BBB /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
@@ -1571,7 +1613,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -1586,7 +1628,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -1620,7 +1662,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1633,6 +1675,7 @@
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				INFOPLIST_FILE = "resources/PostgresServerKit-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -1641,6 +1684,7 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = PostgresServerKit;
+				SDKROOT = macosx10.6;
 			};
 			name = Debug;
 		};
@@ -1648,7 +1692,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1660,6 +1704,7 @@
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				INFOPLIST_FILE = "resources/PostgresServerKit-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -1668,6 +1713,7 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = PostgresServerKit;
+				SDKROOT = macosx10.6;
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -1676,7 +1722,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1689,7 +1735,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				GENERATE_MASTER_OBJECT_FILE = YES;
-				HEADER_SEARCH_PATHS = "${BUILT_PRODUCTS_DIR}/postgresql-8.2.5/include";
+				HEADER_SEARCH_PATHS = "${BUILT_PRODUCTS_DIR}/postgresql-current/include";
 				INFOPLIST_FILE = "resources/PostgresClientKit-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
@@ -1702,6 +1748,7 @@
 				PREBINDING = NO;
 				PRELINK_LIBS = "${BUILT_PRODUCTS_DIR}/postgresql-current/lib/libpgtypes.a ${BUILT_PRODUCTS_DIR}/postgresql-current/lib/libpq.a";
 				PRODUCT_NAME = PostgresClientKit;
+				SDKROOT = macosx10.6;
 			};
 			name = Debug;
 		};
@@ -1709,7 +1756,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1721,7 +1768,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				GENERATE_MASTER_OBJECT_FILE = YES;
-				HEADER_SEARCH_PATHS = "${BUILT_PRODUCTS_DIR}/postgresql-8.2.5/include";
+				HEADER_SEARCH_PATHS = "${BUILT_PRODUCTS_DIR}/postgresql-current/include";
 				INFOPLIST_FILE = "resources/PostgresClientKit-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
@@ -1734,6 +1781,7 @@
 				PREBINDING = NO;
 				PRELINK_LIBS = "${BUILT_PRODUCTS_DIR}/postgresql-current/lib/libpgtypes.a ${BUILT_PRODUCTS_DIR}/postgresql-current/lib/libpq.a";
 				PRODUCT_NAME = PostgresClientKit;
+				SDKROOT = macosx10.6;
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -1863,6 +1911,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -1880,6 +1929,7 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = PostgresPrefPane;
+				SDKROOT = macosx10.6;
 				WRAPPER_EXTENSION = prefPane;
 			};
 			name = Debug;
@@ -1888,6 +1938,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -1904,6 +1955,7 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = PostgresPrefPane;
+				SDKROOT = macosx10.6;
 				WRAPPER_EXTENSION = prefPane;
 				ZERO_LINK = NO;
 			};
@@ -2172,6 +2224,27 @@
 			};
 			name = Release;
 		};
+		6EF6335910B9773800288BBB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = "Build PostgresSQL 8.4";
+			};
+			name = Debug;
+		};
+		6EF6335A10B9773800288BBB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PRODUCT_NAME = "Build PostgresSQL 8.4";
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -2265,7 +2338,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6EA8ED2C0FDCD0EA002C6C67 /* Build configuration list for PBXAggregateTarget "Build PostgreSQL 8.3" */ = {
+		6EA8ED2C0FDCD0EA002C6C67 /* Build configuration list for PBXAggregateTarget "Build PostgreSQL 8.3 (don't use)" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6EA8ED2D0FDCD0EA002C6C67 /* Debug */,
@@ -2297,6 +2370,15 @@
 			buildConfigurations = (
 				6EC49A650F6D66870039D454 /* Debug */,
 				6EC49A660F6D66870039D454 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6EF6335B10B9778000288BBB /* Build configuration list for PBXAggregateTarget "Build PostgreSQL 8.4 (64-bit only)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6EF6335910B9773800288BBB /* Debug */,
+				6EF6335A10B9773800288BBB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
