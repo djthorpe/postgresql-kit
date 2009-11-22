@@ -12,16 +12,13 @@ typedef Oid FLXPostgresOid;
 -(id)initWithConnection:(FLXPostgresConnection* )theConnection;
 
 // return the remote type values handled by this class (terminated by 0)
-+(FLXPostgresOid* )remoteTypes;
+-(FLXPostgresOid* )remoteTypes;
 
 // what is the native class this class handles
-+(Class)nativeClass;
+-(Class)nativeClass;
 
 // return transmittable data from object, and set the remote type for the data
 -(NSData* )remoteDataFromObject:(id)theObject type:(FLXPostgresOid* )theType;
-
-// what is the remote type for an object
--(FLXPostgresOid)remoteTypeFromObject:(id)theObject;
 
 // convert remote data into an object
 -(id)objectFromRemoteData:(const void* )theBytes length:(NSUInteger)theLength type:(FLXPostgresOid)theType;
@@ -39,10 +36,11 @@ typedef Oid FLXPostgresOid;
 -(void)_noticeProcessorWithMessage:(NSString* )theMessage;
 -(void)_registerStandardTypeHandlers;
 -(id<FLXPostgresTypeProtocol>)_typeHandlerForClass:(Class)theClass;
+-(id<FLXPostgresTypeProtocol>)_typeHandlerForRemoteType:(FLXPostgresOid)theType;
 @end
 
 @interface FLXPostgresResult (Private)
--(id)initWithResult:(PGresult* )theResult;
+-(id)initWithResult:(PGresult* )theResult connection:(FLXPostgresConnection* )theConnection;
 -(PGresult* )result;
 @end
 

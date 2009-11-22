@@ -3,11 +3,18 @@
 #import "PostgresClientKitPrivate.h"
 #import "FLXPostgresTypeNSString.h"
 
-FLXPostgresOid FLXPostgresTypeNSStringBoundTypes[] = { FLXPostgresOidText, 0 };
+////////////////////////////////////////////////////////////////////////////////
+
+FLXPostgresOid FLXPostgresTypeNSStringTypes[] = { 
+	FLXPostgresOidText,FLXPostgresOidChar,FLXPostgresOidVarchar,FLXPostgresOidUnknown,0 
+};
+
+////////////////////////////////////////////////////////////////////////////////
 
 @implementation FLXPostgresTypeNSString
 
 -(id)initWithConnection:(FLXPostgresConnection* )theConnection {
+	NSParameterAssert(theConnection);
 	self = [super init];
 	if(self != nil) {
 		m_theConnection = [theConnection retain];
@@ -20,65 +27,37 @@ FLXPostgresOid FLXPostgresTypeNSStringBoundTypes[] = { FLXPostgresOidText, 0 };
 	[super dealloc];
 }
 
+////////////////////////////////////////////////////////////////////////////////
 
-
--(FLXPostgresOid* )boundTypes {
-	return FLXPostgresTypeNSStringBoundTypes;
+-(FLXPostgresOid* )remoteTypes {
+	return FLXPostgresTypeNSStringTypes;
 }
 
--(id)objectFromData:(const void* )theBytes length:(NSUInteger)theLength {
-	NSParameterAssert(theBytes);	
+-(Class)nativeClass {
+	return [NSString class];
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// TODO: fix encoding to match whatever database is expecting
+
+-(NSData* )remoteDataFromObject:(id)theObject type:(FLXPostgresOid* )theType {
+	NSParameterAssert(theObject);
+	NSParameterAssert([theObject isKindOfClass:[NSString class]]);	
+	NSParameterAssert(theType);
+	(*theType) = FLXPostgresOidText;
+	// return a string as data (we assume UTF-8 right now)
+	return [(NSString* )theObject dataUsingEncoding:NSUTF8StringEncoding];		
+}
+
+-(id)objectFromRemoteData:(const void* )theBytes length:(NSUInteger)theLength type:(FLXPostgresOid)theType {
+	NSParameterAssert(theBytes);
 	return [[[NSString alloc] initWithBytes:theBytes length:theLength encoding:NSUTF8StringEncoding] autorelease];
 }
 
 -(NSString* )quotedStringFromObject:(id)theObject {
-	size_t theLength = 0;
-	unsigned char* theBuffer = PQescapeByteaConn([[self connection] PGconn],[theData bytes],[theData length],&theLength);
-	if(theBuffer==nil) {
-		return nil;
-	}
-	NSMutableString* theNewString = [[NSMutableString alloc] initWithBytesNoCopy:theBuffer length:(theLength-1) encoding:NSUTF8StringEncoding freeWhenDone:YES];
-	// add quotes
-	[theNewString appendString:@"'"];
-	[theNewString insertString:@"'" atIndex:0];
-	// return the string
-	return [theNewString autorelease];  	
-}
-
--(NSData* )dataFromObject:(id)theObject type:(FLXPostgresOid* )theBoundType {
 	NSParameterAssert(theObject);
-	NSParameterAssert(theBoundType);
-	(*theType) = FLXPostgresOidText;
-	// return a UTF8 string as data
-	return [theString dataUsingEncoding:NSUTF8StringEncoding];	
+	NSParameterAssert([theObject isKindOfClass:[NSString class]]);
+	return nil;
 }
-
-/*
-
-
--(NSObject* )boundValueFromString:(NSString* )theString type:(FLXPostgresOid* )theType {
-	NSParameterAssert(theString);
-	NSParameterAssert(theType);
-	(*theType) = FLXPostgresTypeText;
-	// return a UTF8 string as data
-	return [theString dataUsingEncoding:NSUTF8StringEncoding];
-}
-
--(FLXPostgresOid)boundTypeFromString:(NSString* )theString {
-	NSParameterAssert(theString);
-	return FLXPostgresTypeText;
-}
-
--(NSString* )quotedStringFromString:(NSString* )theString {
-	NSParameterAssert(theString);
-	return [self quotedStringFromData:[theString dataUsingEncoding:NSUTF8StringEncoding]];
-}
-
--(NSObject* )stringObjectFromBytes:(const void* )theBytes length:(NSUInteger)theLength {
-	NSParameterAssert(theBytes);	
-	return [[[NSString alloc] initWithBytes:theBytes length:theLength encoding:NSUTF8StringEncoding] autorelease];
-}
-
- */
 
 @end

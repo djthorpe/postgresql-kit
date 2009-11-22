@@ -144,6 +144,8 @@
 		6ECC8D180F62B7E0000993F9 /* PostgresServerKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ECC8D170F62B7E0000993F9 /* PostgresServerKeychain.m */; };
 		6ECC8E810F62D3C9000993F9 /* PostgresClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E23CD7F0DCDE3C80041AA57 /* PostgresClientKit.framework */; };
 		6ECC8EB50F62D60D000993F9 /* PostgresClientKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 6E23CD7F0DCDE3C80041AA57 /* PostgresClientKit.framework */; };
+		6ECF97A010B9CB5C0029AB09 /* FLXPostgresTypeNSNumber.h in Headers */ = {isa = PBXBuildFile; fileRef = 6ECF979E10B9CB5C0029AB09 /* FLXPostgresTypeNSNumber.h */; };
+		6ECF97A110B9CB5C0029AB09 /* FLXPostgresTypeNSNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ECF979F10B9CB5C0029AB09 /* FLXPostgresTypeNSNumber.m */; };
 		6ED6D5E90F64604200A3D4FC /* Bindings.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ED6D5E80F64604200A3D4FC /* Bindings.m */; };
 		6ED7681B0F868E74008F2097 /* FLXPostgresHostAccessTuple.h in Headers */ = {isa = PBXBuildFile; fileRef = 6ED768190F868E74008F2097 /* FLXPostgresHostAccessTuple.h */; };
 		6ED7681C0F868E74008F2097 /* FLXPostgresHostAccessTuple.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ED7681A0F868E74008F2097 /* FLXPostgresHostAccessTuple.m */; };
@@ -484,6 +486,8 @@
 		6ECC8C300F6297BB000993F9 /* elephant-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "elephant-32.png"; sourceTree = "<group>"; };
 		6ECC8D160F62B7E0000993F9 /* PostgresServerKeychain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostgresServerKeychain.h; sourceTree = "<group>"; };
 		6ECC8D170F62B7E0000993F9 /* PostgresServerKeychain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostgresServerKeychain.m; sourceTree = "<group>"; };
+		6ECF979E10B9CB5C0029AB09 /* FLXPostgresTypeNSNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLXPostgresTypeNSNumber.h; sourceTree = "<group>"; };
+		6ECF979F10B9CB5C0029AB09 /* FLXPostgresTypeNSNumber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLXPostgresTypeNSNumber.m; sourceTree = "<group>"; };
 		6ED484CC0F7A1FCC002AC5AC /* FLXMacAddr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLXMacAddr.h; sourceTree = "<group>"; };
 		6ED484CD0F7A1FCC002AC5AC /* FLXMacAddr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLXMacAddr.m; sourceTree = "<group>"; };
 		6ED4852D0F7A2886002AC5AC /* FLXTimeInterval.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLXTimeInterval.h; sourceTree = "<group>"; };
@@ -650,6 +654,8 @@
 				6E23CDAD0DCDE4FD0041AA57 /* FLXPostgresTypes.m */,
 				6E1EA3640FD13CC50039B9FF /* FLXPostgresTypeNSString.h */,
 				6E1EA3650FD13CC50039B9FF /* FLXPostgresTypeNSString.m */,
+				6ECF979E10B9CB5C0029AB09 /* FLXPostgresTypeNSNumber.h */,
+				6ECF979F10B9CB5C0029AB09 /* FLXPostgresTypeNSNumber.m */,
 				6E1EA3690FD13F1C0039B9FF /* FLXPostgresTypes+NSData.h */,
 				6E1EA36A0FD13F1C0039B9FF /* FLXPostgresTypes+NSData.m */,
 				6E1EA4100FD1441A0039B9FF /* FLXPostgresTypes+NSNumber.h */,
@@ -948,6 +954,7 @@
 				6E27C29A0DD5FF58004BFE98 /* FLXPostgresConnection+Utils.h in Headers */,
 				6E4FFD690F7F853900A11AAD /* FLXPostgresStatement.h in Headers */,
 				6E1EA3680FD13DB10039B9FF /* FLXPostgresTypeNSString.h in Headers */,
+				6ECF97A010B9CB5C0029AB09 /* FLXPostgresTypeNSNumber.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1368,6 +1375,7 @@
 				6E27C29B0DD5FF58004BFE98 /* FLXPostgresConnection+Utils.m in Sources */,
 				6E4FFD6A0F7F853900A11AAD /* FLXPostgresStatement.m in Sources */,
 				6E1EA3670FD13CC50039B9FF /* FLXPostgresTypeNSString.m in Sources */,
+				6ECF97A110B9CB5C0029AB09 /* FLXPostgresTypeNSNumber.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

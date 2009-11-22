@@ -4,24 +4,33 @@
 
 @implementation FLXPostgresResult
 
+@synthesize numberOfColumns = m_theNumberOfColumns;
+@dynamic affectedRows;
+
 ////////////////////////////////////////////////////////////////////////////////
 // constructors
 
--(id)initWithResult:(PGresult* )theResult {
+-(id)initWithResult:(PGresult* )theResult connection:(FLXPostgresConnection* )theConnection {
 	NSParameterAssert(theResult);
 	self = [super init];
 	if(self) {
 		m_theResult = theResult;
 		m_theNumberOfRows = PQntuples([self result]);
+		m_theNumberOfColumns = PQnfields([self result]);
 		m_theAffectedRows = [[NSString stringWithUTF8String:PQcmdTuples([self result])] retain];
 		m_theRow = 0;
+		m_theConnection = [theConnection retain];
+		m_theTypeHandlers = (void** )calloc(sizeof(void* ),m_theNumberOfColumns);
+		NSParameterAssert(m_theTypeHandlers);
 	}
 	return self;
 }
 
 -(void)dealloc {
 	PQclear(m_theResult);
+	free(m_theTypeHandlers);
 	[m_theAffectedRows release];
+	[m_theConnection release];
 	[super dealloc];
 }
 
@@ -35,10 +44,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // properties
 
--(NSUInteger)numberOfColumns {
-	return PQnfields([self result]);
-}
-
 -(NSUInteger)affectedRows {
 	if([self isDataReturned]) {
 		return m_theNumberOfRows;
@@ -48,18 +53,12 @@
 }
 
 -(NSArray* )columns {
-	NSMutableArray* theColumns = [NSMutableArray arrayWithCapacity:[self numberOfColumns]];
-	for(NSUInteger i = 0; i < [self numberOfColumns]; i++) {
+	NSMutableArray* theColumns = [NSMutableArray arrayWithCapacity:m_theNumberOfColumns];
+	for(NSUInteger i = 0; i < m_theNumberOfColumns; i++) {
 		[theColumns addObject:[NSString stringWithUTF8String:PQfname([self result],i)]];
 	}
 	return theColumns;
 }
-
-/*
--(FLXPostgresType)typeForColumn:(NSUInteger)theColumn {
-	return (FLXPostgresType)PQftype([self result],theColumn);
-}
-*/
 
 -(NSInteger)modifierForColumn:(NSUInteger)theColumn {
 	return (NSInteger)PQfmod([self result],theColumn);
@@ -74,10 +73,20 @@
 	return PQresultStatus([self result])==PGRES_TUPLES_OK ? YES : NO;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-// provate methods
+-(id<FLXPostgresTypeProtocol>)typeHandlerForColumn:(NSUInteger)theColumn {
+	NSParameterAssert(theColumn < m_theNumberOfColumns);
+	void* theHandler = m_theTypeHandlers[theColumn];
+	if(theHandler == nil) {
+		FLXPostgresOid theType = PQftype([self result],theColumn);
+		theHandler = m_theTypeHandlers[theColumn] = [m_theConnection _typeHandlerForRemoteType:theType];
+	}	
+	return theHandler;
+}
 
--(NSObject* )_objectForRow:(NSUInteger)theRow column:(NSUInteger)theColumn {
+////////////////////////////////////////////////////////////////////////////////
+// private methods
+
+-(NSObject* )_objectForRow:(NSUInteger)theRow column:(NSUInteger)theColumn {	
 	// check for null
 	if(PQgetisnull([self result],theRow,theColumn)) {
 		return [NSNull null];
@@ -86,8 +95,14 @@
 	const void* theBytes = PQgetvalue([self result],theRow,theColumn);
 	NSUInteger theLength = PQgetlength([self result],theRow,theColumn);
 	FLXPostgresOid theType = PQftype([self result],theColumn);
-	// return object
-	return [[self types] objectFromBytes:theBytes length:theLength type:theType];
+
+	// get handler for this type
+	id<FLXPostgresTypeProtocol> theHandler = [self typeHandlerForColumn:theColumn];
+	if(theHandler==nil) {
+		return [NSData dataWithBytes:theBytes length:theLength];
+	} else {
+		return [theHandler objectFromRemoteData:theBytes length:theLength type:theType];
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -108,7 +123,7 @@
 	// create the array
 	NSMutableArray* theRowArray = [NSMutableArray arrayWithCapacity:[self numberOfColumns]];
 	// fill in the columns
-	for(NSUInteger theColumn = 0; theColumn < [self numberOfColumns]; theColumn++) {
+	for(NSUInteger theColumn = 0; theColumn < m_theNumberOfColumns; theColumn++) {
 		NSObject* theObject = [self _objectForRow:m_theRow column:theColumn];
 		if(theObject==nil) {
 			[FLXPostgresException raise:@"FLXPostgresResultError" reason:[NSString stringWithFormat:@"Unable to retrieve data at resultset row %u, column %u",m_theRow,theColumn]];

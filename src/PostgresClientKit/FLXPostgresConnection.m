@@ -44,11 +44,13 @@ NSString* FLXPostgresParameterProtocolVersion = @"protocol_version";
 	self = [super init];
 	if (self != nil) {
 		m_theConnection = nil;
+		m_theTypeMap = [[NSMutableDictionary alloc] init];
 	}
 	return self;
 }
 
 -(void)dealloc {
+	[m_theTypeMap release];
 	[self disconnect];
 	[self setHost:nil];
 	[self setUser:nil];
@@ -375,7 +377,7 @@ NSString* FLXPostgresParameterProtocolVersion = @"protocol_version";
 	}
 	
 	// return a result object
-	return [[[FLXPostgresResult alloc] initWithResult:theResult] autorelease];
+	return [[[FLXPostgresResult alloc] initWithResult:theResult connection:self] autorelease];
 }
 
 -(FLXPostgresResult* )execute:(NSString* )theQuery {
@@ -416,37 +418,16 @@ NSString* FLXPostgresParameterProtocolVersion = @"protocol_version";
 ////////////////////////////////////////////////////////////////////////////////
 // quote
 
--(NSString* )_quoteData:(NSData* )theData {
-	size_t theLength = 0;
-	unsigned char* theBuffer = PQescapeByteaConn([self PGconn],[theData bytes],[theData length],&theLength);
-	if(theBuffer==nil) {
-		[FLXPostgresException raise:FLXPostgresConnectionErrorDomain connection:[self PGconn]];      
-	}
-	NSMutableString* theNewString = [[NSMutableString alloc] initWithBytesNoCopy:theBuffer length:(theLength-1) encoding:NSUTF8StringEncoding freeWhenDone:YES];
-	// add quotes
-	[theNewString appendString:@"'"];
-	[theNewString insertString:@"'" atIndex:0];
-	// return the string
-	return [theNewString autorelease];  
-}
-
--(NSString* )quote:(NSObject* )theObject {
+-(NSString* )quote:(NSObject* )theObject {	
 	if(theObject==nil || [theObject isKindOfClass:[NSNull class]]) {
 		return @"NULL";
 	}
-	if([theObject isKindOfClass:[NSData class]]) {
-		return [self _quoteData:(NSData* )theObject];
+	id<FLXPostgresTypeProtocol> theHandler = [self _typeHandlerForClass:[theObject class]];
+	if(theHandler==nil) {
+		[FLXPostgresException raise:FLXPostgresConnectionErrorDomain reason:[NSString stringWithFormat:@"Unsupported class %@",NSStringFromClass([theObject class])]];
+		return nil;
 	}
-	if([theObject isKindOfClass:[NSNumber class]]) {
-		return [(NSNumber* )theObject description];
-	}
-	if([theObject isKindOfClass:[NSString class]]) {
-		return [self _quoteData:[(NSString* )theObject dataUsingEncoding:NSUTF8StringEncoding]];
-	}
-	// TODO: NSDate and other types that we support
-	// we should never get here
-	NSParameterAssert(NO);
-	return nil;
+	return [theHandler quotedStringFromObject:theObject];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -459,7 +440,7 @@ NSString* FLXPostgresParameterProtocolVersion = @"protocol_version";
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// register type handlers
+// type handlers
 
 -(void)_registerTypeHandler:(Class)theTypeHandlerClass {
 	NSParameterAssert(theTypeHandlerClass);
@@ -469,16 +450,26 @@ NSString* FLXPostgresParameterProtocolVersion = @"protocol_version";
 	id<FLXPostgresTypeProtocol> theHandler = [[[theTypeHandlerClass alloc] initWithConnection:self] autorelease];
 	NSParameterAssert(theHandler);
 	
-	
+	// add to the type map - for native class
+	[m_theTypeMap setObject:theHandler forKey:NSStringFromClass([theHandler nativeClass])];
+	// add to the type map - for types
+	FLXPostgresOid* theRemoteTypes = [theHandler remoteTypes];
+	for(NSUInteger i = 0; theRemoteTypes[i]; i++) {
+		NSNumber* theKey = [NSNumber numberWithUnsignedInteger:theRemoteTypes[i]];
+		[m_theTypeMap setObject:theHandler forKey:theKey];
+	}
+}
+
+-(id<FLXPostgresTypeProtocol>)_typeHandlerForClass:(Class)theClass {
+	return [m_theTypeMap objectForKey:NSStringFromClass(theClass)];
+}
+
+-(id<FLXPostgresTypeProtocol>)_typeHandlerForRemoteType:(FLXPostgresOid)theType {
+	return [m_theTypeMap objectForKey:[NSNumber numberWithUnsignedInteger:theType]];
 }
 
 -(void)_registerStandardTypeHandlers {
 	[self _registerTypeHandler:[FLXPostgresTypeNSString class]];	
 }
-
--(id<FLXPostgresTypeProtocol>)_typeHandlerForClass:(Class)theClass {
-	return nil;
-}
-
 
 @end

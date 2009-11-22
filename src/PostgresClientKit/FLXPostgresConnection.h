@@ -10,6 +10,7 @@
 	NSDictionary* m_theParameters;
 	NSUInteger m_theTimeout;
 	id delegate;
+	NSMutableDictionary* m_theTypeMap;
 }
 
 @property (assign) id delegate;

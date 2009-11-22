@@ -205,14 +205,20 @@
 	if([theCommand length]==0) return;
 	[bindings appendOutputString:theCommand color:[NSColor grayColor] bold:YES];
 	[bindings setInputString:@""];
-	FLXPostgresResult* theResult = [self _executeQuery:theCommand];	
-	if(theResult==nil) return;
-	if([theResult isDataReturned]==NO) {
-		// output OK
-		[bindings appendOutputString:[NSString stringWithFormat:@"OK, %u rows affected",[theResult affectedRows]] color:[NSColor grayColor] bold:YES];		
-	} else {
-		[self _outputResult:theResult];
-		[bindings appendOutputString:[NSString stringWithFormat:@"%u rows returned",[theResult affectedRows]] color:[NSColor grayColor] bold:YES];	
+	
+	@try {
+		FLXPostgresResult* theResult = [self _executeQuery:theCommand];	
+		if(theResult==nil) return;
+		if([theResult isDataReturned]==NO) {
+			// output OK
+			[bindings appendOutputString:[NSString stringWithFormat:@"OK, %u rows affected",[theResult affectedRows]] color:[NSColor grayColor] bold:YES];		
+		} else {
+			[self _outputResult:theResult];
+			[bindings appendOutputString:[NSString stringWithFormat:@"%u rows returned",[theResult affectedRows]] color:[NSColor grayColor] bold:YES];	
+		}
+	} @catch(NSException* theException) {
+		[bindings appendOutputString:[theException description] color:[NSColor redColor] bold:NO];
+		return;
 	}
 }
 
