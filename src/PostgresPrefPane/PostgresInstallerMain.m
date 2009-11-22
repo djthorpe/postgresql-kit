@@ -115,7 +115,7 @@
 
 	// create data path if doesn't exist
 	if([[NSFileManager defaultManager] fileExistsAtPath:[self dataPath]]==NO) {
-		if([[NSFileManager defaultManager] createDirectoryAtPath:[self dataPath] attributes:nil]==NO) {
+		if([[NSFileManager defaultManager] createDirectoryAtPath:[self dataPath] withIntermediateDirectories:YES attributes:nil error:nil]==NO) {
 			NSLog(@"Unable to create data path: %@",[self dataPath]);
 			return -1;
 		}
