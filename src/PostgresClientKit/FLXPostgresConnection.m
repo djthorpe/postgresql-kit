@@ -261,6 +261,9 @@ NSString* FLXPostgresParameterProtocolVersion = @"protocol_version";
 		[[self delegate] connection:self willExecute:theQuery values:theValues];
 	}
 	
+	// determine casts for statement
+	[FLXPostgresStatement _parseQueryForTypes:theQuery];
+	
 	// create values, lengths and format arrays
 	NSUInteger nParams = theValues ? [theValues count] : 0;
 	const void** paramValues = nil;	

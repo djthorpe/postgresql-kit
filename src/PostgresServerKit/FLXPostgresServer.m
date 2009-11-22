@@ -51,8 +51,8 @@ const unsigned FLXDefaultPostgresPort = 5432;
 	return self;
 }
 
--(unsigned)retainCount {
-	return UINT_MAX;  //denotes an object that cannot be released
+-(NSUInteger)retainCount {
+	return (NSUInteger)UINT_MAX;  // denotes an object that cannot be released
 }
 
 -(void)release {
@@ -357,7 +357,7 @@ const unsigned FLXDefaultPostgresPort = 5432;
 	[theOutPipe release];    
 	
 	if(theReturnCode==0 && [theVersion length]) {
-		return [NSString stringWithCString:[theVersion bytes] length:[theVersion length]];
+		return [[[NSString alloc] initWithData:theVersion encoding:NSUTF8StringEncoding] autorelease];
 	} else {
 		return nil;
 	}
@@ -454,7 +454,7 @@ const unsigned FLXDefaultPostgresPort = 5432;
 	if(theReturnCode==0) {
 		return theOutputFilePath;
 	} else {
-		[[NSFileManager defaultManager] removeFileAtPath:theOutputFilePath handler:nil];
+		[[NSFileManager defaultManager] removeItemAtPath:theOutputFilePath error:nil];
 		return nil;
 	}	
 }
@@ -583,8 +583,8 @@ const unsigned FLXDefaultPostgresPort = 5432;
 		// if postmaster.pid is not readable, return error
 		return -1;
 	}
-	NSDictionary* theAttributes = [[NSFileManager defaultManager] fileAttributesAtPath:thePath traverseLink:YES];
-	if([theAttributes fileSize] > 1024) {
+	NSDictionary* theAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:thePath error:nil];
+	if(theAttributes==nil || [theAttributes fileSize] > 1024) {
 		// if postmaster.pid file is too large, return error
 		return -1;    
 	}
@@ -611,7 +611,7 @@ const unsigned FLXDefaultPostgresPort = 5432;
 	BOOL isDirectory = NO;
 	if([[NSFileManager defaultManager] fileExistsAtPath:thePath isDirectory:&isDirectory]==NO) {
 		// create the directory
-		if([[NSFileManager defaultManager] createDirectoryAtPath:thePath attributes:nil]==NO) {
+		if([[NSFileManager defaultManager] createDirectoryAtPath:thePath withIntermediateDirectories:YES attributes:nil error:nil]==NO) {
 			return NO;
 		}
 	} else if(isDirectory==NO) {
@@ -798,7 +798,7 @@ const unsigned FLXDefaultPostgresPort = 5432;
 	if([[NSFileManager defaultManager] isReadableFileAtPath:thePath]==NO) {
 		return nil;
 	}
-	NSString* theContents = [NSString stringWithContentsOfFile:thePath];
+	NSString* theContents = [NSString stringWithContentsOfFile:thePath encoding:NSUTF8StringEncoding error:nil];
 	if(theContents==nil) {
 		return nil;
 	}

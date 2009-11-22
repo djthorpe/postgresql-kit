@@ -44,7 +44,6 @@ extern NSString* FLXPostgresParameterTimeZone;
 extern NSString* FLXPostgresParameterIntegerDateTimes;
 extern NSString* FLXPostgresParameterStandardConformingStrings;
 
-
 #import "FLXPostgresTypes.h"
 #import "FLXPostgresConnection.h"
 #import "FLXPostgresConnection+Utils.h"

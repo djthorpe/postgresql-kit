@@ -21,6 +21,7 @@ typedef Oid FLXPostgresOid;
 
 @interface FLXPostgresStatement (Private)
 -(id)initWithStatement:(NSString* )theStatement;
+-(void)_parseQueryForTypes:(NSObject* )theQuery;
 @end
 
 @interface FLXPostgresTypes (Private)

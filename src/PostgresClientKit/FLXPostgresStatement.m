@@ -39,4 +39,30 @@
 	}		
 }
 
+////////////////////////////////////////////////////////////////////////////////
+/*
+-(void)_parseQueryForTypes:(NSObject* )theQuery {
+	NSParameterAssert(theQuery);
+	NSParameterAssert([theQuery isKindOfClass:[NSString class]] || [theQuery isKindOfClass:[FLXPostgresStatement class]]);
+	
+	// get statement
+	NSString* theStatement = nil;
+	if([theQuery isKindOfClass:[NSString class]]) {
+		theStatement = (NSString* )theQuery;
+	} else if([theQuery isKindOfClass:[FLXPostgresStatement class]]) {
+		theStatement = [(FLXPostgresStatement* )theQuery statement];
+	}
+	
+	// parse statement
+	NSScanner* theScanner = [NSScanner scannerWithString:theStatement];
+	NSParameterAssert(theScanner);
+	enum { State0,StateQuote } theState = State0;
+	while([theScanner isAtEnd]==NO) {
+		// TODO
+		// skip until we reach quote ' or parameter $
+	}
+	
+}
+*/
+
 @end

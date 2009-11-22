@@ -203,7 +203,7 @@ const NSTimeInterval PostgresPrefPaneFastInterval = 0.5;
 	free(theArgs);
 	
 	// return string based on data
-	return [NSString stringWithCString:[theString bytes] length:[theString length]];
+	return [[[NSString alloc] initWithData:theData encoding:NSUTF8StringEncoding] autorelease];
 }
 
 -(void)_closePreferencePane {
