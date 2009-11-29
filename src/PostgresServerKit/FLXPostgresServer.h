@@ -1,20 +1,4 @@
 
-#import <Foundation/Foundation.h>
-
-typedef enum {
-  FLXServerStateUnknown = 1,
-  FLXServerStateAlreadyRunning,
-  FLXServerStateIgnition,
-  FLXServerStateInitializing,
-  FLXServerStateStarting,
-  FLXServerStateStartingError,
-  FLXServerStateStarted,
-  FLXServerStateStopping,
-  FLXServerStateStopped,
-  FLXBackupStateIdle,
-  FLXBackupStateRunning,
-  FLXBackupStateError	
-} FLXServerState;
 
 @interface FLXPostgresServer : NSObject {
   FLXServerState m_theState;
@@ -22,39 +6,35 @@ typedef enum {
   NSString* m_theDataPath;
   int m_theProcessIdentifier;
   NSString* m_theHostname;
-  int m_thePort;
+  NSUInteger m_thePort;
   id m_theDelegate;
 }
 
+@property (readonly) NSString* dataPath;
+@property (retain) NSString* hostname;
+@property (readonly) NSString* serverVersion;
+@property (assign) NSUInteger port;
+@property (assign) id delegate;
+@property (readonly) int processIdentifier;
+@property (readonly) FLXServerState state;
+@property (readonly) FLXServerState backupState;
+@property (readonly) NSString* stateAsString;
+@property (readonly) NSString* backupStateAsString;
+@property (readonly) BOOL isRunning;
+
+// return shared server object
 +(FLXPostgresServer* )sharedServer;
 
-// delegates
--(void)setDelegate:(id)theDelegate;
-
-// properties - set environment
--(void)setHostname:(NSString* )theHostname;
--(void)setPort:(int)thePort;
-
-// properties - get environment
--(NSString* )dataPath;
--(NSString* )hostname;
--(NSString* )serverVersion;
--(int)port;
-+(int)defaultPort;
+// other properties
++(NSUInteger)defaultPort;
 +(NSString* )superUsername;
 +(NSString* )backupFileSuffix;
 
-// properties - determine server/backup state
--(int)processIdentifier;
--(FLXServerState)state;
--(FLXServerState)backupState;
--(NSString* )stateAsString;
--(NSString* )backupStateAsString;
--(BOOL)isRunning;
-
+	
 // methods - start/stop server
 -(BOOL)startWithDataPath:(NSString* )thePath;
 -(BOOL)stop;
+
 // reload configuration files
 -(BOOL)reload;
 

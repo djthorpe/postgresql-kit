@@ -1,4 +1,8 @@
 
+/*
+ This example shows how to use the PostgresServerKit to create a server
+ */
+
 #import <Foundation/Foundation.h>
 #import <PostgresServerKit/PostgresServerKit.h>
 #include <objc/objc-auto.h>
@@ -21,6 +25,7 @@
 @synthesize signal;
 @synthesize returnValue;
 @dynamic dataPath;
+
 
 -(void)serverMessage:(NSString* )theMessage {	
 	NSLog(@"%@",theMessage);

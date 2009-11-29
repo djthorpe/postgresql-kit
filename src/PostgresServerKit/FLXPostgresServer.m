@@ -2,9 +2,10 @@
 #import "PostgresServerKit.h"
 #include <sys/sysctl.h>
 #import <zlib.h>
+#include <pg_config.h>
 
 static FLXPostgresServer* FLXSharedServer = nil;
-const unsigned FLXDefaultPostgresPort = 5432;
+const NSUInteger FLXDefaultPostgresPort = DEF_PGPORT;
 
 @interface FLXPostgresServer (Private)
 -(BOOL)_createPath:(NSString* )thePath;
@@ -20,6 +21,18 @@ const unsigned FLXDefaultPostgresPort = 5432;
 
 @implementation FLXPostgresServer
 
+@synthesize dataPath = m_theDataPath;
+@synthesize state = m_theState;
+@synthesize backupState = m_theBackupState;
+@synthesize stateAsString;
+@synthesize backupStateAsString;
+@synthesize processIdentifier = m_theProcessIdentifier;
+@synthesize hostname = m_theHostname;
+@synthesize serverVersion;
+@synthesize port = m_thePort;
+@synthesize delegate = m_theDelegate;
+@synthesize isRunning;
+
 ////////////////////////////////////////////////////////////////////////////////
 // singleton design pattern
 // see http://www.cocoadev.com/index.pl?SingletonDesignPattern
@@ -27,20 +40,14 @@ const unsigned FLXDefaultPostgresPort = 5432;
 +(FLXPostgresServer* )sharedServer {
 	@synchronized(self) {
 		if (FLXSharedServer == nil) {
-			[[self alloc] init]; // assignment not done here
+			FLXSharedServer = [[super allocWithZone:nil] init];
 		}
 	}
 	return FLXSharedServer;
 }
 
 +(id)allocWithZone:(NSZone *)zone {
-	@synchronized(self) {
-		if (FLXSharedServer == nil) {
-			FLXSharedServer = [super allocWithZone:zone];
-			return FLXSharedServer;  // assignment and return on first allocation
-		}
-	}
-	return nil; //on subsequent allocation attempts return nil
+	return [[self sharedServer] retain];
 }
 
 -(id)copyWithZone:(NSZone *)zone {
@@ -52,7 +59,7 @@ const unsigned FLXDefaultPostgresPort = 5432;
 }
 
 -(NSUInteger)retainCount {
-	return (NSUInteger)UINT_MAX;  // denotes an object that cannot be released
+	return NSUIntegerMax;  // denotes an object that cannot be released
 }
 
 -(void)release {
@@ -64,7 +71,7 @@ const unsigned FLXDefaultPostgresPort = 5432;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// constructor and destructor
+// constructor
 
 -(id)init {
 	self = [super init];
@@ -80,33 +87,8 @@ const unsigned FLXDefaultPostgresPort = 5432;
 	return self;
 }
 
--(void)dealloc {
-	[m_theDataPath release];
-	[m_theHostname release];
-	[super dealloc];
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// delegates
-
--(void)setDelegate:(id)theDelegate {
-	m_theDelegate = theDelegate;
-}
-
--(id)delegate {
-	return m_theDelegate;
-}
-
 ////////////////////////////////////////////////////////////////////////////////
 // properties
-
--(FLXServerState)state {
-	return m_theState;
-}
-
--(FLXServerState)backupState {
-	return m_theBackupState;
-}
 
 -(NSString* )stateAsString {
 	return [self _messageFromState:[self state]];
@@ -145,44 +127,7 @@ const unsigned FLXDefaultPostgresPort = 5432;
 	}         
 }
 
--(NSString* )dataPath {
-	return m_theDataPath;
-}
-
--(void)setDataPath:(NSString* )thePath {
-	[thePath retain];
-	[m_theDataPath release];
-	m_theDataPath = thePath;
-}
-
--(int)processIdentifier {
-	return m_theProcessIdentifier;
-}
-
--(void)setProcessIdentifier:(int)theProcessIdentifier {
-	m_theProcessIdentifier = theProcessIdentifier;  
-}
-
--(void)setHostname:(NSString* )theHostname {
-	[theHostname retain];
-	[m_theHostname release];
-	m_theHostname = theHostname;
-}
-
--(NSString* )hostname {
-	return m_theHostname;
-}
-
--(void)setPort:(int)thePort {
-	NSParameterAssert(thePort > 0);
-	m_thePort = thePort;
-}
-
--(int)port {
-	return m_thePort;
-}
-
-+(int)defaultPort {
++(NSUInteger)defaultPort {
 	return FLXDefaultPostgresPort;
 }
 
@@ -237,14 +182,14 @@ const unsigned FLXDefaultPostgresPort = 5432;
 	}
 	
 	// set the data path and the pid  
-	[self setDataPath:thePath];
-	[self setProcessIdentifier:-1];
+	m_theDataPath = thePath;
+	m_theProcessIdentifier = -1;
 	
 	// if database process is already running, then set this as the state
 	// and return NO
 	int thePid = [self _processIdentifierFromDataPath];
 	if(thePid > 0) {
-		[self setProcessIdentifier:thePid];
+		m_theProcessIdentifier = thePid;
 		[self setState:FLXServerStateAlreadyRunning];
 		[self _delegateServerMessage:[NSString stringWithFormat:@"Server is already running, pid=%d",thePid]];
 		return NO;
@@ -265,7 +210,7 @@ const unsigned FLXDefaultPostgresPort = 5432;
 	[self _delegateServerMessage:@"Starting background server thread"];
 	
 	// set the pid to zero
-	[self setProcessIdentifier:0];
+	m_theProcessIdentifier = 0;
 	[self setState:FLXServerStateIgnition];
 	// start the background thread to start the server
 	[NSThread detachNewThreadSelector:@selector(_backgroundThread:) toTarget:self withObject:nil];
@@ -326,7 +271,7 @@ const unsigned FLXDefaultPostgresPort = 5432;
 	[self _delegateServerMessage:[NSString stringWithFormat:@"Process is ended with pid: %d",[self processIdentifier]]];
 	
 	// set process identifier to zero
-	[self setProcessIdentifier:-1];
+	m_theProcessIdentifier = -1;
 	[self setState:FLXServerStateStopped];
 	
 	// return success
@@ -683,7 +628,7 @@ const unsigned FLXDefaultPostgresPort = 5432;
 	// launch the postgres database, set the pid
 	[theTask setArguments:theArguments];
 	[theTask launch];                                                 
-	[self setProcessIdentifier:[theTask processIdentifier]];
+	m_theProcessIdentifier = [theTask processIdentifier];
 	
 	NSData* theData = nil;
 	while((theData = [[theOutPipe fileHandleForReading] availableData]) && [theData length]) {
@@ -731,15 +676,15 @@ const unsigned FLXDefaultPostgresPort = 5432;
 	
 	// create the runloop
 	double resolution = 300.0;
-	BOOL isRunning;
+	BOOL _isRunning;
 	do {
 		// run the loop!
 		NSDate* theNextDate = [NSDate dateWithTimeIntervalSinceNow:resolution]; 
-		isRunning = [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:theNextDate]; 
+		_isRunning = [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:theNextDate]; 
 		// occasionally re-create the autorelease pool whilst program is running
 		[thePool release];
 		thePool = [[NSAutoreleasePool alloc] init];            
-	} while(isRunning==YES && [self processIdentifier] >= 0);  
+	} while(_isRunning==YES && [self processIdentifier] >= 0);  
 	
 	[self _delegateServerMessage:@"Background thread has terminated"];
 	
@@ -778,54 +723,13 @@ const unsigned FLXDefaultPostgresPort = 5432;
 			// an error occurred when starting the server
 			// in this state, we need to quit the runloop and close down everything
 			[self _delegateServerMessage:@"Terminating background thread"];
-			[self setProcessIdentifier:-1];
+			m_theProcessIdentifier = -1;
 			CFRunLoopStop([[NSRunLoop currentRunLoop] getCFRunLoop]);
 			break;
 		default:
 			NSAssert(NO,@"Don't know what to do for that state in _backgroundThreadFire");
 			break;
 	}
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// Host-based access file reading
-
--(NSArray* )_readAccessFile {
-	if([self state] != FLXServerStateStarted && [self state] != FLXServerStateAlreadyRunning) {
-		return nil;
-	}
-	NSString* thePath = [FLXPostgresServer postgresAccessPathForDataPath:[self dataPath]];
-	if([[NSFileManager defaultManager] isReadableFileAtPath:thePath]==NO) {
-		return nil;
-	}
-	NSString* theContents = [NSString stringWithContentsOfFile:thePath encoding:NSUTF8StringEncoding error:nil];
-	if(theContents==nil) {
-		return nil;
-	}
-	NSArray* theLines = [theContents componentsSeparatedByString:@"\n"];
-	NSMutableArray* theTuples = [NSMutableArray arrayWithCapacity:[theLines count]];
-	NSString* theComment = nil;
-	for(NSString* theLine in theLines) {
-		NSString* theTrimmedLine = [theLine stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-		if([theTrimmedLine length]==0) {
-			[theTuples addObject:theLine];
-		} else if([theTrimmedLine hasPrefix:@"#"]) {
-			theComment = [theTrimmedLine substringFromIndex:1];
-			[theTuples addObject:theLine];
-		} else {
-			FLXPostgresHostAccessTuple* theTuple = [FLXPostgresHostAccessTuple hostAccessTupleForLine:theTrimmedLine];
-			if(theTuple==nil) {
-				return NO;
-			}
-			if(theComment) {
-				[theTuple setComment:theComment];
-				[theTuples removeLastObject];
-				theComment = nil;
-			}
-			[theTuples addObject:theTuple];
-		}
-	}
-	return theTuples;
 }
 
 @end

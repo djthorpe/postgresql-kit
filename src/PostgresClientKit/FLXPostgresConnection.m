@@ -470,6 +470,7 @@ NSString* FLXPostgresParameterProtocolVersion = @"protocol_version";
 
 -(void)_registerStandardTypeHandlers {
 	[self _registerTypeHandler:[FLXPostgresTypeNSString class]];	
+	[self _registerTypeHandler:[FLXPostgresTypeNSNumber class]];	
 }
 
 @end

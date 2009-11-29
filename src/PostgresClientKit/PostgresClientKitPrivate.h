@@ -106,4 +106,5 @@ enum {
 };
 
 #import "FLXPostgresTypeNSString.h"
+#import "FLXPostgresTypeNSNumber.h"
 
