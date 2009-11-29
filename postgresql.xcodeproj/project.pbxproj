@@ -83,6 +83,11 @@
 		6E6211E70F43853E00BE396D /* PostgresServerApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E6211E60F43853E00BE396D /* PostgresServerApp.m */; };
 		6E6212270F4391DB00BE396D /* PostgresServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E23CBEE0DCDD29F0041AA57 /* PostgresServerKit.framework */; };
 		6E6A45B00F6304B30067008B /* libssl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E6A45AF0F6304B30067008B /* libssl.dylib */; };
+		6E7663D010C3039700514871 /* FLXPostgresServer+Access.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E7663CE10C3039700514871 /* FLXPostgresServer+Access.h */; };
+		6E7663D110C3039700514871 /* FLXPostgresServer+Access.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7663CF10C3039700514871 /* FLXPostgresServer+Access.m */; };
+		6E7663E310C306C300514871 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7663E210C306C300514871 /* main.m */; };
+		6E76642610C3089900514871 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE3AECF0F6D6AEA000E000F /* main.m */; };
+		6E76642E10C308CE00514871 /* CocoaServer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E76642D10C308CE00514871 /* CocoaServer.xib */; };
 		6E83E3AC0F6D6F17003C09AC /* Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E83E3AB0F6D6F17003C09AC /* Controller.m */; };
 		6E83E3C90F6D70AD003C09AC /* PostgresClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E23CD7F0DCDE3C80041AA57 /* PostgresClientKit.framework */; };
 		6E83E3E60F6D7272003C09AC /* FLXPostgresConnectWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E83E3E50F6D7272003C09AC /* FLXPostgresConnectWindowController.m */; };
@@ -98,7 +103,6 @@
 		6EB0133B0F6E420A004C2879 /* FLXPostgresConnectSetting.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB0133A0F6E420A004C2879 /* FLXPostgresConnectSetting.m */; };
 		6EB014260F6EE1BC004C2879 /* FLXTaggedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB014250F6EE1BC004C2879 /* FLXTaggedView.m */; };
 		6EB1D5E610C2BA2300753CDE /* PostgresServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E23CBEE0DCDD29F0041AA57 /* PostgresServerKit.framework */; };
-		6EB1D60010C2BA3500753CDE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB1D5CB10C2B86F00753CDE /* main.m */; };
 		6EB1D60410C2BA4C00753CDE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E23CC610DCDD8A60041AA57 /* Foundation.framework */; };
 		6EB5160B0F48243C00C8F8A4 /* PostgresPrefPaneShared.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB5160A0F48243C00C8F8A4 /* PostgresPrefPaneShared.m */; };
 		6EB5160C0F48243C00C8F8A4 /* PostgresPrefPaneShared.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB5160A0F48243C00C8F8A4 /* PostgresPrefPaneShared.m */; };
@@ -420,6 +424,12 @@
 		6E6211E50F43853E00BE396D /* PostgresServerApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostgresServerApp.h; sourceTree = "<group>"; };
 		6E6211E60F43853E00BE396D /* PostgresServerApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostgresServerApp.m; sourceTree = "<group>"; };
 		6E6A45AF0F6304B30067008B /* libssl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libssl.dylib; path = /usr/lib/libssl.dylib; sourceTree = "<absolute>"; };
+		6E7663CE10C3039700514871 /* FLXPostgresServer+Access.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FLXPostgresServer+Access.h"; sourceTree = "<group>"; };
+		6E7663CF10C3039700514871 /* FLXPostgresServer+Access.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FLXPostgresServer+Access.m"; sourceTree = "<group>"; };
+		6E7663E210C306C300514871 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		6E76640E10C307C300514871 /* CocoaServer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CocoaServer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6E76641C10C3080000514871 /* CocoaServer-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "CocoaServer-Info.plist"; sourceTree = "<group>"; };
+		6E76642D10C308CE00514871 /* CocoaServer.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CocoaServer.xib; sourceTree = "<group>"; };
 		6E83E3AA0F6D6F17003C09AC /* Controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Controller.h; sourceTree = "<group>"; };
 		6E83E3AB0F6D6F17003C09AC /* Controller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Controller.m; sourceTree = "<group>"; };
 		6E83E3E40F6D7272003C09AC /* FLXPostgresConnectWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLXPostgresConnectWindowController.h; sourceTree = "<group>"; };
@@ -443,8 +453,7 @@
 		6EB0133A0F6E420A004C2879 /* FLXPostgresConnectSetting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLXPostgresConnectSetting.m; sourceTree = "<group>"; };
 		6EB014240F6EE1BC004C2879 /* FLXTaggedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLXTaggedView.h; sourceTree = "<group>"; };
 		6EB014250F6EE1BC004C2879 /* FLXTaggedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLXTaggedView.m; sourceTree = "<group>"; };
-		6EB1D5CB10C2B86F00753CDE /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		6EB1D5D410C2B98A00753CDE /* ServerStartup */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ServerStartup; sourceTree = BUILT_PRODUCTS_DIR; };
+		6EB1D5D410C2B98A00753CDE /* FoundationServer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = FoundationServer; sourceTree = BUILT_PRODUCTS_DIR; };
 		6EB516090F48243C00C8F8A4 /* PostgresPrefPaneShared.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostgresPrefPaneShared.h; sourceTree = "<group>"; };
 		6EB5160A0F48243C00C8F8A4 /* PostgresPrefPaneShared.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostgresPrefPaneShared.m; sourceTree = "<group>"; };
 		6EB516600F48257F00C8F8A4 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
@@ -542,6 +551,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6E76640C10C307C300514871 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6E90C00B0F6430DB0040B36C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -602,7 +618,8 @@
 				6EC0A5660F6703F200DED98A /* UnitTests.octest */,
 				6E462F1A0F6EF843009C3655 /* TypeTests */,
 				6E26AAFE0F7FC518009F6162 /* PostgresDataKit.framework */,
-				6EB1D5D410C2B98A00753CDE /* ServerStartup */,
+				6EB1D5D410C2B98A00753CDE /* FoundationServer */,
+				6E76640E10C307C300514871 /* CocoaServer.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -658,6 +675,7 @@
 			isa = PBXGroup;
 			children = (
 				6E90C01B0F64312D0040B36C /* Images */,
+				6E76641E10C3083400514871 /* CocoaServer */,
 				6E90C0320F64314E0040B36C /* EmbeddedServer */,
 				6EE3AEC80F6D6A86000E000F /* ClientConnect */,
 				6E90C01A0F6431130040B36C /* PostgresPrefPane */,
@@ -688,6 +706,8 @@
 				6E23CC170DCDD4CE0041AA57 /* PostgresServerKit.h */,
 				6E23CC190DCDD5180041AA57 /* FLXPostgresServer.h */,
 				6E23CC1A0DCDD5180041AA57 /* FLXPostgresServer.m */,
+				6E7663CE10C3039700514871 /* FLXPostgresServer+Access.h */,
+				6E7663CF10C3039700514871 /* FLXPostgresServer+Access.m */,
 			);
 			path = PostgresServerKit;
 			sourceTree = "<group>";
@@ -770,13 +790,38 @@
 			path = PostgresPrefPane;
 			sourceTree = "<group>";
 		};
+		6E7663E110C306C300514871 /* FoundationServer */ = {
+			isa = PBXGroup;
+			children = (
+				6E7663E210C306C300514871 /* main.m */,
+			);
+			path = FoundationServer;
+			sourceTree = "<group>";
+		};
+		6E76640210C3079B00514871 /* CocoaServer */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = CocoaServer;
+			sourceTree = "<group>";
+		};
+		6E76641E10C3083400514871 /* CocoaServer */ = {
+			isa = PBXGroup;
+			children = (
+				6E76642D10C308CE00514871 /* CocoaServer.xib */,
+				6E76641C10C3080000514871 /* CocoaServer-Info.plist */,
+			);
+			name = CocoaServer;
+			sourceTree = "<group>";
+		};
 		6E90BFE80F6430430040B36C /* Example */ = {
 			isa = PBXGroup;
 			children = (
-				6EB1D5CA10C2B85800753CDE /* ServerStartup */,
+				6E7663E110C306C300514871 /* FoundationServer */,
+				6E76640210C3079B00514871 /* CocoaServer */,
+				6E90BFE90F6430430040B36C /* EmbeddedServer */,
 				6E462F230F6EF888009C3655 /* TypeTests */,
 				6EC49A590F6D66630039D454 /* ClientConnect */,
-				6E90BFE90F6430430040B36C /* EmbeddedServer */,
 				6EE3AECE0F6D6AD9000E000F /* Other Files */,
 			);
 			path = Example;
@@ -834,14 +879,6 @@
 				6E90C0430F64320C0040B36C /* EmbeddedServer-Info.plist */,
 			);
 			name = EmbeddedServer;
-			sourceTree = "<group>";
-		};
-		6EB1D5CA10C2B85800753CDE /* ServerStartup */ = {
-			isa = PBXGroup;
-			children = (
-				6EB1D5CB10C2B86F00753CDE /* main.m */,
-			);
-			path = ServerStartup;
 			sourceTree = "<group>";
 		};
 		6EC0A59C0F67050200DED98A /* UnitTests */ = {
@@ -942,6 +979,7 @@
 			files = (
 				6E23CC180DCDD4CE0041AA57 /* PostgresServerKit.h in Headers */,
 				6E23CC1B0DCDD5180041AA57 /* FLXPostgresServer.h in Headers */,
+				6E7663D010C3039700514871 /* FLXPostgresServer+Access.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1093,6 +1131,23 @@
 			productReference = 6E6211DB0F43849700BE396D /* PostgresServerApp */;
 			productType = "com.apple.product-type.tool";
 		};
+		6E76640D10C307C300514871 /* CocoaServer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6E76641310C307C400514871 /* Build configuration list for PBXNativeTarget "CocoaServer" */;
+			buildPhases = (
+				6E76640A10C307C300514871 /* Resources */,
+				6E76640B10C307C300514871 /* Sources */,
+				6E76640C10C307C300514871 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CocoaServer;
+			productName = CocoaServer;
+			productReference = 6E76640E10C307C300514871 /* CocoaServer.app */;
+			productType = "com.apple.product-type.application";
+		};
 		6E90C00C0F6430DB0040B36C /* EmbeddedServer */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6E90C0160F6430DC0040B36C /* Build configuration list for PBXNativeTarget "EmbeddedServer" */;
@@ -1113,9 +1168,9 @@
 			productReference = 6E90C00D0F6430DB0040B36C /* EmbeddedServer.app */;
 			productType = "com.apple.product-type.application";
 		};
-		6EB1D5D310C2B98A00753CDE /* ServerStartup */ = {
+		6EB1D5D310C2B98A00753CDE /* FoundationServer */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6EB1D5D810C2B9B100753CDE /* Build configuration list for PBXNativeTarget "ServerStartup" */;
+			buildConfigurationList = 6EB1D5D810C2B9B100753CDE /* Build configuration list for PBXNativeTarget "FoundationServer" */;
 			buildPhases = (
 				6EB1D5D110C2B98A00753CDE /* Sources */,
 				6EB1D5D210C2B98A00753CDE /* Frameworks */,
@@ -1125,9 +1180,9 @@
 			dependencies = (
 				6EB1D60D10C2BA6900753CDE /* PBXTargetDependency */,
 			);
-			name = ServerStartup;
+			name = FoundationServer;
 			productName = ServerStartup;
-			productReference = 6EB1D5D410C2B98A00753CDE /* ServerStartup */;
+			productReference = 6EB1D5D410C2B98A00753CDE /* FoundationServer */;
 			productType = "com.apple.product-type.tool";
 		};
 		6EC0A5650F6703F200DED98A /* UnitTests */ = {
@@ -1213,7 +1268,8 @@
 				6E90C00C0F6430DB0040B36C /* EmbeddedServer */,
 				6EC0A5650F6703F200DED98A /* UnitTests */,
 				6E462F190F6EF843009C3655 /* TypeTests */,
-				6EB1D5D310C2B98A00753CDE /* ServerStartup */,
+				6EB1D5D310C2B98A00753CDE /* FoundationServer */,
+				6E76640D10C307C300514871 /* CocoaServer */,
 			);
 		};
 /* End PBXProject section */
@@ -1252,6 +1308,14 @@
 				6ECC8C1F0F629794000993F9 /* elephant-64.png in Resources */,
 				6ECC8C310F6297BB000993F9 /* elephant-32.png in Resources */,
 				6ECC8C5A0F629D1D000993F9 /* strapline-200x40.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6E76640A10C307C300514871 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6E76642E10C308CE00514871 /* CocoaServer.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1353,6 +1417,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E23CC1C0DCDD5180041AA57 /* FLXPostgresServer.m in Sources */,
+				6E7663D110C3039700514871 /* FLXPostgresServer+Access.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1411,6 +1476,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6E76640B10C307C300514871 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6E76642610C3089900514871 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6E90C00A0F6430DB0040B36C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1425,7 +1498,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6EB1D60010C2BA3500753CDE /* main.m in Sources */,
+				6E7663E310C306C300514871 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1955,6 +2028,54 @@
 			};
 			name = Release;
 		};
+		6E76641110C307C400514871 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "resources/CocoaServer-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = CocoaServer;
+			};
+			name = Debug;
+		};
+		6E76641210C307C400514871 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "resources/CocoaServer-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = CocoaServer;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 		6E90C0140F6430DC0040B36C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2028,7 +2149,7 @@
 					AppKit,
 				);
 				PREBINDING = NO;
-				PRODUCT_NAME = ServerStartup;
+				PRODUCT_NAME = FoundationServer;
 				SDKROOT = macosx10.6;
 			};
 			name = Debug;
@@ -2053,7 +2174,7 @@
 					AppKit,
 				);
 				PREBINDING = NO;
-				PRODUCT_NAME = ServerStartup;
+				PRODUCT_NAME = FoundationServer;
 				SDKROOT = macosx10.6;
 				ZERO_LINK = NO;
 			};
@@ -2307,6 +2428,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		6E76641310C307C400514871 /* Build configuration list for PBXNativeTarget "CocoaServer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6E76641110C307C400514871 /* Debug */,
+				6E76641210C307C400514871 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		6E90C0160F6430DC0040B36C /* Build configuration list for PBXNativeTarget "EmbeddedServer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -2316,7 +2446,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6EB1D5D810C2B9B100753CDE /* Build configuration list for PBXNativeTarget "ServerStartup" */ = {
+		6EB1D5D810C2B9B100753CDE /* Build configuration list for PBXNativeTarget "FoundationServer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6EB1D5D610C2B98A00753CDE /* Debug */,

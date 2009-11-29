@@ -159,10 +159,6 @@ const NSUInteger FLXDefaultPostgresPort = DEF_PGPORT;
 	return [[self bundlePath] stringByAppendingPathComponent:@"Resources/postgresql-current/lib"];
 }
 
-+(NSString* )postgresAccessPathForDataPath:(NSString* )thePath {
-	return [thePath stringByAppendingPathComponent:@"data/pg_hba.conf"];
-}
-
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
 
