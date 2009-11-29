@@ -1,7 +1,9 @@
 
 /*
- This example shows how to use the PostgresServerKit to create a server
- */
+ This example shows how to use the PostgresServerKit to create a server, as
+ a foundation shell tool. When the server is started, any signal (TERM or KILL)
+ is handled to stop the server gracefully.
+*/
 
 #import <Foundation/Foundation.h>
 #import <PostgresServerKit/PostgresServerKit.h>
