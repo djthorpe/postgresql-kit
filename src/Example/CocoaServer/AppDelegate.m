@@ -1,9 +1,10 @@
 
-#import "Controller.h"
+#import "AppDelegate.h"
 
 @implementation AppDelegate
 
 @synthesize window;
+@synthesize timer;
 @dynamic server;
 @dynamic dataPath;
 
@@ -35,11 +36,25 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 -(void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+
 	// create a timer
-	[NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(timerFired:) userInfo:nil repeats:YES];
+	NSTimer* theTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(timerFired:) userInfo:nil repeats:YES];
+	[self setTimer:theTimer];
 	
 	// set server delegate
 	[[self server] setDelegate:self];		
+}
+
+-(void)applicationWillTerminate:(NSNotification *)aNotification {
+	do {
+		// stop the server
+		[[self server] stop];
+		// wait for a little while
+		[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+	} while([[self server] state] != FLXServerStateStopped);
+	
+	// invalidate the timer - remove from run loop
+	[[self timer] invalidate];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -53,7 +68,7 @@
 	}
 	
 	// start server if state is unknown
-	if([[self server] state]==FLXServerStateUnknown) {
+	if([[self server] state]==FLXServerStateUnknown || [[self server] state]==FLXServerStateStopped) {
 		BOOL isStarting = [[self server] startWithDataPath:[self dataPath]];
 		if(isStarting==NO) {
 			[[self server] stop];

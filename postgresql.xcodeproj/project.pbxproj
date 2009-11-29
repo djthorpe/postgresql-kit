@@ -110,6 +110,9 @@
 		6EB516560F48254400C8F8A4 /* PostgresServerKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 6E23CBEE0DCDD29F0041AA57 /* PostgresServerKit.framework */; };
 		6EB516610F48257F00C8F8A4 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EB516600F48257F00C8F8A4 /* Security.framework */; };
 		6EB516A00F482C7D00C8F8A4 /* PostgresPrefPaneServerStartupItem.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6EB5169F0F482C7D00C8F8A4 /* PostgresPrefPaneServerStartupItem.plist */; };
+		6EB6EC9F10C311CF000C7275 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB6EC9E10C311CF000C7275 /* AppDelegate.m */; };
+		6EB6ECA510C3126B000C7275 /* PostgresServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E23CBEE0DCDD29F0041AA57 /* PostgresServerKit.framework */; };
+		6EB6ECC110C312E1000C7275 /* PostgresServerKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6E23CBEE0DCDD29F0041AA57 /* PostgresServerKit.framework */; };
 		6EBCA4120F6DA73A00FB960C /* gradient-1.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EBCA4110F6DA73A00FB960C /* gradient-1.png */; };
 		6EBCA4150F6DA84400FB960C /* gear-14x14.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EBCA4140F6DA84400FB960C /* gear-14x14.png */; };
 		6EC0A56F0F67040D00DED98A /* PostgresClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E23CD7F0DCDE3C80041AA57 /* PostgresClientKit.framework */; };
@@ -225,6 +228,13 @@
 			remoteGlobalIDString = 6E23CBED0DCDD29F0041AA57;
 			remoteInfo = PostgresServerKit;
 		};
+		6EB6ECAB10C31286000C7275 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6E23CBED0DCDD29F0041AA57 /* PostgresServerKit */;
+			remoteInfo = PostgresServerKit;
+		};
 		6EC0A56B0F6703F900DED98A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
@@ -324,6 +334,16 @@
 				6EB5161D0F48252400C8F8A4 /* PostgresServerApp in Copy Applications */,
 			);
 			name = "Copy Applications";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6EB6ECD810C3133F000C7275 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				6EB6ECC110C312E1000C7275 /* PostgresServerKit.framework in CopyFiles */,
+			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		6EC0A6100F6707C100DED98A /* Copy Frameworks */ = {
@@ -458,6 +478,8 @@
 		6EB5160A0F48243C00C8F8A4 /* PostgresPrefPaneShared.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostgresPrefPaneShared.m; sourceTree = "<group>"; };
 		6EB516600F48257F00C8F8A4 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
 		6EB5169F0F482C7D00C8F8A4 /* PostgresPrefPaneServerStartupItem.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PostgresPrefPaneServerStartupItem.plist; sourceTree = "<group>"; };
+		6EB6EC9D10C311CF000C7275 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		6EB6EC9E10C311CF000C7275 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		6EBCA4110F6DA73A00FB960C /* gradient-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gradient-1.png"; sourceTree = "<group>"; };
 		6EBCA4140F6DA84400FB960C /* gear-14x14.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gear-14x14.png"; sourceTree = "<group>"; };
 		6EC0A5660F6703F200DED98A /* UnitTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnitTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -555,6 +577,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6EB6ECA510C3126B000C7275 /* PostgresServerKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -801,6 +824,8 @@
 		6E76640210C3079B00514871 /* CocoaServer */ = {
 			isa = PBXGroup;
 			children = (
+				6EB6EC9D10C311CF000C7275 /* AppDelegate.h */,
+				6EB6EC9E10C311CF000C7275 /* AppDelegate.m */,
 			);
 			path = CocoaServer;
 			sourceTree = "<group>";
@@ -1138,10 +1163,12 @@
 				6E76640A10C307C300514871 /* Resources */,
 				6E76640B10C307C300514871 /* Sources */,
 				6E76640C10C307C300514871 /* Frameworks */,
+				6EB6ECD810C3133F000C7275 /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				6EB6ECAC10C31286000C7275 /* PBXTargetDependency */,
 			);
 			name = CocoaServer;
 			productName = CocoaServer;
@@ -1481,6 +1508,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E76642610C3089900514871 /* main.m in Sources */,
+				6EB6EC9F10C311CF000C7275 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1592,6 +1620,11 @@
 			isa = PBXTargetDependency;
 			target = 6E23CBED0DCDD29F0041AA57 /* PostgresServerKit */;
 			targetProxy = 6EB1D60C10C2BA6900753CDE /* PBXContainerItemProxy */;
+		};
+		6EB6ECAC10C31286000C7275 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6E23CBED0DCDD29F0041AA57 /* PostgresServerKit */;
+			targetProxy = 6EB6ECAB10C31286000C7275 /* PBXContainerItemProxy */;
 		};
 		6EC0A56C0F6703F900DED98A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
