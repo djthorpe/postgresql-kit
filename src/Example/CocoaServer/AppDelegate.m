@@ -55,6 +55,7 @@
 }
 
 -(void)backupToPath:(NSString* )thePath {
+	[self addLogMessage:[NSString stringWithFormat:@"Backing up to path: %@",thePath]];
 	[[self server] backupInBackgroundToFolderPath:thePath superPassword:nil];
 }
 
@@ -130,7 +131,7 @@
 }
 
 -(IBAction)doServerAccess:(id)sender {
-	
+	// TODO
 }
 
 
