@@ -122,9 +122,7 @@
 		6EBCA4120F6DA73A00FB960C /* gradient-1.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EBCA4110F6DA73A00FB960C /* gradient-1.png */; };
 		6EBCA4150F6DA84400FB960C /* gear-14x14.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EBCA4140F6DA84400FB960C /* gear-14x14.png */; };
 		6EC0A56F0F67040D00DED98A /* PostgresClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E23CD7F0DCDE3C80041AA57 /* PostgresClientKit.framework */; };
-		6EC0A5700F67040D00DED98A /* PostgresServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E23CBEE0DCDD29F0041AA57 /* PostgresServerKit.framework */; };
 		6EC0A5D40F67078C00DED98A /* PostgresClientKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 6E23CD7F0DCDE3C80041AA57 /* PostgresClientKit.framework */; };
-		6EC0A5E00F67079200DED98A /* PostgresServerKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 6E23CBEE0DCDD29F0041AA57 /* PostgresServerKit.framework */; };
 		6EC1F8EE0F49FC24006A2A12 /* PostgresInstallerApp in Copy Applications */ = {isa = PBXBuildFile; fileRef = 6EC1F8EA0F49FC02006A2A12 /* PostgresInstallerApp */; };
 		6EC1F8FD0F49FCB3006A2A12 /* PostgresInstallerMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC1F8FC0F49FCB3006A2A12 /* PostgresInstallerMain.m */; };
 		6EC1F93C0F4A02B9006A2A12 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E23CC610DCDD8A60041AA57 /* Foundation.framework */; };
@@ -248,13 +246,6 @@
 			remoteGlobalIDString = 6E23CD7E0DCDE3C80041AA57;
 			remoteInfo = PostgresClientKit;
 		};
-		6EC0A56D0F6703FF00DED98A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 6E23CBED0DCDD29F0041AA57;
-			remoteInfo = PostgresServerKit;
-		};
 		6EC0A64F0F67098900DED98A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
@@ -359,7 +350,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				6EC0A5D40F67078C00DED98A /* PostgresClientKit.framework in Copy Frameworks */,
-				6EC0A5E00F67079200DED98A /* PostgresServerKit.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -610,7 +600,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				6EC0A56F0F67040D00DED98A /* PostgresClientKit.framework in Frameworks */,
-				6EC0A5700F67040D00DED98A /* PostgresServerKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1232,7 +1221,6 @@
 			);
 			dependencies = (
 				6EC0A56C0F6703F900DED98A /* PBXTargetDependency */,
-				6EC0A56E0F6703FF00DED98A /* PBXTargetDependency */,
 			);
 			name = UnitTests;
 			productName = UnitTests;
@@ -1642,11 +1630,6 @@
 			isa = PBXTargetDependency;
 			target = 6E23CD7E0DCDE3C80041AA57 /* PostgresClientKit */;
 			targetProxy = 6EC0A56B0F6703F900DED98A /* PBXContainerItemProxy */;
-		};
-		6EC0A56E0F6703FF00DED98A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 6E23CBED0DCDD29F0041AA57 /* PostgresServerKit */;
-			targetProxy = 6EC0A56D0F6703FF00DED98A /* PBXContainerItemProxy */;
 		};
 		6EC0A6500F67098900DED98A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

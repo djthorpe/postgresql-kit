@@ -1,10 +1,11 @@
+
 #import <SenTestingKit/SenTestingKit.h>
 #import <PostgresClientKit/PostgresClientKit.h>
 
 @interface TypeTests : SenTestCase {
-	FLXPostgresConnection* server;
+	FLXPostgresConnection* database;
 }
 
-@property (retain) FLXPostgresConnection* server;
+@property (retain) FLXPostgresConnection* database;
 
 @end

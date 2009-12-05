@@ -21,16 +21,6 @@
 @class FLXPostgresStatement;
 @class FLXPostgresResult;
 @class FLXPostgresException;
-@class FLXMacAddr;
-@class FLXTimeInterval;
-@class FLXPostgresArray;
-@class FLXGeometry;
-  @class FLXGeometryPoint;
-  @class FLXGeometryLine;
-  @class FLXGeometryBox;
-  @class FLXGeometryCircle;
-  @class FLXGeometryPolygon;
-  @class FLXGeometryPath;
 
 // server properties
 extern NSString* FLXPostgresParameterServerVersion;
