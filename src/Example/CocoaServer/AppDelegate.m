@@ -5,6 +5,8 @@
 
 @synthesize window;
 @synthesize ibLogView;
+@synthesize ibPreferencesWindow;
+@synthesize port;
 @synthesize timer;
 @dynamic server;
 @dynamic dataPath;
@@ -12,6 +14,8 @@
 @synthesize backupStatusField;
 @synthesize isStartButtonEnabled;
 @synthesize isStopButtonEnabled;
+@synthesize isAllowRemoteConnections;
+@synthesize isDefaultPort;
 
 ////////////////////////////////////////////////////////////////////////////////
 // properties
@@ -52,12 +56,47 @@
 	} else {
 		[self setIsStopButtonEnabled:NO];		
 	}	
+
+	// set button state - isDefaultPort
+	if([self port]==[FLXPostgresServer defaultPort]) {
+		[self setIsDefaultPort:YES];
+	} else {
+		[self setIsDefaultPort:NO];
+	}			
 }
 
 -(void)backupToPath:(NSString* )thePath {
 	[self addLogMessage:[NSString stringWithFormat:@"Backing up to path: %@",thePath]];
 	[[self server] backupInBackgroundToFolderPath:thePath superPassword:nil];
 }
+
+-(void)preferencesDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
+	[sheet orderOut:self];	
+	
+	if(returnCode=NSOKButton) {
+		// if OK, then apply these new values
+		[[self server] setPort:[self port]];
+		if([self isAllowRemoteConnections]) {
+			[[self server] setHostname:@"*"];
+		} else {
+			[[self server] setHostname:@""];			
+		}
+	} else {
+		// else obtain them from server again
+		[self setPort:[[self server] port]];
+		if([[[self server] hostname] length]) {
+			[self setIsAllowRemoteConnections:YES];			
+		} else {			
+			[self setIsAllowRemoteConnections:NO];
+		}
+	}
+
+	NSLog(@"setting hostname as %@, port as %u",[[self server] hostname],[[self server] port]);
+	
+	// set button states
+	[self setButtonStates];
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // FLXPostgresServerDelegate
@@ -78,6 +117,14 @@
 	
 	// create a timer
 	[self setTimer:[NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(timerFired:) userInfo:nil repeats:YES]];
+	
+	// set port
+	[self setPort:[[self server] port]];
+	if([[self server] hostname]==nil) {
+		[self setIsAllowRemoteConnections:NO];
+	} else {
+		[self setIsAllowRemoteConnections:YES];		
+	}	
 	
 	// set initial button states
 	[self setButtonStates];
@@ -120,20 +167,35 @@
 			switch (returnCode) {
 			case NSFileHandlingPanelOKButton:
 				if([[thePanel URLs] count]) {
-					NSURL* theURL = [[thePanel URLs] objectAtIndex:0];					
-					[self backupToPath:[theURL path]];
+					[self backupToPath:[[[thePanel URLs] objectAtIndex:0] path]];
 				}
 				break;
 			default:
 				break;
-		 }
-		}];
+		 }}];
 }
 
 -(IBAction)doServerAccess:(id)sender {
 	// TODO
 }
 
+-(IBAction)doPreferences:(id)sender {
+	[[self ibPreferencesWindow] setInitialFirstResponder:nil];
+	[NSApp beginSheet:[self ibPreferencesWindow] modalForWindow:[self window] modalDelegate:self didEndSelector:@selector(preferencesDidEnd:returnCode:contextInfo:) contextInfo:nil];
+}
+
+-(IBAction)doPreferencesButton:(id)sender {
+	NSButton* theButton = (NSButton* )sender;
+	NSParameterAssert([theButton isKindOfClass:[NSButton class]]);
+	
+	[[self ibPreferencesWindow] endEditingFor:nil];
+	
+	if([[theButton title] isEqual:@"OK"]) {
+		[NSApp endSheet:[self ibPreferencesWindow] returnCode:NSOKButton];
+	} else {
+		[NSApp endSheet:[self ibPreferencesWindow] returnCode:NSCancelButton];
+	}
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
