@@ -45,10 +45,33 @@
 ////////////////////////////////////////////////////////////////////////////////
 // private methods
 
--(void)addLogMessage:(NSString* )theMessage {
-	NSAttributedString* theString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n",theMessage]];
+-(void)clearLog {
 	NSMutableAttributedString* theLog = [[self ibLogView] textStorage];
-	[theLog appendAttributedString:theString];
+	[theLog deleteCharactersInRange:NSMakeRange(0,[theLog length])];	
+}
+
+-(void)addLogMessage:(NSString* )theString color:(NSColor* )theColor bold:(BOOL)isBold {
+	NSMutableAttributedString* theLog = [[self ibLogView] textStorage];
+	NSUInteger theStartPoint = [theLog length];
+	NSFont* theFont = [NSFont userFixedPitchFontOfSize:11.0];
+	NSDictionary* theAttributes = nil;
+	if(theColor) {
+		theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:theColor,NSForegroundColorAttributeName,nil];
+	}
+	NSMutableAttributedString* theLine = nil;
+	if(theStartPoint) {
+		theLine = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"\n%@",theString] attributes:theAttributes];
+	} else {
+		theLine = [[NSMutableAttributedString alloc] initWithString:theString attributes:theAttributes];
+	}
+	[theLine addAttributes:[NSDictionary dictionaryWithObjectsAndKeys:theFont,NSFontAttributeName,nil] range:NSMakeRange(0,[theLine length])];
+	if(isBold) {
+		[theLine applyFontTraits:NSBoldFontMask range:NSMakeRange(0,[theLine length])];
+	} else {
+		[theLine applyFontTraits:NSUnboldFontMask range:NSMakeRange(0,[theLine length])];		
+	}
+	[theLog appendAttributedString:theLine];
+	[[self ibLogView] scrollRangeToVisible:NSMakeRange(theStartPoint,[theLog length])];	
 }
 
 -(void)setButtonStates {	
@@ -92,12 +115,12 @@
 	} else if([[self server] backupState]==FLXBackupStateIdle) {
 		[self setBackupStateImage:[NSImage imageNamed:@"green"]];		
 	} else {
-		[self setStateImage:[NSImage imageNamed:@"yellow"]];
+		[self setBackupStateImage:[NSImage imageNamed:@"yellow"]];
 	}		
 }
 
 -(void)backupToPath:(NSString* )thePath {
-	[self addLogMessage:[NSString stringWithFormat:@"Backing up to path: %@",thePath]];
+	[self addLogMessage:[NSString stringWithFormat:@"Backing up to path: %@",thePath] color:nil bold:YES];
 	[[self server] backupInBackgroundToFolderPath:thePath superPassword:nil];
 }
 
@@ -135,7 +158,13 @@
 // FLXPostgresServerDelegate
 
 -(void)serverMessage:(NSString* )theMessage {	
-	[self addLogMessage:theMessage];
+	if([theMessage hasPrefix:@"ERROR: "] || [theMessage hasPrefix:@"FATAL: "]) {
+		[self addLogMessage:theMessage color:[NSColor redColor] bold:YES];
+	} else if([theMessage hasPrefix:@"WARNING: "])  {
+		[self addLogMessage:theMessage color:[NSColor orangeColor] bold:YES];		
+	} else {
+		[self addLogMessage:theMessage color:nil bold:NO];				
+	}
 }
 
 -(void)serverStateDidChange:(NSString* )theMessage {	
@@ -165,6 +194,10 @@
 	
 	// set initial button states
 	[self setButtonStates];
+	
+	// set initial state strings
+	[self serverStateDidChange:nil];
+	[self backupStateDidChange:nil];
 	
 	// set server delegate
 	[[self server] setDelegate:self];	
@@ -210,10 +243,6 @@
 			default:
 				break;
 		 }}];
-}
-
--(IBAction)doServerAccess:(id)sender {
-	// TODO
 }
 
 -(IBAction)doPreferences:(id)sender {

@@ -53,7 +53,6 @@
 -(IBAction)doServerStart:(id)sender;
 -(IBAction)doServerStop:(id)sender;
 -(IBAction)doServerBackup:(id)sender;
--(IBAction)doServerAccess:(id)sender;	
 -(IBAction)doPreferences:(id)sender;
 -(IBAction)doPreferencesButton:(id)sender;
 -(IBAction)doPortRadioButton:(id)sender;
