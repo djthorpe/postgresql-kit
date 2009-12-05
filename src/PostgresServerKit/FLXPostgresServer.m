@@ -358,7 +358,7 @@ const NSUInteger FLXDefaultPostgresPort = DEF_PGPORT;
 	[theTask setStandardOutput:theOutPipe];
 	[theTask setStandardError:theErrPipe];
 	[theTask setLaunchPath:[[self class] postgresDumpPath]];  
-	[theTask setArguments:[NSArray arrayWithObjects:@"-U",[[self class] superUsername],@"-S",[[self class] superUsername],@"--disable-triggers",nil]];
+	[theTask setArguments:[NSArray arrayWithObjects:@"-p",[NSString stringWithFormat:@"%u",[self port]],@"-U",[[self class] superUsername],@"-S",[[self class] superUsername],@"--disable-triggers",nil]];
 	
 	if([thePassword length]) {
 		// set the PGPASSWORD env variable
@@ -614,7 +614,7 @@ const NSUInteger FLXDefaultPostgresPort = DEF_PGPORT;
 		[theArguments addObject:[self hostname]];
 		if([self port] != 0 && [self port] != FLXDefaultPostgresPort) {
 			[theArguments addObject:@"-p"];
-			[theArguments addObject:[NSString stringWithFormat:@"%d",[self port]]];
+			[theArguments addObject:[NSString stringWithFormat:@"%u",[self port]]];
 		}
 	} else {
 		[theArguments addObject:@"-h"];		

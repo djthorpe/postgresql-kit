@@ -15,7 +15,9 @@
 @synthesize isStartButtonEnabled;
 @synthesize isStopButtonEnabled;
 @synthesize isAllowRemoteConnections;
-@synthesize isDefaultPort;
+@synthesize isCustomPort;
+@synthesize selectedPortOption;
+@synthesize isServerRestarting;
 
 ////////////////////////////////////////////////////////////////////////////////
 // properties
@@ -59,9 +61,11 @@
 
 	// set button state - isDefaultPort
 	if([self port]==[FLXPostgresServer defaultPort]) {
-		[self setIsDefaultPort:YES];
+		[self setSelectedPortOption:0];
+		[self setIsCustomPort:NO];
 	} else {
-		[self setIsDefaultPort:NO];
+		[self setIsCustomPort:YES];
+		[self setSelectedPortOption:1];
 	}			
 }
 
@@ -73,7 +77,7 @@
 -(void)preferencesDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
 	[sheet orderOut:self];	
 	
-	if(returnCode=NSOKButton) {
+	if(returnCode==NSOKButton) {
 		// if OK, then apply these new values
 		[[self server] setPort:[self port]];
 		if([self isAllowRemoteConnections]) {
@@ -81,6 +85,10 @@
 		} else {
 			[[self server] setHostname:@""];			
 		}
+		
+		// restart the server
+		[self setIsServerRestarting:YES];
+		
 	} else {
 		// else obtain them from server again
 		[self setPort:[[self server] port]];
@@ -90,8 +98,6 @@
 			[self setIsAllowRemoteConnections:NO];
 		}
 	}
-
-	NSLog(@"setting hostname as %@, port as %u",[[self server] hostname],[[self server] port]);
 	
 	// set button states
 	[self setButtonStates];
@@ -130,7 +136,7 @@
 	[self setButtonStates];
 	
 	// set server delegate
-	[[self server] setDelegate:self];		
+	[[self server] setDelegate:self];	
 }
 
 -(void)applicationWillTerminate:(NSNotification *)aNotification {
@@ -180,7 +186,9 @@
 }
 
 -(IBAction)doPreferences:(id)sender {
-	[[self ibPreferencesWindow] setInitialFirstResponder:nil];
+	[[self ibPreferencesWindow] endEditingFor:nil];
+	[[self ibPreferencesWindow] makeFirstResponder:nil];
+	
 	[NSApp beginSheet:[self ibPreferencesWindow] modalForWindow:[self window] modalDelegate:self didEndSelector:@selector(preferencesDidEnd:returnCode:contextInfo:) contextInfo:nil];
 }
 
@@ -197,12 +205,31 @@
 	}
 }
 
+-(IBAction)doPortRadioButton:(id)sender {
+	if([self selectedPortOption]==1) {
+		[self setIsCustomPort:YES];
+	} else {
+		[self setIsCustomPort:NO];
+		[self setPort:[FLXPostgresServer defaultPort]];
+	}
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 
 -(void)timerFired:(id)theTimer {
+
+	// if server is stopped, and restart required
+	if([[self server] state]==FLXServerStateStopped && [self isServerRestarting]) {
+		[self setIsServerRestarting:NO];
+		BOOL isStarting = [[self server] startWithDataPath:[self dataPath]];
+		if(isStarting==NO) {
+			[[self server] stop];
+		}
+		return;
+	}	
 	
 	// stop server if it is already running
-	if([[self server] state]==FLXServerStateAlreadyRunning) {
+	if([[self server] state]==FLXServerStateAlreadyRunning || [self isServerRestarting]==YES) {
 		[[self server] stop];
 		return;
 	}

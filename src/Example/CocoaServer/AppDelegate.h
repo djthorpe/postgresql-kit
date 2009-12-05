@@ -17,8 +17,10 @@
 	NSString* serverStatusField;
 	NSString* backupStatusField;	
 	NSUInteger port;
-	BOOL isDefaultPort;	
+	BOOL isCustomPort;	
+	NSInteger selectedPortOption;
 	BOOL isAllowRemoteConnections;
+	BOOL isServerRestarting;
 	
 	// other
 	NSTimer* timer;
@@ -33,6 +35,7 @@
 @property (retain) NSTimer* timer;
 @property (readonly) FLXPostgresServer* server;
 @property (readonly) NSString* dataPath;
+@property (assign) BOOL isServerRestarting;
 
 // bindings
 @property (retain) NSString* serverStatusField;
@@ -41,8 +44,8 @@
 @property (assign) BOOL isStopButtonEnabled;
 @property (assign) NSUInteger port;
 @property (assign) BOOL isAllowRemoteConnections;
-@property (assign) BOOL isDefaultPort;
-
+@property (assign) BOOL isCustomPort;
+@property (assign) NSInteger selectedPortOption;
 
 // IB Actions
 -(IBAction)doServerStart:(id)sender;
@@ -51,5 +54,6 @@
 -(IBAction)doServerAccess:(id)sender;	
 -(IBAction)doPreferences:(id)sender;
 -(IBAction)doPreferencesButton:(id)sender;
+-(IBAction)doPortRadioButton:(id)sender;
 
 @end
