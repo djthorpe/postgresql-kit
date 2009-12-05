@@ -4,13 +4,14 @@
 @implementation AppDelegate
 
 @synthesize window;
-@synthesize textField;
-@synthesize textLog;
+@synthesize ibLogView;
 @synthesize timer;
 @dynamic server;
 @dynamic dataPath;
 @synthesize serverStatusField;
 @synthesize backupStatusField;
+@synthesize isStartButtonEnabled;
+@synthesize isStopButtonEnabled;
 
 ////////////////////////////////////////////////////////////////////////////////
 // properties
@@ -26,14 +27,36 @@
 	return [[theApplicationSupportDirectory objectAtIndex:0] stringByAppendingPathComponent:theIdent];
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// private methods
 
 -(void)addLogMessage:(NSString* )theMessage {
-	[[self textLog] appendFormat:@"%@\n",theMessage];
-    [self willChangeValueForKey:@"textField"];
-	[self setTextField:[[self textLog] copy]];
-    [self didChangeValueForKey:@"textField"];
+	NSAttributedString* theString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n",theMessage]];
+	NSMutableAttributedString* theLog = [[self ibLogView] textStorage];
+	[theLog appendAttributedString:theString];
 }
 
+-(void)setButtonStates {	
+	// set button states - start
+	if([[self server] state]==FLXServerStateStarted || [[self server] state]==FLXServerStateUnknown ||
+	   [[self server] state]==FLXServerStateAlreadyRunning || [[self server] state]==FLXServerStateInitializing ||
+	   [[self server] state]==FLXServerStateStarting) {
+		[self setIsStartButtonEnabled:NO];
+	} else {
+		[self setIsStartButtonEnabled:YES];		
+	}
+	
+	// set button states - stop. backup, access
+	if([[self server] state]==FLXServerStateStarted) {
+		[self setIsStopButtonEnabled:YES];
+	} else {
+		[self setIsStopButtonEnabled:NO];		
+	}	
+}
+
+-(void)backupToPath:(NSString* )thePath {
+	[[self server] backupInBackgroundToFolderPath:thePath superPassword:nil];
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // FLXPostgresServerDelegate
@@ -45,17 +68,18 @@
 -(void)serverStateDidChange:(NSString* )theMessage {	
 	[self setServerStatusField:[[self server] stateAsString]];
 	[self setBackupStatusField:[[self server] backupStateAsString]];
+	[self setButtonStates];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 -(void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-	// set text field
-	[self setTextLog:[[NSMutableString alloc] init]];
 	
 	// create a timer
-	NSTimer* theTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(timerFired:) userInfo:nil repeats:YES];
-	[self setTimer:theTimer];
+	[self setTimer:[NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(timerFired:) userInfo:nil repeats:YES]];
+	
+	// set initial button states
+	[self setButtonStates];
 	
 	// set server delegate
 	[[self server] setDelegate:self];		
@@ -84,7 +108,25 @@
 }
 
 -(IBAction)doServerBackup:(id)sender {
+	// create a file panel
+	NSOpenPanel* thePanel = [NSOpenPanel openPanel];
+	[thePanel setCanChooseFiles:NO];
+	[thePanel setCanChooseDirectories:YES];
+	[thePanel setAllowsMultipleSelection:NO];
 	
+	[thePanel beginSheetModalForWindow:[self window] completionHandler:
+		^(NSInteger returnCode) {
+			switch (returnCode) {
+			case NSFileHandlingPanelOKButton:
+				if([[thePanel URLs] count]) {
+					NSURL* theURL = [[thePanel URLs] objectAtIndex:0];					
+					[self backupToPath:[theURL path]];
+				}
+				break;
+			default:
+				break;
+		 }
+		}];
 }
 
 -(IBAction)doServerAccess:(id)sender {
@@ -103,7 +145,7 @@
 	}
 	
 	// start server if state is unknown
-	if([[self server] state]==FLXServerStateUnknown || [[self server] state]==FLXServerStateStopped) {
+	if([[self server] state]==FLXServerStateUnknown) {
 		BOOL isStarting = [[self server] startWithDataPath:[self dataPath]];
 		if(isStarting==NO) {
 			[[self server] stop];
