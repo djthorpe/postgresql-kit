@@ -1,4 +1,11 @@
 
+/*
+ This example shows how to use the PostgresServerKit to create a server, as
+ a cocoa application. It includes the ability to backup the server data, and
+ determine whether remote connections are allowed, and on what port.
+ */
+
+
 #import "AppDelegate.h"
 
 @implementation AppDelegate
