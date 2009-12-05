@@ -9,13 +9,13 @@
 	NSTextView* ibLogView;
 	NSWindow* ibPreferencesWindow;
 
-	// button enabled states
-	BOOL isStartButtonEnabled;
-	BOOL isStopButtonEnabled;	
-	
-	// status values
+	// properties
 	NSString* serverStatusField;
 	NSString* backupStatusField;	
+	NSImage* stateImage;
+	NSImage* backupStateImage;
+	BOOL isStartButtonEnabled;
+	BOOL isStopButtonEnabled;		
 	NSUInteger port;
 	BOOL isCustomPort;	
 	NSInteger selectedPortOption;
@@ -38,8 +38,10 @@
 @property (assign) BOOL isServerRestarting;
 
 // bindings
-@property (retain) NSString* serverStatusField;
-@property (retain) NSString* backupStatusField;
+@property (assign) NSString* serverStatusField;
+@property (assign) NSString* backupStatusField;
+@property (assign) NSImage* stateImage;
+@property (assign) NSImage* backupStateImage;
 @property (assign) BOOL isStartButtonEnabled;
 @property (assign) BOOL isStopButtonEnabled;
 @property (assign) NSUInteger port;

@@ -25,6 +25,8 @@
 @synthesize isCustomPort;
 @synthesize selectedPortOption;
 @synthesize isServerRestarting;
+@synthesize stateImage;
+@synthesize backupStateImage;
 
 ////////////////////////////////////////////////////////////////////////////////
 // properties
@@ -73,7 +75,25 @@
 	} else {
 		[self setIsCustomPort:YES];
 		[self setSelectedPortOption:1];
-	}			
+	}	
+	
+	// set image state
+	if([[self server] state]==FLXServerStateStarted) {
+		[self setStateImage:[NSImage imageNamed:@"green"]];
+	} else if([[self server] state]==FLXServerStateStopped || [[self server] state]==FLXServerStateUnknown || [[self server] state]==FLXServerStateStartingError) {
+		[self setStateImage:[NSImage imageNamed:@"red"]];		
+	} else {
+		[self setStateImage:[NSImage imageNamed:@"yellow"]];
+	}		
+
+	// set backup image state
+	if([self isStopButtonEnabled]==NO || [[self server] backupState]==FLXBackupStateError) {
+		[self setBackupStateImage:[NSImage imageNamed:@"red"]];		
+	} else if([[self server] backupState]==FLXBackupStateIdle) {
+		[self setBackupStateImage:[NSImage imageNamed:@"green"]];		
+	} else {
+		[self setStateImage:[NSImage imageNamed:@"yellow"]];
+	}		
 }
 
 -(void)backupToPath:(NSString* )thePath {
@@ -120,6 +140,10 @@
 
 -(void)serverStateDidChange:(NSString* )theMessage {	
 	[self setServerStatusField:[[self server] stateAsString]];
+	[self setButtonStates];
+}
+
+-(void)backupStateDidChange:(NSString* )theMessage {	
 	[self setBackupStatusField:[[self server] backupStateAsString]];
 	[self setButtonStates];
 }
