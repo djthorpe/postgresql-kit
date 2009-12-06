@@ -130,6 +130,7 @@
 		6EC1F8FD0F49FCB3006A2A12 /* PostgresInstallerMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC1F8FC0F49FCB3006A2A12 /* PostgresInstallerMain.m */; };
 		6EC1F93C0F4A02B9006A2A12 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E23CC610DCDD8A60041AA57 /* Foundation.framework */; };
 		6EC4148C0F4B446E00E1A76B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EB516600F48257F00C8F8A4 /* Security.framework */; };
+		6EC681C110CC5F070009B037 /* HostAccessDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC681C010CC5F070009B037 /* HostAccessDelegate.m */; };
 		6ECC89DC0F618F30000993F9 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ECC89DB0F618F30000993F9 /* libz.dylib */; };
 		6ECC8C1F0F629794000993F9 /* elephant-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ECC8B950F628709000993F9 /* elephant-64.png */; };
 		6ECC8C310F6297BB000993F9 /* elephant-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ECC8C300F6297BB000993F9 /* elephant-32.png */; };
@@ -493,6 +494,8 @@
 		6EC49A340F6D5CC90039D454 /* upload-file.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "upload-file.sh"; sourceTree = "<group>"; };
 		6EC49A350F6D5CDD0039D454 /* googlecode_upload.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = googlecode_upload.py; sourceTree = "<group>"; };
 		6EC49A620F6D66870039D454 /* ClientConnect.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClientConnect.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6EC681BF10CC5F070009B037 /* HostAccessDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HostAccessDelegate.h; sourceTree = "<group>"; };
+		6EC681C010CC5F070009B037 /* HostAccessDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HostAccessDelegate.m; sourceTree = "<group>"; };
 		6ECC89DB0F618F30000993F9 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = /usr/lib/libz.dylib; sourceTree = "<absolute>"; };
 		6ECC8B850F6283EC000993F9 /* logo_w_elephant.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = logo_w_elephant.pdf; sourceTree = "<group>"; };
 		6ECC8B8F0F628525000993F9 /* strapline-200x40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "strapline-200x40.png"; sourceTree = "<group>"; };
@@ -830,6 +833,8 @@
 			children = (
 				6EB6EC9D10C311CF000C7275 /* AppDelegate.h */,
 				6EB6EC9E10C311CF000C7275 /* AppDelegate.m */,
+				6EC681BF10CC5F070009B037 /* HostAccessDelegate.h */,
+				6EC681C010CC5F070009B037 /* HostAccessDelegate.m */,
 			);
 			path = CocoaServer;
 			sourceTree = "<group>";
@@ -1521,6 +1526,7 @@
 			files = (
 				6E76642610C3089900514871 /* main.m in Sources */,
 				6EB6EC9F10C311CF000C7275 /* AppDelegate.m in Sources */,
+				6EC681C110CC5F070009B037 /* HostAccessDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

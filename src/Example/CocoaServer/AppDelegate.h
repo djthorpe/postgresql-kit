@@ -8,7 +8,6 @@
 	NSWindow* window;
 	NSTextView* ibLogView;
 	NSWindow* ibPreferencesWindow;
-	NSWindow* ibHostAccessWindow;
 
 	// properties
 	NSString* serverStatusField;
@@ -23,10 +22,6 @@
 	BOOL isAllowRemoteConnections;
 	BOOL isServerRestarting;
 	
-	// array of host access tuples
-	NSMutableArray* hostAccessTuples;
-	NSIndexSet* selectedHostAccessTuples;
-	
 	// other
 	NSTimer* timer;
 }
@@ -34,7 +29,6 @@
 // IB Outlets
 @property (assign) IBOutlet NSWindow* window;
 @property (assign) IBOutlet NSWindow* ibPreferencesWindow;
-@property (assign) IBOutlet NSWindow* ibHostAccessWindow;
 @property (assign) IBOutlet NSTextView* ibLogView;
 
 // properties
@@ -42,7 +36,6 @@
 @property (readonly) FLXPostgresServer* server;
 @property (readonly) NSString* dataPath;
 @property (assign) BOOL isServerRestarting;
-@property (retain) NSMutableArray* hostAccessTuples;
 
 // bindings
 @property (assign) NSString* serverStatusField;
@@ -55,7 +48,6 @@
 @property (assign) BOOL isAllowRemoteConnections;
 @property (assign) BOOL isCustomPort;
 @property (assign) NSInteger selectedPortOption;
-@property (assign) NSIndexSet* selectedHostAccessTuples;
 
 // IB Actions
 -(IBAction)doServerStart:(id)sender;
@@ -64,9 +56,8 @@
 -(IBAction)doPreferences:(id)sender;
 -(IBAction)doPreferencesButton:(id)sender;
 -(IBAction)doPortRadioButton:(id)sender;
--(IBAction)doHostAccess:(id)sender;
--(IBAction)doHostAccessButton:(id)sender;
--(IBAction)doRemoveHostAccessTuple:(id)sender;
--(IBAction)doInsertHostAccessTuple:(id)sender;
+
+// methods
+-(void)addLogMessage:(NSString* )theString color:(NSColor* )theColor bold:(BOOL)isBold;
 
 @end

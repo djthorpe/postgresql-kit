@@ -24,6 +24,7 @@
 // constructors
 -(id)initWithLine:(NSString* )theLine;
 +(FLXPostgresServerAccessTuple* )superadmin;
++(FLXPostgresServerAccessTuple* )hostpassword;
 
 // methods
 -(NSString* )asString;

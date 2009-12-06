@@ -14,7 +14,7 @@
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<integer value="914"/>
 			<integer value="999"/>
-			<integer value="368"/>
+			<integer value="367"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1594,6 +1594,9 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 				<bool key="NSClearsFilterPredicateOnInsertion">YES</bool>
 				<bool key="NSAutomaticallyRearrangesObjects">YES</bool>
 			</object>
+			<object class="NSCustomObject" id="396822045">
+				<string key="NSClassName">HostAccessDelegate</string>
+			</object>
 		</object>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
 			<object class="NSMutableArray" key="connectionRecords">
@@ -1944,54 +1947,6 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<int key="connectionID">996</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">doHostAccess:</string>
-						<reference key="source" ref="185933742"/>
-						<reference key="destination" ref="440193891"/>
-					</object>
-					<int key="connectionID">997</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">ibHostAccessWindow</string>
-						<reference key="source" ref="185933742"/>
-						<reference key="destination" ref="533923601"/>
-					</object>
-					<int key="connectionID">1031</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">doHostAccessButton:</string>
-						<reference key="source" ref="185933742"/>
-						<reference key="destination" ref="495246363"/>
-					</object>
-					<int key="connectionID">1032</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">doHostAccessButton:</string>
-						<reference key="source" ref="185933742"/>
-						<reference key="destination" ref="772240288"/>
-					</object>
-					<int key="connectionID">1033</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">contentArray: hostAccessTuples</string>
-						<reference key="source" ref="950502150"/>
-						<reference key="destination" ref="185933742"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="950502150"/>
-							<reference key="NSDestination" ref="185933742"/>
-							<string key="NSLabel">contentArray: hostAccessTuples</string>
-							<string key="NSBinding">contentArray</string>
-							<string key="NSKeyPath">hostAccessTuples</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">1036</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">content: arrangedObjects</string>
 						<reference key="source" ref="157416736"/>
@@ -2152,37 +2107,93 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<int key="connectionID">1082</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">doRemoveHostAccessTuple:</string>
-						<reference key="source" ref="185933742"/>
-						<reference key="destination" ref="255973724"/>
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">ibHostAccessWindow</string>
+						<reference key="source" ref="396822045"/>
+						<reference key="destination" ref="533923601"/>
 					</object>
-					<int key="connectionID">1087</int>
+					<int key="connectionID">1103</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">window</string>
+						<reference key="source" ref="396822045"/>
+						<reference key="destination" ref="513744381"/>
+					</object>
+					<int key="connectionID">1104</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">doInsertHostAccessTuple:</string>
-						<reference key="source" ref="185933742"/>
+						<string key="label">doButton:</string>
+						<reference key="source" ref="396822045"/>
+						<reference key="destination" ref="772240288"/>
+					</object>
+					<int key="connectionID">1107</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">doButton:</string>
+						<reference key="source" ref="396822045"/>
+						<reference key="destination" ref="495246363"/>
+					</object>
+					<int key="connectionID">1108</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">doInsertTuple:</string>
+						<reference key="source" ref="396822045"/>
 						<reference key="destination" ref="57940121"/>
 					</object>
-					<int key="connectionID">1088</int>
+					<int key="connectionID">1109</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">doRemoveTuple:</string>
+						<reference key="source" ref="396822045"/>
+						<reference key="destination" ref="255973724"/>
+					</object>
+					<int key="connectionID">1110</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">doHostAccess:</string>
+						<reference key="source" ref="396822045"/>
+						<reference key="destination" ref="440193891"/>
+					</object>
+					<int key="connectionID">1111</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">ibAppDelegate</string>
+						<reference key="source" ref="396822045"/>
+						<reference key="destination" ref="185933742"/>
+					</object>
+					<int key="connectionID">1112</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">selectionIndexes: selectedHostAccessTuples</string>
+						<string key="label">selectionIndexes: selectedIndexes</string>
 						<reference key="source" ref="157416736"/>
-						<reference key="destination" ref="185933742"/>
+						<reference key="destination" ref="396822045"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="157416736"/>
-							<reference key="NSDestination" ref="185933742"/>
-							<string key="NSLabel">selectionIndexes: selectedHostAccessTuples</string>
+							<reference key="NSDestination" ref="396822045"/>
+							<string key="NSLabel">selectionIndexes: selectedIndexes</string>
 							<string key="NSBinding">selectionIndexes</string>
-							<string key="NSKeyPath">selectedHostAccessTuples</string>
+							<string key="NSKeyPath">selectedIndexes</string>
 							<reference key="NSPreviousConnector" ref="286775158"/>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">1094</int>
+					<int key="connectionID">1114</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">ibArrayController</string>
+						<reference key="source" ref="396822045"/>
+						<reference key="destination" ref="950502150"/>
+					</object>
+					<int key="connectionID">1115</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -2847,6 +2858,11 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<reference key="object" ref="116097834"/>
 						<reference key="parent" ref="1071726396"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1102</int>
+						<reference key="object" ref="396822045"/>
+						<reference key="parent" ref="0"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -3063,7 +3079,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{602, 756}, {616, 0}}</string>
+					<string>{{602, 755}, {616, 0}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
@@ -3124,7 +3140,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1101</int>
+			<int key="maxID">1118</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3136,13 +3152,9 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>doHostAccess:</string>
-							<string>doHostAccessButton:</string>
-							<string>doInsertHostAccessTuple:</string>
 							<string>doPortRadioButton:</string>
 							<string>doPreferences:</string>
 							<string>doPreferencesButton:</string>
-							<string>doRemoveHostAccessTuple:</string>
 							<string>doServerBackup:</string>
 							<string>doServerStart:</string>
 							<string>doServerStop:</string>
@@ -3155,6 +3167,42 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="outlets">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>ibLogView</string>
+							<string>ibPreferencesWindow</string>
+							<string>window</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>NSTextView</string>
+							<string>NSWindow</string>
+							<string>NSWindow</string>
+						</object>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">src/Example/CocoaServer/AppDelegate.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">HostAccessDelegate</string>
+					<string key="superclassName">NSObject</string>
+					<object class="NSMutableDictionary" key="actions">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>doButton:</string>
+							<string>doHostAccess:</string>
+							<string>doInsertTuple:</string>
+							<string>doRemoveTuple:</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -3165,22 +3213,22 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>ibAppDelegate</string>
+							<string>ibArrayController</string>
 							<string>ibHostAccessWindow</string>
-							<string>ibLogView</string>
-							<string>ibPreferencesWindow</string>
 							<string>window</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>NSWindow</string>
-							<string>NSTextView</string>
+							<string>AppDelegate</string>
+							<string>NSArrayController</string>
 							<string>NSWindow</string>
 							<string>NSWindow</string>
 						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">src/Example/CocoaServer/AppDelegate.h</string>
+						<string key="minorKey">src/Example/CocoaServer/HostAccessDelegate.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">

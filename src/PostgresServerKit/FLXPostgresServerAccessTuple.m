@@ -153,6 +153,17 @@
 	return theTuple;
 }
 
++(FLXPostgresServerAccessTuple* )hostpassword {
+	FLXPostgresServerAccessTuple* theTuple = [[FLXPostgresServerAccessTuple alloc] init];
+	[theTuple setType:@"host"];
+	[theTuple setDatabase:@"all"];
+	[theTuple setUser:@"all"];
+	[theTuple setAddress:@"127.0.0.1/32"];
+	[theTuple setMethod:@"password"];
+	[theTuple setComment:@"Password authentication TCP/IP connected users"];
+	return theTuple;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // properties
 
@@ -240,6 +251,10 @@
 		if([[self address] isEqual:[theTuple address]]==NO) return NO;
 	}
 	return YES;
+}
+
+-(NSString* )description {
+	return [self asString];
 }
 			
 @end
