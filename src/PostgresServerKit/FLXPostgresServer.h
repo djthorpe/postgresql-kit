@@ -28,14 +28,12 @@
 // other properties
 +(NSUInteger)defaultPort;
 +(NSString* )superUsername;
++(NSString* )superMapname;
 +(NSString* )backupFileSuffix;
-
 	
-// methods - start/stop server
+// methods - start/stop/reload server
 -(BOOL)startWithDataPath:(NSString* )thePath;
 -(BOOL)stop;
-
-// reload configuration files
 -(BOOL)reload;
 
 // methods - backup database
