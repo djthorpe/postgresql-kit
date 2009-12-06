@@ -1,23 +1,12 @@
 
 #import "PostgresServerKit.h"
+#import "PostgresServerKitPrivate.h"
 #include <sys/sysctl.h>
 #import <zlib.h>
 #include <pg_config.h>
 
 static FLXPostgresServer* FLXSharedServer = nil;
 const NSUInteger FLXDefaultPostgresPort = DEF_PGPORT;
-
-@interface FLXPostgresServer (Private)
--(BOOL)_createPath:(NSString* )thePath;
--(NSString* )_backupFilePathForFolder:(NSString* )thePath;
--(int)_processIdentifierFromDataPath;
--(void)_delegateServerMessage:(NSString* )theMessage;
--(void)_delegateServerMessageFromData:(NSData* )theData;
--(void)_delegateServerStateDidChange:(NSString* )theMessage;  
--(void)_delegateBackupStateDidChange:(NSString* )theMessage;
--(NSString* )_messageFromState:(FLXServerState)theState;
--(int)_doesProcessExist:(int)thePid;
-@end
 
 @implementation FLXPostgresServer
 
@@ -133,6 +122,10 @@ const NSUInteger FLXDefaultPostgresPort = DEF_PGPORT;
 
 +(NSString* )superUsername {
 	return @"postgres";
+}
+
++(NSString* )superMapname {
+	return @"flxpostgres";
 }
 
 +(NSString* )backupFileSuffix {

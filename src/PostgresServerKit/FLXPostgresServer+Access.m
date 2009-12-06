@@ -1,31 +1,81 @@
 
 #import "PostgresServerKit.h"
+#import "PostgresServerKitPrivate.h"
 
 @implementation FLXPostgresServer (Access)
 
 +(NSString* )postgresAccessPathForDataPath:(NSString* )thePath {
-	return [thePath stringByAppendingPathComponent:@"data/pg_hba.conf"];
+	return [thePath stringByAppendingPathComponent:@"pg_hba.conf"];
 }
 
 -(NSArray* )readAccessTuples {
 	// this will only work if the server is started
 	if([self state] != FLXServerStateStarted && [self state] != FLXServerStateAlreadyRunning) {
+		[self _delegateServerMessage:@"Cannot read access file without server running"];
 		return nil;
 	}
+	NSError* theError = nil;
 	NSString* thePath = [FLXPostgresServer postgresAccessPathForDataPath:[self dataPath]];
-	if([[NSFileManager defaultManager] isReadableFileAtPath:thePath]==NO) {
-		return nil;
-	}
-	NSString* theContents = [NSString stringWithContentsOfFile:thePath encoding:NSUTF8StringEncoding error:nil];							 
+	NSString* theContents = [NSString stringWithContentsOfFile:thePath encoding:NSUTF8StringEncoding error:&theError];
 	if(theContents==nil) {
+		[self _delegateServerMessage:[NSString stringWithFormat:@"File not readable: %@: %@",thePath,[theError localizedDescription]]];
 		return nil;
 	}
 	NSArray* theLines = [theContents componentsSeparatedByString:@"\n"];
-	return theLines;
+
+	// parse lines into tuples	
+	NSMutableArray* theTuples = [[NSMutableArray alloc] initWithCapacity:[theLines count]];
+	NSString* theComment = nil;
+	NSUInteger theLineNumber = 0;
+	for(NSString* theLine in theLines) {
+		theLineNumber++;
+		NSString* theLine2 = [theLine stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+		if([theLine2 length]==0) {
+			theComment = nil;
+			continue;
+		}
+		if([theLine2 hasPrefix:@"#"]) {
+			theComment = [[theLine2 stringByReplacingCharactersInRange:NSMakeRange(0,1) withString:@""] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+			continue;
+		}
+		FLXPostgresServerAccessTuple* theTuple = [[FLXPostgresServerAccessTuple alloc] initWithLine:theLine2];
+		if(theTuple==nil) {
+			// error parsing line
+			[self _delegateServerMessage:[NSString stringWithFormat:@"Parse error: %@: line %u",thePath,theLineNumber]];
+			return nil;
+		}
+		// add comment to tuple
+		[theTuple setComment:theComment];
+		// add tuple
+		[theTuples addObject:theTuple];
+		// empty comment
+		theComment = nil;
+	}
+	
+	return theTuples;
 }
 
 -(BOOL)writeAccessTuples:(NSArray* )theTuples {
 	NSParameterAssert(theTuples);
+	NSParameterAssert([theTuples count]);
+
+	// this will only work if the server is started
+	if([self state] != FLXServerStateStarted && [self state] != FLXServerStateAlreadyRunning) {
+		[self _delegateServerMessage:@"Cannot write access file without server running"];
+		return NO;
+	}
+	NSString* thePath = [FLXPostgresServer postgresAccessPathForDataPath:[self dataPath]];
+	NSMutableString* theContents = [NSMutableString string];
+	for(FLXPostgresServerAccessTuple* theTuple in theTuples) {
+		NSParameterAssert(theTuple);
+		[theContents appendString:[theTuple asString]];
+	}
+	
+	NSError* theError = nil;
+	if([theContents writeToFile:thePath atomically:NO encoding:NSUTF8StringEncoding error:&theError]==NO) {
+		[self _delegateServerMessage:[NSString stringWithFormat:@"File not writable: %@: %@",thePath,[theError localizedDescription]]];
+		return NO;	
+	}
 	
 	return YES;
 }

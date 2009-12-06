@@ -104,6 +104,9 @@
 		6E90C05E0F6434770040B36C /* PostgresClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E23CD7F0DCDE3C80041AA57 /* PostgresClientKit.framework */; };
 		6E90C06C0F64349A0040B36C /* PostgresClientKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6E23CD7F0DCDE3C80041AA57 /* PostgresClientKit.framework */; };
 		6E90C0760F64349D0040B36C /* PostgresServerKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6E23CBEE0DCDD29F0041AA57 /* PostgresServerKit.framework */; };
+		6E91EF3410CBB5D50038189C /* FLXPostgresServerAccessTuple.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E91EF3210CBB5D50038189C /* FLXPostgresServerAccessTuple.h */; };
+		6E91EF3510CBB5D50038189C /* FLXPostgresServerAccessTuple.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E91EF3310CBB5D50038189C /* FLXPostgresServerAccessTuple.m */; };
+		6E91EFCF10CBCEA50038189C /* PostgresServerKitPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E91EFCE10CBCEA50038189C /* PostgresServerKitPrivate.h */; };
 		6E9C84600F6D9DB100651864 /* strapline-200x40.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ECC8B8F0F628525000993F9 /* strapline-200x40.png */; };
 		6EAF8EA00F87D07300B8B5DA /* stop2.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6EAF8E9F0F87D07300B8B5DA /* stop2.tiff */; };
 		6EB0133B0F6E420A004C2879 /* FLXPostgresConnectSetting.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB0133A0F6E420A004C2879 /* FLXPostgresConnectSetting.m */; };
@@ -458,6 +461,9 @@
 		6E90C0450F6432CF0040B36C /* EmbeddedServer.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EmbeddedServer.xib; sourceTree = "<group>"; };
 		6E90C0510F64333E0040B36C /* Controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Controller.h; sourceTree = "<group>"; };
 		6E90C0520F64333E0040B36C /* Controller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Controller.m; sourceTree = "<group>"; };
+		6E91EF3210CBB5D50038189C /* FLXPostgresServerAccessTuple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLXPostgresServerAccessTuple.h; sourceTree = "<group>"; };
+		6E91EF3310CBB5D50038189C /* FLXPostgresServerAccessTuple.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLXPostgresServerAccessTuple.m; sourceTree = "<group>"; };
+		6E91EFCE10CBCEA50038189C /* PostgresServerKitPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostgresServerKitPrivate.h; sourceTree = "<group>"; };
 		6E9FD7070DD593F700353077 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		6EA8ED8F0FDCD8F0002C6C67 /* FLXPostgresTypes+NetAddr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FLXPostgresTypes+NetAddr.h"; sourceTree = "<group>"; };
 		6EA8ED900FDCD8F0002C6C67 /* FLXPostgresTypes+NetAddr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FLXPostgresTypes+NetAddr.m"; sourceTree = "<group>"; };
@@ -722,10 +728,13 @@
 			isa = PBXGroup;
 			children = (
 				6E23CC170DCDD4CE0041AA57 /* PostgresServerKit.h */,
+				6E91EFCE10CBCEA50038189C /* PostgresServerKitPrivate.h */,
 				6E23CC190DCDD5180041AA57 /* FLXPostgresServer.h */,
 				6E23CC1A0DCDD5180041AA57 /* FLXPostgresServer.m */,
 				6E7663CE10C3039700514871 /* FLXPostgresServer+Access.h */,
 				6E7663CF10C3039700514871 /* FLXPostgresServer+Access.m */,
+				6E91EF3210CBB5D50038189C /* FLXPostgresServerAccessTuple.h */,
+				6E91EF3310CBB5D50038189C /* FLXPostgresServerAccessTuple.m */,
 			);
 			path = PostgresServerKit;
 			sourceTree = "<group>";
@@ -1000,6 +1009,8 @@
 				6E23CC180DCDD4CE0041AA57 /* PostgresServerKit.h in Headers */,
 				6E23CC1B0DCDD5180041AA57 /* FLXPostgresServer.h in Headers */,
 				6E7663D010C3039700514871 /* FLXPostgresServer+Access.h in Headers */,
+				6E91EF3410CBB5D50038189C /* FLXPostgresServerAccessTuple.h in Headers */,
+				6E91EFCF10CBCEA50038189C /* PostgresServerKitPrivate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1445,6 +1456,7 @@
 			files = (
 				6E23CC1C0DCDD5180041AA57 /* FLXPostgresServer.m in Sources */,
 				6E7663D110C3039700514871 /* FLXPostgresServer+Access.m in Sources */,
+				6E91EF3510CBB5D50038189C /* FLXPostgresServerAccessTuple.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
