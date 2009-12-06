@@ -2,7 +2,8 @@
 /*
  This example shows how to use the PostgresServerKit to create a server, as
  a cocoa application. It includes the ability to backup the server data, and
- determine whether remote connections are allowed, and on what port.
+ determine whether remote connections are allowed, and on what port. Also
+ provides a host-access control editor.
  */
 
 
@@ -30,6 +31,7 @@
 @dynamic server;
 @dynamic dataPath;
 @synthesize hostAccessTuples;
+@synthesize selectedHostAccessTuples;
 
 ////////////////////////////////////////////////////////////////////////////////
 // properties
@@ -354,6 +356,16 @@
 		[self setIsCustomPort:NO];
 		[self setPort:[FLXPostgresServer defaultPort]];
 	}
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+-(IBAction)doRemoveHostAccessTuple:(id)sender {
+	NSLog(@"remove %@",[self selectedHostAccessTuples]);
+}
+
+-(IBAction)doInsertHostAccessTuple:(id)sender {
+	NSLog(@"insert %@",[self selectedHostAccessTuples]);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

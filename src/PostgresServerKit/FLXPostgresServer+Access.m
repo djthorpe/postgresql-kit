@@ -27,6 +27,7 @@
 	NSMutableArray* theTuples = [[NSMutableArray alloc] initWithCapacity:[theLines count]];
 	NSString* theComment = nil;
 	NSUInteger theLineNumber = 0;
+	BOOL isSuperAdminAccessTuple = NO;
 	for(NSString* theLine in theLines) {
 		theLineNumber++;
 		NSString* theLine2 = [theLine stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
@@ -44,12 +45,21 @@
 			[self _delegateServerMessage:[NSString stringWithFormat:@"Parse error: %@: line %u",thePath,theLineNumber]];
 			return nil;
 		}
+		// check for superadmin access tuple
+		if(isSuperAdminAccessTuple==NO && [theTuple isSuperadminAccess]==YES) {
+			isSuperAdminAccessTuple = YES;
+		}
 		// add comment to tuple
 		[theTuple setComment:theComment];
 		// add tuple
 		[theTuples addObject:theTuple];
 		// empty comment
 		theComment = nil;
+	}
+	
+	// append superadmin access tuple if necessary
+	if(isSuperAdminAccessTuple==NO) {
+		[theTuples insertObject:[FLXPostgresServerAccessTuple superadmin] atIndex:0];
 	}
 	
 	return theTuples;

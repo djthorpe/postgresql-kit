@@ -10,6 +10,8 @@
 @synthesize method;	
 @synthesize options;	
 @dynamic isAddressEditable;
+@dynamic isOptionsEditable;
+@dynamic isSuperadminAccess;
 
 ////////////////////////////////////////////////////////////////////////////////
 // private methods
@@ -107,7 +109,7 @@
 		if([theTokens count]==5) {			
 			[self setAddress:[theTokens objectAtIndex:3]];
 			[self setMethod:[theTokens objectAtIndex:4]];		
-		} else if([theTokens count]==5) {			
+		} else if([theTokens count]==6) {			
 			[self setAddress:[theTokens objectAtIndex:3]];
 			[self setMethod:[theTokens objectAtIndex:4]];		
 			[self setOptions:[theTokens objectAtIndex:5]];			
@@ -140,6 +142,17 @@
 	return self;
 }
 
++(FLXPostgresServerAccessTuple* )superadmin {
+	FLXPostgresServerAccessTuple* theTuple = [[FLXPostgresServerAccessTuple alloc] init];
+	[theTuple setType:@"local"];
+	[theTuple setDatabase:@"all"];
+	[theTuple setUser:[FLXPostgresServer superUsername]];
+	[theTuple setMethod:@"ident"];
+	[theTuple setOptions:[NSString stringWithFormat:@"map=%@",[FLXPostgresServer superMapname]]];
+	[theTuple setComment:@"Superadmin access for PostgresServerKit"];
+	return theTuple;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // properties
 
@@ -160,7 +173,7 @@
 }
 
 -(BOOL)isSuperadminAccess {
-	
+	return [self isEqual:[FLXPostgresServerAccessTuple superadmin]];
 }
 
 -(NSString* )databaseAsString {
@@ -216,4 +229,17 @@
 	return theString;
 }
 
+-(BOOL)isEqual:(id)anObject {
+	if([anObject isKindOfClass:[FLXPostgresServerAccessTuple class]]==NO) return NO;
+	FLXPostgresServerAccessTuple* theTuple = (FLXPostgresServerAccessTuple* )anObject;
+	if([[self type] isEqual:[theTuple type]]==NO) return NO;
+	if([[self database] isEqual:[theTuple database]]==NO) return NO;
+	if([[self user] isEqual:[theTuple user]]==NO) return NO;
+	if([[self methodAndOptionsAsString] isEqual:[theTuple methodAndOptionsAsString]]==NO) return NO;
+	if([self isAddressEditable]) {
+		if([[self address] isEqual:[theTuple address]]==NO) return NO;
+	}
+	return YES;
+}
+			
 @end

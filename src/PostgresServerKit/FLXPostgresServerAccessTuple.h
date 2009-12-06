@@ -21,8 +21,9 @@
 @property (readonly) BOOL isAddressEditable;
 @property (readonly) BOOL isOptionsEditable;
 
-// constructor
+// constructors
 -(id)initWithLine:(NSString* )theLine;
++(FLXPostgresServerAccessTuple* )superadmin;
 
 // methods
 -(NSString* )asString;
