@@ -23,7 +23,7 @@ static FLXPostgresServerAccessTuple* FLXDefaultTuple = nil;
 
 -(NSArray* )_parseTokens:(NSString* )theLine {
 	NSScanner* theScanner = [NSScanner scannerWithString:theLine];
-	NSMutableCharacterSet* tokenCharactersSet = [NSMutableCharacterSet characterSetWithCharactersInString:@"'\"#"];
+	NSMutableCharacterSet* tokenCharactersSet = [NSMutableCharacterSet characterSetWithCharactersInString:@"\"#"];
     [tokenCharactersSet formUnionWithCharacterSet:[NSCharacterSet whitespaceCharacterSet]];
 	BOOL insideQuotes = NO;
 	BOOL isAtEnd = NO;

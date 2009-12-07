@@ -27,4 +27,5 @@ typedef enum {
 // classes
 #import "FLXPostgresServer.h"
 #import "FLXPostgresServerAccessTuple.h"
+#import "FLXPostgresServerIdentityTuple.h"
 #import "FLXPostgresServer+Access.h"
