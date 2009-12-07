@@ -2,14 +2,16 @@
 #import "HostAccessDelegate.h"
 
 @implementation HostAccessDelegate
-@synthesize window;
+@synthesize ibMainWindow;
 @synthesize ibHostAccessWindow;
 @synthesize ibAppDelegate;
 @synthesize ibArrayController;
 @synthesize selectedIndexes;
 @dynamic server;
 @dynamic selectedTuple;
+@dynamic selectedTupleIndex;
 @dynamic canRemoveSelectedTuple;
+@synthesize tuples;
 
 ////////////////////////////////////////////////////////////////////////////////
 // properties
@@ -18,11 +20,22 @@
 	return [FLXPostgresServer sharedServer];
 }
 
+-(NSUInteger)selectedTupleIndex {
+	if([[self selectedIndexes] count] != 1) {
+		return NSNotFound;
+	} else {
+		return [[self selectedIndexes] firstIndex];
+	}
+}
+
 -(FLXPostgresServerAccessTuple* )selectedTuple {
 	// only allow single selection
-	if([[self selectedIndexes] count] != 1) return nil;
-	NSUInteger theIndex = [[self selectedIndexes] firstIndex];
-	return [[[self ibArrayController] content] objectAtIndex:theIndex];
+	NSUInteger theIndex = [self selectedTupleIndex];
+	if(theIndex==NSNotFound) {
+		return nil;
+	} else {
+		return [[self tuples] objectAtIndex:theIndex];
+	}
 }
 
 -(BOOL)canRemoveSelectedTuple {
@@ -39,8 +52,7 @@
 	[sheet orderOut:self];	
 	
 	if(returnCode==NSOKButton) {
-		NSArray* theTuples = [[self ibArrayController] content];
-		BOOL isSuccess = [[self server] writeAccessTuples:theTuples];
+		BOOL isSuccess = [[self server] writeAccessTuples:[self tuples]];
 		if(isSuccess==NO) {
 			[[self ibAppDelegate] addLogMessage:@"ERROR: Unable to write host access file" color:[NSColor redColor] bold:YES];
 		} else {
@@ -49,12 +61,17 @@
 	}
 	
 	// release memory
-	[[self ibArrayController] setContent:nil];
+	[[self tuples] removeAllObjects];
 	
 }
 
+-(void)observeTuple:(FLXPostgresServerAccessTuple* )theTuple {	
+	[theTuple addObserver:self forKeyPath:@"type" options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:nil];
+	[theTuple addObserver:self forKeyPath:@"method" options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:nil];		
+}
+
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-	// when access type switches from local to host, empty or fill address field
+	
 	if([object isKindOfClass:[FLXPostgresServerAccessTuple class]]==NO) {
 		return;	
 	}
@@ -82,8 +99,8 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
+
 -(IBAction)doHostAccess:(id)sender {
-	[[self ibHostAccessWindow] makeFirstResponder:nil];
 	
 	// obtain the host access list
 	NSArray* theTuples = [[self server] readAccessTuples];
@@ -92,16 +109,18 @@
 		return;
 	}
 	
-	[[self ibArrayController] setContent:[[NSMutableArray alloc] initWithArray:theTuples]];
-	
+	[self setTuples:[NSMutableArray arrayWithArray:theTuples]];
+	 
 	// we observe certain values of host access tuples
-	for(FLXPostgresServerAccessTuple* theTuple in [[self ibArrayController] content]) {
-		[theTuple addObserver:self forKeyPath:@"type" options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:nil];
-		[theTuple addObserver:self forKeyPath:@"method" options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:nil];
-	}		
+	for(FLXPostgresServerAccessTuple* theTuple in [self tuples]) {
+		[self observeTuple:theTuple];
+	}
+	
+	// empty selection
+	[[self ibArrayController] setSelectionIndexes:[NSIndexSet indexSet]];
 	
 	// begin display	
-	[NSApp beginSheet:[self ibHostAccessWindow] modalForWindow:[self window] modalDelegate:self didEndSelector:@selector(hostAccessDidEnd:returnCode:contextInfo:) contextInfo:nil];
+	[NSApp beginSheet:[self ibHostAccessWindow] modalForWindow:[self ibMainWindow] modalDelegate:self didEndSelector:@selector(hostAccessDidEnd:returnCode:contextInfo:) contextInfo:nil];
 }
 
 -(IBAction)doButton:(id)sender {
@@ -115,20 +134,34 @@
 	}
 }
 
-
 -(IBAction)doRemoveTuple:(id)sender {
 	if([self canRemoveSelectedTuple]) {
-		[[self ibArrayController] removeObject:[self selectedTuple]];
+		[[self ibArrayController] removeObjectAtArrangedObjectIndex:[self selectedTupleIndex]];
 	}
+	
+	// empty selection
+	[[self ibArrayController] setSelectionIndexes:[NSIndexSet indexSet]];
 }
 
 -(IBAction)doInsertTuple:(id)sender {
-	FLXPostgresServerAccessTuple* theTuple = [self selectedTuple];
+	FLXPostgresServerAccessTuple* theTuple = [[self selectedTuple] copy];
 	if(theTuple==nil || [theTuple isSuperadminAccess]) {
+		// generate a new tuple
 		theTuple = [FLXPostgresServerAccessTuple hostpassword];
 	}
-	// insert at end
-	[[self ibArrayController] addObject:theTuple];
+
+	// find the insert location, insert the tuple
+	NSUInteger theIndex = [self selectedTupleIndex];
+	if(theIndex==NSNotFound) {
+		theIndex = [[self tuples] count] - 1;
+	}
+	[[self ibArrayController] insertObject:theTuple atArrangedObjectIndex:(theIndex+1)];		
+	
+	// observe tuple
+	[self observeTuple:theTuple];
+	
+	// select the new tuple
+	[[self ibArrayController] setSelectionIndex:(theIndex+1)];
 }
 
 @end

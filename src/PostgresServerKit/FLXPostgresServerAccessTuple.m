@@ -11,7 +11,12 @@
 @synthesize options;	
 @dynamic isAddressEditable;
 @dynamic isOptionsEditable;
+@dynamic isEditable;
 @dynamic isSuperadminAccess;
+@dynamic textColor;
+
+static FLXPostgresServerAccessTuple* FLXSuperadminTuple = nil;
+static FLXPostgresServerAccessTuple* FLXDefaultTuple = nil;
 
 ////////////////////////////////////////////////////////////////////////////////
 // private methods
@@ -143,24 +148,43 @@
 }
 
 +(FLXPostgresServerAccessTuple* )superadmin {
-	FLXPostgresServerAccessTuple* theTuple = [[FLXPostgresServerAccessTuple alloc] init];
-	[theTuple setType:@"local"];
-	[theTuple setDatabase:@"all"];
-	[theTuple setUser:[FLXPostgresServer superUsername]];
-	[theTuple setMethod:@"ident"];
-	[theTuple setOptions:[NSString stringWithFormat:@"map=%@",[FLXPostgresServer superMapname]]];
-	[theTuple setComment:@"Superadmin access for PostgresServerKit"];
-	return theTuple;
+	if(FLXSuperadminTuple == nil) {
+		FLXSuperadminTuple = [[FLXPostgresServerAccessTuple alloc] init];
+		[FLXSuperadminTuple setType:@"local"];
+		[FLXSuperadminTuple setDatabase:@"all"];
+		[FLXSuperadminTuple setUser:[FLXPostgresServer superUsername]];
+		[FLXSuperadminTuple setMethod:@"ident"];
+		[FLXSuperadminTuple setOptions:[NSString stringWithFormat:@"map=%@",[FLXPostgresServer superMapname]]];
+		[FLXSuperadminTuple setComment:@"Superadmin access for PostgresServerKit"];
+	}
+	return FLXSuperadminTuple;
 }
 
 +(FLXPostgresServerAccessTuple* )hostpassword {
-	FLXPostgresServerAccessTuple* theTuple = [[FLXPostgresServerAccessTuple alloc] init];
-	[theTuple setType:@"host"];
-	[theTuple setDatabase:@"all"];
-	[theTuple setUser:@"all"];
-	[theTuple setAddress:@"127.0.0.1/32"];
-	[theTuple setMethod:@"password"];
-	[theTuple setComment:@"Password authentication TCP/IP connected users"];
+	if(FLXDefaultTuple==nil) {		
+		FLXDefaultTuple = [[FLXPostgresServerAccessTuple alloc] init];
+		[FLXDefaultTuple setType:@"host"];
+		[FLXDefaultTuple setDatabase:@"all"];
+		[FLXDefaultTuple setUser:@"all"];
+		[FLXDefaultTuple setAddress:@"127.0.0.1/32"];
+		[FLXDefaultTuple setMethod:@"password"];
+		[FLXDefaultTuple setComment:@"Password authentication TCP/IP connected users"];
+	}
+	return FLXDefaultTuple;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// NSCopying protocol implementation
+
+-(id)copyWithZone:(NSZone *)zone {
+	FLXPostgresServerAccessTuple* theTuple = [[FLXPostgresServerAccessTuple allocWithZone:zone] init];
+	[theTuple setType:[self type]];
+	[theTuple setDatabase:[self database]];
+	[theTuple setUser:[self user]];
+	[theTuple setAddress:[self address]];
+	[theTuple setMethod:[self method]];
+	[theTuple setOptions:[self options]];
+	[theTuple setComment:[self comment]];
 	return theTuple;
 }
 
@@ -168,6 +192,9 @@
 // properties
 
 -(BOOL)isAddressEditable {
+	if([self isEditable]==NO) {
+		return NO;
+	}
 	if([[self type] isEqual:@"local"]) {
 		return NO;
 	} else {
@@ -176,6 +203,9 @@
 }
 
 -(BOOL)isOptionsEditable {
+	if([self isEditable]==NO) {
+		return NO;
+	}
 	if([[self method] isEqual:@"ident"]) {
 		return YES;
 	} else {
@@ -183,8 +213,24 @@
 	}
 }
 
+-(BOOL)isEditable {
+	if([self isEqual:FLXSuperadminTuple]==YES) {
+		return NO;
+	} else {
+		return YES;
+	}
+}
+
 -(BOOL)isSuperadminAccess {
 	return [self isEqual:[FLXPostgresServerAccessTuple superadmin]];
+}
+
+-(NSColor* )textColor {
+	if([self isEditable]) {
+		return [NSColor blackColor];
+	} else {
+		return [NSColor grayColor];
+	}
 }
 
 -(NSString* )databaseAsString {
@@ -247,7 +293,8 @@
 	if([[self database] isEqual:[theTuple database]]==NO) return NO;
 	if([[self user] isEqual:[theTuple user]]==NO) return NO;
 	if([[self methodAndOptionsAsString] isEqual:[theTuple methodAndOptionsAsString]]==NO) return NO;
-	if([self isAddressEditable]) {
+
+	if([[self type] isEqual:@"local"]==NO) {
 		if([[self address] isEqual:[theTuple address]]==NO) return NO;
 	}
 	return YES;

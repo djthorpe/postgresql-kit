@@ -1,5 +1,5 @@
 
-@interface FLXPostgresServerAccessTuple : NSObject {
+@interface FLXPostgresServerAccessTuple : NSObject <NSCopying> {
 	NSString* comment;
 	NSString* type;
 	NSString* database;
@@ -20,6 +20,8 @@
 @property (readonly) BOOL isSuperadminAccess;
 @property (readonly) BOOL isAddressEditable;
 @property (readonly) BOOL isOptionsEditable;
+@property (readonly) BOOL isEditable;
+@property (readonly) NSColor* textColor;
 
 // constructors
 -(id)initWithLine:(NSString* )theLine;
