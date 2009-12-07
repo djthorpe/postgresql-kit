@@ -8,15 +8,13 @@
 static NSString* FLXHostAccessDropType = @"FLXHostAccessDropType";
 
 -(void)awakeFromNib {
-	NSLog(@"awake from nib %@",[self ibTableView]);
-	
 	// prevent table from being sortable by columns
 	[[self ibTableView] unbind:@"sortDescriptors"];
 	
 	// register for drag and drop
 	[[self ibTableView] registerForDraggedTypes:[NSArray arrayWithObjects:FLXHostAccessDropType, nil]];
 	
-	// set self as data source
+	// set self as table view data source
 	[[self ibTableView] setDataSource:self];
 }
 

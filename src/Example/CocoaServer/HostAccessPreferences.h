@@ -4,13 +4,12 @@
 #import "AppDelegate.h"
 #import "HostAccessArrayController.h"
 
-@interface HostAccessDelegate : NSObject {
+@interface HostAccessPreferences : NSObject {
 	NSWindow* ibMainWindow;
 	NSWindow* ibHostAccessWindow;
 	AppDelegate* ibAppDelegate;
 	HostAccessArrayController* ibArrayController;	
 	NSIndexSet* selectedIndexes;
-//	NSMutableArray* tuples;
 }
 
 // IB Outlets
@@ -24,7 +23,6 @@
 @property (readonly) BOOL canRemoveSelectedTuple;
 @property (readonly) FLXPostgresServerAccessTuple* selectedTuple;
 @property (readonly) NSUInteger selectedTupleIndex;
-//@property (retain) NSMutableArray* tuples;
 
 // bindings
 @property (assign) NSIndexSet* selectedIndexes;

@@ -10,20 +10,13 @@
 #import "AppDelegate.h"
 
 @implementation AppDelegate
-
-@synthesize window;
+@synthesize ibWindow;
 @synthesize ibLogView;
-@synthesize ibPreferencesWindow;
-
-@synthesize port;
 @synthesize timer;
 @synthesize serverStatusField;
 @synthesize backupStatusField;
 @synthesize isStartButtonEnabled;
 @synthesize isStopButtonEnabled;
-@synthesize isAllowRemoteConnections;
-@synthesize isCustomPort;
-@synthesize selectedPortOption;
 @synthesize isServerRestarting;
 @synthesize stateImage;
 @synthesize backupStateImage;
@@ -92,15 +85,6 @@
 	} else {
 		[self setIsStopButtonEnabled:NO];		
 	}	
-
-	// set button state - isDefaultPort
-	if([self port]==[FLXPostgresServer defaultPort]) {
-		[self setSelectedPortOption:0];
-		[self setIsCustomPort:NO];
-	} else {
-		[self setIsCustomPort:YES];
-		[self setSelectedPortOption:1];
-	}	
 	
 	// set image state
 	if([[self server] state]==FLXServerStateStarted) {
@@ -124,35 +108,6 @@
 -(void)backupToPath:(NSString* )thePath {
 	[self addLogMessage:[NSString stringWithFormat:@"Backing up to path: %@",thePath] color:nil bold:YES];
 	[[self server] backupInBackgroundToFolderPath:thePath superPassword:nil];
-}
-
--(void)preferencesDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
-	[sheet orderOut:self];	
-	
-	if(returnCode==NSOKButton) {
-		// if OK, then apply these new values
-		[[self server] setPort:[self port]];
-		if([self isAllowRemoteConnections]) {
-			[[self server] setHostname:@"*"];
-		} else {
-			[[self server] setHostname:@""];			
-		}
-		
-		// restart the server
-		[self setIsServerRestarting:YES];
-		
-	} else {
-		// else obtain them from server again
-		[self setPort:[[self server] port]];
-		if([[[self server] hostname] length]) {
-			[self setIsAllowRemoteConnections:YES];			
-		} else {			
-			[self setIsAllowRemoteConnections:NO];
-		}
-	}
-	
-	// set button states
-	[self setButtonStates];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -184,15 +139,7 @@
 	
 	// create a timer
 	[self setTimer:[NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(timerFired:) userInfo:nil repeats:YES]];
-	
-	// set port
-	[self setPort:[[self server] port]];
-	if([[self server] hostname]==nil) {
-		[self setIsAllowRemoteConnections:NO];
-	} else {
-		[self setIsAllowRemoteConnections:YES];		
-	}	
-	
+		
 	// set initial button states
 	[self setButtonStates];
 	
@@ -233,7 +180,7 @@
 	[thePanel setCanChooseDirectories:YES];
 	[thePanel setAllowsMultipleSelection:NO];
 	
-	[thePanel beginSheetModalForWindow:[self window] completionHandler:
+	[thePanel beginSheetModalForWindow:[self ibWindow] completionHandler:
 		^(NSInteger returnCode) {
 			switch (returnCode) {
 			case NSFileHandlingPanelOKButton:
@@ -245,36 +192,6 @@
 				break;
 		 }}];
 }
-
--(IBAction)doPreferences:(id)sender {
-	[[self ibPreferencesWindow] endEditingFor:nil];
-	[[self ibPreferencesWindow] makeFirstResponder:nil];
-	
-	[NSApp beginSheet:[self ibPreferencesWindow] modalForWindow:[self window] modalDelegate:self didEndSelector:@selector(preferencesDidEnd:returnCode:contextInfo:) contextInfo:nil];
-}
-
--(IBAction)doPreferencesButton:(id)sender {
-	NSButton* theButton = (NSButton* )sender;
-	NSParameterAssert([theButton isKindOfClass:[NSButton class]]);
-	
-	[[self ibPreferencesWindow] endEditingFor:nil];
-	
-	if([[theButton title] isEqual:@"OK"]) {
-		[NSApp endSheet:[self ibPreferencesWindow] returnCode:NSOKButton];
-	} else {
-		[NSApp endSheet:[self ibPreferencesWindow] returnCode:NSCancelButton];
-	}
-}
-
--(IBAction)doPortRadioButton:(id)sender {
-	if([self selectedPortOption]==1) {
-		[self setIsCustomPort:YES];
-	} else {
-		[self setIsCustomPort:NO];
-		[self setPort:[FLXPostgresServer defaultPort]];
-	}
-}
-
 
 ////////////////////////////////////////////////////////////////////////////////
 

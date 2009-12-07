@@ -37,6 +37,8 @@
 
 /* Begin PBXBuildFile section */
 		6E01DC8910CD34C50068E667 /* HostAccessArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E01DC8810CD34C50068E667 /* HostAccessArrayController.m */; };
+		6E01DD2C10CD4C800068E667 /* stop.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6E4B31670F6BDDCC003504FB /* stop.tiff */; };
+		6E01DD3F10CD4DA70068E667 /* ConnectionPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E01DD3E10CD4DA70068E667 /* ConnectionPreferences.m */; };
 		6E1EA3670FD13CC50039B9FF /* FLXPostgresTypeNSString.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E1EA3650FD13CC50039B9FF /* FLXPostgresTypeNSString.m */; };
 		6E1EA3680FD13DB10039B9FF /* FLXPostgresTypeNSString.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E1EA3640FD13CC50039B9FF /* FLXPostgresTypeNSString.h */; };
 		6E1F71140F6D123A0051BA26 /* select.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6E1F71130F6D123A0051BA26 /* select.tiff */; };
@@ -131,7 +133,7 @@
 		6EC1F8FD0F49FCB3006A2A12 /* PostgresInstallerMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC1F8FC0F49FCB3006A2A12 /* PostgresInstallerMain.m */; };
 		6EC1F93C0F4A02B9006A2A12 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E23CC610DCDD8A60041AA57 /* Foundation.framework */; };
 		6EC4148C0F4B446E00E1A76B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EB516600F48257F00C8F8A4 /* Security.framework */; };
-		6EC681C110CC5F070009B037 /* HostAccessDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC681C010CC5F070009B037 /* HostAccessDelegate.m */; };
+		6EC681C110CC5F070009B037 /* HostAccessPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC681C010CC5F070009B037 /* HostAccessPreferences.m */; };
 		6ECC89DC0F618F30000993F9 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ECC89DB0F618F30000993F9 /* libz.dylib */; };
 		6ECC8C1F0F629794000993F9 /* elephant-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ECC8B950F628709000993F9 /* elephant-64.png */; };
 		6ECC8C310F6297BB000993F9 /* elephant-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ECC8C300F6297BB000993F9 /* elephant-32.png */; };
@@ -375,6 +377,8 @@
 /* Begin PBXFileReference section */
 		6E01DC8710CD34C50068E667 /* HostAccessArrayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HostAccessArrayController.h; sourceTree = "<group>"; };
 		6E01DC8810CD34C50068E667 /* HostAccessArrayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HostAccessArrayController.m; sourceTree = "<group>"; };
+		6E01DD3D10CD4DA70068E667 /* ConnectionPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionPreferences.h; sourceTree = "<group>"; };
+		6E01DD3E10CD4DA70068E667 /* ConnectionPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionPreferences.m; sourceTree = "<group>"; };
 		6E1EA3640FD13CC50039B9FF /* FLXPostgresTypeNSString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLXPostgresTypeNSString.h; sourceTree = "<group>"; };
 		6E1EA3650FD13CC50039B9FF /* FLXPostgresTypeNSString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLXPostgresTypeNSString.m; sourceTree = "<group>"; };
 		6E1EA3690FD13F1C0039B9FF /* FLXPostgresTypes+NSData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FLXPostgresTypes+NSData.h"; sourceTree = "<group>"; };
@@ -497,8 +501,8 @@
 		6EC49A340F6D5CC90039D454 /* upload-file.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "upload-file.sh"; sourceTree = "<group>"; };
 		6EC49A350F6D5CDD0039D454 /* googlecode_upload.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = googlecode_upload.py; sourceTree = "<group>"; };
 		6EC49A620F6D66870039D454 /* ClientConnect.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClientConnect.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		6EC681BF10CC5F070009B037 /* HostAccessDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HostAccessDelegate.h; sourceTree = "<group>"; };
-		6EC681C010CC5F070009B037 /* HostAccessDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HostAccessDelegate.m; sourceTree = "<group>"; };
+		6EC681BF10CC5F070009B037 /* HostAccessPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HostAccessPreferences.h; sourceTree = "<group>"; };
+		6EC681C010CC5F070009B037 /* HostAccessPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HostAccessPreferences.m; sourceTree = "<group>"; };
 		6ECC89DB0F618F30000993F9 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = /usr/lib/libz.dylib; sourceTree = "<absolute>"; };
 		6ECC8B850F6283EC000993F9 /* logo_w_elephant.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = logo_w_elephant.pdf; sourceTree = "<group>"; };
 		6ECC8B8F0F628525000993F9 /* strapline-200x40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "strapline-200x40.png"; sourceTree = "<group>"; };
@@ -836,8 +840,10 @@
 			children = (
 				6EB6EC9D10C311CF000C7275 /* AppDelegate.h */,
 				6EB6EC9E10C311CF000C7275 /* AppDelegate.m */,
-				6EC681BF10CC5F070009B037 /* HostAccessDelegate.h */,
-				6EC681C010CC5F070009B037 /* HostAccessDelegate.m */,
+				6E01DD3D10CD4DA70068E667 /* ConnectionPreferences.h */,
+				6E01DD3E10CD4DA70068E667 /* ConnectionPreferences.m */,
+				6EC681BF10CC5F070009B037 /* HostAccessPreferences.h */,
+				6EC681C010CC5F070009B037 /* HostAccessPreferences.m */,
 				6E01DC8710CD34C50068E667 /* HostAccessArrayController.h */,
 				6E01DC8810CD34C50068E667 /* HostAccessArrayController.m */,
 			);
@@ -1364,6 +1370,7 @@
 				6E801C9410CAC4E5006EB15E /* green.tiff in Resources */,
 				6E801CD610CACA17006EB15E /* elephant-64.png in Resources */,
 				6E801CD710CACA1B006EB15E /* strapline-200x40.png in Resources */,
+				6E01DD2C10CD4C800068E667 /* stop.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1531,8 +1538,9 @@
 			files = (
 				6E76642610C3089900514871 /* main.m in Sources */,
 				6EB6EC9F10C311CF000C7275 /* AppDelegate.m in Sources */,
-				6EC681C110CC5F070009B037 /* HostAccessDelegate.m in Sources */,
+				6EC681C110CC5F070009B037 /* HostAccessPreferences.m in Sources */,
 				6E01DC8910CD34C50068E667 /* HostAccessArrayController.m in Sources */,
+				6E01DD3F10CD4DA70068E667 /* ConnectionPreferences.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

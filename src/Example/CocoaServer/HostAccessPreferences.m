@@ -1,7 +1,10 @@
 
-#import "HostAccessDelegate.h"
+#import "HostAccessPreferences.h"
 
-@implementation HostAccessDelegate
+@implementation HostAccessPreferences
+
+////////////////////////////////////////////////////////////////////////////////
+
 @synthesize ibMainWindow;
 @synthesize ibHostAccessWindow;
 @synthesize ibAppDelegate;
