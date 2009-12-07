@@ -11,7 +11,6 @@
 @dynamic selectedTuple;
 @dynamic selectedTupleIndex;
 @dynamic canRemoveSelectedTuple;
-@synthesize tuples;
 
 ////////////////////////////////////////////////////////////////////////////////
 // properties
@@ -34,7 +33,7 @@
 	if(theIndex==NSNotFound) {
 		return nil;
 	} else {
-		return [[self tuples] objectAtIndex:theIndex];
+		return [[[self ibArrayController] arrangedObjects] objectAtIndex:theIndex];
 	}
 }
 
@@ -52,7 +51,7 @@
 	[sheet orderOut:self];	
 	
 	if(returnCode==NSOKButton) {
-		BOOL isSuccess = [[self server] writeAccessTuples:[self tuples]];
+		BOOL isSuccess = [[self server] writeAccessTuples:[[self ibArrayController] arrangedObjects]];
 		if(isSuccess==NO) {
 			[[self ibAppDelegate] addLogMessage:@"ERROR: Unable to write host access file" color:[NSColor redColor] bold:YES];
 		} else {
@@ -61,8 +60,7 @@
 	}
 	
 	// release memory
-	[[self tuples] removeAllObjects];
-	
+	//[[self tuples] removeAllObjects];	
 }
 
 -(void)observeTuple:(FLXPostgresServerAccessTuple* )theTuple {	
@@ -109,10 +107,10 @@
 		return;
 	}
 	
-	[self setTuples:[NSMutableArray arrayWithArray:theTuples]];
-	 
+	[[self ibArrayController] setContent:[NSMutableArray arrayWithArray:theTuples]];
+
 	// we observe certain values of host access tuples
-	for(FLXPostgresServerAccessTuple* theTuple in [self tuples]) {
+	for(FLXPostgresServerAccessTuple* theTuple in [[self ibArrayController] arrangedObjects]) {
 		[self observeTuple:theTuple];
 	}
 	
@@ -153,7 +151,7 @@
 	// find the insert location, insert the tuple
 	NSUInteger theIndex = [self selectedTupleIndex];
 	if(theIndex==NSNotFound) {
-		theIndex = [[self tuples] count] - 1;
+		theIndex = [[[self ibArrayController] arrangedObjects] count] - 1;
 	}
 	[[self ibArrayController] insertObject:theTuple atArrangedObjectIndex:(theIndex+1)];		
 	

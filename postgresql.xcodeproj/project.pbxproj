@@ -36,6 +36,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		6E01DC8910CD34C50068E667 /* HostAccessArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E01DC8810CD34C50068E667 /* HostAccessArrayController.m */; };
 		6E1EA3670FD13CC50039B9FF /* FLXPostgresTypeNSString.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E1EA3650FD13CC50039B9FF /* FLXPostgresTypeNSString.m */; };
 		6E1EA3680FD13DB10039B9FF /* FLXPostgresTypeNSString.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E1EA3640FD13CC50039B9FF /* FLXPostgresTypeNSString.h */; };
 		6E1F71140F6D123A0051BA26 /* select.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6E1F71130F6D123A0051BA26 /* select.tiff */; };
@@ -372,6 +373,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6E01DC8710CD34C50068E667 /* HostAccessArrayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HostAccessArrayController.h; sourceTree = "<group>"; };
+		6E01DC8810CD34C50068E667 /* HostAccessArrayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HostAccessArrayController.m; sourceTree = "<group>"; };
 		6E1EA3640FD13CC50039B9FF /* FLXPostgresTypeNSString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLXPostgresTypeNSString.h; sourceTree = "<group>"; };
 		6E1EA3650FD13CC50039B9FF /* FLXPostgresTypeNSString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLXPostgresTypeNSString.m; sourceTree = "<group>"; };
 		6E1EA3690FD13F1C0039B9FF /* FLXPostgresTypes+NSData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FLXPostgresTypes+NSData.h"; sourceTree = "<group>"; };
@@ -835,6 +838,8 @@
 				6EB6EC9E10C311CF000C7275 /* AppDelegate.m */,
 				6EC681BF10CC5F070009B037 /* HostAccessDelegate.h */,
 				6EC681C010CC5F070009B037 /* HostAccessDelegate.m */,
+				6E01DC8710CD34C50068E667 /* HostAccessArrayController.h */,
+				6E01DC8810CD34C50068E667 /* HostAccessArrayController.m */,
 			);
 			path = CocoaServer;
 			sourceTree = "<group>";
@@ -1527,6 +1532,7 @@
 				6E76642610C3089900514871 /* main.m in Sources */,
 				6EB6EC9F10C311CF000C7275 /* AppDelegate.m in Sources */,
 				6EC681C110CC5F070009B037 /* HostAccessDelegate.m in Sources */,
+				6E01DC8910CD34C50068E667 /* HostAccessArrayController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

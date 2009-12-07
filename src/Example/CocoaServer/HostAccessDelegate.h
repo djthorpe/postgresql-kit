@@ -2,28 +2,29 @@
 #import <Cocoa/Cocoa.h>
 #import <PostgresServerKit/PostgresServerKit.h>
 #import "AppDelegate.h"
+#import "HostAccessArrayController.h"
 
 @interface HostAccessDelegate : NSObject {
 	NSWindow* ibMainWindow;
 	NSWindow* ibHostAccessWindow;
 	AppDelegate* ibAppDelegate;
-	NSArrayController* ibArrayController;	
+	HostAccessArrayController* ibArrayController;	
 	NSIndexSet* selectedIndexes;
-	NSMutableArray* tuples;
+//	NSMutableArray* tuples;
 }
 
 // IB Outlets
 @property (assign) IBOutlet NSWindow* ibMainWindow;
 @property (assign) IBOutlet NSWindow* ibHostAccessWindow;
 @property (assign) IBOutlet AppDelegate* ibAppDelegate;
-@property (assign) IBOutlet NSArrayController* ibArrayController;
+@property (assign) IBOutlet HostAccessArrayController* ibArrayController;
 
 // properties
 @property (readonly) FLXPostgresServer* server;
 @property (readonly) BOOL canRemoveSelectedTuple;
 @property (readonly) FLXPostgresServerAccessTuple* selectedTuple;
 @property (readonly) NSUInteger selectedTupleIndex;
-@property (retain) NSMutableArray* tuples;
+//@property (retain) NSMutableArray* tuples;
 
 // bindings
 @property (assign) NSIndexSet* selectedIndexes;
