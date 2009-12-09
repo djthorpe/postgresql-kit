@@ -155,6 +155,7 @@
 		6EE3AED30F6D6B0F000E000F /* ClientConnect.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6EE3AED20F6D6B0F000E000F /* ClientConnect.xib */; };
 		6EEA67010FB023E700BF5D08 /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEA67000FB023E700BF5D08 /* Application.m */; };
 		6EF3E6420F6D3335001AFA38 /* clear.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6EF3E6410F6D3335001AFA38 /* clear.tiff */; };
+		6EF4D0DA10CFAD25002D7FDF /* IdentityUserArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF4D0D910CFAD25002D7FDF /* IdentityUserArrayController.m */; };
 		6EF633B010B982B300288BBB /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EF633AF10B982B300288BBB /* libcrypto.dylib */; };
 /* End PBXBuildFile section */
 
@@ -536,6 +537,8 @@
 		6EEA66FF0FB023E700BF5D08 /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
 		6EEA67000FB023E700BF5D08 /* Application.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Application.m; sourceTree = "<group>"; };
 		6EF3E6410F6D3335001AFA38 /* clear.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = clear.tiff; sourceTree = "<group>"; };
+		6EF4D0D810CFAD25002D7FDF /* IdentityUserArrayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IdentityUserArrayController.h; sourceTree = "<group>"; };
+		6EF4D0D910CFAD25002D7FDF /* IdentityUserArrayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IdentityUserArrayController.m; sourceTree = "<group>"; };
 		6EF6335210B9771000288BBB /* postgresql-8.4.1.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = "postgresql-8.4.1.tar.gz"; sourceTree = "<group>"; };
 		6EF633AF10B982B300288BBB /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = /usr/lib/libcrypto.dylib; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
@@ -856,12 +859,14 @@
 				6E01DD3E10CD4DA70068E667 /* ConnectionPreferences.m */,
 				6EC681BF10CC5F070009B037 /* HostAccessPreferences.h */,
 				6EC681C010CC5F070009B037 /* HostAccessPreferences.m */,
-				6E01DD7E10CD56C00068E667 /* IdentityMapPreferences.h */,
-				6E01DD7F10CD56C00068E667 /* IdentityMapPreferences.m */,
 				6E01DC8710CD34C50068E667 /* HostAccessArrayController.h */,
 				6E01DC8810CD34C50068E667 /* HostAccessArrayController.m */,
+				6E01DD7E10CD56C00068E667 /* IdentityMapPreferences.h */,
+				6E01DD7F10CD56C00068E667 /* IdentityMapPreferences.m */,
 				6E01DDF910CD6A8D0068E667 /* IdentityGroupArrayController.h */,
 				6E01DDFA10CD6A8D0068E667 /* IdentityGroupArrayController.m */,
+				6EF4D0D810CFAD25002D7FDF /* IdentityUserArrayController.h */,
+				6EF4D0D910CFAD25002D7FDF /* IdentityUserArrayController.m */,
 			);
 			path = CocoaServer;
 			sourceTree = "<group>";
@@ -1561,6 +1566,7 @@
 				6E01DD3F10CD4DA70068E667 /* ConnectionPreferences.m in Sources */,
 				6E01DD8010CD56C00068E667 /* IdentityMapPreferences.m in Sources */,
 				6E01DDFB10CD6A8D0068E667 /* IdentityGroupArrayController.m in Sources */,
+				6EF4D0DA10CFAD25002D7FDF /* IdentityUserArrayController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

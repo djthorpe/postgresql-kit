@@ -8,6 +8,7 @@
 	NSWindow* ibIdentityMapWindow;
 	AppDelegate* ibAppDelegate;
 	NSArrayController* ibGroupsArrayController;
+	NSArrayController* ibIdentityArrayController;
 }
 
 // IB Outlets
@@ -15,6 +16,7 @@
 @property (assign) IBOutlet NSWindow* ibIdentityMapWindow;
 @property (assign) IBOutlet AppDelegate* ibAppDelegate;
 @property (assign) IBOutlet NSArrayController* ibGroupsArrayController;
+@property (assign) IBOutlet NSArrayController* ibIdentityArrayController;
 
 // properties
 @property (readonly) FLXPostgresServer* server;

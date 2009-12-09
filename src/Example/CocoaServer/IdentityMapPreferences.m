@@ -9,7 +9,15 @@
 @synthesize ibIdentityMapWindow;
 @synthesize ibAppDelegate;
 @synthesize ibGroupsArrayController;
+@synthesize ibIdentityArrayController;
 @dynamic server;
+
+////////////////////////////////////////////////////////////////////////////////
+// constructors
+
+-(void)awakeFromNib {
+	[[self ibGroupsArrayController] addObserver:self forKeyPath:@"selectionIndexes" options:NSKeyValueObservingOptionNew context:nil];
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // properties
@@ -26,6 +34,21 @@
 	
 	if(returnCode==NSOKButton) {
 		NSLog(@"TODO: Write identity map");
+	}
+}
+
+-(void)groupDidChange:(NSString* )theGroup {
+	// hide objects in identity content array
+	NSLog(@"TODO: Load group %@",theGroup);	
+}
+
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+	if([keyPath isEqual:@"selectionIndexes"] && [object isEqual:[self ibGroupsArrayController]]) {
+		if([[[self ibGroupsArrayController] selectedObjects] count]==1) {
+			NSDictionary* theGroup = [[[self ibGroupsArrayController] selectedObjects] objectAtIndex:0];
+			NSParameterAssert([theGroup isKindOfClass:[NSDictionary class]]);
+			[self groupDidChange:[theGroup objectForKey:@"group"]];
+		}
 	}
 }
 
@@ -51,6 +74,8 @@
 	
 	// add groups to array controller
 	[[self ibGroupsArrayController] setContent:theGroups];
+	// add tuples to array controller
+	[[self ibIdentityArrayController] setContent:theTuples];
 	
 	// begin display	
 	[NSApp beginSheet:[self ibIdentityMapWindow] modalForWindow:[self ibMainWindow] modalDelegate:self didEndSelector:@selector(identityMapDidEnd:returnCode:contextInfo:) contextInfo:nil];
