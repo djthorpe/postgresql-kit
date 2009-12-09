@@ -6,5 +6,6 @@
 }
 
 @property (assign) IBOutlet NSTableView* ibTableView;
+@property (readonly) NSString* selectedGroup;
 
 @end

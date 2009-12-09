@@ -156,6 +156,7 @@
 		6EEA67010FB023E700BF5D08 /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEA67000FB023E700BF5D08 /* Application.m */; };
 		6EF3E6420F6D3335001AFA38 /* clear.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6EF3E6410F6D3335001AFA38 /* clear.tiff */; };
 		6EF4D0DA10CFAD25002D7FDF /* IdentityUserArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF4D0D910CFAD25002D7FDF /* IdentityUserArrayController.m */; };
+		6EF4D11E10CFB5B5002D7FDF /* backup.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6E4B317D0F6BDEC8003504FB /* backup.tiff */; };
 		6EF633B010B982B300288BBB /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EF633AF10B982B300288BBB /* libcrypto.dylib */; };
 /* End PBXBuildFile section */
 
@@ -853,20 +854,11 @@
 		6E76640210C3079B00514871 /* CocoaServer */ = {
 			isa = PBXGroup;
 			children = (
-				6EB6EC9D10C311CF000C7275 /* AppDelegate.h */,
-				6EB6EC9E10C311CF000C7275 /* AppDelegate.m */,
-				6E01DD3D10CD4DA70068E667 /* ConnectionPreferences.h */,
-				6E01DD3E10CD4DA70068E667 /* ConnectionPreferences.m */,
-				6EC681BF10CC5F070009B037 /* HostAccessPreferences.h */,
-				6EC681C010CC5F070009B037 /* HostAccessPreferences.m */,
-				6E01DC8710CD34C50068E667 /* HostAccessArrayController.h */,
-				6E01DC8810CD34C50068E667 /* HostAccessArrayController.m */,
-				6E01DD7E10CD56C00068E667 /* IdentityMapPreferences.h */,
-				6E01DD7F10CD56C00068E667 /* IdentityMapPreferences.m */,
-				6E01DDF910CD6A8D0068E667 /* IdentityGroupArrayController.h */,
-				6E01DDFA10CD6A8D0068E667 /* IdentityGroupArrayController.m */,
-				6EF4D0D810CFAD25002D7FDF /* IdentityUserArrayController.h */,
-				6EF4D0D910CFAD25002D7FDF /* IdentityUserArrayController.m */,
+				6EF4D13510CFBEB6002D7FDF /* Backup Settings */,
+				6EF4D13410CFBE92002D7FDF /* Ident Settings */,
+				6EF4D13310CFBE87002D7FDF /* Host Access */,
+				6EF4D13210CFBE7D002D7FDF /* Connection */,
+				6EF4D13110CFBE71002D7FDF /* AppDelegate */,
 			);
 			path = CocoaServer;
 			sourceTree = "<group>";
@@ -1034,6 +1026,55 @@
 				6EE3AECF0F6D6AEA000E000F /* main.m */,
 			);
 			name = "Other Files";
+			sourceTree = "<group>";
+		};
+		6EF4D13110CFBE71002D7FDF /* AppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				6EB6EC9D10C311CF000C7275 /* AppDelegate.h */,
+				6EB6EC9E10C311CF000C7275 /* AppDelegate.m */,
+			);
+			name = AppDelegate;
+			sourceTree = "<group>";
+		};
+		6EF4D13210CFBE7D002D7FDF /* Connection */ = {
+			isa = PBXGroup;
+			children = (
+				6E01DD3D10CD4DA70068E667 /* ConnectionPreferences.h */,
+				6E01DD3E10CD4DA70068E667 /* ConnectionPreferences.m */,
+			);
+			name = Connection;
+			sourceTree = "<group>";
+		};
+		6EF4D13310CFBE87002D7FDF /* Host Access */ = {
+			isa = PBXGroup;
+			children = (
+				6EC681BF10CC5F070009B037 /* HostAccessPreferences.h */,
+				6EC681C010CC5F070009B037 /* HostAccessPreferences.m */,
+				6E01DC8710CD34C50068E667 /* HostAccessArrayController.h */,
+				6E01DC8810CD34C50068E667 /* HostAccessArrayController.m */,
+			);
+			name = "Host Access";
+			sourceTree = "<group>";
+		};
+		6EF4D13410CFBE92002D7FDF /* Ident Settings */ = {
+			isa = PBXGroup;
+			children = (
+				6E01DD7E10CD56C00068E667 /* IdentityMapPreferences.h */,
+				6E01DD7F10CD56C00068E667 /* IdentityMapPreferences.m */,
+				6E01DDF910CD6A8D0068E667 /* IdentityGroupArrayController.h */,
+				6E01DDFA10CD6A8D0068E667 /* IdentityGroupArrayController.m */,
+				6EF4D0D810CFAD25002D7FDF /* IdentityUserArrayController.h */,
+				6EF4D0D910CFAD25002D7FDF /* IdentityUserArrayController.m */,
+			);
+			name = "Ident Settings";
+			sourceTree = "<group>";
+		};
+		6EF4D13510CFBEB6002D7FDF /* Backup Settings */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Backup Settings";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1393,6 +1434,7 @@
 				6E801CD610CACA17006EB15E /* elephant-64.png in Resources */,
 				6E801CD710CACA1B006EB15E /* strapline-200x40.png in Resources */,
 				6E01DD2C10CD4C800068E667 /* stop.tiff in Resources */,
+				6EF4D11E10CFB5B5002D7FDF /* backup.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

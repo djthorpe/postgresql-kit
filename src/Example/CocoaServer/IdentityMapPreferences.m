@@ -44,11 +44,7 @@
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
 	if([keyPath isEqual:@"selectionIndexes"] && [object isEqual:[self ibGroupsArrayController]]) {
-		if([[[self ibGroupsArrayController] selectedObjects] count]==1) {
-			NSDictionary* theGroup = [[[self ibGroupsArrayController] selectedObjects] objectAtIndex:0];
-			NSParameterAssert([theGroup isKindOfClass:[NSDictionary class]]);
-			[self groupDidChange:[theGroup objectForKey:@"group"]];
-		}
+		[self groupDidChange:[[self ibGroupsArrayController] selectedGroup]];
 	}
 }
 
