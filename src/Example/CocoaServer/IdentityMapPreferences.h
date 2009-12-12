@@ -11,6 +11,7 @@
 	AppDelegate* ibAppDelegate;
 	IdentityGroupArrayController* ibGroupsArrayController;
 	IdentityUserArrayController* ibIdentityArrayController;
+	NSArray* tuples;
 }
 
 // IB Outlets
@@ -22,6 +23,7 @@
 
 // properties
 @property (readonly) FLXPostgresServer* server;
+@property (retain) NSArray* tuples;
 
 // IB Actions
 -(IBAction)doIdentityMap:(id)sender;

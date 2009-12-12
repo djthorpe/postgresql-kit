@@ -11,6 +11,7 @@
 @synthesize ibGroupsArrayController;
 @synthesize ibIdentityArrayController;
 @dynamic server;
+@synthesize tuples;
 
 ////////////////////////////////////////////////////////////////////////////////
 // constructors
@@ -38,8 +39,17 @@
 }
 
 -(void)groupDidChange:(NSString* )theGroup {
-	// hide objects in identity content array
-	NSLog(@"TODO: Load group %@",theGroup);	
+	// load group from tuples
+	NSMutableArray* theSelectedTuples = [NSMutableArray arrayWithCapacity:[[self tuples] count]];
+	for(FLXPostgresServerIdentityTuple* theTuple in [self tuples]) {
+		if([[theTuple group] isEqual:theGroup]) {
+			[theSelectedTuples addObject:theTuple];
+		}
+	}
+	
+	NSLog(@"Load group %@ - %u tuples",theGroup,[theSelectedTuples count]);	
+
+	[[self ibIdentityArrayController] setContent:theSelectedTuples];
 }
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
@@ -70,8 +80,9 @@
 	
 	// add groups to array controller
 	[[self ibGroupsArrayController] setContent:theGroups];
+
 	// add tuples to array controller
-	[[self ibIdentityArrayController] setContent:theTuples];
+	[self setTuples:theTuples];
 	
 	// begin display	
 	[NSApp beginSheet:[self ibIdentityMapWindow] modalForWindow:[self ibMainWindow] modalDelegate:self didEndSelector:@selector(identityMapDidEnd:returnCode:contextInfo:) contextInfo:nil];

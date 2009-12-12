@@ -8,7 +8,7 @@
 
 // addObject overridden to allow table cell to be edited on insert
 -(void)addObject:(id) newObject {
-	[super addObject:newObject];
+	[super addObject:newObject];	
 	
 	// add in the group name
 	NSString* theGroup = [[self ibGroupsArrayController] selectedGroup];

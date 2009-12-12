@@ -70,6 +70,7 @@
 		6E27C29B0DD5FF58004BFE98 /* FLXPostgresConnection+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E27C2990DD5FF58004BFE98 /* FLXPostgresConnection+Utils.m */; };
 		6E326DB60F8B3DA60007C101 /* FLXPostgresConnection+DataUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E326DB40F8B3DA60007C101 /* FLXPostgresConnection+DataUtils.h */; };
 		6E326DB70F8B3DA60007C101 /* FLXPostgresConnection+DataUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E326DB50F8B3DA60007C101 /* FLXPostgresConnection+DataUtils.m */; };
+		6E42FC2B10D39E41008D2071 /* BackupPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E42FC2A10D39E41008D2071 /* BackupPreferences.m */; };
 		6E462F250F6EF89B009C3655 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E462F240F6EF89B009C3655 /* main.m */; };
 		6E462F270F6EF916009C3655 /* PostgresClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E23CD7F0DCDE3C80041AA57 /* PostgresClientKit.framework */; };
 		6E4B31660F6BDDBD003504FB /* start.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6E4B31650F6BDDBD003504FB /* start.tiff */; };
@@ -436,6 +437,8 @@
 		6E2C40FE0FC9A37F006CD7BD /* FLXGeometry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLXGeometry.m; sourceTree = "<group>"; };
 		6E326DB40F8B3DA60007C101 /* FLXPostgresConnection+DataUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FLXPostgresConnection+DataUtils.h"; sourceTree = "<group>"; };
 		6E326DB50F8B3DA60007C101 /* FLXPostgresConnection+DataUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FLXPostgresConnection+DataUtils.m"; sourceTree = "<group>"; };
+		6E42FC2910D39E41008D2071 /* BackupPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackupPreferences.h; sourceTree = "<group>"; };
+		6E42FC2A10D39E41008D2071 /* BackupPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackupPreferences.m; sourceTree = "<group>"; };
 		6E462F1A0F6EF843009C3655 /* TypeTests */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TypeTests; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E462F240F6EF89B009C3655 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		6E4B31650F6BDDBD003504FB /* start.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = start.tiff; sourceTree = "<group>"; };
@@ -1073,6 +1076,8 @@
 		6EF4D13510CFBEB6002D7FDF /* Backup Settings */ = {
 			isa = PBXGroup;
 			children = (
+				6E42FC2910D39E41008D2071 /* BackupPreferences.h */,
+				6E42FC2A10D39E41008D2071 /* BackupPreferences.m */,
 			);
 			name = "Backup Settings";
 			sourceTree = "<group>";
@@ -1609,6 +1614,7 @@
 				6E01DD8010CD56C00068E667 /* IdentityMapPreferences.m in Sources */,
 				6E01DDFB10CD6A8D0068E667 /* IdentityGroupArrayController.m in Sources */,
 				6EF4D0DA10CFAD25002D7FDF /* IdentityUserArrayController.m in Sources */,
+				6E42FC2B10D39E41008D2071 /* BackupPreferences.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
