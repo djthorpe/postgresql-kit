@@ -4,12 +4,22 @@
 #import "AppDelegate.h"
 
 @interface BackupPreferences : NSObject {
+	// IBOutlets
 	NSWindow* ibMainWindow;
 	NSWindow* ibBackupWindow;
 	AppDelegate* ibAppDelegate;
+
+	// values from backup settings
 	NSString* backupPath;
-	double frequency;
-	NSString* frequencyAsString;
+	NSTimeInterval backupFrequency;
+	NSUInteger backupThinKeepHours;
+	NSUInteger backupThinKeepDays;
+	NSUInteger backupThinKeepWeeks;
+	NSUInteger backupThinKeepMonths;
+	
+	// temporary values
+	double frequencySliderValue;
+	NSString* frequencySliderString;
 }
 
 // IB Outlets
@@ -19,9 +29,14 @@
 
 // properties
 @property (readonly) FLXPostgresServer* server;
-@property (retain) NSString* frequencyAsString;
-@property (assign) double frequency;
+@property (retain) NSString* frequencySliderString;
+@property (assign) double frequencySliderValue;
 @property (retain) NSString* backupPath;
+@property (assign) NSTimeInterval backupFrequency;
+@property (assign) NSUInteger backupThinKeepHours;
+@property (assign) NSUInteger backupThinKeepDays;
+@property (assign) NSUInteger backupThinKeepWeeks;
+@property (assign) NSUInteger backupThinKeepMonths;
 
 // IB Actions
 -(IBAction)doBackup:(id)sender;

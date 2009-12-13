@@ -10,18 +10,30 @@
 @synthesize ibAppDelegate;
 @dynamic server;
 @synthesize backupPath;
-@synthesize frequency;
-@synthesize frequencyAsString;
+@synthesize backupFrequency;
+@synthesize backupThinKeepHours;
+@synthesize backupThinKeepDays;
+@synthesize backupThinKeepWeeks;
+@synthesize backupThinKeepMonths;
+@synthesize frequencySliderValue;
+@synthesize frequencySliderString;
+
+const double FLXFrequencyDynamicPower = 2.4;
 
 ////////////////////////////////////////////////////////////////////////////////
 // constructors
 
 -(void)awakeFromNib {
+	// set defaults
 	[self setBackupPath:NSHomeDirectory()];
-	[self setFrequency:5.0]; // every five mins
-
+	[self setBackupFrequency:(5 * 60)]; // every five mins
+	[self setBackupThinKeepHours:48];
+	[self setBackupThinKeepDays:28];
+	[self setBackupThinKeepWeeks:52];
+	[self setBackupThinKeepMonths:24];
+	
 	// observe frequency value changing
-	[self addObserver:self forKeyPath:@"frequency" options:NSKeyValueObservingOptionNew context:nil];
+	[self addObserver:self forKeyPath:@"frequencySliderValue" options:NSKeyValueObservingOptionNew context:nil];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -34,48 +46,57 @@
 ////////////////////////////////////////////////////////////////////////////////
 // private methods
 
--(void)_setFrequencyAsString {
+-(NSTimeInterval)frequencySliderValueToString {
 	// squared to give larger dynamic range
-	double f2 = pow([self frequency],2.4);
+	double f2 = pow([self frequencySliderValue],FLXFrequencyDynamicPower);
 	if(f2 < 60) {
 		NSUInteger mins = (NSUInteger)f2;
 		if(mins==1) {
-			[self setFrequencyAsString:[NSString stringWithFormat:@"every min",mins]];			
+			[self setFrequencySliderString:[NSString stringWithFormat:@"every min",mins]];			
 		} else {
-			[self setFrequencyAsString:[NSString stringWithFormat:@"every %u mins",mins]];
+			[self setFrequencySliderString:[NSString stringWithFormat:@"every %u mins",mins]];
 		}
-		return;
+		return (NSTimeInterval)(mins * 60.0);
 	}
 	if(f2 < (60 * 24)) {
 		NSUInteger hours = (NSUInteger)f2 / 60;
 		if(hours==1) {
-			[self setFrequencyAsString:[NSString stringWithFormat:@"every hour",hours]];
+			[self setFrequencySliderString:[NSString stringWithFormat:@"every hour",hours]];
 		} else {
-			[self setFrequencyAsString:[NSString stringWithFormat:@"every %u hours",hours]];
+			[self setFrequencySliderString:[NSString stringWithFormat:@"every %u hours",hours]];
 		}
-		return;				
+		return (NSTimeInterval)(hours * 3600.0);
 	}
 	if(f2 < (60 * 24 * 7)) {
 		NSUInteger days = (NSUInteger)f2 / (60 * 24);
 		if(days==1) {
-			[self setFrequencyAsString:[NSString stringWithFormat:@"every day",days]];
+			[self setFrequencySliderString:[NSString stringWithFormat:@"every day",days]];
 		} else {
-			[self setFrequencyAsString:[NSString stringWithFormat:@"every %u days",days]];
+			[self setFrequencySliderString:[NSString stringWithFormat:@"every %u days",days]];
 		}
-		return;				
+		return (NSTimeInterval)(days * 3600.0 * 24.0);				
 	}
 	
 	NSUInteger weeks = (NSUInteger)f2 / (60 * 24 * 7);
 	if(weeks==1) {
-		[self setFrequencyAsString:[NSString stringWithFormat:@"every week",weeks]];
+		[self setFrequencySliderString:[NSString stringWithFormat:@"every week",weeks]];
 	} else {
-		[self setFrequencyAsString:[NSString stringWithFormat:@"every %u weeks",weeks]];		
+		[self setFrequencySliderString:[NSString stringWithFormat:@"every %u weeks",weeks]];		
 	}
-	return;				
+	return (NSTimeInterval)(weeks * 3600.0 * 24.0 * 7.0);				
+}
+
+-(void)frequencyToSliderValue {
+	double mins = (double)[self backupFrequency] / 60.0;
+	[self setFrequencySliderValue:pow(mins,(1.0/FLXFrequencyDynamicPower))];
+	[self frequencySliderValueToString];
 }
 
 -(void)backupDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
 	[sheet orderOut:self];	
+	
+	// set the backupFrequency value
+	[self setBackupFrequency:[self frequencySliderValueToString]];
 	
 	if(returnCode==NSOKButton) {
 		NSLog(@"TODO: Write backup prefs");
@@ -83,14 +104,17 @@
 }
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-	if([keyPath isEqual:@"frequency"] && [object isEqual:self]) {
-		[self _setFrequencyAsString];
+	if([keyPath isEqual:@"frequencySliderValue"] && [object isEqual:self]) {
+		[self frequencySliderValueToString];
 	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
--(IBAction)doBackup:(id)sender {		
+-(IBAction)doBackup:(id)sender {	
+	// set initial values to display
+	[self frequencyToSliderValue];
+
 	// begin display	
 	[NSApp beginSheet:[self ibBackupWindow] modalForWindow:[self ibMainWindow] modalDelegate:self didEndSelector:@selector(backupDidEnd:returnCode:contextInfo:) contextInfo:nil];
 }
@@ -107,12 +131,20 @@
 }
 
 -(IBAction)doBackupPath:(id)sender {
+	NSURL* theSelectedURL = [NSURL fileURLWithPath:[self backupPath]];
+	if([sender isKindOfClass:[NSPathControl class]]) {
+		NSPathComponentCell* theClickedCell = [(NSPathControl* )sender clickedPathComponentCell];	
+		if([theClickedCell URL]) {
+			theSelectedURL = [theClickedCell URL];
+		}
+	}
+	
 	NSOpenPanel* thePanel = [NSOpenPanel openPanel];
 	[thePanel setCanChooseFiles:NO];
 	[thePanel setCanChooseDirectories:YES];
 	[thePanel setAllowsMultipleSelection:NO]; 
 	[thePanel setCanCreateDirectories:YES];
-	[thePanel setDirectoryURL:[NSURL fileURLWithPath:[self backupPath]]];
+	[thePanel setDirectoryURL:theSelectedURL];
 	[thePanel beginSheetModalForWindow:[self ibBackupWindow] completionHandler:
 	  ^(NSInteger returnCode) {
 		  switch (returnCode) {
