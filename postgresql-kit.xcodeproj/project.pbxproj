@@ -69,13 +69,6 @@
 		6EB1E72A15F273350093F784 /* Controller.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Controller.m; sourceTree = "<group>"; };
 		6EB1E72C15F273350093F784 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		6EB1E72D15F273350093F784 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		6EB1E72F15F273350093F784 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		6EB1E73015F273350093F784 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		6EB1E73215F273350093F784 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
-		6EB1E73415F273350093F784 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		6EB1E73615F273350093F784 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		6EB1E73815F273350093F784 /* PGServerTest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PGServerTest-Info.plist"; sourceTree = "<group>"; };
-		6EB1E73915F273350093F784 /* PGServerTest-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PGServerTest-Prefix.pch"; sourceTree = "<group>"; };
 		6EB1E73B15F273350093F784 /* Application.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
 		6EB1E73C15F273350093F784 /* Application.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Application.m; sourceTree = "<group>"; };
 		6EB1E73D15F273350093F784 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -206,7 +199,6 @@
 				6EB1E72615F273350093F784 /* EmbeddedServer */,
 				6EB1E72B15F273350093F784 /* FoundationServer */,
 				6EB1E72D15F273350093F784 /* main.m */,
-				6EB1E72E15F273350093F784 /* PGServerTest */,
 				6EB1E73A15F273350093F784 /* TypeTests */,
 			);
 			path = Example;
@@ -267,20 +259,6 @@
 				6EB1E72C15F273350093F784 /* main.m */,
 			);
 			path = FoundationServer;
-			sourceTree = "<group>";
-		};
-		6EB1E72E15F273350093F784 /* PGServerTest */ = {
-			isa = PBXGroup;
-			children = (
-				6EB1E72F15F273350093F784 /* AppDelegate.h */,
-				6EB1E73015F273350093F784 /* AppDelegate.m */,
-				6EB1E73115F273350093F784 /* Credits.rtf */,
-				6EB1E73315F273350093F784 /* InfoPlist.strings */,
-				6EB1E73515F273350093F784 /* MainMenu.xib */,
-				6EB1E73815F273350093F784 /* PGServerTest-Info.plist */,
-				6EB1E73915F273350093F784 /* PGServerTest-Prefix.pch */,
-			);
-			path = PGServerTest;
 			sourceTree = "<group>";
 		};
 		6EB1E73A15F273350093F784 /* TypeTests */ = {
@@ -535,33 +513,6 @@
 			targetProxy = 6ED7641215F2674E00687079 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		6EB1E73115F273350093F784 /* Credits.rtf */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6EB1E73215F273350093F784 /* en */,
-			);
-			name = Credits.rtf;
-			sourceTree = "<group>";
-		};
-		6EB1E73315F273350093F784 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6EB1E73415F273350093F784 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		6EB1E73515F273350093F784 /* MainMenu.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6EB1E73615F273350093F784 /* en */,
-			);
-			name = MainMenu.xib;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		6E256FE315F252620079AD2D /* Debug */ = {
