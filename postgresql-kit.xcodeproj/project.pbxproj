@@ -20,13 +20,35 @@
 		};
 /* End PBXAggregateTarget section */
 
+/* Begin PBXContainerItemProxy section */
+		6ED7641215F2674E00687079 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E256FDE15F252620079AD2D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6E256FEE15F255780079AD2D;
+			remoteInfo = postgresql;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		6E256FE815F252B40079AD2D /* doc */ = {isa = PBXFileReference; lastKnownFileType = folder; path = doc; sourceTree = "<group>"; };
 		6E256FE915F252B40079AD2D /* etc */ = {isa = PBXFileReference; lastKnownFileType = folder; path = etc; sourceTree = "<group>"; };
 		6E256FEA15F252B40079AD2D /* resources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = resources; sourceTree = "<group>"; };
 		6E256FEB15F252B40079AD2D /* src */ = {isa = PBXFileReference; lastKnownFileType = folder; path = src; sourceTree = "<group>"; };
 		6E256FEC15F252B40079AD2D /* tar */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tar; sourceTree = "<group>"; };
+		6ED763FB15F2673600687079 /* PGServerKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PGServerKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6ED7640315F2673600687079 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6ED763F715F2673600687079 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		6E256FDC15F252620079AD2D = {
@@ -37,10 +59,60 @@
 				6E256FEA15F252B40079AD2D /* resources */,
 				6E256FEB15F252B40079AD2D /* src */,
 				6E256FEC15F252B40079AD2D /* tar */,
+				6ED763FD15F2673600687079 /* Frameworks */,
+				6ED763FC15F2673600687079 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
+		6ED763FC15F2673600687079 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6ED763FB15F2673600687079 /* PGServerKit.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6ED763FD15F2673600687079 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6ED7640315F2673600687079 /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		6ED763F815F2673600687079 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		6ED763FA15F2673600687079 /* PGServerKit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6ED7641015F2673600687079 /* Build configuration list for PBXNativeTarget "PGServerKit" */;
+			buildPhases = (
+				6ED763F615F2673600687079 /* Sources */,
+				6ED763F715F2673600687079 /* Frameworks */,
+				6ED763F815F2673600687079 /* Headers */,
+				6ED763F915F2673600687079 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6ED7641315F2674E00687079 /* PBXTargetDependency */,
+			);
+			name = PGServerKit;
+			productName = PGServerKit;
+			productReference = 6ED763FB15F2673600687079 /* PGServerKit.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		6E256FDE15F252620079AD2D /* Project object */ = {
@@ -56,13 +128,25 @@
 				en,
 			);
 			mainGroup = 6E256FDC15F252620079AD2D;
+			productRefGroup = 6ED763FC15F2673600687079 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				6E256FEE15F255780079AD2D /* postgresql */,
+				6ED763FA15F2673600687079 /* PGServerKit */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		6ED763F915F2673600687079 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
 		6E256FF415F255D00079AD2D /* ShellScript */ = {
@@ -71,14 +155,34 @@
 			files = (
 			);
 			inputPaths = (
+				"$(SRCROOT)/tar/postgresql-9.1.5.tar.gz",
 			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "";
+			shellPath = /bin/bash;
+			shellScript = "\nif [ \"${SCRIPT_INPUT_FILE_COUNT}\" != \"1\" ] ; then\n  echo \"Invalid number of input files\"\n  exit 1\nfi\n\nif [ ! -f ${SCRIPT_INPUT_FILE_0} ] ; then\n  echo \"Missing input file\"\n  exit 1\nfi\n\necho \"Making ${SCRIPT_INPUT_FILE_0}\"\necho \"Output to ${BUILT_PRODUCTS_DIR}\"\n\nif [ ! -d ${BUILT_PRODUCTS_DIR} ]\nthen\n  mkdir -pv ${BUILT_PRODUCTS_DIR}\nfi\n  \n/bin/bash ${SRCROOT}/etc/make-postgresql.sh ${SCRIPT_INPUT_FILE_0} ${BUILT_PRODUCTS_DIR}\n\n\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6ED763F615F2673600687079 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		6ED7641315F2674E00687079 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6E256FEE15F255780079AD2D /* postgresql */;
+			targetProxy = 6ED7641215F2674E00687079 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		6E256FE315F252620079AD2D /* Debug */ = {
@@ -107,6 +211,73 @@
 			};
 			name = Release;
 		};
+		6ED7640E15F2673600687079 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PGServerKit/PGServerKit-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "PGServerKit/PGServerKit-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Debug;
+		};
+		6ED7640F15F2673600687079 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PGServerKit/PGServerKit-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "PGServerKit/PGServerKit-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -124,6 +295,15 @@
 			buildConfigurations = (
 				6E256FF015F255780079AD2D /* Debug */,
 				6E256FF115F255780079AD2D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6ED7641015F2673600687079 /* Build configuration list for PBXNativeTarget "PGServerKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6ED7640E15F2673600687079 /* Debug */,
+				6ED7640F15F2673600687079 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
