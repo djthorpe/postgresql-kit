@@ -1,0 +1,133 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		6E256FEE15F255780079AD2D /* postgresql */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 6E256FEF15F255780079AD2D /* Build configuration list for PBXAggregateTarget "postgresql" */;
+			buildPhases = (
+				6E256FF415F255D00079AD2D /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = postgresql;
+			productName = postgresql;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXFileReference section */
+		6E256FE815F252B40079AD2D /* doc */ = {isa = PBXFileReference; lastKnownFileType = folder; path = doc; sourceTree = "<group>"; };
+		6E256FE915F252B40079AD2D /* etc */ = {isa = PBXFileReference; lastKnownFileType = folder; path = etc; sourceTree = "<group>"; };
+		6E256FEA15F252B40079AD2D /* resources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = resources; sourceTree = "<group>"; };
+		6E256FEB15F252B40079AD2D /* src */ = {isa = PBXFileReference; lastKnownFileType = folder; path = src; sourceTree = "<group>"; };
+		6E256FEC15F252B40079AD2D /* tar */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tar; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		6E256FDC15F252620079AD2D = {
+			isa = PBXGroup;
+			children = (
+				6E256FE815F252B40079AD2D /* doc */,
+				6E256FE915F252B40079AD2D /* etc */,
+				6E256FEA15F252B40079AD2D /* resources */,
+				6E256FEB15F252B40079AD2D /* src */,
+				6E256FEC15F252B40079AD2D /* tar */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXProject section */
+		6E256FDE15F252620079AD2D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0440;
+			};
+			buildConfigurationList = 6E256FE115F252620079AD2D /* Build configuration list for PBXProject "postgresql-kit" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 6E256FDC15F252620079AD2D;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6E256FEE15F255780079AD2D /* postgresql */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6E256FF415F255D00079AD2D /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		6E256FE315F252620079AD2D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		6E256FE415F252620079AD2D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		6E256FF015F255780079AD2D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		6E256FF115F255780079AD2D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6E256FE115F252620079AD2D /* Build configuration list for PBXProject "postgresql-kit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6E256FE315F252620079AD2D /* Debug */,
+				6E256FE415F252620079AD2D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6E256FEF15F255780079AD2D /* Build configuration list for PBXAggregateTarget "postgresql" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6E256FF015F255780079AD2D /* Debug */,
+				6E256FF115F255780079AD2D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 6E256FDE15F252620079AD2D /* Project object */;
+}
