@@ -3,11 +3,12 @@
 #include <pg_config.h>
 #import "PGServerKit.h"
 
-uint64 PGServerDefaultPort = DEF_PGPORT;
+NSInteger PGServerDefaultPort = DEF_PGPORT;
 
 @implementation PGServer
 
 @dynamic state;
+@dynamic version;
 
 ////////////////////////////////////////////////////////////////////////////////
 // initialization methods
@@ -219,6 +220,36 @@ uint64 PGServerDefaultPort = DEF_PGPORT;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+// get server version
+
+-(NSString* )version {
+	NSPipe* theOutPipe = [[NSPipe alloc] init];
+	NSTask* theTask = [[NSTask alloc] init];
+	[theTask setStandardOutput:theOutPipe];
+	[theTask setStandardError:theOutPipe];
+	[theTask setLaunchPath:[[self class] _serverBinary]];
+	[theTask setArguments:[NSArray arrayWithObject:@"--version"]];
+	[theTask setEnvironment:[NSDictionary dictionaryWithObject:[[self class] _libraryPath] forKey:@"DYLD_LIBRARY_PATH"]];
+	
+	// get the version number
+	[theTask launch];
+	
+	NSMutableData* theVersion = [NSMutableData data];
+	NSData* theData = nil;
+	while((theData = [[theOutPipe fileHandleForReading] availableData]) && [theData length]) {
+		[theVersion appendData:theData];
+	}
+	// wait until task is actually completed
+	[theTask waitUntilExit];
+	int theReturnCode = [theTask terminationStatus];
+	if(theReturnCode==0 && [theVersion length]) {
+		return [[NSString alloc] initWithData:theVersion encoding:NSUTF8StringEncoding];
+	} else {
+		return nil;
+	}
+}
+
+////////////////////////////////////////////////////////////////////////////////
 // start the server
 
 -(BOOL)_start {
@@ -234,9 +265,11 @@ uint64 PGServerDefaultPort = DEF_PGPORT;
 	if([[self hostname] length]) {
 		[theArguments addObject:@"-h"];
 		[theArguments addObject:[self hostname]];
-		if([self port] != 0 && [self port] != PGServerDefaultPort) {
+		if([self port] > 0 && [self port] != PGServerDefaultPort) {
 			[theArguments addObject:@"-p"];
-			[theArguments addObject:[NSString stringWithFormat:@"%llu",[self port]]];
+			[theArguments addObject:[NSString stringWithFormat:@"%ld",[self port]]];
+		} else {
+			[self setPort:PGServerDefaultPort];
 		}
 	} else {
 		[theArguments addObject:@"-h"];
@@ -261,6 +294,24 @@ uint64 PGServerDefaultPort = DEF_PGPORT;
 		[self _setState:PGServerStateError message:[NSString stringWithFormat:@"_start method returned status %d",theReturnCode]];
 		return NO;
 	} 
+	return YES;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// reload the server
+
+-(BOOL)reload {
+	if([self state] != PGServerStateRunning && [self state] != PGServerStateAlreadyRunning) {
+		return NO;
+	}
+	if([self pid] <= 0) {
+		return NO;
+	}
+	
+	// send HUP
+	kill([self pid],SIGHUP);
+
+	// return success
 	return YES;
 }
 

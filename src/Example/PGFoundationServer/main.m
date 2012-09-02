@@ -55,6 +55,9 @@
 	// set success return value
 	[self setReturnValue:0];
 
+	// Report server version
+	NSLog(@"Version: %@",[[self server] version]);
+	
 	// create a timer
 	[NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(timerFired:) userInfo:nil repeats:YES];
 	
