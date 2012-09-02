@@ -58,6 +58,18 @@
 	// create a timer
 	[NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(timerFired:) userInfo:nil repeats:YES];
 	
+	// get the hostname and port
+	NSString* theHostname = [[NSUserDefaults standardUserDefaults] stringForKey:@"hostname"];
+	if([theHostname length]) {
+		[self pgserverMessage:[NSString stringWithFormat:@"hostname: %@",theHostname]];
+		[[self server] setHostname:theHostname];
+	}
+	NSInteger thePort = [[NSUserDefaults standardUserDefaults] integerForKey:@"port"];
+	if(thePort > 0) {
+		[self pgserverMessage:[NSString stringWithFormat:@"port: %ld",thePort]];
+		[[self server] setPort:thePort];
+	}
+	
 	// start the run loop
 	double resolution = 300.0;
 	BOOL isRunning;
@@ -72,7 +84,7 @@
 -(void)timerFired:(id)theTimer {
 	
 	// stop server if it is already running
-	if([[self server] state]==PGServerStateRunning) {
+	if([[self server] state]==PGServerStateAlreadyRunning) {
 		[[self server] stop];
 		return;
 	}
@@ -96,7 +108,6 @@
 	
 	// stop server if signal is greater than 0
 	if([self signal] > 0) {
-		NSLog(@"Received stop signal, stopping server");
 		[[self server] stop];
 	}
 }

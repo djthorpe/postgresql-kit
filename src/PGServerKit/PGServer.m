@@ -1,9 +1,9 @@
 
 #include <sys/sysctl.h>
+#include <pg_config.h>
 #import "PGServerKit.h"
 
-// TODO
-uint64 PGServerDefaultPort = 200;
+uint64 PGServerDefaultPort = DEF_PGPORT;
 
 @implementation PGServer
 
@@ -273,17 +273,16 @@ uint64 PGServerDefaultPort = 200;
 		// create a scheduled timer
 		[NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(_backgroundThreadFire:) userInfo:nil repeats:YES];
 		// create the runloop
-		double resolution = 300.0;
-		BOOL _isRunning;
+		double resolution = 1.0;
 		do {
-			// run the loop!
 			NSDate* theNextDate = [NSDate dateWithTimeIntervalSinceNow:resolution];
-			_isRunning = [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:theNextDate];
-		} while(_isRunning==YES && [self pid] >= 0);
+			[[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:theNextDate];
+		} while([self pid] >= 0);
+		[self _setState:PGServerStateStopped message:@"Server stopped"];
 	}
 }
 
--(void)_backgroundThreadFire:(id)sender {
+-(void)_backgroundThreadFire:(NSTimer* )sender {
 	BOOL isSuccess = NO;
 	switch([self state]) {
 		case PGServerStateIgnition:
@@ -315,10 +314,12 @@ uint64 PGServerDefaultPort = 200;
 		case PGServerStateError:
 			// an error occurred when starting the server
 			// in this state, we need to quit the runloop and close down everything
+			[self _setState:PGServerStateError message:@"Stopping run loop"];
 			[self setPid:-1];
-			CFRunLoopStop([[NSRunLoop currentRunLoop] getCFRunLoop]);
+			[sender invalidate];
 			break;
 		default:
+			[self _delegateMessage:[NSString stringWithFormat:@"_backgroundThreadFire %@",[PGServer stateAsString:[self state]]]];
 			NSAssert(NO,@"Don't know what to do for that state in _backgroundThreadFire");
 			break;
 	}
@@ -342,7 +343,7 @@ uint64 PGServerDefaultPort = 200;
 	int thePid = [self _pidFromDataPath];
 	if(thePid > 0) {
 		[self setPid:thePid];
-		[self _setState:PGServerStateRunning message:@"Server already started"];
+		[self _setState:PGServerStateAlreadyRunning message:@"Server already started"];
 		return NO;
 	}
 	
@@ -370,7 +371,7 @@ uint64 PGServerDefaultPort = 200;
 }
 
 -(BOOL)stop {
-	if([self state] != PGServerStateRunning) {
+	if([self state] != PGServerStateRunning && [self state] != PGServerStateAlreadyRunning) {
 		return NO;
 	}
 	if([self pid] <= 0) {
@@ -413,12 +414,12 @@ uint64 PGServerDefaultPort = 200;
 		case PGServerStateStopping:
 			return @"PGServerStateStopping";
 		case PGServerStateStarting:
-			return @"PGServerStateStarting";
 		case PGServerStateIgnition:
-			return @"PGServerStateIgnition";
+			return @"PGServerStateStarting";
 		case PGServerStateInitialize:
 			return @"PGServerStateInitialize";
 		case PGServerStateRunning:
+		case PGServerStateAlreadyRunning:
 			return @"PGServerStateRunning";
 		case PGServerStateUnknown:
 			return @"PGServerStateUnknown";
