@@ -318,8 +318,11 @@ uint64 PGServerDefaultPort = DEF_PGPORT;
 			[self setPid:-1];
 			[sender invalidate];
 			break;
+		case PGServerStateStopping:
+		case PGServerStateStopped:
+			// do nothing in these states
+			break;
 		default:
-			[self _delegateMessage:[NSString stringWithFormat:@"_backgroundThreadFire %@",[PGServer stateAsString:[self state]]]];
 			NSAssert(NO,@"Don't know what to do for that state in _backgroundThreadFire");
 			break;
 	}
