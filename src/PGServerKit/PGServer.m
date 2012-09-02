@@ -201,7 +201,6 @@ NSInteger PGServerDefaultPort = DEF_PGPORT;
 	[theTask setEnvironment:[NSDictionary dictionaryWithObject:[[self class] _libraryPath] forKey:@"DYLD_LIBRARY_PATH"]];
 
 	// launch the init method
-	[self _delegateMessage:[NSString stringWithFormat:@"exec: %@ %@",[theTask launchPath],[theTask arguments]]];
 	[theTask launch];
 	
 	NSData* theData = nil;
@@ -278,7 +277,6 @@ NSInteger PGServerDefaultPort = DEF_PGPORT;
 	[theTask setArguments:theArguments];
 	
 	// launch the postgres database, set the pid
-	[self _delegateMessage:[NSString stringWithFormat:@"exec: %@ %@",[theTask launchPath],[theTask arguments]]];
 	[theTask launch];
 	[self setPid:[theTask processIdentifier]];
 	

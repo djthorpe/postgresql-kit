@@ -29,6 +29,8 @@
 		6ECA7AEA15F363C400AF2B70 /* PGServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
 		6ECA7AEF15F374DF00AF2B70 /* PGServer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6ECA7AED15F374DF00AF2B70 /* PGServer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6ECA7AF015F374DF00AF2B70 /* PGServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ECA7AEE15F374DF00AF2B70 /* PGServer.m */; };
+		6EDFA08415F3FCDF000C7BA4 /* PGServer+Backup.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EDFA08215F3FCDF000C7BA4 /* PGServer+Backup.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6EDFA08515F3FCDF000C7BA4 /* PGServer+Backup.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EDFA08315F3FCDF000C7BA4 /* PGServer+Backup.m */; };
 		6EF30CF415F3957900EE0656 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C167C15F26BF20013A382 /* Cocoa.framework */; };
 		6EF30D0715F3957900EE0656 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF30D0615F3957900EE0656 /* AppDelegate.m */; };
 		6EF30D0F15F3964D00EE0656 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB1E72D15F273350093F784 /* main.m */; };
@@ -226,6 +228,8 @@
 		6ECA7AEE15F374DF00AF2B70 /* PGServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGServer.m; sourceTree = "<group>"; };
 		6ED763FB15F2673600687079 /* PGServerKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PGServerKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6ED7640315F2673600687079 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		6EDFA08215F3FCDF000C7BA4 /* PGServer+Backup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PGServer+Backup.h"; sourceTree = "<group>"; };
+		6EDFA08315F3FCDF000C7BA4 /* PGServer+Backup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PGServer+Backup.m"; sourceTree = "<group>"; };
 		6EF30CF215F3957900EE0656 /* PGServer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PGServer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6EF30CF615F3957900EE0656 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		6EF30CF715F3957900EE0656 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -410,6 +414,8 @@
 				6EB1E74015F273350093F784 /* PGServerKit.h */,
 				6ECA7AED15F374DF00AF2B70 /* PGServer.h */,
 				6ECA7AEE15F374DF00AF2B70 /* PGServer.m */,
+				6EDFA08215F3FCDF000C7BA4 /* PGServer+Backup.h */,
+				6EDFA08315F3FCDF000C7BA4 /* PGServer+Backup.m */,
 			);
 			path = PGServerKit;
 			sourceTree = "<group>";
@@ -584,6 +590,7 @@
 			files = (
 				6EB1E79615F282910093F784 /* PGServerKit.h in Headers */,
 				6ECA7AEF15F374DF00AF2B70 /* PGServer.h in Headers */,
+				6EDFA08415F3FCDF000C7BA4 /* PGServer+Backup.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -738,6 +745,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6ECA7AF015F374DF00AF2B70 /* PGServer.m in Sources */,
+				6EDFA08515F3FCDF000C7BA4 /* PGServer+Backup.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
