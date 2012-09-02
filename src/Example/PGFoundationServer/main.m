@@ -1,18 +1,17 @@
 
 /*
- This example shows how to use the PostgresServerKit to create a server, as
+ This example shows how to use the PGServerKit to create a server, as
  a foundation shell tool. When the server is started, any signal (TERM or KILL)
  is handled to stop the server gracefully.
 */
 
 #import <Foundation/Foundation.h>
-#import <PostgresServerKit/PostgresServerKit.h>
-#include <objc/objc-auto.h>
+#import <PGServerKit/PGServerKit.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 // application class
 
-@interface MyDelegate : NSObject {
+@interface PGFoundationServer : NSObject {
 	int signal;
 	int returnValue;
 }
@@ -23,19 +22,10 @@
 
 @end
 
-@implementation MyDelegate
+@implementation PGFoundationServer
 @synthesize signal;
 @synthesize returnValue;
 @dynamic dataPath;
-
-
--(void)serverMessage:(NSString* )theMessage {	
-	NSLog(@"%@",theMessage);
-}
-
--(void)serverStateDidChange:(NSString* )theMessage {
-	NSLog(@"STATE %@",theMessage);	
-}
 
 -(NSString* )dataPath {
 	NSString* theIdent = @"PostgreSQL";
@@ -44,8 +34,8 @@
 	return [[theApplicationSupportDirectory objectAtIndex:0] stringByAppendingPathComponent:theIdent];
 }
 
--(FLXPostgresServer* )server {
-	return [FLXPostgresServer sharedServer];
+-(PGServerKit* )server {
+	return [PGServerKit sharedServer];
 }
 
 -(int)runLoop {
@@ -72,13 +62,13 @@
 -(void)timerFired:(id)theTimer {
 
 	// stop server if it is already running
-	if([[self server] state]==FLXServerStateAlreadyRunning) {
+	if([[self server] state]==PGServerStateAlreadyRunning) {
 		[[self server] stop];
 		return;
 	}
 	
 	// start server if state is unknown
-	if([[self server] state]==FLXServerStateUnknown) {
+	if([[self server] state]==PGServerStateUnknown) {
 		BOOL isStarting = [[self server] startWithDataPath:[self dataPath]];
 		if(isStarting==NO) {
 			[self setReturnValue:-1];
@@ -88,7 +78,7 @@
 	}
 	
 	// if server is stopped, then make signal minus 1, and stop the run loop now
-	if([[self server] state]==FLXServerStateStopped) {
+	if([[self server] state]==PGServerStateStopped) {
 		[self setSignal:-1];
 		CFRunLoopStop([[NSRunLoop currentRunLoop] getCFRunLoop]);
 		return;
@@ -104,7 +94,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-static MyDelegate* delegate = nil;
+static PGFoundationServer* delegate = nil;
 
 void handleSIGTERM(int signal) {
 	[delegate setSignal:signal];
@@ -118,21 +108,17 @@ void setHandleSignal() {
 	signal(SIGQUIT,handleSIGTERM);	  
 }
 
-int main (int argc, const char * argv[]) {
+int main (int argc, const char* argv[]) {
 	int returnValue = 0;
 	
-	// start garbage collecting
-	objc_startCollectorThread();
-	
-	// handle signals
-	setHandleSignal();
-	
-	// delegate object
-	delegate = [[MyDelegate alloc] init];
-	
-	// run loop
-	returnValue = [delegate runLoop];	
-	
-APP_EXIT:
-    return returnValue;	
+	@autoreleasepool {
+		// handle signals
+		setHandleSignal();
+		// delegate object
+		delegate = [[PGFoundationServer alloc] init];
+		// run loop
+		returnValue = [delegate runLoop];
+	}
+
+    return returnValue;
 }
