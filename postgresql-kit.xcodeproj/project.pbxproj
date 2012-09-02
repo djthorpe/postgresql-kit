@@ -21,11 +21,22 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		6EB1E79115F277FD0093F784 /* PGServerKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB1E74115F273350093F784 /* PGServerKit.m */; };
 		6EB1E79615F282910093F784 /* PGServerKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EB1E74015F273350093F784 /* PGServerKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6ECA7ADE15F3637600AF2B70 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C168115F26BF20013A382 /* Foundation.framework */; };
+		6ECA7AE915F3638500AF2B70 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ECA7AD715F3635A00AF2B70 /* main.m */; };
+		6ECA7AEA15F363C400AF2B70 /* PGServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
+		6ECA7AEF15F374DF00AF2B70 /* PGServer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6ECA7AED15F374DF00AF2B70 /* PGServer.h */; };
+		6ECA7AF015F374DF00AF2B70 /* PGServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ECA7AEE15F374DF00AF2B70 /* PGServer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		6ECA7AEB15F363DB00AF2B70 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E256FDE15F252620079AD2D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6ED763FA15F2673600687079;
+			remoteInfo = PGServerKit;
+		};
 		6ED7641215F2674E00687079 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6E256FDE15F252620079AD2D /* Project object */;
@@ -34,6 +45,18 @@
 			remoteInfo = postgresql;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		6ECA7ADA15F3637600AF2B70 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		6E256FE815F252B40079AD2D /* doc */ = {isa = PBXFileReference; lastKnownFileType = folder; path = doc; sourceTree = "<group>"; };
@@ -72,14 +95,12 @@
 		6EB1E72815F273350093F784 /* Bindings.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Bindings.m; sourceTree = "<group>"; };
 		6EB1E72915F273350093F784 /* Controller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Controller.h; sourceTree = "<group>"; };
 		6EB1E72A15F273350093F784 /* Controller.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Controller.m; sourceTree = "<group>"; };
-		6EB1E72C15F273350093F784 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		6EB1E72D15F273350093F784 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		6EB1E73B15F273350093F784 /* Application.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
 		6EB1E73C15F273350093F784 /* Application.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Application.m; sourceTree = "<group>"; };
 		6EB1E73D15F273350093F784 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		6EB1E73F15F273350093F784 /* PGServerKit-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PGServerKit-Info.plist"; sourceTree = "<group>"; };
 		6EB1E74015F273350093F784 /* PGServerKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGServerKit.h; sourceTree = "<group>"; };
-		6EB1E74115F273350093F784 /* PGServerKit.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PGServerKit.m; sourceTree = "<group>"; };
 		6EB1E74315F273350093F784 /* FLXGeometry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLXGeometry.h; sourceTree = "<group>"; };
 		6EB1E74415F273350093F784 /* FLXGeometry.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLXGeometry.m; sourceTree = "<group>"; };
 		6EB1E74515F273350093F784 /* FLXMacAddr.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLXMacAddr.h; sourceTree = "<group>"; };
@@ -154,11 +175,24 @@
 		6EB1E78E15F273350093F784 /* ClientConnection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ClientConnection.m; sourceTree = "<group>"; };
 		6EB1E78F15F273350093F784 /* TypeTests+NSString.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TypeTests+NSString.h"; sourceTree = "<group>"; };
 		6EB1E79015F273350093F784 /* TypeTests+NSString.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "TypeTests+NSString.m"; sourceTree = "<group>"; };
+		6ECA7AD715F3635A00AF2B70 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		6ECA7ADC15F3637600AF2B70 /* PGFoundationServer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PGFoundationServer; sourceTree = BUILT_PRODUCTS_DIR; };
+		6ECA7AED15F374DF00AF2B70 /* PGServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGServer.h; sourceTree = "<group>"; };
+		6ECA7AEE15F374DF00AF2B70 /* PGServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGServer.m; sourceTree = "<group>"; };
 		6ED763FB15F2673600687079 /* PGServerKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PGServerKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6ED7640315F2673600687079 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		6ECA7AD915F3637600AF2B70 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6ECA7ADE15F3637600AF2B70 /* Foundation.framework in Frameworks */,
+				6ECA7AEA15F363C400AF2B70 /* PGServerKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6ED763F715F2673600687079 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -199,10 +233,10 @@
 		6EB1E70B15F273350093F784 /* Example */ = {
 			isa = PBXGroup;
 			children = (
+				6ECA7AD615F3635A00AF2B70 /* PGFoundationServer */,
 				6EB1E70C15F273350093F784 /* ClientConnect */,
 				6EB1E71515F273350093F784 /* CocoaServer */,
 				6EB1E72615F273350093F784 /* EmbeddedServer */,
-				6EB1E72B15F273350093F784 /* FoundationServer */,
 				6EB1E72D15F273350093F784 /* main.m */,
 				6EB1E73A15F273350093F784 /* TypeTests */,
 			);
@@ -258,14 +292,6 @@
 			path = EmbeddedServer;
 			sourceTree = "<group>";
 		};
-		6EB1E72B15F273350093F784 /* FoundationServer */ = {
-			isa = PBXGroup;
-			children = (
-				6EB1E72C15F273350093F784 /* main.m */,
-			);
-			path = FoundationServer;
-			sourceTree = "<group>";
-		};
 		6EB1E73A15F273350093F784 /* TypeTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -281,7 +307,8 @@
 			children = (
 				6EB1E73F15F273350093F784 /* PGServerKit-Info.plist */,
 				6EB1E74015F273350093F784 /* PGServerKit.h */,
-				6EB1E74115F273350093F784 /* PGServerKit.m */,
+				6ECA7AED15F374DF00AF2B70 /* PGServer.h */,
+				6ECA7AEE15F374DF00AF2B70 /* PGServer.m */,
 			);
 			path = PGServerKit;
 			sourceTree = "<group>";
@@ -395,10 +422,19 @@
 			path = UnitTests;
 			sourceTree = "<group>";
 		};
+		6ECA7AD615F3635A00AF2B70 /* PGFoundationServer */ = {
+			isa = PBXGroup;
+			children = (
+				6ECA7AD715F3635A00AF2B70 /* main.m */,
+			);
+			path = PGFoundationServer;
+			sourceTree = "<group>";
+		};
 		6ED763FC15F2673600687079 /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				6ED763FB15F2673600687079 /* PGServerKit.framework */,
+				6ECA7ADC15F3637600AF2B70 /* PGFoundationServer */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -423,12 +459,31 @@
 			buildActionMask = 2147483647;
 			files = (
 				6EB1E79615F282910093F784 /* PGServerKit.h in Headers */,
+				6ECA7AEF15F374DF00AF2B70 /* PGServer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		6ECA7ADB15F3637600AF2B70 /* PGFoundationServer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6ECA7AE615F3637600AF2B70 /* Build configuration list for PBXNativeTarget "PGFoundationServer" */;
+			buildPhases = (
+				6ECA7AD815F3637600AF2B70 /* Sources */,
+				6ECA7AD915F3637600AF2B70 /* Frameworks */,
+				6ECA7ADA15F3637600AF2B70 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6ECA7AEC15F363DB00AF2B70 /* PBXTargetDependency */,
+			);
+			name = PGFoundationServer;
+			productName = PGFoundationServer;
+			productReference = 6ECA7ADC15F3637600AF2B70 /* PGFoundationServer */;
+			productType = "com.apple.product-type.tool";
+		};
 		6ED763FA15F2673600687079 /* PGServerKit */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6ED7641015F2673600687079 /* Build configuration list for PBXNativeTarget "PGServerKit" */;
@@ -471,6 +526,7 @@
 			targets = (
 				6E256FEE15F255780079AD2D /* postgresql */,
 				6ED763FA15F2673600687079 /* PGServerKit */,
+				6ECA7ADB15F3637600AF2B70 /* PGFoundationServer */,
 			);
 		};
 /* End PBXProject section */
@@ -517,17 +573,30 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		6ECA7AD815F3637600AF2B70 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6ECA7AE915F3638500AF2B70 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6ED763F615F2673600687079 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6EB1E79115F277FD0093F784 /* PGServerKit.m in Sources */,
+				6ECA7AF015F374DF00AF2B70 /* PGServer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		6ECA7AEC15F363DB00AF2B70 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6ED763FA15F2673600687079 /* PGServerKit */;
+			targetProxy = 6ECA7AEB15F363DB00AF2B70 /* PBXContainerItemProxy */;
+		};
 		6ED7641315F2674E00687079 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 6E256FEE15F255780079AD2D /* postgresql */;
@@ -559,6 +628,59 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		6ECA7AE715F3637600AF2B70 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		6ECA7AE815F3637600AF2B70 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};
@@ -651,6 +773,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		6ECA7AE615F3637600AF2B70 /* Build configuration list for PBXNativeTarget "PGFoundationServer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6ECA7AE715F3637600AF2B70 /* Debug */,
+				6ECA7AE815F3637600AF2B70 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		6ED7641015F2673600687079 /* Build configuration list for PBXNativeTarget "PGServerKit" */ = {
 			isa = XCConfigurationList;

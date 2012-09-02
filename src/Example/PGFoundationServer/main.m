@@ -22,6 +22,8 @@
 
 @end
 
+////////////////////////////////////////////////////////////////////////////////
+
 @implementation PGFoundationServer
 @synthesize signal;
 @synthesize returnValue;
@@ -34,8 +36,16 @@
 	return [[theApplicationSupportDirectory objectAtIndex:0] stringByAppendingPathComponent:theIdent];
 }
 
--(PGServerKit* )server {
-	return [PGServerKit sharedServer];
+-(PGServer* )server {
+	return [PGServer sharedServer];
+}
+
+-(void)pgserverMessage:(NSString* )theMessage {
+	NSLog(@"Message: %@",theMessage);
+}
+
+-(void)pgserverState:(PGServerState)theState {
+	NSLog(@"State: %@",[PGServer stateAsString:theState]);
 }
 
 -(int)runLoop {
@@ -60,9 +70,9 @@
 }
 
 -(void)timerFired:(id)theTimer {
-
+	
 	// stop server if it is already running
-	if([[self server] state]==PGServerStateAlreadyRunning) {
+	if([[self server] state]==PGServerStateRunning) {
 		[[self server] stop];
 		return;
 	}
@@ -86,6 +96,7 @@
 	
 	// stop server if signal is greater than 0
 	if([self signal] > 0) {
+		NSLog(@"Received stop signal, stopping server");
 		[[self server] stop];
 	}
 }

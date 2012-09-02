@@ -1,24 +1,20 @@
 
-#import <Foundation/Foundation.h>
-
 typedef enum {
 	PGServerStateUnknown = 0,
-	PGServerStateStopped,
-	PGServerStateStarted,
-	PGServerStateError
+	PGServerStateIgnition,   // fire up the database
+	PGServerStateInitialize, // initializing the data directory
+	PGServerStateStarting,   // starting the server
+	PGServerStateRunning,    // server is running
+	PGServerStateStopping,   // stopping the server
+	PGServerStateStopped,    // stopped the server
+	PGServerStateError       // error occurred
 } PGServerState;
 
-@interface PGServerKit : NSObject
-@property (assign) id delegate;
-@property (assign) uint64 port;
-@property (assign) PGServerState state;
-@property (retain) NSString* dataPath;
-@property (assign) int pid;
+#import <Foundation/Foundation.h>
+#import "PGServer.h"
 
-// return shared server object
-+(PGServerKit* )sharedServer;
-
-// start server
--(BOOL)startWithDataPath:(NSString* )thePath;
-
+// PGServerDelegate
+@interface NSObject (PGServerDelegate)
+-(void)pgserverState:(PGServerState)theState;
+-(void)pgserverMessage:(NSString* )theMessage;
 @end
