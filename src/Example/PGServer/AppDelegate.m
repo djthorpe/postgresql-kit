@@ -7,12 +7,24 @@
 //
 
 #import "AppDelegate.h"
+#import <PGServerKit/PGServerKit.h>
 
 @implementation AppDelegate
 
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
-{
-	// Insert code here to initialize your application
+-(IBAction)ibPlayButton:(id)sender {
+	NSLog(@"Play button has been pressed");
+}
+
+-(IBAction)ibStopButton:(id)sender {
+	NSLog(@"Stop button has been pressed");
+}
+
+-(IBAction)ibReloadButton:(id)sender {
+	NSLog(@"Reload button has been pressed");
+}
+
+-(void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+	PGServer* theServer = [PGServer sharedServer];
 }
 
 @end

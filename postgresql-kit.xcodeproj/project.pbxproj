@@ -28,11 +28,11 @@
 		6ECA7AEF15F374DF00AF2B70 /* PGServer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6ECA7AED15F374DF00AF2B70 /* PGServer.h */; };
 		6ECA7AF015F374DF00AF2B70 /* PGServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ECA7AEE15F374DF00AF2B70 /* PGServer.m */; };
 		6EF30CF415F3957900EE0656 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C167C15F26BF20013A382 /* Cocoa.framework */; };
-		6EF30CFE15F3957900EE0656 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6EF30CFC15F3957900EE0656 /* InfoPlist.strings */; };
-		6EF30D0015F3957900EE0656 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF30CFF15F3957900EE0656 /* main.m */; };
-		6EF30D0415F3957900EE0656 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 6EF30D0215F3957900EE0656 /* Credits.rtf */; };
 		6EF30D0715F3957900EE0656 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF30D0615F3957900EE0656 /* AppDelegate.m */; };
-		6EF30D0A15F3957900EE0656 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6EF30D0815F3957900EE0656 /* MainMenu.xib */; };
+		6EF30D0F15F3964D00EE0656 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB1E72D15F273350093F784 /* main.m */; };
+		6EF30D1115F396D000EE0656 /* PGServer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6EF30D1015F396D000EE0656 /* PGServer.xib */; };
+		6EF30D1215F3975F00EE0656 /* PGServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
+		6EF30D1315F3977200EE0656 /* PGServerKit.framework in Resources */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -180,13 +180,9 @@
 		6EF30CF715F3957900EE0656 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		6EF30CF815F3957900EE0656 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6EF30CFB15F3957900EE0656 /* PGServer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PGServer-Info.plist"; sourceTree = "<group>"; };
-		6EF30CFD15F3957900EE0656 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		6EF30CFF15F3957900EE0656 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		6EF30D0115F3957900EE0656 /* PGServer-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PGServer-Prefix.pch"; sourceTree = "<group>"; };
-		6EF30D0315F3957900EE0656 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		6EF30D0515F3957900EE0656 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		6EF30D0615F3957900EE0656 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		6EF30D0915F3957900EE0656 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		6EF30D1015F396D000EE0656 /* PGServer.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PGServer.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -211,6 +207,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6EF30CF415F3957900EE0656 /* Cocoa.framework in Frameworks */,
+				6EF30D1215F3975F00EE0656 /* PGServerKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -481,24 +478,12 @@
 		6EF30CF915F3957900EE0656 /* PGServer */ = {
 			isa = PBXGroup;
 			children = (
+				6EF30CFB15F3957900EE0656 /* PGServer-Info.plist */,
 				6EF30D0515F3957900EE0656 /* AppDelegate.h */,
 				6EF30D0615F3957900EE0656 /* AppDelegate.m */,
-				6EF30D0815F3957900EE0656 /* MainMenu.xib */,
-				6EF30CFA15F3957900EE0656 /* Supporting Files */,
+				6EF30D1015F396D000EE0656 /* PGServer.xib */,
 			);
 			path = PGServer;
-			sourceTree = "<group>";
-		};
-		6EF30CFA15F3957900EE0656 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				6EF30CFB15F3957900EE0656 /* PGServer-Info.plist */,
-				6EF30CFC15F3957900EE0656 /* InfoPlist.strings */,
-				6EF30CFF15F3957900EE0656 /* main.m */,
-				6EF30D0115F3957900EE0656 /* PGServer-Prefix.pch */,
-				6EF30D0215F3957900EE0656 /* Credits.rtf */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -610,9 +595,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6EF30CFE15F3957900EE0656 /* InfoPlist.strings in Resources */,
-				6EF30D0415F3957900EE0656 /* Credits.rtf in Resources */,
-				6EF30D0A15F3957900EE0656 /* MainMenu.xib in Resources */,
+				6EF30D1115F396D000EE0656 /* PGServer.xib in Resources */,
+				6EF30D1315F3977200EE0656 /* PGServerKit.framework in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -670,8 +654,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6EF30D0015F3957900EE0656 /* main.m in Sources */,
 				6EF30D0715F3957900EE0656 /* AppDelegate.m in Sources */,
+				6EF30D0F15F3964D00EE0656 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -689,33 +673,6 @@
 			targetProxy = 6ED7641215F2674E00687079 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		6EF30CFC15F3957900EE0656 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6EF30CFD15F3957900EE0656 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		6EF30D0215F3957900EE0656 /* Credits.rtf */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6EF30D0315F3957900EE0656 /* en */,
-			);
-			name = Credits.rtf;
-			sourceTree = "<group>";
-		};
-		6EF30D0815F3957900EE0656 /* MainMenu.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6EF30D0915F3957900EE0656 /* en */,
-			);
-			name = MainMenu.xib;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		6E256FE315F252620079AD2D /* Debug */ = {
@@ -881,7 +838,7 @@
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "PGServer/PGServer-Prefix.pch";
+				GCC_PREFIX_HEADER = "";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -891,7 +848,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "PGServer/PGServer-Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/src/Example/PGServer/PGServer-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -914,12 +871,12 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "PGServer/PGServer-Prefix.pch";
+				GCC_PREFIX_HEADER = "";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "PGServer/PGServer-Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/src/Example/PGServer/PGServer-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
