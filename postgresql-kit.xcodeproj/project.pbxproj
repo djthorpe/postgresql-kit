@@ -21,6 +21,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		6E1B43D715F3A308001ED3BE /* PGServerKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
 		6EB1E79615F282910093F784 /* PGServerKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EB1E74015F273350093F784 /* PGServerKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6ECA7ADE15F3637600AF2B70 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C168115F26BF20013A382 /* Foundation.framework */; };
 		6ECA7AE915F3638500AF2B70 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ECA7AD715F3635A00AF2B70 /* main.m */; };
@@ -32,7 +33,6 @@
 		6EF30D0F15F3964D00EE0656 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB1E72D15F273350093F784 /* main.m */; };
 		6EF30D1115F396D000EE0656 /* PGServer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6EF30D1015F396D000EE0656 /* PGServer.xib */; };
 		6EF30D1215F3975F00EE0656 /* PGServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
-		6EF30D1315F3977200EE0656 /* PGServerKit.framework in Resources */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,10 +52,53 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		6E1B43D515F3A2F9001ED3BE /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				6E1B43D715F3A308001ED3BE /* PGServerKit.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		6E1B43DD15F3A465001ED3BE /* backup.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = backup.tiff; sourceTree = "<group>"; };
+		6E1B43DE15F3A465001ED3BE /* clear.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = clear.tiff; sourceTree = "<group>"; };
+		6E1B43DF15F3A465001ED3BE /* ClientConnect-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ClientConnect-Info.plist"; sourceTree = "<group>"; };
+		6E1B43E015F3A465001ED3BE /* ClientConnect.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ClientConnect.xib; sourceTree = "<group>"; };
+		6E1B43E115F3A465001ED3BE /* CocoaServer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CocoaServer-Info.plist"; sourceTree = "<group>"; };
+		6E1B43E215F3A465001ED3BE /* CocoaServer.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CocoaServer.xib; sourceTree = "<group>"; };
+		6E1B43E315F3A465001ED3BE /* ConnectPanel.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConnectPanel.xib; sourceTree = "<group>"; };
+		6E1B43E415F3A465001ED3BE /* elephant-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "elephant-32.png"; sourceTree = "<group>"; };
+		6E1B43E515F3A465001ED3BE /* elephant-512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "elephant-512.png"; sourceTree = "<group>"; };
+		6E1B43E615F3A465001ED3BE /* elephant-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "elephant-64.png"; sourceTree = "<group>"; };
+		6E1B43E715F3A465001ED3BE /* elephant.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = elephant.icns; sourceTree = "<group>"; };
+		6E1B43E815F3A465001ED3BE /* EmbeddedServer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "EmbeddedServer-Info.plist"; sourceTree = "<group>"; };
+		6E1B43E915F3A465001ED3BE /* EmbeddedServer.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EmbeddedServer.xib; sourceTree = "<group>"; };
+		6E1B43EA15F3A465001ED3BE /* gear-14x14.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gear-14x14.png"; sourceTree = "<group>"; };
+		6E1B43EB15F3A465001ED3BE /* gradient-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gradient-1.png"; sourceTree = "<group>"; };
+		6E1B43EC15F3A465001ED3BE /* green.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = green.tiff; sourceTree = "<group>"; };
+		6E1B43ED15F3A465001ED3BE /* logo_w_elephant.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = logo_w_elephant.pdf; sourceTree = "<group>"; };
+		6E1B43EE15F3A465001ED3BE /* PostgresClientKit-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PostgresClientKit-Info.plist"; sourceTree = "<group>"; };
+		6E1B43EF15F3A465001ED3BE /* PostgresDataKit-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PostgresDataKit-Info.plist"; sourceTree = "<group>"; };
+		6E1B43F015F3A465001ED3BE /* PostgresPrefPane-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PostgresPrefPane-Info.plist"; sourceTree = "<group>"; };
+		6E1B43F115F3A465001ED3BE /* PostgresPrefPane-nib.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "PostgresPrefPane-nib.xib"; sourceTree = "<group>"; };
+		6E1B43F215F3A465001ED3BE /* PostgresPrefPaneServerStartupItem.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PostgresPrefPaneServerStartupItem.plist; sourceTree = "<group>"; };
+		6E1B43F315F3A465001ED3BE /* PostgresServerKit-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PostgresServerKit-Info.plist"; sourceTree = "<group>"; };
+		6E1B43F415F3A465001ED3BE /* red.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = red.tiff; sourceTree = "<group>"; };
+		6E1B43F515F3A465001ED3BE /* select.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = select.tiff; sourceTree = "<group>"; };
+		6E1B43F615F3A465001ED3BE /* start.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = start.tiff; sourceTree = "<group>"; };
+		6E1B43F715F3A465001ED3BE /* stop.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = stop.tiff; sourceTree = "<group>"; };
+		6E1B43F815F3A465001ED3BE /* stop2.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = stop2.tiff; sourceTree = "<group>"; };
+		6E1B43F915F3A465001ED3BE /* strapline-200x40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "strapline-200x40.png"; sourceTree = "<group>"; };
+		6E1B43FA15F3A465001ED3BE /* UnitTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "UnitTests-Info.plist"; sourceTree = "<group>"; };
+		6E1B43FB15F3A465001ED3BE /* yellow.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = yellow.tiff; sourceTree = "<group>"; };
 		6E256FE815F252B40079AD2D /* doc */ = {isa = PBXFileReference; lastKnownFileType = folder; path = doc; sourceTree = "<group>"; };
 		6E256FE915F252B40079AD2D /* etc */ = {isa = PBXFileReference; lastKnownFileType = folder; path = etc; sourceTree = "<group>"; };
-		6E256FEA15F252B40079AD2D /* resources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = resources; sourceTree = "<group>"; };
 		6E256FEC15F252B40079AD2D /* tar */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tar; sourceTree = "<group>"; };
 		6E8C167C15F26BF20013A382 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		6E8C167F15F26BF20013A382 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -214,13 +257,51 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6E1B43DC15F3A465001ED3BE /* resources */ = {
+			isa = PBXGroup;
+			children = (
+				6E1B43DD15F3A465001ED3BE /* backup.tiff */,
+				6E1B43DE15F3A465001ED3BE /* clear.tiff */,
+				6E1B43DF15F3A465001ED3BE /* ClientConnect-Info.plist */,
+				6E1B43E015F3A465001ED3BE /* ClientConnect.xib */,
+				6E1B43E115F3A465001ED3BE /* CocoaServer-Info.plist */,
+				6E1B43E215F3A465001ED3BE /* CocoaServer.xib */,
+				6E1B43E315F3A465001ED3BE /* ConnectPanel.xib */,
+				6E1B43E415F3A465001ED3BE /* elephant-32.png */,
+				6E1B43E515F3A465001ED3BE /* elephant-512.png */,
+				6E1B43E615F3A465001ED3BE /* elephant-64.png */,
+				6E1B43E715F3A465001ED3BE /* elephant.icns */,
+				6E1B43E815F3A465001ED3BE /* EmbeddedServer-Info.plist */,
+				6E1B43E915F3A465001ED3BE /* EmbeddedServer.xib */,
+				6E1B43EA15F3A465001ED3BE /* gear-14x14.png */,
+				6E1B43EB15F3A465001ED3BE /* gradient-1.png */,
+				6E1B43EC15F3A465001ED3BE /* green.tiff */,
+				6E1B43ED15F3A465001ED3BE /* logo_w_elephant.pdf */,
+				6E1B43EE15F3A465001ED3BE /* PostgresClientKit-Info.plist */,
+				6E1B43EF15F3A465001ED3BE /* PostgresDataKit-Info.plist */,
+				6E1B43F015F3A465001ED3BE /* PostgresPrefPane-Info.plist */,
+				6E1B43F115F3A465001ED3BE /* PostgresPrefPane-nib.xib */,
+				6E1B43F215F3A465001ED3BE /* PostgresPrefPaneServerStartupItem.plist */,
+				6E1B43F315F3A465001ED3BE /* PostgresServerKit-Info.plist */,
+				6E1B43F415F3A465001ED3BE /* red.tiff */,
+				6E1B43F515F3A465001ED3BE /* select.tiff */,
+				6E1B43F615F3A465001ED3BE /* start.tiff */,
+				6E1B43F715F3A465001ED3BE /* stop.tiff */,
+				6E1B43F815F3A465001ED3BE /* stop2.tiff */,
+				6E1B43F915F3A465001ED3BE /* strapline-200x40.png */,
+				6E1B43FA15F3A465001ED3BE /* UnitTests-Info.plist */,
+				6E1B43FB15F3A465001ED3BE /* yellow.tiff */,
+			);
+			path = resources;
+			sourceTree = "<group>";
+		};
 		6E256FDC15F252620079AD2D = {
 			isa = PBXGroup;
 			children = (
 				6E256FE815F252B40079AD2D /* doc */,
 				6E256FE915F252B40079AD2D /* etc */,
-				6E256FEA15F252B40079AD2D /* resources */,
 				6E256FEC15F252B40079AD2D /* tar */,
+				6E1B43DC15F3A465001ED3BE /* resources */,
 				6EB1E70A15F273350093F784 /* src */,
 				6ED763FD15F2673600687079 /* Frameworks */,
 				6ED763FC15F2673600687079 /* Products */,
@@ -545,6 +626,7 @@
 				6EF30CEE15F3957900EE0656 /* Sources */,
 				6EF30CEF15F3957900EE0656 /* Frameworks */,
 				6EF30CF015F3957900EE0656 /* Resources */,
+				6E1B43D515F3A2F9001ED3BE /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -596,7 +678,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				6EF30D1115F396D000EE0656 /* PGServer.xib in Resources */,
-				6EF30D1315F3977200EE0656 /* PGServerKit.framework in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -930,6 +1011,7 @@
 				6EF30D0C15F3957900EE0656 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
