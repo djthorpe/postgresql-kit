@@ -27,6 +27,12 @@
 		6ECA7AEA15F363C400AF2B70 /* PGServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
 		6ECA7AEF15F374DF00AF2B70 /* PGServer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6ECA7AED15F374DF00AF2B70 /* PGServer.h */; };
 		6ECA7AF015F374DF00AF2B70 /* PGServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ECA7AEE15F374DF00AF2B70 /* PGServer.m */; };
+		6EF30CF415F3957900EE0656 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C167C15F26BF20013A382 /* Cocoa.framework */; };
+		6EF30CFE15F3957900EE0656 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6EF30CFC15F3957900EE0656 /* InfoPlist.strings */; };
+		6EF30D0015F3957900EE0656 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF30CFF15F3957900EE0656 /* main.m */; };
+		6EF30D0415F3957900EE0656 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 6EF30D0215F3957900EE0656 /* Credits.rtf */; };
+		6EF30D0715F3957900EE0656 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF30D0615F3957900EE0656 /* AppDelegate.m */; };
+		6EF30D0A15F3957900EE0656 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6EF30D0815F3957900EE0656 /* MainMenu.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -169,6 +175,18 @@
 		6ECA7AEE15F374DF00AF2B70 /* PGServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGServer.m; sourceTree = "<group>"; };
 		6ED763FB15F2673600687079 /* PGServerKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PGServerKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6ED7640315F2673600687079 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		6EF30CF215F3957900EE0656 /* PGServer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PGServer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6EF30CF615F3957900EE0656 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		6EF30CF715F3957900EE0656 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		6EF30CF815F3957900EE0656 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		6EF30CFB15F3957900EE0656 /* PGServer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PGServer-Info.plist"; sourceTree = "<group>"; };
+		6EF30CFD15F3957900EE0656 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		6EF30CFF15F3957900EE0656 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		6EF30D0115F3957900EE0656 /* PGServer-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PGServer-Prefix.pch"; sourceTree = "<group>"; };
+		6EF30D0315F3957900EE0656 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		6EF30D0515F3957900EE0656 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		6EF30D0615F3957900EE0656 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		6EF30D0915F3957900EE0656 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -185,6 +203,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6EF30CEF15F3957900EE0656 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6EF30CF415F3957900EE0656 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -222,6 +248,7 @@
 			isa = PBXGroup;
 			children = (
 				6ECA7AD615F3635A00AF2B70 /* PGFoundationServer */,
+				6EF30CF915F3957900EE0656 /* PGServer */,
 				6EB1E70C15F273350093F784 /* ClientConnect */,
 				6EB1E71515F273350093F784 /* CocoaServer */,
 				6EB1E72615F273350093F784 /* EmbeddedServer */,
@@ -423,6 +450,7 @@
 			children = (
 				6ED763FB15F2673600687079 /* PGServerKit.framework */,
 				6ECA7ADC15F3637600AF2B70 /* PGFoundationServer */,
+				6EF30CF215F3957900EE0656 /* PGServer.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -435,8 +463,42 @@
 				6EB1E6F415F271C70093F784 /* CoreData.framework */,
 				6ED7640315F2673600687079 /* Foundation.framework */,
 				6E8C167C15F26BF20013A382 /* Cocoa.framework */,
+				6EF30CF515F3957900EE0656 /* Other Frameworks */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6EF30CF515F3957900EE0656 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6EF30CF615F3957900EE0656 /* AppKit.framework */,
+				6EF30CF715F3957900EE0656 /* CoreData.framework */,
+				6EF30CF815F3957900EE0656 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		6EF30CF915F3957900EE0656 /* PGServer */ = {
+			isa = PBXGroup;
+			children = (
+				6EF30D0515F3957900EE0656 /* AppDelegate.h */,
+				6EF30D0615F3957900EE0656 /* AppDelegate.m */,
+				6EF30D0815F3957900EE0656 /* MainMenu.xib */,
+				6EF30CFA15F3957900EE0656 /* Supporting Files */,
+			);
+			path = PGServer;
+			sourceTree = "<group>";
+		};
+		6EF30CFA15F3957900EE0656 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				6EF30CFB15F3957900EE0656 /* PGServer-Info.plist */,
+				6EF30CFC15F3957900EE0656 /* InfoPlist.strings */,
+				6EF30CFF15F3957900EE0656 /* main.m */,
+				6EF30D0115F3957900EE0656 /* PGServer-Prefix.pch */,
+				6EF30D0215F3957900EE0656 /* Credits.rtf */,
+			);
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -491,6 +553,23 @@
 			productReference = 6ED763FB15F2673600687079 /* PGServerKit.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		6EF30CF115F3957900EE0656 /* PGServer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6EF30D0D15F3957900EE0656 /* Build configuration list for PBXNativeTarget "PGServer" */;
+			buildPhases = (
+				6EF30CEE15F3957900EE0656 /* Sources */,
+				6EF30CEF15F3957900EE0656 /* Frameworks */,
+				6EF30CF015F3957900EE0656 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PGServer;
+			productName = PGServer;
+			productReference = 6EF30CF215F3957900EE0656 /* PGServer.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -514,6 +593,7 @@
 				6E256FEE15F255780079AD2D /* postgresql */,
 				6ED763FA15F2673600687079 /* PGServerKit */,
 				6ECA7ADB15F3637600AF2B70 /* PGFoundationServer */,
+				6EF30CF115F3957900EE0656 /* PGServer */,
 			);
 		};
 /* End PBXProject section */
@@ -523,6 +603,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6EF30CF015F3957900EE0656 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6EF30CFE15F3957900EE0656 /* InfoPlist.strings in Resources */,
+				6EF30D0415F3957900EE0656 /* Credits.rtf in Resources */,
+				6EF30D0A15F3957900EE0656 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -576,6 +666,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6EF30CEE15F3957900EE0656 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6EF30D0015F3957900EE0656 /* main.m in Sources */,
+				6EF30D0715F3957900EE0656 /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -590,6 +689,33 @@
 			targetProxy = 6ED7641215F2674E00687079 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		6EF30CFC15F3957900EE0656 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6EF30CFD15F3957900EE0656 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		6EF30D0215F3957900EE0656 /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6EF30D0315F3957900EE0656 /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		6EF30D0815F3957900EE0656 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6EF30D0915F3957900EE0656 /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		6E256FE315F252620079AD2D /* Debug */ = {
@@ -740,6 +866,67 @@
 			};
 			name = Release;
 		};
+		6EF30D0B15F3957900EE0656 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PGServer/PGServer-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "PGServer/PGServer-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		6EF30D0C15F3957900EE0656 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PGServer/PGServer-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "PGServer/PGServer-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -768,6 +955,7 @@
 				6ECA7AE815F3637600AF2B70 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6ED7641015F2673600687079 /* Build configuration list for PBXNativeTarget "PGServerKit" */ = {
 			isa = XCConfigurationList;
@@ -777,6 +965,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		6EF30D0D15F3957900EE0656 /* Build configuration list for PBXNativeTarget "PGServer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6EF30D0B15F3957900EE0656 /* Debug */,
+				6EF30D0C15F3957900EE0656 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
