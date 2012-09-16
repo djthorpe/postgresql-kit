@@ -2,6 +2,7 @@
 #include <sys/sysctl.h>
 #include <pg_config.h>
 #import "PGServerKit.h"
+#import "PGServer+Private.h"
 
 NSInteger PGServerDefaultPort = DEF_PGPORT;
 
@@ -48,6 +49,10 @@ NSInteger PGServerDefaultPort = DEF_PGPORT;
 
 +(NSString* )_libraryPath {
 	return [[self _bundlePath] stringByAppendingPathComponent:@"Resources/postgresql-current/lib"];
+}
+
++(NSString* )_dumpBinary {
+	return [[self _bundlePath] stringByAppendingPathComponent:@"Resources/postgresql-current/bin/pg_dumpall"];
 }
 
 +(NSString* )_superUsername {
@@ -142,15 +147,16 @@ NSInteger PGServerDefaultPort = DEF_PGPORT;
 }
 
 -(void)setState:(PGServerState)state {
-	if(_state != state) {
-		[[self delegate] pgserverState:state];
-	}
+	PGServerState oldState = _state;
 	_state = state;
+	if(_state != oldState && [[self delegate] respondsToSelector:@selector(pgserverStateChange:)]) {
+		[[self delegate] performSelectorOnMainThread:@selector(pgserverStateChange:) withObject:self waitUntilDone:YES];
+	}
 }
 
 -(void)_delegateMessage:(NSString* )message {
 	if([[self delegate] respondsToSelector:@selector(pgserverMessage:)] && [message length]) {
-		[[self delegate] performSelectorOnMainThread:@selector(pgserverMessage:) withObject:message waitUntilDone:NO];
+		[[self delegate] performSelectorOnMainThread:@selector(pgserverMessage:) withObject:message waitUntilDone:YES];
 	}
 	// if message is "database system is ready" and server in state PGServerStateStarting
 	// then advance state to PGServerStateRunning.
@@ -171,7 +177,6 @@ NSInteger PGServerDefaultPort = DEF_PGPORT;
 		[self _delegateMessage:[theLine stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
 	}
 }
-
 		 
 -(void)_setState:(PGServerState)theState message:(NSString* )theMessage {
  [self setState:theState];
@@ -264,15 +269,15 @@ NSInteger PGServerDefaultPort = DEF_PGPORT;
 	if([[self hostname] length]) {
 		[theArguments addObject:@"-h"];
 		[theArguments addObject:[self hostname]];
-		if([self port] > 0 && [self port] != PGServerDefaultPort) {
-			[theArguments addObject:@"-p"];
-			[theArguments addObject:[NSString stringWithFormat:@"%ld",[self port]]];
-		} else {
-			[self setPort:PGServerDefaultPort];
-		}
 	} else {
 		[theArguments addObject:@"-h"];
 		[theArguments addObject:@""];
+	}	
+	if([self port] > 0 && [self port] != PGServerDefaultPort) {
+		[theArguments addObject:@"-p"];
+		[theArguments addObject:[NSString stringWithFormat:@"%ld",[self port]]];
+	} else {
+		[self setPort:PGServerDefaultPort];
 	}
 	[theTask setArguments:theArguments];
 	

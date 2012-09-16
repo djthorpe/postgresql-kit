@@ -44,8 +44,8 @@
 	NSLog(@"Message: %@",theMessage);
 }
 
--(void)pgserverState:(PGServerState)theState {
-	NSLog(@"State: %@",[PGServer stateAsString:theState]);
+-(void)pgserverStateChange:(PGServer* )sender {
+	NSLog(@"State: %@",[PGServer stateAsString:[sender state]]);
 }
 
 -(int)runLoop {

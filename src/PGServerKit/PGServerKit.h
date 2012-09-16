@@ -18,6 +18,6 @@ typedef enum {
 
 // PGServerDelegate
 @interface NSObject (PGServerDelegate)
--(void)pgserverState:(PGServerState)theState;
+-(void)pgserverStateChange:(PGServer* )sender;
 -(void)pgserverMessage:(NSString* )theMessage;
 @end

@@ -1,5 +1,6 @@
 
 #import "PGServer+Backup.h"
+#import "PGServer+Private.h"
 #import <zlib.h>
 
 @implementation PGServer (Backup)
@@ -12,6 +13,7 @@
 -(NSString* )_backupFilePathForFolder:(NSString* )thePath {
 	// ensure path is a directory
 	BOOL isDirectory;
+	NSLog(@"path = %@",thePath);
 	if([[NSFileManager defaultManager] fileExistsAtPath:thePath isDirectory:&isDirectory]==NO || isDirectory==NO) {
 		return nil;
 	}
@@ -63,14 +65,14 @@
 	NSTask* theTask = [[NSTask alloc] init];
 	[theTask setStandardOutput:theOutPipe];
 	[theTask setStandardError:theErrPipe];
-	[theTask setLaunchPath:[[self class] postgresDumpPath]];
-	[theTask setArguments:[NSArray arrayWithObjects:@"-p",[NSString stringWithFormat:@"%u",[self port]],@"-U",[[self class] superUsername],@"-S",[[self class] superUsername],@"--disable-triggers",nil]];
+	[theTask setLaunchPath:[PGServer _dumpBinary]];
+	[theTask setArguments:[NSArray arrayWithObjects:@"-p",[NSString stringWithFormat:@"%lu",[self port]],@"-U",[PGServer _superUsername],@"-S",[[self class] _superUsername],@"--disable-triggers",nil]];
 	
 	if([thePassword length]) {
 		// set the PGPASSWORD env variable
-		[theTask setEnvironment:[NSDictionary dictionaryWithObjectsAndKeys:thePassword,@"PGPASSWORD",[[self class] postgresLibPath],@"DYLD_LIBRARY_PATH",nil]];
+		[theTask setEnvironment:[NSDictionary dictionaryWithObjectsAndKeys:thePassword,@"PGPASSWORD",[PGServer _libraryPath],@"DYLD_LIBRARY_PATH",nil]];
 	} else {
-		[theTask setEnvironment:[NSDictionary dictionaryWithObject:[[self class] postgresLibPath] forKey:@"DYLD_LIBRARY_PATH"]];
+		[theTask setEnvironment:[NSDictionary dictionaryWithObject:[PGServer _libraryPath] forKey:@"DYLD_LIBRARY_PATH"]];
 	}
 	
 	// perform the backup
@@ -87,15 +89,12 @@
 	
 	// get error information....
 	while((theData = [[theErrPipe fileHandleForReading] availableData]) && [theData length]) {
-		[self _delegateServerMessageFromData:theData];
+		[self _delegateMessageFromData:theData];
 	}
 	
 	// wait until task is actually completed
 	[theTask waitUntilExit];
 	int theReturnCode = [theTask terminationStatus];
-	[theTask release];
-	[theOutPipe release];
-	[theErrPipe release];
 	[theOutputFile closeFile];
 	
 	if(theReturnCode==0) {

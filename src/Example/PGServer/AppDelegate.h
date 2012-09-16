@@ -14,6 +14,7 @@
 @property BOOL startButtonEnabled;
 @property BOOL stopButtonEnabled;
 @property BOOL reloadButtonEnabled;
-@property NSString* message;
+@property BOOL backupButtonEnabled;
+@property IBOutlet NSTextView* ibLogTextView;
 
 @end

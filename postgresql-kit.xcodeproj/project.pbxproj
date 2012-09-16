@@ -23,6 +23,7 @@
 /* Begin PBXBuildFile section */
 		6E1B43D715F3A308001ED3BE /* PGServerKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
 		6E1B43FE15F3A4C2001ED3BE /* elephant.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43E715F3A465001ED3BE /* elephant.icns */; };
+		6E48B36F1605E34A0044A6CB /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E48B36E1605E34A0044A6CB /* libz.1.2.5.dylib */; };
 		6EB1E79615F282910093F784 /* PGServerKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EB1E74015F273350093F784 /* PGServerKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6ECA7ADE15F3637600AF2B70 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C168115F26BF20013A382 /* Foundation.framework */; };
 		6ECA7AE915F3638500AF2B70 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ECA7AD715F3635A00AF2B70 /* main.m */; };
@@ -110,6 +111,8 @@
 		6E256FE815F252B40079AD2D /* doc */ = {isa = PBXFileReference; lastKnownFileType = folder; path = doc; sourceTree = "<group>"; };
 		6E256FE915F252B40079AD2D /* etc */ = {isa = PBXFileReference; lastKnownFileType = folder; path = etc; sourceTree = "<group>"; };
 		6E256FEC15F252B40079AD2D /* tar */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tar; sourceTree = "<group>"; };
+		6E48B36E1605E34A0044A6CB /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = /usr/lib/libz.1.2.5.dylib; sourceTree = "<absolute>"; };
+		6E48B370160604270044A6CB /* PGServer+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PGServer+Private.h"; sourceTree = "<group>"; };
 		6E8C167C15F26BF20013A382 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		6E8C167F15F26BF20013A382 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		6E8C168115F26BF20013A382 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -231,9 +234,6 @@
 		6EDFA08215F3FCDF000C7BA4 /* PGServer+Backup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PGServer+Backup.h"; sourceTree = "<group>"; };
 		6EDFA08315F3FCDF000C7BA4 /* PGServer+Backup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PGServer+Backup.m"; sourceTree = "<group>"; };
 		6EF30CF215F3957900EE0656 /* PGServer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PGServer.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		6EF30CF615F3957900EE0656 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
-		6EF30CF715F3957900EE0656 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		6EF30CF815F3957900EE0656 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6EF30CFB15F3957900EE0656 /* PGServer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PGServer-Info.plist"; sourceTree = "<group>"; };
 		6EF30D0515F3957900EE0656 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		6EF30D0615F3957900EE0656 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -254,6 +254,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6E48B36F1605E34A0044A6CB /* libz.1.2.5.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -416,6 +417,7 @@
 				6ECA7AEE15F374DF00AF2B70 /* PGServer.m */,
 				6EDFA08215F3FCDF000C7BA4 /* PGServer+Backup.h */,
 				6EDFA08315F3FCDF000C7BA4 /* PGServer+Backup.m */,
+				6E48B370160604270044A6CB /* PGServer+Private.h */,
 			);
 			path = PGServerKit;
 			sourceTree = "<group>";
@@ -550,24 +552,14 @@
 		6ED763FD15F2673600687079 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6E48B36E1605E34A0044A6CB /* libz.1.2.5.dylib */,
 				6E8C167F15F26BF20013A382 /* AppKit.framework */,
 				6E8C168115F26BF20013A382 /* Foundation.framework */,
 				6EB1E6F415F271C70093F784 /* CoreData.framework */,
 				6ED7640315F2673600687079 /* Foundation.framework */,
 				6E8C167C15F26BF20013A382 /* Cocoa.framework */,
-				6EF30CF515F3957900EE0656 /* Other Frameworks */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		6EF30CF515F3957900EE0656 /* Other Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				6EF30CF615F3957900EE0656 /* AppKit.framework */,
-				6EF30CF715F3957900EE0656 /* CoreData.framework */,
-				6EF30CF815F3957900EE0656 /* Foundation.framework */,
-			);
-			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
 		6EF30CF915F3957900EE0656 /* PGServer */ = {
