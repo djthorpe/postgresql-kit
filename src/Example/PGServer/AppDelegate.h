@@ -10,11 +10,14 @@
 
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 
-@property (assign) IBOutlet NSWindow *window;
-@property BOOL startButtonEnabled;
-@property BOOL stopButtonEnabled;
-@property BOOL reloadButtonEnabled;
-@property BOOL backupButtonEnabled;
-@property IBOutlet NSTextView* ibLogTextView;
+@property (assign) IBOutlet NSWindow* ibWindow;
+@property (assign) IBOutlet NSPanel* ibHostAccessWindow;
+@property (assign) IBOutlet NSTextView* ibLogTextView;
+@property BOOL ibStartButtonEnabled;
+@property BOOL ibStopButtonEnabled;
+@property BOOL ibBackupButtonEnabled;
+@property NSImage* ibServerStatusIcon;
+@property NSString* ibServerVersion;
+
 
 @end

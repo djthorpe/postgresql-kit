@@ -66,25 +66,25 @@
 
 -(void)pgserverStateChange:(PGServer* )sender {
 	if([sender state]==PGServerStateRunning || [sender state]==PGServerStateAlreadyRunning) {
-		[self setStartButtonEnabled:NO];
-		[self setStopButtonEnabled:YES];
-		[self setReloadButtonEnabled:YES];
-		[self setBackupButtonEnabled:YES];
+		[self setIbStartButtonEnabled:NO];
+		[self setIbStopButtonEnabled:YES];
+		[self setIbBackupButtonEnabled:YES];
+		[self setIbServerStatusIcon:[NSImage imageNamed:@"green"]];
 	} else if([sender state]==PGServerStateStopped) {
-		[self setStartButtonEnabled:YES];
-		[self setStopButtonEnabled:NO];
-		[self setReloadButtonEnabled:NO];
-		[self setBackupButtonEnabled:NO];
+		[self setIbStartButtonEnabled:YES];
+		[self setIbStopButtonEnabled:NO];
+		[self setIbBackupButtonEnabled:NO];
+		[self setIbServerStatusIcon:[NSImage imageNamed:@"red"]];
 	} else if([sender state]==PGServerStateStarting || [sender state]==PGServerStateInitialize || [sender state]==PGServerStateStopping) {
-		[self setStartButtonEnabled:NO];
-		[self setStopButtonEnabled:NO];
-		[self setReloadButtonEnabled:NO];
-		[self setBackupButtonEnabled:NO];
+		[self setIbStartButtonEnabled:NO];
+		[self setIbStopButtonEnabled:NO];
+		[self setIbBackupButtonEnabled:NO];
+		[self setIbServerStatusIcon:[NSImage imageNamed:@"yellow"]];
 	} else {
-		[self setStartButtonEnabled:YES];
-		[self setStopButtonEnabled:YES];
-		[self setReloadButtonEnabled:YES];
-		[self setBackupButtonEnabled:NO];
+		[self setIbStartButtonEnabled:YES];
+		[self setIbStopButtonEnabled:YES];
+		[self setIbBackupButtonEnabled:NO];
+		[self setIbServerStatusIcon:[NSImage imageNamed:@"yellow"]];
 	}
 }
 
@@ -97,10 +97,18 @@
 
 -(void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 	PGServer* theServer = [PGServer sharedServer];
-	[self addLogMessage:[theServer version] color:[NSColor greenColor] bold:YES];
-	[self setStartButtonEnabled:YES];
-	[self setStopButtonEnabled:NO];
-	[self setReloadButtonEnabled:NO];
+	
+	// set version number
+	[self setIbServerVersion:[theServer version]];
+
+	// set button states
+	[self setIbStartButtonEnabled:YES];
+	[self setIbStopButtonEnabled:NO];
+	[self setIbBackupButtonEnabled:NO];
+	
+	// set status icons
+	[self setIbServerStatusIcon:[NSImage imageNamed:@"red"]];
+	
 }
 
 -(void)applicationWillTerminate:(NSNotification *)aNotification {
@@ -123,17 +131,13 @@
 ////////////////////////////////////////////////////////////////////////////////
 // IBActions
 
--(IBAction)ibPlayButton:(id)sender {
+-(IBAction)ibStartButtonPressed:(id)sender {
 	[self addLogMessage:[NSString stringWithFormat:@"Starting with data path: %@",[self dataPath]] color:[NSColor redColor] bold:NO];
 	[[PGServer sharedServer] startWithDataPath:[self dataPath]];
 }
 
--(IBAction)ibStopButton:(id)sender {
+-(IBAction)ibStopButtonPressed:(id)sender {
 	[[PGServer sharedServer] stop];
-}
-
--(IBAction)ibReloadButton:(id)sender {
-	[[PGServer sharedServer] reload];
 }
 
 -(IBAction)ibBackupButtonPressed:(id)sender {
@@ -149,6 +153,9 @@
 			 }
 		}
 	}];
+}
+
+-(IBAction)ibToolbarHostAccessPressed:(id)sender {
 }
 
 @end
