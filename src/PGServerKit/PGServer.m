@@ -4,7 +4,7 @@
 #import "PGServerKit.h"
 #import "PGServer+Private.h"
 
-NSInteger PGServerDefaultPort = DEF_PGPORT;
+NSUInteger PGServerDefaultPort = DEF_PGPORT;
 
 @implementation PGServer
 
@@ -224,7 +224,7 @@ NSInteger PGServerDefaultPort = DEF_PGPORT;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// get server version
+// get server version and port
 
 -(NSString* )version {
 	NSPipe* theOutPipe = [[NSPipe alloc] init];
@@ -251,6 +251,10 @@ NSInteger PGServerDefaultPort = DEF_PGPORT;
 	} else {
 		return nil;
 	}
+}
+
++(NSUInteger)defaultPort {
+	return PGServerDefaultPort;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

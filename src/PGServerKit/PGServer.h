@@ -2,7 +2,7 @@
 #import <Foundation/Foundation.h>
 #import "PGServerKit.h"
 
-extern NSInteger PGServerDefaultPort;
+extern NSUInteger PGServerDefaultPort;
 
 @interface PGServer : NSObject {
 	PGServerState _state;

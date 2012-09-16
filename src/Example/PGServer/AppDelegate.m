@@ -1,10 +1,3 @@
-//
-//  AppDelegate.m
-//  PGServer
-//
-//  Created by David Thorpe on 02/09/2012.
-//
-//
 
 #import "AppDelegate.h"
 #import <PGServerKit/PGServerKit.h>
@@ -134,9 +127,8 @@
 -(IBAction)ibStartButtonPressed:(id)sender {
 	[self addLogMessage:[NSString stringWithFormat:@"Starting server with data path: %@",[self dataPath]] color:[NSColor redColor] bold:NO];
 
-	NSLog(@"remoteConnectionAllowed = %d",[self prefRemoteConnectionAllowed]);
-	
-	
+	[[PGServer sharedServer] setHostname:[[self ibConnectionPrefs] hostname]];
+	[[PGServer sharedServer] setPort:[[self ibConnectionPrefs] port]];	
 	[[PGServer sharedServer] startWithDataPath:[self dataPath]];
 }
 
@@ -159,29 +151,8 @@
 	}];
 }
 
-////////////////////////////////////////////////////////////////////////////////
-// Connection preferences
-
 -(IBAction)ibToolbarConnectionPressed:(id)sender {
-	// TODO: set state
-	// show sheet
-	[NSApp beginSheet:[self ibConnectionWindow] modalForWindow:[self ibWindow] modalDelegate:self didEndSelector:@selector(ibToolbarConnectionEndSheet:returnCode:contextInfo:) contextInfo:nil];
-}
-
--(IBAction)ibToolbarConnectionSheetClose:(NSButton* )theButton {
-	NSParameterAssert([theButton isKindOfClass:[NSButton class]]);
-	// Cancel and Restart buttons
-	if([[theButton title] isEqualToString:@"Cancel"]) {
-		[NSApp endSheet:[theButton window] returnCode:NSCancelButton];
-	} else {
-		[NSApp endSheet:[theButton window] returnCode:NSOKButton];
-	}
-}
-
--(void)ibToolbarConnectionEndSheet:(NSWindow *)theSheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
-	[theSheet orderOut:self];
-
-	NSLog(@"sheet did end: %ld",returnCode);
+	[[self ibConnectionPrefs] ibToolbarConnectionSheetOpen:[self ibWindow]];
 }
 
 @end
