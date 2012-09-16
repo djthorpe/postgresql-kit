@@ -4,6 +4,26 @@
 
 @implementation ConnectionPrefs
 
+-(void)readDefaults {
+	// retrieve defaults
+	NSUserDefaults* theDefaults = [NSUserDefaults standardUserDefaults];
+	[self setAllowRemoteConnections:[theDefaults boolForKey:@"allowRemoteConnections"]];
+	[self setPort:[theDefaults integerForKey:@"port"]];
+}
+
+-(void)writeDefaults {
+	// retrieve defaults
+	NSUserDefaults* theDefaults = [NSUserDefaults standardUserDefaults];
+	[theDefaults setBool:[self allowRemoteConnections] forKey:@"allowRemoteConnections"];
+	[theDefaults setInteger:[self port] forKey:@"port"];
+	[theDefaults synchronize];
+}
+
+
+-(void)awakeFromNib {
+	[self readDefaults];
+}
+
 -(NSString* )hostname {
 	if([self allowRemoteConnections]) {
 		return @"*";
@@ -50,7 +70,10 @@
 
 -(void)endSheet:(NSWindow *)theSheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
 	[theSheet orderOut:self];
-	NSLog(@"sheet did end: %ld",returnCode);
+	if(returnCode==NSOKButton) {
+		[self writeDefaults];
+		// DO MORE HERE
+	}
 }
 
 @end
