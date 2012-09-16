@@ -132,7 +132,11 @@
 // IBActions
 
 -(IBAction)ibStartButtonPressed:(id)sender {
-	[self addLogMessage:[NSString stringWithFormat:@"Starting with data path: %@",[self dataPath]] color:[NSColor redColor] bold:NO];
+	[self addLogMessage:[NSString stringWithFormat:@"Starting server with data path: %@",[self dataPath]] color:[NSColor redColor] bold:NO];
+
+	NSLog(@"remoteConnectionAllowed = %d",[self prefRemoteConnectionAllowed]);
+	
+	
 	[[PGServer sharedServer] startWithDataPath:[self dataPath]];
 }
 
@@ -155,7 +159,29 @@
 	}];
 }
 
--(IBAction)ibToolbarHostAccessPressed:(id)sender {
+////////////////////////////////////////////////////////////////////////////////
+// Connection preferences
+
+-(IBAction)ibToolbarConnectionPressed:(id)sender {
+	// TODO: set state
+	// show sheet
+	[NSApp beginSheet:[self ibConnectionWindow] modalForWindow:[self ibWindow] modalDelegate:self didEndSelector:@selector(ibToolbarConnectionEndSheet:returnCode:contextInfo:) contextInfo:nil];
+}
+
+-(IBAction)ibToolbarConnectionSheetClose:(NSButton* )theButton {
+	NSParameterAssert([theButton isKindOfClass:[NSButton class]]);
+	// Cancel and Restart buttons
+	if([[theButton title] isEqualToString:@"Cancel"]) {
+		[NSApp endSheet:[theButton window] returnCode:NSCancelButton];
+	} else {
+		[NSApp endSheet:[theButton window] returnCode:NSOKButton];
+	}
+}
+
+-(void)ibToolbarConnectionEndSheet:(NSWindow *)theSheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
+	[theSheet orderOut:self];
+
+	NSLog(@"sheet did end: %ld",returnCode);
 }
 
 @end

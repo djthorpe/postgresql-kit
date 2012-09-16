@@ -11,7 +11,7 @@
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 
 @property (assign) IBOutlet NSWindow* ibWindow;
-@property (assign) IBOutlet NSPanel* ibHostAccessWindow;
+@property (assign) IBOutlet NSPanel* ibConnectionWindow;
 @property (assign) IBOutlet NSTextView* ibLogTextView;
 @property BOOL ibStartButtonEnabled;
 @property BOOL ibStopButtonEnabled;
@@ -19,5 +19,8 @@
 @property NSImage* ibServerStatusIcon;
 @property NSString* ibServerVersion;
 
+@property BOOL prefRemoteConnectionAllowed;
+@property NSString* prefBoundHostname;
+@property NSUInteger prefBoundPort;
 
 @end
