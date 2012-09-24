@@ -9,6 +9,9 @@ extern NSUInteger PGServerDefaultPort;
 	NSString* _hostname;
 	NSUInteger _port;
 	NSString* _dataPath;
+	NSTask* _currentTask;
+	NSTimer* _timer;
+	int _pid;
 }
 
 // properties
