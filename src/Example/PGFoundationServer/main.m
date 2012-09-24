@@ -36,16 +36,29 @@
 	return [[theApplicationSupportDirectory objectAtIndex:0] stringByAppendingPathComponent:theIdent];
 }
 
--(PGServer* )server {
-	return [PGServer sharedServer];
+-(PGServer2* )server {
+	return [PGServer2 sharedServer];
 }
 
 -(void)pgserverMessage:(NSString* )theMessage {
 	NSLog(@"Message: %@",theMessage);
 }
 
--(void)pgserverStateChange:(PGServer* )sender {
-	NSLog(@"State: %@",[PGServer stateAsString:[sender state]]);
+-(void)pgserverStateChange:(PGServer2* )sender {
+	NSLog(@"State: %@",[PGServer2 stateAsString:[sender state]]);
+}
+
+-(NSString* )hostname {
+	return [[NSUserDefaults standardUserDefaults] stringForKey:@"hostname"];
+}
+
+-(NSUInteger)port {
+	NSInteger port = [[NSUserDefaults standardUserDefaults] integerForKey:@"port"];
+	if(port > 0) {
+		return (NSUInteger)port;
+	} else {
+		return (NSUInteger)0;
+	}
 }
 
 -(int)runLoop {
@@ -60,18 +73,6 @@
 	
 	// create a timer
 	[NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(timerFired:) userInfo:nil repeats:YES];
-	
-	// get the hostname and port
-	NSString* theHostname = [[NSUserDefaults standardUserDefaults] stringForKey:@"hostname"];
-	if([theHostname length]) {
-		[self pgserverMessage:[NSString stringWithFormat:@"hostname: %@",theHostname]];
-		[[self server] setHostname:theHostname];
-	}
-	NSInteger thePort = [[NSUserDefaults standardUserDefaults] integerForKey:@"port"];
-	if(thePort > 0) {
-		[self pgserverMessage:[NSString stringWithFormat:@"port: %ld",thePort]];
-		[[self server] setPort:thePort];
-	}
 	
 	// start the run loop
 	double resolution = 300.0;
