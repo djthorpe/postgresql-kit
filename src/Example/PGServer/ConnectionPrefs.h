@@ -3,15 +3,25 @@
 
 @interface ConnectionPrefs : NSObject
 
-@property (assign) IBOutlet NSPanel* ibWindow;
+@property id delegate;
+
+@property (assign) IBOutlet NSWindow* ibWindow;
+@property (assign) IBOutlet NSTextField* ibCustomPort;
+
 @property BOOL allowRemoteConnections;
-@property BOOL customPortEnabled;
+@property BOOL portEditable;
 @property BOOL customPortEditable;
 @property NSUInteger selectedPortOption;
+@property NSString* portField;
+@property NSString* lastPortField;
 
 @property (readonly) NSString* hostname;
-@property NSUInteger port;
+@property (readonly) NSUInteger port;
 
--(IBAction)ibToolbarConnectionSheetOpen:(NSWindow* )sender;
+-(IBAction)ibToolbarConnectionSheetOpen:(NSWindow* )window delegate:(id)sender;
 
+@end
+
+@interface NSObject (ConnectionPrefsDelegate)
+-(void)restartServer;
 @end

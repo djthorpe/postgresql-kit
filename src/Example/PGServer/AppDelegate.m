@@ -57,7 +57,7 @@
 	}
 }
 
--(void)pgserverStateChange:(PGServer* )sender {
+-(void)pgserverStateChange:(PGServer2* )sender {
 	if([sender state]==PGServerStateRunning || [sender state]==PGServerStateAlreadyRunning) {
 		[self setIbStartButtonEnabled:NO];
 		[self setIbStopButtonEnabled:YES];
@@ -82,14 +82,35 @@
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+// Stop and Restart (or start) the server
+
+-(void)startServer {
+	[self addLogMessage:[NSString stringWithFormat:@"Starting server with data path: %@",[self dataPath]] color:[NSColor redColor] bold:NO];
+	[[PGServer2 sharedServer] startWithDataPath:[self dataPath] hostname:[[self ibConnectionPrefs] hostname] port:[[self ibConnectionPrefs] port]];
+}
+
+-(void)stopServer {
+	[self addLogMessage:[NSString stringWithFormat:@"Stopping server"] color:[NSColor redColor] bold:NO];
+	// stop the server
+	[[PGServer2 sharedServer] stop];
+}
+
+-(void)restartServer {
+	// stop server
+	if([[PGServer2 sharedServer] state]==PGServerStateRunning || [[PGServer sharedServer] state]==PGServerStateAlreadyRunning) {
+		[[PGServer2 sharedServer] restart];
+	}
+}
+
+////////////////////////////////////////////////////////////////////////////////
 // Application signals
 
 -(void)awakeFromNib {
-	[[PGServer sharedServer] setDelegate:self];
+	[[PGServer2 sharedServer] setDelegate:self];
 }
 
 -(void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-	PGServer* theServer = [PGServer sharedServer];
+	PGServer2* theServer = [PGServer2 sharedServer];
 	
 	// set version number
 	[self setIbServerVersion:[theServer version]];
@@ -105,12 +126,7 @@
 }
 
 -(void)applicationWillTerminate:(NSNotification *)aNotification {
-	do {
-		// stop the server
-		[[PGServer sharedServer] stop];
-		// wait for a little while
-		[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
-	} while([[PGServer sharedServer] state] != PGServerStateUnknown && [[PGServer sharedServer] state] != PGServerStateStopped && [[PGServer sharedServer] state] != PGServerStateError);
+	[self stopServer];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -118,22 +134,18 @@
 
 -(void)backupToPath:(NSURL* )thePath {
 	NSParameterAssert([thePath isFileURL]);
-	[[PGServer sharedServer] backupToFolderPath:[thePath path] superPassword:nil];
+//	[[PGServer2 sharedServer] backupToFolderPath:[thePath path] superPassword:nil];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // IBActions
 
 -(IBAction)ibStartButtonPressed:(id)sender {
-	[self addLogMessage:[NSString stringWithFormat:@"Starting server with data path: %@",[self dataPath]] color:[NSColor redColor] bold:NO];
-
-	[[PGServer sharedServer] setHostname:[[self ibConnectionPrefs] hostname]];
-	[[PGServer sharedServer] setPort:[[self ibConnectionPrefs] port]];	
-	[[PGServer sharedServer] startWithDataPath:[self dataPath]];
+	[self startServer];
 }
 
 -(IBAction)ibStopButtonPressed:(id)sender {
-	[[PGServer sharedServer] stop];
+	[self stopServer];
 }
 
 -(IBAction)ibBackupButtonPressed:(id)sender {
@@ -152,7 +164,7 @@
 }
 
 -(IBAction)ibToolbarConnectionPressed:(id)sender {
-	[[self ibConnectionPrefs] ibToolbarConnectionSheetOpen:[self ibWindow]];
+	[[self ibConnectionPrefs] ibToolbarConnectionSheetOpen:[self ibWindow] delegate:self];
 }
 
 @end

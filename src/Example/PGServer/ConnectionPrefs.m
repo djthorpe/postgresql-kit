@@ -8,20 +8,36 @@
 	// retrieve defaults
 	NSUserDefaults* theDefaults = [NSUserDefaults standardUserDefaults];
 	[self setAllowRemoteConnections:[theDefaults boolForKey:@"allowRemoteConnections"]];
-	[self setPort:[theDefaults integerForKey:@"port"]];
+	[self setPortField:[theDefaults stringForKey:@"port"]];
+
+	// update UX to display correct state
+	[self updateDisplayOptions];
 }
 
 -(void)writeDefaults {
 	// retrieve defaults
 	NSUserDefaults* theDefaults = [NSUserDefaults standardUserDefaults];
 	[theDefaults setBool:[self allowRemoteConnections] forKey:@"allowRemoteConnections"];
-	[theDefaults setInteger:[self port] forKey:@"port"];
+	[theDefaults setObject:[self portField] forKey:@"port"];
 	[theDefaults synchronize];
 }
 
-
 -(void)awakeFromNib {
 	[self readDefaults];
+}
+
+-(NSUInteger)port {
+	// check where no port number
+	if([[self portField] length]==0) {
+		return 0;
+	}
+	// retrieve port from portField
+	NSUInteger port = [[NSDecimalNumber decimalNumberWithString:[self portField]] unsignedIntegerValue];
+	if(port > 0 && port < 65535) {
+		return port;
+	} else {
+		return 0;
+	}
 }
 
 -(NSString* )hostname {
@@ -32,30 +48,43 @@
 	}
 }
 
--(IBAction)ibConnectionChangeState:(id)sender {
-	if([self allowRemoteConnections]) {
-		[self setCustomPortEnabled:YES];
-	} else {
-		[self setCustomPortEnabled:NO];
+-(void)updateDisplayOptions {
+	if([self allowRemoteConnections]==NO) {
 		[self setSelectedPortOption:0];
+		[self setPortField:nil];
+		[self setLastPortField:[self portField]];
+		[self setPortEditable:NO];
+		[self setCustomPortEditable:NO];
+	} else if([self selectedPortOption]==0) {
+		// Use default port
+		[self setPortField:[NSString stringWithFormat:@"%lu",PGServerDefaultPort]];
+		[self setLastPortField:[self portField]];
+		[self setCustomPortEditable:NO];
+		[self setPortEditable:YES];
+	} else {
+		// Use custom port
+		[self setCustomPortEditable:YES];
+		[self setPortEditable:YES];
+		[self setLastPortField:[self portField]];
 	}
-	[self ibSetDefaultCustomPort:sender];
+}
+
+-(IBAction)ibConnectionChangeState:(id)sender {
+	[self updateDisplayOptions];
 }
 
 -(IBAction)ibSetDefaultCustomPort:(id)sender {
-	if([self selectedPortOption]==0) {
-		// Default port option
-		[self setPort:PGServerDefaultPort];
-		[self setCustomPortEditable:NO];
-	} else {
-		// Custom port option
-		[self setCustomPortEditable:YES];
-	}
+	[self updateDisplayOptions];
 }
 
--(IBAction)ibToolbarConnectionSheetOpen:(NSWindow* )sender {
-	[self ibConnectionChangeState:nil];
-	[NSApp beginSheet:[self ibWindow] modalForWindow:sender modalDelegate:self didEndSelector:@selector(endSheet:returnCode:contextInfo:) contextInfo:nil];
+-(IBAction)ibToolbarConnectionSheetOpen:(NSWindow* )window delegate:(id)sender {
+	// set state of window from defaults
+	[self readDefaults];
+	[self updateDisplayOptions];
+	// set the sender
+	[self setDelegate:sender];
+	// begin the sheet
+	[NSApp beginSheet:[self ibWindow] modalForWindow:window modalDelegate:self didEndSelector:@selector(endSheet:returnCode:contextInfo:) contextInfo:nil];
 }
 
 -(IBAction)ibToolbarConnectionSheetClose:(NSButton* )theButton {
@@ -72,8 +101,27 @@
 	[theSheet orderOut:self];
 	if(returnCode==NSOKButton) {
 		[self writeDefaults];
-		// DO MORE HERE
+		if([[self delegate] respondsToSelector:@selector(restartServer)]){
+			[[self delegate] restartServer];
+		}
 	}
 }
+
+// validate port value, make sure it's all numbers
+-(void)controlTextDidChange:(NSNotification *)notification {
+	if([notification object] != [self ibCustomPort]) {
+		return;
+	}
+	NSString* value = [[self ibCustomPort] stringValue];
+	if([value length]==0) {
+		return;
+	} else if([value integerValue] > 0) {
+		[self setLastPortField:[[self ibCustomPort] stringValue]];
+	} else {
+		[[self ibCustomPort] setStringValue:[self lastPortField]];
+		NSBeep();
+	}
+}
+
 
 @end

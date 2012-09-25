@@ -14,4 +14,8 @@
 @property NSImage* ibServerStatusIcon;
 @property NSString* ibServerVersion;
 
+-(void)stopServer;
+-(void)restartServer;
+
 @end
+
