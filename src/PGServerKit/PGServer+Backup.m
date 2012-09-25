@@ -13,7 +13,6 @@
 -(NSString* )_backupFilePathForFolder:(NSString* )thePath {
 	// ensure path is a directory
 	BOOL isDirectory;
-	NSLog(@"path = %@",thePath);
 	if([[NSFileManager defaultManager] fileExistsAtPath:thePath isDirectory:&isDirectory]==NO || isDirectory==NO) {
 		return nil;
 	}
@@ -80,6 +79,7 @@
 	
 	NSData* theData = nil;
 	while((theData = [[theOutPipe fileHandleForReading] availableData]) && [theData length]) {
+		// TODO: write to more than one file where reached 4GB
 		NSInteger bytesWritten = gzwrite(theCompressedOutputFile,[theData bytes],[theData length]);
 		NSParameterAssert(bytesWritten);
 	}

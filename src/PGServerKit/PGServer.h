@@ -14,6 +14,8 @@ extern NSUInteger PGServerDefaultPort;
 @property (readonly) NSString* version;
 @property (retain) NSString* dataPath;
 @property (assign) int pid;
+@property (retain) NSTask* task;
+@property (retain) NSPipe* taskOutput;
 
 // return shared server object
 +(PGServer* )sharedServer;

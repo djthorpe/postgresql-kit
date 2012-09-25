@@ -82,6 +82,15 @@ NSUInteger PGServer2DefaultPort = DEF_PGPORT;
 	if([[self delegate] respondsToSelector:@selector(pgserverMessage:)] && [message length]) {
 		[[self delegate] performSelectorOnMainThread:@selector(pgserverMessage:) withObject:message waitUntilDone:YES];
 	}
+	
+	// if message is "database system is ready" and server in state PGServerStateStarting
+	// then advance state to PGServerStateRunning0.
+	// For 8.3 upwards, the message is "database system is ready to accept connections"
+	if([message hasSuffix:@"database system is ready"] && [self state]==PGServerStateStarting) {
+		[self _setState:PGServerStateRunning0];
+	} else if([message hasSuffix:@"database system is ready to accept connections"] && [self state]==PGServerStateStarting) {
+		[self _setState:PGServerStateRunning0];
+	}
 }
 
 -(void)_delegateMessageFromData:(NSData* )theData {
@@ -130,8 +139,52 @@ NSUInteger PGServer2DefaultPort = DEF_PGPORT;
 	return [thePid intValue];
 }
 
+
 ////////////////////////////////////////////////////////////////////////////////
-// private method to create data path if it doesn't exist
+// determine if process is still running
+// see: http://www.cocoadev.com/index.pl?HowToDetermineIfAProcessIsRunning
+
+-(int)_doesProcessExist:(int)thePid {
+	int mib[4] = { CTL_KERN, KERN_PROC, KERN_PROC_PID, thePid };
+	int returnValue = 1;
+	size_t count;
+	if(sysctl(mib,4,0,&count,0,0) < 0 ) {
+		return 0;
+	}
+	struct kinfo_proc* kp = (struct kinfo_proc* )malloc(count);
+	if(kp==nil) return -1;
+	if(sysctl(mib,4,kp,&count,0,0) < 0) {
+		returnValue = -1;
+	} else {
+		int nentries = count / sizeof(struct kinfo_proc);
+		if(nentries < 1) {
+			returnValue = 0;
+		}
+	}
+	free(kp);
+	return returnValue;
+}
+
+-(void)_stopProcess:(int)thePid {
+	// set counter and state
+	int count = 0;
+	// wait until process identifier is minus one
+	do {
+		if(count==0) {
+			kill(thePid,SIGTERM);
+		} else if(count==100) {
+			kill(thePid,SIGINT);
+		} else if(count==300) {
+			kill(thePid,SIGKILL);
+		}
+		// sleep for 100ms
+		[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+		count++;
+	} while([self _doesProcessExist:thePid]);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// create data path if it doesn't exist
 
 -(BOOL)_createDataPath:(NSString* )thePath {
 	// if directory already exists
@@ -147,6 +200,18 @@ NSUInteger PGServer2DefaultPort = DEF_PGPORT;
 	
 	// success - return yes
 	return YES;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// initialize the database data
+
+-(BOOL)_shouldInitialize {
+	// check for postgresql.conf file
+	if([[NSFileManager defaultManager] fileExistsAtPath:[_dataPath stringByAppendingPathComponent:@"postgresql.conf"]]==YES) {
+		return NO;
+	} else {
+		return YES;
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -185,7 +250,6 @@ NSUInteger PGServer2DefaultPort = DEF_PGPORT;
 
 	// now launch the task
 	_currentTask = theTask;
-	NSLog(@"Launching %@ with args %@",theBinary,theArguments);
 	[theTask launch];
 	return YES;
 	
@@ -202,6 +266,31 @@ NSUInteger PGServer2DefaultPort = DEF_PGPORT;
 	}
 }
 
+-(BOOL)_startTaskInitialize {
+	NSArray* theArguments = [NSArray arrayWithObjects:@"-D",[self dataPath],@"--encoding=UTF8",@"--no-locale",@"-U",[PGServer2 _superUsername],nil];
+	return [self _startTask:[PGServer2 _initBinary] arguments:theArguments];
+}
+
+-(BOOL)_startTaskServer {
+	// set arguments
+	NSMutableArray* theArguments = [NSMutableArray arrayWithObjects:@"-D",[self dataPath],nil];
+	if([[self hostname] length]) {
+		[theArguments addObject:@"-h"];
+		[theArguments addObject:[self hostname]];
+	} else {
+		[theArguments addObject:@"-h"];
+		[theArguments addObject:@""];
+	}
+	if([self port] > 0 && [self port] != PGServer2DefaultPort) {
+		[theArguments addObject:@"-p"];
+		[theArguments addObject:[NSString stringWithFormat:@"%ld",[self port]]];
+	} else {
+		_port = PGServer2DefaultPort;
+	}
+
+	return [self _startTask:[PGServer2 _serverBinary] arguments:theArguments];
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // run a timer
 
@@ -216,17 +305,79 @@ NSUInteger PGServer2DefaultPort = DEF_PGPORT;
 	BOOL isSuccess;
 	switch(_state) {
 		case PGServerStateIgnition:
-			isSuccess = [self _startTask:[PGServer2 _serverBinary] arguments:[NSArray array]];
+			// determine if we need to initialize the data directory
+			if([self _shouldInitialize]) {
+				[self _setState:PGServerStateInitialize];
+			} else {
+				[self _setState:PGServerStateInitialized];
+			}
+			break;
+		case PGServerStateInitialize:
+			// initialize the data directory
+			isSuccess = [self _startTaskInitialize];
 			if(isSuccess==NO) {
-				[self _setState:PGServerStateError];
+				[self _setState:PGServerStateStopped];
+			} else {
+				[self _setState:PGServerStateInitialized];
+			}
+			break;
+		case PGServerStateInitialized:
+			// data directory is initialized, so proceed to starting server
+			isSuccess = [self _startTaskServer];
+			if(isSuccess==NO) {
+				[self _setState:PGServerStateStopped];
 			} else {
 				[self _setState:PGServerStateStarting];
 			}
 			break;
+		case PGServerStateStarting:
+			if(_currentTask==nil || [_currentTask isRunning]==NO) {
+				// Error occured during startup
+				[self _delegateMessage:[NSString stringWithFormat:@"%@ ended with status %d",[_currentTask launchPath],[_currentTask terminationStatus]]];
+				[self _setState:PGServerStateStopped];
+			}
+			break;
+		case PGServerStateRunning0:
+			// get pid from the task
+			_pid = [_currentTask processIdentifier];
+			[self _delegateMessage:[NSString stringWithFormat:@"Server started with pid %d",_pid]];
+			[self _setState:PGServerStateRunning];
+		case PGServerStateRunning:
+			// check pid and make sure the process still exists
+			if([self _doesProcessExist:_pid]==NO) {
+				[self _delegateMessage:@"Server has been stopped"];
+				[self _setState:PGServerStateStopping];
+			}
+			break;			
+		case PGServerStateRestart:
+			if([self _doesProcessExist:_pid]==NO) {
+				[self _delegateMessage:@"Server has been stopped"];
+				[self _setState:PGServerStateStopping];
+			} else {
+				// stop server
+				[self _stopProcess:_pid];
+				_currentTask = nil;
+				[self _setState:PGServerStateIgnition];
+			}
+			break;
+		case PGServerStateStopping:
+			// stop server
+			[self _stopProcess:_pid];
+			[self _setState:PGServerStateStopped];
+			break;
+		case PGServerStateStopped:
+			_hostname = nil;
+			_port = 0;
+			_pid = -1;
+			_dataPath = nil;
+			_currentTask = nil;
+			[_timer invalidate];
+			_timer = nil;
+			break;
 		default:
+			NSAssert(NO,@"Don't know what to do for that state (%@) in _firedTimer",[PGServer2 stateAsString:_state]);
 			break;
 	}
-	NSLog(@"timer fired");
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -270,7 +421,7 @@ NSUInteger PGServer2DefaultPort = DEF_PGPORT;
 -(BOOL)startWithDataPath:(NSString* )thePath hostname:(NSString* )hostname port:(NSUInteger)port {
 	NSParameterAssert(thePath);
 
-	if([self state]==PGServerStateRunning || [self state]==PGServerStateStarting) {
+	if([self state]==PGServerStateRunning || [self state]==PGServerStateStarting || [self state]==PGServerStateInitialize || [self state]==PGServerStateInitialized || [self state]==PGServerStateIgnition || [self state]==PGServerStateStopping) {
 		return NO;
 	}
 	
@@ -291,9 +442,12 @@ NSUInteger PGServer2DefaultPort = DEF_PGPORT;
 	
 	// set the pid to zero and state to ignition
 	_pid = 0;
+	_dataPath = [thePath copy];
+	_hostname = [hostname copy];
+	_port = port;
 	[self _setState:PGServerStateIgnition];
 	
-	// start the timer
+	// start the state machine timer
 	[self _startTimer];
 	
 	// return YES
@@ -304,15 +458,51 @@ NSUInteger PGServer2DefaultPort = DEF_PGPORT;
 // stop, reload and restart server
 
 -(BOOL)stop {
-	return NO;
+	if([self state] != PGServerStateRunning && [self state] != PGServerStateAlreadyRunning) {
+		return NO;
+	}
+	if(_pid <= 0) {
+		return NO;
+	}
+	// set state to stop server
+	[self _setState:PGServerStateStopping];
+
+	// start the state machine timer
+	[self _startTimer];
+
+	// return success
+	return YES;
 }
 
 -(BOOL)restart {
-	return NO;
+	if([self state] != PGServerStateRunning && [self state] != PGServerStateAlreadyRunning) {
+		return NO;
+	}
+	if(_pid <= 0) {
+		return NO;
+	}
+
+	// set state to restart server
+	[self _setState:PGServerStateRestart];
+	
+	// start the state machine timer
+	[self _startTimer];
+	
+	// return success
+	return YES;
 }
 
 -(BOOL)reload {
-	return NO;
+	if([self state] != PGServerStateRunning && [self state] != PGServerStateAlreadyRunning) {
+		return NO;
+	}
+	if(_pid <= 0) {
+		return NO;
+	}
+	// send HUP
+	kill(_pid,SIGHUP);
+	// return success
+	return YES;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -328,8 +518,10 @@ NSUInteger PGServer2DefaultPort = DEF_PGPORT;
 		case PGServerStateIgnition:
 			return @"PGServerStateStarting";
 		case PGServerStateInitialize:
+		case PGServerStateInitialized:
 			return @"PGServerStateInitialize";
 		case PGServerStateRunning:
+		case PGServerStateRunning0:
 		case PGServerStateAlreadyRunning:
 			return @"PGServerStateRunning";
 		case PGServerStateUnknown:
