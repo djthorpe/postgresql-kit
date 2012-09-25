@@ -29,6 +29,8 @@
 		6E48B37316060DA30044A6CB /* yellow.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43FB15F3A465001ED3BE /* yellow.tiff */; };
 		6E48B37416060DA70044A6CB /* green.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43EC15F3A465001ED3BE /* green.tiff */; };
 		6E6679521606387B00EF8E98 /* ConnectionPrefs.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E6679511606387B00EF8E98 /* ConnectionPrefs.m */; };
+		6EA41EF01610E7DB00E81046 /* PGServer2.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EA41EEE1610E7DB00E81046 /* PGServer2.h */; };
+		6EA41EF11610E7DB00E81046 /* PGServer2.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EA41EEF1610E7DB00E81046 /* PGServer2.m */; };
 		6EB1E79615F282910093F784 /* PGServerKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EB1E74015F273350093F784 /* PGServerKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6ECA7ADE15F3637600AF2B70 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C168115F26BF20013A382 /* Foundation.framework */; };
 		6ECA7AE915F3638500AF2B70 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ECA7AD715F3635A00AF2B70 /* main.m */; };
@@ -123,6 +125,8 @@
 		6E8C167C15F26BF20013A382 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		6E8C167F15F26BF20013A382 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		6E8C168115F26BF20013A382 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		6EA41EEE1610E7DB00E81046 /* PGServer2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGServer2.h; sourceTree = "<group>"; };
+		6EA41EEF1610E7DB00E81046 /* PGServer2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGServer2.m; sourceTree = "<group>"; };
 		6EB1E6F415F271C70093F784 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		6EB1E70D15F273350093F784 /* Controller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Controller.h; sourceTree = "<group>"; };
 		6EB1E70E15F273350093F784 /* Controller.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Controller.m; sourceTree = "<group>"; };
@@ -425,6 +429,8 @@
 				6EDFA08215F3FCDF000C7BA4 /* PGServer+Backup.h */,
 				6EDFA08315F3FCDF000C7BA4 /* PGServer+Backup.m */,
 				6E48B370160604270044A6CB /* PGServer+Private.h */,
+				6EA41EEE1610E7DB00E81046 /* PGServer2.h */,
+				6EA41EEF1610E7DB00E81046 /* PGServer2.m */,
 			);
 			path = PGServerKit;
 			sourceTree = "<group>";
@@ -592,6 +598,7 @@
 				6EB1E79615F282910093F784 /* PGServerKit.h in Headers */,
 				6ECA7AEF15F374DF00AF2B70 /* PGServer.h in Headers */,
 				6EDFA08415F3FCDF000C7BA4 /* PGServer+Backup.h in Headers */,
+				6EA41EF01610E7DB00E81046 /* PGServer2.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -751,6 +758,7 @@
 			files = (
 				6ECA7AF015F374DF00AF2B70 /* PGServer.m in Sources */,
 				6EDFA08515F3FCDF000C7BA4 /* PGServer+Backup.m in Sources */,
+				6EA41EF11610E7DB00E81046 /* PGServer2.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
