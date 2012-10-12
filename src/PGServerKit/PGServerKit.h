@@ -16,7 +16,6 @@ typedef enum {
 
 #import <Foundation/Foundation.h>
 #import "PGServer.h"
-#import "PGServer2.h"
 #import "PGServer+Backup.h"
 
 // PGServerDelegate

@@ -8,7 +8,6 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 
 @implementation PGServer
 
-@dynamic state;
 @dynamic version;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -27,15 +26,23 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 	self = [super init];
 	if(self) {
 		[self setDelegate:nil];
-		[self setState:PGServerStateUnknown];
-		[self setTask:[[NSTask alloc] init]];
-		[self setTaskOutput:[[NSPipe alloc] init]];
+		_state = PGServerStateUnknown;
+		_hostname = nil;
+		_port = 0;
+		_pid = -1;
+		_dataPath = nil;
+		_currentTask = nil;
+		_timer = nil;
 	}
 	return self;
 }
 
+-(void)dealloc {
+	[self _removeNotification];
+}
+
 ////////////////////////////////////////////////////////////////////////////////
-// private methods to return paths to things within the framework
+// private methods for returning information
 
 +(NSString* )_bundlePath {
 	return [[NSBundle bundleForClass:[self class]] bundlePath];
@@ -62,25 +69,64 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+// set state and send messages to delegate where necessary
+
+-(void)_setState:(PGServerState)state {
+	PGServerState oldState = _state;
+	_state = state;
+	if(_state != oldState && [[self delegate] respondsToSelector:@selector(pgserverStateChange:)]) {
+		[[self delegate] performSelectorOnMainThread:@selector(pgserverStateChange:) withObject:self waitUntilDone:YES];
+	}
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// send messages to the delegate
+
+-(void)_delegateMessage:(NSString* )message {
+	if([[self delegate] respondsToSelector:@selector(pgserverMessage:)] && [message length]) {
+		[[self delegate] performSelectorOnMainThread:@selector(pgserverMessage:) withObject:message waitUntilDone:YES];
+	}
+	
+	// if message is "database system is ready" and server in state PGServerStateStarting
+	// then advance state to PGServerStateRunning0.
+	// For 8.3 upwards, the message is "database system is ready to accept connections"
+	if([message hasSuffix:@"database system is ready"] && [self state]==PGServerStateStarting) {
+		[self _setState:PGServerStateRunning0];
+	} else if([message hasSuffix:@"database system is ready to accept connections"] && [self state]==PGServerStateStarting) {
+		[self _setState:PGServerStateRunning0];
+	}
+}
+
+-(void)_delegateMessageFromData:(NSData* )theData {
+	NSString* theMessage = [[NSString alloc] initWithData:theData encoding:NSUTF8StringEncoding];
+	NSArray* theArray = [theMessage componentsSeparatedByString:@"\n"];
+	NSEnumerator* theEnumerator = [theArray objectEnumerator];
+	NSString* theLine = nil;
+	while(theLine = [theEnumerator nextObject]) {
+		[self _delegateMessage:[theLine stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
+	}
+}
+
+////////////////////////////////////////////////////////////////////////////////
 // private method to return the PID of the running postgresql process
 
--(int)_pidFromDataPath {
-	NSString* thePath = [[self dataPath] stringByAppendingPathComponent:@"postmaster.pid"];
-	if([[NSFileManager defaultManager] fileExistsAtPath:thePath]==NO) {
+-(int)_pidFromPath:(NSString* )thePath {
+	NSString* thePidPath = [thePath stringByAppendingPathComponent:@"postmaster.pid"];
+	if([[NSFileManager defaultManager] fileExistsAtPath:thePidPath]==NO) {
 		// no postmaster.pid file found, therefore no process
 		return 0;
 	}
-	if([[NSFileManager defaultManager] isReadableFileAtPath:thePath]==NO) {
+	if([[NSFileManager defaultManager] isReadableFileAtPath:thePidPath]==NO) {
 		// if postmaster.pid is not readable, return error
 		return -1;
 	}
-	NSDictionary* theAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:thePath error:nil];
+	NSDictionary* theAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:thePidPath error:nil];
 	if(theAttributes==nil || [theAttributes fileSize] > 1024) {
 		// if postmaster.pid file is too large, return error
 		return -1;
 	}
 	NSError* theError = nil;
-	NSString* thePidString = [NSString stringWithContentsOfFile:thePath encoding:NSUTF8StringEncoding error:&theError];
+	NSString* thePidString = [NSString stringWithContentsOfFile:thePidPath encoding:NSUTF8StringEncoding error:&theError];
 	if(thePidString==nil) {
 		// if postmaster.pid file could not be read, return error
 		return -1;
@@ -96,6 +142,7 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 	// success - return decimal number
 	return [thePid intValue];
 }
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // determine if process is still running
@@ -122,8 +169,26 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 	return returnValue;
 }
 
+-(void)_stopProcess:(int)thePid {
+	// set counter and state
+	int count = 0;
+	// wait until process identifier is minus one
+	do {
+		if(count==0) {
+			kill(thePid,SIGTERM);
+		} else if(count==100) {
+			kill(thePid,SIGINT);
+		} else if(count==300) {
+			kill(thePid,SIGKILL);
+		}
+		// sleep for 100ms
+		[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+		count++;
+	} while([self _doesProcessExist:thePid]);
+}
+
 ////////////////////////////////////////////////////////////////////////////////
-// private method to create data path if it doesn't exist
+// create data path if it doesn't exist
 
 -(BOOL)_createDataPath:(NSString* )thePath {
 	// if directory already exists
@@ -142,103 +207,203 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// set state and emit messages
-
--(PGServerState)state {
-	return _state;
-}
-
--(void)setState:(PGServerState)state {
-	PGServerState oldState = _state;
-	_state = state;
-	if(_state != oldState && [[self delegate] respondsToSelector:@selector(pgserverStateChange:)]) {
-		[[self delegate] performSelectorOnMainThread:@selector(pgserverStateChange:) withObject:self waitUntilDone:YES];
-	}
-}
-
--(void)_delegateMessage:(NSString* )message {
-	
-	NSLog(@"message = %@",message);
-	
-	if([[self delegate] respondsToSelector:@selector(pgserverMessage:)] && [message length]) {
-		[[self delegate] performSelectorOnMainThread:@selector(pgserverMessage:) withObject:message waitUntilDone:YES];
-	}
-	// if message is "database system is ready" and server in state PGServerStateStarting
-	// then advance state to PGServerStateRunning.
-	// For 8.3 upwards, the message is "database system is ready to accept connections"
-	if([message hasSuffix:@"database system is ready"] && [self state]==PGServerStateStarting) {
-		[self setState:PGServerStateRunning];
-	} else if([message hasSuffix:@"database system is ready to accept connections"] && [self state]==PGServerStateStarting) {
-		[self setState:PGServerStateRunning];
-	}
-}
-
--(void)_delegateMessageFromData:(NSData* )theData {
-	NSString* theMessage = [[NSString alloc] initWithData:theData encoding:NSUTF8StringEncoding];
-	NSArray* theArray = [theMessage componentsSeparatedByString:@"\n"];
-	NSEnumerator* theEnumerator = [theArray objectEnumerator];
-	NSString* theLine = nil;
-	while(theLine = [theEnumerator nextObject]) {
-		[self _delegateMessage:[theLine stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
-	}
-}
-		 
--(void)_setState:(PGServerState)theState message:(NSString* )theMessage {
- [self setState:theState];
- [self _delegateMessage:theMessage];
-}
-
-////////////////////////////////////////////////////////////////////////////////
 // initialize the database data
 
 -(BOOL)_shouldInitialize {
 	// check for postgresql.conf file
-	if([[NSFileManager defaultManager] fileExistsAtPath:[[self dataPath] stringByAppendingPathComponent:@"postgresql.conf"]]==YES) {
+	if([[NSFileManager defaultManager] fileExistsAtPath:[_dataPath stringByAppendingPathComponent:@"postgresql.conf"]]==YES) {
 		return NO;
 	} else {
 		return YES;
 	}
 }
 
--(BOOL)_initialize {
-	NSPipe* theOutPipe = [[NSPipe alloc] init];
-	NSTask* theTask = [[NSTask alloc] init];
-	
-	[theTask setStandardOutput:theOutPipe];
-	[theTask setStandardError:theOutPipe];
-	[theTask setLaunchPath:[[self class] _initBinary]];
-	[theTask setArguments:[NSArray arrayWithObjects:@"-D",[self dataPath],@"--encoding=UTF8",@"--no-locale",@"-U",[[self class] _superUsername],nil]];
-	[theTask setEnvironment:[NSDictionary dictionaryWithObject:[[self class] _libraryPath] forKey:@"DYLD_LIBRARY_PATH"]];
+////////////////////////////////////////////////////////////////////////////////
+// run a task
 
-	// launch the init method
-	[theTask launch];
-	
-	NSData* theData = nil;
-	while((theData = [[theOutPipe fileHandleForReading] availableData]) && [theData length]) {
-		[self _delegateMessageFromData:theData];
-	}
-	// wait until task is actually completed
-	[theTask waitUntilExit];
-	int theReturnCode = [theTask terminationStatus];
-	// if return code is non-zero report error
-	if(theReturnCode) {
-		[self _setState:PGServerStateError message:[NSString stringWithFormat:@"_initialize method returned status %d",theReturnCode]];
+-(void)_removeNotification {
+	NSNotificationCenter* theNotificationCenter = [NSNotificationCenter defaultCenter];
+	[theNotificationCenter removeObserver:self];
+}
+
+-(void)_addNotificationForFileHandle:(NSFileHandle* )theFileHandle {
+	NSNotificationCenter* theNotificationCenter = [NSNotificationCenter defaultCenter];
+    [theNotificationCenter addObserver:self
+							  selector:@selector(_getTaskData:)
+								  name:NSFileHandleReadCompletionNotification
+								object:nil];
+	[theFileHandle readInBackgroundAndNotify];
+}
+
+-(BOOL)_startTask:(NSString* )theBinary arguments:(NSArray* )theArguments {
+	NSParameterAssert(theBinary && [theBinary isKindOfClass:[NSString class]]);
+	NSParameterAssert(theArguments && [theArguments isKindOfClass:[NSArray class]]);
+
+	// check for currently running task
+	if(_currentTask != nil) {
 		return NO;
 	}
+	
+	// set up the task
+	NSTask* theTask = [[NSTask alloc] init];
+	[theTask setLaunchPath:theBinary];
+	[theTask setArguments:theArguments];
+
+	// add dynamic library path
+	[theTask setEnvironment:[NSDictionary dictionaryWithObject:[PGServer _libraryPath] forKey:@"DYLD_LIBRARY_PATH"]];
+
+	// create a pipe
+	NSPipe* thePipe = [[NSPipe alloc] init];
+	[theTask setStandardOutput:thePipe];
+	[theTask setStandardError:thePipe];
+
+	// add a notification for the pipe's standard out
+	[self _removeNotification];
+	[self _addNotificationForFileHandle:[thePipe fileHandleForReading]];
+
+	// now launch the task
+	_currentTask = theTask;
+	[theTask launch];
 	return YES;
+	
+}
+
+-(void)_getTaskData:(NSNotification* )theNotification {
+	NSData* theData = [[theNotification userInfo] objectForKey:@"NSFileHandleNotificationDataItem"];
+
+	[self _delegateMessageFromData:theData];
+
+	if([theData length]) {
+		// get more data
+		[[theNotification object] readInBackgroundAndNotify];
+	}
+}
+
+-(BOOL)_startTaskInitialize {
+	NSArray* theArguments = [NSArray arrayWithObjects:@"-D",[self dataPath],@"--encoding=UTF8",@"--no-locale",@"-U",[PGServer _superUsername],nil];
+	return [self _startTask:[PGServer _initBinary] arguments:theArguments];
+}
+
+-(BOOL)_startTaskServer {
+	// set arguments
+	NSMutableArray* theArguments = [NSMutableArray arrayWithObjects:@"-D",[self dataPath],nil];
+	if([[self hostname] length]) {
+		[theArguments addObject:@"-h"];
+		[theArguments addObject:[self hostname]];
+	} else {
+		[theArguments addObject:@"-h"];
+		[theArguments addObject:@""];
+	}
+	if([self port] > 0 && [self port] != PGServerDefaultPort) {
+		[theArguments addObject:@"-p"];
+		[theArguments addObject:[NSString stringWithFormat:@"%ld",[self port]]];
+	} else {
+		_port = PGServerDefaultPort;
+	}
+
+	return [self _startTask:[PGServer _serverBinary] arguments:theArguments];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// get server version and port
+// run a timer
+
+-(void)_startTimer {
+	if(_timer) {
+		[_timer invalidate];
+	}
+	_timer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(_firedTimer:) userInfo:nil repeats:YES];
+}
+
+-(void)_firedTimer:(id)sender {
+	BOOL isSuccess;
+	switch(_state) {
+		case PGServerStateIgnition:
+			// determine if we need to initialize the data directory
+			if([self _shouldInitialize]) {
+				[self _setState:PGServerStateInitialize];
+			} else {
+				[self _setState:PGServerStateInitialized];
+			}
+			break;
+		case PGServerStateInitialize:
+			// initialize the data directory
+			isSuccess = [self _startTaskInitialize];
+			if(isSuccess==NO) {
+				[self _setState:PGServerStateStopped];
+			} else {
+				[self _setState:PGServerStateInitialized];
+			}
+			break;
+		case PGServerStateInitialized:
+			// data directory is initialized, so proceed to starting server
+			isSuccess = [self _startTaskServer];
+			if(isSuccess==NO) {
+				[self _setState:PGServerStateStopped];
+			} else {
+				[self _setState:PGServerStateStarting];
+			}
+			break;
+		case PGServerStateStarting:
+			if(_currentTask==nil || [_currentTask isRunning]==NO) {
+				// Error occured during startup
+				[self _delegateMessage:[NSString stringWithFormat:@"%@ ended with status %d",[_currentTask launchPath],[_currentTask terminationStatus]]];
+				[self _setState:PGServerStateStopped];
+			}
+			break;
+		case PGServerStateRunning0:
+			// get pid from the task
+			_pid = [_currentTask processIdentifier];
+			[self _delegateMessage:[NSString stringWithFormat:@"Server started with pid %d",_pid]];
+			[self _setState:PGServerStateRunning];
+		case PGServerStateRunning:
+			// check pid and make sure the process still exists
+			if([self _doesProcessExist:_pid]==NO) {
+				[self _delegateMessage:@"Server has been stopped"];
+				[self _setState:PGServerStateStopping];
+			}
+			break;			
+		case PGServerStateRestart:
+			if([self _doesProcessExist:_pid]==NO) {
+				[self _delegateMessage:@"Server has been stopped"];
+				[self _setState:PGServerStateStopping];
+			} else {
+				// stop server
+				[self _stopProcess:_pid];
+				_currentTask = nil;
+				[self _setState:PGServerStateIgnition];
+			}
+			break;
+		case PGServerStateStopping:
+			// stop server
+			[self _stopProcess:_pid];
+			[self _setState:PGServerStateStopped];
+			break;
+		case PGServerStateStopped:
+			_hostname = nil;
+			_port = 0;
+			_pid = -1;
+			_dataPath = nil;
+			_currentTask = nil;
+			[_timer invalidate];
+			_timer = nil;
+			break;
+		default:
+			NSAssert(NO,@"Don't know what to do for that state (%@) in _firedTimer",[PGServer stateAsString:_state]);
+			break;
+	}
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// property implementation
 
 -(NSString* )version {
 	NSPipe* theOutPipe = [[NSPipe alloc] init];
 	NSTask* theTask = [[NSTask alloc] init];
 	[theTask setStandardOutput:theOutPipe];
 	[theTask setStandardError:theOutPipe];
-	[theTask setLaunchPath:[[self class] _serverBinary]];
+	[theTask setLaunchPath:[PGServer _serverBinary]];
 	[theTask setArguments:[NSArray arrayWithObject:@"--version"]];
-	[theTask setEnvironment:[NSDictionary dictionaryWithObject:[[self class] _libraryPath] forKey:@"DYLD_LIBRARY_PATH"]];
+	[theTask setEnvironment:[NSDictionary dictionaryWithObject:[PGServer _libraryPath] forKey:@"DYLD_LIBRARY_PATH"]];
 	
 	// get the version number
 	[theTask launch];
@@ -248,6 +413,7 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 	while((theData = [[theOutPipe fileHandleForReading] availableData]) && [theData length]) {
 		[theVersion appendData:theData];
 	}
+	
 	// wait until task is actually completed
 	[theTask waitUntilExit];
 	int theReturnCode = [theTask terminationStatus];
@@ -258,242 +424,102 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 	}
 }
 
-+(NSUInteger)defaultPort {
-	return PGServerDefaultPort;
-}
-
 ////////////////////////////////////////////////////////////////////////////////
-// start the server
-
--(BOOL)_run {
-	NSTask* theTask = [self task];
-
-	if([theTask isRunning]) {
-		NSLog(@"task already running, returning NO");
-		return NO;
-	}
-
-	// set output
-	[[self task] setStandardOutput:[self taskOutput]];
-	[[self task] setStandardError:[self taskOutput]];
-	[[self task] setLaunchPath:[PGServer _serverBinary]];
-	[[self task] setEnvironment:[NSDictionary dictionaryWithObject:[PGServer _libraryPath] forKey:@"DYLD_LIBRARY_PATH"]];
-	
-	// set arguments
-	NSMutableArray* theArguments = [NSMutableArray arrayWithObjects:@"-D",[self dataPath],nil];
-	if([[self hostname] length]) {
-		[theArguments addObject:@"-h"];
-		[theArguments addObject:[self hostname]];
-	} else {
-		[theArguments addObject:@"-h"];
-		[theArguments addObject:@""];
-	}	
-	if([self port] > 0 && [self port] != PGServerDefaultPort) {
-		[theArguments addObject:@"-p"];
-		[theArguments addObject:[NSString stringWithFormat:@"%ld",[self port]]];
-	} else {
-		[self setPort:PGServerDefaultPort];
-	}
-	[theTask setArguments:theArguments];
-	
-	// add notification for messages coming back from the task
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_readMessages:) name:NSFileHandleReadCompletionNotification object:[[self taskOutput] fileHandleForReading]];
-	[[[self taskOutput] fileHandleForReading] readInBackgroundAndNotify];
-	
-	// launch the postgres database, set the pid
-	[theTask launch];
-	[self setPid:[theTask processIdentifier]];
-	NSLog(@"task started with PID %d",[self pid]);
-	return YES;
-}
-
--(void)_readMessages:(NSNotification* )theNotification {
-	NSFileHandle* theFileHandle = [theNotification object];
-	NSData* theData = [[theNotification userInfo] objectForKey:NSFileHandleNotificationDataItem];
-	if([theData length]) {
-		[theFileHandle readInBackgroundAndNotify];
-		NSLog(@"Message: %@",theData);
-	}
-}
-	// get output from the task
-	// NSData* theData = nil;
-	//NSPipe* theOutPipe = [[self task] standardOutput];
-	//if ((theData = [[theOutPipe fileHandleForReading] availableData]) && [theData length]) {
-	//	[self _delegateMessageFromData:theData];
-	//}
-
-////////////////////////////////////////////////////////////////////////////////
-// reload the server
-
--(BOOL)reload {
-	if([self state] != PGServerStateRunning && [self state] != PGServerStateAlreadyRunning) {
-		return NO;
-	}
-	if([self pid] <= 0) {
-		return NO;
-	}
-	
-	// send HUP
-	kill([self pid],SIGHUP);
-
-	// return success
-	return YES;
-}
-
-
-////////////////////////////////////////////////////////////////////////////////
-// background server thread
-
--(void)_backgroundThread:(id)anObject {
-	NSLog(@"backgroundThreadStarted");
-	@autoreleasepool {
-		BOOL isSuccess = NO;
-		do {
-			NSLog(@"backgroundThread state = %@",[PGServer stateAsString:[self state]]);
-			// wait until task is actually completed
-			// [theTask waitUntilExit];
-			// int theReturnCode = [theTask terminationStatus];
-			// if return code is non-zero report error
-			// if(theReturnCode) {
-			// [self _setState:PGServerStateError message:[NSString stringWithFormat:@"_start method returned status %d",theReturnCode]];
-			// return NO;
-			//}
-			// return YES;
-
-			switch([self state]) {
-				case PGServerStateIgnition:
-					// determine if we need to initialize the data directory
-					if([self _shouldInitialize]) {
-						[self setState:PGServerStateInitialize];
-					} else {
-						[self setState:PGServerStateStarting];
-						[self _run];
-					}
-					break;
-				case PGServerStateInitialize:
-					// initialize the data directory
-					isSuccess = [self _initialize];
-					if(isSuccess==NO) {
-						[self _setState:PGServerStateError message:@"Error initializing server data"];
-					} else {
-						[self setState:PGServerStateStarting];
-						[self _run];
-					}
-					break;
-				case PGServerStateStarting:
-					// wait for server to start
-					break;
-				case PGServerStateError:
-					// an error occurred when starting the server
-					// in this state, we need to quit the runloop and close down everything
-					[self _setState:PGServerStateError message:@"Stopping run loop"];
-					[self setPid:-1];
-					break;
-				case PGServerStateStopping:
-					if([[self task] isRunning]==NO) {
-						[self _setState:PGServerStateStopped message:@"Stopped"];
-					}
-					break;
-				case PGServerStateStopped:
-					// do nothing in these states
-					break;
-				default:
-					NSAssert(NO,@"Don't know what to do for that state (%@) in _backgroundThreadFire",[PGServer stateAsString:[self state]]);
-					break;
-			}
-		} while([self pid] >= 0);
-		[self setState:PGServerStateStopped];
-	}
-	NSLog(@"backgroundThreadStopped");
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// public methods
+// start server method
 
 -(BOOL)startWithDataPath:(NSString* )thePath {
+	return [self startWithDataPath:thePath hostname:nil port:0];
+}
+
+-(BOOL)startWithDataPath:(NSString* )thePath hostname:(NSString* )hostname port:(NSUInteger)port {
 	NSParameterAssert(thePath);
-	
-	if([self state]==PGServerStateRunning || [self state]==PGServerStateStarting) {
+
+	if([self state]==PGServerStateRunning || [self state]==PGServerStateStarting || [self state]==PGServerStateInitialize || [self state]==PGServerStateInitialized || [self state]==PGServerStateIgnition || [self state]==PGServerStateStopping) {
 		return NO;
 	}
-	
-	// set the data path and the pid
-	[self setDataPath:thePath];
-	[self setPid:-1];
 	
 	// if database process is already running, then set this as the state and return NO
-	int thePid = [self _pidFromDataPath];
+	int thePid = [self _pidFromPath:thePath];
 	if(thePid > 0) {
-		[self setPid:thePid];
-		[self _setState:PGServerStateAlreadyRunning message:@"Server already started"];
+		_pid = thePid;
+		[self _setState:PGServerStateAlreadyRunning];
 		return NO;
 	}
-	
-	// if we received a minus one, an error occurred doing this step
-	if(thePid < 0) {
-		[self _setState:PGServerStateError message:@"Internal error"];
-		return NO;
-	}
-	
+
 	// create the data path if nesessary
-	if([self _createDataPath:[self dataPath]]==NO) {
-		[self _setState:PGServerStateError message:[NSString stringWithFormat:@"Unable to create data path: %@",[self dataPath]]];
+	if([self _createDataPath:thePath]==NO) {
+		[self _setState:PGServerStateError];
+		[self _delegateMessage:[NSString stringWithFormat:@"Unable to create data path: %@",thePath]];
 		return NO;
 	}
 	
 	// set the pid to zero and state to ignition
-	[self setPid:0];
-	[self _setState:PGServerStateIgnition message:@"Server starting"];
-
-	// start the background thread to start the server
-	[NSThread detachNewThreadSelector:@selector(_backgroundThread:) toTarget:self withObject:nil];
+	_pid = 0;
+	_dataPath = [thePath copy];
+	_hostname = [hostname copy];
+	_port = port;
+	[self _setState:PGServerStateIgnition];
 	
-	// immediate return
+	// start the state machine timer
+	[self _startTimer];
+	
+	// return YES
 	return YES;
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// stop, reload and restart server
 
 -(BOOL)stop {
 	if([self state] != PGServerStateRunning && [self state] != PGServerStateAlreadyRunning) {
 		return NO;
 	}
-	if([self pid] <= 0) {
+	if(_pid <= 0) {
 		return NO;
-	}	
-	// set counter and state
-	int count = 0;
-	[self _setState:PGServerStateStopping message:@"Stopping server"];
+	}
+	// set state to stop server
+	[self _setState:PGServerStateStopping];
 
-	// wait until process identifier is minus one
-	do {
-		if(count==0) {
-			kill([self pid],SIGTERM);
-		} else if(count==100) {
-			kill([self pid],SIGINT);
-		} else if(count==300) {
-			kill([self pid],SIGKILL);
-		}
-		// sleep for 100ms
-		[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
-		count++;
-	} while([self _doesProcessExist:[self pid]]);
+	// start the state machine timer
+	[self _startTimer];
+
+	// return success
+	return YES;
+}
+
+-(BOOL)restart {
+	if([self state] != PGServerStateRunning && [self state] != PGServerStateAlreadyRunning) {
+		return NO;
+	}
+	if(_pid <= 0) {
+		return NO;
+	}
+
+	// set state to restart server
+	[self _setState:PGServerStateRestart];
 	
-	// set process identifier to minus one to indicate the background thread should end
-	[self setPid:-1];
-
-	count = 0;
-	do {
-		NSLog(@"state = %@ count = %d",[PGServer stateAsString:[self state]],count);
-		[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
-		count++;
-	} while([self state]==PGServerStateStopping && count < 10);
+	// start the state machine timer
+	[self _startTimer];
 	
 	// return success
 	return YES;
 }
 
+-(BOOL)reload {
+	if([self state] != PGServerStateRunning && [self state] != PGServerStateAlreadyRunning) {
+		return NO;
+	}
+	if(_pid <= 0) {
+		return NO;
+	}
+	// send HUP
+	kill(_pid,SIGHUP);
+	// return success
+	return YES;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
-// private method to return English language version of PGServerState
+// utility methods
 
 +(NSString* )stateAsString:(PGServerState)theState {
 	switch(theState) {
@@ -505,8 +531,10 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 		case PGServerStateIgnition:
 			return @"PGServerStateStarting";
 		case PGServerStateInitialize:
+		case PGServerStateInitialized:
 			return @"PGServerStateInitialize";
 		case PGServerStateRunning:
+		case PGServerStateRunning0:
 		case PGServerStateAlreadyRunning:
 			return @"PGServerStateRunning";
 		case PGServerStateUnknown:

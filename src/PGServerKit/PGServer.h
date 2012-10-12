@@ -6,26 +6,34 @@ extern NSUInteger PGServerDefaultPort;
 
 @interface PGServer : NSObject {
 	PGServerState _state;
+	NSString* _hostname;
+	NSUInteger _port;
+	NSString* _dataPath;
+	NSTask* _currentTask;
+	NSTimer* _timer;
+	int _pid;
 }
+
+// properties
 @property id delegate;
-@property PGServerState state;
-@property (retain) NSString* hostname;
-@property NSInteger port;
 @property (readonly) NSString* version;
-@property (retain) NSString* dataPath;
-@property (assign) int pid;
-@property (retain) NSTask* task;
-@property (retain) NSPipe* taskOutput;
+@property (readonly) PGServerState state;
+@property (readonly) NSString* hostname;
+@property (readonly) NSUInteger port;
+@property (readonly) NSString* dataPath;
 
 // return shared server object
 +(PGServer* )sharedServer;
 
-// start, stop and reload server
+// start, stop, restart and reload the server
 -(BOOL)startWithDataPath:(NSString* )thePath;
+-(BOOL)startWithDataPath:(NSString* )thePath hostname:(NSString* )hostname port:(NSUInteger)port;
 -(BOOL)stop;
+-(BOOL)restart;
 -(BOOL)reload;
 
 // utility methods
 +(NSString* )stateAsString:(PGServerState)theState;
 
 @end
+
