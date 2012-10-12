@@ -37,6 +37,10 @@ NSUInteger PGServer2DefaultPort = DEF_PGPORT;
 	return self;
 }
 
+-(void)dealloc {
+	[self _removeNotification];
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // private methods for returning information
 
@@ -217,6 +221,20 @@ NSUInteger PGServer2DefaultPort = DEF_PGPORT;
 ////////////////////////////////////////////////////////////////////////////////
 // run a task
 
+-(void)_removeNotification {
+	NSNotificationCenter* theNotificationCenter = [NSNotificationCenter defaultCenter];
+	[theNotificationCenter removeObserver:self];
+}
+
+-(void)_addNotificationForFileHandle:(NSFileHandle* )theFileHandle {
+	NSNotificationCenter* theNotificationCenter = [NSNotificationCenter defaultCenter];
+    [theNotificationCenter addObserver:self
+							  selector:@selector(_getTaskData:)
+								  name:NSFileHandleReadCompletionNotification
+								object:nil];
+	[theFileHandle readInBackgroundAndNotify];
+}
+
 -(BOOL)_startTask:(NSString* )theBinary arguments:(NSArray* )theArguments {
 	NSParameterAssert(theBinary && [theBinary isKindOfClass:[NSString class]]);
 	NSParameterAssert(theArguments && [theArguments isKindOfClass:[NSArray class]]);
@@ -240,13 +258,8 @@ NSUInteger PGServer2DefaultPort = DEF_PGPORT;
 	[theTask setStandardError:thePipe];
 
 	// add a notification for the pipe's standard out
-	NSFileHandle* theFileHandle = [thePipe fileHandleForReading];
-	NSNotificationCenter* theNotificationCenter = [NSNotificationCenter defaultCenter];
-    [theNotificationCenter addObserver:self
-                           selector:@selector(_getTaskData:)
-                               name:NSFileHandleReadCompletionNotification
-                             object:nil];
-	[theFileHandle readInBackgroundAndNotify];
+	[self _removeNotification];
+	[self _addNotificationForFileHandle:[thePipe fileHandleForReading]];
 
 	// now launch the task
 	_currentTask = theTask;
