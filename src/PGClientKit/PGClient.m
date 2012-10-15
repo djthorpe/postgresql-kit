@@ -1,4 +1,5 @@
 
+#import "PGClientKit.h"
 #include <libpq-fe.h>
 
 NSString* PGClientScheme = @"pgsql";
@@ -6,38 +7,29 @@ NSString* PGClientScheme = @"pgsql";
 @implementation PGClient
 
 -(id)init {
-	self = [super alloc];
+	self = [super init];
 	if(self) {
-		m_theConnection = nil;	
+		_connection = nil;
 	}
 	return self;
 }
 
 -(void)dealloc {
-	// disconnect
+	if(_connection) {
+		PQfinish(_connection);
+	}
+}
+
+-(BOOL)connectWithURL:(NSURL* )theURL {
+	return [self connectWithURL:theURL timeout:0];
 }
 
 -(BOOL)connectWithURL:(NSURL* )theURL timeout:(NSUInteger)timeout {
-	if(theURL==nil || [[theURL scheme] isEqual:PGClientScheme]==NO) {
-		return nil;
+	// check for existing connection
+	if(_connection) {
+		return NO;
 	}
-	PGClient* theConnection = [[PGClient alloc] init];
-	if([theURL user]) {
-		[theConnection setUser:[theURL user]];
-	}
-	if([theURL host]) {
-		[theConnection setHost:[theURL host]];
-	}
-	if([theURL port]) {
-		[theConnection setPort:[[theURL port] unsignedIntegerValue]];
-	}
-	if([theURL path]) {
-		NSString* thePath = [[theURL path] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"/"]];
-		if([thePath length]) {
-			[theConnection setCatalogue:thePath];
-		}
-	}
-	return theConnection;
+	return YES;
 }
 
 

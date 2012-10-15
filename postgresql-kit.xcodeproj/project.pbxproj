@@ -1051,10 +1051,11 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = PGClientKit.plist;
+				INFOPLIST_FILE = src/PGClientKit/PGClientKit.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
+				"PRELINK_LIBS[arch=*]" = "";
 				PRODUCT_NAME = PGClientKit;
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = framework;
@@ -1083,7 +1084,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = PGClientKit.plist;
+				INFOPLIST_FILE = src/PGClientKit/PGClientKit.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = PGClientKit;
