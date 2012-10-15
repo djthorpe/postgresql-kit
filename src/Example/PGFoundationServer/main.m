@@ -36,16 +36,16 @@
 	return [[theApplicationSupportDirectory objectAtIndex:0] stringByAppendingPathComponent:theIdent];
 }
 
--(PGServer2* )server {
-	return [PGServer2 sharedServer];
+-(PGServer* )server {
+	return [PGServer sharedServer];
 }
 
 -(void)pgserverMessage:(NSString* )theMessage {
 	NSLog(@"Message: %@",theMessage);
 }
 
--(void)pgserverStateChange:(PGServer2* )sender {
-	NSLog(@"State: %@",[PGServer2 stateAsString:[sender state]]);
+-(void)pgserverStateChange:(PGServer* )sender {
+	NSLog(@"State: %@",[PGServer stateAsString:[sender state]]);
 }
 
 -(NSString* )hostname {
