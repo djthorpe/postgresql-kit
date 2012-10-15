@@ -32,5 +32,13 @@ NSString* PGClientScheme = @"pgsql";
 	return YES;
 }
 
+-(BOOL)disconnect {
+	if(_connection==nil) {
+		return NO;
+	}
+	PQfinish(_connection);
+	_connection = nil;
+	return YES;
+}
 
 @end

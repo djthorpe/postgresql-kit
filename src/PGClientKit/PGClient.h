@@ -7,6 +7,6 @@
 
 -(BOOL)connectWithURL:(NSURL* )theURL;
 -(BOOL)connectWithURL:(NSURL* )theURL timeout:(NSUInteger)timeout;
-
+-(BOOL)disconnect;
 
 @end

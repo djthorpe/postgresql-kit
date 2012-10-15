@@ -9,7 +9,7 @@
 
 
 void handleSIGTERM(int signal) {
-	[delegate setSignal:signal];
+	NSLog(@"Handling sigterm");
 }
 
 void setHandleSignal() {
@@ -26,6 +26,14 @@ int main (int argc, const char* argv[]) {
 	@autoreleasepool {
 		// handle signals
 		setHandleSignal();
+		// create a connection
+		PGClient* db = [[PGClient alloc] init];
+		
+		NSLog(@"Connecting");
+		[db connectWithURL:[NSURL URLWithString:@"pgsql://postgres@/"]];
+		
+		NSLog(@"Disconnecting");
+		[db disconnect];
 	}
 	
     return returnValue;
