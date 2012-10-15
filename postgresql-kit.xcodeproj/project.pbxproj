@@ -28,6 +28,10 @@
 		6E48B37216060D9E0044A6CB /* red.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43F415F3A465001ED3BE /* red.tiff */; };
 		6E48B37316060DA30044A6CB /* yellow.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43FB15F3A465001ED3BE /* yellow.tiff */; };
 		6E48B37416060DA70044A6CB /* green.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43EC15F3A465001ED3BE /* green.tiff */; };
+		6E4DEC7B162CC19C008B26BD /* libcrypto.0.9.8.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E4DEC7A162CC19C008B26BD /* libcrypto.0.9.8.dylib */; };
+		6E4DEC7E162CC252008B26BD /* libssl.0.9.8.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E4DEC7D162CC252008B26BD /* libssl.0.9.8.dylib */; };
+		6E4DEC87162CC38D008B26BD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C168115F26BF20013A382 /* Foundation.framework */; };
+		6E4DEC94162CC3E1008B26BD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E4DEC80162CC307008B26BD /* main.m */; };
 		6E6679521606387B00EF8E98 /* ConnectionPrefs.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E6679511606387B00EF8E98 /* ConnectionPrefs.m */; };
 		6EA41EF01610E7DB00E81046 /* PGServer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EA41EEE1610E7DB00E81046 /* PGServer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6EA41EF11610E7DB00E81046 /* PGServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EA41EEF1610E7DB00E81046 /* PGServer.m */; };
@@ -54,6 +58,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 6ED763FA15F2673600687079;
 			remoteInfo = PGServerKit;
+		};
+		6E4DEC92162CC3A7008B26BD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E256FDE15F252620079AD2D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6ED85B3516288C4800A6DC02;
+			remoteInfo = PGClientKit;
 		};
 		6ECA7AEB15F363DB00AF2B70 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -88,6 +99,15 @@
 				6E1B43D715F3A308001ED3BE /* PGServerKit.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6E4DEC83162CC38D008B26BD /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -128,6 +148,10 @@
 		6E256FEC15F252B40079AD2D /* tar */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tar; sourceTree = "<group>"; };
 		6E48B36E1605E34A0044A6CB /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = /usr/lib/libz.1.2.5.dylib; sourceTree = "<absolute>"; };
 		6E48B370160604270044A6CB /* PGServer+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PGServer+Private.h"; sourceTree = "<group>"; };
+		6E4DEC7A162CC19C008B26BD /* libcrypto.0.9.8.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.0.9.8.dylib; path = ../../../../usr/lib/libcrypto.0.9.8.dylib; sourceTree = "<group>"; };
+		6E4DEC7D162CC252008B26BD /* libssl.0.9.8.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libssl.0.9.8.dylib; path = ../../../../usr/lib/libssl.0.9.8.dylib; sourceTree = "<group>"; };
+		6E4DEC80162CC307008B26BD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		6E4DEC85162CC38D008B26BD /* PGFoundationClient */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PGFoundationClient; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E6679501606387B00EF8E98 /* ConnectionPrefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionPrefs.h; sourceTree = "<group>"; };
 		6E6679511606387B00EF8E98 /* ConnectionPrefs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionPrefs.m; sourceTree = "<group>"; };
 		6E8C167C15F26BF20013A382 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -265,6 +289,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		6E4DEC82162CC38D008B26BD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6E4DEC87162CC38D008B26BD /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6ECA7AD915F3637600AF2B70 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -286,6 +318,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6E4DEC7B162CC19C008B26BD /* libcrypto.0.9.8.dylib in Frameworks */,
+				6E4DEC7E162CC252008B26BD /* libssl.0.9.8.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -352,6 +386,14 @@
 			);
 			sourceTree = "<group>";
 		};
+		6E4DEC7F162CC2E7008B26BD /* PGFoundationClient */ = {
+			isa = PBXGroup;
+			children = (
+				6E4DEC80162CC307008B26BD /* main.m */,
+			);
+			path = PGFoundationClient;
+			sourceTree = "<group>";
+		};
 		6EB1E70A15F273350093F784 /* src */ = {
 			isa = PBXGroup;
 			children = (
@@ -370,6 +412,7 @@
 		6EB1E70B15F273350093F784 /* Example */ = {
 			isa = PBXGroup;
 			children = (
+				6E4DEC7F162CC2E7008B26BD /* PGFoundationClient */,
 				6ECA7AD615F3635A00AF2B70 /* PGFoundationServer */,
 				6EF30CF915F3957900EE0656 /* PGServer */,
 				6EB1E70C15F273350093F784 /* ClientConnect */,
@@ -578,6 +621,7 @@
 				6ECA7ADC15F3637600AF2B70 /* PGFoundationServer */,
 				6EF30CF215F3957900EE0656 /* PGServer.app */,
 				6ED85B4616288C4800A6DC02 /* PGClientKit.framework */,
+				6E4DEC85162CC38D008B26BD /* PGFoundationClient */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -585,6 +629,8 @@
 		6ED763FD15F2673600687079 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6E4DEC7D162CC252008B26BD /* libssl.0.9.8.dylib */,
+				6E4DEC7A162CC19C008B26BD /* libcrypto.0.9.8.dylib */,
 				6E48B36E1605E34A0044A6CB /* libz.1.2.5.dylib */,
 				6E8C167F15F26BF20013A382 /* AppKit.framework */,
 				6E8C168115F26BF20013A382 /* Foundation.framework */,
@@ -645,6 +691,24 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		6E4DEC84162CC38D008B26BD /* PGFoundationClient */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6E4DEC8F162CC38D008B26BD /* Build configuration list for PBXNativeTarget "PGFoundationClient" */;
+			buildPhases = (
+				6E4DEC81162CC38D008B26BD /* Sources */,
+				6E4DEC82162CC38D008B26BD /* Frameworks */,
+				6E4DEC83162CC38D008B26BD /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6E4DEC93162CC3A7008B26BD /* PBXTargetDependency */,
+			);
+			name = PGFoundationClient;
+			productName = PGFoundationClient;
+			productReference = 6E4DEC85162CC38D008B26BD /* PGFoundationClient */;
+			productType = "com.apple.product-type.tool";
+		};
 		6ECA7ADB15F3637600AF2B70 /* PGFoundationServer */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6ECA7AE615F3637600AF2B70 /* Build configuration list for PBXNativeTarget "PGFoundationServer" */;
@@ -744,6 +808,7 @@
 				6ED763FA15F2673600687079 /* PGServerKit */,
 				6ED85B3516288C4800A6DC02 /* PGClientKit */,
 				6ECA7ADB15F3637600AF2B70 /* PGFoundationServer */,
+				6E4DEC84162CC38D008B26BD /* PGFoundationClient */,
 				6EF30CF115F3957900EE0656 /* PGServer */,
 			);
 		};
@@ -811,6 +876,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		6E4DEC81162CC38D008B26BD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6E4DEC94162CC3E1008B26BD /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6ECA7AD815F3637600AF2B70 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -855,6 +928,11 @@
 			target = 6ED763FA15F2673600687079 /* PGServerKit */;
 			targetProxy = 6E30F78E15F3A5180056C749 /* PBXContainerItemProxy */;
 		};
+		6E4DEC93162CC3A7008B26BD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6ED85B3516288C4800A6DC02 /* PGClientKit */;
+			targetProxy = 6E4DEC92162CC3A7008B26BD /* PBXContainerItemProxy */;
+		};
 		6ECA7AEC15F363DB00AF2B70 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 6ED763FA15F2673600687079 /* PGServerKit */;
@@ -896,6 +974,61 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		6E4DEC90162CC38D008B26BD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PGFoundationClient/PGFoundationClient-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		6E4DEC91162CC38D008B26BD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PGFoundationClient/PGFoundationClient-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};
@@ -1050,12 +1183,13 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				GENERATE_MASTER_OBJECT_FILE = NO;
+				GENERATE_MASTER_OBJECT_FILE = YES;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = src/PGClientKit/PGClientKit.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
+				"PRELINK_LIBS[arch=*]" = "${BUILT_PRODUCTS_DIR}/postgresql-current/lib/libpq.a";
 				PRODUCT_NAME = PGClientKit;
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = framework;
@@ -1085,10 +1219,11 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				GENERATE_MASTER_OBJECT_FILE = NO;
+				GENERATE_MASTER_OBJECT_FILE = YES;
 				INFOPLIST_FILE = src/PGClientKit/PGClientKit.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				"PRELINK_LIBS[arch=*]" = "${BUILT_PRODUCTS_DIR}/postgresql-current/lib/libpq.a";
 				PRODUCT_NAME = PGClientKit;
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = framework;
@@ -1176,6 +1311,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		6E4DEC8F162CC38D008B26BD /* Build configuration list for PBXNativeTarget "PGFoundationClient" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6E4DEC90162CC38D008B26BD /* Debug */,
+				6E4DEC91162CC38D008B26BD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		6ECA7AE615F3637600AF2B70 /* Build configuration list for PBXNativeTarget "PGFoundationServer" */ = {
 			isa = XCConfigurationList;
