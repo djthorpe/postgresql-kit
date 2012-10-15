@@ -249,7 +249,6 @@
 		6ED763FB15F2673600687079 /* PGServerKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PGServerKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6ED7640315F2673600687079 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6ED85B4616288C4800A6DC02 /* PGClientKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PGClientKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6ED85B4716288C4900A6DC02 /* PGServerKit copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "PGServerKit copy-Info.plist"; path = "/Volumes/Users/djt/Projects/postgres-kit/PGServerKit copy-Info.plist"; sourceTree = "<absolute>"; };
 		6ED85B4816288CDE00A6DC02 /* PGClientKit.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PGClientKit.plist; sourceTree = "<group>"; };
 		6ED85B4916288D0200A6DC02 /* PGClientKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGClientKit.h; sourceTree = "<group>"; };
 		6ED85B4A16288D6200A6DC02 /* PGClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGClient.h; sourceTree = "<group>"; };
@@ -350,7 +349,6 @@
 				6EB1E70A15F273350093F784 /* src */,
 				6ED763FD15F2673600687079 /* Frameworks */,
 				6ED763FC15F2673600687079 /* Products */,
-				6ED85B4716288C4900A6DC02 /* PGServerKit copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1035,6 +1033,7 @@
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = "${BUILT_PRODUCTS_DIR}/postgresql-current/include";
 				FRAMEWORK_VERSION = A;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1051,11 +1050,12 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_MASTER_OBJECT_FILE = NO;
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = src/PGClientKit/PGClientKit.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
-				"PRELINK_LIBS[arch=*]" = "";
 				PRODUCT_NAME = PGClientKit;
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = framework;
@@ -1075,6 +1075,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = "${BUILT_PRODUCTS_DIR}/postgresql-current/include";
 				FRAMEWORK_VERSION = A;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -1084,6 +1085,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_MASTER_OBJECT_FILE = NO;
 				INFOPLIST_FILE = src/PGClientKit/PGClientKit.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
