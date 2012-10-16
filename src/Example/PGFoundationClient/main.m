@@ -30,8 +30,8 @@ int main (int argc, const char* argv[]) {
 		PGClient* db = [[PGClient alloc] init];
 		
 		NSLog(@"Connecting");
-		[db connectWithURL:[NSURL URLWithString:@"pgsql://postgres@/"]];
-		
+		BOOL isSuccess = [db connectWithURL:[NSURL URLWithString:@"pgsql://postgres@localhost/"]];
+		NSLog(@"Success = %@",isSuccess ? @"YES" : @"NO");
 		NSLog(@"Disconnecting");
 		[db disconnect];
 	}
