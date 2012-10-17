@@ -21,6 +21,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		6E11AC0F162F4722009A077C /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E11AC0E162F4722009A077C /* Application.m */; };
 		6E1B43D715F3A308001ED3BE /* PGServerKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
 		6E1B43FE15F3A4C2001ED3BE /* elephant.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43E715F3A465001ED3BE /* elephant.icns */; };
 		6E48B36F1605E34A0044A6CB /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E48B36E1605E34A0044A6CB /* libz.1.2.5.dylib */; };
@@ -114,6 +115,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6E11AC0D162F4722009A077C /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
+		6E11AC0E162F4722009A077C /* Application.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Application.m; sourceTree = "<group>"; };
 		6E1B43DD15F3A465001ED3BE /* backup.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = backup.tiff; sourceTree = "<group>"; };
 		6E1B43DE15F3A465001ED3BE /* clear.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = clear.tiff; sourceTree = "<group>"; };
 		6E1B43DF15F3A465001ED3BE /* ClientConnect-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ClientConnect-Info.plist"; sourceTree = "<group>"; };
@@ -393,6 +396,8 @@
 			isa = PBXGroup;
 			children = (
 				6E4DEC80162CC307008B26BD /* main.m */,
+				6E11AC0D162F4722009A077C /* Application.h */,
+				6E11AC0E162F4722009A077C /* Application.m */,
 			);
 			path = PGFoundationClient;
 			sourceTree = "<group>";
@@ -885,6 +890,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E4DEC94162CC3E1008B26BD /* main.m in Sources */,
+				6E11AC0F162F4722009A077C /* Application.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1321,6 +1327,7 @@
 				6E4DEC91162CC38D008B26BD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6ECA7AE615F3637600AF2B70 /* Build configuration list for PBXNativeTarget "PGFoundationServer" */ = {
 			isa = XCConfigurationList;

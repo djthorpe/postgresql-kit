@@ -18,6 +18,7 @@
 
 // delegate for PGClient
 @protocol PGClientDelegate <NSObject>
+@optional
 -(NSString* )client:(PGClient* )theClient passwordForParameters:(NSDictionary* )theParameters;
 @end
 

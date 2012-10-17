@@ -5,7 +5,7 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <PGClientKit/PGClientKit.h>
+#import "Application.h"
 
 void handleSIGTERM(int signal) {
 	NSLog(@"Handling sigterm");
@@ -25,18 +25,10 @@ int main (int argc, const char* argv[]) {
 	@autoreleasepool {
 		// handle signals
 		setHandleSignal();
-		// create a connection
-		PGClient* db = [[PGClient alloc] init];
-		
-		NSLog(@"Connecting");
-		NSError* theError = nil;
-		BOOL isSuccess = [db connectWithURL:[NSURL URLWithString:@"postgresqls://postgres@/"] error:&theError];
-		if(theError) {
-			NSLog(@"Error: %@",theError);
-		}
-		NSLog(@"Success = %@",isSuccess ? @"YES" : @"NO");
-		NSLog(@"Disconnecting");
-		[db disconnect];
+
+		// create an application, run it
+		Application* app = [[Application alloc] init];		
+		returnValue = [app run];
 	}
 	
     return returnValue;
