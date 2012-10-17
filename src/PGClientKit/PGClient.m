@@ -2,9 +2,15 @@
 #import "PGClientKit.h"
 #include <libpq-fe.h>
 
-NSString* PGClientScheme = @"pgsql";
-NSString* PGClientSchemeSSL = @"pgsqls";
+NSString* PGClientSchemes = @"pgsql pgsqls postgresql postgresqls";
 NSString* PGClientEncoding = @"utf8";
+NSString* PGClientErrorDomain = @"PGClientDomain";
+
+typedef enum {
+	PGClientErrorConnectionStateMismatch = 1,
+	PGClientErrorParameterError,
+	PGClientErrorConnectionError
+} PGClientErrorDomainCode;
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -31,6 +37,10 @@ NSString* PGClientEncoding = @"utf8";
 // private methods
 
 +(NSDictionary* )_extractParametersFromURL:(NSURL* )theURL {
+	// extract parameters
+	// see here for format of URI
+	// http://www.postgresql.org/docs/9.2/static/libpq-connect.html#LIBPQ-CONNSTRING
+	
 	// check URL
 	if(theURL==nil) {
 		return nil;
@@ -38,13 +48,15 @@ NSString* PGClientEncoding = @"utf8";
 	// create a mutable dictionary
 	NSMutableDictionary* theParameters = [[NSMutableDictionary alloc] init];
 	
-	// check scheme
-	if([[theURL scheme] isEqualToString:PGClientScheme]) {
-		[theParameters setValue:@"prefer" forKey:@"sslmode"];
-	} else if([[theURL scheme] isEqualToString:PGClientSchemeSSL]) {
+	// check possible schemes. if ends in an 's' then require SSL mode
+	NSArray* allowedSchemes = [PGClientSchemes componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+	if([allowedSchemes containsObject:[theURL scheme]] != YES) {
+		return nil;
+	}
+	if([[theURL scheme] hasSuffix:@"s"]) {
 		[theParameters setValue:@"require" forKey:@"sslmode"];
 	} else {
-		return nil;
+		[theParameters setValue:@"prefer" forKey:@"sslmode"];
 	}
 
 	// set username
@@ -55,9 +67,15 @@ NSString* PGClientEncoding = @"utf8";
 	if([theURL password]) {
 		[theParameters setValue:[theURL password] forKey:@"password"];
 	}
-	// set host
+	// set host and/or hostaddr
 	if([theURL host]) {
-		[theParameters setValue:[theURL host] forKey:@"host"];
+		// if host is in square brackets, then use as hostaddress instead
+		if([[theURL host] hasPrefix:@"["] && [[theURL host] hasSuffix:@"]"]) {
+			NSString* theAddress = [[theURL host] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"[]"]];
+			[theParameters setValue:theAddress forKey:@"hostaddr"];
+		} else {
+			[theParameters setValue:[theURL host] forKey:@"host"];
+		}
 	}
 	// set port
 	if([theURL port]) {
@@ -70,6 +88,27 @@ NSString* PGClientEncoding = @"utf8";
 			[theParameters setValue:thePath forKey:@"dbname"];
 		}
 	}
+
+	// extract other parameters from URI
+	NSArray* additionalParameters = [[theURL query] componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"&;"]];
+	for(NSString* additionalParameter in additionalParameters) {
+		NSArray* theKeyValue = [additionalParameter componentsSeparatedByString:@"="];
+		if([theKeyValue count] != 2) {
+			// we require a key/value pair for any additional parameter
+			return nil;
+		}
+		NSString* theKey = [[theKeyValue objectAtIndex:0] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+		NSString* theValue = [[theKeyValue objectAtIndex:1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+		
+		// insert into theParameters, allow override of sslmode
+		if([theParameters objectForKey:theKey]==nil || [theKey isEqual:@"sslmode"]) {
+			[theParameters setValue:theValue forKey:theKey];
+		} else {
+			// key already exists or not modifiable, return error
+			return nil;
+		}
+	}
+	
 	// return the parameters
 	return theParameters;
 }
@@ -96,49 +135,59 @@ NSString* PGClientEncoding = @"utf8";
 	return theConnection;
 }
 
--(void)_noticeProcessorWithMessage:(NSString* )theMessage {
-	NSLog(@"Message: %@",theMessage);
-}
-
 void PGConnectionNoticeProcessor(void* arg,const char* theMessage) {
-	PGClient* theObject = (__bridge PGClient* )arg;
-	if([theObject isKindOfClass:[PGClient class]]) {
-		[theObject _noticeProcessorWithMessage:[NSString stringWithUTF8String:theMessage]];
-	}
+	NSLog(@"Arg: %p Message: %s",arg,theMessage);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // connection
 
--(BOOL)connectWithURL:(NSURL* )theURL {
-	return [self connectWithURL:theURL timeout:0];
+-(BOOL)connectWithURL:(NSURL* )theURL error:(NSError** )theError {
+	return [self connectWithURL:theURL timeout:0 error:theError];
 }
 
--(BOOL)connectWithURL:(NSURL* )theURL timeout:(NSUInteger)timeout {
+-(BOOL)connectWithURL:(NSURL* )theURL timeout:(NSUInteger)timeout error:(NSError** )theError {
+	// set empty error
+	(*theError) = nil;
+	
 	// check for existing connection
 	if(_connection) {
+		(*theError) = [NSError errorWithDomain:PGClientErrorDomain code:PGClientErrorConnectionStateMismatch userInfo:nil];
 		return NO;
 	}
-	// extract parameters from the URL
-	NSDictionary* theParameters = [PGClient _extractParametersFromURL:theURL];
+	// make parameters from the URL
+	NSMutableDictionary* theParameters = [[PGClient _extractParametersFromURL:theURL] mutableCopy];
 	if(theParameters==nil) {
+		(*theError) = [NSError errorWithDomain:PGClientErrorDomain code:PGClientErrorParameterError userInfo:nil];
 		return NO;
 	}
-	// make new set of parameters
-	NSMutableDictionary* theParameters2 = [theParameters mutableCopy];
-	NSParameterAssert(theParameters2);
 	if(timeout) {
-		[theParameters2 setValue:[NSNumber numberWithUnsignedInteger:timeout] forKey:@"connect_timeout"];
+		[theParameters setValue:[NSNumber numberWithUnsignedInteger:timeout] forKey:@"connect_timeout"];
 	}
 	
-	// set client encoding and application name
-	[theParameters2 setValue:PGClientEncoding forKey:@"client_encoding"];
-	[theParameters2 setValue:[[NSProcessInfo processInfo] processName] forKey:@"application_name"];
+	// set client encoding and application name if not already set
+	if([theParameters objectForKey:@"client_encoding"]==nil) {
+		[theParameters setValue:PGClientEncoding forKey:@"client_encoding"];
+	}
+	if([theParameters objectForKey:@"application_name"]==nil) {
+		[theParameters setValue:[[NSProcessInfo processInfo] processName] forKey:@"application_name"];
+	}
 
+	// Retrieve password from delegate
+	if([theParameters objectForKey:@"password"]==nil && [[self delegate] respondsToSelector:@selector(client:passwordForParameters:)]) {
+		NSString* thePassword = [[self delegate] client:self passwordForParameters:theParameters];
+		if(thePassword) {
+			[theParameters setValue:thePassword forKey:@"password"];
+		}
+	}
+	
+	// TODO: retrieve SSL parameters from delegate if necessary
+	
 	// make the connection (with blocking)
 	@synchronized(_connection) {
-		PGconn* theConnection = [self _connectWithParameters:theParameters2];
+		PGconn* theConnection = [self _connectWithParameters:theParameters];
 		if(theConnection==nil || PQstatus(theConnection) != CONNECTION_OK) {
+			(*theError) = [NSError errorWithDomain:PGClientErrorDomain code:PGClientErrorConnectionError userInfo:nil];
 			return NO;
 		}
 		_connection = theConnection;
