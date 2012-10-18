@@ -3,7 +3,6 @@
 
 @protocol PGClientDelegate;
 
-// class PGClient
 @interface PGClient : NSObject {
 	void* _connection;
 }
@@ -19,6 +18,7 @@
 // delegate for PGClient
 @protocol PGClientDelegate <NSObject>
 @optional
--(NSString* )client:(PGClient* )theClient passwordForParameters:(NSDictionary* )theParameters;
+-(NSString* )connection:(PGClient* )theConnection passwordForParameters:(NSDictionary* )theParameters;
+-(void)connection:(PGClient* )theConnection notice:(NSString* )theMessage;
 @end
 

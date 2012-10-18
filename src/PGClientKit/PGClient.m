@@ -3,7 +3,7 @@
 #include <libpq-fe.h>
 
 NSString* PGClientSchemes = @"pgsql pgsqls postgresql postgresqls";
-NSString* PGClientEncoding = @"utf8";
+NSString* PGClientDefaultEncoding = @"utf8";
 NSString* PGClientErrorDomain = @"PGClientDomain";
 
 typedef enum {
@@ -167,15 +167,15 @@ void PGConnectionNoticeProcessor(void* arg,const char* theMessage) {
 	
 	// set client encoding and application name if not already set
 	if([theParameters objectForKey:@"client_encoding"]==nil) {
-		[theParameters setValue:PGClientEncoding forKey:@"client_encoding"];
+		[theParameters setValue:PGClientDefaultEncoding forKey:@"client_encoding"];
 	}
 	if([theParameters objectForKey:@"application_name"]==nil) {
 		[theParameters setValue:[[NSProcessInfo processInfo] processName] forKey:@"application_name"];
 	}
 
 	// Retrieve password from delegate
-	if([theParameters objectForKey:@"password"]==nil && [[self delegate] respondsToSelector:@selector(client:passwordForParameters:)]) {
-		NSString* thePassword = [[self delegate] client:self passwordForParameters:theParameters];
+	if([theParameters objectForKey:@"password"]==nil && [[self delegate] respondsToSelector:@selector(connection:passwordForParameters:)]) {
+		NSString* thePassword = [[self delegate] connection:self passwordForParameters:theParameters];
 		if(thePassword) {
 			[theParameters setValue:thePassword forKey:@"password"];
 		}
@@ -208,5 +208,26 @@ void PGConnectionNoticeProcessor(void* arg,const char* theMessage) {
 	_connection = nil;
 	return YES;
 }
+
+-(BOOL)reset {
+	if(_connection==nil) {
+		return NO;
+	}
+	
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// process notices
+
+-(void)_noticeProcess:(const char* )cString {
+	if([[self delegate] respondsToSelector:@selector(connection:notice:)]) {
+		[[self delegate] connection:self notice:[NSString stringWithUTF8String:cString]];
+	}
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// prepare statement
+
+
 
 @end

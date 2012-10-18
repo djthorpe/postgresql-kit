@@ -21,6 +21,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		6E031030162FE50B003225B1 /* PGStatement.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E03102E162FE50B003225B1 /* PGStatement.h */; };
+		6E031031162FE50B003225B1 /* PGStatement.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E03102F162FE50B003225B1 /* PGStatement.m */; };
 		6E11AC0F162F4722009A077C /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E11AC0E162F4722009A077C /* Application.m */; };
 		6E1B43D715F3A308001ED3BE /* PGServerKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
 		6E1B43FE15F3A4C2001ED3BE /* elephant.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43E715F3A465001ED3BE /* elephant.icns */; };
@@ -115,6 +117,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6E03102E162FE50B003225B1 /* PGStatement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGStatement.h; sourceTree = "<group>"; };
+		6E03102F162FE50B003225B1 /* PGStatement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGStatement.m; sourceTree = "<group>"; };
 		6E11AC0D162F4722009A077C /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
 		6E11AC0E162F4722009A077C /* Application.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Application.m; sourceTree = "<group>"; };
 		6E1B43DD15F3A465001ED3BE /* backup.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = backup.tiff; sourceTree = "<group>"; };
@@ -653,9 +657,11 @@
 			isa = PBXGroup;
 			children = (
 				6ED85B4916288D0200A6DC02 /* PGClientKit.h */,
-				6ED85B4816288CDE00A6DC02 /* PGClientKit.plist */,
 				6ED85B4A16288D6200A6DC02 /* PGClient.h */,
 				6ED85B4B16288D6200A6DC02 /* PGClient.m */,
+				6E03102E162FE50B003225B1 /* PGStatement.h */,
+				6E03102F162FE50B003225B1 /* PGStatement.m */,
+				6ED85B4816288CDE00A6DC02 /* PGClientKit.plist */,
 			);
 			path = PGClientKit;
 			sourceTree = "<group>";
@@ -694,6 +700,7 @@
 			files = (
 				6ED85B4C16288D6200A6DC02 /* PGClient.h in Headers */,
 				6E4DEC95162CC4AB008B26BD /* PGClientKit.h in Headers */,
+				6E031030162FE50B003225B1 /* PGStatement.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -916,6 +923,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6ED85B4D16288D6200A6DC02 /* PGClient.m in Sources */,
+				6E031031162FE50B003225B1 /* PGStatement.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
