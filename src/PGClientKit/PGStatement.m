@@ -1,6 +1,6 @@
 
 #import "PGClientKit.h"
-#include <libpq-fe.h>
+#import "PGClientKit+Private.h"
 
 @implementation PGStatement
 

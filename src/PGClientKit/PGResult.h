@@ -1,6 +1,8 @@
 
 #import <Foundation/Foundation.h>
 
-@interface PGResult : NSObject
+@interface PGResult : NSObject {
+	void* _result;
+}
 
 @end

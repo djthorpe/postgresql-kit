@@ -1,5 +1,6 @@
 
-#import "PGConnectionPool.h"
+#import "PGClientKit.h"
+#import "PGClientKit+Private.h"
 
 @implementation PGConnectionPool
 

@@ -4,9 +4,6 @@
 // forward declarations
 @protocol PGConnectionDelegate;
 
-// constants
-extern NSString* PGConnectionBonjourServiceType;
-
 // typedefs
 typedef enum {
 	PGConnectionStatusDisconnected = 0,

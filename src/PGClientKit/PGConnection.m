@@ -1,7 +1,6 @@
 
 #import "PGClientKit.h"
-#import "PGConnectionPool.h"
-#include <libpq-fe.h>
+#import "PGClientKit+Private.h"
 
 NSString* PGConnectionSchemes = @"pgsql pgsqls postgresql postgresqls";
 NSString* PGConnectionDefaultEncoding = @"utf8";
@@ -10,14 +9,6 @@ NSString* PGConnectionBonjourServiceType = @"_postgresql._tcp";
 void PGConnectionNoticeProcessor(void* arg,const char* cString);
 
 NSString* PGClientErrorDomain = @"PGClientDomain";
-
-typedef enum {
-	PGClientErrorConnectionStateMismatch = 1, // state is wrong for this call
-	PGClientErrorParameterError,              // parameters are incorrect
-	PGClientErrorRejectionError,              // rejected from operation
-	PGClientErrorConnectionError,             // connection error
-	PGClientErrorExecutionError               // execution error
-} PGClientErrorDomainCode;
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -352,7 +343,7 @@ typedef enum {
 		PQclear(theResult);
 		return nil;
 	}
-	return [[PGResult alloc] init];
+	return [[PGResult alloc] initWithResult:theResult];
 }
 
 
