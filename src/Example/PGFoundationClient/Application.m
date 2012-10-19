@@ -68,13 +68,17 @@
 	
 	// execute to get time
 	NSError* theError = nil;
-	PGResult* theResult = [[self db] execute:@"SELECT 10 AS value1,20 AS value2" error:&theError];
+	PGResult* theResult = [[self db] execute:@"SELECT 10 AS value1,20 AS value2,NULL AS value3" error:&theError];
 	if(theError) {
 		NSLog(@"Error: %@",theError);
 		[self setSignal:-1];
 		return;
 	}
 	NSLog(@"Result = %@",theResult);
+	NSArray* row = nil;
+	while((row = [theResult fetchRowAsArray])) {
+		NSLog(@"%@",row);
+	}
 }
 
 @end

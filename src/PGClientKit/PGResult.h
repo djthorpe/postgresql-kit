@@ -13,4 +13,7 @@
 @property (readonly) BOOL dataReturned;
 @property (readonly) NSArray* columnNames;
 
+// fetch rows
+-(NSArray* )fetchRowAsArray;
+
 @end
