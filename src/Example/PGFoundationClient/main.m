@@ -7,8 +7,13 @@
 #import <Foundation/Foundation.h>
 #import "Application.h"
 
+Application* app = nil;
+
 void handleSIGTERM(int signal) {
-	NSLog(@"Handling sigterm");
+	if(app) {
+		NSLog(@"Handling sigterm");
+		[app setSignal:-1];
+	}
 }
 
 void setHandleSignal() {
@@ -27,9 +32,10 @@ int main (int argc, const char* argv[]) {
 		setHandleSignal();
 
 		// create an application, run it
-		Application* app = [[Application alloc] init];		
+		app = [[Application alloc] init];
 		returnValue = [app run];
 	}
 	
+	NSLog(@"Application is terminated, returnValue = %d",returnValue);	
     return returnValue;
 }

@@ -1,20 +1,26 @@
 
 #import "PGClientKit.h"
+#import "PGConnectionPool.h"
 #include <libpq-fe.h>
 
 NSString* PGClientSchemes = @"pgsql pgsqls postgresql postgresqls";
 NSString* PGClientDefaultEncoding = @"utf8";
 NSString* PGClientErrorDomain = @"PGClientDomain";
+NSString* PGConnectionBonjourServiceType = @"_postgresql._tcp";
+
+void PGConnectionNoticeProcessor(void* arg,const char* cString);
 
 typedef enum {
-	PGClientErrorConnectionStateMismatch = 1,
-	PGClientErrorParameterError,
-	PGClientErrorConnectionError
+	PGClientErrorConnectionStateMismatch = 1, // state is wrong for this call
+	PGClientErrorParameterError,              // parameters are incorrect
+	PGClientErrorRejectionError,              // rejected from operation
+	PGClientErrorConnectionError              // connection error
 } PGClientErrorDomainCode;
 
 ////////////////////////////////////////////////////////////////////////////////
 
 @implementation PGClient
+@dynamic user, database, status;
 
 ////////////////////////////////////////////////////////////////////////////////
 // initialization
@@ -28,9 +34,7 @@ typedef enum {
 }
 
 -(void)dealloc {
-	if(_connection) {
-		PQfinish(_connection);
-	}
+	[self disconnect];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -135,8 +139,35 @@ typedef enum {
 	return theConnection;
 }
 
-void PGConnectionNoticeProcessor(void* arg,const char* theMessage) {
-	NSLog(@"Arg: %p Message: %s",arg,theMessage);
+-(PGPing)_pingWithParameters:(NSDictionary* )theParameters {
+	const char** keywords = malloc(sizeof(const char* ) * ([theParameters count]+1));
+	const char** values = malloc(sizeof(const char* ) * ([theParameters count]+1));
+	if(keywords==nil || values==nil) {
+		free(keywords);
+		free(values);
+		return PQPING_NO_ATTEMPT;
+	}
+	int i = 0;
+	for(NSString* theKey in theParameters) {
+		keywords[i] = [theKey UTF8String];
+		values[i] = [[[theParameters valueForKey:theKey] description] UTF8String];
+		i++;
+	}
+	keywords[i] = '\0';
+	values[i] = '\0';
+	PGPing theStatus = PQpingParams(keywords,values,0);
+	free(keywords);
+	free(values);
+	return theStatus;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// static methods
+
++(NSString* )defaultURLScheme {
+	NSArray* allSchemes = [PGClientSchemes componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+	NSParameterAssert([allSchemes count]);
+	return [allSchemes objectAtIndex:0];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -190,14 +221,53 @@ void PGConnectionNoticeProcessor(void* arg,const char* theMessage) {
 			(*theError) = [NSError errorWithDomain:PGClientErrorDomain code:PGClientErrorConnectionError userInfo:nil];
 			return NO;
 		}
-		_connection = theConnection;
+		_connection = theConnection;		
+		[[PGConnectionPool sharedConnectionPool] addConnection:self forHandle:_connection];
 	}
 
 	// set the notice processor
-	PQsetNoticeProcessor(_connection,PGConnectionNoticeProcessor,(__bridge void* )self);
+	PQsetNoticeProcessor(_connection,PGConnectionNoticeProcessor,_connection);
 
 	// return success
 	return YES;
+}
+
+-(BOOL)pingWithURL:(NSURL* )theURL error:(NSError** )theError {
+	return [self pingWithURL:theURL timeout:0 error:theError];
+}
+
+-(BOOL)pingWithURL:(NSURL* )theURL timeout:(NSUInteger)timeout error:(NSError** )theError {
+	// see if a connection is possible to a remote server, and return YES if successful
+	// set empty error
+	(*theError) = nil;
+
+	// make parameters from the URL
+	NSMutableDictionary* theParameters = [[PGClient _extractParametersFromURL:theURL] mutableCopy];
+	if(theParameters==nil) {
+		(*theError) = [NSError errorWithDomain:PGClientErrorDomain code:PGClientErrorParameterError userInfo:nil];
+		return NO;
+	}
+	if(timeout) {
+		[theParameters setValue:[NSNumber numberWithUnsignedInteger:timeout] forKey:@"connect_timeout"];
+	}
+	
+	// TODO: retrieve SSL parameters from delegate if necessary
+	
+	// make the ping
+	PGPing status = [self _pingWithParameters:theParameters];
+	switch(status) {
+		case PQPING_OK:
+			return YES;
+		case PQPING_REJECT:
+			(*theError) = [NSError errorWithDomain:PGClientErrorDomain code:PGClientErrorRejectionError userInfo:nil];
+			return NO;
+		case PQPING_NO_ATTEMPT:
+			(*theError) = [NSError errorWithDomain:PGClientErrorDomain code:PGClientErrorParameterError userInfo:nil];
+			return NO;
+		default:
+			(*theError) = [NSError errorWithDomain:PGClientErrorDomain code:PGClientErrorConnectionError userInfo:nil];
+			return NO;
+	}
 }
 
 -(BOOL)disconnect {
@@ -205,15 +275,37 @@ void PGConnectionNoticeProcessor(void* arg,const char* theMessage) {
 		return NO;
 	}
 	PQfinish(_connection);
+	[[PGConnectionPool sharedConnectionPool] removeConnectionForHandle:_connection];
 	_connection = nil;
 	return YES;
 }
 
--(BOOL)reset {
+////////////////////////////////////////////////////////////////////////////////
+// properties
+
+-(NSString* )user {
 	if(_connection==nil) {
-		return NO;
+		return nil;
 	}
-	
+	return [NSString stringWithUTF8String:PQuser(_connection)];
+}
+
+-(NSString* )database {
+	if(_connection==nil) {
+		return nil;
+	}
+	return [NSString stringWithUTF8String:PQdb(_connection)];	
+}
+
+-(PGConnectionStatus)status {
+	if(_connection==nil) {
+		return PGConnectionStatusDisconnected;
+	}
+	if(PQstatus(_connection) != CONNECTION_OK) {
+		return PGConnectionStatusBad;
+	}
+	// TODO: Try and ping the server
+	return PGConnectionStatusConnected;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -231,3 +323,12 @@ void PGConnectionNoticeProcessor(void* arg,const char* theMessage) {
 
 
 @end
+
+////////////////////////////////////////////////////////////////////////////////
+
+void PGConnectionNoticeProcessor(void* arg,const char* cString) {
+	PGClient* theConnection = [[PGConnectionPool sharedConnectionPool] connectionForHandle:arg];
+	[theConnection _noticeProcess:cString];
+}
+
+

@@ -10,5 +10,10 @@
 #import <PGClientKit/PGClientKit.h>
 
 @interface Application : NSObject <PGClientDelegate>
+
+@property int signal;
+@property PGClient* db;
+
 -(int)run;
+
 @end
