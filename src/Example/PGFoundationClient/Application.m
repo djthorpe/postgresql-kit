@@ -72,6 +72,16 @@
 		NSLog(@"Connection is not good (status: %d)",status);
 		return;
 	}
+	
+	// execute to get time
+	NSError* theError = nil;
+	PGResult* theResult = [[self db] execute:@"SELECT 10 X 10" error:&theError];
+	if(theError) {
+		NSLog(@"Error: %@",theError);
+		[self setSignal:-1];
+		return;
+	}
+	NSLog(@"Result = %@",theResult);
 }
 
 @end

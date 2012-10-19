@@ -334,10 +334,23 @@ typedef enum {
 	// execute statement on server
 	PGresult* theResult = PQexec(_connection,[theQuery UTF8String]);
 	if(theResult==nil) {
-		(*theError) = [NSError errorWithDomain:PGClientErrorDomain code:PGClientErrorExecutionError userInfo:[NSDictionary dictionaryWithObjectsAndKeys:theQuery,NSLocalizedFailureReasonErrorKey,nil]];
+		NSDictionary* userInfo = [NSDictionary dictionaryWithObjectsAndKeys:@"Execution Error",NSLocalizedFailureReasonErrorKey,nil];
+		(*theError) = [NSError errorWithDomain:PGClientErrorDomain code:PGClientErrorExecutionError userInfo:userInfo];
 		return nil;		
 	}
-	
+	// check for connection errors
+	if(PQresultStatus(theResult)==PGRES_EMPTY_QUERY) {
+		NSDictionary* userInfo = [NSDictionary dictionaryWithObjectsAndKeys:@"Empty Query",NSLocalizedFailureReasonErrorKey,nil];
+		(*theError) = [NSError errorWithDomain:PGClientErrorDomain code:PGClientErrorExecutionError userInfo:userInfo];
+		PQclear(theResult);
+		return nil;		
+	}
+	if(PQresultStatus(theResult)==PGRES_BAD_RESPONSE || PQresultStatus(theResult)==PGRES_FATAL_ERROR) {
+		NSDictionary* userInfo = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithUTF8String:PQresultErrorMessage(theResult)],NSLocalizedFailureReasonErrorKey,nil];
+		(*theError) = [NSError errorWithDomain:PGClientErrorDomain code:PGClientErrorExecutionError userInfo:userInfo];
+		PQclear(theResult);
+		return nil;
+	}
 	return [[PGResult alloc] init];
 }
 
