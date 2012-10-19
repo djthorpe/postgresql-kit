@@ -1,11 +1,11 @@
 
 #import <Foundation/Foundation.h>
 
-@class PGClient;
+@class PGConnection;
 @class PGResult;
 @class PGStatement;
 
-#import "PGClient.h"
+#import "PGConnection.h"
 #import "PGResult.h"
 #import "PGStatement.h"
 

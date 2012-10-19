@@ -1,10 +1,3 @@
-//
-//  PGConnectionPool.m
-//  postgresql-kit
-//
-//  Created by David Thorpe on 19/10/2012.
-//
-//
 
 #import "PGConnectionPool.h"
 
@@ -37,12 +30,12 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
--(PGClient* )connectionForHandle:(const void* )handle {
+-(PGConnection* )connectionForHandle:(const void* )handle {
 	NSParameterAssert(handle != nil);
 	return [_hash objectForKey:[NSValue valueWithPointer:handle]];
 }
 
--(void)addConnection:(PGClient* )theConnection forHandle:(const void* )handle {
+-(void)addConnection:(PGConnection* )theConnection forHandle:(const void* )handle {
 	NSParameterAssert(handle != nil);
 	NSParameterAssert([self connectionForHandle:handle] == nil);
 	[_hash setObject:theConnection forKey:[NSValue valueWithPointer:handle]];

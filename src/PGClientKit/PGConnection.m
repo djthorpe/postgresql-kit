@@ -3,12 +3,13 @@
 #import "PGConnectionPool.h"
 #include <libpq-fe.h>
 
-NSString* PGClientSchemes = @"pgsql pgsqls postgresql postgresqls";
-NSString* PGClientDefaultEncoding = @"utf8";
-NSString* PGClientErrorDomain = @"PGClientDomain";
+NSString* PGConnectionSchemes = @"pgsql pgsqls postgresql postgresqls";
+NSString* PGConnectionDefaultEncoding = @"utf8";
 NSString* PGConnectionBonjourServiceType = @"_postgresql._tcp";
 
 void PGConnectionNoticeProcessor(void* arg,const char* cString);
+
+NSString* PGClientErrorDomain = @"PGClientDomain";
 
 typedef enum {
 	PGClientErrorConnectionStateMismatch = 1, // state is wrong for this call
@@ -20,7 +21,7 @@ typedef enum {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-@implementation PGClient
+@implementation PGConnection
 @dynamic user, database, status;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -54,7 +55,7 @@ typedef enum {
 	NSMutableDictionary* theParameters = [[NSMutableDictionary alloc] init];
 	
 	// check possible schemes. if ends in an 's' then require SSL mode
-	NSArray* allowedSchemes = [PGClientSchemes componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+	NSArray* allowedSchemes = [PGConnectionSchemes componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 	if([allowedSchemes containsObject:[theURL scheme]] != YES) {
 		return nil;
 	}
@@ -166,7 +167,7 @@ typedef enum {
 // static methods
 
 +(NSString* )defaultURLScheme {
-	NSArray* allSchemes = [PGClientSchemes componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+	NSArray* allSchemes = [PGConnectionSchemes componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 	NSParameterAssert([allSchemes count]);
 	return [allSchemes objectAtIndex:0];
 }
@@ -188,7 +189,7 @@ typedef enum {
 		return NO;
 	}
 	// make parameters from the URL
-	NSMutableDictionary* theParameters = [[PGClient _extractParametersFromURL:theURL] mutableCopy];
+	NSMutableDictionary* theParameters = [[PGConnection _extractParametersFromURL:theURL] mutableCopy];
 	if(theParameters==nil) {
 		(*theError) = [NSError errorWithDomain:PGClientErrorDomain code:PGClientErrorParameterError userInfo:nil];
 		return NO;
@@ -199,7 +200,7 @@ typedef enum {
 	
 	// set client encoding and application name if not already set
 	if([theParameters objectForKey:@"client_encoding"]==nil) {
-		[theParameters setValue:PGClientDefaultEncoding forKey:@"client_encoding"];
+		[theParameters setValue:PGConnectionDefaultEncoding forKey:@"client_encoding"];
 	}
 	if([theParameters objectForKey:@"application_name"]==nil) {
 		[theParameters setValue:[[NSProcessInfo processInfo] processName] forKey:@"application_name"];
@@ -243,7 +244,7 @@ typedef enum {
 	(*theError) = nil;
 
 	// make parameters from the URL
-	NSMutableDictionary* theParameters = [[PGClient _extractParametersFromURL:theURL] mutableCopy];
+	NSMutableDictionary* theParameters = [[PGConnection _extractParametersFromURL:theURL] mutableCopy];
 	if(theParameters==nil) {
 		(*theError) = [NSError errorWithDomain:PGClientErrorDomain code:PGClientErrorParameterError userInfo:nil];
 		return NO;
@@ -360,7 +361,7 @@ typedef enum {
 ////////////////////////////////////////////////////////////////////////////////
 
 void PGConnectionNoticeProcessor(void* arg,const char* cString) {
-	PGClient* theConnection = [[PGConnectionPool sharedConnectionPool] connectionForHandle:arg];
+	PGConnection* theConnection = [[PGConnectionPool sharedConnectionPool] connectionForHandle:arg];
 	[theConnection _noticeProcess:cString];
 }
 

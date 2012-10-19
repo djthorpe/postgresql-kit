@@ -2,7 +2,7 @@
 #import <Foundation/Foundation.h>
 
 // forward declarations
-@protocol PGClientDelegate;
+@protocol PGConnectionDelegate;
 
 // constants
 extern NSString* PGConnectionBonjourServiceType;
@@ -15,7 +15,7 @@ typedef enum {
 	PGConnectionStatusConnected = 1
 } PGConnectionStatus;
 
-@interface PGClient : NSObject {
+@interface PGConnection : NSObject {
 	void* _connection;
 }
 
@@ -23,7 +23,7 @@ typedef enum {
 +(NSString* )defaultURLScheme;
 
 // properties
-@property (weak, nonatomic) id <PGClientDelegate> delegate;
+@property (weak, nonatomic) id <PGConnectionDelegate> delegate;
 @property (readonly) NSString* user;
 @property (readonly) NSString* database;
 @property (readonly) PGConnectionStatus status;
@@ -40,10 +40,10 @@ typedef enum {
 
 @end
 
-// delegate for PGClient
-@protocol PGClientDelegate <NSObject>
+// delegate for PGConnection
+@protocol PGConnectionDelegate <NSObject>
 @optional
--(NSString* )connection:(PGClient* )theConnection passwordForParameters:(NSDictionary* )theParameters;
--(void)connection:(PGClient* )theConnection notice:(NSString* )theMessage;
+-(NSString* )connection:(PGConnection* )theConnection passwordForParameters:(NSDictionary* )theParameters;
+-(void)connection:(PGConnection* )theConnection notice:(NSString* )theMessage;
 @end
 
