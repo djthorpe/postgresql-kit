@@ -13,5 +13,5 @@ typedef enum {
 extern NSString* PGClientErrorDomain;
 
 @interface PGResult (Private)
--(id)initWithResult:(PGresult* )theResult;
+-(id)initWithResult:(PGresult* )theResult format:(PGClientTupleFormat)format;
 @end

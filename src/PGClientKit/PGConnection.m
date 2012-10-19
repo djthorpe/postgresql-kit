@@ -311,41 +311,154 @@ NSString* PGClientErrorDomain = @"PGClientDomain";
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// execute simple statement
+// underlying execute method with parameters
 
--(PGResult* )execute:(NSString* )theQuery error:(NSError** )theError {
-	// set empty error
-	(*theError) = nil;
-	
+-(PGResult* )_execute:(NSString* )query format:(PGClientTupleFormat)format values:(NSArray* )theValues error:(NSError** )error {
+	NSParameterAssert(query && [query isKindOfClass:[NSString class]]);
+	NSParameterAssert(format==PGClientTupleFormatBinary || format==PGClientTupleFormatText);
+	// clear error
+	if(error) {
+		(*error) = nil;
+	}
 	// check for existing connection
 	if(_connection==nil) {
-		(*theError) = [NSError errorWithDomain:PGClientErrorDomain code:PGClientErrorConnectionStateMismatch userInfo:nil];
+		if(error) {
+			(*error) = [NSError errorWithDomain:PGClientErrorDomain code:PGClientErrorConnectionStateMismatch userInfo:nil];
+		}
 		return nil;
 	}
+	// call delegate
+	if([[self delegate] respondsToSelector:@selector(connection:willExecute:values:)]) {
+		[[self delegate] connection:self willExecute:query values:theValues];
+	}
+	// create values, lengths and format arrays
+	NSUInteger nParams = theValues ? [theValues count] : 0;
+	const void** paramValues = nil;
+	Oid* paramTypes = nil;
+	int* paramLengths = nil;
+	int* paramFormats = nil;
+	if(nParams) {
+		paramValues = malloc(sizeof(void*) * nParams);
+		paramTypes = malloc(sizeof(FLXPostgresOid) * nParams);
+		paramLengths = malloc(sizeof(int) * nParams);
+		paramFormats = malloc(sizeof(int) * nParams);
+		if(paramValues==nil || paramLengths==nil || paramFormats==nil) {
+			free(paramValues);
+			free(paramTypes);
+			free(paramLengths);
+			free(paramFormats);
+			[FLXPostgresException raise:FLXPostgresConnectionErrorDomain reason:@"Memory allocation error"];
+			return nil;
+		}
+	}
 	
-	// execute statement on server
-	PGresult* theResult = PQexec(_connection,[theQuery UTF8String]);
+	// fill the data structures
+	for(NSUInteger i = 0; i < nParams; i++) {
+		id theNativeObject = [theValues objectAtIndex:i];
+		NSParameterAssert(theNativeObject);
+		
+		// deterime if bound value is an NSNull
+		if([theNativeObject isKindOfClass:[NSNull class]]) {
+			paramValues[i] = nil;
+			paramTypes[i] = 0;
+			paramLengths[i] = 0;
+			paramFormats[i] = 0;
+			continue;
+		}
+		
+		// obtain correct handler for this class
+		id<FLXPostgresTypeProtocol> theTypeHandler = [self _typeHandlerForClass:[theNativeObject class]];
+		if(theTypeHandler==nil) {
+			free(paramValues);
+			free(paramTypes);
+			free(paramLengths);
+			free(paramFormats);
+			[FLXPostgresException raise:FLXPostgresConnectionErrorDomain reason:[NSString stringWithFormat:@"Parameter $%u unsupported class %@",(i+1),NSStringFromClass([theNativeObject class])]];
+		}
+		FLXPostgresOid theType = 0;
+		NSData* theData = [theTypeHandler remoteDataFromObject:theNativeObject type:&theType];
+		if(theData==nil) {
+			free(paramValues);
+			free(paramTypes);
+			free(paramLengths);
+			free(paramFormats);
+			[FLXPostgresException raise:FLXPostgresConnectionErrorDomain reason:[NSString stringWithFormat:@"Parameter $%u cannot be converted into a bound value",(i+1)]];
+			return nil;
+		}
+		
+		// check length of data
+		if([theData length] > INT_MAX) {
+			free(paramValues);
+			free(paramTypes);
+			free(paramLengths);
+			free(paramFormats);
+			[FLXPostgresException raise:FLXPostgresConnectionErrorDomain reason:[NSString stringWithFormat:@"Bound value $%u exceeds maximum size",(i+1)]];
+			return nil;
+		}
+		
+		// assign data
+		paramTypes[i] = theType;
+		if([theData length]==0) {
+			// note: if data length is zero, we encode as text instead, as NSData returns 0 for
+			// empty data, and it gets encoded as a NULL
+			paramValues[i] = "";
+			paramFormats[i] = 0;
+			paramLengths[i] = 0;
+		} else {
+			// send as binary data
+			paramValues[i] = [theData bytes];
+			paramLengths[i] = (int)[theData length];
+			paramFormats[i] = 1;
+		}
+	}
+	
+	// execute the command - return data in binary
+	PGresult* theResult = PQexecParams(_result,[query UTF8String],nParams,paramTypes,(const char** )paramValues,(const int* )paramLengths,(const int* )paramFormats,1);
+	
+	// free the data structures
+	free(paramValues);
+	free(paramTypes);
+	free(paramLengths);
+	free(paramFormats);
+	
 	if(theResult==nil) {
-		NSDictionary* userInfo = [NSDictionary dictionaryWithObjectsAndKeys:@"Execution Error",NSLocalizedFailureReasonErrorKey,nil];
-		(*theError) = [NSError errorWithDomain:PGClientErrorDomain code:PGClientErrorExecutionError userInfo:userInfo];
-		return nil;		
+		if(error) {
+			NSDictionary* userInfo = [NSDictionary dictionaryWithObjectsAndKeys:@"Execution Error",NSLocalizedFailureReasonErrorKey,nil];
+			(*error) = [NSError errorWithDomain:PGClientErrorDomain code:PGClientErrorExecutionError userInfo:userInfo];
+		}
+		return nil;
 	}
 	// check for connection errors
 	if(PQresultStatus(theResult)==PGRES_EMPTY_QUERY) {
-		NSDictionary* userInfo = [NSDictionary dictionaryWithObjectsAndKeys:@"Empty Query",NSLocalizedFailureReasonErrorKey,nil];
-		(*theError) = [NSError errorWithDomain:PGClientErrorDomain code:PGClientErrorExecutionError userInfo:userInfo];
-		PQclear(theResult);
-		return nil;		
-	}
-	if(PQresultStatus(theResult)==PGRES_BAD_RESPONSE || PQresultStatus(theResult)==PGRES_FATAL_ERROR) {
-		NSDictionary* userInfo = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithUTF8String:PQresultErrorMessage(theResult)],NSLocalizedFailureReasonErrorKey,nil];
-		(*theError) = [NSError errorWithDomain:PGClientErrorDomain code:PGClientErrorExecutionError userInfo:userInfo];
+		if(error) {
+			NSDictionary* userInfo = [NSDictionary dictionaryWithObjectsAndKeys:@"Empty Query",NSLocalizedFailureReasonErrorKey,nil];
+			(*error) = [NSError errorWithDomain:PGClientErrorDomain code:PGClientErrorExecutionError userInfo:userInfo];
+		}
 		PQclear(theResult);
 		return nil;
 	}
-	return [[PGResult alloc] initWithResult:theResult];
+	if(PQresultStatus(theResult)==PGRES_BAD_RESPONSE || PQresultStatus(theResult)==PGRES_FATAL_ERROR) {
+		if(error) {
+			NSDictionary* userInfo = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithUTF8String:PQresultErrorMessage(theResult)],NSLocalizedFailureReasonErrorKey,nil];
+			(*theError) = [NSError errorWithDomain:PGClientErrorDomain code:PGClientErrorExecutionError userInfo:userInfo];
+		}
+		PQclear(theResult);
+		return nil;
+	}
+	// return resultset
+	return [[PGResult alloc] initWithResult:theResult format:format];
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// execute simple statement - return results in text or binary
+
+-(PGResult* )execute:(NSString* )query format:(PGClientTupleFormat)format values:(NSArray* )values error:(NSError** )error {
+	return [self _execute:query format:format values:values error:error];
+}
+
+-(PGResult* )execute:(NSString* )query format:(PGClientTupleFormat)format error:(NSError** )error {
+	return [self _execute:query format:format values:nil error:error];
+}
 
 @end
 

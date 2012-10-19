@@ -4,7 +4,7 @@
 
 @implementation PGResult
 
-@dynamic size, numberOfColumns, affectedRows, dataReturned, columnNames, rowNumber;
+@dynamic size, numberOfColumns, affectedRows, dataReturned, columnNames, rowNumber, format;
 
 ////////////////////////////////////////////////////////////////////////////////
 // initialization
@@ -13,11 +13,13 @@
 	return nil;
 }
 
--(id)initWithResult:(PGresult* )theResult {
+-(id)initWithResult:(PGresult* )theResult format:(PGClientTupleFormat)format;
+ {
 	self = [super init];
 	if(self) {
 		NSParameterAssert(theResult);
 		_result = theResult;
+		_format = format;
 	}
 	return self;	
 }
@@ -27,6 +29,10 @@
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+
+-(PGClientTupleFormat)format {
+	return _format;
+}
 
 -(NSUInteger)size {
 	static NSUInteger _number = NSIntegerMax;

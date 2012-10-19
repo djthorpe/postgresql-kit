@@ -4,14 +4,6 @@
 // forward declarations
 @protocol PGConnectionDelegate;
 
-// typedefs
-typedef enum {
-	PGConnectionStatusDisconnected = 0,
-	PGConnectionStatusBad = -1,
-	PGConnectionStatusRejected = -2,
-	PGConnectionStatusConnected = 1
-} PGConnectionStatus;
-
 @interface PGConnection : NSObject {
 	void* _connection;
 }
@@ -33,8 +25,8 @@ typedef enum {
 -(BOOL)disconnect;
 
 // execute statements
--(PGResult* )execute:(NSString* )theQuery error:(NSError** )theError;
-
+-(PGResult* )execute:(NSString* )query format:(PGClientTupleFormat)format error:(NSError** )error;
+-(PGResult* )execute:(NSString* )query format:(PGClientTupleFormat)format values:(NSArray* )values error:(NSError** )error;
 @end
 
 // delegate for PGConnection
@@ -42,5 +34,6 @@ typedef enum {
 @optional
 -(NSString* )connection:(PGConnection* )theConnection passwordForParameters:(NSDictionary* )theParameters;
 -(void)connection:(PGConnection* )theConnection notice:(NSString* )theMessage;
+-(void)connection:(PGConnection* )theConnection willExecute:(NSString* )theQuery values:(NSArray* )values;
 @end
 
