@@ -91,9 +91,17 @@
 	}
 	// get bytes, length
 	const void* bytes = PQgetvalue(_result,(int)r,(int)c);
-	NSUInteger theLength = PQgetlength(_result,(int)r,(int)c);
-//	Oid theType = PQftype(_result,(int)c);
-	return [NSData dataWithBytes:bytes length:theLength];
+	NSUInteger size = PQgetlength(_result,(int)r,(int)c);
+	NSParameterAssert(bytes);
+	NSParameterAssert(size);
+	// check for format
+	if(_format==PGClientTupleFormatText) {
+		return [[NSString alloc] initWithBytes:bytes length:size encoding:NSUTF8StringEncoding];
+	} else {
+		//	Oid theType = PQftype(_result,(int)c);
+		NSData* theData = [NSData dataWithBytes:bytes length:size];
+		return theData;
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////

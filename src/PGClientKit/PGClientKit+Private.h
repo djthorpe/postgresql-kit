@@ -1,6 +1,7 @@
 
 #include <libpq-fe.h>
 #import "PGConnectionPool.h"
+#import "PGClientParams.h"
 
 typedef enum {
 	PGClientErrorConnectionStateMismatch = 1, // state is wrong for this call
@@ -11,6 +12,10 @@ typedef enum {
 } PGClientErrorDomainCode;
 
 extern NSString* PGClientErrorDomain;
+
+@interface PGConnection (Private)
+-(void)_raiseError:(PGClientErrorDomainCode)code reason:(NSString* )reason error:(NSError** )error;
+@end
 
 @interface PGResult (Private)
 -(id)initWithResult:(PGresult* )theResult format:(PGClientTupleFormat)format;

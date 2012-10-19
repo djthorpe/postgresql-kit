@@ -166,23 +166,25 @@ NSString* PGClientErrorDomain = @"PGClientDomain";
 ////////////////////////////////////////////////////////////////////////////////
 // connection
 
--(BOOL)connectWithURL:(NSURL* )theURL error:(NSError** )theError {
-	return [self connectWithURL:theURL timeout:0 error:theError];
+-(BOOL)connectWithURL:(NSURL* )theURL error:(NSError** )error {
+	return [self connectWithURL:theURL timeout:0 error:error];
 }
 
--(BOOL)connectWithURL:(NSURL* )theURL timeout:(NSUInteger)timeout error:(NSError** )theError {
+-(BOOL)connectWithURL:(NSURL* )theURL timeout:(NSUInteger)timeout error:(NSError** )error {
 	// set empty error
-	(*theError) = nil;
+	if(error) {
+		(*error) = nil;
+	}
 	
 	// check for existing connection
 	if(_connection) {
-		(*theError) = [NSError errorWithDomain:PGClientErrorDomain code:PGClientErrorConnectionStateMismatch userInfo:nil];
+		[self _raiseError:PGClientErrorConnectionStateMismatch reason:@"Connected" error:error];
 		return NO;
 	}
 	// make parameters from the URL
 	NSMutableDictionary* theParameters = [[PGConnection _extractParametersFromURL:theURL] mutableCopy];
 	if(theParameters==nil) {
-		(*theError) = [NSError errorWithDomain:PGClientErrorDomain code:PGClientErrorParameterError userInfo:nil];
+		[self _raiseError:PGClientErrorParameterError reason:@"Bad parameters" error:error];
 		return NO;
 	}
 	if(timeout) {
@@ -211,7 +213,7 @@ NSString* PGClientErrorDomain = @"PGClientDomain";
 	@synchronized(_connection) {
 		PGconn* theConnection = [self _connectWithParameters:theParameters];
 		if(theConnection==nil || PQstatus(theConnection) != CONNECTION_OK) {
-			(*theError) = [NSError errorWithDomain:PGClientErrorDomain code:PGClientErrorConnectionError userInfo:nil];
+			[self _raiseError:PGClientErrorConnectionError reason:@"Connection error" error:error];
 			return NO;
 		}
 		_connection = theConnection;		
@@ -225,19 +227,21 @@ NSString* PGClientErrorDomain = @"PGClientDomain";
 	return YES;
 }
 
--(BOOL)pingWithURL:(NSURL* )theURL error:(NSError** )theError {
-	return [self pingWithURL:theURL timeout:0 error:theError];
+-(BOOL)pingWithURL:(NSURL* )theURL error:(NSError** )error {
+	return [self pingWithURL:theURL timeout:0 error:error];
 }
 
--(BOOL)pingWithURL:(NSURL* )theURL timeout:(NSUInteger)timeout error:(NSError** )theError {
+-(BOOL)pingWithURL:(NSURL* )theURL timeout:(NSUInteger)timeout error:(NSError** )error {
 	// see if a connection is possible to a remote server, and return YES if successful
 	// set empty error
-	(*theError) = nil;
+	if(error) {
+		(*error) = nil;
+	}
 
 	// make parameters from the URL
 	NSMutableDictionary* theParameters = [[PGConnection _extractParametersFromURL:theURL] mutableCopy];
 	if(theParameters==nil) {
-		(*theError) = [NSError errorWithDomain:PGClientErrorDomain code:PGClientErrorParameterError userInfo:nil];
+		[self _raiseError:PGClientErrorParameterError reason:@"Bad parameters" error:error];
 		return NO;
 	}
 	if(timeout) {
@@ -252,13 +256,13 @@ NSString* PGClientErrorDomain = @"PGClientDomain";
 		case PQPING_OK:
 			return YES;
 		case PQPING_REJECT:
-			(*theError) = [NSError errorWithDomain:PGClientErrorDomain code:PGClientErrorRejectionError userInfo:nil];
+			[self _raiseError:PGClientErrorRejectionError reason:@"Rejected connection" error:error];
 			return NO;
 		case PQPING_NO_ATTEMPT:
-			(*theError) = [NSError errorWithDomain:PGClientErrorDomain code:PGClientErrorParameterError userInfo:nil];
+			[self _raiseError:PGClientErrorParameterError reason:@"Bad parameters" error:error];
 			return NO;
 		default:
-			(*theError) = [NSError errorWithDomain:PGClientErrorDomain code:PGClientErrorConnectionError userInfo:nil];
+			[self _raiseError:PGClientErrorConnectionError reason:@"Connection error" error:error];
 			return NO;
 	}
 }
@@ -302,11 +306,25 @@ NSString* PGClientErrorDomain = @"PGClientDomain";
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// process notices
+// process notices, raise errors
 
 -(void)_noticeProcess:(const char* )cString {
 	if([[self delegate] respondsToSelector:@selector(connection:notice:)]) {
 		[[self delegate] connection:self notice:[NSString stringWithUTF8String:cString]];
+	}
+}
+
+-(void)_raiseError:(PGClientErrorDomainCode)code reason:(NSString* )reason error:(NSError** )error {
+	NSDictionary* userInfo = nil;
+	if(reason) {
+		userInfo = [NSDictionary dictionaryWithObjectsAndKeys:reason,NSLocalizedFailureReasonErrorKey,nil];
+	}
+	NSError* theError = [NSError errorWithDomain:PGClientErrorDomain code:code userInfo:userInfo];
+	if(error) {
+		(*error) = theError;
+	}
+	if([[self delegate] respondsToSelector:@selector(connection:error:)]) {
+		[[self delegate] connection:self error:theError];
 	}
 }
 
@@ -322,127 +340,50 @@ NSString* PGClientErrorDomain = @"PGClientDomain";
 	}
 	// check for existing connection
 	if(_connection==nil) {
-		if(error) {
-			(*error) = [NSError errorWithDomain:PGClientErrorDomain code:PGClientErrorConnectionStateMismatch userInfo:nil];
-		}
+		[self _raiseError:PGClientErrorConnectionStateMismatch reason:@"Disconnected" error:error];
 		return nil;
 	}
 	// call delegate
 	if([[self delegate] respondsToSelector:@selector(connection:willExecute:values:)]) {
 		[[self delegate] connection:self willExecute:query values:values];
 	}
-	// create values, lengths and format arrays
-	NSUInteger nParams = [values count];
-	const void** paramValues = nil;
-	Oid* paramTypes = nil;
-	int* paramLengths = nil;
-	int* paramFormats = nil;
-	if(nParams) {
-		paramValues = malloc(sizeof(void*) * nParams);
-		paramTypes = malloc(sizeof(Oid) * nParams);
-		paramLengths = malloc(sizeof(int) * nParams);
-		paramFormats = malloc(sizeof(int) * nParams);
-		if(paramValues==nil || paramLengths==nil || paramFormats==nil) {
-			free(paramValues);
-			free(paramTypes);
-			free(paramLengths);
-			free(paramFormats);
-			[FLXPostgresException raise:FLXPostgresConnectionErrorDomain reason:@"Memory allocation error"];
-			return nil;
-		}
+	// create parameters
+	PGClientParams* params = _paramAllocForValues(values);
+	if(params==nil) {
+		[self _raiseError:PGClientErrorParameterError reason:@"Bad parameters" error:error];
+		return nil;
 	}
-	
-	// fill the data structures
-	for(NSUInteger i = 0; i < nParams; i++) {
-		id theNativeObject = [theValues objectAtIndex:i];
-		NSParameterAssert(theNativeObject);
-		
-		// deterime if bound value is an NSNull
-		if([theNativeObject isKindOfClass:[NSNull class]]) {
-			paramValues[i] = nil;
-			paramTypes[i] = 0;
-			paramLengths[i] = 0;
-			paramFormats[i] = 0;
+	for(NSUInteger i = 0; i < [values count]; i++) {
+		id obj = [values objectAtIndex:i];
+		if([obj isKindOfClass:[NSNull class]]) {
+			_paramSetNull(params,i);
+			continue;
+		} else {
+			_paramSetNull(params,i);
 			continue;
 		}
-		
-		// obtain correct handler for this class
-		id<FLXPostgresTypeProtocol> theTypeHandler = [self _typeHandlerForClass:[theNativeObject class]];
-		if(theTypeHandler==nil) {
-			free(paramValues);
-			free(paramTypes);
-			free(paramLengths);
-			free(paramFormats);
-			[FLXPostgresException raise:FLXPostgresConnectionErrorDomain reason:[NSString stringWithFormat:@"Parameter $%u unsupported class %@",(i+1),NSStringFromClass([theNativeObject class])]];
-		}
-		FLXPostgresOid theType = 0;
-		NSData* theData = [theTypeHandler remoteDataFromObject:theNativeObject type:&theType];
-		if(theData==nil) {
-			free(paramValues);
-			free(paramTypes);
-			free(paramLengths);
-			free(paramFormats);
-			[FLXPostgresException raise:FLXPostgresConnectionErrorDomain reason:[NSString stringWithFormat:@"Parameter $%u cannot be converted into a bound value",(i+1)]];
-			return nil;
-		}
-		
-		// check length of data
-		if([theData length] > INT_MAX) {
-			free(paramValues);
-			free(paramTypes);
-			free(paramLengths);
-			free(paramFormats);
-			[FLXPostgresException raise:FLXPostgresConnectionErrorDomain reason:[NSString stringWithFormat:@"Bound value $%u exceeds maximum size",(i+1)]];
-			return nil;
-		}
-		
-		// assign data
-		paramTypes[i] = theType;
-		if([theData length]==0) {
-			// note: if data length is zero, we encode as text instead, as NSData returns 0 for
-			// empty data, and it gets encoded as a NULL
-			paramValues[i] = "";
-			paramFormats[i] = 0;
-			paramLengths[i] = 0;
-		} else {
-			// send as binary data
-			paramValues[i] = [theData bytes];
-			paramLengths[i] = (int)[theData length];
-			paramFormats[i] = 1;
-		}
 	}
-	
-	// execute the command
+	// check number of parameters
+	if(params->size > INT_MAX) {
+		[self _raiseError:PGClientErrorParameterError reason:@"Bad parameters" error:error];
+		return nil;		
+	}
+	// execute the command, free parameters
 	int resultFormat = (format==PGClientTupleFormatBinary) ? 1 : 0;
-	PGresult* theResult = PQexecParams(_result,[query UTF8String],nParams,paramTypes,(const char** )paramValues,(const int* )paramLengths,(const int* )paramFormats,resultFormat);
-	
-	// free the data structures
-	free(paramValues);
-	free(paramTypes);
-	free(paramLengths);
-	free(paramFormats);
-	
+	PGresult* theResult = PQexecParams(_connection,[query UTF8String],(int)params->size,params->types,params->values,params->lengths,params->formats,resultFormat);
+	_paramFree(params);	
 	if(theResult==nil) {
-		if(error) {
-			NSDictionary* userInfo = [NSDictionary dictionaryWithObjectsAndKeys:@"Execution Error",NSLocalizedFailureReasonErrorKey,nil];
-			(*error) = [NSError errorWithDomain:PGClientErrorDomain code:PGClientErrorExecutionError userInfo:userInfo];
-		}
+		[self _raiseError:PGClientErrorExecutionError reason:@"Execution Error" error:error];
 		return nil;
 	}
 	// check for connection errors
 	if(PQresultStatus(theResult)==PGRES_EMPTY_QUERY) {
-		if(error) {
-			NSDictionary* userInfo = [NSDictionary dictionaryWithObjectsAndKeys:@"Empty Query",NSLocalizedFailureReasonErrorKey,nil];
-			(*error) = [NSError errorWithDomain:PGClientErrorDomain code:PGClientErrorExecutionError userInfo:userInfo];
-		}
+		[self _raiseError:PGClientErrorExecutionError reason:@"Empty Query" error:error];
 		PQclear(theResult);
 		return nil;
 	}
 	if(PQresultStatus(theResult)==PGRES_BAD_RESPONSE || PQresultStatus(theResult)==PGRES_FATAL_ERROR) {
-		if(error) {
-			NSDictionary* userInfo = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithUTF8String:PQresultErrorMessage(theResult)],NSLocalizedFailureReasonErrorKey,nil];
-			(*theError) = [NSError errorWithDomain:PGClientErrorDomain code:PGClientErrorExecutionError userInfo:userInfo];
-		}
+		[self _raiseError:PGClientErrorExecutionError reason:[NSString stringWithUTF8String:PQresultErrorMessage(theResult)] error:error];
 		PQclear(theResult);
 		return nil;
 	}

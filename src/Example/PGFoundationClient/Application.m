@@ -45,7 +45,7 @@
 		[[self db] setDelegate:self];
 		
 		NSError* theError = nil;
-		BOOL isSuccess = [[self db] connectWithURL:[NSURL URLWithString:@"pgsql://postgres@:5555/"] error:&theError];
+		BOOL isSuccess = [[self db] connectWithURL:[NSURL URLWithString:@"pgsql://postgres@/"] error:&theError];
 		if(theError) {
 			NSLog(@"Error: %@",theError);
 			[self setSignal:-1];
@@ -68,7 +68,7 @@
 	
 	// execute to get time
 	NSError* theError = nil;
-	PGResult* theResult = [[self db] execute:@"SELECT 10 AS value1,20 AS value2,NULL AS value3" error:&theError];
+	PGResult* theResult = [[self db] execute:@"SELECT 10 AS value1,'George' AS value2,NULL AS value3" format:PGClientTupleFormatText error:&theError];
 	if(theError) {
 		NSLog(@"Error: %@",theError);
 		[self setSignal:-1];

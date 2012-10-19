@@ -18,10 +18,10 @@
 @property (readonly) PGConnectionStatus status;
 
 // connection and discovery of servers
--(BOOL)connectWithURL:(NSURL* )theURL error:(NSError** )theError;
--(BOOL)connectWithURL:(NSURL* )theURL timeout:(NSUInteger)timeout error:(NSError** )theError;
--(BOOL)pingWithURL:(NSURL* )theURL error:(NSError** )theError;
--(BOOL)pingWithURL:(NSURL* )theURL timeout:(NSUInteger)timeout error:(NSError** )theError;
+-(BOOL)connectWithURL:(NSURL* )theURL error:(NSError** )error;
+-(BOOL)connectWithURL:(NSURL* )theURL timeout:(NSUInteger)timeout error:(NSError** )error;
+-(BOOL)pingWithURL:(NSURL* )theURL error:(NSError** )error;
+-(BOOL)pingWithURL:(NSURL* )theURL timeout:(NSUInteger)timeout error:(NSError** )error;
 -(BOOL)disconnect;
 
 // execute statements
@@ -33,7 +33,8 @@
 @protocol PGConnectionDelegate <NSObject>
 @optional
 -(NSString* )connection:(PGConnection* )theConnection passwordForParameters:(NSDictionary* )theParameters;
--(void)connection:(PGConnection* )theConnection notice:(NSString* )theMessage;
 -(void)connection:(PGConnection* )theConnection willExecute:(NSString* )theQuery values:(NSArray* )values;
+-(void)connection:(PGConnection* )theConnection error:(NSError* )theError;
+-(void)connection:(PGConnection* )theConnection notice:(NSString* )theMessage;
 @end
 

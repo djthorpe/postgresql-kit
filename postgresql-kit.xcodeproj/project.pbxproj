@@ -53,6 +53,7 @@
 		6EE23F5D1631EF7500C99BA7 /* PGClientKit+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EE23F5A1631EF7500C99BA7 /* PGClientKit+Private.h */; };
 		6EE23F5E1631EF7500C99BA7 /* PGConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EE23F5B1631EF7500C99BA7 /* PGConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6EE23F5F1631EF7500C99BA7 /* PGConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE23F5C1631EF7500C99BA7 /* PGConnection.m */; };
+		6EE23F611632076800C99BA7 /* PGClientParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE23F601632076800C99BA7 /* PGClientParams.m */; };
 		6EEE176416287D7A0029ACDC /* ConfigurationPrefs.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEE176316287D7A0029ACDC /* ConfigurationPrefs.m */; };
 		6EF30CF415F3957900EE0656 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C167C15F26BF20013A382 /* Cocoa.framework */; };
 		6EF30D0715F3957900EE0656 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF30D0615F3957900EE0656 /* AppDelegate.m */; };
@@ -298,6 +299,8 @@
 		6EE23F5A1631EF7500C99BA7 /* PGClientKit+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PGClientKit+Private.h"; sourceTree = "<group>"; };
 		6EE23F5B1631EF7500C99BA7 /* PGConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGConnection.h; sourceTree = "<group>"; };
 		6EE23F5C1631EF7500C99BA7 /* PGConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGConnection.m; sourceTree = "<group>"; };
+		6EE23F601632076800C99BA7 /* PGClientParams.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGClientParams.m; sourceTree = "<group>"; };
+		6EE23F62163207DA00C99BA7 /* PGClientParams.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGClientParams.h; sourceTree = "<group>"; };
 		6EEE176216287D7A0029ACDC /* ConfigurationPrefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfigurationPrefs.h; sourceTree = "<group>"; };
 		6EEE176316287D7A0029ACDC /* ConfigurationPrefs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfigurationPrefs.m; sourceTree = "<group>"; };
 		6EF30CF215F3957900EE0656 /* PGServer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PGServer.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -676,6 +679,8 @@
 				6E0978201631AFAB0000A097 /* PGConnectionPool.m */,
 				6E0978241631CEAA0000A097 /* PGResult.h */,
 				6E0978251631CEAA0000A097 /* PGResult.m */,
+				6EE23F62163207DA00C99BA7 /* PGClientParams.h */,
+				6EE23F601632076800C99BA7 /* PGClientParams.m */,
 				6ED85B4816288CDE00A6DC02 /* PGClientKit.plist */,
 			);
 			path = PGClientKit;
@@ -944,6 +949,7 @@
 				6E0978221631AFAB0000A097 /* PGConnectionPool.m in Sources */,
 				6E0978271631CEAA0000A097 /* PGResult.m in Sources */,
 				6EE23F5F1631EF7500C99BA7 /* PGConnection.m in Sources */,
+				6EE23F611632076800C99BA7 /* PGClientParams.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
