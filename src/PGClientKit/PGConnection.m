@@ -313,7 +313,7 @@ NSString* PGClientErrorDomain = @"PGClientDomain";
 ////////////////////////////////////////////////////////////////////////////////
 // underlying execute method with parameters
 
--(PGResult* )_execute:(NSString* )query format:(PGClientTupleFormat)format values:(NSArray* )theValues error:(NSError** )error {
+-(PGResult* )_execute:(NSString* )query format:(PGClientTupleFormat)format values:(NSArray* )values error:(NSError** )error {
 	NSParameterAssert(query && [query isKindOfClass:[NSString class]]);
 	NSParameterAssert(format==PGClientTupleFormatBinary || format==PGClientTupleFormatText);
 	// clear error
@@ -329,17 +329,17 @@ NSString* PGClientErrorDomain = @"PGClientDomain";
 	}
 	// call delegate
 	if([[self delegate] respondsToSelector:@selector(connection:willExecute:values:)]) {
-		[[self delegate] connection:self willExecute:query values:theValues];
+		[[self delegate] connection:self willExecute:query values:values];
 	}
 	// create values, lengths and format arrays
-	NSUInteger nParams = theValues ? [theValues count] : 0;
+	NSUInteger nParams = [values count];
 	const void** paramValues = nil;
 	Oid* paramTypes = nil;
 	int* paramLengths = nil;
 	int* paramFormats = nil;
 	if(nParams) {
 		paramValues = malloc(sizeof(void*) * nParams);
-		paramTypes = malloc(sizeof(FLXPostgresOid) * nParams);
+		paramTypes = malloc(sizeof(Oid) * nParams);
 		paramLengths = malloc(sizeof(int) * nParams);
 		paramFormats = malloc(sizeof(int) * nParams);
 		if(paramValues==nil || paramLengths==nil || paramFormats==nil) {
@@ -412,8 +412,9 @@ NSString* PGClientErrorDomain = @"PGClientDomain";
 		}
 	}
 	
-	// execute the command - return data in binary
-	PGresult* theResult = PQexecParams(_result,[query UTF8String],nParams,paramTypes,(const char** )paramValues,(const int* )paramLengths,(const int* )paramFormats,1);
+	// execute the command
+	int resultFormat = (format==PGClientTupleFormatBinary) ? 1 : 0;
+	PGresult* theResult = PQexecParams(_result,[query UTF8String],nParams,paramTypes,(const char** )paramValues,(const int* )paramLengths,(const int* )paramFormats,resultFormat);
 	
 	// free the data structures
 	free(paramValues);
