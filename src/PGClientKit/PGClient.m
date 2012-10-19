@@ -14,7 +14,8 @@ typedef enum {
 	PGClientErrorConnectionStateMismatch = 1, // state is wrong for this call
 	PGClientErrorParameterError,              // parameters are incorrect
 	PGClientErrorRejectionError,              // rejected from operation
-	PGClientErrorConnectionError              // connection error
+	PGClientErrorConnectionError,             // connection error
+	PGClientErrorExecutionError               // execution error
 } PGClientErrorDomainCode;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -318,8 +319,27 @@ typedef enum {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// prepare statement
+// execute simple statement
 
+-(PGResult* )execute:(NSString* )theQuery error:(NSError** )theError {
+	// set empty error
+	(*theError) = nil;
+	
+	// check for existing connection
+	if(_connection==nil) {
+		(*theError) = [NSError errorWithDomain:PGClientErrorDomain code:PGClientErrorConnectionStateMismatch userInfo:nil];
+		return nil;
+	}
+	
+	// execute statement on server
+	PGresult* theResult = PQexec(_connection,[theQuery UTF8String]);
+	if(theResult==nil) {
+		(*theError) = [NSError errorWithDomain:PGClientErrorDomain code:PGClientErrorExecutionError userInfo:[NSDictionary dictionaryWithObjectsAndKeys:theQuery,NSLocalizedFailureReasonErrorKey,nil]];
+		return nil;		
+	}
+	
+	return [[PGResult alloc] init];
+}
 
 
 @end

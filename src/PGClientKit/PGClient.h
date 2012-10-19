@@ -1,7 +1,19 @@
 
 #import <Foundation/Foundation.h>
 
+// forward declarations
 @protocol PGClientDelegate;
+
+// constants
+extern NSString* PGConnectionBonjourServiceType;
+
+// typedefs
+typedef enum {
+	PGConnectionStatusDisconnected = 0,
+	PGConnectionStatusBad = -1,
+	PGConnectionStatusRejected = -2,
+	PGConnectionStatusConnected = 1
+} PGConnectionStatus;
 
 @interface PGClient : NSObject {
 	void* _connection;
@@ -23,6 +35,9 @@
 -(BOOL)pingWithURL:(NSURL* )theURL timeout:(NSUInteger)timeout error:(NSError** )theError;
 -(BOOL)disconnect;
 
+// execute statements
+-(PGResult* )execute:(NSString* )theQuery error:(NSError** )theError;
+
 @end
 
 // delegate for PGClient
@@ -31,7 +46,4 @@
 -(NSString* )connection:(PGClient* )theConnection passwordForParameters:(NSDictionary* )theParameters;
 -(void)connection:(PGClient* )theConnection notice:(NSString* )theMessage;
 @end
-
-// constants
-extern NSString* PGConnectionBonjourServiceType;
 
