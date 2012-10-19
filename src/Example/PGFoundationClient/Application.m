@@ -1,21 +1,14 @@
-//
-//  Application.m
-//  postgresql-kit
-//
-//  Created by David Thorpe on 17/10/2012.
-//
-//
 
 #import "Application.h"
 
 @implementation Application
 
--(NSString* )connection:(PGClient* )theClient passwordForParameters:(NSDictionary* )theParameters{
+-(NSString* )connection:(PGConnection* )theConnection passwordForParameters:(NSDictionary* )theParameters{
 	NSLog(@"returning nil for password, parameters = %@",theParameters);
 	return nil;
 }
 
--(void)connection:(PGClient* )theConnection notice:(NSString* )theMessage {
+-(void)connection:(PGConnection* )theConnection notice:(NSString* )theMessage {
 	NSLog(@"Notice: %@",theMessage);	
 }
 
@@ -48,7 +41,7 @@
 	
 	// connect to server
 	if([self db]==nil) {
-		[self setDb:[[PGClient alloc] init]];
+		[self setDb:[[PGConnection alloc] init]];
 		[[self db] setDelegate:self];
 		
 		NSError* theError = nil;
@@ -75,7 +68,7 @@
 	
 	// execute to get time
 	NSError* theError = nil;
-	PGResult* theResult = [[self db] execute:@"SELECT 10 X 10" error:&theError];
+	PGResult* theResult = [[self db] execute:@"SELECT 10 AS value1,20 AS value2" error:&theError];
 	if(theError) {
 		NSLog(@"Error: %@",theError);
 		[self setSignal:-1];
