@@ -164,7 +164,7 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 
 // SEE http://www.linuxzone.cz/files/p2/example4.c
 
--(void)_connectInBackgroundThread:(void(^)(PGConnectionStatus status,NSError* error)) callback {
+-(void)_pollWithParametersThread:(void(^)(PGConnectionStatus status,NSError* error)) callback {
 	@autoreleasepool {
 		PGConnectionStatus returnStatus = PGConnectionStatusConnecting;
 		ConnStatusType _status = CONNECTION_STARTED;
@@ -223,7 +223,7 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 	}
 }
 
--(PGconn* )_connectInBackgroundWithParameters:(NSDictionary* )theParameters whenDone:(void(^)(PGConnectionStatus status,NSError* error)) callback {
+-(PGconn* )_pollWithParameters:(NSDictionary* )theParameters whenDone:(void(^)(PGConnectionStatus status,NSError* error)) callback {
 	PGKVPairs* pairs = makeKVPairs(theParameters);
 	if(pairs==nil) {
 		return nil;
@@ -231,7 +231,7 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 	PGconn* theConnection = PQconnectStartParams(pairs->keywords,pairs->values,0);
 	freeKVPairs(pairs);
 	// create a background thread
-	[NSThread detachNewThreadSelector:@selector(_connectInBackgroundThread:) toTarget:self withObject:(id)callback];
+	[NSThread detachNewThreadSelector:@selector(_pollWithParametersThread:) toTarget:self withObject:(id)callback];
 	return theConnection;
 }
 
@@ -284,6 +284,7 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 	}
 	
 	// TODO: retrieve SSL parameters from delegate if necessary
+	
 	return theParameters;
 }
 
@@ -345,18 +346,18 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 	
 	// make the connection (with blocking)
 	@synchronized(_connection) {
-		PGconn* theConnection = [self _connectInBackgroundWithParameters:theParameters whenDone:callback];
+		PGconn* theConnection = [self _pollWithParameters:theParameters whenDone:callback];
 		if(theConnection==nil) {
 			NSError* theError = [self _raiseError:PGClientErrorConnectionError reason:@"Connection error" error:nil];
 			callback(PGConnectionStatusDisconnected,theError);
 			return NO;
 		}
 		_connection = theConnection;
-		[[PGConnectionPool sharedConnectionPool] addConnection:self forHandle:_connection];
 	}
 	
-	// set the notice processor
-	PQsetNoticeProcessor(_connection,PGConnectionNoticeProcessor,_connection);
+	// set the notice processor - move somewhere else
+	//[[PGConnectionPool sharedConnectionPool] addConnection:self forHandle:_connection];
+	//PQsetNoticeProcessor(_connection,PGConnectionNoticeProcessor,_connection);
 	
 	// return success
 	return YES;

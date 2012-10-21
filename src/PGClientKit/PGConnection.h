@@ -17,12 +17,13 @@
 @property (readonly) NSString* database;
 @property (readonly) PGConnectionStatus status;
 
-// connection and discovery of servers
--(BOOL)connectWithURL:(NSURL* )theURL error:(NSError** )error;
--(BOOL)connectWithURL:(NSURL* )theURL timeout:(NSUInteger)timeout error:(NSError** )error;
--(BOOL)connectInBackgroundWithURL:(NSURL* )theURL timeout:(NSUInteger)timeout whenDone:(void(^)(PGConnectionStatus status,NSError* error)) callback;
+// connection, reconnection and disconnection
 -(BOOL)pingWithURL:(NSURL* )theURL error:(NSError** )error;
 -(BOOL)pingWithURL:(NSURL* )theURL timeout:(NSUInteger)timeout error:(NSError** )error;
+-(BOOL)connectWithURL:(NSURL* )theURL error:(NSError** )error;
+-(BOOL)connectWithURL:(NSURL* )theURL timeout:(NSUInteger)timeout error:(NSError** )error;
+-(BOOL)connectInBackgroundWithURL:(NSURL* )theURL whenDone:(void(^)(PGConnectionStatus status,NSError* error)) callback;
+-(BOOL)connectInBackgroundWithURL:(NSURL* )theURL timeout:(NSUInteger)timeout whenDone:(void(^)(PGConnectionStatus status,NSError* error)) callback;
 -(BOOL)disconnect;
 
 // execute statements
