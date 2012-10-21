@@ -3,12 +3,12 @@
 
 @implementation Application
 
--(NSString* )connection:(PGConnection* )theConnection passwordForParameters:(NSDictionary* )theParameters{
+-(NSString* )connectionPasswordForParameters:(NSDictionary* )theParameters{
 	NSLog(@"returning nil for password, parameters = %@",theParameters);
 	return nil;
 }
 
--(void)connection:(PGConnection* )theConnection notice:(NSString* )theMessage {
+-(void)connectionNotice:(NSString* )theMessage {
 	NSLog(@"Notice: %@",theMessage);	
 }
 
@@ -33,6 +33,8 @@
 }
 
 -(void)timerFired:(id)theTimer {
+	static BOOL isConnectionDone = NO;
+	
 	// stop run loop
 	if([self signal] < 0) {
 		CFRunLoopStop([[NSRunLoop currentRunLoop] getCFRunLoop]);
@@ -43,19 +45,15 @@
 	if([self db]==nil) {
 		[self setDb:[[PGConnection alloc] init]];
 		[[self db] setDelegate:self];
-		
-		NSError* theError = nil;
-		BOOL isSuccess = [[self db] connectWithURL:[NSURL URLWithString:@"pgsql://postgres@/"] error:&theError];
-		if(theError) {
-			NSLog(@"Error: %@",theError);
-			[self setSignal:-1];
-			return;
-		}
-		if(isSuccess) {
-			NSLog(@"Database connected");
-			NSLog(@"user=%@",[[self db] user]);
-			NSLog(@"database=%@",[[self db] database]);
-		}
+		NSURL* theURL = [NSURL URLWithString:@"pgsql://postgres@/"];
+		[[self db] connectInBackgroundWithURL:theURL timeout:0 whenDone:^(PGConnectionStatus status,NSError* error){
+			NSLog(@"Connection Done, error = %@",error);
+			isConnectionDone = YES;
+		}];
+		return;
+	}
+	
+	if(isConnectionDone==NO) {
 		return;
 	}
 	
@@ -65,7 +63,6 @@
 		NSLog(@"Connection is not good (status: %d)",status);
 		return;
 	}
-	
 	// execute to get time
 	NSError* theError = nil;
 	PGResult* theResult = [[self db] execute:@"SELECT 10 AS value1,'George' AS value2,NULL AS value3" format:PGClientTupleFormatText error:&theError];

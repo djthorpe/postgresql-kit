@@ -12,6 +12,48 @@ NSString* PGClientErrorDomain = @"PGClientDomain";
 
 ////////////////////////////////////////////////////////////////////////////////
 
+typedef struct {
+	const char** keywords;
+	const char** values;
+} PGKVPairs;
+
+void freeKVPairs(PGKVPairs* pairs) {
+	if(pairs) {
+		free(pairs->keywords);
+		free(pairs->values);
+		free(pairs);
+	}
+}
+
+PGKVPairs* allocKVPairs(NSUInteger size) {
+	PGKVPairs* pairs = malloc(sizeof(PGKVPairs));
+	if(pairs==nil) {
+		return nil;
+	}
+	pairs->keywords = malloc(sizeof(const char* ) * (size+1));
+	pairs->values = malloc(sizeof(const char* ) * (size+1));
+	if(pairs->keywords==nil || pairs->values==nil) {
+		freeKVPairs(pairs);
+		return nil;
+	}
+	return pairs;
+}
+
+PGKVPairs* makeKVPairs(NSDictionary* dict) {
+	PGKVPairs* pairs = allocKVPairs([dict count]);	
+	NSUInteger i = 0;
+	for(NSString* theKey in dict) {
+		pairs->keywords[i] = [theKey UTF8String];
+		pairs->values[i] = [[[dict valueForKey:theKey] description] UTF8String];
+		i++;
+	}
+	pairs->keywords[i] = '\0';
+	pairs->values[i] = '\0';
+	return pairs;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 @implementation PGConnection
 @dynamic user, database, status;
 
@@ -111,46 +153,95 @@ NSString* PGClientErrorDomain = @"PGClientDomain";
 }
 
 -(PGconn* )_connectWithParameters:(NSDictionary* )theParameters {
-	const char** keywords = malloc(sizeof(const char* ) * ([theParameters count]+1));
-	const char** values = malloc(sizeof(const char* ) * ([theParameters count]+1));
-	if(keywords==nil || values==nil) {
-		free(keywords);
-		free(values);
+	PGKVPairs* pairs = makeKVPairs(theParameters);
+	if(pairs==nil) {
 		return nil;
 	}
-	int i = 0;
-	for(NSString* theKey in theParameters) {
-		keywords[i] = [theKey UTF8String];
-		values[i] = [[[theParameters valueForKey:theKey] description] UTF8String];
-		i++;
+	PGconn* theConnection = PQconnectdbParams(pairs->keywords,pairs->values,0);
+	freeKVPairs(pairs);
+	return theConnection;
+}
+
+// SEE http://www.linuxzone.cz/files/p2/example4.c
+
+-(void)_connectInBackgroundThread:(void(^)(PGConnectionStatus status,NSError* error)) callback {
+	@autoreleasepool {
+		PGConnectionStatus returnStatus = PGConnectionStatusConnecting;
+		ConnStatusType _status = CONNECTION_STARTED;
+		do {
+			// get status
+			_status = PQconnectPoll(_connection);
+			// debug stats
+			switch(_status) {
+				case CONNECTION_STARTED:
+					NSLog(@"CONNECTION_STARTED");
+					break;
+				case CONNECTION_MADE:
+					NSLog(@"CONNECTION_MADE");
+					break;
+				case CONNECTION_AWAITING_RESPONSE:
+					NSLog(@"CONNECTION_AWAITING_RESPONSE");
+					break;
+				case CONNECTION_AUTH_OK:
+					NSLog(@"CONNECTION_AUTH_OK");
+					break;
+				case CONNECTION_SSL_STARTUP:
+					NSLog(@"CONNECTION_SSL_STARTUP");
+					break;
+				case CONNECTION_SETENV:
+					NSLog(@"CONNECTION_SETENV");
+					break;
+				case CONNECTION_OK:
+					NSLog(@"CONNECTION_OK");
+					returnStatus = PGConnectionStatusConnected;
+					break;
+				case CONNECTION_BAD:
+					NSLog(@"CONNECTION_BAD");
+					returnStatus = PGConnectionStatusBad;
+					break;
+				default:
+					NSLog(@"CONNECTION_UNKNOWN");
+					break;
+			}
+			// sleep for 50ms
+			[NSThread sleepForTimeInterval:(NSTimeInterval)0.05];
+		} while(returnStatus == PGConnectionStatusConnecting);
+
+		// create an error if status is not CONNECTION_OK
+		NSError* theError = nil;
+		if(returnStatus != PGConnectionStatusConnected) {
+			theError = [self _raiseError:PGClientErrorConnectionError reason:@"Connection error" error:nil];
+			@synchronized(_connection) {
+				// remove connection
+				[[PGConnectionPool sharedConnectionPool] removeConnectionForHandle:_connection];
+				_connection = nil;
+			}
+		}
+				
+		// callback
+		callback(returnStatus,theError);
 	}
-	keywords[i] = '\0';
-	values[i] = '\0';
-	PGconn* theConnection = PQconnectdbParams(keywords,values,0);
-	free(keywords);
-	free(values);
+}
+
+-(PGconn* )_connectInBackgroundWithParameters:(NSDictionary* )theParameters whenDone:(void(^)(PGConnectionStatus status,NSError* error)) callback {
+	PGKVPairs* pairs = makeKVPairs(theParameters);
+	if(pairs==nil) {
+		return nil;
+	}
+	PGconn* theConnection = PQconnectStartParams(pairs->keywords,pairs->values,0);
+	freeKVPairs(pairs);
+	// create a background thread
+	[NSThread detachNewThreadSelector:@selector(_connectInBackgroundThread:) toTarget:self withObject:(id)callback];
 	return theConnection;
 }
 
 -(PGPing)_pingWithParameters:(NSDictionary* )theParameters {
-	const char** keywords = malloc(sizeof(const char* ) * ([theParameters count]+1));
-	const char** values = malloc(sizeof(const char* ) * ([theParameters count]+1));
-	if(keywords==nil || values==nil) {
-		free(keywords);
-		free(values);
+	PGKVPairs* pairs = makeKVPairs(theParameters);
+	if(pairs==nil) {
 		return PQPING_NO_ATTEMPT;
 	}
-	int i = 0;
-	for(NSString* theKey in theParameters) {
-		keywords[i] = [theKey UTF8String];
-		values[i] = [[[theParameters valueForKey:theKey] description] UTF8String];
-		i++;
-	}
-	keywords[i] = '\0';
-	values[i] = '\0';
-	PGPing theStatus = PQpingParams(keywords,values,0);
-	free(keywords);
-	free(values);
+	PGPing theStatus = PQpingParams(pairs->keywords,pairs->values,0);
+	freeKVPairs(pairs);
 	return theStatus;
 }
 
@@ -165,6 +256,36 @@ NSString* PGClientErrorDomain = @"PGClientDomain";
 
 ////////////////////////////////////////////////////////////////////////////////
 // connection
+
+-(NSDictionary* )_connectionParametersForURL:(NSURL* )theURL timeout:(NSUInteger)timeout {
+	// make parameters from the URL
+	NSMutableDictionary* theParameters = [[PGConnection _extractParametersFromURL:theURL] mutableCopy];
+	if(theParameters==nil) {
+		return nil;
+	}
+	if(timeout) {
+		[theParameters setValue:[NSNumber numberWithUnsignedInteger:timeout] forKey:@"connect_timeout"];
+	}
+	
+	// set client encoding and application name if not already set
+	if([theParameters objectForKey:@"client_encoding"]==nil) {
+		[theParameters setValue:PGConnectionDefaultEncoding forKey:@"client_encoding"];
+	}
+	if([theParameters objectForKey:@"application_name"]==nil) {
+		[theParameters setValue:[[NSProcessInfo processInfo] processName] forKey:@"application_name"];
+	}
+	
+	// Retrieve password from delegate
+	if([theParameters objectForKey:@"password"]==nil && [[self delegate] respondsToSelector:@selector(connectionPasswordForParameters:)]) {
+		NSString* thePassword = [[self delegate] connectionPasswordForParameters:theParameters];
+		if(thePassword) {
+			[theParameters setValue:thePassword forKey:@"password"];
+		}
+	}
+	
+	// TODO: retrieve SSL parameters from delegate if necessary
+	return theParameters;
+}
 
 -(BOOL)connectWithURL:(NSURL* )theURL error:(NSError** )error {
 	return [self connectWithURL:theURL timeout:0 error:error];
@@ -181,33 +302,12 @@ NSString* PGClientErrorDomain = @"PGClientDomain";
 		[self _raiseError:PGClientErrorConnectionStateMismatch reason:@"Connected" error:error];
 		return NO;
 	}
-	// make parameters from the URL
-	NSMutableDictionary* theParameters = [[PGConnection _extractParametersFromURL:theURL] mutableCopy];
+	
+	NSDictionary* theParameters = [self _connectionParametersForURL:theURL timeout:timeout];
 	if(theParameters==nil) {
 		[self _raiseError:PGClientErrorParameterError reason:@"Bad parameters" error:error];
 		return NO;
 	}
-	if(timeout) {
-		[theParameters setValue:[NSNumber numberWithUnsignedInteger:timeout] forKey:@"connect_timeout"];
-	}
-	
-	// set client encoding and application name if not already set
-	if([theParameters objectForKey:@"client_encoding"]==nil) {
-		[theParameters setValue:PGConnectionDefaultEncoding forKey:@"client_encoding"];
-	}
-	if([theParameters objectForKey:@"application_name"]==nil) {
-		[theParameters setValue:[[NSProcessInfo processInfo] processName] forKey:@"application_name"];
-	}
-
-	// Retrieve password from delegate
-	if([theParameters objectForKey:@"password"]==nil && [[self delegate] respondsToSelector:@selector(connection:passwordForParameters:)]) {
-		NSString* thePassword = [[self delegate] connection:self passwordForParameters:theParameters];
-		if(thePassword) {
-			[theParameters setValue:thePassword forKey:@"password"];
-		}
-	}
-	
-	// TODO: retrieve SSL parameters from delegate if necessary
 	
 	// make the connection (with blocking)
 	@synchronized(_connection) {
@@ -223,6 +323,41 @@ NSString* PGClientErrorDomain = @"PGClientDomain";
 	// set the notice processor
 	PQsetNoticeProcessor(_connection,PGConnectionNoticeProcessor,_connection);
 
+	// return success
+	return YES;
+}
+
+-(BOOL)connectInBackgroundWithURL:(NSURL* )theURL timeout:(NSUInteger)timeout whenDone:(void(^)(PGConnectionStatus status,NSError* error)) callback {
+	// check for existing connection
+	if(_connection) {
+		// if there is already a connection, raise an error
+		NSError* theError = [self _raiseError:PGClientErrorConnectionStateMismatch reason:@"Connected" error:nil];
+		callback(PGConnectionStatusDisconnected,theError);
+		return NO;
+	}
+	// get parmeters for connection
+	NSDictionary* theParameters = [self _connectionParametersForURL:theURL timeout:timeout];
+	if(theParameters==nil) {
+		NSError* theError = [self _raiseError:PGClientErrorParameterError reason:@"Bad parameters" error:nil];
+		callback(PGConnectionStatusDisconnected,theError);
+		return NO;
+	}
+	
+	// make the connection (with blocking)
+	@synchronized(_connection) {
+		PGconn* theConnection = [self _connectInBackgroundWithParameters:theParameters whenDone:callback];
+		if(theConnection==nil) {
+			NSError* theError = [self _raiseError:PGClientErrorConnectionError reason:@"Connection error" error:nil];
+			callback(PGConnectionStatusDisconnected,theError);
+			return NO;
+		}
+		_connection = theConnection;
+		[[PGConnectionPool sharedConnectionPool] addConnection:self forHandle:_connection];
+	}
+	
+	// set the notice processor
+	PQsetNoticeProcessor(_connection,PGConnectionNoticeProcessor,_connection);
+	
 	// return success
 	return YES;
 }
@@ -309,12 +444,12 @@ NSString* PGClientErrorDomain = @"PGClientDomain";
 // process notices, raise errors
 
 -(void)_noticeProcess:(const char* )cString {
-	if([[self delegate] respondsToSelector:@selector(connection:notice:)]) {
-		[[self delegate] connection:self notice:[NSString stringWithUTF8String:cString]];
+	if([[self delegate] respondsToSelector:@selector(connectionNotice:)]) {
+		[[self delegate] connectionNotice:[NSString stringWithUTF8String:cString]];
 	}
 }
 
--(void)_raiseError:(PGClientErrorDomainCode)code reason:(NSString* )reason error:(NSError** )error {
+-(NSError* )_raiseError:(PGClientErrorDomainCode)code reason:(NSString* )reason error:(NSError** )error {
 	NSDictionary* userInfo = nil;
 	if(reason) {
 		userInfo = [NSDictionary dictionaryWithObjectsAndKeys:reason,NSLocalizedFailureReasonErrorKey,nil];
@@ -323,9 +458,11 @@ NSString* PGClientErrorDomain = @"PGClientDomain";
 	if(error) {
 		(*error) = theError;
 	}
-	if([[self delegate] respondsToSelector:@selector(connection:error:)]) {
-		[[self delegate] connection:self error:theError];
+	if([[self delegate] respondsToSelector:@selector(connectionError:)]) {
+		// perform selector on main thread
+		[(NSObject* )[self delegate] performSelector:@selector(connectionError:) onThread:[NSThread mainThread] withObject:theError waitUntilDone:NO];
 	}
+	return theError;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -344,8 +481,8 @@ NSString* PGClientErrorDomain = @"PGClientDomain";
 		return nil;
 	}
 	// call delegate
-	if([[self delegate] respondsToSelector:@selector(connection:willExecute:values:)]) {
-		[[self delegate] connection:self willExecute:query values:values];
+	if([[self delegate] respondsToSelector:@selector(connectionWillExecute:values:)]) {
+		[[self delegate] connectionWillExecute:query values:values];
 	}
 	// create parameters
 	PGClientParams* params = _paramAllocForValues(values);
@@ -392,7 +529,7 @@ NSString* PGClientErrorDomain = @"PGClientDomain";
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// execute simple statement - return results in text or binary
+// execute statements - return results in text or binary
 
 -(PGResult* )execute:(NSString* )query format:(PGClientTupleFormat)format values:(NSArray* )values error:(NSError** )error {
 	return [self _execute:query format:format values:values error:error];

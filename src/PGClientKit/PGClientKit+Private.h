@@ -14,7 +14,7 @@ typedef enum {
 extern NSString* PGClientErrorDomain;
 
 @interface PGConnection (Private)
--(void)_raiseError:(PGClientErrorDomainCode)code reason:(NSString* )reason error:(NSError** )error;
+-(NSError* )_raiseError:(PGClientErrorDomainCode)code reason:(NSString* )reason error:(NSError** )error;
 @end
 
 @interface PGResult (Private)

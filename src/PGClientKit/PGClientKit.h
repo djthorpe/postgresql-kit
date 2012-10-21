@@ -4,9 +4,10 @@
 // typedefs
 typedef enum {
 	PGConnectionStatusDisconnected = 0,
+	PGConnectionStatusConnecting = 1,
 	PGConnectionStatusBad = -1,
 	PGConnectionStatusRejected = -2,
-	PGConnectionStatusConnected = 1
+	PGConnectionStatusConnected = 2
 } PGConnectionStatus;
 
 typedef enum {
