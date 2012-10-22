@@ -162,17 +162,32 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 	return theConnection;
 }
 
-// SEE http://www.linuxzone.cz/files/p2/example4.c
-
 -(void)_pollWithParametersThread:(void(^)(PGConnectionStatus status,NSError* error)) callback {
 	@autoreleasepool {
-		PGConnectionStatus returnStatus = PGConnectionStatusConnecting;
-		ConnStatusType _status = CONNECTION_STARTED;
+		PGConnectionStatus returnStatus;
+		PostgresPollingStatusType status;
 		do {
-			// get status
-			_status = PQconnectPoll(_connection);
-			// debug stats
-			switch(_status) {
+			status = PQconnectPoll(_connection);
+			int socket = PQsocket(_connection);
+			fd_set fd;
+			switch(status) {
+				case PGRES_POLLING_READING:
+				case PGRES_POLLING_WRITING: /* wait for polling */
+					returnStatus = PGConnectionStatusConnecting;
+					FD_ZERO(&fd);
+					FD_SET(socket, &fd);
+					select(socket+1,status == PGRES_POLLING_READING ? &fd : NULL,status == PGRES_POLLING_WRITING ? &fd : NULL,NULL, NULL);
+					break;
+				case PGRES_POLLING_OK:
+					returnStatus = PGConnectionStatusConnected;
+					break;
+				case PGRES_POLLING_FAILED:
+					returnStatus = PGConnectionStatusDisconnected;
+					break;
+				default:
+					break;
+			}
+			switch(PQstatus(_connection)) {
 				case CONNECTION_STARTED:
 					NSLog(@"CONNECTION_STARTED");
 					break;
@@ -193,45 +208,42 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 					break;
 				case CONNECTION_OK:
 					NSLog(@"CONNECTION_OK");
-					returnStatus = PGConnectionStatusConnected;
 					break;
 				case CONNECTION_BAD:
 					NSLog(@"CONNECTION_BAD");
-					returnStatus = PGConnectionStatusBad;
 					break;
 				default:
 					NSLog(@"CONNECTION_UNKNOWN");
 					break;
 			}
-			// sleep for 50ms
-			[NSThread sleepForTimeInterval:(NSTimeInterval)0.05];
-		} while(returnStatus == PGConnectionStatusConnecting);
-
-		// create an error if status is not CONNECTION_OK
+		} while(status != PGRES_POLLING_OK && status!= PGRES_POLLING_FAILED);
+		
 		NSError* theError = nil;
-		if(returnStatus != PGConnectionStatusConnected) {
+		if(returnStatus==PGConnectionStatusConnected) {
+			[[PGConnectionPool sharedConnectionPool] addConnection:self forHandle:_connection];
+			PQsetNoticeProcessor(_connection,PGConnectionNoticeProcessor,_connection);
+		} else {
+			PQfinish(_connection);
+			_connection = nil;
 			theError = [self _raiseError:PGClientErrorConnectionError reason:@"Connection error" error:nil];
-			@synchronized(_connection) {
-				// remove connection
-				[[PGConnectionPool sharedConnectionPool] removeConnectionForHandle:_connection];
-				_connection = nil;
-			}
 		}
 				
-		// callback
+		// callback - should this be done on the main thread?
 		callback(returnStatus,theError);
 	}
 }
 
--(PGconn* )_pollWithParameters:(NSDictionary* )theParameters whenDone:(void(^)(PGConnectionStatus status,NSError* error)) callback {
+-(PGconn* )_connectInBackgroundWithParameters:(NSDictionary* )theParameters whenDone:(void(^)(PGConnectionStatus status,NSError* error)) callback {
 	PGKVPairs* pairs = makeKVPairs(theParameters);
 	if(pairs==nil) {
 		return nil;
 	}
 	PGconn* theConnection = PQconnectStartParams(pairs->keywords,pairs->values,0);
 	freeKVPairs(pairs);
-	// create a background thread
-	[NSThread detachNewThreadSelector:@selector(_pollWithParametersThread:) toTarget:self withObject:(id)callback];
+	if(theConnection != nil) {
+		// create a background thread
+		[NSThread detachNewThreadSelector:@selector(_pollWithParametersThread:) toTarget:self withObject:(id)callback];
+	}
 	return theConnection;
 }
 
@@ -310,22 +322,26 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 		return NO;
 	}
 	
-	// make the connection (with blocking)
+	// make the connection
 	@synchronized(_connection) {
 		PGconn* theConnection = [self _connectWithParameters:theParameters];
 		if(theConnection==nil || PQstatus(theConnection) != CONNECTION_OK) {
 			[self _raiseError:PGClientErrorConnectionError reason:@"Connection error" error:error];
 			return NO;
 		}
-		_connection = theConnection;		
-		[[PGConnectionPool sharedConnectionPool] addConnection:self forHandle:_connection];
+		_connection = theConnection;
 	}
 
-	// set the notice processor
+	// set up the connection
+	[[PGConnectionPool sharedConnectionPool] addConnection:self forHandle:_connection];
 	PQsetNoticeProcessor(_connection,PGConnectionNoticeProcessor,_connection);
 
 	// return success
 	return YES;
+}
+
+-(BOOL)connectInBackgroundWithURL:(NSURL* )theURL whenDone:(void(^)(PGConnectionStatus status,NSError* error)) callback {
+	return [self connectInBackgroundWithURL:theURL timeout:0 whenDone:callback];
 }
 
 -(BOOL)connectInBackgroundWithURL:(NSURL* )theURL timeout:(NSUInteger)timeout whenDone:(void(^)(PGConnectionStatus status,NSError* error)) callback {
@@ -346,7 +362,7 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 	
 	// make the connection (with blocking)
 	@synchronized(_connection) {
-		PGconn* theConnection = [self _pollWithParameters:theParameters whenDone:callback];
+		PGconn* theConnection = [self _connectInBackgroundWithParameters:theParameters whenDone:callback];
 		if(theConnection==nil) {
 			NSError* theError = [self _raiseError:PGClientErrorConnectionError reason:@"Connection error" error:nil];
 			callback(PGConnectionStatusDisconnected,theError);
@@ -354,10 +370,6 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 		}
 		_connection = theConnection;
 	}
-	
-	// set the notice processor - move somewhere else
-	//[[PGConnectionPool sharedConnectionPool] addConnection:self forHandle:_connection];
-	//PQsetNoticeProcessor(_connection,PGConnectionNoticeProcessor,_connection);
 	
 	// return success
 	return YES;
