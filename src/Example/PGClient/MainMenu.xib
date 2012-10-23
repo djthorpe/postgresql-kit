@@ -1389,7 +1389,7 @@
 							</object>
 						</object>
 					</dictionary>
-					<array class="NSMutableArray" key="NSToolbarIBAllowedItems">
+					<array key="NSToolbarIBAllowedItems">
 						<reference ref="587319959"/>
 						<reference ref="347148120"/>
 						<reference ref="905661248"/>
@@ -1408,7 +1408,7 @@
 					<reference key="NSSuperview"/>
 					<reference key="NSWindow"/>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1280, 800}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
 			</object>
@@ -3259,11 +3259,20 @@
 					<string key="className">AppDelegate</string>
 					<string key="superclassName">NSObject</string>
 					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="doLogin:">id</string>
 						<string key="doServerBackup:">id</string>
 						<string key="doServerStart:">id</string>
 						<string key="doServerStop:">id</string>
+						<string key="ibBackupButtonPressed:">id</string>
+						<string key="ibStartButtonPressed:">id</string>
+						<string key="ibStopButtonPressed:">id</string>
+						<string key="ibToolbarConnectionPressed:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="doLogin:">
+							<string key="name">doLogin:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="doServerBackup:">
 							<string key="name">doServerBackup:</string>
 							<string key="candidateClassName">id</string>
@@ -3274,6 +3283,22 @@
 						</object>
 						<object class="IBActionInfo" key="doServerStop:">
 							<string key="name">doServerStop:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="ibBackupButtonPressed:">
+							<string key="name">ibBackupButtonPressed:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="ibStartButtonPressed:">
+							<string key="name">ibStartButtonPressed:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="ibStopButtonPressed:">
+							<string key="name">ibStopButtonPressed:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="ibToolbarConnectionPressed:">
+							<string key="name">ibToolbarConnectionPressed:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 					</dictionary>

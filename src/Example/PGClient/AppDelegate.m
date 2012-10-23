@@ -20,5 +20,4 @@
 	NSLog(@"Login done, return code = %ld",returnCode);
 }
 
-
 @end

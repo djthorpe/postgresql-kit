@@ -31,6 +31,7 @@
 		6E1B43D715F3A308001ED3BE /* PGServerKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
 		6E1B43FE15F3A4C2001ED3BE /* elephant.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43E715F3A465001ED3BE /* elephant.icns */; };
 		6E2A0EBF16374CAF00970FEF /* elephant-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43E615F3A465001ED3BE /* elephant-64.png */; };
+		6E2A0EC21637540400970FEF /* PGClientKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
 		6E48B36F1605E34A0044A6CB /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E48B36E1605E34A0044A6CB /* libz.1.2.5.dylib */; };
 		6E48B37116060D980044A6CB /* strapline-200x40.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43F915F3A465001ED3BE /* strapline-200x40.png */; };
 		6E48B37216060D9E0044A6CB /* red.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43F415F3A465001ED3BE /* red.tiff */; };
@@ -117,6 +118,16 @@
 			dstSubfolderSpec = 10;
 			files = (
 				6E1B43D715F3A308001ED3BE /* PGServerKit.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6E2A0EC1163753F900970FEF /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				6E2A0EC21637540400970FEF /* PGClientKit.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -491,15 +502,15 @@
 		6EB1E70B15F273350093F784 /* Example */ = {
 			isa = PBXGroup;
 			children = (
-				6E68AE021635DD6E00436234 /* PGClient */,
-				6E4DEC7F162CC2E7008B26BD /* PGFoundationClient */,
-				6ECA7AD615F3635A00AF2B70 /* PGFoundationServer */,
 				6EF30CF915F3957900EE0656 /* PGServer */,
-				6EB1E70C15F273350093F784 /* ClientConnect */,
-				6EB1E71515F273350093F784 /* CocoaServer */,
-				6EB1E72615F273350093F784 /* EmbeddedServer */,
+				6E68AE021635DD6E00436234 /* PGClient */,
+				6ECA7AD615F3635A00AF2B70 /* PGFoundationServer */,
+				6E4DEC7F162CC2E7008B26BD /* PGFoundationClient */,
 				6EB1E72D15F273350093F784 /* main.m */,
 				6EB1E73A15F273350093F784 /* TypeTests */,
+				6EB1E71515F273350093F784 /* CocoaServer */,
+				6EB1E70C15F273350093F784 /* ClientConnect */,
+				6EB1E72615F273350093F784 /* EmbeddedServer */,
 			);
 			path = Example;
 			sourceTree = "<group>";
@@ -813,6 +824,7 @@
 				6E68ADE11635DB4400436234 /* Sources */,
 				6E68ADE21635DB4400436234 /* Frameworks */,
 				6E68ADE31635DB4400436234 /* Resources */,
+				6E2A0EC1163753F900970FEF /* CopyFiles */,
 			);
 			buildRules = (
 			);
