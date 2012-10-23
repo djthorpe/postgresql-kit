@@ -13,8 +13,10 @@
 @property (weak, nonatomic) id<PGLoginDelegate> delegate;
 @property PGConnection* connection;
 @property BOOL ibStatusVisibility;
+@property BOOL ibRememberCheckbox;
 @property NSString* ibStatusText;
 @property BOOL ibStatusAnimate;
+@property NSString* ibURL;
 
 // methods to begin the login window
 -(void)beginLoginSheetForWindow:(NSWindow* )window;

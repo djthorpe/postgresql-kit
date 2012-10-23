@@ -16,7 +16,7 @@
 }
 
 -(NSURL* )url {
-	return [NSURL URLWithString:@"pgsql://postgres@/"];
+	return [NSURL URLWithString:[self ibURL]];
 }
 
 -(NSUInteger)timeout {
@@ -25,7 +25,7 @@
 
 -(void)setLoginStatus:(NSString* )status {
 	if(status==nil) {
-		// make status hidden
+		[self setIbURL:nil];
 		[self setIbStatusVisibility:YES];
 		[self setIbStatusText:@""];
 		[self setIbStatusAnimate:NO];
@@ -42,6 +42,7 @@
 	NSParameterAssert([[self connection] status] != PGConnectionStatusConnected);
 
 	[self setLoginStatus:nil];
+	[self _loadDefaults];
 
 	[NSApp beginSheet:[self window] modalForWindow:window modalDelegate:self didEndSelector:@selector(_endSheet:returnCode:contextInfo:) contextInfo:nil];
 }
@@ -49,13 +50,11 @@
 -(IBAction)ibEndLoginSheetForButton:(id)sender {
 	NSParameterAssert([sender isKindOfClass:[NSButton class]]);
 	if([[(NSButton* )sender title] isEqualToString:@"Cancel"]) {
-		// Cancel button pressed
+		// Cancel button pressed, immediately quit
 		[NSApp endSheet:[(NSButton* )sender window] returnCode:NSCancelButton];
 	} else {
 		[self setLoginStatus:@"Logging in"];
-		[[self connection] connectInBackgroundWithURL:[self url] timeout:[self timeout] whenDone:^(PGConnectionStatus status,NSError* error){
-			[NSApp endSheet:[(NSButton* )sender window] returnCode:NSOKButton];
-		}];
+		[self _doConnection];
 	}
 }
 
@@ -65,6 +64,39 @@
 		[[self delegate] loginCompleted:returnCode];
 	} else {
 		[[self delegate] loginCompleted:returnCode];
+		[self _saveDefaults];
+	}
+}
+
+-(void)_doConnection {
+	NSParameterAssert([[self connection] status] != PGConnectionStatusConnected);
+	[[self connection] connectInBackgroundWithURL:[self url] timeout:[self timeout] whenDone:^(PGConnectionStatus status,NSError* error) {
+		if(status==PGConnectionStatusConnected) {
+			// end sheet
+			[NSApp endSheet:[self window] returnCode:NSOKButton];
+		} else {
+			[self setLoginStatus:[error localizedDescription]];
+			[self setIbStatusAnimate:NO];
+		}
+	}];
+}
+
+-(void)_saveDefaults {
+	if([self ibRememberCheckbox]==YES) {
+		[[NSUserDefaults standardUserDefaults] setURL:[self url] forKey:@"url"];
+	} else {
+		[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"url"];
+	}
+}
+
+-(void)_loadDefaults {
+	NSURL* theURL = [[NSUserDefaults standardUserDefaults] URLForKey:@"url"];
+	if(theURL) {
+		[self setIbURL:[theURL absoluteString]];
+		[self setIbRememberCheckbox:YES];
+	} else {
+		[self setIbURL:nil];
+		[self setIbRememberCheckbox:NO];
 	}
 }
 
