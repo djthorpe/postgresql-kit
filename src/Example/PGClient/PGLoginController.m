@@ -3,13 +3,46 @@
 
 @implementation PGLoginController
 
+-(id)init {
+	self = [super init];
+	if(self) {
+		[self setConnection:[[PGConnection alloc] init]];
+	}
+	return self;
+}
+
 -(NSString* )windowNibName {
 	return @"PGLoginController";
 }
 
+-(NSURL* )url {
+	return [NSURL URLWithString:@"pgsql://postgres@/"];
+}
+
+-(NSUInteger)timeout {
+	return 0;
+}
+
+-(void)setLoginStatus:(NSString* )status {
+	if(status==nil) {
+		// make status hidden
+		[self setIbStatusVisibility:YES];
+		[self setIbStatusText:@""];
+		[self setIbStatusAnimate:NO];
+	} else {
+		[self setIbStatusVisibility:NO];
+		[self setIbStatusText:status];
+		[self setIbStatusAnimate:YES];
+	}
+}
+
 -(void)beginLoginSheetForWindow:(NSWindow* )window {
 	NSParameterAssert([window isKindOfClass:[NSWindow class]]);
-	// TODO: Setup the window
+	NSParameterAssert([self delegate]);
+	NSParameterAssert([[self connection] status] != PGConnectionStatusConnected);
+
+	[self setLoginStatus:nil];
+
 	[NSApp beginSheet:[self window] modalForWindow:window modalDelegate:self didEndSelector:@selector(_endSheet:returnCode:contextInfo:) contextInfo:nil];
 }
 
@@ -19,17 +52,19 @@
 		// Cancel button pressed
 		[NSApp endSheet:[(NSButton* )sender window] returnCode:NSCancelButton];
 	} else {
-		// Login button pressed
-		[NSApp endSheet:[(NSButton* )sender window] returnCode:NSOKButton];
+		[self setLoginStatus:@"Logging in"];
+		[[self connection] connectInBackgroundWithURL:[self url] timeout:[self timeout] whenDone:^(PGConnectionStatus status,NSError* error){
+			[NSApp endSheet:[(NSButton* )sender window] returnCode:NSOKButton];
+		}];
 	}
 }
 
 -(void)_endSheet:(NSWindow *)theSheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
 	[theSheet orderOut:self];
-	if(returnCode==NSOKButton) {
-		NSLog(@"OK Button pressed");
+	if(returnCode != NSOKButton) {
+		[[self delegate] loginCompleted:returnCode];
 	} else {
-		NSLog(@"Cancel Button pressed");
+		[[self delegate] loginCompleted:returnCode];
 	}
 }
 

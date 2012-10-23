@@ -43,18 +43,19 @@
 		6E4DEC96162CC5E6008B26BD /* PGClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
 		6E6679521606387B00EF8E98 /* ConnectionPrefs.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E6679511606387B00EF8E98 /* ConnectionPrefs.m */; };
 		6E68ADE71635DB4400436234 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C167C15F26BF20013A382 /* Cocoa.framework */; };
-		6E68ADF11635DB4400436234 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6E68ADEF1635DB4400436234 /* InfoPlist.strings */; };
-		6E68ADF31635DB4400436234 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E68ADF21635DB4400436234 /* main.m */; };
-		6E68ADF71635DB4400436234 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 6E68ADF51635DB4400436234 /* Credits.rtf */; };
-		6E68ADFA1635DB4400436234 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E68ADF91635DB4400436234 /* AppDelegate.m */; };
-		6E68ADFD1635DB4400436234 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E68ADFB1635DB4400436234 /* MainMenu.xib */; };
 		6E68AE011635DB6900436234 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB1E72D15F273350093F784 /* main.m */; };
+		6E68AE071635DD6E00436234 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E68AE041635DD6E00436234 /* AppDelegate.m */; };
+		6E68AE081635DD6E00436234 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E68AE051635DD6E00436234 /* MainMenu.xib */; };
+		6E68AE0A1635DDB500436234 /* elephant.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43E715F3A465001ED3BE /* elephant.icns */; };
+		6E68AE0B1635DDCE00436234 /* PGClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
 		6EA41EF01610E7DB00E81046 /* PGServer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EA41EEE1610E7DB00E81046 /* PGServer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6EA41EF11610E7DB00E81046 /* PGServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EA41EEF1610E7DB00E81046 /* PGServer.m */; };
 		6EB1E79615F282910093F784 /* PGServerKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EB1E74015F273350093F784 /* PGServerKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6ECA7ADE15F3637600AF2B70 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C168115F26BF20013A382 /* Foundation.framework */; };
 		6ECA7AE915F3638500AF2B70 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ECA7AD715F3635A00AF2B70 /* main.m */; };
 		6ECA7AEA15F363C400AF2B70 /* PGServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
+		6ED7EA7C1637219B0040066F /* PGLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ED7EA7B1637219B0040066F /* PGLoginController.m */; };
+		6ED7EA7F1637249C0040066F /* PGLoginController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6ED7EA7E1637249C0040066F /* PGLoginController.xib */; };
 		6EDFA08415F3FCDF000C7BA4 /* PGServer+Backup.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EDFA08215F3FCDF000C7BA4 /* PGServer+Backup.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6EDFA08515F3FCDF000C7BA4 /* PGServer+Backup.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EDFA08315F3FCDF000C7BA4 /* PGServer+Backup.m */; };
 		6EE23F5D1631EF7500C99BA7 /* PGClientKit+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EE23F5A1631EF7500C99BA7 /* PGClientKit+Private.h */; };
@@ -184,14 +185,10 @@
 		6E68ADE91635DB4400436234 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		6E68ADEA1635DB4400436234 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		6E68ADEB1635DB4400436234 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		6E68ADEE1635DB4400436234 /* PGClient-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PGClient-Info.plist"; sourceTree = "<group>"; };
-		6E68ADF01635DB4400436234 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		6E68ADF21635DB4400436234 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		6E68ADF41635DB4400436234 /* PGClient-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PGClient-Prefix.pch"; sourceTree = "<group>"; };
-		6E68ADF61635DB4400436234 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
-		6E68ADF81635DB4400436234 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		6E68ADF91635DB4400436234 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		6E68ADFC1635DB4400436234 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		6E68AE031635DD6E00436234 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		6E68AE041635DD6E00436234 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		6E68AE051635DD6E00436234 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
+		6E68AE061635DD6E00436234 /* PGClient.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PGClient.plist; sourceTree = "<group>"; };
 		6E8C167C15F26BF20013A382 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		6E8C167F15F26BF20013A382 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		6E8C168115F26BF20013A382 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -310,6 +307,9 @@
 		6ECA7ADC15F3637600AF2B70 /* PGFoundationServer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PGFoundationServer; sourceTree = BUILT_PRODUCTS_DIR; };
 		6ED763FB15F2673600687079 /* PGServerKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PGServerKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6ED7640315F2673600687079 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		6ED7EA7A1637219B0040066F /* PGLoginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGLoginController.h; sourceTree = "<group>"; };
+		6ED7EA7B1637219B0040066F /* PGLoginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGLoginController.m; sourceTree = "<group>"; };
+		6ED7EA7E1637249C0040066F /* PGLoginController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PGLoginController.xib; sourceTree = "<group>"; };
 		6ED85B4616288C4800A6DC02 /* PGClientKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PGClientKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6ED85B4816288CDE00A6DC02 /* PGClientKit.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PGClientKit.plist; sourceTree = "<group>"; };
 		6ED85B4916288D0200A6DC02 /* PGClientKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGClientKit.h; sourceTree = "<group>"; };
@@ -343,6 +343,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6E68AE0B1635DDCE00436234 /* PGClientKit.framework in Frameworks */,
 				6E68ADE71635DB4400436234 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -431,7 +432,6 @@
 				6E256FEC15F252B40079AD2D /* tar */,
 				6E1B43DC15F3A465001ED3BE /* resources */,
 				6EB1E70A15F273350093F784 /* src */,
-				6E68ADEC1635DB4400436234 /* PGClient */,
 				6ED763FD15F2673600687079 /* Frameworks */,
 				6ED763FC15F2673600687079 /* Products */,
 			);
@@ -447,13 +447,6 @@
 			path = PGFoundationClient;
 			sourceTree = "<group>";
 		};
-		6E68ADDF1635DB1D00436234 /* PGClient */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = PGClient;
-			sourceTree = "<group>";
-		};
 		6E68ADE81635DB4400436234 /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -464,27 +457,18 @@
 			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
-		6E68ADEC1635DB4400436234 /* PGClient */ = {
+		6E68AE021635DD6E00436234 /* PGClient */ = {
 			isa = PBXGroup;
 			children = (
-				6E68ADF81635DB4400436234 /* AppDelegate.h */,
-				6E68ADF91635DB4400436234 /* AppDelegate.m */,
-				6E68ADFB1635DB4400436234 /* MainMenu.xib */,
-				6E68ADED1635DB4400436234 /* Supporting Files */,
+				6E68AE031635DD6E00436234 /* AppDelegate.h */,
+				6E68AE041635DD6E00436234 /* AppDelegate.m */,
+				6ED7EA7A1637219B0040066F /* PGLoginController.h */,
+				6ED7EA7B1637219B0040066F /* PGLoginController.m */,
+				6E68AE051635DD6E00436234 /* MainMenu.xib */,
+				6ED7EA7E1637249C0040066F /* PGLoginController.xib */,
+				6E68AE061635DD6E00436234 /* PGClient.plist */,
 			);
 			path = PGClient;
-			sourceTree = "<group>";
-		};
-		6E68ADED1635DB4400436234 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				6E68ADEE1635DB4400436234 /* PGClient-Info.plist */,
-				6E68ADEF1635DB4400436234 /* InfoPlist.strings */,
-				6E68ADF21635DB4400436234 /* main.m */,
-				6E68ADF41635DB4400436234 /* PGClient-Prefix.pch */,
-				6E68ADF51635DB4400436234 /* Credits.rtf */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		6EB1E70A15F273350093F784 /* src */ = {
@@ -505,7 +489,7 @@
 		6EB1E70B15F273350093F784 /* Example */ = {
 			isa = PBXGroup;
 			children = (
-				6E68ADDF1635DB1D00436234 /* PGClient */,
+				6E68AE021635DD6E00436234 /* PGClient */,
 				6E4DEC7F162CC2E7008B26BD /* PGFoundationClient */,
 				6ECA7AD615F3635A00AF2B70 /* PGFoundationServer */,
 				6EF30CF915F3957900EE0656 /* PGServer */,
@@ -947,9 +931,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E68ADF11635DB4400436234 /* InfoPlist.strings in Resources */,
-				6E68ADF71635DB4400436234 /* Credits.rtf in Resources */,
-				6E68ADFD1635DB4400436234 /* MainMenu.xib in Resources */,
+				6E68AE081635DD6E00436234 /* MainMenu.xib in Resources */,
+				6E68AE0A1635DDB500436234 /* elephant.icns in Resources */,
+				6ED7EA7F1637249C0040066F /* PGLoginController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1027,9 +1011,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E68ADF31635DB4400436234 /* main.m in Sources */,
-				6E68ADFA1635DB4400436234 /* AppDelegate.m in Sources */,
 				6E68AE011635DB6900436234 /* main.m in Sources */,
+				6E68AE071635DD6E00436234 /* AppDelegate.m in Sources */,
+				6ED7EA7C1637219B0040066F /* PGLoginController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1102,33 +1086,6 @@
 			targetProxy = 6ED85B3716288C4800A6DC02 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		6E68ADEF1635DB4400436234 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6E68ADF01635DB4400436234 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		6E68ADF51635DB4400436234 /* Credits.rtf */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6E68ADF61635DB4400436234 /* en */,
-			);
-			name = Credits.rtf;
-			sourceTree = "<group>";
-		};
-		6E68ADFB1635DB4400436234 /* MainMenu.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6E68ADFC1635DB4400436234 /* en */,
-			);
-			name = MainMenu.xib;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		6E256FE315F252620079AD2D /* Debug */ = {
@@ -1225,7 +1182,6 @@
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "PGClient/PGClient-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -1235,7 +1191,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "PGClient/PGClient-Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/src/Example/PGClient/PGClient.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1258,12 +1214,11 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "PGClient/PGClient-Prefix.pch";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "PGClient/PGClient-Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/src/Example/PGClient/PGClient.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -1567,6 +1522,7 @@
 				6E68AE001635DB4400436234 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6ECA7AE615F3637600AF2B70 /* Build configuration list for PBXNativeTarget "PGFoundationServer" */ = {
 			isa = XCConfigurationList;
