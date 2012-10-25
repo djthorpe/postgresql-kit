@@ -1,6 +1,5 @@
 
 #import "AppDelegate.h"
-#import <PGClientKit/PGClientKit.h>
 
 @implementation AppDelegate
 

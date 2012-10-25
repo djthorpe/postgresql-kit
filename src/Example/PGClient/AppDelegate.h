@@ -1,5 +1,7 @@
 
 #import <Cocoa/Cocoa.h>
+#import <PGClientKit/PGClientKit.h>
+
 #import "PGLoginController.h"
 
 @interface AppDelegate : NSObject <NSApplicationDelegate, PGLoginDelegate>
