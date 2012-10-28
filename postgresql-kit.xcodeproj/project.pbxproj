@@ -32,6 +32,7 @@
 		6E1B43FE15F3A4C2001ED3BE /* elephant.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43E715F3A465001ED3BE /* elephant.icns */; };
 		6E2A0EBF16374CAF00970FEF /* elephant-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43E615F3A465001ED3BE /* elephant-64.png */; };
 		6E2A0EC21637540400970FEF /* PGClientKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
+		6E2DFD2E163C54F400911094 /* TerminalView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2DFD2D163C54F400911094 /* TerminalView.m */; };
 		6E48B36F1605E34A0044A6CB /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E48B36E1605E34A0044A6CB /* libz.1.2.5.dylib */; };
 		6E48B37116060D980044A6CB /* strapline-200x40.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43F915F3A465001ED3BE /* strapline-200x40.png */; };
 		6E48B37216060D9E0044A6CB /* red.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43F415F3A465001ED3BE /* red.tiff */; };
@@ -65,6 +66,7 @@
 		6EE23F5F1631EF7500C99BA7 /* PGConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE23F5C1631EF7500C99BA7 /* PGConnection.m */; };
 		6EE23F611632076800C99BA7 /* PGClientParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE23F601632076800C99BA7 /* PGClientParams.m */; };
 		6EEE176416287D7A0029ACDC /* ConfigurationPrefs.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEE176316287D7A0029ACDC /* ConfigurationPrefs.m */; };
+		6EF22D76163D533C00F28238 /* TerminalData.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF22D75163D533C00F28238 /* TerminalData.m */; };
 		6EF30CF415F3957900EE0656 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C167C15F26BF20013A382 /* Cocoa.framework */; };
 		6EF30D0715F3957900EE0656 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF30D0615F3957900EE0656 /* AppDelegate.m */; };
 		6EF30D0F15F3964D00EE0656 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB1E72D15F273350093F784 /* main.m */; };
@@ -186,6 +188,8 @@
 		6E256FE815F252B40079AD2D /* doc */ = {isa = PBXFileReference; lastKnownFileType = folder; path = doc; sourceTree = "<group>"; };
 		6E256FE915F252B40079AD2D /* etc */ = {isa = PBXFileReference; lastKnownFileType = folder; path = etc; sourceTree = "<group>"; };
 		6E256FEC15F252B40079AD2D /* tar */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tar; sourceTree = "<group>"; };
+		6E2DFD2C163C54F400911094 /* TerminalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TerminalView.h; sourceTree = "<group>"; };
+		6E2DFD2D163C54F400911094 /* TerminalView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TerminalView.m; sourceTree = "<group>"; };
 		6E48B36E1605E34A0044A6CB /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = /usr/lib/libz.1.2.5.dylib; sourceTree = "<absolute>"; };
 		6E48B370160604270044A6CB /* PGServer+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PGServer+Private.h"; sourceTree = "<group>"; };
 		6E4DEC7A162CC19C008B26BD /* libcrypto.0.9.8.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.0.9.8.dylib; path = ../../../../usr/lib/libcrypto.0.9.8.dylib; sourceTree = "<group>"; };
@@ -335,6 +339,8 @@
 		6EE23F62163207DA00C99BA7 /* PGClientParams.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGClientParams.h; sourceTree = "<group>"; };
 		6EEE176216287D7A0029ACDC /* ConfigurationPrefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfigurationPrefs.h; sourceTree = "<group>"; };
 		6EEE176316287D7A0029ACDC /* ConfigurationPrefs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfigurationPrefs.m; sourceTree = "<group>"; };
+		6EF22D74163D533C00F28238 /* TerminalData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TerminalData.h; sourceTree = "<group>"; };
+		6EF22D75163D533C00F28238 /* TerminalData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TerminalData.m; sourceTree = "<group>"; };
 		6EF30CF215F3957900EE0656 /* PGServer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PGServer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6EF30CFB15F3957900EE0656 /* PGServer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PGServer-Info.plist"; sourceTree = "<group>"; };
 		6EF30D0515F3957900EE0656 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -450,6 +456,27 @@
 			);
 			sourceTree = "<group>";
 		};
+		6E2DFD29163C546F00911094 /* PGLoginController */ = {
+			isa = PBXGroup;
+			children = (
+				6ED7EA7A1637219B0040066F /* PGLoginController.h */,
+				6ED7EA7B1637219B0040066F /* PGLoginController.m */,
+				6ED7EA7E1637249C0040066F /* PGLoginController.xib */,
+			);
+			name = PGLoginController;
+			sourceTree = "<group>";
+		};
+		6E2DFD2B163C548800911094 /* TerminalView */ = {
+			isa = PBXGroup;
+			children = (
+				6E2DFD2C163C54F400911094 /* TerminalView.h */,
+				6E2DFD2D163C54F400911094 /* TerminalView.m */,
+				6EF22D74163D533C00F28238 /* TerminalData.h */,
+				6EF22D75163D533C00F28238 /* TerminalData.m */,
+			);
+			name = TerminalView;
+			sourceTree = "<group>";
+		};
 		6E4DEC7F162CC2E7008B26BD /* PGFoundationClient */ = {
 			isa = PBXGroup;
 			children = (
@@ -473,12 +500,11 @@
 		6E68AE021635DD6E00436234 /* PGClient */ = {
 			isa = PBXGroup;
 			children = (
+				6E2DFD2B163C548800911094 /* TerminalView */,
+				6E2DFD29163C546F00911094 /* PGLoginController */,
 				6E68AE031635DD6E00436234 /* AppDelegate.h */,
 				6E68AE041635DD6E00436234 /* AppDelegate.m */,
-				6ED7EA7A1637219B0040066F /* PGLoginController.h */,
-				6ED7EA7B1637219B0040066F /* PGLoginController.m */,
 				6E68AE051635DD6E00436234 /* MainMenu.xib */,
-				6ED7EA7E1637249C0040066F /* PGLoginController.xib */,
 				6E68AE061635DD6E00436234 /* PGClient.plist */,
 			);
 			path = PGClient;
@@ -1030,6 +1056,8 @@
 				6E68AE011635DB6900436234 /* main.m in Sources */,
 				6E68AE071635DD6E00436234 /* AppDelegate.m in Sources */,
 				6ED7EA7C1637219B0040066F /* PGLoginController.m in Sources */,
+				6E2DFD2E163C54F400911094 /* TerminalView.m in Sources */,
+				6EF22D76163D533C00F28238 /* TerminalData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
