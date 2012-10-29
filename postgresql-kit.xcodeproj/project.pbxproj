@@ -51,6 +51,8 @@
 		6E68AE081635DD6E00436234 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E68AE051635DD6E00436234 /* MainMenu.xib */; };
 		6E68AE0A1635DDB500436234 /* elephant.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43E715F3A465001ED3BE /* elephant.icns */; };
 		6E68AE0B1635DDCE00436234 /* PGClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
+		6E8BEB06163D612900DDC1B6 /* PGServerPreferences.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E8BEB04163D612900DDC1B6 /* PGServerPreferences.h */; };
+		6E8BEB07163D612900DDC1B6 /* PGServerPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E8BEB05163D612900DDC1B6 /* PGServerPreferences.m */; };
 		6EA41EF01610E7DB00E81046 /* PGServer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EA41EEE1610E7DB00E81046 /* PGServer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6EA41EF11610E7DB00E81046 /* PGServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EA41EEF1610E7DB00E81046 /* PGServer.m */; };
 		6EB1E79615F282910093F784 /* PGServerKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EB1E74015F273350093F784 /* PGServerKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -206,6 +208,8 @@
 		6E68AE041635DD6E00436234 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		6E68AE051635DD6E00436234 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		6E68AE061635DD6E00436234 /* PGClient.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PGClient.plist; sourceTree = "<group>"; };
+		6E8BEB04163D612900DDC1B6 /* PGServerPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGServerPreferences.h; sourceTree = "<group>"; };
+		6E8BEB05163D612900DDC1B6 /* PGServerPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGServerPreferences.m; sourceTree = "<group>"; };
 		6E8C167C15F26BF20013A382 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		6E8C167F15F26BF20013A382 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		6E8C168115F26BF20013A382 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -603,13 +607,15 @@
 		6EB1E73E15F273350093F784 /* PGServerKit */ = {
 			isa = PBXGroup;
 			children = (
-				6EB1E73F15F273350093F784 /* PGServerKit-Info.plist */,
 				6EB1E74015F273350093F784 /* PGServerKit.h */,
 				6EDFA08215F3FCDF000C7BA4 /* PGServer+Backup.h */,
 				6EDFA08315F3FCDF000C7BA4 /* PGServer+Backup.m */,
 				6E48B370160604270044A6CB /* PGServer+Private.h */,
 				6EA41EEE1610E7DB00E81046 /* PGServer.h */,
 				6EA41EEF1610E7DB00E81046 /* PGServer.m */,
+				6EB1E73F15F273350093F784 /* PGServerKit-Info.plist */,
+				6E8BEB04163D612900DDC1B6 /* PGServerPreferences.h */,
+				6E8BEB05163D612900DDC1B6 /* PGServerPreferences.m */,
 			);
 			path = PGServerKit;
 			sourceTree = "<group>";
@@ -806,6 +812,7 @@
 				6EB1E79615F282910093F784 /* PGServerKit.h in Headers */,
 				6EDFA08415F3FCDF000C7BA4 /* PGServer+Backup.h in Headers */,
 				6EA41EF01610E7DB00E81046 /* PGServer.h in Headers */,
+				6E8BEB06163D612900DDC1B6 /* PGServerPreferences.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1075,6 +1082,7 @@
 			files = (
 				6EDFA08515F3FCDF000C7BA4 /* PGServer+Backup.m in Sources */,
 				6EA41EF11610E7DB00E81046 /* PGServer.m in Sources */,
+				6E8BEB07163D612900DDC1B6 /* PGServerPreferences.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

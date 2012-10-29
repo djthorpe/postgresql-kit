@@ -14,9 +14,13 @@ typedef enum {
 	PGServerStateError       // error occurred
 } PGServerState;
 
+@class PGServer;
+@class PGServerPreferences;
+
 #import <Foundation/Foundation.h>
 #import "PGServer.h"
 #import "PGServer+Backup.h"
+#import "PGServerPreferences.h"
 
 // PGServerDelegate
 @interface NSObject (PGServerDelegate)

@@ -33,6 +33,8 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 		_dataPath = nil;
 		_currentTask = nil;
 		_timer = nil;
+		_configuration = nil;
+		_authentication = nil;
 	}
 	return self;
 }
@@ -66,6 +68,14 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 
 +(NSString* )_superUsername {
 	return @"postgres";
+}
+
++(NSString* )_authenticationPreferencesFilename {
+	return @"pg_hba.conf";
+}
+
++(NSString* )_configurationPreferencesFilename {
+	return @"postgresql.conf";
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -462,7 +472,11 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 	
 	// start the state machine timer
 	[self _startTimer];
-	
+
+	// remove preferences
+	_configuration = nil;
+	_authentication = nil;
+
 	// return YES
 	return YES;
 }
@@ -483,6 +497,10 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 	// start the state machine timer
 	[self _startTimer];
 
+	// remove preferences
+	_configuration = nil;
+	_authentication = nil;
+
 	// return success
 	return YES;
 }
@@ -500,7 +518,11 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 	
 	// start the state machine timer
 	[self _startTimer];
-	
+
+	// remove preferences
+	_configuration = nil;
+	_authentication = nil;
+
 	// return success
 	return YES;
 }
@@ -514,8 +536,36 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 	}
 	// send HUP
 	kill(_pid,SIGHUP);
+	// remove preferences
+	_configuration = nil;
+	_authentication = nil;
 	// return success
 	return YES;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// read authentication and configuration
+
+-(PGServerPreferences* )authentication {
+	if([self state] != PGServerStateRunning && [self state] != PGServerStateAlreadyRunning) {
+		return nil;
+	}
+	if(_authentication==nil) {
+		NSString* thePath = [_dataPath stringByAppendingPathComponent:[PGServer _authenticationPreferencesFilename]];
+		_authentication = [[PGServerPreferences alloc] initWithAuthenticationFile:thePath];
+	}
+	return _authentication;
+}
+
+-(PGServerPreferences* )configuration {
+	if([self state] != PGServerStateRunning && [self state] != PGServerStateAlreadyRunning) {
+		return nil;
+	}
+	if(_configuration==nil) {
+		NSString* thePath = [_dataPath stringByAppendingPathComponent:[PGServer _configurationPreferencesFilename]];
+		_configuration = [[PGServerPreferences alloc] initWithConfigurationFile:thePath];
+	}
+	return _configuration;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
