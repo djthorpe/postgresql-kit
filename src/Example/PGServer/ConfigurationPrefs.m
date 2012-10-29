@@ -1,19 +1,20 @@
-//
-//  ConfigurationPrefs.m
-//  postgresql-kit
-//
-//  Created by David Thorpe on 12/10/2012.
-//
-//
-
 #import "ConfigurationPrefs.h"
 
 @implementation ConfigurationPrefs
+
+@dynamic configuration;
+
+-(PGServerPreferences* )configuration {
+	return [[PGServer sharedServer] configuration];
+}
 
 -(IBAction)ibToolbarConfigurationSheetOpen:(id)sender {
 	NSWindow* theParentWindow = [[self appController] ibWindow];
 	
 	// TODO: Setup the window
+	NSLog(@"configuration = %@",[self configuration]);
+	
+	// begin sheet
 	[NSApp beginSheet:[self ibWindow] modalForWindow:theParentWindow modalDelegate:self didEndSelector:@selector(endSheet:returnCode:contextInfo:) contextInfo:nil];
 }
 

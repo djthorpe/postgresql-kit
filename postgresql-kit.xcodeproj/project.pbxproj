@@ -53,6 +53,8 @@
 		6E68AE0B1635DDCE00436234 /* PGClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
 		6E8BEB06163D612900DDC1B6 /* PGServerPreferences.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E8BEB04163D612900DDC1B6 /* PGServerPreferences.h */; };
 		6E8BEB07163D612900DDC1B6 /* PGServerPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E8BEB05163D612900DDC1B6 /* PGServerPreferences.m */; };
+		6E8BEB0A163F1A5300DDC1B6 /* PGServerPreference.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E8BEB08163F1A5200DDC1B6 /* PGServerPreference.h */; };
+		6E8BEB0B163F1A5300DDC1B6 /* PGServerPreference.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E8BEB09163F1A5200DDC1B6 /* PGServerPreference.m */; };
 		6EA41EF01610E7DB00E81046 /* PGServer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EA41EEE1610E7DB00E81046 /* PGServer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6EA41EF11610E7DB00E81046 /* PGServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EA41EEF1610E7DB00E81046 /* PGServer.m */; };
 		6EB1E79615F282910093F784 /* PGServerKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EB1E74015F273350093F784 /* PGServerKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -210,6 +212,8 @@
 		6E68AE061635DD6E00436234 /* PGClient.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PGClient.plist; sourceTree = "<group>"; };
 		6E8BEB04163D612900DDC1B6 /* PGServerPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGServerPreferences.h; sourceTree = "<group>"; };
 		6E8BEB05163D612900DDC1B6 /* PGServerPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGServerPreferences.m; sourceTree = "<group>"; };
+		6E8BEB08163F1A5200DDC1B6 /* PGServerPreference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGServerPreference.h; sourceTree = "<group>"; };
+		6E8BEB09163F1A5200DDC1B6 /* PGServerPreference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGServerPreference.m; sourceTree = "<group>"; };
 		6E8C167C15F26BF20013A382 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		6E8C167F15F26BF20013A382 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		6E8C168115F26BF20013A382 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -616,6 +620,8 @@
 				6EB1E73F15F273350093F784 /* PGServerKit-Info.plist */,
 				6E8BEB04163D612900DDC1B6 /* PGServerPreferences.h */,
 				6E8BEB05163D612900DDC1B6 /* PGServerPreferences.m */,
+				6E8BEB08163F1A5200DDC1B6 /* PGServerPreference.h */,
+				6E8BEB09163F1A5200DDC1B6 /* PGServerPreference.m */,
 			);
 			path = PGServerKit;
 			sourceTree = "<group>";
@@ -813,6 +819,7 @@
 				6EDFA08415F3FCDF000C7BA4 /* PGServer+Backup.h in Headers */,
 				6EA41EF01610E7DB00E81046 /* PGServer.h in Headers */,
 				6E8BEB06163D612900DDC1B6 /* PGServerPreferences.h in Headers */,
+				6E8BEB0A163F1A5300DDC1B6 /* PGServerPreference.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1083,6 +1090,7 @@
 				6EDFA08515F3FCDF000C7BA4 /* PGServer+Backup.m in Sources */,
 				6EA41EF11610E7DB00E81046 /* PGServer.m in Sources */,
 				6E8BEB07163D612900DDC1B6 /* PGServerPreferences.m in Sources */,
+				6E8BEB0B163F1A5300DDC1B6 /* PGServerPreference.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

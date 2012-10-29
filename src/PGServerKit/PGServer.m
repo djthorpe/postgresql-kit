@@ -279,7 +279,7 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 }
 
 -(void)_getTaskData:(NSNotification* )theNotification {
-	NSData* theData = [[theNotification userInfo] objectForKey:@"NSFileHandleNotificationDataItem"];
+	NSData* theData = [[theNotification userInfo] objectForKey:NSFileHandleNotificationDataItem];
 
 	[self _delegateMessageFromData:theData];
 
