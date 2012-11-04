@@ -22,7 +22,6 @@ typedef enum {
 #import "PGServer.h"
 #import "PGServer+Backup.h"
 #import "PGServerPreferences.h"
-#import "PGServerPreference.h"
 
 // PGServerDelegate
 @interface NSObject (PGServerDelegate)

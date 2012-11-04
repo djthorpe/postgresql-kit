@@ -1,13 +1,14 @@
 
 #import <Foundation/Foundation.h>
 #import "PGServerKit.h"
+#import "PGTokenizer.h"
 
 typedef enum {
 	PGServerPreferencesTypeConfiguration,
 	PGServerPreferencesTypeAuthentication
 } PGServerPreferencesType;
 
-@interface PGServerPreferences : NSObject
+@interface PGServerPreferences : PGTokenizer
 
 @property (assign) BOOL modified;
 @property (assign) PGServerPreferencesType type;

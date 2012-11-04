@@ -23,8 +23,9 @@
 /* Begin PBXBuildFile section */
 		141FCCEA1646911C00197F3F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C168115F26BF20013A382 /* Foundation.framework */; };
 		141FCCFA1646919E00197F3F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 141FCCF71646917B00197F3F /* main.m */; };
-		141FCCFC164699ED00197F3F /* tokenizer.lm in Sources */ = {isa = PBXBuildFile; fileRef = 141FCCFB164699ED00197F3F /* tokenizer.lm */; };
-		141FCD0516469E4000197F3F /* PGTokenizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 141FCD0416469E4000197F3F /* PGTokenizer.m */; };
+		141FCD0C1646D09100197F3F /* PGServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
+		141FCD0F1646D13400197F3F /* PGTokenizer.lm in Sources */ = {isa = PBXBuildFile; fileRef = 141FCD071646CD1300197F3F /* PGTokenizer.lm */; };
+		141FCD101646D13800197F3F /* PGTokenizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 141FCD0A1646CDA400197F3F /* PGTokenizer.m */; };
 		6E031030162FE50B003225B1 /* PGStatement.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E03102E162FE50B003225B1 /* PGStatement.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E031031162FE50B003225B1 /* PGStatement.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E03102F162FE50B003225B1 /* PGStatement.m */; };
 		6E0773D9163744D90028783F /* PGResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0773D7163744D90028783F /* PGResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -93,6 +94,13 @@
 /* End PBXBuildRule section */
 
 /* Begin PBXContainerItemProxy section */
+		141FCD0D1646D0FA00197F3F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E256FDE15F252620079AD2D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6ED763FA15F2673600687079;
+			remoteInfo = PGServerKit;
+		};
 		6E30F78E15F3A5180056C749 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6E256FDE15F252620079AD2D /* Project object */;
@@ -174,9 +182,9 @@
 /* Begin PBXFileReference section */
 		141FCCE81646911C00197F3F /* Tokenizer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Tokenizer; sourceTree = BUILT_PRODUCTS_DIR; };
 		141FCCF71646917B00197F3F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		141FCCFB164699ED00197F3F /* tokenizer.lm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; path = tokenizer.lm; sourceTree = "<group>"; };
-		141FCD0316469E4000197F3F /* PGTokenizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGTokenizer.h; sourceTree = "<group>"; };
-		141FCD0416469E4000197F3F /* PGTokenizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGTokenizer.m; sourceTree = "<group>"; };
+		141FCD071646CD1300197F3F /* PGTokenizer.lm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; path = PGTokenizer.lm; sourceTree = "<group>"; };
+		141FCD091646CDA400197F3F /* PGTokenizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGTokenizer.h; sourceTree = "<group>"; };
+		141FCD0A1646CDA400197F3F /* PGTokenizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGTokenizer.m; sourceTree = "<group>"; };
 		6E03102E162FE50B003225B1 /* PGStatement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGStatement.h; sourceTree = "<group>"; };
 		6E03102F162FE50B003225B1 /* PGStatement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGStatement.m; sourceTree = "<group>"; };
 		6E0773D7163744D90028783F /* PGResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGResult.h; sourceTree = "<group>"; };
@@ -388,6 +396,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				141FCCEA1646911C00197F3F /* Foundation.framework in Frameworks */,
+				141FCD0C1646D09100197F3F /* PGServerKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -451,9 +460,6 @@
 			isa = PBXGroup;
 			children = (
 				141FCCF71646917B00197F3F /* main.m */,
-				141FCCFB164699ED00197F3F /* tokenizer.lm */,
-				141FCD0316469E4000197F3F /* PGTokenizer.h */,
-				141FCD0416469E4000197F3F /* PGTokenizer.m */,
 			);
 			path = Tokenizer;
 			sourceTree = "<group>";
@@ -463,6 +469,9 @@
 			children = (
 				6E8BEB05163D612900DDC1B6 /* PGServerPreferences.m */,
 				6E8BEB04163D612900DDC1B6 /* PGServerPreferences.h */,
+				141FCD071646CD1300197F3F /* PGTokenizer.lm */,
+				141FCD091646CDA400197F3F /* PGTokenizer.h */,
+				141FCD0A1646CDA400197F3F /* PGTokenizer.m */,
 			);
 			name = Preferences;
 			sourceTree = "<group>";
@@ -903,6 +912,7 @@
 				141FCD0216469CB400197F3F /* PBXBuildRule */,
 			);
 			dependencies = (
+				141FCD0E1646D0FA00197F3F /* PBXTargetDependency */,
 			);
 			name = Tokenizer;
 			productName = Tokenizer;
@@ -1130,8 +1140,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				141FCCFA1646919E00197F3F /* main.m in Sources */,
-				141FCCFC164699ED00197F3F /* tokenizer.lm in Sources */,
-				141FCD0516469E4000197F3F /* PGTokenizer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1171,6 +1179,8 @@
 				6EDFA08515F3FCDF000C7BA4 /* PGServer+Backup.m in Sources */,
 				6EA41EF11610E7DB00E81046 /* PGServer.m in Sources */,
 				6E8BEB07163D612900DDC1B6 /* PGServerPreferences.m in Sources */,
+				141FCD0F1646D13400197F3F /* PGTokenizer.lm in Sources */,
+				141FCD101646D13800197F3F /* PGTokenizer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1200,6 +1210,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		141FCD0E1646D0FA00197F3F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6ED763FA15F2673600687079 /* PGServerKit */;
+			targetProxy = 141FCD0D1646D0FA00197F3F /* PBXContainerItemProxy */;
+		};
 		6E30F78F15F3A5180056C749 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 6ED763FA15F2673600687079 /* PGServerKit */;

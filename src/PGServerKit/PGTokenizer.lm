@@ -1,5 +1,4 @@
 
-/* definitions */
 HASH    [#]
 ID	    [A-Za-z_][A-Za-z0-9_]*
 EQUALS	[=]
@@ -9,7 +8,6 @@ NEWLINE \r?\n
 %{
 #import <Foundation/Foundation.h>
 #import "PGTokenizer.h"
-
 %}
 
 %option reentrant

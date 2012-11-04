@@ -1,33 +1,21 @@
-//
-//  main.m
-//  Tokenizer
-//
-//  Created by David Thorpe on 04/11/2012.
-//
-//
+
+/*
+ This example shows how to use the PGServerKit to create a server, as
+ a foundation shell tool. When the server is started, any signal (TERM or KILL)
+ is handled to stop the server gracefully.
+ */
 
 #import <Foundation/Foundation.h>
-#import "PGTokenizer.h"
+#import <PGServerKit/PGServerKit.h>
 
-// /Users/davidthorpe/Library/Application Support/PostgreSQL/pg_ident.conf
-// /Users/davidthorpe/Library/Application Support PostgreSQL/pg_hba.conf
-// /Users/davidthorpe/Library/Application Support/PostgreSQL/postgresql.conf
-
-int main(int argc, const char * argv[]) {
+int main (int argc, const char* argv[]) {
 	int returnValue = 0;
+	
 	@autoreleasepool {
-		// create tokenizer
-		PGTokenizer* t = [[PGTokenizer alloc] init];
-        // read filename from command line
-        for(int arg=1; arg < argc; arg++) {
-            NSString* thePath = [[NSString alloc] initWithUTF8String:argv[arg]];
-			BOOL isSuccess = [t parseFile:thePath];
-			if(isSuccess==NO) {
-				returnValue = -1;
-				break;
-			}
-        }
-    }
+		NSString* thePath = @"/Users/davidthorpe/Library/Application Support/PostgreSQL/postgresql.conf";
+		PGServerPreferences* thePreferences = [[PGServerPreferences alloc] initWithConfigurationFile:thePath];
+		NSLog(@"Preferences = %@",thePreferences);
+	}
+	
     return returnValue;
 }
-
