@@ -3,56 +3,43 @@
 HASH    [#]
 ID	    [A-Za-z_][A-Za-z0-9_]*
 EQUALS	[=]
-
+WHITESP [\t ]+
+NEWLINE \r?\n
 
 %{
 #import <Foundation/Foundation.h>
-
-typedef enum {
-	PGTokenizerHash = 1,
-	PGTokenizerEquals,
-	PGTokenizerSQString,
-	PGTokenizerDQString,
-	PGTokenizerKeyword,
-	PGTokenizerWhitespace,
-	PGTokenizerNewline,
-	PGTokenizerOther
-} PGTokenizerType;
+#import "PGTokenizer.h"
 
 %}
 
 %option reentrant
+%option noyywrap
 
 %%
-{HASH}		{ return PGTokenizerHash; }
-{EQUALS}	{ return PGTokenizerEquals; }
 \'(\\.|[^\\'])*\'  { return PGTokenizerSQString; }
 \"(\\.|[^\\"])*\"  { return PGTokenizerDQString; }
+{HASH}		{ return PGTokenizerHash; }
+{EQUALS}	{ return PGTokenizerEquals; }
 {ID}		{ return PGTokenizerKeyword; }
-[\t ]+      { return PGTokenizerWhitespace; }
-\r?\n		{ return PGTokenizerNewline; }
+{WHITESP}	{ return PGTokenizerWhitespace; }
+{NEWLINE}	{ return PGTokenizerNewline; }
 .			{ return PGTokenizerOther; }
 %%
 
-/* Routines */
-
-int file_tokenize(NSString* thePath) {
-	NSFileHandle* inputFile = [NSFileHandle fileHandleForReadingAtPath:thePath];
-	
+BOOL file_tokenize(PGTokenizer* tokenizer,const char* file) {
     yyscan_t yyscanner;
     struct yyguts_t* yyg;
     yylex_init(&yyscanner);
     yyg = (struct yyguts_t* )yyscanner;
-	yyin = fopen([thePath UTF8String],"rb");
-	int tok;
-	while((tok=yylex(yyscanner)) > 0) {
-		printf("tok=%d  yytext=%s\n", tok, yyget_text(yyscanner));
+	yyin = fopen(file,"rb");
+	if(yyin==nil) {
+		return NO;
+	}
+	int type;
+	while((type = yylex(yyscanner)) > 0) {
+		[tokenizer token:type text:yyget_text(yyscanner)];
 	}
     yylex_destroy(yyscanner);
 	fclose(yyin);
-	return 0;
-}
-
-int yywrap(yyscan_t yyscanner) {
-    return 1;
+	return YES;
 }

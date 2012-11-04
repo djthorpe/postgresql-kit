@@ -7,9 +7,7 @@ typedef enum {
 	PGServerPreferencesTypeAuthentication
 } PGServerPreferencesType;
 
-@interface PGServerPreferences : NSObject {
-	NSMutableArray* _data;
-}
+@interface PGServerPreferences : NSObject
 
 @property (assign) BOOL modified;
 @property (assign) PGServerPreferencesType type;
