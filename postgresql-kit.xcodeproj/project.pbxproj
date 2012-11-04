@@ -26,6 +26,7 @@
 		141FCD0C1646D09100197F3F /* PGServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
 		141FCD0F1646D13400197F3F /* PGTokenizer.lm in Sources */ = {isa = PBXBuildFile; fileRef = 141FCD071646CD1300197F3F /* PGTokenizer.lm */; };
 		141FCD101646D13800197F3F /* PGTokenizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 141FCD0A1646CDA400197F3F /* PGTokenizer.m */; };
+		141FCD141646D34B00197F3F /* PGTokenizerLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 141FCD121646D34B00197F3F /* PGTokenizerLine.m */; };
 		6E031030162FE50B003225B1 /* PGStatement.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E03102E162FE50B003225B1 /* PGStatement.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E031031162FE50B003225B1 /* PGStatement.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E03102F162FE50B003225B1 /* PGStatement.m */; };
 		6E0773D9163744D90028783F /* PGResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0773D7163744D90028783F /* PGResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -185,6 +186,8 @@
 		141FCD071646CD1300197F3F /* PGTokenizer.lm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; path = PGTokenizer.lm; sourceTree = "<group>"; };
 		141FCD091646CDA400197F3F /* PGTokenizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGTokenizer.h; sourceTree = "<group>"; };
 		141FCD0A1646CDA400197F3F /* PGTokenizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGTokenizer.m; sourceTree = "<group>"; };
+		141FCD111646D34B00197F3F /* PGTokenizerLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGTokenizerLine.h; sourceTree = "<group>"; };
+		141FCD121646D34B00197F3F /* PGTokenizerLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGTokenizerLine.m; sourceTree = "<group>"; };
 		6E03102E162FE50B003225B1 /* PGStatement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGStatement.h; sourceTree = "<group>"; };
 		6E03102F162FE50B003225B1 /* PGStatement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGStatement.m; sourceTree = "<group>"; };
 		6E0773D7163744D90028783F /* PGResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGResult.h; sourceTree = "<group>"; };
@@ -472,6 +475,8 @@
 				141FCD071646CD1300197F3F /* PGTokenizer.lm */,
 				141FCD091646CDA400197F3F /* PGTokenizer.h */,
 				141FCD0A1646CDA400197F3F /* PGTokenizer.m */,
+				141FCD111646D34B00197F3F /* PGTokenizerLine.h */,
+				141FCD121646D34B00197F3F /* PGTokenizerLine.m */,
 			);
 			name = Preferences;
 			sourceTree = "<group>";
@@ -1036,7 +1041,7 @@
 		6E256FDE15F252620079AD2D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0440;
+				LastUpgradeCheck = 0450;
 			};
 			buildConfigurationList = 6E256FE115F252620079AD2D /* Build configuration list for PBXProject "postgresql-kit" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1181,6 +1186,7 @@
 				6E8BEB07163D612900DDC1B6 /* PGServerPreferences.m in Sources */,
 				141FCD0F1646D13400197F3F /* PGTokenizer.lm in Sources */,
 				141FCD101646D13800197F3F /* PGTokenizer.m in Sources */,
+				141FCD141646D34B00197F3F /* PGTokenizerLine.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1315,6 +1321,7 @@
 		6E256FF015F255780079AD2D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -1322,6 +1329,7 @@
 		6E256FF115F255780079AD2D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -1707,6 +1715,7 @@
 				141FCCF31646911C00197F3F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6E256FE115F252620079AD2D /* Build configuration list for PBXProject "postgresql-kit" */ = {
 			isa = XCConfigurationList;

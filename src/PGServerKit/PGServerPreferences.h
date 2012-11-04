@@ -10,7 +10,6 @@ typedef enum {
 
 @interface PGServerPreferences : PGTokenizer
 
-@property (assign) BOOL modified;
 @property (assign) PGServerPreferencesType type;
 
 -(id)initWithConfigurationFile:(NSString* )path;

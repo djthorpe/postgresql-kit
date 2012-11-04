@@ -16,7 +16,6 @@ typedef enum {
 
 @class PGServer;
 @class PGServerPreferences;
-@class PGServerPreference;
 
 #import <Foundation/Foundation.h>
 #import "PGServer.h"

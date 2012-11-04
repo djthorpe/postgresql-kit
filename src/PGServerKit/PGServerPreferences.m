@@ -14,7 +14,6 @@
 		if([super parse:path]==NO) {
 			return nil;
 		}
-		[self setModified:NO];
 	}
 	return self;
 }
@@ -26,7 +25,6 @@
 		if([super parse:path]==NO) {
 			return nil;
 		}
-		[self setModified:NO];
 	}
 	return self;
 }

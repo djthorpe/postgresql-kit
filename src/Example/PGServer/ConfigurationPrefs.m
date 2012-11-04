@@ -11,9 +11,12 @@
 -(IBAction)ibToolbarConfigurationSheetOpen:(id)sender {
 	NSWindow* theParentWindow = [[self appController] ibWindow];
 	
-	// TODO: Setup the window
-	NSLog(@"configuration = %@",[self configuration]);
-	
+	// Setup the window
+	[[self ibTableView] setDataSource:self];
+	[[self ibTableView] setDelegate:self];
+	[[self ibTableView] reloadData];
+	// resize columns to fit 100%
+	[[self ibTableView] sizeToFit];
 	// begin sheet
 	[NSApp beginSheet:[self ibWindow] modalForWindow:theParentWindow modalDelegate:self didEndSelector:@selector(endSheet:returnCode:contextInfo:) contextInfo:nil];
 }
@@ -32,6 +35,77 @@
 	[theSheet orderOut:self];
 	if(returnCode==NSOKButton) {
 		NSLog(@"OK Button pressed");
+	}
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+-(NSInteger)numberOfRowsInTableView:(NSTableView* )aTableView {
+	if([self configuration]==nil) {
+		NSLog(@"no configuration");
+		return 0;
+	} else {
+		NSLog(@"count = %ld",[[self configuration] count]);
+		return [[self configuration] count];
+	}
+}
+
+-(id)tableView:(NSTableView* )aTableView objectValueForTableColumn:(NSTableColumn* )aTableColumn row:(NSInteger)rowIndex {
+	NSString* theKey = [[self configuration] keyAtIndex:rowIndex];
+
+	// deal with key column
+	if([[aTableColumn identifier] isEqual:@"key"]) {
+		NSButtonCell* theCell = [aTableColumn dataCell];
+		[theCell setTitle:theKey];
+		if([[self configuration] enabledForKey:theKey]) {
+			[theCell setState:NSOnState];
+		} else {
+			[theCell setState:NSOffState];
+		}
+		return theCell;
+	}
+	
+	// deal with value column
+	if([[aTableColumn identifier] isEqual:@"value"]) {
+		return [[self configuration] valueForKey:theKey];
+	}
+#ifdef DEBUG
+	NSLog(@"Don't know what value to return for table column %@, returning nil",aTableColumn);
+#endif
+	return nil;
+}
+
+-(void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
+	NSString* theKey = [[self configuration] keyAtIndex:rowIndex];
+	
+	// deal with key column
+	if([[aTableColumn identifier] isEqual:@"key"]) {
+		NSParameterAssert([anObject isKindOfClass:[NSNumber class]]);
+		if([(NSNumber* )anObject boolValue]) {
+			NSLog(@"set enabled ON for key %@",theKey);
+		} else {
+			NSLog(@"set enabled OFF for key %@",theKey);
+		}
+		return;
+	}
+	
+	// deal with value column
+	if([[aTableColumn identifier] isEqual:@"value"]) {
+		NSLog(@"set value %@ for %@",anObject,theKey);
+		return;
+	}
+#ifdef DEBUG
+	NSLog(@"Don't know what value to return for table column %@, returning nil",aTableColumn);
+#endif
+}
+
+-(void)tableViewSelectionDidChange:(NSNotification *)aNotification {
+	NSInteger selectedRow = [[self ibTableView] selectedRow];
+	if(selectedRow >= 0 && selectedRow < [[self configuration] count]) {
+		NSString* theKey = [[self configuration] keyAtIndex:selectedRow];
+		[self setIbComment:[[self configuration] commentForKey:theKey]];
+	} else {
+		[self setIbComment:@""];
 	}
 }
 
