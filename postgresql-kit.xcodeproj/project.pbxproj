@@ -24,7 +24,7 @@
 		141FCCEA1646911C00197F3F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C168115F26BF20013A382 /* Foundation.framework */; };
 		141FCCFA1646919E00197F3F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 141FCCF71646917B00197F3F /* main.m */; };
 		141FCCFC164699ED00197F3F /* tokenizer.lm in Sources */ = {isa = PBXBuildFile; fileRef = 141FCCFB164699ED00197F3F /* tokenizer.lm */; };
-		141FCD0516469E4000197F3F /* Token.m in Sources */ = {isa = PBXBuildFile; fileRef = 141FCD0416469E4000197F3F /* Token.m */; };
+		141FCD0516469E4000197F3F /* Tokenizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 141FCD0416469E4000197F3F /* Tokenizer.m */; };
 		6E031030162FE50B003225B1 /* PGStatement.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E03102E162FE50B003225B1 /* PGStatement.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E031031162FE50B003225B1 /* PGStatement.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E03102F162FE50B003225B1 /* PGStatement.m */; };
 		6E0773D9163744D90028783F /* PGResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0773D7163744D90028783F /* PGResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -177,8 +177,8 @@
 		141FCCE81646911C00197F3F /* Tokenizer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Tokenizer; sourceTree = BUILT_PRODUCTS_DIR; };
 		141FCCF71646917B00197F3F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		141FCCFB164699ED00197F3F /* tokenizer.lm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; path = tokenizer.lm; sourceTree = "<group>"; };
-		141FCD0316469E4000197F3F /* Token.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Token.h; sourceTree = "<group>"; };
-		141FCD0416469E4000197F3F /* Token.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Token.m; sourceTree = "<group>"; };
+		141FCD0316469E4000197F3F /* Tokenizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tokenizer.h; sourceTree = "<group>"; };
+		141FCD0416469E4000197F3F /* Tokenizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tokenizer.m; sourceTree = "<group>"; };
 		6E03102E162FE50B003225B1 /* PGStatement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGStatement.h; sourceTree = "<group>"; };
 		6E03102F162FE50B003225B1 /* PGStatement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGStatement.m; sourceTree = "<group>"; };
 		6E0773D7163744D90028783F /* PGResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGResult.h; sourceTree = "<group>"; };
@@ -456,8 +456,8 @@
 			children = (
 				141FCCF71646917B00197F3F /* main.m */,
 				141FCCFB164699ED00197F3F /* tokenizer.lm */,
-				141FCD0316469E4000197F3F /* Token.h */,
-				141FCD0416469E4000197F3F /* Token.m */,
+				141FCD0316469E4000197F3F /* Tokenizer.h */,
+				141FCD0416469E4000197F3F /* Tokenizer.m */,
 			);
 			path = Tokenizer;
 			sourceTree = "<group>";
@@ -1130,7 +1130,7 @@
 			files = (
 				141FCCFA1646919E00197F3F /* main.m in Sources */,
 				141FCCFC164699ED00197F3F /* tokenizer.lm in Sources */,
-				141FCD0516469E4000197F3F /* Token.m in Sources */,
+				141FCD0516469E4000197F3F /* Tokenizer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

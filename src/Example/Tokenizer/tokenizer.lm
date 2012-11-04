@@ -4,6 +4,10 @@ HASH    [#]
 ID	    [A-Za-z_][A-Za-z0-9_]*
 EQUALS	[=]
 
+
+%{
+#import <Foundation/Foundation.h>
+
 typedef enum {
 	PGTokenizerHash = 1,
 	PGTokenizerEquals,
@@ -15,8 +19,6 @@ typedef enum {
 	PGTokenizerOther
 } PGTokenizerType;
 
-%{
-#import <Foundation/Foundation.h>
 %}
 
 %option reentrant
@@ -29,12 +31,14 @@ typedef enum {
 {ID}		{ return PGTokenizerKeyword; }
 [\t ]+      { return PGTokenizerWhitespace; }
 \r?\n		{ return PGTokenizerNewline; }
-.			{ PGTokenizerOther; }
+.			{ return PGTokenizerOther; }
 %%
 
 /* Routines */
 
 int file_tokenize(NSString* thePath) {
+	NSFileHandle* inputFile = [NSFileHandle fileHandleForReadingAtPath:thePath];
+	
     yyscan_t yyscanner;
     struct yyguts_t* yyg;
     yylex_init(&yyscanner);
