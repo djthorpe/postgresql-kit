@@ -1,0 +1,54 @@
+
+/* definitions */
+HASH    [#]
+ID	    [A-Za-z_][A-Za-z0-9_]*
+EQUALS	[=]
+
+typedef enum {
+	PGTokenizerHash = 1,
+	PGTokenizerEquals,
+	PGTokenizerSQString,
+	PGTokenizerDQString,
+	PGTokenizerKeyword,
+	PGTokenizerWhitespace,
+	PGTokenizerNewline,
+	PGTokenizerOther
+} PGTokenizerType;
+
+%{
+#import <Foundation/Foundation.h>
+%}
+
+%option reentrant
+
+%%
+{HASH}		{ return PGTokenizerHash; }
+{EQUALS}	{ return PGTokenizerEquals; }
+\'(\\.|[^\\'])*\'  { return PGTokenizerSQString; }
+\"(\\.|[^\\"])*\"  { return PGTokenizerDQString; }
+{ID}		{ return PGTokenizerKeyword; }
+[\t ]+      { return PGTokenizerWhitespace; }
+\r?\n		{ return PGTokenizerNewline; }
+.			{ PGTokenizerOther; }
+%%
+
+/* Routines */
+
+int file_tokenize(NSString* thePath) {
+    yyscan_t yyscanner;
+    struct yyguts_t* yyg;
+    yylex_init(&yyscanner);
+    yyg = (struct yyguts_t* )yyscanner;
+	yyin = fopen([thePath UTF8String],"rb");
+	int tok;
+	while((tok=yylex(yyscanner)) > 0) {
+		printf("tok=%d  yytext=%s\n", tok, yyget_text(yyscanner));
+	}
+    yylex_destroy(yyscanner);
+	fclose(yyin);
+	return 0;
+}
+
+int yywrap(yyscan_t yyscanner) {
+    return 1;
+}
