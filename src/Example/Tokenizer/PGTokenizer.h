@@ -1,6 +1,6 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Tokenizer : NSObject
+@interface PGTokenizer : NSObject
 
 @end
