@@ -56,6 +56,7 @@
 	// deal with key column
 	if([[aTableColumn identifier] isEqual:@"key"]) {
 		NSButtonCell* theCell = [aTableColumn dataCell];
+		NSParameterAssert([theCell isKindOfClass:[NSButtonCell class]]);
 		[theCell setTitle:theKey];
 		if([[self configuration] enabledForKey:theKey]) {
 			[theCell setState:NSOnState];
@@ -67,7 +68,11 @@
 	
 	// deal with value column
 	if([[aTableColumn identifier] isEqual:@"value"]) {
-		return [[self configuration] valueForKey:theKey];
+		NSTextFieldCell* theCell = [aTableColumn dataCell];
+		NSParameterAssert([theCell isKindOfClass:[NSTextFieldCell class]]);
+		[theCell setStringValue:[[self configuration] valueForKey:theKey]];
+		[theCell setEnabled:[[self configuration] enabledForKey:theKey]];
+		return theCell;
 	}
 #ifdef DEBUG
 	NSLog(@"Don't know what value to return for table column %@, returning nil",aTableColumn);
@@ -81,17 +86,14 @@
 	// deal with key column
 	if([[aTableColumn identifier] isEqual:@"key"]) {
 		NSParameterAssert([anObject isKindOfClass:[NSNumber class]]);
-		if([(NSNumber* )anObject boolValue]) {
-			NSLog(@"set enabled ON for key %@",theKey);
-		} else {
-			NSLog(@"set enabled OFF for key %@",theKey);
-		}
+		[[self configuration] setEnabled:[(NSNumber* )anObject boolValue] forKey:theKey];
 		return;
 	}
 	
 	// deal with value column
 	if([[aTableColumn identifier] isEqual:@"value"]) {
-		NSLog(@"set value %@ for %@",anObject,theKey);
+		NSParameterAssert([anObject isKindOfClass:[NSString class]]);		
+		[[self configuration] setValue:(NSString* )anObject forKey:theKey];
 		return;
 	}
 #ifdef DEBUG
@@ -103,7 +105,8 @@
 	NSInteger selectedRow = [[self ibTableView] selectedRow];
 	if(selectedRow >= 0 && selectedRow < [[self configuration] count]) {
 		NSString* theKey = [[self configuration] keyAtIndex:selectedRow];
-		[self setIbComment:[[self configuration] commentForKey:theKey]];
+		NSString* theComment = [[self configuration] commentForKey:theKey];
+		[self setIbComment:[theComment stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
 	} else {
 		[self setIbComment:@""];
 	}

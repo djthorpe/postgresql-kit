@@ -60,6 +60,22 @@ BOOL file_tokenize(PGTokenizer* tokenizer,const char* file);
 	return [theLine value];
 }
 
+-(void)setValue:(NSString* )theValue forKey:(NSString* )theKey {
+	NSParameterAssert(theValue && theKey);
+	PGTokenizerLine* theLine = [_index objectForKey:theKey];
+	NSParameterAssert(theLine);
+	[theLine setValue:theValue];
+	_modified = YES;
+}
+
+-(void)setEnabled:(BOOL)theValue forKey:(NSString* )theKey {
+	NSParameterAssert(theKey);
+	PGTokenizerLine* theLine = [_index objectForKey:theKey];
+	NSParameterAssert(theLine);
+	[theLine setEnabled:theValue];
+	_modified = YES;
+}
+
 -(BOOL)parse:(NSString* )thePath {
 	// empty the structures
 	[_lines removeAllObjects];

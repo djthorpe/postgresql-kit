@@ -30,5 +30,7 @@ typedef enum {
 -(BOOL)enabledForKey:(NSString* )theKey;
 -(NSString* )commentForKey:(NSString* )theKey;
 -(NSString* )valueForKey:(NSString* )theKey;
+-(void)setValue:(NSString* )theValue forKey:(NSString* )theKey;
+-(void)setEnabled:(BOOL)theValue forKey:(NSString* )theKey;
 
 @end

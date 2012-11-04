@@ -13,7 +13,7 @@
 
 @property (readonly) NSString* keyword;
 @property (readonly) NSString* comment;
-@property (readonly) NSString* value;
-@property (readonly) BOOL enabled;
+@property (retain) NSString* value;
+@property (assign) BOOL enabled;
 
 @end

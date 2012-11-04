@@ -141,6 +141,14 @@
 	}
 }
 
+-(void)setValue:(NSString* )theValue {
+	_value = [theValue mutableCopy];
+}
+
+-(void)setEnabled:(BOOL)theValue {
+	_enabled = theValue;
+}
+
 -(BOOL)enabled {
 	if(_keyword) {
 		return _enabled;
