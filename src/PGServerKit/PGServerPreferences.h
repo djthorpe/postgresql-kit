@@ -8,11 +8,19 @@ typedef enum {
 	PGServerPreferencesTypeAuthentication
 } PGServerPreferencesType;
 
-@interface PGServerPreferences : PGTokenizer
+@interface PGServerPreferences : PGTokenizer {
+	NSString* _path;
+}
 
-@property (assign) PGServerPreferencesType type;
+@property PGServerPreferencesType type;
+@property (readonly) BOOL modified;
+@property (readonly) NSString* path;
 
+// constructors
 -(id)initWithConfigurationFile:(NSString* )path;
 -(id)initWithAuthenticationFile:(NSString* )path;
+
+// methods
+-(BOOL)save;
 
 @end

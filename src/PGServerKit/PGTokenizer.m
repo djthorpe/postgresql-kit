@@ -102,9 +102,24 @@ BOOL file_tokenize(PGTokenizer* tokenizer,const char* file);
 }
 
 -(BOOL)save:(NSString* )thePath {
-	for(PGTokenizerLine* line in _lines) {
-		NSLog(@"%@",[line description]);
+	NSFileHandle* fileHandle = [NSFileHandle fileHandleForWritingAtPath:thePath];
+	if(fileHandle==nil) {
+#ifdef DEBUG
+		NSLog(@"save: failed to open file: %@",thePath);
+#endif
+		return NO;
 	}
+	
+	// remove existing contents of the file
+	[fileHandle truncateFileAtOffset:0];
+	
+	NSData* newLine = [@"\n" dataUsingEncoding:NSUTF8StringEncoding];
+	for(PGTokenizerLine* line in _lines) {
+		NSData* theData = [[line description] dataUsingEncoding:NSUTF8StringEncoding];
+		[fileHandle writeData:theData];
+		[fileHandle writeData:newLine];		
+	}
+	[fileHandle closeFile];
 	return YES;
 }
 

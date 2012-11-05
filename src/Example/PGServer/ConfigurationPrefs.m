@@ -41,7 +41,7 @@
 	[theSheet orderOut:self];
 	if(returnCode==NSOKButton) {
 		if([[self delegate] respondsToSelector:@selector(reloadServer)]){
-			[[self configuration] save:nil];
+			[[self configuration] save];
 			[[self delegate] reloadServer];
 		}
 	}
