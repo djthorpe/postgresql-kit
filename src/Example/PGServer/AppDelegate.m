@@ -94,9 +94,11 @@
 	}
 	
 	// check for terminating
-	if([sender state]==PGServerStateStopped) {
-		NSLog(@"Now quitting");
-		[NSApp replyToApplicationShouldTerminate:YES];
+	if([sender state]==PGServerStateStopped && [self terminateRequested]) {
+#ifdef DEBUG
+		NSLog(@"PGServerStateStopped state reached, quitting application");
+#endif
+		[[NSApplication sharedApplication] terminate:self];
 	}
 }
 
@@ -119,6 +121,10 @@
 	// stop server
 	if([[PGServer sharedServer] state]==PGServerStateRunning) {
 		[[PGServer sharedServer] restart];
+	} else {
+#ifdef DEBUG
+		NSLog(@"Unable to restart a server which isn't in PGServerStateRunning state");
+#endif
 	}
 }
 
@@ -126,17 +132,17 @@
 	// reload server
 	if([[PGServer sharedServer] state]==PGServerStateRunning) {
 		[[PGServer sharedServer] reload];
+	} else {
+#ifdef DEBUG
+		NSLog(@"Unable to reload a server which isn't in PGServerStateRunning state");
+#endif
 	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // Application signals
 
--(void)awakeFromNib {
-	[[PGServer sharedServer] setDelegate:self];
-}
-
--(void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+-(void)applicationDidFinishLaunching:(NSNotification* )aNotification {
 	PGServer* theServer = [PGServer sharedServer];
 	
 	// set version number
@@ -149,16 +155,25 @@
 	
 	// set status icons
 	[self setIbServerStatusIcon:[NSImage imageNamed:@"red"]];
+
+	// no termination requested
+	[self setTerminateRequested:nil];
 	
+	// set server delegate
+	[[PGServer sharedServer] setDelegate:self];
 }
 
 -(NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication* )sender {
 	if([[PGServer sharedServer] state]==PGServerStateRunning) {
+#ifdef DEBUG
 		NSLog(@"Terminating later, stopping the server");
+#endif
 		[self stopServer];
-		return NSTerminateLater;
+		[self setTerminateRequested:[NSDate date]];
+		// need to send a cancel message to keep timers running, then finally
+		// terminate when state changes to PGServerStateStopped
+		return NSTerminateCancel;
 	} else {
-		NSLog(@"Terminating now");
 		return NSTerminateNow;
 	}
 }

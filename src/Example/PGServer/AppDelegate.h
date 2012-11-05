@@ -9,13 +9,14 @@
 @property (assign) IBOutlet NSTextView* ibLogTextView;
 @property (assign) IBOutlet ConnectionPrefs* ibConnectionPrefs;
 @property (assign) IBOutlet ConfigurationPrefs* ibConfigurationPrefs;
-
 @property BOOL ibStartButtonEnabled;
 @property BOOL ibStopButtonEnabled;
 @property BOOL ibBackupButtonEnabled;
 @property NSImage* ibServerStatusIcon;
 @property NSString* ibServerVersion;
+@property NSDate* terminateRequested;
 
+// methods
 -(void)stopServer;
 -(void)restartServer;
 
