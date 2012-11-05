@@ -58,7 +58,11 @@
 }
 
 -(void)pgserverStateChange:(PGServer* )sender {
-	if([sender state]==PGServerStateRunning || [sender state]==PGServerStateAlreadyRunning) {
+#ifdef DEBUG
+	NSLog(@"state changed => %d %@",[sender state],[PGServer stateAsString:[sender state]]);
+#endif
+	
+	if([sender state]==PGServerStateRunning) {
 		[self setIbStartButtonEnabled:NO];
 		[self setIbStopButtonEnabled:YES];
 		[self setIbBackupButtonEnabled:YES];
@@ -79,6 +83,21 @@
 		[self setIbBackupButtonEnabled:NO];
 		[self setIbServerStatusIcon:[NSImage imageNamed:@"yellow"]];
 	}
+	
+	// set configuration preferences toolbar item
+	if([sender state]==PGServerStateRunning) {
+		[[self ibConfigurationPrefs] setEnabled:YES];
+		[[self ibConnectionPrefs] setEnabled:YES];
+	} else {
+		[[self ibConfigurationPrefs] setEnabled:NO];
+		[[self ibConnectionPrefs] setEnabled:NO];
+	}
+	
+	// check for terminating
+	if([sender state]==PGServerStateStopped) {
+		NSLog(@"Now quitting");
+		[NSApp replyToApplicationShouldTerminate:YES];
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -90,15 +109,23 @@
 }
 
 -(void)stopServer {
+	PGServer* theServer = [PGServer sharedServer];
 	[self addLogMessage:[NSString stringWithFormat:@"Stopping server"] color:[NSColor redColor] bold:NO];
 	// stop the server
-	[[PGServer sharedServer] stop];
+	[theServer stop];
 }
 
 -(void)restartServer {
 	// stop server
-	if([[PGServer sharedServer] state]==PGServerStateRunning || [[PGServer sharedServer] state]==PGServerStateAlreadyRunning) {
+	if([[PGServer sharedServer] state]==PGServerStateRunning) {
 		[[PGServer sharedServer] restart];
+	}
+}
+
+-(void)reloadServer {
+	// reload server
+	if([[PGServer sharedServer] state]==PGServerStateRunning) {
+		[[PGServer sharedServer] reload];
 	}
 }
 
@@ -125,9 +152,21 @@
 	
 }
 
--(void)applicationWillTerminate:(NSNotification *)aNotification {
-	[self stopServer];
+-(NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication* )sender {
+	if([[PGServer sharedServer] state]==PGServerStateRunning) {
+		NSLog(@"Terminating later, stopping the server");
+		[self stopServer];
+		return NSTerminateLater;
+	} else {
+		NSLog(@"Terminating now");
+		return NSTerminateNow;
+	}
 }
+
+//-(void)applicationWillTerminate:(NSNotification *)aNotification {
+//	[self stopServer];
+//}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // Backup methods
@@ -164,7 +203,11 @@
 }
 
 -(IBAction)ibToolbarConnectionPressed:(id)sender {
-	[[self ibConnectionPrefs] ibToolbarConnectionSheetOpen:[self ibWindow] delegate:self];
+	[[self ibConnectionPrefs] ibSheetOpen:[self ibWindow] delegate:self];
+}
+
+-(IBAction)ibToolbarConfigurationPressed:(id)sender {
+	[[self ibConfigurationPrefs] ibSheetOpen:[self ibWindow] delegate:self];
 }
 
 @end

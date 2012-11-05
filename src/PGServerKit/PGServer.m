@@ -153,7 +153,6 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 	return [thePid intValue];
 }
 
-
 ////////////////////////////////////////////////////////////////////////////////
 // determine if process is still running
 // see: http://www.cocoadev.com/index.pl?HowToDetermineIfAProcessIsRunning
@@ -185,14 +184,23 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 	// wait until process identifier is minus one
 	do {
 		if(count==0) {
+#ifdef DEBUG
+			NSLog(@"killing PID %d, SIGTERM",thePid);
+#endif
 			kill(thePid,SIGTERM);
 		} else if(count==100) {
+#ifdef DEBUG
+			NSLog(@"killing PID %d, SIGINT",thePid);
+#endif
 			kill(thePid,SIGINT);
 		} else if(count==300) {
+#ifdef DEBUG
+			NSLog(@"killing PID %d, SIGKILL",thePid);
+#endif
 			kill(thePid,SIGKILL);
 		}
 		// sleep for 100ms
-		[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+		[NSThread sleepForTimeInterval:0.1];
 		count++;
 	} while([self _doesProcessExist:thePid]);
 }
@@ -453,6 +461,9 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 	if(thePid > 0) {
 		_pid = thePid;
 		[self _setState:PGServerStateAlreadyRunning];
+#ifdef DEBUG
+		NSLog(@"Setting state: PGServerStateAlreadyRunning");
+#endif
 		return NO;
 	}
 
@@ -535,6 +546,9 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 		return NO;
 	}
 	// send HUP
+#ifdef DEBUG
+	NSLog(@"Sending HUP signal to %d",_pid);
+#endif
 	kill(_pid,SIGHUP);
 	// remove preferences
 	_configuration = nil;

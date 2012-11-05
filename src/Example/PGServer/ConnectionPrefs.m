@@ -1,6 +1,7 @@
 
 #import "ConnectionPrefs.h"
 #import <PGServerKit/PGServerKit.h>
+#import "AppDelegate.h"
 
 @implementation ConnectionPrefs
 
@@ -23,7 +24,7 @@
 }
 
 -(void)awakeFromNib {
-	[self readDefaults];
+	[self setEnabled:NO];
 }
 
 -(NSUInteger)port {
@@ -77,7 +78,7 @@
 	[self updateDisplayOptions];
 }
 
--(IBAction)ibToolbarConnectionSheetOpen:(NSWindow* )window delegate:(id)sender {
+-(IBAction)ibSheetOpen:(NSWindow* )window delegate:(id)sender {
 	// set state of window from defaults
 	[self readDefaults];
 	[self updateDisplayOptions];

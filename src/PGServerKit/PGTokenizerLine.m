@@ -158,12 +158,17 @@
 }
 
 -(NSString* )description {
+	// return a non-parsed line
 	if(_keyword==nil) {
 		return [NSString stringWithFormat:@"%@",_text];
-	} else {
-		return [NSString stringWithFormat:@"<enabled: %@ keyword<%@> value<%@> comment<%@>>",
-				(_enabled ? @"YES" : @"NO"),_keyword,_value,_comment];
-	}
+	}	
+	// return a parsed line
+	return [NSString stringWithFormat:@"%@%@=%@ %@%@",
+				(_enabled ? @"" : @"#"),
+				_keyword,
+				_value,
+				([_comment length] ? @"#" : @""),
+				([_comment length] ? _comment : @"")];
 }
 
 @end

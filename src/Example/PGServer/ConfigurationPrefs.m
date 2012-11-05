@@ -1,24 +1,30 @@
 #import "ConfigurationPrefs.h"
+#import "AppDelegate.h"
 
 @implementation ConfigurationPrefs
-
 @dynamic configuration;
+
+-(void)awakeFromNib {
+	[self setEnabled:NO];
+}
 
 -(PGServerPreferences* )configuration {
 	return [[PGServer sharedServer] configuration];
 }
 
--(IBAction)ibToolbarConfigurationSheetOpen:(id)sender {
-	NSWindow* theParentWindow = [[self appController] ibWindow];
-	
+-(IBAction)ibSheetOpen:(NSWindow* )window delegate:(id)sender {
+	// set delegate
+	[self setDelegate:sender];
 	// Setup the window
 	[[self ibTableView] setDataSource:self];
 	[[self ibTableView] setDelegate:self];
 	[[self ibTableView] reloadData];
 	// resize columns to fit 100%
 	[[self ibTableView] sizeToFit];
+	// de-select any rows
+	[[self ibTableView] deselectAll:self];
 	// begin sheet
-	[NSApp beginSheet:[self ibWindow] modalForWindow:theParentWindow modalDelegate:self didEndSelector:@selector(endSheet:returnCode:contextInfo:) contextInfo:nil];
+	[NSApp beginSheet:[self ibWindow] modalForWindow:window modalDelegate:self didEndSelector:@selector(endSheet:returnCode:contextInfo:) contextInfo:nil];
 }
 
 -(IBAction)ibToolbarConfigurationSheetClose:(id)sender {
@@ -34,7 +40,10 @@
 -(void)endSheet:(NSWindow *)theSheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
 	[theSheet orderOut:self];
 	if(returnCode==NSOKButton) {
-		NSLog(@"OK Button pressed");
+		if([[self delegate] respondsToSelector:@selector(reloadServer)]){
+			[[self configuration] save:nil];
+			[[self delegate] reloadServer];
+		}
 	}
 }
 
@@ -42,10 +51,8 @@
 
 -(NSInteger)numberOfRowsInTableView:(NSTableView* )aTableView {
 	if([self configuration]==nil) {
-		NSLog(@"no configuration");
 		return 0;
 	} else {
-		NSLog(@"count = %ld",[[self configuration] count]);
 		return [[self configuration] count];
 	}
 }
@@ -53,7 +60,7 @@
 -(id)tableView:(NSTableView* )aTableView objectValueForTableColumn:(NSTableColumn* )aTableColumn row:(NSInteger)rowIndex {
 	NSString* theKey = [[self configuration] keyAtIndex:rowIndex];
 
-	// deal with key column
+	// key column
 	if([[aTableColumn identifier] isEqual:@"key"]) {
 		NSButtonCell* theCell = [aTableColumn dataCell];
 		NSParameterAssert([theCell isKindOfClass:[NSButtonCell class]]);
@@ -66,7 +73,7 @@
 		return theCell;
 	}
 	
-	// deal with value column
+	// value column
 	if([[aTableColumn identifier] isEqual:@"value"]) {
 		NSTextFieldCell* theCell = [aTableColumn dataCell];
 		NSParameterAssert([theCell isKindOfClass:[NSTextFieldCell class]]);

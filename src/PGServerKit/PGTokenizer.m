@@ -76,7 +76,7 @@ BOOL file_tokenize(PGTokenizer* tokenizer,const char* file);
 	_modified = YES;
 }
 
--(BOOL)parse:(NSString* )thePath {
+-(BOOL)load:(NSString* )thePath {
 	// empty the structures
 	[_lines removeAllObjects];
 	[_keywords removeAllObjects];
@@ -98,6 +98,13 @@ BOOL file_tokenize(PGTokenizer* tokenizer,const char* file);
 	// set modified as NO
 	_modified = NO;
 	// return success
+	return YES;
+}
+
+-(BOOL)save:(NSString* )thePath {
+	for(PGTokenizerLine* line in _lines) {
+		NSLog(@"%@",[line description]);
+	}
 	return YES;
 }
 

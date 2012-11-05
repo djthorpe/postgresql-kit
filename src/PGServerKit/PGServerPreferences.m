@@ -11,7 +11,7 @@
 	self = [super init];
 	if(self) {
 		// read in configuration file
-		if([super parse:path]==NO) {
+		if([super load:path]==NO) {
 			return nil;
 		}
 	}
@@ -22,7 +22,7 @@
 	self = [super init];
 	if(self) {
 		// read in authentication file		
-		if([super parse:path]==NO) {
+		if([super load:path]==NO) {
 			return nil;
 		}
 	}
