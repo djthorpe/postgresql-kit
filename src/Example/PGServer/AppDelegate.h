@@ -9,6 +9,8 @@
 @property (assign) IBOutlet NSTextView* ibLogTextView;
 @property (assign) IBOutlet ConnectionPrefs* ibConnectionPrefs;
 @property (assign) IBOutlet ConfigurationPrefs* ibConfigurationPrefs;
+@property (assign) IBOutlet NSToolbarItem* ibToolbarItemConnection;
+@property (assign) IBOutlet NSToolbarItem* ibToolbarItemConfiguration;
 @property BOOL ibStartButtonEnabled;
 @property BOOL ibStopButtonEnabled;
 @property BOOL ibBackupButtonEnabled;

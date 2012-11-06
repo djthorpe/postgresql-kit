@@ -22,5 +22,6 @@ typedef enum {
 
 // methods
 -(BOOL)save;
+-(BOOL)revert;
 
 @end

@@ -5,7 +5,6 @@
 @interface ConfigurationPrefs : NSObject <NSTableViewDataSource, NSTableViewDelegate>
 
 @property id delegate;
-@property (assign) BOOL enabled;
 @property (assign) IBOutlet NSWindow* ibWindow;
 @property (assign) IBOutlet NSTableView* ibTableView;
 @property (readonly) PGServerPreferences* configuration;

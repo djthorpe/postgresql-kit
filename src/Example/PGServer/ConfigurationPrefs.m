@@ -4,10 +4,6 @@
 @implementation ConfigurationPrefs
 @dynamic configuration;
 
--(void)awakeFromNib {
-	[self setEnabled:NO];
-}
-
 -(PGServerPreferences* )configuration {
 	return [[PGServer sharedServer] configuration];
 }
@@ -41,9 +37,17 @@
 	[theSheet orderOut:self];
 	if(returnCode==NSOKButton) {
 		if([[self delegate] respondsToSelector:@selector(reloadServer)]){
+#ifdef DEBUG
+			NSLog(@"Saving configuration and reloading server");
+#endif
 			[[self configuration] save];
 			[[self delegate] reloadServer];
 		}
+	} else {
+#ifdef DEBUG
+		NSLog(@"Reverting configuration");
+#endif
+		[[self configuration] revert];
 	}
 }
 

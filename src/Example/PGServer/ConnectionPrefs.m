@@ -23,10 +23,6 @@
 	[theDefaults synchronize];
 }
 
--(void)awakeFromNib {
-	[self setEnabled:NO];
-}
-
 -(NSUInteger)port {
 	// check where no port number
 	if([[self portField] length]==0) {

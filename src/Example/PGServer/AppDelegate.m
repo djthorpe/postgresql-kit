@@ -86,11 +86,11 @@
 	
 	// set configuration preferences toolbar item
 	if([sender state]==PGServerStateRunning) {
-		[[self ibConfigurationPrefs] setEnabled:YES];
-		[[self ibConnectionPrefs] setEnabled:YES];
+		[[self ibToolbarItemConfiguration] setEnabled:YES];
+		[[self ibToolbarItemConnection] setEnabled:YES];
 	} else {
-		[[self ibConfigurationPrefs] setEnabled:NO];
-		[[self ibConnectionPrefs] setEnabled:NO];
+		[[self ibToolbarItemConfiguration] setEnabled:NO];
+		[[self ibToolbarItemConnection] setEnabled:NO];
 	}
 	
 	// check for terminating
@@ -153,6 +153,10 @@
 	[self setIbStopButtonEnabled:NO];
 	[self setIbBackupButtonEnabled:NO];
 	
+	// set toolbar status
+	[[self ibToolbarItemConfiguration] setEnabled:NO];
+	[[self ibToolbarItemConnection] setEnabled:NO];
+
 	// set status icons
 	[self setIbServerStatusIcon:[NSImage imageNamed:@"red"]];
 

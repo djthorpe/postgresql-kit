@@ -4,7 +4,6 @@
 @interface ConnectionPrefs : NSObject
 
 @property id delegate;
-@property (assign) BOOL enabled;
 @property (assign) IBOutlet NSWindow* ibWindow;
 @property (assign) IBOutlet NSTextField* ibCustomPort;
 @property BOOL allowRemoteConnections;

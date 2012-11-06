@@ -76,6 +76,10 @@ BOOL file_tokenize(PGTokenizer* tokenizer,const char* file);
 	_modified = YES;
 }
 
+-(BOOL)shouldIndex:(PGTokenizerLine* )theLine {
+	return YES;
+}
+
 -(BOOL)load:(NSString* )thePath {
 	// empty the structures
 	[_lines removeAllObjects];
@@ -90,7 +94,7 @@ BOOL file_tokenize(PGTokenizer* tokenizer,const char* file);
 	}
 	// index all the keyword=value lines
 	for(PGTokenizerLine* line in _lines) {
-		if([line keyword]) {
+		if([self shouldIndex:line] && [line keyword]) {
 			[_index setObject:line forKey:[line keyword]];
 			[_keywords addObject:[line keyword]];
 		}
