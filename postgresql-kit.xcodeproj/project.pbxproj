@@ -41,9 +41,6 @@
 		6E2DFD2E163C54F400911094 /* TerminalView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2DFD2D163C54F400911094 /* TerminalView.m */; };
 		6E48B36F1605E34A0044A6CB /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E48B36E1605E34A0044A6CB /* libz.1.2.5.dylib */; };
 		6E48B37116060D980044A6CB /* strapline-200x40.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43F915F3A465001ED3BE /* strapline-200x40.png */; };
-		6E48B37216060D9E0044A6CB /* red.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43F415F3A465001ED3BE /* red.tiff */; };
-		6E48B37316060DA30044A6CB /* yellow.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43FB15F3A465001ED3BE /* yellow.tiff */; };
-		6E48B37416060DA70044A6CB /* green.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43EC15F3A465001ED3BE /* green.tiff */; };
 		6E4DEC7B162CC19C008B26BD /* libcrypto.0.9.8.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E4DEC7A162CC19C008B26BD /* libcrypto.0.9.8.dylib */; };
 		6E4DEC7E162CC252008B26BD /* libssl.0.9.8.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E4DEC7D162CC252008B26BD /* libssl.0.9.8.dylib */; };
 		6E4DEC87162CC38D008B26BD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C168115F26BF20013A382 /* Foundation.framework */; };
@@ -181,6 +178,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		14032D72164A6F2200CD5796 /* database.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = database.tiff; sourceTree = "<group>"; };
+		14032D73164A6F2200CD5796 /* reload.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = reload.tiff; sourceTree = "<group>"; };
+		14032D74164A6F2200CD5796 /* start.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = start.tiff; sourceTree = "<group>"; };
+		14032D75164A6F2200CD5796 /* stop.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = stop.tiff; sourceTree = "<group>"; };
+		14032D76164A6F2200CD5796 /* terminal.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = terminal.tiff; sourceTree = "<group>"; };
+		14032D78164A6F2200CD5796 /* green.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = green.tiff; sourceTree = "<group>"; };
+		14032D79164A6F2200CD5796 /* red.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = red.tiff; sourceTree = "<group>"; };
+		14032D7A164A6F2200CD5796 /* yellow.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = yellow.tiff; sourceTree = "<group>"; };
 		141FCCE81646911C00197F3F /* Tokenizer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Tokenizer; sourceTree = BUILT_PRODUCTS_DIR; };
 		141FCCF71646917B00197F3F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		141FCD071646CD1300197F3F /* PGTokenizer.lm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; path = PGTokenizer.lm; sourceTree = "<group>"; };
@@ -197,37 +202,14 @@
 		6E09782C1631D6550000A097 /* PGClientKit+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PGClientKit+Private.h"; sourceTree = "<group>"; };
 		6E11AC0D162F4722009A077C /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
 		6E11AC0E162F4722009A077C /* Application.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Application.m; sourceTree = "<group>"; };
-		6E1B43DD15F3A465001ED3BE /* backup.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = backup.tiff; sourceTree = "<group>"; };
-		6E1B43DE15F3A465001ED3BE /* clear.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = clear.tiff; sourceTree = "<group>"; };
-		6E1B43DF15F3A465001ED3BE /* ClientConnect-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ClientConnect-Info.plist"; sourceTree = "<group>"; };
-		6E1B43E015F3A465001ED3BE /* ClientConnect.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ClientConnect.xib; sourceTree = "<group>"; };
-		6E1B43E115F3A465001ED3BE /* CocoaServer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CocoaServer-Info.plist"; sourceTree = "<group>"; };
-		6E1B43E215F3A465001ED3BE /* CocoaServer.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CocoaServer.xib; sourceTree = "<group>"; };
-		6E1B43E315F3A465001ED3BE /* ConnectPanel.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConnectPanel.xib; sourceTree = "<group>"; };
 		6E1B43E415F3A465001ED3BE /* elephant-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "elephant-32.png"; sourceTree = "<group>"; };
 		6E1B43E515F3A465001ED3BE /* elephant-512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "elephant-512.png"; sourceTree = "<group>"; };
 		6E1B43E615F3A465001ED3BE /* elephant-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "elephant-64.png"; sourceTree = "<group>"; };
 		6E1B43E715F3A465001ED3BE /* elephant.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = elephant.icns; sourceTree = "<group>"; };
-		6E1B43E815F3A465001ED3BE /* EmbeddedServer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "EmbeddedServer-Info.plist"; sourceTree = "<group>"; };
-		6E1B43E915F3A465001ED3BE /* EmbeddedServer.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EmbeddedServer.xib; sourceTree = "<group>"; };
 		6E1B43EA15F3A465001ED3BE /* gear-14x14.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gear-14x14.png"; sourceTree = "<group>"; };
 		6E1B43EB15F3A465001ED3BE /* gradient-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gradient-1.png"; sourceTree = "<group>"; };
-		6E1B43EC15F3A465001ED3BE /* green.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = green.tiff; sourceTree = "<group>"; };
 		6E1B43ED15F3A465001ED3BE /* logo_w_elephant.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = logo_w_elephant.pdf; sourceTree = "<group>"; };
-		6E1B43EE15F3A465001ED3BE /* PostgresClientKit-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PostgresClientKit-Info.plist"; sourceTree = "<group>"; };
-		6E1B43EF15F3A465001ED3BE /* PostgresDataKit-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PostgresDataKit-Info.plist"; sourceTree = "<group>"; };
-		6E1B43F015F3A465001ED3BE /* PostgresPrefPane-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PostgresPrefPane-Info.plist"; sourceTree = "<group>"; };
-		6E1B43F115F3A465001ED3BE /* PostgresPrefPane-nib.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "PostgresPrefPane-nib.xib"; sourceTree = "<group>"; };
-		6E1B43F215F3A465001ED3BE /* PostgresPrefPaneServerStartupItem.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PostgresPrefPaneServerStartupItem.plist; sourceTree = "<group>"; };
-		6E1B43F315F3A465001ED3BE /* PostgresServerKit-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PostgresServerKit-Info.plist"; sourceTree = "<group>"; };
-		6E1B43F415F3A465001ED3BE /* red.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = red.tiff; sourceTree = "<group>"; };
-		6E1B43F515F3A465001ED3BE /* select.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = select.tiff; sourceTree = "<group>"; };
-		6E1B43F615F3A465001ED3BE /* start.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = start.tiff; sourceTree = "<group>"; };
-		6E1B43F715F3A465001ED3BE /* stop.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = stop.tiff; sourceTree = "<group>"; };
-		6E1B43F815F3A465001ED3BE /* stop2.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = stop2.tiff; sourceTree = "<group>"; };
 		6E1B43F915F3A465001ED3BE /* strapline-200x40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "strapline-200x40.png"; sourceTree = "<group>"; };
-		6E1B43FA15F3A465001ED3BE /* UnitTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "UnitTests-Info.plist"; sourceTree = "<group>"; };
-		6E1B43FB15F3A465001ED3BE /* yellow.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = yellow.tiff; sourceTree = "<group>"; };
 		6E256FE815F252B40079AD2D /* doc */ = {isa = PBXFileReference; lastKnownFileType = folder; path = doc; sourceTree = "<group>"; };
 		6E256FE915F252B40079AD2D /* etc */ = {isa = PBXFileReference; lastKnownFileType = folder; path = etc; sourceTree = "<group>"; };
 		6E256FEC15F252B40079AD2D /* tar */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tar; sourceTree = "<group>"; };
@@ -291,76 +273,6 @@
 		6EB1E73D15F273350093F784 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		6EB1E73F15F273350093F784 /* PGServerKit-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PGServerKit-Info.plist"; sourceTree = "<group>"; };
 		6EB1E74015F273350093F784 /* PGServerKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGServerKit.h; sourceTree = "<group>"; };
-		6EB1E74315F273350093F784 /* FLXGeometry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLXGeometry.h; sourceTree = "<group>"; };
-		6EB1E74415F273350093F784 /* FLXGeometry.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLXGeometry.m; sourceTree = "<group>"; };
-		6EB1E74515F273350093F784 /* FLXMacAddr.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLXMacAddr.h; sourceTree = "<group>"; };
-		6EB1E74615F273350093F784 /* FLXMacAddr.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLXMacAddr.m; sourceTree = "<group>"; };
-		6EB1E74715F273350093F784 /* FLXPostgresArray.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLXPostgresArray.h; sourceTree = "<group>"; };
-		6EB1E74815F273350093F784 /* FLXPostgresArray.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLXPostgresArray.m; sourceTree = "<group>"; };
-		6EB1E74915F273350093F784 /* FLXPostgresConnection+Utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FLXPostgresConnection+Utils.h"; sourceTree = "<group>"; };
-		6EB1E74A15F273350093F784 /* FLXPostgresConnection+Utils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "FLXPostgresConnection+Utils.m"; sourceTree = "<group>"; };
-		6EB1E74B15F273350093F784 /* FLXPostgresConnection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLXPostgresConnection.h; sourceTree = "<group>"; };
-		6EB1E74C15F273350093F784 /* FLXPostgresConnection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLXPostgresConnection.m; sourceTree = "<group>"; };
-		6EB1E74D15F273350093F784 /* FLXPostgresException.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLXPostgresException.h; sourceTree = "<group>"; };
-		6EB1E74E15F273350093F784 /* FLXPostgresException.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLXPostgresException.m; sourceTree = "<group>"; };
-		6EB1E74F15F273350093F784 /* FLXPostgresResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLXPostgresResult.h; sourceTree = "<group>"; };
-		6EB1E75015F273350093F784 /* FLXPostgresResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLXPostgresResult.m; sourceTree = "<group>"; };
-		6EB1E75115F273350093F784 /* FLXPostgresStatement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLXPostgresStatement.h; sourceTree = "<group>"; };
-		6EB1E75215F273350093F784 /* FLXPostgresStatement.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLXPostgresStatement.m; sourceTree = "<group>"; };
-		6EB1E75315F273350093F784 /* FLXPostgresTypeNSNumber.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLXPostgresTypeNSNumber.h; sourceTree = "<group>"; };
-		6EB1E75415F273350093F784 /* FLXPostgresTypeNSNumber.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLXPostgresTypeNSNumber.m; sourceTree = "<group>"; };
-		6EB1E75515F273350093F784 /* FLXPostgresTypeNSString.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLXPostgresTypeNSString.h; sourceTree = "<group>"; };
-		6EB1E75615F273350093F784 /* FLXPostgresTypeNSString.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLXPostgresTypeNSString.m; sourceTree = "<group>"; };
-		6EB1E75715F273350093F784 /* FLXPostgresTypes+Array.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FLXPostgresTypes+Array.h"; sourceTree = "<group>"; };
-		6EB1E75815F273350093F784 /* FLXPostgresTypes+Array.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "FLXPostgresTypes+Array.m"; sourceTree = "<group>"; };
-		6EB1E75915F273350093F784 /* FLXPostgresTypes+DateTime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FLXPostgresTypes+DateTime.h"; sourceTree = "<group>"; };
-		6EB1E75A15F273350093F784 /* FLXPostgresTypes+DateTime.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "FLXPostgresTypes+DateTime.m"; sourceTree = "<group>"; };
-		6EB1E75B15F273350093F784 /* FLXPostgresTypes+Geometry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FLXPostgresTypes+Geometry.h"; sourceTree = "<group>"; };
-		6EB1E75C15F273350093F784 /* FLXPostgresTypes+Geometry.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "FLXPostgresTypes+Geometry.m"; sourceTree = "<group>"; };
-		6EB1E75D15F273350093F784 /* FLXPostgresTypes+NetAddr.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FLXPostgresTypes+NetAddr.h"; sourceTree = "<group>"; };
-		6EB1E75E15F273350093F784 /* FLXPostgresTypes+NetAddr.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "FLXPostgresTypes+NetAddr.m"; sourceTree = "<group>"; };
-		6EB1E75F15F273350093F784 /* FLXPostgresTypes+NSData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FLXPostgresTypes+NSData.h"; sourceTree = "<group>"; };
-		6EB1E76015F273350093F784 /* FLXPostgresTypes+NSData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "FLXPostgresTypes+NSData.m"; sourceTree = "<group>"; };
-		6EB1E76115F273350093F784 /* FLXPostgresTypes+NSNumber.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FLXPostgresTypes+NSNumber.h"; sourceTree = "<group>"; };
-		6EB1E76215F273350093F784 /* FLXPostgresTypes+NSNumber.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "FLXPostgresTypes+NSNumber.m"; sourceTree = "<group>"; };
-		6EB1E76315F273350093F784 /* FLXPostgresTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLXPostgresTypes.h; sourceTree = "<group>"; };
-		6EB1E76415F273350093F784 /* FLXPostgresTypes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLXPostgresTypes.m; sourceTree = "<group>"; };
-		6EB1E76515F273350093F784 /* FLXTimeInterval.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLXTimeInterval.h; sourceTree = "<group>"; };
-		6EB1E76615F273350093F784 /* FLXTimeInterval.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLXTimeInterval.m; sourceTree = "<group>"; };
-		6EB1E76715F273350093F784 /* PostgresClientKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostgresClientKit.h; sourceTree = "<group>"; };
-		6EB1E76815F273350093F784 /* PostgresClientKitPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostgresClientKitPrivate.h; sourceTree = "<group>"; };
-		6EB1E76A15F273350093F784 /* FLXPostgresConnection+DataUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FLXPostgresConnection+DataUtils.h"; sourceTree = "<group>"; };
-		6EB1E76B15F273350093F784 /* FLXPostgresConnection+DataUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "FLXPostgresConnection+DataUtils.m"; sourceTree = "<group>"; };
-		6EB1E76C15F273350093F784 /* FLXPostgresDataCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLXPostgresDataCache.h; sourceTree = "<group>"; };
-		6EB1E76D15F273350093F784 /* FLXPostgresDataCache.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLXPostgresDataCache.m; sourceTree = "<group>"; };
-		6EB1E76E15F273350093F784 /* FLXPostgresDataObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLXPostgresDataObject.h; sourceTree = "<group>"; };
-		6EB1E76F15F273350093F784 /* FLXPostgresDataObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLXPostgresDataObject.m; sourceTree = "<group>"; };
-		6EB1E77015F273350093F784 /* FLXPostgresDataObjectContext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLXPostgresDataObjectContext.h; sourceTree = "<group>"; };
-		6EB1E77115F273350093F784 /* FLXPostgresDataObjectContext.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLXPostgresDataObjectContext.m; sourceTree = "<group>"; };
-		6EB1E77215F273350093F784 /* PostgresDataKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostgresDataKit.h; sourceTree = "<group>"; };
-		6EB1E77315F273350093F784 /* PostgresDataKitPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostgresDataKitPrivate.h; sourceTree = "<group>"; };
-		6EB1E77515F273350093F784 /* PostgresInstallerMain.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PostgresInstallerMain.m; sourceTree = "<group>"; };
-		6EB1E77615F273350093F784 /* PostgresPrefPaneBindings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostgresPrefPaneBindings.h; sourceTree = "<group>"; };
-		6EB1E77715F273350093F784 /* PostgresPrefPaneBindings.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PostgresPrefPaneBindings.m; sourceTree = "<group>"; };
-		6EB1E77815F273350093F784 /* PostgresPrefPaneController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostgresPrefPaneController.h; sourceTree = "<group>"; };
-		6EB1E77915F273350093F784 /* PostgresPrefPaneController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PostgresPrefPaneController.m; sourceTree = "<group>"; };
-		6EB1E77A15F273350093F784 /* PostgresPrefPaneShared.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostgresPrefPaneShared.h; sourceTree = "<group>"; };
-		6EB1E77B15F273350093F784 /* PostgresPrefPaneShared.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PostgresPrefPaneShared.m; sourceTree = "<group>"; };
-		6EB1E77C15F273350093F784 /* PostgresServerApp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostgresServerApp.h; sourceTree = "<group>"; };
-		6EB1E77D15F273350093F784 /* PostgresServerApp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PostgresServerApp.m; sourceTree = "<group>"; };
-		6EB1E77E15F273350093F784 /* PostgresServerKeychain.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostgresServerKeychain.h; sourceTree = "<group>"; };
-		6EB1E77F15F273350093F784 /* PostgresServerKeychain.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PostgresServerKeychain.m; sourceTree = "<group>"; };
-		6EB1E78015F273350093F784 /* PostgresServerMain.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PostgresServerMain.m; sourceTree = "<group>"; };
-		6EB1E78215F273350093F784 /* FLXPostgresServer+Access.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FLXPostgresServer+Access.h"; sourceTree = "<group>"; };
-		6EB1E78315F273350093F784 /* FLXPostgresServer+Access.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "FLXPostgresServer+Access.m"; sourceTree = "<group>"; };
-		6EB1E78415F273350093F784 /* FLXPostgresServer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLXPostgresServer.h; sourceTree = "<group>"; };
-		6EB1E78515F273350093F784 /* FLXPostgresServer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLXPostgresServer.m; sourceTree = "<group>"; };
-		6EB1E78615F273350093F784 /* FLXPostgresServerAccessTuple.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLXPostgresServerAccessTuple.h; sourceTree = "<group>"; };
-		6EB1E78715F273350093F784 /* FLXPostgresServerAccessTuple.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLXPostgresServerAccessTuple.m; sourceTree = "<group>"; };
-		6EB1E78815F273350093F784 /* FLXPostgresServerIdentityTuple.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLXPostgresServerIdentityTuple.h; sourceTree = "<group>"; };
-		6EB1E78915F273350093F784 /* FLXPostgresServerIdentityTuple.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLXPostgresServerIdentityTuple.m; sourceTree = "<group>"; };
-		6EB1E78A15F273350093F784 /* PostgresServerKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostgresServerKit.h; sourceTree = "<group>"; };
-		6EB1E78B15F273350093F784 /* PostgresServerKitPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostgresServerKitPrivate.h; sourceTree = "<group>"; };
 		6EB1E78D15F273350093F784 /* ClientConnection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ClientConnection.h; sourceTree = "<group>"; };
 		6EB1E78E15F273350093F784 /* ClientConnection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ClientConnection.m; sourceTree = "<group>"; };
 		6EB1E78F15F273350093F784 /* TypeTests+NSString.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TypeTests+NSString.h"; sourceTree = "<group>"; };
@@ -459,6 +371,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		14032D71164A6F2200CD5796 /* icons */ = {
+			isa = PBXGroup;
+			children = (
+				14032D72164A6F2200CD5796 /* database.tiff */,
+				14032D73164A6F2200CD5796 /* reload.tiff */,
+				14032D74164A6F2200CD5796 /* start.tiff */,
+				14032D75164A6F2200CD5796 /* stop.tiff */,
+				14032D76164A6F2200CD5796 /* terminal.tiff */,
+			);
+			path = icons;
+			sourceTree = "<group>";
+		};
+		14032D77164A6F2200CD5796 /* traffic */ = {
+			isa = PBXGroup;
+			children = (
+				14032D78164A6F2200CD5796 /* green.tiff */,
+				14032D79164A6F2200CD5796 /* red.tiff */,
+				14032D7A164A6F2200CD5796 /* yellow.tiff */,
+			);
+			path = traffic;
+			sourceTree = "<group>";
+		};
 		141FCCF61646917B00197F3F /* Tokenizer */ = {
 			isa = PBXGroup;
 			children = (
@@ -484,37 +418,16 @@
 		6E1B43DC15F3A465001ED3BE /* resources */ = {
 			isa = PBXGroup;
 			children = (
-				6E1B43DD15F3A465001ED3BE /* backup.tiff */,
-				6E1B43DE15F3A465001ED3BE /* clear.tiff */,
-				6E1B43DF15F3A465001ED3BE /* ClientConnect-Info.plist */,
-				6E1B43E015F3A465001ED3BE /* ClientConnect.xib */,
-				6E1B43E115F3A465001ED3BE /* CocoaServer-Info.plist */,
-				6E1B43E215F3A465001ED3BE /* CocoaServer.xib */,
-				6E1B43E315F3A465001ED3BE /* ConnectPanel.xib */,
+				14032D71164A6F2200CD5796 /* icons */,
+				14032D77164A6F2200CD5796 /* traffic */,
 				6E1B43E415F3A465001ED3BE /* elephant-32.png */,
 				6E1B43E515F3A465001ED3BE /* elephant-512.png */,
 				6E1B43E615F3A465001ED3BE /* elephant-64.png */,
 				6E1B43E715F3A465001ED3BE /* elephant.icns */,
-				6E1B43E815F3A465001ED3BE /* EmbeddedServer-Info.plist */,
-				6E1B43E915F3A465001ED3BE /* EmbeddedServer.xib */,
 				6E1B43EA15F3A465001ED3BE /* gear-14x14.png */,
 				6E1B43EB15F3A465001ED3BE /* gradient-1.png */,
-				6E1B43EC15F3A465001ED3BE /* green.tiff */,
 				6E1B43ED15F3A465001ED3BE /* logo_w_elephant.pdf */,
-				6E1B43EE15F3A465001ED3BE /* PostgresClientKit-Info.plist */,
-				6E1B43EF15F3A465001ED3BE /* PostgresDataKit-Info.plist */,
-				6E1B43F015F3A465001ED3BE /* PostgresPrefPane-Info.plist */,
-				6E1B43F115F3A465001ED3BE /* PostgresPrefPane-nib.xib */,
-				6E1B43F215F3A465001ED3BE /* PostgresPrefPaneServerStartupItem.plist */,
-				6E1B43F315F3A465001ED3BE /* PostgresServerKit-Info.plist */,
-				6E1B43F415F3A465001ED3BE /* red.tiff */,
-				6E1B43F515F3A465001ED3BE /* select.tiff */,
-				6E1B43F615F3A465001ED3BE /* start.tiff */,
-				6E1B43F715F3A465001ED3BE /* stop.tiff */,
-				6E1B43F815F3A465001ED3BE /* stop2.tiff */,
 				6E1B43F915F3A465001ED3BE /* strapline-200x40.png */,
-				6E1B43FA15F3A465001ED3BE /* UnitTests-Info.plist */,
-				6E1B43FB15F3A465001ED3BE /* yellow.tiff */,
 			);
 			path = resources;
 			sourceTree = "<group>";
@@ -592,10 +505,6 @@
 				6EB1E70B15F273350093F784 /* Example */,
 				6EB1E73E15F273350093F784 /* PGServerKit */,
 				6ED85B3316288BEF00A6DC02 /* PGClientKit */,
-				6EB1E74215F273350093F784 /* PostgresClientKit */,
-				6EB1E76915F273350093F784 /* PostgresDataKit */,
-				6EB1E77415F273350093F784 /* PostgresPrefPane */,
-				6EB1E78115F273350093F784 /* PostgresServerKit */,
 				6EB1E78C15F273350093F784 /* UnitTests */,
 			);
 			path = src;
@@ -690,104 +599,6 @@
 				141FCD061646CC7800197F3F /* Preferences */,
 			);
 			path = PGServerKit;
-			sourceTree = "<group>";
-		};
-		6EB1E74215F273350093F784 /* PostgresClientKit */ = {
-			isa = PBXGroup;
-			children = (
-				6EB1E74315F273350093F784 /* FLXGeometry.h */,
-				6EB1E74415F273350093F784 /* FLXGeometry.m */,
-				6EB1E74515F273350093F784 /* FLXMacAddr.h */,
-				6EB1E74615F273350093F784 /* FLXMacAddr.m */,
-				6EB1E74715F273350093F784 /* FLXPostgresArray.h */,
-				6EB1E74815F273350093F784 /* FLXPostgresArray.m */,
-				6EB1E74915F273350093F784 /* FLXPostgresConnection+Utils.h */,
-				6EB1E74A15F273350093F784 /* FLXPostgresConnection+Utils.m */,
-				6EB1E74B15F273350093F784 /* FLXPostgresConnection.h */,
-				6EB1E74C15F273350093F784 /* FLXPostgresConnection.m */,
-				6EB1E74D15F273350093F784 /* FLXPostgresException.h */,
-				6EB1E74E15F273350093F784 /* FLXPostgresException.m */,
-				6EB1E74F15F273350093F784 /* FLXPostgresResult.h */,
-				6EB1E75015F273350093F784 /* FLXPostgresResult.m */,
-				6EB1E75115F273350093F784 /* FLXPostgresStatement.h */,
-				6EB1E75215F273350093F784 /* FLXPostgresStatement.m */,
-				6EB1E75315F273350093F784 /* FLXPostgresTypeNSNumber.h */,
-				6EB1E75415F273350093F784 /* FLXPostgresTypeNSNumber.m */,
-				6EB1E75515F273350093F784 /* FLXPostgresTypeNSString.h */,
-				6EB1E75615F273350093F784 /* FLXPostgresTypeNSString.m */,
-				6EB1E75715F273350093F784 /* FLXPostgresTypes+Array.h */,
-				6EB1E75815F273350093F784 /* FLXPostgresTypes+Array.m */,
-				6EB1E75915F273350093F784 /* FLXPostgresTypes+DateTime.h */,
-				6EB1E75A15F273350093F784 /* FLXPostgresTypes+DateTime.m */,
-				6EB1E75B15F273350093F784 /* FLXPostgresTypes+Geometry.h */,
-				6EB1E75C15F273350093F784 /* FLXPostgresTypes+Geometry.m */,
-				6EB1E75D15F273350093F784 /* FLXPostgresTypes+NetAddr.h */,
-				6EB1E75E15F273350093F784 /* FLXPostgresTypes+NetAddr.m */,
-				6EB1E75F15F273350093F784 /* FLXPostgresTypes+NSData.h */,
-				6EB1E76015F273350093F784 /* FLXPostgresTypes+NSData.m */,
-				6EB1E76115F273350093F784 /* FLXPostgresTypes+NSNumber.h */,
-				6EB1E76215F273350093F784 /* FLXPostgresTypes+NSNumber.m */,
-				6EB1E76315F273350093F784 /* FLXPostgresTypes.h */,
-				6EB1E76415F273350093F784 /* FLXPostgresTypes.m */,
-				6EB1E76515F273350093F784 /* FLXTimeInterval.h */,
-				6EB1E76615F273350093F784 /* FLXTimeInterval.m */,
-				6EB1E76715F273350093F784 /* PostgresClientKit.h */,
-				6EB1E76815F273350093F784 /* PostgresClientKitPrivate.h */,
-			);
-			path = PostgresClientKit;
-			sourceTree = "<group>";
-		};
-		6EB1E76915F273350093F784 /* PostgresDataKit */ = {
-			isa = PBXGroup;
-			children = (
-				6EB1E76A15F273350093F784 /* FLXPostgresConnection+DataUtils.h */,
-				6EB1E76B15F273350093F784 /* FLXPostgresConnection+DataUtils.m */,
-				6EB1E76C15F273350093F784 /* FLXPostgresDataCache.h */,
-				6EB1E76D15F273350093F784 /* FLXPostgresDataCache.m */,
-				6EB1E76E15F273350093F784 /* FLXPostgresDataObject.h */,
-				6EB1E76F15F273350093F784 /* FLXPostgresDataObject.m */,
-				6EB1E77015F273350093F784 /* FLXPostgresDataObjectContext.h */,
-				6EB1E77115F273350093F784 /* FLXPostgresDataObjectContext.m */,
-				6EB1E77215F273350093F784 /* PostgresDataKit.h */,
-				6EB1E77315F273350093F784 /* PostgresDataKitPrivate.h */,
-			);
-			path = PostgresDataKit;
-			sourceTree = "<group>";
-		};
-		6EB1E77415F273350093F784 /* PostgresPrefPane */ = {
-			isa = PBXGroup;
-			children = (
-				6EB1E77515F273350093F784 /* PostgresInstallerMain.m */,
-				6EB1E77615F273350093F784 /* PostgresPrefPaneBindings.h */,
-				6EB1E77715F273350093F784 /* PostgresPrefPaneBindings.m */,
-				6EB1E77815F273350093F784 /* PostgresPrefPaneController.h */,
-				6EB1E77915F273350093F784 /* PostgresPrefPaneController.m */,
-				6EB1E77A15F273350093F784 /* PostgresPrefPaneShared.h */,
-				6EB1E77B15F273350093F784 /* PostgresPrefPaneShared.m */,
-				6EB1E77C15F273350093F784 /* PostgresServerApp.h */,
-				6EB1E77D15F273350093F784 /* PostgresServerApp.m */,
-				6EB1E77E15F273350093F784 /* PostgresServerKeychain.h */,
-				6EB1E77F15F273350093F784 /* PostgresServerKeychain.m */,
-				6EB1E78015F273350093F784 /* PostgresServerMain.m */,
-			);
-			path = PostgresPrefPane;
-			sourceTree = "<group>";
-		};
-		6EB1E78115F273350093F784 /* PostgresServerKit */ = {
-			isa = PBXGroup;
-			children = (
-				6EB1E78215F273350093F784 /* FLXPostgresServer+Access.h */,
-				6EB1E78315F273350093F784 /* FLXPostgresServer+Access.m */,
-				6EB1E78415F273350093F784 /* FLXPostgresServer.h */,
-				6EB1E78515F273350093F784 /* FLXPostgresServer.m */,
-				6EB1E78615F273350093F784 /* FLXPostgresServerAccessTuple.h */,
-				6EB1E78715F273350093F784 /* FLXPostgresServerAccessTuple.m */,
-				6EB1E78815F273350093F784 /* FLXPostgresServerIdentityTuple.h */,
-				6EB1E78915F273350093F784 /* FLXPostgresServerIdentityTuple.m */,
-				6EB1E78A15F273350093F784 /* PostgresServerKit.h */,
-				6EB1E78B15F273350093F784 /* PostgresServerKitPrivate.h */,
-			);
-			path = PostgresServerKit;
 			sourceTree = "<group>";
 		};
 		6EB1E78C15F273350093F784 /* UnitTests */ = {
@@ -1100,9 +911,6 @@
 				6EF30D1115F396D000EE0656 /* PGServer.xib in Resources */,
 				6E1B43FE15F3A4C2001ED3BE /* elephant.icns in Resources */,
 				6E48B37116060D980044A6CB /* strapline-200x40.png in Resources */,
-				6E48B37216060D9E0044A6CB /* red.tiff in Resources */,
-				6E48B37316060DA30044A6CB /* yellow.tiff in Resources */,
-				6E48B37416060DA70044A6CB /* green.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
