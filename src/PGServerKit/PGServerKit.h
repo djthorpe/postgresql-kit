@@ -4,6 +4,7 @@ typedef enum {
 	PGServerStateAlreadyRunning, // server is already running
 	PGServerStateIgnition,   // fire up the database
 	PGServerStateInitialize, // initializing the data directory
+	PGServerStateInitializing, // initializing the data directory
 	PGServerStateInitialized,// initialized the data directory
 	PGServerStateStarting,   // starting the server
 	PGServerStateRunning0,    // server is running - get PID

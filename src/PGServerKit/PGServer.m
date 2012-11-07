@@ -344,18 +344,37 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 			}
 			break;
 		case PGServerStateInitialize:
+			NSParameterAssert(_currentTask==nil);
 			// initialize the data directory
 			isSuccess = [self _startTaskInitialize];
 			if(isSuccess==NO) {
 				[self _setState:PGServerStateStopped];
 			} else {
-				[self _setState:PGServerStateInitialized];
+				[self _setState:PGServerStateInitializing];
+			}
+			break;
+		case PGServerStateInitializing:
+			NSParameterAssert(_currentTask);
+			// keep going until _currentTask is no longer running
+			if([_currentTask isRunning]==NO) {
+				if([_currentTask terminationStatus]==0) {
+					[self _setState:PGServerStateInitialized];
+				} else {
+#ifdef DEBUG
+					NSLog(@"Initializing failed, error code %d",[_currentTask terminationStatus]);
+#endif
+					[self _setState:PGServerStateError];
+				}
+				_currentTask = nil;
 			}
 			break;
 		case PGServerStateInitialized:
 			// data directory is initialized, so proceed to starting server
 			isSuccess = [self _startTaskServer];
 			if(isSuccess==NO) {
+#ifdef DEBUG
+				NSLog(@"_startTaskServer failed, setting state to PGServerStateStopped");
+#endif
 				[self _setState:PGServerStateStopped];
 			} else {
 				[self _setState:PGServerStateStarting];
@@ -596,11 +615,14 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 			return @"PGServerStateStarting";
 		case PGServerStateInitialize:
 		case PGServerStateInitialized:
+		case PGServerStateInitializing:
 			return @"PGServerStateInitialize";
 		case PGServerStateRunning:
 		case PGServerStateRunning0:
 		case PGServerStateAlreadyRunning:
 			return @"PGServerStateRunning";
+		case PGServerStateRestart:
+			return @"PGServerStateRestart";
 		case PGServerStateUnknown:
 			return @"PGServerStateUnknown";
 		case PGServerStateError:

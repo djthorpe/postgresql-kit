@@ -50,7 +50,11 @@
 // PGServer delegate messages
 
 -(void)pgserverMessage:(NSString* )theMessage {
-	if([theMessage hasPrefix:@"ERROR"]) {
+	if([theMessage hasPrefix:@"ERROR:"]) {
+		[self addLogMessage:theMessage color:[NSColor redColor] bold:NO];
+	} else if([theMessage hasPrefix:@"WARNING:"]) {
+			[self addLogMessage:theMessage color:[NSColor redColor] bold:NO];
+	} else if([theMessage hasPrefix:@"FATAL:"]) {
 		[self addLogMessage:theMessage color:[NSColor redColor] bold:NO];
 	} else {
 		[self addLogMessage:theMessage color:nil bold:NO];
