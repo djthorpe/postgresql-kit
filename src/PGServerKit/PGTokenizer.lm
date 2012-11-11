@@ -1,6 +1,8 @@
 
 HASH    [#]
 ID	    [A-Za-z_][A-Za-z0-9_]*
+FLOAT   [-+]?[0-9]+\.[0-9]+
+INTEGER [-+]?[0-9]+
 EQUALS	[=]
 WHITESP [\t ]+
 NEWLINE \r?\n
@@ -16,12 +18,14 @@ NEWLINE \r?\n
 %%
 \'(\\.|[^\\'])*\'  { return PGTokenizerSQString; }
 \"(\\.|[^\\"])*\"  { return PGTokenizerDQString; }
-{HASH}		{ return PGTokenizerHash; }
-{EQUALS}	{ return PGTokenizerEquals; }
-{ID}		{ return PGTokenizerKeyword; }
-{WHITESP}	{ return PGTokenizerWhitespace; }
-{NEWLINE}	{ return PGTokenizerNewline; }
-.			{ return PGTokenizerOther; }
+{FLOAT}            { return PGTokenizerFloat; }
+{INTEGER}          { return PGTokenizerInteger; }
+{HASH}		       { return PGTokenizerHash; }
+{EQUALS}	       { return PGTokenizerEquals; }
+{ID}		       { return PGTokenizerKeyword; }
+{WHITESP}	       { return PGTokenizerWhitespace; }
+{NEWLINE}	       { return PGTokenizerNewline; }
+.			       { return PGTokenizerOther; }
 %%
 
 BOOL file_tokenize(PGTokenizer* tokenizer,const char* file) {

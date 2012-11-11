@@ -5,15 +5,24 @@
 
 @property id delegate;
 @property (assign) IBOutlet NSWindow* ibWindow;
-@property (assign) IBOutlet NSTextField* ibCustomPort;
-@property BOOL allowRemoteConnections;
+
+@property BOOL remoteConnectionValue;
+@property BOOL bonjourValue;
+@property NSString* portValue;
+@property NSString* bonjourServiceValue;
+@property BOOL bonjourEnabled;
+@property NSUInteger maxConnectionsValue;
+@property NSUInteger superConnectionsValue;
+
+@property (readonly) NSUInteger port;
+@property (readonly) NSString* hostname;
+@property (readonly) NSString* bonjourName;
+
 @property BOOL portEditable;
 @property BOOL customPortEditable;
 @property NSUInteger selectedPortOption;
 @property NSString* portField;
 @property NSString* lastPortField;
-@property (readonly) NSString* hostname;
-@property (readonly) NSUInteger port;
 
 -(IBAction)ibSheetOpen:(NSWindow* )window delegate:(id)sender;
 

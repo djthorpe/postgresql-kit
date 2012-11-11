@@ -361,7 +361,7 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 					[self _setState:PGServerStateInitialized];
 				} else {
 #ifdef DEBUG
-					NSLog(@"Initializing failed, error code %d",[_currentTask terminationStatus]);
+					NSLog(@"Initialize task failed, error code %d",[_currentTask terminationStatus]);
 #endif
 					[self _setState:PGServerStateError];
 				}
@@ -477,7 +477,7 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 	
 	// if database process is already running, then set this as the state and return NO
 	int thePid = [self _pidFromPath:thePath];
-	if(thePid > 0) {
+	if(thePid > 0 && [self _doesProcessExist:thePid]) {
 		_pid = thePid;
 		[self _setState:PGServerStateAlreadyRunning];
 #ifdef DEBUG

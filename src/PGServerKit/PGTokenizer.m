@@ -56,7 +56,9 @@ BOOL file_tokenize(PGTokenizer* tokenizer,const char* file);
 -(NSString* )valueForKey:(NSString* )theKey {
 	NSParameterAssert(theKey);
 	PGTokenizerLine* theLine = [_index objectForKey:theKey];
-	NSParameterAssert(theLine);
+	if(theLine==nil) {
+		return nil;
+	}
 	return [theLine value];
 }
 

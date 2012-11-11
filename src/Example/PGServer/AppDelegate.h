@@ -1,9 +1,17 @@
 
 #import <Cocoa/Cocoa.h>
+#import <PGServerKit/PGServerKit.h>
+#import <PGClientKit/PGClientKit.h>
+
 #import "ConnectionPrefs.h"
 #import "ConfigurationPrefs.h"
 
-@interface AppDelegate : NSObject <NSApplicationDelegate>
+@interface AppDelegate : NSObject <NSApplicationDelegate> {
+	PGConnection* _connection;
+}
+
+@property (readonly) PGServer* server;
+@property (readonly) PGConnection* connection;
 
 @property (assign) IBOutlet NSWindow* ibWindow;
 @property (assign) IBOutlet NSTextView* ibLogTextView;

@@ -38,7 +38,6 @@ extern NSUInteger PGServerDefaultPort;
 -(PGServerPreferences* )authentication;
 -(PGServerPreferences* )configuration;
 
-
 // utility methods
 +(NSString* )stateAsString:(PGServerState)theState;
 

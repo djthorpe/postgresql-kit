@@ -102,7 +102,7 @@
 // override method to determine if a line is editable
 
 -(BOOL)shouldIndex:(PGTokenizerLine* )theLine {
-	if([self type]==PGServerPreferencesTypeConfiguration) {
+/*	if([self type]==PGServerPreferencesTypeConfiguration) {
 		if([[theLine keyword] isEqual:@"port"]) {
 			return NO;
 		}
@@ -118,7 +118,7 @@
 		if([[theLine keyword] isEqual:@"listen_addresses"]) {
 			return NO;
 		}
-	}
+	}*/
 	return YES;
 }
 

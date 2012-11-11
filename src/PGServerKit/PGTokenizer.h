@@ -6,6 +6,8 @@ typedef enum {
 	PGTokenizerEquals,
 	PGTokenizerSQString,
 	PGTokenizerDQString,
+	PGTokenizerInteger,
+	PGTokenizerFloat,
 	PGTokenizerKeyword,
 	PGTokenizerWhitespace,
 	PGTokenizerNewline,

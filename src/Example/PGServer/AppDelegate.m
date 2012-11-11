@@ -1,8 +1,32 @@
 
 #import "AppDelegate.h"
-#import <PGServerKit/PGServerKit.h>
 
 @implementation AppDelegate
+
+////////////////////////////////////////////////////////////////////////////////
+// init method
+
+-(id)init {
+	self = [super init];
+	if(self) {
+		_connection = [[PGConnection alloc] init];
+	}
+	return self;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Properties
+
+@dynamic server;
+@dynamic connection;
+
+-(PGConnection* )connection {
+	return _connection;
+}
+
+-(PGServer* )server {
+	return [PGServer sharedServer];
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // Utility functions
@@ -62,6 +86,8 @@
 }
 
 -(void)pgserverStateChange:(PGServer* )sender {
+	NSParameterAssert([self server]==sender);
+	
 #ifdef DEBUG
 	NSLog(@"state changed => %d %@",[sender state],[PGServer stateAsString:[sender state]]);
 #endif
@@ -87,6 +113,25 @@
 		[self setIbBackupButtonEnabled:NO];
 		[self setIbServerStatusIcon:[NSImage imageNamed:@"yellow"]];
 	}
+
+	// connect and disconnect
+	if([sender state]==PGServerStateRunning &&  [[self connection] status] != PGConnectionStatusConnected) {
+#ifdef DEBUG
+		NSLog(@"Connecting to server");
+#endif
+		NSError* theError = nil;
+		NSURL* theURL = [NSURL URLWithString:@"pgsql://postgres@/"];
+		BOOL isSuccess = [[self connection] connectWithURL:theURL error:&theError];
+		if(isSuccess==NO) {
+			[self addLogMessage:[NSString stringWithFormat:@"Connection error: %@",[theError description]] color:[NSColor redColor] bold:NO];
+		}
+		
+	} else if(([sender state]==PGServerStateStopping || [sender state]==PGServerStateRestart) && [[self connection] status]==PGConnectionStatusConnected) {
+#ifdef DEBUG
+		NSLog(@"Disconnecting from server");
+#endif
+		[[self connection] disconnect];
+	}
 	
 	// set configuration preferences toolbar item
 	if([sender state]==PGServerStateRunning) {
@@ -111,20 +156,19 @@
 
 -(void)startServer {
 	[self addLogMessage:[NSString stringWithFormat:@"Starting server with data path: %@",[self dataPath]] color:[NSColor redColor] bold:NO];
-	[[PGServer sharedServer] startWithDataPath:[self dataPath] hostname:[[self ibConnectionPrefs] hostname] port:[[self ibConnectionPrefs] port]];
+	[[self server] startWithDataPath:[self dataPath] hostname:[[self ibConnectionPrefs] hostname] port:[[self ibConnectionPrefs] port]];
 }
 
 -(void)stopServer {
-	PGServer* theServer = [PGServer sharedServer];
 	[self addLogMessage:[NSString stringWithFormat:@"Stopping server"] color:[NSColor redColor] bold:NO];
 	// stop the server
-	[theServer stop];
+	[[self server] stop];
 }
 
 -(void)restartServer {
 	// stop server
-	if([[PGServer sharedServer] state]==PGServerStateRunning) {
-		[[PGServer sharedServer] restart];
+	if([[self server] state]==PGServerStateRunning) {
+		[[self server] restart];
 	} else {
 #ifdef DEBUG
 		NSLog(@"Unable to restart a server which isn't in PGServerStateRunning state");
@@ -134,8 +178,8 @@
 
 -(void)reloadServer {
 	// reload server
-	if([[PGServer sharedServer] state]==PGServerStateRunning) {
-		[[PGServer sharedServer] reload];
+	if([[self server] state]==PGServerStateRunning) {
+		[[self server] reload];
 	} else {
 #ifdef DEBUG
 		NSLog(@"Unable to reload a server which isn't in PGServerStateRunning state");
@@ -147,10 +191,8 @@
 // Application signals
 
 -(void)applicationDidFinishLaunching:(NSNotification* )aNotification {
-	PGServer* theServer = [PGServer sharedServer];
-	
 	// set version number
-	[self setIbServerVersion:[theServer version]];
+	[self setIbServerVersion:[[self server] version]];
 
 	// set button states
 	[self setIbStartButtonEnabled:YES];
@@ -168,7 +210,7 @@
 	[self setTerminateRequested:nil];
 	
 	// set server delegate
-	[[PGServer sharedServer] setDelegate:self];
+	[[self server] setDelegate:self];
 }
 
 -(NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication* )sender {
@@ -186,16 +228,12 @@
 	}
 }
 
-//-(void)applicationWillTerminate:(NSNotification *)aNotification {
-//	[self stopServer];
-//}
-
-
 ////////////////////////////////////////////////////////////////////////////////
 // Backup methods
 
 -(void)backupToPath:(NSURL* )thePath {
 	NSParameterAssert([thePath isFileURL]);
+	NSLog(@"NOT YET IMPLEMENTED");
 //	[[PGServer2 sharedServer] backupToFolderPath:[thePath path] superPassword:nil];
 }
 

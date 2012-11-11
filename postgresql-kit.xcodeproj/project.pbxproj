@@ -29,12 +29,21 @@
 		14032DCC164A71A400CD5796 /* terminal.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14032D76164A6F2200CD5796 /* terminal.tiff */; };
 		14032DCF164A726400CD5796 /* network.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14032DCD164A726400CD5796 /* network.tiff */; };
 		14032DD0164A726400CD5796 /* preferences.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14032DCE164A726400CD5796 /* preferences.tiff */; };
+		14032DD1164A8D3700CD5796 /* PGClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
+		14032DD2164A8D5800CD5796 /* PGClientKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
+		14032DD5164AB3B400CD5796 /* info.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14032DD3164AB35100CD5796 /* info.tiff */; };
+		14032DD6164AB3B900CD5796 /* user.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14032DD4164AB35100CD5796 /* user.tiff */; };
+		14032DD7164AB3C100CD5796 /* reload.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14032D73164A6F2200CD5796 /* reload.tiff */; };
+		14032DD8164AB3C700CD5796 /* start.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14032D74164A6F2200CD5796 /* start.tiff */; };
+		14032DD9164AB3CA00CD5796 /* stop.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14032D75164A6F2200CD5796 /* stop.tiff */; };
 		141FCCEA1646911C00197F3F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C168115F26BF20013A382 /* Foundation.framework */; };
 		141FCCFA1646919E00197F3F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 141FCCF71646917B00197F3F /* main.m */; };
 		141FCD0C1646D09100197F3F /* PGServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
 		141FCD0F1646D13400197F3F /* PGTokenizer.lm in Sources */ = {isa = PBXBuildFile; fileRef = 141FCD071646CD1300197F3F /* PGTokenizer.lm */; };
 		141FCD101646D13800197F3F /* PGTokenizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 141FCD0A1646CDA400197F3F /* PGTokenizer.m */; };
 		141FCD141646D34B00197F3F /* PGTokenizerLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 141FCD121646D34B00197F3F /* PGTokenizerLine.m */; };
+		14A556C9164E727800584C21 /* PGServerPreferences+Configuration.h in Headers */ = {isa = PBXBuildFile; fileRef = 14A556C7164E727800584C21 /* PGServerPreferences+Configuration.h */; };
+		14A556CA164E727800584C21 /* PGServerPreferences+Configuration.m in Sources */ = {isa = PBXBuildFile; fileRef = 14A556C8164E727800584C21 /* PGServerPreferences+Configuration.m */; };
 		6E031030162FE50B003225B1 /* PGStatement.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E03102E162FE50B003225B1 /* PGStatement.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E031031162FE50B003225B1 /* PGStatement.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E03102F162FE50B003225B1 /* PGStatement.m */; };
 		6E0773D9163744D90028783F /* PGResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0773D7163744D90028783F /* PGResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -161,6 +170,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				6E1B43D715F3A308001ED3BE /* PGServerKit.framework in CopyFiles */,
+				14032DD2164A8D5800CD5796 /* PGClientKit.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -267,6 +277,8 @@
 		14032DC9164A718C00CD5796 /* halt.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = halt.tiff; sourceTree = "<group>"; };
 		14032DCD164A726400CD5796 /* network.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = network.tiff; sourceTree = "<group>"; };
 		14032DCE164A726400CD5796 /* preferences.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = preferences.tiff; sourceTree = "<group>"; };
+		14032DD3164AB35100CD5796 /* info.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = info.tiff; sourceTree = "<group>"; };
+		14032DD4164AB35100CD5796 /* user.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = user.tiff; sourceTree = "<group>"; };
 		141FCCE81646911C00197F3F /* Tokenizer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Tokenizer; sourceTree = BUILT_PRODUCTS_DIR; };
 		141FCCF71646917B00197F3F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		141FCD071646CD1300197F3F /* PGTokenizer.lm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; path = PGTokenizer.lm; sourceTree = "<group>"; };
@@ -274,6 +286,8 @@
 		141FCD0A1646CDA400197F3F /* PGTokenizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGTokenizer.m; sourceTree = "<group>"; };
 		141FCD111646D34B00197F3F /* PGTokenizerLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGTokenizerLine.h; sourceTree = "<group>"; };
 		141FCD121646D34B00197F3F /* PGTokenizerLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGTokenizerLine.m; sourceTree = "<group>"; };
+		14A556C7164E727800584C21 /* PGServerPreferences+Configuration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PGServerPreferences+Configuration.h"; sourceTree = "<group>"; };
+		14A556C8164E727800584C21 /* PGServerPreferences+Configuration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PGServerPreferences+Configuration.m"; sourceTree = "<group>"; };
 		6E03102E162FE50B003225B1 /* PGStatement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGStatement.h; sourceTree = "<group>"; };
 		6E03102F162FE50B003225B1 /* PGStatement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGStatement.m; sourceTree = "<group>"; };
 		6E0773D7163744D90028783F /* PGResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGResult.h; sourceTree = "<group>"; };
@@ -446,6 +460,7 @@
 			files = (
 				6EF30CF415F3957900EE0656 /* Cocoa.framework in Frameworks */,
 				6EF30D1215F3975F00EE0656 /* PGServerKit.framework in Frameworks */,
+				14032DD1164A8D3700CD5796 /* PGClientKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -455,6 +470,8 @@
 		14032D71164A6F2200CD5796 /* icons */ = {
 			isa = PBXGroup;
 			children = (
+				14032DD3164AB35100CD5796 /* info.tiff */,
+				14032DD4164AB35100CD5796 /* user.tiff */,
 				14032DCD164A726400CD5796 /* network.tiff */,
 				14032DCE164A726400CD5796 /* preferences.tiff */,
 				14032DC9164A718C00CD5796 /* halt.tiff */,
@@ -604,6 +621,8 @@
 				141FCD0A1646CDA400197F3F /* PGTokenizer.m */,
 				141FCD111646D34B00197F3F /* PGTokenizerLine.h */,
 				141FCD121646D34B00197F3F /* PGTokenizerLine.m */,
+				14A556C7164E727800584C21 /* PGServerPreferences+Configuration.h */,
+				14A556C8164E727800584C21 /* PGServerPreferences+Configuration.m */,
 			);
 			name = Preferences;
 			sourceTree = "<group>";
@@ -891,6 +910,7 @@
 				6EDFA08415F3FCDF000C7BA4 /* PGServer+Backup.h in Headers */,
 				6EA41EF01610E7DB00E81046 /* PGServer.h in Headers */,
 				6E8BEB06163D612900DDC1B6 /* PGServerPreferences.h in Headers */,
+				14A556C9164E727800584C21 /* PGServerPreferences+Configuration.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1113,6 +1133,11 @@
 				14032DCC164A71A400CD5796 /* terminal.tiff in Resources */,
 				14032DCF164A726400CD5796 /* network.tiff in Resources */,
 				14032DD0164A726400CD5796 /* preferences.tiff in Resources */,
+				14032DD5164AB3B400CD5796 /* info.tiff in Resources */,
+				14032DD6164AB3B900CD5796 /* user.tiff in Resources */,
+				14032DD7164AB3C100CD5796 /* reload.tiff in Resources */,
+				14032DD8164AB3C700CD5796 /* start.tiff in Resources */,
+				14032DD9164AB3CA00CD5796 /* stop.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1197,6 +1222,7 @@
 				141FCD0F1646D13400197F3F /* PGTokenizer.lm in Sources */,
 				141FCD101646D13800197F3F /* PGTokenizer.m in Sources */,
 				141FCD141646D34B00197F3F /* PGTokenizerLine.m in Sources */,
+				14A556CA164E727800584C21 /* PGServerPreferences+Configuration.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
