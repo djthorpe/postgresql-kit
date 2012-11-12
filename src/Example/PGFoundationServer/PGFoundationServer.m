@@ -30,8 +30,9 @@
 			printf("Server is already running, restarting\n");
 			[[self server] restart];
 			break;
-		case PGServerStateStopped:
 		case PGServerStateError:
+			[self setReturnValue:-1];
+		case PGServerStateStopped:
 			// quit the application
 			[self setSignal:-1];
 			CFRunLoopStop([[NSRunLoop currentRunLoop] getCFRunLoop]);
