@@ -111,7 +111,8 @@
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// we need to fire the timer once to actually start the server up
+// we need to fire the timer once to actually start the server up, once the
+// run loop is looping around.
 
 -(void)timerFired:(id)theTimer {
 	PGServerState state = [[self server] state];
