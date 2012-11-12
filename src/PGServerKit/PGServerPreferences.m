@@ -25,18 +25,6 @@
 	return self;
 }
 
--(id)initWithAuthenticationFile:(NSString* )path {
-	self = [super init];
-	if(self) {
-		// read in authentication file		
-		if([super load:path]==NO) {
-			return nil;
-		}
-		_path = path;
-	}
-	return self;
-}
-
 ////////////////////////////////////////////////////////////////////////////////
 // properties
 

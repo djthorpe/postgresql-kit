@@ -18,7 +18,6 @@ typedef enum {
 
 // constructors
 -(id)initWithConfigurationFile:(NSString* )path;
--(id)initWithAuthenticationFile:(NSString* )path;
 
 // methods
 -(BOOL)save;
