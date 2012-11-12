@@ -81,7 +81,6 @@
 			// ignore
 			return;
 		default:
-			NSLog(@"type=%d text=%s",type,text);
 			[_value appendString:[NSString stringWithUTF8String:text]];
 			return;
 	}

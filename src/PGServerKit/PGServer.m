@@ -610,9 +610,6 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 // read configuration
 
 -(PGServerPreferences* )configuration {
-	if([self state] != PGServerStateRunning && [self state] != PGServerStateAlreadyRunning) {
-		return nil;
-	}
 	if(_configuration==nil) {
 		NSString* thePath = [_dataPath stringByAppendingPathComponent:[PGServer _configurationPreferencesFilename]];
 		_configuration = [[PGServerPreferences alloc] initWithConfigurationFile:thePath];

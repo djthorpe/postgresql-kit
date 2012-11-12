@@ -19,18 +19,21 @@
 }
 
 -(NSUInteger)port {
+	PGServerPreferences* configuration = [[self server] configuration];
+	NSUInteger port = 0;
+	
 	// retrieve port from NSUserDefaults
 	if([[NSUserDefaults standardUserDefaults] objectForKey:@"port"]) {
-		NSInteger port = [[NSUserDefaults standardUserDefaults] integerForKey:@"port"];
-		if(port > 0) {
-			return (NSUInteger)port;
+		port = [[NSUserDefaults standardUserDefaults] integerForKey:@"port"];
+
+		// save port in configuration file
+		[configuration setPort:port];
+		if([configuration modified]) {
+			[configuration save];
 		}
 	}
-	// retrieve port from configuration
-	PGServerPreferences* configuration = [[self server] configuration];
-	if(configuration==nil) {
-		return 0;
-	}
+	
+	// return saved port
 	return [configuration port];
 }
 
