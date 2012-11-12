@@ -22,6 +22,7 @@ extern NSUInteger PGServerDefaultPort;
 @property (readonly) PGServerState state;
 @property (readonly) NSString* dataPath;
 @property (readonly) int pid;
+@property (readonly) NSTimeInterval uptime;
 
 // return shared server object
 +(PGServer* )serverWithDataPath:(NSString* )thePath;
