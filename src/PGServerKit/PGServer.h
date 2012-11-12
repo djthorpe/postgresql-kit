@@ -17,7 +17,7 @@ extern NSUInteger PGServerDefaultPort;
 }
 
 // properties
-@property id delegate;
+@property id<PGServerDelegate> delegate;
 @property (readonly) NSString* version;
 @property (readonly) PGServerState state;
 @property (readonly) NSString* hostname;
@@ -25,17 +25,17 @@ extern NSUInteger PGServerDefaultPort;
 @property (readonly) NSString* dataPath;
 
 // return shared server object
-+(PGServer* )sharedServer;
++(PGServer* )serverWithDataPath:(NSString* )thePath;
 
-// start, stop, restart and reload the server
--(BOOL)startWithDataPath:(NSString* )thePath;
--(BOOL)startWithDataPath:(NSString* )thePath hostname:(NSString* )hostname port:(NSUInteger)port;
+// signal the server to do things
+-(BOOL)start; // uses default port, no network
+-(BOOL)startWithPort:(NSUInteger)port; // uses custom port, no network
+-(BOOL)startWithNetworkBinding:(NSString* )hostname port:(NSUInteger)port;
 -(BOOL)stop;
 -(BOOL)restart;
 -(BOOL)reload;
 
-// read authentication and configuration
--(PGServerPreferences* )authentication;
+// configuration
 -(PGServerPreferences* )configuration;
 
 // utility methods

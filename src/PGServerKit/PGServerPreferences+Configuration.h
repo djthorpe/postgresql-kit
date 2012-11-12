@@ -12,4 +12,9 @@
 -(NSString* )listenAddresses;
 -(void)setListenAddresses:(NSString* )value;
 
+// bonjour discovery
+//-(BOOL)bonjourEnabled;
+//-(NSString* )bonjourServiceName;
+//-(void)setBonjourEnabled:(BOOL)enabled serviceName:(NSString* )name;
+
 @end

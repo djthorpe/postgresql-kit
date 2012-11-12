@@ -1,4 +1,6 @@
 
+#import <Foundation/Foundation.h>
+
 typedef enum {
 	PGServerStateUnknown = 0,
 	PGServerStateAlreadyRunning, // server is already running
@@ -15,17 +17,19 @@ typedef enum {
 	PGServerStateError       // error occurred
 } PGServerState;
 
+// forward class declarations
 @class PGServer;
 @class PGServerPreferences;
 
-#import <Foundation/Foundation.h>
+// PGServerDelegate protocol
+@protocol PGServerDelegate <NSObject>
+@optional
+-(void)pgserverStateChange:(PGServer* )sender;
+-(void)pgserver:(PGServer* )sender message:(NSString* )message;
+@end
+
+// include public header files
 #import "PGServer.h"
 #import "PGServer+Backup.h"
 #import "PGServerPreferences.h"
 #import "PGServerPreferences+Configuration.h"
-
-// PGServerDelegate
-@interface NSObject (PGServerDelegate)
--(void)pgserverStateChange:(PGServer* )sender;
--(void)pgserverMessage:(NSString* )theMessage;
-@end

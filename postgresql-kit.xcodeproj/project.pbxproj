@@ -36,6 +36,7 @@
 		14032DD7164AB3C100CD5796 /* reload.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14032D73164A6F2200CD5796 /* reload.tiff */; };
 		14032DD8164AB3C700CD5796 /* start.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14032D74164A6F2200CD5796 /* start.tiff */; };
 		14032DD9164AB3CA00CD5796 /* stop.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14032D75164A6F2200CD5796 /* stop.tiff */; };
+		141E7F0F16518D23009D81E8 /* PGFoundationServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 141E7F0E16518D23009D81E8 /* PGFoundationServer.m */; };
 		141FCCEA1646911C00197F3F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C168115F26BF20013A382 /* Foundation.framework */; };
 		141FCCFA1646919E00197F3F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 141FCCF71646917B00197F3F /* main.m */; };
 		141FCD0C1646D09100197F3F /* PGServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
@@ -279,6 +280,8 @@
 		14032DCE164A726400CD5796 /* preferences.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = preferences.tiff; sourceTree = "<group>"; };
 		14032DD3164AB35100CD5796 /* info.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = info.tiff; sourceTree = "<group>"; };
 		14032DD4164AB35100CD5796 /* user.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = user.tiff; sourceTree = "<group>"; };
+		141E7F0D16518D23009D81E8 /* PGFoundationServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGFoundationServer.h; sourceTree = "<group>"; };
+		141E7F0E16518D23009D81E8 /* PGFoundationServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGFoundationServer.m; sourceTree = "<group>"; };
 		141FCCE81646911C00197F3F /* Tokenizer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Tokenizer; sourceTree = BUILT_PRODUCTS_DIR; };
 		141FCCF71646917B00197F3F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		141FCD071646CD1300197F3F /* PGTokenizer.lm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; path = PGTokenizer.lm; sourceTree = "<group>"; };
@@ -829,6 +832,8 @@
 			isa = PBXGroup;
 			children = (
 				6ECA7AD715F3635A00AF2B70 /* main.m */,
+				141E7F0D16518D23009D81E8 /* PGFoundationServer.h */,
+				141E7F0E16518D23009D81E8 /* PGFoundationServer.m */,
 			);
 			path = PGFoundationServer;
 			sourceTree = "<group>";
@@ -1209,6 +1214,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6ECA7AE915F3638500AF2B70 /* main.m in Sources */,
+				141E7F0F16518D23009D81E8 /* PGFoundationServer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,21 +8,15 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 
 @implementation PGServer
 
+////////////////////////////////////////////////////////////////////////////////
+// properties
+
 @dynamic version;
 
 ////////////////////////////////////////////////////////////////////////////////
 // initialization methods
 
-+(PGServer* )sharedServer {
-    static dispatch_once_t pred = 0;
-    __strong static id _sharedServer = nil;
-    dispatch_once(&pred, ^{
-        _sharedServer = [[self alloc] init];
-    });
-    return _sharedServer;
-}
-
--(id)init {
+-(id)initWithDataPath:(NSString* )thePath {
 	self = [super init];
 	if(self) {
 		[self setDelegate:nil];
@@ -30,17 +24,20 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 		_hostname = nil;
 		_port = 0;
 		_pid = -1;
-		_dataPath = nil;
+		_dataPath = thePath;
 		_currentTask = nil;
 		_timer = nil;
 		_configuration = nil;
-		_authentication = nil;
 	}
 	return self;
 }
 
 -(void)dealloc {
 	[self _removeNotification];
+}
+
++(PGServer* )serverWithDataPath:(NSString* )thePath {
+	return [[PGServer alloc] initWithDataPath:thePath];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -85,7 +82,7 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 	PGServerState oldState = _state;
 	_state = state;
 	if(_state != oldState && [[self delegate] respondsToSelector:@selector(pgserverStateChange:)]) {
-		[[self delegate] performSelectorOnMainThread:@selector(pgserverStateChange:) withObject:self waitUntilDone:YES];
+		[[self delegate] pgserverStateChange:self];
 	}
 }
 
@@ -93,8 +90,8 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 // send messages to the delegate
 
 -(void)_delegateMessage:(NSString* )message {
-	if([[self delegate] respondsToSelector:@selector(pgserverMessage:)] && [message length]) {
-		[[self delegate] performSelectorOnMainThread:@selector(pgserverMessage:) withObject:message waitUntilDone:YES];
+	if([[self delegate] respondsToSelector:@selector(pgserver:message:)] && [message length]) {
+		[[self delegate] pgserver:self message:message];
 	}
 	
 	// if message is "database system is ready" and server in state PGServerStateStarting
@@ -214,9 +211,20 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 	if([[NSFileManager defaultManager] fileExistsAtPath:thePath isDirectory:&isDirectory]==NO) {
 		// create the directory
 		if([[NSFileManager defaultManager] createDirectoryAtPath:thePath withIntermediateDirectories:YES attributes:nil error:nil]==NO) {
+#ifdef DEBUG
+			NSLog(@"Unable to create directory: %@",thePath);
+#endif
 			return NO;
 		}
 	} else if(isDirectory==NO) {
+#ifdef DEBUG
+		NSLog(@"Not a valid directory: %@",thePath);
+#endif
+		return NO;
+	} else if([[NSFileManager defaultManager] isWritableFileAtPath:thePath]==NO) {
+#ifdef DEBUG
+		NSLog(@"Not a writable directory: %@",thePath);
+#endif
 		return NO;
 	}
 	
@@ -229,7 +237,7 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 
 -(BOOL)_shouldInitialize {
 	// check for postgresql.conf file
-	if([[NSFileManager defaultManager] fileExistsAtPath:[_dataPath stringByAppendingPathComponent:@"postgresql.conf"]]==YES) {
+	if([[NSFileManager defaultManager] fileExistsAtPath:[_dataPath stringByAppendingPathComponent:[PGServer _configurationPreferencesFilename]]]==YES) {
 		return NO;
 	} else {
 		return YES;
@@ -312,13 +320,15 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 		[theArguments addObject:@"-h"];
 		[theArguments addObject:@""];
 	}
-	if([self port] > 0 && [self port] != PGServerDefaultPort) {
+	if(_port > 0 && _port != PGServerDefaultPort) {
 		[theArguments addObject:@"-p"];
-		[theArguments addObject:[NSString stringWithFormat:@"%ld",[self port]]];
+		[theArguments addObject:[NSString stringWithFormat:@"%ld",_port]];
 	} else {
 		_port = PGServerDefaultPort;
 	}
-
+#ifdef DEBUG
+	NSLog(@"Starting server with args: %@",[theArguments componentsJoinedByString:@" "]);
+#endif
 	return [self _startTask:[PGServer _serverBinary] arguments:theArguments];
 }
 
@@ -464,38 +474,42 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 ////////////////////////////////////////////////////////////////////////////////
 // start server method
 
--(BOOL)startWithDataPath:(NSString* )thePath {
-	return [self startWithDataPath:thePath hostname:nil port:0];
+-(BOOL)start {
+	return [self startWithPort:PGServerDefaultPort];
 }
 
--(BOOL)startWithDataPath:(NSString* )thePath hostname:(NSString* )hostname port:(NSUInteger)port {
-	NSParameterAssert(thePath);
+-(BOOL)startWithPort:(NSUInteger)port {
+	return [self startWithNetworkBinding:nil port:port];
+}
 
+-(BOOL)startWithNetworkBinding:(NSString* )hostname port:(NSUInteger)port {
+	NSParameterAssert([self dataPath]);
+
+	// check current state
 	if([self state]==PGServerStateRunning || [self state]==PGServerStateStarting || [self state]==PGServerStateInitialize || [self state]==PGServerStateInitialized || [self state]==PGServerStateIgnition || [self state]==PGServerStateStopping) {
 		return NO;
 	}
 	
 	// if database process is already running, then set this as the state and return NO
-	int thePid = [self _pidFromPath:thePath];
+	int thePid = [self _pidFromPath:[self dataPath]];
 	if(thePid > 0 && [self _doesProcessExist:thePid]) {
 		_pid = thePid;
 		[self _setState:PGServerStateAlreadyRunning];
 #ifdef DEBUG
-		NSLog(@"Setting state: PGServerStateAlreadyRunning");
+		NSLog(@"Setting state: PGServerStateAlreadyRunning, pid = %d",thePid);
 #endif
 		return NO;
 	}
 
 	// create the data path if nesessary
-	if([self _createDataPath:thePath]==NO) {
+	if([self _createDataPath:[self dataPath]]==NO) {
 		[self _setState:PGServerStateError];
-		[self _delegateMessage:[NSString stringWithFormat:@"Unable to create data path: %@",thePath]];
+		[self _delegateMessage:[NSString stringWithFormat:@"Unable to create data path: %@",[self dataPath]]];
 		return NO;
 	}
 	
 	// set the pid to zero and state to ignition
 	_pid = 0;
-	_dataPath = [thePath copy];
 	_hostname = [hostname copy];
 	_port = port;
 	[self _setState:PGServerStateIgnition];
@@ -505,7 +519,6 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 
 	// remove preferences
 	_configuration = nil;
-	_authentication = nil;
 
 	// return YES
 	return YES;
@@ -529,7 +542,6 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 
 	// remove preferences
 	_configuration = nil;
-	_authentication = nil;
 
 	// return success
 	return YES;
@@ -551,7 +563,6 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 
 	// remove preferences
 	_configuration = nil;
-	_authentication = nil;
 
 	// return success
 	return YES;
@@ -571,24 +582,13 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 	kill(_pid,SIGHUP);
 	// remove preferences
 	_configuration = nil;
-	_authentication = nil;
+
 	// return success
 	return YES;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// read authentication and configuration
-
--(PGServerPreferences* )authentication {
-	if([self state] != PGServerStateRunning && [self state] != PGServerStateAlreadyRunning) {
-		return nil;
-	}
-	if(_authentication==nil) {
-		NSString* thePath = [_dataPath stringByAppendingPathComponent:[PGServer _authenticationPreferencesFilename]];
-		_authentication = [[PGServerPreferences alloc] initWithAuthenticationFile:thePath];
-	}
-	return _authentication;
-}
+// read configuration
 
 -(PGServerPreferences* )configuration {
 	if([self state] != PGServerStateRunning && [self state] != PGServerStateAlreadyRunning) {
