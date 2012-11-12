@@ -41,9 +41,8 @@
 	}
 }
 
--(void)stop {
-	[[self server] stop];
-}
+////////////////////////////////////////////////////////////////////////////////
+// start/stop methods
 
 -(int)start {
 	// create a server
@@ -54,7 +53,7 @@
 	[self setReturnValue:0];
 	
 	// Report server version
-	NSLog(@"Version: %@",[[self server] version]);
+	printf("Server version: %s",[[[self server] version] UTF8String]);
 	
 	// create a timer to fire once run loop is started
 	[NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(timerFired:) userInfo:nil repeats:NO];
@@ -71,41 +70,18 @@
 	return [self returnValue];
 }
 
+-(void)stop {
+	[[self server] stop];
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// we need to fire the timer once to actually start the server up
+
 -(void)timerFired:(id)theTimer {
 	PGServerState state = [[self server] state];
 	if(state==PGServerStateUnknown) {
 		[[self server] start];
 	}
 }
-
-
-/*
- // if server is stopped, then make signal minus 1, and stop the run loop now
- if([[self server] state]==PGServerStateStopped) {
- [self setSignal:-1];
- CFRunLoopStop([[NSRunLoop currentRunLoop] getCFRunLoop]);
- return;
- }
- 
- // stop server if signal is greater than 0
- if([self signal] > 0) {
- [[self server] stop];
- }
- */
-/*
- -(NSString* )hostname {
- return [[NSUserDefaults standardUserDefaults] stringForKey:@"hostname"];
- }
- 
- -(NSUInteger)port {
- NSInteger port = [[NSUserDefaults standardUserDefaults] integerForKey:@"port"];
- if(port > 0) {
- return (NSUInteger)port;
- } else {
- return (NSUInteger)0;
- }
- }
- */
-
 
 @end

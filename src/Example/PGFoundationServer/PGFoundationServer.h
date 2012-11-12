@@ -19,7 +19,7 @@
 @property int returnValue;
 @property PGServer* server;
 
--(int)start;
--(void)stop;
+-(int)start; // start run loop and exit when done
+-(void)stop; // signal application to stop
 
 @end
