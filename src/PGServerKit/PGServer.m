@@ -8,10 +8,10 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 
 @implementation PGServer
 
-////////////////////////////////////////////////////////////////////////////////
-// properties
-
 @dynamic version;
+@dynamic pid;
+@dynamic state;
+@dynamic dataPath;
 
 ////////////////////////////////////////////////////////////////////////////////
 // initialization methods
@@ -393,7 +393,7 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 		case PGServerStateStarting:
 			if(_currentTask==nil || [_currentTask isRunning]==NO) {
 				// Error occured during startup
-				[self _delegateMessage:[NSString stringWithFormat:@"%@ ended with status %d",[_currentTask launchPath],[_currentTask terminationStatus]]];
+				[self _delegateMessage:[NSString stringWithFormat:@"Task ended with status %d",[_currentTask terminationStatus]]];
 				[self _setState:PGServerStateStopped];
 			}
 			break;
@@ -429,7 +429,6 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 			_hostname = nil;
 			_port = 0;
 			_pid = -1;
-			_dataPath = nil;
 			_currentTask = nil;
 			[_timer invalidate];
 			_timer = nil;
@@ -469,6 +468,26 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 	} else {
 		return nil;
 	}
+}
+
+-(int)pid {
+	return _pid;
+}
+
+-(PGServerState)state {
+	return _state;
+}
+
+-(NSUInteger)port {
+	return _port;
+}
+
+-(NSString* )hostname {
+	return _hostname;
+}
+
+-(NSString* )dataPath {
+	return _dataPath;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -20,9 +20,8 @@ extern NSUInteger PGServerDefaultPort;
 @property id<PGServerDelegate> delegate;
 @property (readonly) NSString* version;
 @property (readonly) PGServerState state;
-@property (readonly) NSString* hostname;
-@property (readonly) NSUInteger port;
 @property (readonly) NSString* dataPath;
+@property (readonly) int pid;
 
 // return shared server object
 +(PGServer* )serverWithDataPath:(NSString* )thePath;

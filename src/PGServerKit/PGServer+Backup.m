@@ -65,7 +65,7 @@
 	[theTask setStandardOutput:theOutPipe];
 	[theTask setStandardError:theErrPipe];
 	[theTask setLaunchPath:[PGServer _dumpBinary]];
-	[theTask setArguments:[NSArray arrayWithObjects:@"-p",[NSString stringWithFormat:@"%lu",[self port]],@"-U",[PGServer _superUsername],@"-S",[[self class] _superUsername],@"--disable-triggers",nil]];
+	[theTask setArguments:[NSArray arrayWithObjects:@"-p",[NSString stringWithFormat:@"%lu",_port],@"-U",[PGServer _superUsername],@"-S",[[self class] _superUsername],@"--disable-triggers",nil]];
 	
 	if([thePassword length]) {
 		// set the PGPASSWORD env variable

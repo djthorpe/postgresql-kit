@@ -19,6 +19,9 @@
 @property int returnValue;
 @property PGServer* server;
 
+@property NSUInteger port;
+@property NSString* hostname;
+
 -(int)start; // start run loop and exit when done
 -(void)stop; // signal application to stop
 

@@ -5,6 +5,8 @@
 @synthesize signal;
 @synthesize returnValue;
 @dynamic dataPath;
+@dynamic port;
+@dynamic hostname;
 
 ////////////////////////////////////////////////////////////////////////////////
 // properties
@@ -14,6 +16,36 @@
 	NSArray* theApplicationSupportDirectory = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory,NSUserDomainMask, YES);
 	NSParameterAssert([theApplicationSupportDirectory count]);
 	return [[theApplicationSupportDirectory objectAtIndex:0] stringByAppendingPathComponent:theIdent];
+}
+
+-(NSUInteger)port {
+	// retrieve port from NSUserDefaults
+	if([[NSUserDefaults standardUserDefaults] objectForKey:@"port"]) {
+		NSInteger port = [[NSUserDefaults standardUserDefaults] integerForKey:@"port"];
+		if(port > 0) {
+			return (NSUInteger)port;
+		}
+	}
+	// retrieve port from configuration
+	PGServerPreferences* configuration = [[self server] configuration];
+	if(configuration==nil) {
+		return 0;
+	}
+	return [configuration port];
+}
+
+-(NSString* )hostname {
+	// retrieve hostname from NSUserDefaults
+	NSString* hostname = [[NSUserDefaults standardUserDefaults] stringForKey:@"hostname"];
+	if(hostname) {
+		return hostname;
+	}
+	// retrieve port from configuration
+	PGServerPreferences* configuration = [[self server] configuration];
+	if(configuration==nil) {
+		return nil;
+	}
+	return [configuration listenAddresses];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -31,9 +63,12 @@
 			[[self server] restart];
 			break;
 		case PGServerStateError:
+			// error occured, so program should quit with -1 return value
+			printf("Server error, quitting\n");
 			[self setReturnValue:-1];
 		case PGServerStateStopped:
 			// quit the application
+			printf("Server stopped, ending application\n");
 			[self setSignal:-1];
 			CFRunLoopStop([[NSRunLoop currentRunLoop] getCFRunLoop]);
 			break;
@@ -81,7 +116,7 @@
 -(void)timerFired:(id)theTimer {
 	PGServerState state = [[self server] state];
 	if(state==PGServerStateUnknown) {
-		[[self server] start];
+		[[self server] startWithNetworkBinding:[self hostname] port:[self port]];
 	}
 }
 
