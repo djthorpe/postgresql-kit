@@ -2,14 +2,11 @@
 #import <PGServerKit/PGServerKit.h>
 
 @interface PGFoundationServer : NSObject <PGServerDelegate> {
-	int signal;
-	int returnValue;
+	int _returnValue;
 }
 
 // properties
 @property (readonly) NSString* dataPath;
-@property int signal;
-@property int returnValue;
 @property PGServer* server;
 @property NSUInteger port;
 @property NSString* hostname;

@@ -27,7 +27,6 @@ void setHandleSignal() {
 
 int main (int argc, const char* argv[]) {
 	int returnValue = 0;
-	
 	@autoreleasepool {
 		// handle signals
 		setHandleSignal();
@@ -36,6 +35,5 @@ int main (int argc, const char* argv[]) {
 		// run loop
 		returnValue = [controller start];
 	}
-
     return returnValue;
 }

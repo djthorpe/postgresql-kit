@@ -9,6 +9,7 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 @implementation PGServer
 
 @dynamic version;
+@dynamic uptime;
 @dynamic pid;
 @dynamic state;
 @dynamic dataPath;
@@ -488,6 +489,10 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 
 -(NSString* )dataPath {
 	return _dataPath;
+}
+
+-(NSTimeInterval)uptime {
+	
 }
 
 ////////////////////////////////////////////////////////////////////////////////

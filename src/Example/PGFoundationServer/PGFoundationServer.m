@@ -2,14 +2,12 @@
 
 @implementation PGFoundationServer
 
-@synthesize signal;
-@synthesize returnValue;
+////////////////////////////////////////////////////////////////////////////////
+// properties
+
 @dynamic dataPath;
 @dynamic port;
 @dynamic hostname;
-
-////////////////////////////////////////////////////////////////////////////////
-// properties
 
 -(NSString* )dataPath {
 	NSString* theIdent = @"PostgreSQL";
@@ -38,16 +36,16 @@
 }
 
 -(NSString* )hostname {
-	// retrieve hostname from NSUserDefaults
-	NSString* hostname = [[NSUserDefaults standardUserDefaults] stringForKey:@"hostname"];
-	if(hostname) {
-		return hostname;
-	}
-	// retrieve port from configuration
 	PGServerPreferences* configuration = [[self server] configuration];
-	if(configuration==nil) {
-		return nil;
+	NSString* hostname = [[NSUserDefaults standardUserDefaults] stringForKey:@"hostname"];
+	
+	if(hostname) {
+		[configuration setListenAddresses:hostname];
+		if([configuration modified]) {
+			[configuration save];
+		}
 	}
+
 	return [configuration listenAddresses];
 }
 
@@ -68,11 +66,13 @@
 		case PGServerStateError:
 			// error occured, so program should quit with -1 return value
 			printf("Server error, quitting\n");
-			[self setReturnValue:-1];
+			_returnValue = -1;
+			CFRunLoopStop([[NSRunLoop currentRunLoop] getCFRunLoop]);
+			break;
 		case PGServerStateStopped:
 			// quit the application
 			printf("Server stopped, ending application\n");
-			[self setSignal:-1];
+			_returnValue = 0;
 			CFRunLoopStop([[NSRunLoop currentRunLoop] getCFRunLoop]);
 			break;
 		default:
@@ -88,9 +88,8 @@
 	[self setServer:[PGServer serverWithDataPath:[self dataPath]]];
 	// set server delegate
 	[[self server] setDelegate:self];	
-	// set success return value
-	[self setReturnValue:0];
-	
+	// set return value to be positive number
+	_returnValue = 1;	
 	// Report server version
 	printf("Server version: %s",[[[self server] version] UTF8String]);
 	
@@ -103,10 +102,10 @@
 	do {
 		NSDate* theNextDate = [NSDate dateWithTimeIntervalSinceNow:resolution];
 		isRunning = [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:theNextDate];
-	} while(isRunning==YES && [self signal] >= 0);
+	} while(isRunning==YES && _returnValue > 0);
 
 	// return the code
-	return [self returnValue];
+	return _returnValue;
 }
 
 -(void)stop {
