@@ -25,7 +25,7 @@
 }
 
 -(PGServer* )server {
-	return [PGServer sharedServer];
+	return _server;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -73,49 +73,54 @@
 ////////////////////////////////////////////////////////////////////////////////
 // PGServer delegate messages
 
--(void)pgserverMessage:(NSString* )theMessage {
+-(void)message:(PGServer* )server message:(NSString* )message {
 	if([theMessage hasPrefix:@"ERROR:"]) {
-		[self addLogMessage:theMessage color:[NSColor redColor] bold:NO];
-	} else if([theMessage hasPrefix:@"WARNING:"]) {
-			[self addLogMessage:theMessage color:[NSColor redColor] bold:NO];
-	} else if([theMessage hasPrefix:@"FATAL:"]) {
-		[self addLogMessage:theMessage color:[NSColor redColor] bold:NO];
+		[self addLogMessage:message color:[NSColor redColor] bold:NO];
+	} else if([message hasPrefix:@"WARNING:"]) {
+			[self addLogMessage:message color:[NSColor redColor] bold:NO];
+	} else if([message hasPrefix:@"FATAL:"]) {
+		[self addLogMessage:message color:[NSColor redColor] bold:NO];
 	} else {
-		[self addLogMessage:theMessage color:nil bold:NO];
+		[self addLogMessage:message color:nil bold:NO];
 	}
 }
 
--(void)pgserverStateChange:(PGServer* )sender {
-	NSParameterAssert([self server]==sender);
-	
+-(void)pgserver:(PGServer* )server stateChange:(PGServerState)state {	
 #ifdef DEBUG
-	NSLog(@"state changed => %d %@",[sender state],[PGServer stateAsString:[sender state]]);
+	NSLog(@"state changed => %d %@",state,[PGServer stateAsString:state]);
 #endif
 	
-	if([sender state]==PGServerStateRunning) {
-		[self setIbStartButtonEnabled:NO];
-		[self setIbStopButtonEnabled:YES];
-		[self setIbBackupButtonEnabled:YES];
-		[self setIbServerStatusIcon:[NSImage imageNamed:@"green"]];
-	} else if([sender state]==PGServerStateStopped) {
-		[self setIbStartButtonEnabled:YES];
-		[self setIbStopButtonEnabled:NO];
-		[self setIbBackupButtonEnabled:NO];
-		[self setIbServerStatusIcon:[NSImage imageNamed:@"red"]];
-	} else if([sender state]==PGServerStateStarting || [sender state]==PGServerStateInitialize || [sender state]==PGServerStateStopping) {
-		[self setIbStartButtonEnabled:NO];
-		[self setIbStopButtonEnabled:NO];
-		[self setIbBackupButtonEnabled:NO];
-		[self setIbServerStatusIcon:[NSImage imageNamed:@"yellow"]];
-	} else {
-		[self setIbStartButtonEnabled:YES];
-		[self setIbStopButtonEnabled:YES];
-		[self setIbBackupButtonEnabled:NO];
-		[self setIbServerStatusIcon:[NSImage imageNamed:@"yellow"]];
+	switch(state) {
+		case PGServerStateRunning:
+			[self setIbStartButtonEnabled:NO];
+			[self setIbStopButtonEnabled:YES];
+			[self setIbBackupButtonEnabled:YES];
+			[self setIbServerStatusIcon:[NSImage imageNamed:@"green"]];
+			break;
+		case PGServerStateStopped:
+			[self setIbStartButtonEnabled:YES];
+			[self setIbStopButtonEnabled:NO];
+			[self setIbBackupButtonEnabled:NO];
+			[self setIbServerStatusIcon:[NSImage imageNamed:@"red"]];
+			break;
+		case PGServerStateStarting:
+		case PGServerStateInitialize:
+		case PGServerStateStopping:
+			[self setIbStartButtonEnabled:NO];
+			[self setIbStopButtonEnabled:NO];
+			[self setIbBackupButtonEnabled:NO];
+			[self setIbServerStatusIcon:[NSImage imageNamed:@"yellow"]];
+			break;
+		default:
+			[self setIbStartButtonEnabled:YES];
+			[self setIbStopButtonEnabled:YES];
+			[self setIbBackupButtonEnabled:NO];
+			[self setIbServerStatusIcon:[NSImage imageNamed:@"yellow"]];
+			break;
 	}
 
 	// connect and disconnect
-	if([sender state]==PGServerStateRunning &&  [[self connection] status] != PGConnectionStatusConnected) {
+	if(state==PGServerStateRunning &&  [[self connection] status] != PGConnectionStatusConnected) {
 #ifdef DEBUG
 		NSLog(@"Connecting to server");
 #endif
@@ -126,7 +131,7 @@
 			[self addLogMessage:[NSString stringWithFormat:@"Connection error: %@",[theError description]] color:[NSColor redColor] bold:NO];
 		}
 		
-	} else if(([sender state]==PGServerStateStopping || [sender state]==PGServerStateRestart) && [[self connection] status]==PGConnectionStatusConnected) {
+	} else if((state==PGServerStateStopping || state==PGServerStateRestart) && [[self connection] status]==PGConnectionStatusConnected) {
 #ifdef DEBUG
 		NSLog(@"Disconnecting from server");
 #endif
@@ -134,7 +139,7 @@
 	}
 	
 	// set configuration preferences toolbar item
-	if([sender state]==PGServerStateRunning) {
+	if(state==PGServerStateRunning) {
 		[[self ibToolbarItemConfiguration] setEnabled:YES];
 		[[self ibToolbarItemConnection] setEnabled:YES];
 	} else {
@@ -143,7 +148,7 @@
 	}
 	
 	// check for terminating
-	if([sender state]==PGServerStateStopped && [self terminateRequested]) {
+	if(state==PGServerStateStopped && [self terminateRequested]) {
 #ifdef DEBUG
 		NSLog(@"PGServerStateStopped state reached, quitting application");
 #endif
@@ -214,7 +219,7 @@
 }
 
 -(NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication* )sender {
-	if([[PGServer sharedServer] state]==PGServerStateRunning) {
+	if([[self server] state]==PGServerStateRunning) {
 #ifdef DEBUG
 		NSLog(@"Terminating later, stopping the server");
 #endif

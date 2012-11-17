@@ -8,6 +8,7 @@
 
 @interface AppDelegate : NSObject <NSApplicationDelegate> {
 	PGConnection* _connection;
+	PGServer* _server;
 }
 
 @property (readonly) PGServer* server;
