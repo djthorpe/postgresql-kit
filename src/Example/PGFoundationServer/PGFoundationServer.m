@@ -11,9 +11,9 @@
 
 -(NSString* )dataPath {
 	NSString* theIdent = @"PostgreSQL";
-	NSArray* theApplicationSupportDirectory = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory,NSUserDomainMask, YES);
-	NSParameterAssert([theApplicationSupportDirectory count]);
-	return [[theApplicationSupportDirectory objectAtIndex:0] stringByAppendingPathComponent:theIdent];
+	NSArray* theAppFolder = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory,NSUserDomainMask, YES);
+	NSParameterAssert([theAppFolder count]);
+	return [[theAppFolder objectAtIndex:0] stringByAppendingPathComponent:theIdent];
 }
 
 -(NSUInteger)port {
@@ -56,12 +56,16 @@
 	printf("%s\n",[message UTF8String]);
 }
 
--(void)pgserverStateChange:(PGServer* )sender {
-	switch([sender state]) {
+-(void)pgserver:(PGServer* )server stateChange:(PGServerState)state {
+	switch(state) {
 		case PGServerStateAlreadyRunning:
-			// need to reload the server
-			printf("Server is already running, restarting\n");
-			[[self server] restart];
+		case PGServerStateRunning:
+			printf("Server is ready to accept connections\n");
+			printf("  PID = %d\n",[server pid]);
+			printf("  Port = %lu\n",[server port]);
+			printf("  Hostname = %s\n",[[server hostname] UTF8String]);
+			printf("  Socket path = %s\n",[[server socketPath] UTF8String]);
+			printf("  Uptime = %lf seconds\n",[server uptime]);
 			break;
 		case PGServerStateError:
 			// error occured, so program should quit with -1 return value
@@ -76,7 +80,7 @@
 			CFRunLoopStop([[NSRunLoop currentRunLoop] getCFRunLoop]);
 			break;
 		default:
-			printf("Server state: %s\n",[[PGServer stateAsString:[sender state]] UTF8String]);
+			printf("Server state: %s\n",[[PGServer stateAsString:state] UTF8String]);
 	}
 }
 
@@ -85,11 +89,14 @@
 
 -(int)start {
 	// create a server
-	[self setServer:[PGServer serverWithDataPath:[self dataPath]]];
-	// set server delegate
-	[[self server] setDelegate:self];	
+	PGServer* server = [PGServer serverWithDataPath:[self dataPath]];
+	// bind to server
+	[self setServer:server];
+	[[self server] setDelegate:self];
+
 	// set return value to be positive number
 	_returnValue = 1;	
+
 	// Report server version
 	printf("Server version: %s",[[[self server] version] UTF8String]);
 	

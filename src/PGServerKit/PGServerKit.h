@@ -3,6 +3,7 @@
 
 typedef enum {
 	PGServerStateUnknown = 0,
+	PGServerStateAlreadyRunning0, // server is already running - get PID
 	PGServerStateAlreadyRunning, // server is already running
 	PGServerStateIgnition,   // fire up the database
 	PGServerStateInitialize, // initializing the data directory
@@ -24,7 +25,7 @@ typedef enum {
 // PGServerDelegate protocol
 @protocol PGServerDelegate <NSObject>
 @optional
--(void)pgserverStateChange:(PGServer* )sender;
+-(void)pgserver:(PGServer* )sender stateChange:(PGServerState)state;
 -(void)pgserver:(PGServer* )sender message:(NSString* )message;
 @end
 

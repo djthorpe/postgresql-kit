@@ -9,18 +9,23 @@ extern NSUInteger PGServerDefaultPort;
 	NSString* _hostname;
 	NSUInteger _port;
 	NSString* _dataPath;
+	NSString* _socketPath;
 	NSTask* _currentTask;
 	NSTimer* _timer;
 	int _pid;
+	NSUInteger _startTime;
 	PGServerPreferences* _authentication;
 	PGServerPreferences* _configuration;
 }
 
 // properties
-@property id<PGServerDelegate> delegate;
+@property (weak, nonatomic) id<PGServerDelegate> delegate;
 @property (readonly) NSString* version;
 @property (readonly) PGServerState state;
 @property (readonly) NSString* dataPath;
+@property (readonly) NSString* socketPath;
+@property (readonly) NSString* hostname;
+@property (readonly) NSUInteger port;
 @property (readonly) int pid;
 @property (readonly) NSTimeInterval uptime;
 

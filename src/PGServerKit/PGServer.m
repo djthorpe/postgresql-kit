@@ -13,6 +13,7 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 @dynamic pid;
 @dynamic state;
 @dynamic dataPath;
+@dynamic socketPath;
 
 ////////////////////////////////////////////////////////////////////////////////
 // initialization methods
@@ -26,6 +27,7 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 		_port = 0;
 		_pid = -1;
 		_dataPath = thePath;
+		_socketPath = nil;
 		_currentTask = nil;
 		_timer = nil;
 		_configuration = nil;
@@ -76,14 +78,18 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 	return @"postgresql.conf";
 }
 
++(NSString* )_pidFilename {
+	return @"postmaster.pid";
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // set state and send messages to delegate where necessary
 
 -(void)_setState:(PGServerState)state {
 	PGServerState oldState = _state;
 	_state = state;
-	if(_state != oldState && [[self delegate] respondsToSelector:@selector(pgserverStateChange:)]) {
-		[[self delegate] pgserverStateChange:self];
+	if(_state != oldState && [[self delegate] respondsToSelector:@selector(pgserver:stateChange:)]) {
+		[[self delegate] pgserver:self stateChange:state];
 	}
 }
 
@@ -116,10 +122,11 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// private method to return the PID of the running postgresql process
+// private method to return the PID and other properties from running postgresql
+// process
 
 -(int)_pidFromPath:(NSString* )thePath {
-	NSString* thePidPath = [thePath stringByAppendingPathComponent:@"postmaster.pid"];
+	NSString* thePidPath = [thePath stringByAppendingPathComponent:[PGServer _pidFilename]];
 	if([[NSFileManager defaultManager] fileExistsAtPath:thePidPath]==NO) {
 		// no postmaster.pid file found, therefore no process
 		return 0;
@@ -149,6 +156,89 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 	
 	// success - return decimal number
 	return [thePid intValue];
+}
+
+-(BOOL)_setPropertiesFromPidFile {
+	NSString* thePidPath = [[self dataPath] stringByAppendingPathComponent:[PGServer _pidFilename]];
+	if([[NSFileManager defaultManager] fileExistsAtPath:thePidPath]==NO
+	   || [[NSFileManager defaultManager] isReadableFileAtPath:thePidPath]==NO) {
+		// no postmaster.pid file found, therefore no process
+#ifdef DEBUG
+		NSLog(@"_setPropertiesFromPath: missing or invalid file: %@",thePidPath);
+#endif
+		return NO;
+	}
+	NSDictionary* theAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:thePidPath error:nil];
+	if(theAttributes==nil || [theAttributes fileSize] > 1024) {
+#ifdef DEBUG
+		NSLog(@"_setPropertiesFromPath: missing or invalid file: %@",thePidPath);
+#endif
+		// if postmaster.pid file is too large, return error
+		return NO;
+	}
+	NSError* theError = nil;
+	NSString* thePidString = [NSString stringWithContentsOfFile:thePidPath encoding:NSUTF8StringEncoding error:&theError];
+	if(thePidString==nil) {
+#ifdef DEBUG
+		NSLog(@"_setPropertiesFromPath: missing or invalid file: %@: %@",thePidPath,theError);
+#endif		
+		// if postmaster.pid file could not be read, return error
+		return NO;
+	}
+	
+	// we need to have at least five lines
+	NSArray* theLines = [thePidString componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+	NSParameterAssert([theLines count] >= 6);
+	for(NSUInteger i = 0; i < 6; i++) {
+		NSString* theLine = [[theLines objectAtIndex:i] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+		switch(i) {
+			case 0: {
+				NSDecimalNumber* thePid = [NSDecimalNumber decimalNumberWithString:theLine];
+				NSParameterAssert(thePid && [thePid intValue] > 0);
+				if(![self _doesProcessExist:[thePid intValue]]) {
+					return NO;
+				}
+				_pid = [thePid intValue];
+				break;
+			}
+			case 1: {
+				// data path
+				BOOL isDir = NO;
+				NSParameterAssert([[NSFileManager defaultManager] fileExistsAtPath:theLine isDirectory:&isDir] && isDir==YES);
+				break;
+			}
+			case 2: {
+				// start time
+				NSDecimalNumber* startTime = [NSDecimalNumber decimalNumberWithString:theLine];
+				NSParameterAssert(startTime && [startTime integerValue] > 0);
+				_startTime = [startTime unsignedIntegerValue];
+				break;
+			}
+			case 3: {
+				// port
+				NSDecimalNumber* port = [NSDecimalNumber decimalNumberWithString:theLine];
+				NSParameterAssert(port && [port integerValue] > 0);
+				_port = [port unsignedIntegerValue];
+				break;
+			}
+			case 4: {
+				// socket directory
+				BOOL isDir = NO;
+				NSParameterAssert([[NSFileManager defaultManager] fileExistsAtPath:theLine isDirectory:&isDir] && isDir==YES);
+				_socketPath = theLine;
+				break;
+			}
+			case 5: {
+				// hostname
+				_hostname = theLine;
+				break;
+			}
+			default:
+				NSParameterAssert(NO);
+		}
+	}
+	
+	return YES;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -402,8 +492,15 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 			// get pid from the task
 			_pid = [_currentTask processIdentifier];
 			[self _delegateMessage:[NSString stringWithFormat:@"Server started with pid %d",_pid]];
+			[self _setPropertiesFromPidFile];
 			[self _setState:PGServerStateRunning];
+			break;
+		case PGServerStateAlreadyRunning0:
+			[self _setPropertiesFromPidFile];
+			[self _setState:PGServerStateAlreadyRunning];
+			break;
 		case PGServerStateRunning:
+		case PGServerStateAlreadyRunning:
 			// check pid and make sure the process still exists
 			if([self _doesProcessExist:_pid]==NO) {
 				[self _delegateMessage:@"Server has been stopped"];
@@ -491,8 +588,17 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 	return _dataPath;
 }
 
+-(NSString* )socketPath {
+	return _socketPath;
+}
+
 -(NSTimeInterval)uptime {
-	
+	if(_startTime > 0) {
+		NSDate* then = [NSDate dateWithTimeIntervalSince1970:_startTime];
+		return -[then timeIntervalSinceNow];
+	} else {
+		return 0;
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -509,34 +615,37 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 -(BOOL)startWithNetworkBinding:(NSString* )hostname port:(NSUInteger)port {
 	NSParameterAssert([self dataPath]);
 
-	// check current state
-	if([self state]==PGServerStateRunning || [self state]==PGServerStateStarting || [self state]==PGServerStateInitialize || [self state]==PGServerStateInitialized || [self state]==PGServerStateIgnition || [self state]==PGServerStateStopping) {
+	// check current state, needs to be unknown or stopped
+	if([self state] != PGServerStateUnknown && [self state] != PGServerStateStopped) {
 		return NO;
 	}
 	
-	// if database process is already running, then set this as the state and return NO
+	// if database process is already running, then set this as the state
 	int thePid = [self _pidFromPath:[self dataPath]];
+#ifdef DEBUG
+	NSLog(@"_pidFromPath returns %d",thePid);
+#endif
 	if(thePid > 0 && [self _doesProcessExist:thePid]) {
 		_pid = thePid;
-		[self _setState:PGServerStateAlreadyRunning];
+		_hostname = nil;
+		_port = 0;
+		[self _setState:PGServerStateAlreadyRunning0];
 #ifdef DEBUG
-		NSLog(@"Setting state: PGServerStateAlreadyRunning, pid = %d",thePid);
+		NSLog(@"Set state: PGServerStateAlreadyRunning0, pid = %d",thePid);
 #endif
-		return NO;
+	} else {
+		// create the data path if nesessary
+		if([self _createDataPath:[self dataPath]]==NO) {
+			[self _setState:PGServerStateError];
+			[self _delegateMessage:[NSString stringWithFormat:@"Unable to create data path: %@",[self dataPath]]];
+			return NO;
+		}
+		// set the pid to zero and state to ignition
+		_pid = 0;
+		_hostname = [hostname copy];
+		_port = port;
+		[self _setState:PGServerStateIgnition];
 	}
-
-	// create the data path if nesessary
-	if([self _createDataPath:[self dataPath]]==NO) {
-		[self _setState:PGServerStateError];
-		[self _delegateMessage:[NSString stringWithFormat:@"Unable to create data path: %@",[self dataPath]]];
-		return NO;
-	}
-	
-	// set the pid to zero and state to ignition
-	_pid = 0;
-	_hostname = [hostname copy];
-	_port = port;
-	[self _setState:PGServerStateIgnition];
 	
 	// start the state machine timer
 	[self _startTimer];
@@ -640,6 +749,7 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 			return @"PGServerStateInitialize";
 		case PGServerStateRunning:
 		case PGServerStateRunning0:
+		case PGServerStateAlreadyRunning0:
 		case PGServerStateAlreadyRunning:
 			return @"PGServerStateRunning";
 		case PGServerStateRestart:
