@@ -41,6 +41,11 @@ BOOL file_tokenize(PGServerConfiguration* tokenizer,const char* file);
 	return [NSArray arrayWithObjects:@"data_directory",@"hba_file",@"ident_file",nil];
 }
 
+// return line for key
+-(PGServerConfigurationLine* )_lineForKey:(NSString* )key {
+	return [_index objectForKey:key];
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
 
@@ -93,15 +98,26 @@ BOOL file_tokenize(PGServerConfiguration* tokenizer,const char* file);
 	return YES;
 }
 
--(NSObject* )valueForKey:(NSString* )key {
-	PGServerConfigurationLine* line = [_index objectForKey:key];
-	if(line==nil) {
-		// value does not exist
-		return nil;
-	}
-	PGServerConfigurationValue* value = [line value];
-	NSParameterAssert(value);
-	return [value description];
+
+-(NSObject* )objectForKey:(NSString* )key {
+	return [[[self _lineForKey:key] value] object];
 }
+
+-(NSString* )suffixForKey:(NSString* )key {
+	return [[[self _lineForKey:key] value] suffix];
+}
+
+-(BOOL)enabledForKey:(NSString* )key {
+	return [[self _lineForKey:key] enabled];
+}
+
+-(NSString* )commentForKey:(NSString* )key {
+	return [[self _lineForKey:key] comment];
+}
+
+/*-(void)setValue:(NSObject* )value enabled:(BOOL)enabled forKey:(NSString* )key error:(NSError** )error {
+
+}*/
+
 
 @end

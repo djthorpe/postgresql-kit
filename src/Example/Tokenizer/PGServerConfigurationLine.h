@@ -8,7 +8,8 @@ typedef enum {
 	PGTokenizerEquals,
 	PGTokenizerSQString,
 	PGTokenizerDQString,
-	PGTokenizerInteger,
+	PGTokenizerOctal,
+	PGTokenizerDecimal,
 	PGTokenizerFloat,
 	PGTokenizerKeyword,
 	PGTokenizerWhitespace,
@@ -20,7 +21,8 @@ typedef enum {
 	PGTypeSQString = 1,
 	PGTypeDQString,
 	PGTypeKeyword,
-	PGTypeInteger,
+	PGTypeOctal,
+	PGTypeDecimal,
 	PGTypeFloat,
 	PGTypeBool
 } PGServerConfigurationValueType;
@@ -38,14 +40,15 @@ typedef enum {
 +(PGServerConfigurationValue* )valueWithSQString:(const char* )value;
 +(PGServerConfigurationValue* )valueWithDQString:(const char* )value;
 +(PGServerConfigurationValue* )valueWithKeyword:(const char* )value;
-+(PGServerConfigurationValue* )valueWithInteger:(const char* )value;
++(PGServerConfigurationValue* )valueWithOctal:(const char* )value;
++(PGServerConfigurationValue* )valueWithDecimal:(const char* )value;
 +(PGServerConfigurationValue* )valueWithFloat:(const char* )value;
 +(PGServerConfigurationValue* )valueWithBool:(const char* )value;
 
 // properties
 @property NSString* suffix;
 @property (readonly) NSString* quotedValue;
-@property NSObject* value;
+@property NSObject* object;
 
 @end
 

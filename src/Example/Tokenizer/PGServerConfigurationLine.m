@@ -26,8 +26,12 @@
 	return [[PGServerConfigurationValue alloc] initWithType:PGTypeKeyword value:value];
 }
 
-+(PGServerConfigurationValue* )valueWithInteger:(const char* )value {
-	return [[PGServerConfigurationValue alloc] initWithType:PGTypeInteger value:value];
++(PGServerConfigurationValue* )valueWithOctal:(const char* )value {
+	return [[PGServerConfigurationValue alloc] initWithType:PGTypeOctal value:value];
+}
+
++(PGServerConfigurationValue* )valueWithDecimal:(const char* )value {
+	return [[PGServerConfigurationValue alloc] initWithType:PGTypeDecimal value:value];
 }
 
 +(PGServerConfigurationValue* )valueWithFloat:(const char* )value {
@@ -47,8 +51,10 @@
 			return @"PGTypeDQString";
 		case PGTypeKeyword:
 			return @"PGTypeKeyword";
-		case PGTypeInteger:
-			return @"PGTypeInteger";
+		case PGTypeDecimal:
+			return @"PGTypeDecimal";
+		case PGTypeOctal:
+			return @"PGTypeOctal";
 		case PGTypeFloat:
 			return @"PGTypeFloat";
 		case PGTypeBool:
@@ -67,7 +73,7 @@
 }
 
 @dynamic quotedValue;
-@dynamic value;
+@dynamic object;
 
 -(NSString* )quotedValue {
 	if(_suffix) {
@@ -77,7 +83,7 @@
 	}
 }
 
--(NSObject* )value {
+-(NSObject* )object {
 	switch(_type) {
 		case PGTypeSQString:
 			// TODO: return NSString without single quotes
@@ -85,7 +91,10 @@
 			// TODO: return NSString without double quotes
 		case PGTypeKeyword:
 			return _value;
-		case PGTypeInteger:
+		case PGTypeOctal:
+			// TODO: return octal object
+			return _value;
+		case PGTypeDecimal:
 			// TODO: what to do about the suffix
 			return [NSNumber numberWithInteger:[_value integerValue]];
 		case PGTypeFloat:
@@ -101,7 +110,7 @@
 	return nil;
 }
 
--(void)setValue:(NSObject* )value {
+-(void)setObject:(NSObject *)object {
 	// TODO
 }
 
@@ -180,19 +189,28 @@
 -(BOOL)_parse3:(PGTokenizerType)type text:(const char* )text {
 	switch(type) {
 		case PGTokenizerSQString:
+			if(_value) return NO;
 			_value = [PGServerConfigurationValue valueWithSQString:text];
 			return YES;
 		case PGTokenizerDQString:
+			if(_value) return NO;
 			_value = [PGServerConfigurationValue valueWithDQString:text];
 			return YES;
-		case PGTokenizerInteger:
-			_value = [PGServerConfigurationValue valueWithInteger:text];
+		case PGTokenizerDecimal:
+			if(_value) return NO;
+			_value = [PGServerConfigurationValue valueWithDecimal:text];
 			_state = 5;
 			return YES;
+		case PGTokenizerOctal:
+			if(_value) return NO;
+			_value = [PGServerConfigurationValue valueWithOctal:text];
+			return YES;
 		case PGTokenizerFloat:
+			if(_value) return NO;
 			_value = [PGServerConfigurationValue valueWithFloat:text];
 			return YES;
 		case PGTokenizerKeyword:
+			if(_value) return NO;
 			if(strcasecmp(text,"on")==0 || strcasecmp(text,"off")==0) {
 				_value = [PGServerConfigurationValue valueWithBool:text];
 			} else {

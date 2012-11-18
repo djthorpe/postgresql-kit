@@ -9,8 +9,8 @@ int main (int argc, const char* argv[]) {
 		NSString* thePath = @"~/Library/Application Support/PostgreSQL/postgresql.conf";
 		PGServerConfiguration* config = [[PGServerConfiguration alloc] initWithPath:[thePath stringByExpandingTildeInPath]];
 		
-		for(NSString* line in [config lines]) {
-			printf("%s\n",[[line description] UTF8String]);
+		for(NSString* key in [config keys]) {
+			printf("%s => %s\n",[key UTF8String],[[[config objectForKey:key] description] UTF8String]);
 		}
 	}
 	

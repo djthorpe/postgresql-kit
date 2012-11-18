@@ -2,7 +2,8 @@
 HASH    [#]
 ID	    [A-Za-z_][A-Za-z0-9_]*
 FLOAT   [-+]?[0-9]+\.[0-9]+
-INTEGER [-+]?[0-9]+
+OCTAL   [0][0-7]+
+DECIMAL [-+]?[0-9]+
 EQUALS	[=]
 WHITESP [\t ]+
 NEWLINE \r?\n
@@ -20,7 +21,8 @@ NEWLINE \r?\n
 \'(\\.|[^\\'])*\'  { return PGTokenizerSQString; }
 \"(\\.|[^\\"])*\"  { return PGTokenizerDQString; }
 {FLOAT}            { return PGTokenizerFloat; }
-{INTEGER}          { return PGTokenizerInteger; }
+{OCTAL}            { return PGTokenizerOctal; }
+{DECIMAL}          { return PGTokenizerDecimal; }
 {HASH}		       { return PGTokenizerHash; }
 {EQUALS}	       { return PGTokenizerEquals; }
 {ID}		       { return PGTokenizerKeyword; }
