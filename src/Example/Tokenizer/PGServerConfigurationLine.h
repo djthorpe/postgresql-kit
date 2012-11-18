@@ -45,6 +45,7 @@ typedef enum {
 // properties
 @property NSString* suffix;
 @property (readonly) NSString* quotedValue;
+@property NSObject* value;
 
 @end
 

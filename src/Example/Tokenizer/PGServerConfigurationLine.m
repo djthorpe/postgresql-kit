@@ -67,6 +67,7 @@
 }
 
 @dynamic quotedValue;
+@dynamic value;
 
 -(NSString* )quotedValue {
 	if(_suffix) {
@@ -74,6 +75,34 @@
 	} else {
 		return _value;
 	}
+}
+
+-(NSObject* )value {
+	switch(_type) {
+		case PGTypeSQString:
+			// TODO: return NSString without single quotes
+		case PGTypeDQString:
+			// TODO: return NSString without double quotes
+		case PGTypeKeyword:
+			return _value;
+		case PGTypeInteger:
+			// TODO: what to do about the suffix
+			return [NSNumber numberWithInteger:[_value integerValue]];
+		case PGTypeFloat:
+			// TODO: what to do about the suffix
+			return [NSNumber numberWithDouble:[_value doubleValue]];
+		case PGTypeBool:
+			if([_value isEqualToString:@"on"]) {
+				return [NSNumber numberWithBool:YES];
+			} else if([_value isEqualToString:@"off"]) {
+				return [NSNumber numberWithBool:NO];
+			}
+	}
+	return nil;
+}
+
+-(void)setValue:(NSObject* )value {
+	// TODO
 }
 
 @end
