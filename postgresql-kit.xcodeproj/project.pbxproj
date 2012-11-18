@@ -39,7 +39,6 @@
 		141E7F0F16518D23009D81E8 /* PGFoundationServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 141E7F0E16518D23009D81E8 /* PGFoundationServer.m */; };
 		141FCCEA1646911C00197F3F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C168115F26BF20013A382 /* Foundation.framework */; };
 		141FCCFA1646919E00197F3F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 141FCCF71646917B00197F3F /* main.m */; };
-		141FCD0C1646D09100197F3F /* PGServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
 		141FCD0F1646D13400197F3F /* PGTokenizer.lm in Sources */ = {isa = PBXBuildFile; fileRef = 141FCD071646CD1300197F3F /* PGTokenizer.lm */; };
 		141FCD101646D13800197F3F /* PGTokenizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 141FCD0A1646CDA400197F3F /* PGTokenizer.m */; };
 		141FCD141646D34B00197F3F /* PGTokenizerLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 141FCD121646D34B00197F3F /* PGTokenizerLine.m */; };
@@ -56,6 +55,8 @@
 		6E1B43FE15F3A4C2001ED3BE /* elephant.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43E715F3A465001ED3BE /* elephant.icns */; };
 		6E2A0EBF16374CAF00970FEF /* elephant-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43E615F3A465001ED3BE /* elephant-64.png */; };
 		6E2A0EC21637540400970FEF /* PGClientKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
+		6E2B8B7516591A3B00E5F15C /* PGServerConfiguration.lm in Sources */ = {isa = PBXBuildFile; fileRef = 6E2B8B7416591A3B00E5F15C /* PGServerConfiguration.lm */; };
+		6E2B8B7816591AD900E5F15C /* PGServerConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2B8B7716591AD900E5F15C /* PGServerConfiguration.m */; };
 		6E2DFD2E163C54F400911094 /* TerminalView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2DFD2D163C54F400911094 /* TerminalView.m */; };
 		6E48B36F1605E34A0044A6CB /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E48B36E1605E34A0044A6CB /* libz.1.2.5.dylib */; };
 		6E48B37116060D980044A6CB /* strapline-200x40.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43F915F3A465001ED3BE /* strapline-200x40.png */; };
@@ -74,6 +75,7 @@
 		6E68AE0B1635DDCE00436234 /* PGClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
 		6E8BEB06163D612900DDC1B6 /* PGServerPreferences.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E8BEB04163D612900DDC1B6 /* PGServerPreferences.h */; };
 		6E8BEB07163D612900DDC1B6 /* PGServerPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E8BEB05163D612900DDC1B6 /* PGServerPreferences.m */; };
+		6E92C15C1659344200A81E8C /* PGServerConfigurationLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E92C15B1659344200A81E8C /* PGServerConfigurationLine.m */; };
 		6EA41EF01610E7DB00E81046 /* PGServer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EA41EEE1610E7DB00E81046 /* PGServer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6EA41EF11610E7DB00E81046 /* PGServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EA41EEF1610E7DB00E81046 /* PGServer.m */; };
 		6EB1E79615F282910093F784 /* PGServerKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EB1E74015F273350093F784 /* PGServerKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -110,13 +112,6 @@
 /* End PBXBuildRule section */
 
 /* Begin PBXContainerItemProxy section */
-		141FCD0D1646D0FA00197F3F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6E256FDE15F252620079AD2D /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 6ED763FA15F2673600687079;
-			remoteInfo = PGServerKit;
-		};
 		6E30F78E15F3A5180056C749 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6E256FDE15F252620079AD2D /* Project object */;
@@ -312,6 +307,9 @@
 		6E256FE915F252B40079AD2D /* etc */ = {isa = PBXFileReference; lastKnownFileType = folder; path = etc; sourceTree = "<group>"; };
 		6E256FEC15F252B40079AD2D /* tar */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tar; sourceTree = "<group>"; };
 		6E2B8B731659131500E5F15C /* ControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ControllerDelegate.h; sourceTree = "<group>"; };
+		6E2B8B7416591A3B00E5F15C /* PGServerConfiguration.lm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; path = PGServerConfiguration.lm; sourceTree = "<group>"; };
+		6E2B8B7616591AD900E5F15C /* PGServerConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGServerConfiguration.h; sourceTree = "<group>"; };
+		6E2B8B7716591AD900E5F15C /* PGServerConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGServerConfiguration.m; sourceTree = "<group>"; };
 		6E2DFD2C163C54F400911094 /* TerminalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TerminalView.h; sourceTree = "<group>"; };
 		6E2DFD2D163C54F400911094 /* TerminalView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TerminalView.m; sourceTree = "<group>"; };
 		6E48B36E1605E34A0044A6CB /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = /usr/lib/libz.1.2.5.dylib; sourceTree = "<absolute>"; };
@@ -335,6 +333,8 @@
 		6E8C167C15F26BF20013A382 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		6E8C167F15F26BF20013A382 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		6E8C168115F26BF20013A382 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		6E92C15A1659344200A81E8C /* PGServerConfigurationLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGServerConfigurationLine.h; sourceTree = "<group>"; };
+		6E92C15B1659344200A81E8C /* PGServerConfigurationLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGServerConfigurationLine.m; sourceTree = "<group>"; };
 		6EA41EEE1610E7DB00E81046 /* PGServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGServer.h; sourceTree = "<group>"; };
 		6EA41EEF1610E7DB00E81046 /* PGServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGServer.m; sourceTree = "<group>"; };
 		6EB1E6F415F271C70093F784 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -410,7 +410,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				141FCCEA1646911C00197F3F /* Foundation.framework in Frameworks */,
-				141FCD0C1646D09100197F3F /* PGServerKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -611,6 +610,11 @@
 			isa = PBXGroup;
 			children = (
 				141FCCF71646917B00197F3F /* main.m */,
+				6E2B8B7416591A3B00E5F15C /* PGServerConfiguration.lm */,
+				6E2B8B7616591AD900E5F15C /* PGServerConfiguration.h */,
+				6E2B8B7716591AD900E5F15C /* PGServerConfiguration.m */,
+				6E92C15A1659344200A81E8C /* PGServerConfigurationLine.h */,
+				6E92C15B1659344200A81E8C /* PGServerConfigurationLine.m */,
 			);
 			path = Tokenizer;
 			sourceTree = "<group>";
@@ -949,7 +953,6 @@
 				141FCD0216469CB400197F3F /* PBXBuildRule */,
 			);
 			dependencies = (
-				141FCD0E1646D0FA00197F3F /* PBXTargetDependency */,
 			);
 			name = Tokenizer;
 			productName = Tokenizer;
@@ -1187,6 +1190,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				141FCCFA1646919E00197F3F /* main.m in Sources */,
+				6E2B8B7516591A3B00E5F15C /* PGServerConfiguration.lm in Sources */,
+				6E2B8B7816591AD900E5F15C /* PGServerConfiguration.m in Sources */,
+				6E92C15C1659344200A81E8C /* PGServerConfigurationLine.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1260,11 +1266,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		141FCD0E1646D0FA00197F3F /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 6ED763FA15F2673600687079 /* PGServerKit */;
-			targetProxy = 141FCD0D1646D0FA00197F3F /* PBXContainerItemProxy */;
-		};
 		6E30F78F15F3A5180056C749 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 6ED763FA15F2673600687079 /* PGServerKit */;
@@ -1297,7 +1298,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -1318,10 +1319,10 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				ONLY_ACTIVE_ARCH = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
+				SDKROOT = macosx10.7;
 			};
 			name = Debug;
 		};
@@ -1329,7 +1330,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -1344,9 +1345,10 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
+				SDKROOT = macosx10.7;
 			};
 			name = Release;
 		};

@@ -1,0 +1,69 @@
+
+HASH    [#]
+ID	    [A-Za-z_][A-Za-z0-9_]*
+FLOAT   [-+]?[0-9]+\.[0-9]+
+INTEGER [-+]?[0-9]+
+EQUALS	[=]
+WHITESP [\t ]+
+NEWLINE \r?\n
+
+%{
+#import <Foundation/Foundation.h>
+#import "PGServerConfiguration.h"
+#import "PGServerConfigurationLine.h"
+%}
+
+%option reentrant
+%option noyywrap
+
+%%
+\'(\\.|[^\\'])*\'  { return PGTokenizerSQString; }
+\"(\\.|[^\\"])*\"  { return PGTokenizerDQString; }
+{FLOAT}            { return PGTokenizerFloat; }
+{INTEGER}          { return PGTokenizerInteger; }
+{HASH}		       { return PGTokenizerHash; }
+{EQUALS}	       { return PGTokenizerEquals; }
+{ID}		       { return PGTokenizerKeyword; }
+{WHITESP}	       { return PGTokenizerWhitespace; }
+{NEWLINE}	       { return PGTokenizerNewline; }
+.			       { return PGTokenizerOther; }
+%%
+
+BOOL file_tokenize(PGServerConfiguration* tokenizer,const char* file) {
+    yyscan_t yyscanner;
+    struct yyguts_t* yyg;
+    yylex_init(&yyscanner);
+    yyg = (struct yyguts_t* )yyscanner;
+	yyin = fopen(file,"rb");
+	if(yyin==nil) {
+#ifdef DEBUG
+		NSLog(@"file_tokenize: Cannot open file: %s",file);
+#endif
+		return NO;
+	}
+	PGTokenizerType type;
+	BOOL success = YES;
+	PGServerConfigurationLine* line = nil;
+	while(success && (type = yylex(yyscanner)) > 0) {
+		if(line==nil) {
+			line = [[PGServerConfigurationLine alloc] init];
+		}
+		success = [line _parse:type text:yyget_text(yyscanner)];
+		if(success==YES && [line eject]==YES) {
+			success = [tokenizer append:line];
+			line = nil;
+		}
+	}
+    yylex_destroy(yyscanner);
+	fclose(yyin);
+	if(line != nil) {
+		success = NO;
+	}
+#ifdef DEBUG
+	if(line != nil || success==NO) {
+		NSLog(@"file_tokenize: semantic error: %s",file);
+	}
+#endif
+	return success;
+}
+
