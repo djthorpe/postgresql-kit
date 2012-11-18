@@ -55,7 +55,7 @@
 			<object class="NSCustomObject" id="1050">
 				<string key="NSClassName">NSApplication</string>
 			</object>
-			<object class="NSCustomObject" id="975423513">
+			<object class="NSCustomObject" id="142308969">
 				<string key="NSClassName">Controller</string>
 			</object>
 			<object class="NSCustomObject" id="586232926">
@@ -765,7 +765,7 @@
 							<string key="NSFrame">{{14, 337}, {98, 32}}</string>
 							<reference key="NSSuperview" ref="414427165"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="280643651"/>
+							<reference key="NSNextKeyView" ref="522259828"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="320605956">
@@ -849,7 +849,7 @@
 											<string key="NSFrameSize">{617, 268}</string>
 											<reference key="NSSuperview" ref="202984106"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="1050563913"/>
+											<reference key="NSNextKeyView" ref="199622670"/>
 											<string key="NSReuseIdentifierKey">_NS:13</string>
 											<object class="NSTextContainer" key="NSTextContainer" id="130937057">
 												<object class="NSLayoutManager" key="NSLayoutManager">
@@ -1086,6 +1086,7 @@ wGw</bytes>
 									<string key="NSFrame">{{603, 1}, {15, 271}}</string>
 									<reference key="NSSuperview" ref="713260468"/>
 									<reference key="NSWindow"/>
+									<reference key="NSNextKeyView"/>
 									<string key="NSReuseIdentifierKey">_NS:83</string>
 									<reference key="NSTarget" ref="713260468"/>
 									<string key="NSAction">_doScroller:</string>
@@ -1110,7 +1111,7 @@ wGw</bytes>
 							<string key="NSFrame">{{20, 20}, {619, 273}}</string>
 							<reference key="NSSuperview" ref="414427165"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="202984106"/>
+							<reference key="NSNextKeyView" ref="1050563913"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<int key="NSsFlags">133138</int>
 							<reference key="NSVScroller" ref="199622670"/>
@@ -1161,7 +1162,7 @@ wGw</bytes>
 							<string key="NSFrame">{{116, 379}, {16, 16}}</string>
 							<reference key="NSSuperview" ref="414427165"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="463510142"/>
+							<reference key="NSNextKeyView" ref="280643651"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSImageCell" key="NSCell" id="495550421">
 								<int key="NSCellFlags">0</int>
@@ -1191,7 +1192,7 @@ wGw</bytes>
 							<string key="NSFrame">{{376, 369}, {200, 40}}</string>
 							<reference key="NSSuperview" ref="414427165"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="522259828"/>
+							<reference key="NSNextKeyView" ref="463510142"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSImageCell" key="NSCell" id="399547076">
 								<int key="NSCellFlags">0</int>
@@ -2982,7 +2983,7 @@ wGw</bytes>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">ibConnectionPrefs</string>
-						<reference key="source" ref="975423513"/>
+						<reference key="source" ref="142308969"/>
 						<reference key="destination" ref="586232926"/>
 					</object>
 					<int key="connectionID">3766</int>
@@ -2990,7 +2991,7 @@ wGw</bytes>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">ibConfigurationPrefs</string>
-						<reference key="source" ref="975423513"/>
+						<reference key="source" ref="142308969"/>
 						<reference key="destination" ref="337931465"/>
 					</object>
 					<int key="connectionID">3767</int>
@@ -2998,7 +2999,7 @@ wGw</bytes>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">ibWindow</string>
-						<reference key="source" ref="975423513"/>
+						<reference key="source" ref="142308969"/>
 						<reference key="destination" ref="513744381"/>
 					</object>
 					<int key="connectionID">3769</int>
@@ -3006,7 +3007,7 @@ wGw</bytes>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">ibLogTextView</string>
-						<reference key="source" ref="975423513"/>
+						<reference key="source" ref="142308969"/>
 						<reference key="destination" ref="597509007"/>
 					</object>
 					<int key="connectionID">3770</int>
@@ -3014,7 +3015,7 @@ wGw</bytes>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">ibStartButtonPressed:</string>
-						<reference key="source" ref="975423513"/>
+						<reference key="source" ref="142308969"/>
 						<reference key="destination" ref="585815900"/>
 					</object>
 					<int key="connectionID">3776</int>
@@ -3022,7 +3023,7 @@ wGw</bytes>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">ibStopButtonPressed:</string>
-						<reference key="source" ref="975423513"/>
+						<reference key="source" ref="142308969"/>
 						<reference key="destination" ref="463510142"/>
 					</object>
 					<int key="connectionID">3777</int>
@@ -3030,10 +3031,42 @@ wGw</bytes>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">ibBackupButtonPressed:</string>
-						<reference key="source" ref="975423513"/>
+						<reference key="source" ref="142308969"/>
 						<reference key="destination" ref="311938884"/>
 					</object>
 					<int key="connectionID">3778</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">ibToolbarItemConnection</string>
+						<reference key="source" ref="142308969"/>
+						<reference key="destination" ref="907255112"/>
+					</object>
+					<int key="connectionID">3779</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">ibToolbarItemConfiguration</string>
+						<reference key="source" ref="142308969"/>
+						<reference key="destination" ref="745424924"/>
+					</object>
+					<int key="connectionID">3780</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">ibToolbarConnectionPressed:</string>
+						<reference key="source" ref="142308969"/>
+						<reference key="destination" ref="907255112"/>
+					</object>
+					<int key="connectionID">3781</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">ibToolbarConfigurationPressed:</string>
+						<reference key="source" ref="142308969"/>
+						<reference key="destination" ref="745424924"/>
+					</object>
+					<int key="connectionID">3782</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -6786,7 +6819,7 @@ wGw</bytes>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">3765</int>
-						<reference key="object" ref="975423513"/>
+						<reference key="object" ref="142308969"/>
 						<reference key="parent" ref="0"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -7327,7 +7360,7 @@ wGw</bytes>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">3778</int>
+			<int key="maxID">3782</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
