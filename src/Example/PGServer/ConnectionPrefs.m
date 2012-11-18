@@ -1,7 +1,7 @@
 
 #import "ConnectionPrefs.h"
 #import <PGServerKit/PGServerKit.h>
-#import "AppDelegate.h"
+#import "Controller.h"
 
 @implementation ConnectionPrefs
 
@@ -79,7 +79,7 @@
 }
 
 -(IBAction)ibSheetOpen:(NSWindow* )window delegate:(id)sender {
-	PGServerPreferences* prefs = [[PGServer sharedServer] configuration];
+	PGServerPreferences* prefs = [[self delegate] configuration];
 	NSParameterAssert(prefs);
 
 	// load defaults into the dialog
@@ -102,7 +102,7 @@
 }
 
 -(void)endSheet:(NSWindow *)theSheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {	
-	PGServerPreferences* prefs = [[PGServer sharedServer] configuration];
+	PGServerPreferences* prefs = [[self delegate] configuration];
 	NSParameterAssert(prefs);
 	
 	[theSheet orderOut:self];

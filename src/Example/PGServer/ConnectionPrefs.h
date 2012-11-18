@@ -1,9 +1,10 @@
 
 #import <Cocoa/Cocoa.h>
+#import "ControllerDelegate.h"
 
 @interface ConnectionPrefs : NSObject
 
-@property id delegate;
+@property id<ControllerDelegate> delegate;
 @property (assign) IBOutlet NSWindow* ibWindow;
 
 @property BOOL remoteConnectionValue;

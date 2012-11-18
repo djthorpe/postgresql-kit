@@ -55,8 +55,8 @@
 			<object class="NSCustomObject" id="1050">
 				<string key="NSClassName">NSApplication</string>
 			</object>
-			<object class="NSCustomObject" id="451906878">
-				<string key="NSClassName">AppDelegate</string>
+			<object class="NSCustomObject" id="975423513">
+				<string key="NSClassName">Controller</string>
 			</object>
 			<object class="NSCustomObject" id="586232926">
 				<string key="NSClassName">ConnectionPrefs</string>
@@ -756,7 +756,7 @@
 				</object>
 				<nil key="NSUserInterfaceItemIdentifier"/>
 				<object class="NSView" key="NSWindowView" id="414427165">
-					<nil key="NSNextResponder"/>
+					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<array class="NSMutableArray" key="NSSubviews">
 						<object class="NSButton" id="463510142">
@@ -764,6 +764,7 @@
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{14, 337}, {98, 32}}</string>
 							<reference key="NSSuperview" ref="414427165"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="280643651"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
@@ -791,6 +792,7 @@
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{14, 305}, {98, 32}}</string>
 							<reference key="NSSuperview" ref="414427165"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="713260468"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
@@ -814,6 +816,7 @@
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{14, 369}, {98, 32}}</string>
 							<reference key="NSSuperview" ref="414427165"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="423732899"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
@@ -843,8 +846,9 @@
 										<object class="NSTextView" id="597509007">
 											<reference key="NSNextResponder" ref="202984106"/>
 											<int key="NSvFlags">2322</int>
-											<string key="NSFrameSize">{617, 271}</string>
+											<string key="NSFrameSize">{617, 268}</string>
 											<reference key="NSSuperview" ref="202984106"/>
+											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="1050563913"/>
 											<string key="NSReuseIdentifierKey">_NS:13</string>
 											<object class="NSTextContainer" key="NSTextContainer" id="130937057">
@@ -911,12 +915,12 @@
 											</object>
 											<int key="NSTVFlags">6</int>
 											<string key="NSMaxSize">{617, 10000000}</string>
-											<string key="NSMinize">{617, 268}</string>
 											<nil key="NSDelegate"/>
 										</object>
 									</array>
 									<string key="NSFrame">{{1, 1}, {617, 271}}</string>
 									<reference key="NSSuperview" ref="713260468"/>
+									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="597509007"/>
 									<string key="NSReuseIdentifierKey">_NS:11</string>
 									<reference key="NSDocView" ref="597509007"/>
@@ -1081,6 +1085,7 @@ wGw</bytes>
 									<int key="NSvFlags">256</int>
 									<string key="NSFrame">{{603, 1}, {15, 271}}</string>
 									<reference key="NSSuperview" ref="713260468"/>
+									<reference key="NSWindow"/>
 									<string key="NSReuseIdentifierKey">_NS:83</string>
 									<reference key="NSTarget" ref="713260468"/>
 									<string key="NSAction">_doScroller:</string>
@@ -1092,6 +1097,7 @@ wGw</bytes>
 									<int key="NSvFlags">-2147483392</int>
 									<string key="NSFrame">{{-100, -100}, {87, 18}}</string>
 									<reference key="NSSuperview" ref="713260468"/>
+									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="202984106"/>
 									<string key="NSReuseIdentifierKey">_NS:33</string>
 									<int key="NSsFlags">1</int>
@@ -1103,6 +1109,7 @@ wGw</bytes>
 							</array>
 							<string key="NSFrame">{{20, 20}, {619, 273}}</string>
 							<reference key="NSSuperview" ref="414427165"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="202984106"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<int key="NSsFlags">133138</int>
@@ -1123,6 +1130,7 @@ wGw</bytes>
 							</set>
 							<string key="NSFrame">{{575, 345}, {64, 64}}</string>
 							<reference key="NSSuperview" ref="414427165"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="311938884"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSImageCell" key="NSCell" id="88139014">
@@ -1152,6 +1160,7 @@ wGw</bytes>
 							</set>
 							<string key="NSFrame">{{116, 379}, {16, 16}}</string>
 							<reference key="NSSuperview" ref="414427165"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="463510142"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSImageCell" key="NSCell" id="495550421">
@@ -1181,6 +1190,7 @@ wGw</bytes>
 							</set>
 							<string key="NSFrame">{{376, 369}, {200, 40}}</string>
 							<reference key="NSSuperview" ref="414427165"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="522259828"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSImageCell" key="NSCell" id="399547076">
@@ -1202,6 +1212,7 @@ wGw</bytes>
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{383, 356}, {192, 17}}</string>
 							<reference key="NSSuperview" ref="414427165"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="547874244"/>
 							<string key="NSReuseIdentifierKey">_NS:1535</string>
 							<bool key="NSEnabled">YES</bool>
@@ -1232,6 +1243,8 @@ wGw</bytes>
 						</object>
 					</array>
 					<string key="NSFrameSize">{654, 417}</string>
+					<reference key="NSSuperview"/>
+					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="585815900"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
@@ -1257,6 +1270,7 @@ wGw</bytes>
 							<string key="NSFrame">{{355, 12}, {96, 32}}</string>
 							<reference key="NSSuperview" ref="593839447"/>
 							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="501522238">
 								<int key="NSCellFlags">67108864</int>
@@ -2317,14 +2331,6 @@ wGw</bytes>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
 			<array class="NSMutableArray" key="connectionRecords">
 				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">delegate</string>
-						<reference key="source" ref="1050"/>
-						<reference key="destination" ref="451906878"/>
-					</object>
-					<int key="connectionID">825</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">terminate:</string>
 						<reference key="source" ref="1021"/>
@@ -2611,174 +2617,6 @@ wGw</bytes>
 						<reference key="destination" ref="203430271"/>
 					</object>
 					<int key="connectionID">2293</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">ibLogTextView</string>
-						<reference key="source" ref="451906878"/>
-						<reference key="destination" ref="597509007"/>
-					</object>
-					<int key="connectionID">991</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">ibStartButtonPressed:</string>
-						<reference key="source" ref="451906878"/>
-						<reference key="destination" ref="585815900"/>
-					</object>
-					<int key="connectionID">1230</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">ibStopButtonPressed:</string>
-						<reference key="source" ref="451906878"/>
-						<reference key="destination" ref="463510142"/>
-					</object>
-					<int key="connectionID">1231</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">ibBackupButtonPressed:</string>
-						<reference key="source" ref="451906878"/>
-						<reference key="destination" ref="311938884"/>
-					</object>
-					<int key="connectionID">1232</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">ibWindow</string>
-						<reference key="source" ref="451906878"/>
-						<reference key="destination" ref="513744381"/>
-					</object>
-					<int key="connectionID">1453</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">ibToolbarConnectionPressed:</string>
-						<reference key="source" ref="451906878"/>
-						<reference key="destination" ref="907255112"/>
-					</object>
-					<int key="connectionID">1496</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">ibConnectionPrefs</string>
-						<reference key="source" ref="451906878"/>
-						<reference key="destination" ref="586232926"/>
-					</object>
-					<int key="connectionID">1506</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">ibConfigurationPrefs</string>
-						<reference key="source" ref="451906878"/>
-						<reference key="destination" ref="337931465"/>
-					</object>
-					<int key="connectionID">2059</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">ibToolbarConfigurationPressed:</string>
-						<reference key="source" ref="451906878"/>
-						<reference key="destination" ref="745424924"/>
-					</object>
-					<int key="connectionID">2063</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">ibToolbarItemConnection</string>
-						<reference key="source" ref="451906878"/>
-						<reference key="destination" ref="907255112"/>
-					</object>
-					<int key="connectionID">2064</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">ibToolbarItemConfiguration</string>
-						<reference key="source" ref="451906878"/>
-						<reference key="destination" ref="745424924"/>
-					</object>
-					<int key="connectionID">2065</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled: ibStopButtonEnabled</string>
-						<reference key="source" ref="463510142"/>
-						<reference key="destination" ref="451906878"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="463510142"/>
-							<reference key="NSDestination" ref="451906878"/>
-							<string key="NSLabel">enabled: ibStopButtonEnabled</string>
-							<string key="NSBinding">enabled</string>
-							<string key="NSKeyPath">ibStopButtonEnabled</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">1228</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled: ibStartButtonEnabled</string>
-						<reference key="source" ref="585815900"/>
-						<reference key="destination" ref="451906878"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="585815900"/>
-							<reference key="NSDestination" ref="451906878"/>
-							<string key="NSLabel">enabled: ibStartButtonEnabled</string>
-							<string key="NSBinding">enabled</string>
-							<string key="NSKeyPath">ibStartButtonEnabled</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">1229</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled: ibBackupButtonEnabled</string>
-						<reference key="source" ref="311938884"/>
-						<reference key="destination" ref="451906878"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="311938884"/>
-							<reference key="NSDestination" ref="451906878"/>
-							<string key="NSLabel">enabled: ibBackupButtonEnabled</string>
-							<string key="NSBinding">enabled</string>
-							<string key="NSKeyPath">ibBackupButtonEnabled</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">1227</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: ibServerStatusIcon</string>
-						<reference key="source" ref="423732899"/>
-						<reference key="destination" ref="451906878"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="423732899"/>
-							<reference key="NSDestination" ref="451906878"/>
-							<string key="NSLabel">value: ibServerStatusIcon</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">ibServerStatusIcon</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">1224</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: ibServerVersion</string>
-						<reference key="source" ref="522259828"/>
-						<reference key="destination" ref="451906878"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="522259828"/>
-							<reference key="NSDestination" ref="451906878"/>
-							<string key="NSLabel">value: ibServerVersion</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">ibServerVersion</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">1226</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -3140,6 +2978,62 @@ wGw</bytes>
 						</object>
 					</object>
 					<int key="connectionID">3726</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">ibConnectionPrefs</string>
+						<reference key="source" ref="975423513"/>
+						<reference key="destination" ref="586232926"/>
+					</object>
+					<int key="connectionID">3766</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">ibConfigurationPrefs</string>
+						<reference key="source" ref="975423513"/>
+						<reference key="destination" ref="337931465"/>
+					</object>
+					<int key="connectionID">3767</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">ibWindow</string>
+						<reference key="source" ref="975423513"/>
+						<reference key="destination" ref="513744381"/>
+					</object>
+					<int key="connectionID">3769</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">ibLogTextView</string>
+						<reference key="source" ref="975423513"/>
+						<reference key="destination" ref="597509007"/>
+					</object>
+					<int key="connectionID">3770</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">ibStartButtonPressed:</string>
+						<reference key="source" ref="975423513"/>
+						<reference key="destination" ref="585815900"/>
+					</object>
+					<int key="connectionID">3776</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">ibStopButtonPressed:</string>
+						<reference key="source" ref="975423513"/>
+						<reference key="destination" ref="463510142"/>
+					</object>
+					<int key="connectionID">3777</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">ibBackupButtonPressed:</string>
+						<reference key="source" ref="975423513"/>
+						<reference key="destination" ref="311938884"/>
+					</object>
+					<int key="connectionID">3778</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -3589,11 +3483,6 @@ wGw</bytes>
 						<reference key="parent" ref="513744381"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">824</int>
-						<reference key="object" ref="451906878"/>
-						<reference key="parent" ref="0"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">832</int>
 						<reference key="object" ref="463510142"/>
 						<array class="NSMutableArray" key="children">
@@ -3670,11 +3559,6 @@ wGw</bytes>
 					<object class="IBObjectRecord">
 						<int key="objectID">1038</int>
 						<reference key="object" ref="390626471"/>
-						<reference key="parent" ref="414427165"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1041</int>
-						<reference key="object" ref="945941673"/>
 						<reference key="parent" ref="414427165"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -3842,21 +3726,6 @@ wGw</bytes>
 						<reference key="parent" ref="528084126"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">1034</int>
-						<reference key="object" ref="953894844"/>
-						<reference key="parent" ref="414427165"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1195</int>
-						<reference key="object" ref="428150838"/>
-						<reference key="parent" ref="414427165"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1196</int>
-						<reference key="object" ref="1024863626"/>
-						<reference key="parent" ref="414427165"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">1197</int>
 						<reference key="object" ref="681984851"/>
 						<reference key="parent" ref="414427165"/>
@@ -3910,11 +3779,6 @@ wGw</bytes>
 						<int key="objectID">1257</int>
 						<reference key="object" ref="907255112"/>
 						<reference key="parent" ref="528084126"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1503</int>
-						<reference key="object" ref="913528550"/>
-						<reference key="parent" ref="414427165"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1504</int>
@@ -6920,6 +6784,36 @@ wGw</bytes>
 						<reference key="object" ref="626909403"/>
 						<reference key="parent" ref="593839447"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">3765</int>
+						<reference key="object" ref="975423513"/>
+						<reference key="parent" ref="0"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1041</int>
+						<reference key="object" ref="945941673"/>
+						<reference key="parent" ref="414427165"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1503</int>
+						<reference key="object" ref="913528550"/>
+						<reference key="parent" ref="414427165"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1195</int>
+						<reference key="object" ref="428150838"/>
+						<reference key="parent" ref="414427165"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1196</int>
+						<reference key="object" ref="1024863626"/>
+						<reference key="parent" ref="414427165"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1034</int>
+						<reference key="object" ref="953894844"/>
+						<reference key="parent" ref="414427165"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -7409,9 +7303,9 @@ wGw</bytes>
 				<string key="3762.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="3763.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="3764.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="3765.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="56.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="57.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="824.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<boolean value="NO" key="832.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="832.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="833.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -7433,84 +7327,45 @@ wGw</bytes>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">3764</int>
+			<int key="maxID">3778</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<object class="IBPartialClassDescription">
-					<string key="className">AppDelegate</string>
+					<string key="className">Bindings</string>
 					<string key="superclassName">NSObject</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="doLogin:">id</string>
-						<string key="doServerBackup:">id</string>
-						<string key="doServerStart:">id</string>
-						<string key="doServerStop:">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="doLogin:">
-							<string key="name">doLogin:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="doServerBackup:">
-							<string key="name">doServerBackup:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="doServerStart:">
-							<string key="name">doServerStart:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="doServerStop:">
-							<string key="name">doServerStop:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="ibConfigurationPrefs">ConfigurationPrefs</string>
-						<string key="ibConnectionPrefs">ConnectionPrefs</string>
-						<string key="ibLogTextView">NSTextView</string>
-						<string key="ibLogView">NSTextView</string>
-						<string key="ibToolbarItemConfiguration">NSToolbarItem</string>
-						<string key="ibToolbarItemConnection">NSToolbarItem</string>
-						<string key="ibWindow">NSWindow</string>
-						<string key="window">NSWindow</string>
+						<string key="ibAccessWindow">NSWindow</string>
+						<string key="ibInput">NSTextField</string>
+						<string key="ibMainWindow">NSWindow</string>
+						<string key="ibOutput">NSTextView</string>
+						<string key="ibSelectWindow">NSWindow</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="ibConfigurationPrefs">
-							<string key="name">ibConfigurationPrefs</string>
-							<string key="candidateClassName">ConfigurationPrefs</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="ibConnectionPrefs">
-							<string key="name">ibConnectionPrefs</string>
-							<string key="candidateClassName">ConnectionPrefs</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="ibLogTextView">
-							<string key="name">ibLogTextView</string>
-							<string key="candidateClassName">NSTextView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="ibLogView">
-							<string key="name">ibLogView</string>
-							<string key="candidateClassName">NSTextView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="ibToolbarItemConfiguration">
-							<string key="name">ibToolbarItemConfiguration</string>
-							<string key="candidateClassName">NSToolbarItem</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="ibToolbarItemConnection">
-							<string key="name">ibToolbarItemConnection</string>
-							<string key="candidateClassName">NSToolbarItem</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="ibWindow">
-							<string key="name">ibWindow</string>
+						<object class="IBToOneOutletInfo" key="ibAccessWindow">
+							<string key="name">ibAccessWindow</string>
 							<string key="candidateClassName">NSWindow</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="window">
-							<string key="name">window</string>
+						<object class="IBToOneOutletInfo" key="ibInput">
+							<string key="name">ibInput</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="ibMainWindow">
+							<string key="name">ibMainWindow</string>
+							<string key="candidateClassName">NSWindow</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="ibOutput">
+							<string key="name">ibOutput</string>
+							<string key="candidateClassName">NSTextView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="ibSelectWindow">
+							<string key="name">ibSelectWindow</string>
 							<string key="candidateClassName">NSWindow</string>
 						</object>
 					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/AppDelegate.h</string>
+						<string key="minorKey">./Classes/Bindings.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -7552,6 +7407,107 @@ wGw</bytes>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/ConnectionPrefs.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">Controller</string>
+					<string key="superclassName">NSObject</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="doAccessEdit:">id</string>
+						<string key="doBackupServer:">id</string>
+						<string key="doClearOutput:">id</string>
+						<string key="doEndAccessEdit:">id</string>
+						<string key="doEndSelectDatabase:">id</string>
+						<string key="doExecuteCommand:">id</string>
+						<string key="doSelectDatabase:">id</string>
+						<string key="doStartServer:">id</string>
+						<string key="doStopServer:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="doAccessEdit:">
+							<string key="name">doAccessEdit:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="doBackupServer:">
+							<string key="name">doBackupServer:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="doClearOutput:">
+							<string key="name">doClearOutput:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="doEndAccessEdit:">
+							<string key="name">doEndAccessEdit:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="doEndSelectDatabase:">
+							<string key="name">doEndSelectDatabase:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="doExecuteCommand:">
+							<string key="name">doExecuteCommand:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="doSelectDatabase:">
+							<string key="name">doSelectDatabase:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="doStartServer:">
+							<string key="name">doStartServer:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="doStopServer:">
+							<string key="name">doStopServer:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="bindings">Bindings</string>
+						<string key="ibConfigurationPrefs">ConfigurationPrefs</string>
+						<string key="ibConnectionPrefs">ConnectionPrefs</string>
+						<string key="ibLogTextView">NSTextView</string>
+						<string key="ibMainWindow">NSWindow</string>
+						<string key="ibToolbarItemConfiguration">NSToolbarItem</string>
+						<string key="ibToolbarItemConnection">NSToolbarItem</string>
+						<string key="ibWindow">NSWindow</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="bindings">
+							<string key="name">bindings</string>
+							<string key="candidateClassName">Bindings</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="ibConfigurationPrefs">
+							<string key="name">ibConfigurationPrefs</string>
+							<string key="candidateClassName">ConfigurationPrefs</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="ibConnectionPrefs">
+							<string key="name">ibConnectionPrefs</string>
+							<string key="candidateClassName">ConnectionPrefs</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="ibLogTextView">
+							<string key="name">ibLogTextView</string>
+							<string key="candidateClassName">NSTextView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="ibMainWindow">
+							<string key="name">ibMainWindow</string>
+							<string key="candidateClassName">NSWindow</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="ibToolbarItemConfiguration">
+							<string key="name">ibToolbarItemConfiguration</string>
+							<string key="candidateClassName">NSToolbarItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="ibToolbarItemConnection">
+							<string key="name">ibToolbarItemConnection</string>
+							<string key="candidateClassName">NSToolbarItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="ibWindow">
+							<string key="name">ibWindow</string>
+							<string key="candidateClassName">NSWindow</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/Controller.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">

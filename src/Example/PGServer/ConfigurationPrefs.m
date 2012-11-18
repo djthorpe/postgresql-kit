@@ -1,11 +1,12 @@
+
+#import <PGServerKit/PGServerKit.h>
 #import "ConfigurationPrefs.h"
-#import "AppDelegate.h"
+#import "Controller.h"
 
 @implementation ConfigurationPrefs
-@dynamic configuration;
 
 -(PGServerPreferences* )configuration {
-	return [[PGServer sharedServer] configuration];
+	return [[self delegate] configuration];
 }
 
 -(IBAction)ibSheetOpen:(NSWindow* )window delegate:(id)sender {

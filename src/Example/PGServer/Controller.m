@@ -1,7 +1,7 @@
 
-#import "AppDelegate.h"
+#import "Controller.h"
 
-@implementation AppDelegate
+@implementation Controller
 
 ////////////////////////////////////////////////////////////////////////////////
 // init method
@@ -26,6 +26,10 @@
 
 -(PGServer* )server {
 	return _server;
+}
+
+-(PGServerPreferences* )configuration {
+	return [[self server] configuration];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -74,7 +78,7 @@
 // PGServer delegate messages
 
 -(void)message:(PGServer* )server message:(NSString* )message {
-	if([theMessage hasPrefix:@"ERROR:"]) {
+	if([message hasPrefix:@"ERROR:"]) {
 		[self addLogMessage:message color:[NSColor redColor] bold:NO];
 	} else if([message hasPrefix:@"WARNING:"]) {
 			[self addLogMessage:message color:[NSColor redColor] bold:NO];
@@ -161,7 +165,10 @@
 
 -(void)startServer {
 	[self addLogMessage:[NSString stringWithFormat:@"Starting server with data path: %@",[self dataPath]] color:[NSColor redColor] bold:NO];
-	[[self server] startWithDataPath:[self dataPath] hostname:[[self ibConnectionPrefs] hostname] port:[[self ibConnectionPrefs] port]];
+	
+	NSString* hostname = [[self ibConnectionPrefs] hostname];
+	NSUInteger port = [[self ibConnectionPrefs] port];	
+	[[self server] startWithNetworkBinding:hostname port:port];
 }
 
 -(void)stopServer {
