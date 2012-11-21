@@ -1,8 +1,9 @@
 
 #import <Foundation/Foundation.h>
+#import "PGTokenizer.h"
 #import "PGServerConfigurationLine.h"
 
-@interface PGServerConfiguration : NSObject {
+@interface PGServerConfiguration : PGTokenizer {
 	NSString* _path;
 	NSMutableArray* _lines;
 	NSMutableArray* _keys;

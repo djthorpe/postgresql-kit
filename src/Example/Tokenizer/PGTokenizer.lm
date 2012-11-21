@@ -10,8 +10,7 @@ NEWLINE \r?\n
 
 %{
 #import <Foundation/Foundation.h>
-#import "PGServerConfiguration.h"
-#import "PGServerConfigurationLine.h"
+#import "PGTokenizer.h"
 %}
 
 %option reentrant
@@ -31,7 +30,7 @@ NEWLINE \r?\n
 .			       { return PGTokenizerOther; }
 %%
 
-BOOL file_tokenize(PGServerConfiguration* tokenizer,const char* file) {
+BOOL file_tokenize(PGTokenizer* tokenizer,const char* file) {
     yyscan_t yyscanner;
     struct yyguts_t* yyg;
     yylex_init(&yyscanner);
@@ -45,12 +44,12 @@ BOOL file_tokenize(PGServerConfiguration* tokenizer,const char* file) {
 	}
 	PGTokenizerType type;
 	BOOL success = YES;
-	PGServerConfigurationLine* line = nil;
+	PGTokenizerLine* line = nil;
 	while(success && (type = yylex(yyscanner)) > 0) {
 		if(line==nil) {
-			line = [[PGServerConfigurationLine alloc] init];
+			line = [tokenizer line];
 		}
-		success = [line _parse:type text:yyget_text(yyscanner)];
+		success = [line parse:type text:yyget_text(yyscanner)];
 		if(success==YES && [line eject]==YES) {
 			success = [tokenizer append:line];
 			line = nil;

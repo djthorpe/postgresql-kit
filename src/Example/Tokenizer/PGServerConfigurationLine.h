@@ -1,21 +1,8 @@
 
 #import <Foundation/Foundation.h>
+#import "PGTokenizer.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-
-typedef enum {
-	PGTokenizerHash = 1,
-	PGTokenizerEquals,
-	PGTokenizerSQString,
-	PGTokenizerDQString,
-	PGTokenizerOctal,
-	PGTokenizerDecimal,
-	PGTokenizerFloat,
-	PGTokenizerKeyword,
-	PGTokenizerWhitespace,
-	PGTokenizerNewline,
-	PGTokenizerOther
-} PGTokenizerType;
 
 typedef enum {
 	PGTypeSQString = 1,
@@ -54,10 +41,9 @@ typedef enum {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-@interface PGServerConfigurationLine : NSObject {
+@interface PGServerConfigurationLine : PGTokenizerLine {
 	NSUInteger _state;
 	BOOL _enabled;
-	BOOL _eject;
 	NSString* _key;
 	PGServerConfigurationValue* _value;
 	NSMutableString* _comment;
@@ -65,14 +51,10 @@ typedef enum {
 }
 
 // properties
-@property (readonly) BOOL eject;
 @property BOOL enabled;
 @property (readonly) NSString* key;
 @property PGServerConfigurationValue* value;
 @property (readonly) NSString* comment;
 @property (readonly) NSString* line;
-
-// private methods
--(BOOL)_parse:(PGTokenizerType)type text:(const char* )text;
 
 @end
