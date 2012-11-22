@@ -19,10 +19,13 @@ typedef enum {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-@interface PGTokenizerLine : NSObject
+@interface PGTokenizerLine : NSObject {
+	NSMutableString* _text;
+}
 
-@property (readonly) BOOL eject;
+@property BOOL eject;
 
+-(void)append:(const char* )text;
 -(BOOL)parse:(PGTokenizerType)type text:(const char* )text;
 
 @end
@@ -48,7 +51,7 @@ typedef enum {
 -(BOOL)load;
 -(BOOL)save;
 
-// private(ish) methods
--(PGTokenizerLine* )line;
+// line factory
+-(PGTokenizerLine* )makeLine;
 
 @end

@@ -36,6 +36,7 @@
 		14032DD7164AB3C100CD5796 /* reload.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14032D73164A6F2200CD5796 /* reload.tiff */; };
 		14032DD8164AB3C700CD5796 /* start.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14032D74164A6F2200CD5796 /* start.tiff */; };
 		14032DD9164AB3CA00CD5796 /* stop.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14032D75164A6F2200CD5796 /* stop.tiff */; };
+		14067749165EB5EF005CA540 /* PGServerConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2B8B7716591AD900E5F15C /* PGServerConfiguration.m */; };
 		141E7F0F16518D23009D81E8 /* PGFoundationServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 141E7F0E16518D23009D81E8 /* PGFoundationServer.m */; };
 		141FCCEA1646911C00197F3F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C168115F26BF20013A382 /* Foundation.framework */; };
 		141FCCFA1646919E00197F3F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 141FCCF71646917B00197F3F /* main.m */; };
@@ -337,8 +338,6 @@
 		6E8C167C15F26BF20013A382 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		6E8C167F15F26BF20013A382 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		6E8C168115F26BF20013A382 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		6E92C15A1659344200A81E8C /* PGServerConfigurationLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGServerConfigurationLine.h; sourceTree = "<group>"; };
-		6E92C15B1659344200A81E8C /* PGServerConfigurationLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGServerConfigurationLine.m; sourceTree = "<group>"; };
 		6EA41EEE1610E7DB00E81046 /* PGServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGServer.h; sourceTree = "<group>"; };
 		6EA41EEF1610E7DB00E81046 /* PGServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGServer.m; sourceTree = "<group>"; };
 		6EB1E6F415F271C70093F784 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -622,8 +621,6 @@
 				6E2B8B7716591AD900E5F15C /* PGServerConfiguration.m */,
 				6E5F87A6165D69D1009529F6 /* PGServerHostAccess.h */,
 				6E5F87A7165D69D1009529F6 /* PGServerHostAccess.m */,
-				6E92C15A1659344200A81E8C /* PGServerConfigurationLine.h */,
-				6E92C15B1659344200A81E8C /* PGServerConfigurationLine.m */,
 			);
 			path = Tokenizer;
 			sourceTree = "<group>";
@@ -1202,6 +1199,7 @@
 				6E2B8B7516591A3B00E5F15C /* PGTokenizer.lm in Sources */,
 				6E5F87A8165D69D1009529F6 /* PGServerHostAccess.m in Sources */,
 				6E5F87AB165D6A50009529F6 /* PGTokenizer.m in Sources */,
+				14067749165EB5EF005CA540 /* PGServerConfiguration.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

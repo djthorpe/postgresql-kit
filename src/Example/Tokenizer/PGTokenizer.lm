@@ -47,7 +47,7 @@ BOOL file_tokenize(PGTokenizer* tokenizer,const char* file) {
 	PGTokenizerLine* line = nil;
 	while(success && (type = yylex(yyscanner)) > 0) {
 		if(line==nil) {
-			line = [tokenizer line];
+			line = [tokenizer makeLine];
 		}
 		success = [line parse:type text:yyget_text(yyscanner)];
 		if(success==YES && [line eject]==YES) {

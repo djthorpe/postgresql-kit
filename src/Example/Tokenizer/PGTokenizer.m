@@ -1,7 +1,6 @@
 
 #import "PGTokenizer.h"
 
-
 ////////////////////////////////////////////////////////////////////////////////
 // forward declaration, from PGTokenizer.lm
 
@@ -11,9 +10,31 @@ BOOL file_tokenize(PGTokenizer* tokenizer,const char* file);
 
 @implementation PGTokenizerLine
 
--(BOOL)parse:(PGTokenizerType)type text:(const char* )text {
-	NSLog(@"parse: %d => %s",type,text);
-	return YES;
+-(id)init {
+	self = [super init];
+	if(self) {
+		_text = [[NSMutableString alloc] init];
+	}
+	return self;
+}
+
+-(void)append:(const char* )text {
+	[_text appendString:[NSString stringWithUTF8String:text]];
+}
+
+-(BOOL)parse:(PGTokenizerType)type text:(const char* )text {	
+	switch(type) {
+		case PGTokenizerNewline:
+			[self setEject:YES];
+			return YES;
+		default:
+			[self append:text];
+			return YES;
+	}
+}
+
+-(NSString* )description {
+	return _text;
 }
 
 @end
@@ -33,15 +54,24 @@ BOOL file_tokenize(PGTokenizer* tokenizer,const char* file);
 		_path = path;
 		_lines = [NSMutableArray array];
 		_modified = NO;
-		if([self load]==NO) {
-			self = nil;
-		}
 	}
 	return self;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // private methods
+
+// return a new line
+-(PGTokenizerLine* )makeLine {
+	return [[PGTokenizerLine alloc] init];
+}
+
+// append a line
+-(BOOL)append:(PGTokenizerLine* )line {
+	NSParameterAssert(line);
+	[_lines addObject:line];
+	return YES;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // properties
@@ -55,22 +85,14 @@ BOOL file_tokenize(PGTokenizer* tokenizer,const char* file);
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
 
--(PGTokenizerLine* )line {
-	return [[PGTokenizerLine alloc] init];
-}
-
--(BOOL)append:(PGTokenizerLine* )line {
-	NSParameterAssert(line);
-	[_lines addObject:line];
-	return YES;
-}
-
+// load the file
 -(BOOL)load {
 	[_lines removeAllObjects];
 	_modified = NO;
 	return file_tokenize(self,[[self path] UTF8String]);
 }
 
+// save the file
 -(BOOL)save {
 	NSFileHandle* fileHandle = [NSFileHandle fileHandleForWritingAtPath:[self path]];
 	if(fileHandle==nil) {
@@ -91,6 +113,10 @@ BOOL file_tokenize(PGTokenizer* tokenizer,const char* file);
 	}
 	[fileHandle closeFile];
 	return YES;
+}
+
+-(NSString* )description {
+	return [_lines componentsJoinedByString:@"\n"];
 }
 
 @end
