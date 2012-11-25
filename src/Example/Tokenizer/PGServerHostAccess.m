@@ -12,9 +12,16 @@
     self = [super init];
     if (self) {
 		_state = 0;
+		_comment = NO;
 		_enabled = NO;
 		_type = nil;
-		_database = nil;
+		_host = nil;
+		_ip4addr = nil;
+		_ip6addr = nil;
+		_ipmask = nil;
+		_database = [[NSMutableArray alloc] init];
+		_user = [[NSMutableArray alloc] init];
+		_method = nil;
     }
     return self;
 }
@@ -39,31 +46,45 @@
 }
 
 -(void)_setType:(const char* )text {
-	NSLog(@"type=>%s",text);
+	NSString* type = [NSString stringWithUTF8String:text];
+	NSParameterAssert([[self _allowedTypes] containsObject:type]);
+	NSParameterAssert(_type==nil);
+	_type = type;
 }
 
 -(void)_setDatabase:(const char* )text {
-	NSLog(@"database=>%s",text);
+	[_database addObject:[NSString stringWithUTF8String:text]];
 }
 
 -(void)_setUser:(const char* )text {
-	NSLog(@"user=>%s",text);
+	[_user addObject:[NSString stringWithUTF8String:text]];
 }
 
 -(void)_setIP4Address:(const char* )text {
-	NSLog(@"ip4addr=>%s",text);
+	NSParameterAssert(_ip6addr==nil);
+	_ip4addr = [NSString stringWithUTF8String:text];
 }
 
 -(void)_setIP6Address:(const char* )text {
-	NSLog(@"ip6addr=>%s",text);
+	NSParameterAssert(_ip4addr==nil);
+	_ip6addr = [NSString stringWithUTF8String:text];
 }
 
 -(void)_setIPMask:(const char* )text {
-	NSLog(@"ipmask=>%s",text);
+	NSParameterAssert(_ip4addr != nil || _ip6addr != nil);
+	_ipmask = [NSString stringWithUTF8String:text];
+}
+
+-(void)_setHost:(const char* )text {
+	NSParameterAssert(_ip4addr == nil && _ip6addr == nil && _ipmask == nil);
+	_host = [NSString stringWithUTF8String:text];
 }
 
 -(void)_setMethod:(const char* )text {
-	NSLog(@"method=>%s",text);
+	NSString* method = [NSString stringWithUTF8String:text];
+	NSParameterAssert([[self _allowedMethods] containsObject:method]);
+	NSParameterAssert(_method==nil);
+	_method = method;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -88,6 +109,7 @@
 		case PGTokenizerWhitespace:
 			return YES;
 		case PGTokenizerNewline:
+			_comment = YES;
 			[self setEject:YES];
 			return YES;
 		default:
@@ -103,13 +125,16 @@
 				[self _setType:text];
 				_state = 2;
 			} else {
+				_comment = YES;
 				_state = 99;
 			}
 			return YES;
 		case PGTokenizerNewline:
+			_comment = YES;
 			[self setEject:YES];
 			return YES;
 		default:
+			_comment = YES;
 			_state = 99;
 			return YES;
 	}
@@ -126,6 +151,7 @@
 		case PGTokenizerSQString:
 		case PGTokenizerDQString:
 		case PGTokenizerKeyword:
+		case PGTokenizerGroupMap:
 			[self _setDatabase:text];
 			_state = 3;
 			return YES;
@@ -142,9 +168,13 @@
 			return YES;
 		case PGTokenizerWhitespace:
 			return YES;
+		case PGTokenizerComma:
+			_state = 2;
+			return YES;
 		case PGTokenizerSQString:
 		case PGTokenizerDQString:
 		case PGTokenizerKeyword:
+		case PGTokenizerGroupMap:			
 			[self _setUser:text];
 			_state = 4;
 			return YES;
@@ -161,14 +191,23 @@
 			return YES;
 		case PGTokenizerWhitespace:
 			return YES;
+		case PGTokenizerComma:
+			_state = 3;
+			return YES;
 		case PGTokenizerKeyword:
 			if([self _isAllowedMethod:text]) {
 				[self _setMethod:text];
 				_state = 10;
 				return YES;
 			} else {
-				return NO;
+				[self _setHost:text];
+				_state = 7;
+				return YES;
 			}
+		case PGTokenizerHostname:
+			[self _setHost:text];
+			_state = 7;
+			return YES;
 		case PGTokenizerIP4Addr:
 			[self _setIP4Address:text];
 			_state = 5;
@@ -227,16 +266,80 @@
 	}
 }
 
+// within hostname
+-(BOOL)_parse7:(PGTokenizerType)type text:(const char* )text {
+	switch(type) {
+		case PGTokenizerNewline:
+			[self setEject:YES];
+			return YES;
+		case PGTokenizerWhitespace:
+			_state = 6;
+			return YES;
+		case PGTokenizerIP4Addr:
+			[self _setIPMask:text];
+			_state = 6;
+			return YES;
+		case PGTokenizerKeyword:
+			if([self _isAllowedMethod:text]) {
+				[self _setMethod:text];
+				_state = 10;
+				return YES;
+			} else {
+				return NO;
+			}
+		default:
+			return NO;
+	}
+}
+
+// after method, before options
 -(BOOL)_parse10:(PGTokenizerType)type text:(const char* )text {
 	switch(type) {
 		case PGTokenizerNewline:
 			[self setEject:YES];
 			return YES;
 		case PGTokenizerWhitespace:
-			return YES;			
-		default:
-			NSLog(@"do stuff with %s",text);
 			return YES;
+		case PGTokenizerKeyword:
+			NSLog(@"name=%s",text);
+			_state = 11;
+			return YES;
+		default:
+			return NO;
+	}
+}
+
+// after option name, before equals
+-(BOOL)_parse11:(PGTokenizerType)type text:(const char* )text {
+	switch(type) {
+		case PGTokenizerEquals:
+			_state = 12;
+			return YES;
+		default:
+			return NO;
+	}
+}
+
+// after equals, before option value
+-(BOOL)_parse12:(PGTokenizerType)type text:(const char* )text {
+	switch(type) {
+		case PGTokenizerEquals:
+			_state = 12;
+			return YES;
+		case PGTokenizerSQString:
+		case PGTokenizerDQString:
+		case PGTokenizerOctal:
+		case PGTokenizerDecimal:
+		case PGTokenizerFloat:
+		case PGTokenizerKeyword:
+		case PGTokenizerHostname:
+		case PGTokenizerIP4Addr:
+		case PGTokenizerIP6Addr:
+			NSLog(@"value=%s",text);
+			_state = 10;
+			return YES;
+		default:
+			return NO;
 	}
 }
 
@@ -256,7 +359,7 @@
 		[super append:text];
 	}
 	
-	NSLog(@"{%d, %lu} => %s",type,_state,text);
+	// NSLog(@"{%d, %lu} => %s",type,_state,text);
 	
 	// parse
 	switch(_state) {
@@ -274,13 +377,81 @@
 			return [self _parse5:type text:text];
 		case 6: // after host & optional mask, before mask or method
 			return [self _parse6:type text:text];
+		case 7: // within hostname
+			return [self _parse7:type text:text];
 		case 10: // after method, before options
 			return [self _parse10:type text:text];
+		case 11: // after option name, before equals
+			return [self _parse11:type text:text];
+		case 12: // after equals, before option value
+			return [self _parse12:type text:text];
 		case 99: // continued comment state
 			return [self _parse99:type text:text];
 		default:
 			return NO;
 	}
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// return line
+
+-(NSString* )_description_user {
+	if([_user count]==0) {
+		return nil;
+	}
+	return [_user componentsJoinedByString:@","];
+}
+
+-(NSString* )_description_database {
+	if([_database count]==0) {
+		return nil;
+	}
+	return [_database componentsJoinedByString:@","];
+}
+
+-(NSString* )_description_host {
+	NSMutableString* host = [[NSMutableString alloc] init];
+	if(_ip4addr) {
+		NSParameterAssert(_ip6addr==nil);
+		[host appendString:_ip4addr];
+	} else if(_ip6addr) {
+		NSParameterAssert(_ip4addr==nil);
+		[host appendString:_ip6addr];
+	} else if(_host) {
+		NSParameterAssert(_ip6addr==nil && _ip4addr==nil && _ipmask==nil);
+		return _host;
+	} else {
+		NSParameterAssert(_ip6addr==nil && _ip4addr==nil && _ipmask==nil && _host==nil);
+		return nil;
+	}
+	// append the mask
+	if(_ipmask && [_ipmask hasPrefix:@"/"]) {
+		[host appendString:_ipmask];
+	} else {
+		[host appendString:@" "];
+		[host appendString:_ipmask];
+	}
+	return host;
+}
+
+-(NSString* )description {
+	// if this is a comment line, return as a comment
+	if(_comment) {
+		return [super description];
+	}
+	
+	NSString* host = [self _description_host];
+	NSString* user = [self _description_user];
+	NSString* database = [self _description_database];
+	NSDictionary* dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+								_enabled ? @"YES" : @"NO",@"enabled",
+								_type ? _type : @"(null)",@"type",
+								_method ? _method : @"(null)",@"method",
+								host ? host : @"(null)",@"host",
+								user ? user : @"(null)",@"user",
+								database ? database : @"(null)",@"database",
+								nil];
+	return [dictionary description];
 }
 
 @end
@@ -304,6 +475,8 @@
 	if([super append:line]==NO) {
 		return NO;
 	}
+	
+	NSLog(@"%@",[line description]);
 	
 	return YES;
 }

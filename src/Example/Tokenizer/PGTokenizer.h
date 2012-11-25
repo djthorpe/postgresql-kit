@@ -6,6 +6,7 @@
 typedef enum {
 	PGTokenizerHash = 1,
 	PGTokenizerEquals,
+	PGTokenizerComma,
 	PGTokenizerSQString,
 	PGTokenizerDQString,
 	PGTokenizerOctal,
@@ -17,6 +18,8 @@ typedef enum {
 	PGTokenizerIP4Addr,
 	PGTokenizerIPMask,
 	PGTokenizerIP6Addr,
+	PGTokenizerHostname,
+	PGTokenizerGroupMap,
 	PGTokenizerOther
 } PGTokenizerType;
 
