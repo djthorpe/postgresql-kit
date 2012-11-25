@@ -8,6 +8,66 @@ BOOL file_tokenize(PGTokenizer* tokenizer,const char* file);
 
 ////////////////////////////////////////////////////////////////////////////////
 
+@implementation PGTokenizerValue
+
+-(id)init {
+	return nil;
+}
+
+-(id)initWithText:(const char* )text type:(PGTokenizerType)type {
+	self = [super init];
+	if(self) {
+		_type = type;
+		_value = [NSString stringWithUTF8String:text];
+	}
+	return self;
+}
+
++(PGTokenizerValue* )valueWithText:(const char* )text type:(PGTokenizerType)type {
+	return [[PGTokenizerValue alloc] initWithText:text type:type];
+}
+
+-(NSString* )stringValue {
+	return _value;
+}
+
++(NSString* )_stringForType:(PGTokenizerType)type {
+	switch(type) {
+		case PGTokenizerSQString:
+			return @"PGTokenizerSQString";
+		case PGTokenizerDQString:
+			return @"PGTokenizerDQString";
+		case PGTokenizerOctal:
+			return @"PGTokenizerOctal";
+		case PGTokenizerDecimal:
+			return @"PGTokenizerDecimal";
+		case PGTokenizerFloat:
+			return @"PGTokenizerFloat";
+		case PGTokenizerKeyword:
+			return @"PGTokenizerKeyword";
+		case PGTokenizerIP4Addr:
+			return @"PGTokenizerIP4Addr";
+		case PGTokenizerIPMask:
+			return @"PGTokenizerIPMask";
+		case PGTokenizerIP6Addr:
+			return @"PGTokenizerIP6Addr";
+		case PGTokenizerHostname:
+			return @"PGTokenizerHostname";
+		case PGTokenizerGroupMap:
+			return @"PGTokenizerGroupMap";
+		default:
+			return @"PGTokenizerOther";
+	}
+}
+
+-(NSString* )description {
+	return [NSString stringWithFormat:@"<PGTokenizerValue type=%@ value=%@>",[PGTokenizerValue _stringForType:_type],_value];
+}
+
+@end
+
+////////////////////////////////////////////////////////////////////////////////
+
 @implementation PGTokenizerLine
 
 -(id)init {
@@ -59,10 +119,9 @@ BOOL file_tokenize(PGTokenizer* tokenizer,const char* file);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// private methods
 
 // return a new line
--(PGTokenizerLine* )makeLine {
+-(PGTokenizerLine* )lineFactory {
 	return [[PGTokenizerLine alloc] init];
 }
 

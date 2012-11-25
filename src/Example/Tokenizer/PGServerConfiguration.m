@@ -331,7 +331,7 @@
 }
 
 // line factory
--(PGTokenizerLine* )makeLine {
+-(PGTokenizerLine* )lineFactory {
 	return [[PGServerConfigurationLine alloc] init];
 }
 

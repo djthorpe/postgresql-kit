@@ -15,12 +15,11 @@
 		_comment = NO;
 		_enabled = NO;
 		_type = nil;
-		_host = nil;
-		_ip4addr = nil;
-		_ip6addr = nil;
+		_address = nil;
 		_ipmask = nil;
 		_database = [[NSMutableArray alloc] init];
 		_user = [[NSMutableArray alloc] init];
+		_options = [[NSMutableDictionary alloc] init];
 		_method = nil;
     }
     return self;
@@ -45,46 +44,35 @@
 	return [[self _allowedMethods] containsObject:[NSString stringWithUTF8String:text]];
 }
 
--(void)_setType:(const char* )text {
-	NSString* type = [NSString stringWithUTF8String:text];
-	NSParameterAssert([[self _allowedTypes] containsObject:type]);
+-(void)_setType:(const char* )text type:(PGTokenizerType)type {
+	NSParameterAssert([[self _allowedTypes] containsObject:[NSString stringWithUTF8String:text]]);
 	NSParameterAssert(_type==nil);
-	_type = type;
+	_type = [PGTokenizerValue valueWithText:text type:type];
 }
 
--(void)_setDatabase:(const char* )text {
-	[_database addObject:[NSString stringWithUTF8String:text]];
+-(void)_setDatabase:(const char* )text type:(PGTokenizerType)type {
+	[_database addObject:[PGTokenizerValue valueWithText:text type:type]];
 }
 
--(void)_setUser:(const char* )text {
-	[_user addObject:[NSString stringWithUTF8String:text]];
+-(void)_setUser:(const char* )text type:(PGTokenizerType)type {
+	[_user addObject:[PGTokenizerValue valueWithText:text type:type]];
 }
 
--(void)_setIP4Address:(const char* )text {
-	NSParameterAssert(_ip6addr==nil);
-	_ip4addr = [NSString stringWithUTF8String:text];
+-(void)_setAddress:(const char* )text type:(PGTokenizerType)type {
+	NSParameterAssert(_address==nil);
+	_address = [PGTokenizerValue valueWithText:text type:type];
 }
 
--(void)_setIP6Address:(const char* )text {
-	NSParameterAssert(_ip4addr==nil);
-	_ip6addr = [NSString stringWithUTF8String:text];
+-(void)_setIPMask:(const char* )text type:(PGTokenizerType)type {
+	NSParameterAssert(_address != nil);
+	NSParameterAssert([_address type]==PGTokenizerIP4Addr || [_address type]==PGTokenizerIP6Addr);
+	_ipmask = [PGTokenizerValue valueWithText:text type:type];
 }
 
--(void)_setIPMask:(const char* )text {
-	NSParameterAssert(_ip4addr != nil || _ip6addr != nil);
-	_ipmask = [NSString stringWithUTF8String:text];
-}
-
--(void)_setHost:(const char* )text {
-	NSParameterAssert(_ip4addr == nil && _ip6addr == nil && _ipmask == nil);
-	_host = [NSString stringWithUTF8String:text];
-}
-
--(void)_setMethod:(const char* )text {
-	NSString* method = [NSString stringWithUTF8String:text];
-	NSParameterAssert([[self _allowedMethods] containsObject:method]);
+-(void)_setMethod:(const char* )text type:(PGTokenizerType)type {
+	NSParameterAssert([[self _allowedMethods] containsObject:[NSString stringWithUTF8String:text]]);
 	NSParameterAssert(_method==nil);
-	_method = method;
+	_method = [PGTokenizerValue valueWithText:text type:type];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -100,7 +88,7 @@
 		case PGTokenizerKeyword:
 			_enabled = YES;
 			if([self _isAllowedType:text]) {
-				[self _setType:text];
+				[self _setType:text type:type];
 				_state = 2;
 				return YES;
 			} else {
@@ -122,7 +110,7 @@
 	switch(type) {
 		case PGTokenizerKeyword:
 			if([self _isAllowedType:text]) {
-				[self _setType:text];
+				[self _setType:text type:type];
 				_state = 2;
 			} else {
 				_comment = YES;
@@ -152,7 +140,7 @@
 		case PGTokenizerDQString:
 		case PGTokenizerKeyword:
 		case PGTokenizerGroupMap:
-			[self _setDatabase:text];
+			[self _setDatabase:text type:type];
 			_state = 3;
 			return YES;
 		default:
@@ -175,7 +163,7 @@
 		case PGTokenizerDQString:
 		case PGTokenizerKeyword:
 		case PGTokenizerGroupMap:			
-			[self _setUser:text];
+			[self _setUser:text type:type];
 			_state = 4;
 			return YES;
 		default:
@@ -196,24 +184,21 @@
 			return YES;
 		case PGTokenizerKeyword:
 			if([self _isAllowedMethod:text]) {
-				[self _setMethod:text];
+				[self _setMethod:text type:type];
 				_state = 10;
 				return YES;
 			} else {
-				[self _setHost:text];
+				[self _setAddress:text type:type];
 				_state = 7;
 				return YES;
 			}
 		case PGTokenizerHostname:
-			[self _setHost:text];
+			[self _setAddress:text type:type];
 			_state = 7;
 			return YES;
 		case PGTokenizerIP4Addr:
-			[self _setIP4Address:text];
-			_state = 5;
-			return YES;
 		case PGTokenizerIP6Addr:
-			[self _setIP6Address:text];
+			[self _setAddress:text type:type];
 			_state = 5;
 			return YES;
 		default:
@@ -231,7 +216,7 @@
 			_state = 6;
 			return YES;
 		case PGTokenizerIPMask:
-			[self _setIPMask:text];
+			[self _setIPMask:text type:type];
 			_state = 6;
 			return YES;
 			
@@ -250,12 +235,12 @@
 			_state = 6;
 			return YES;
 		case PGTokenizerIP4Addr:
-			[self _setIPMask:text];
+			[self _setIPMask:text type:type];
 			_state = 6;
 			return YES;
 		case PGTokenizerKeyword:
 			if([self _isAllowedMethod:text]) {
-				[self _setMethod:text];
+				[self _setMethod:text type:type];
 				_state = 10;
 				return YES;
 			} else {
@@ -276,12 +261,12 @@
 			_state = 6;
 			return YES;
 		case PGTokenizerIP4Addr:
-			[self _setIPMask:text];
+			[self _setIPMask:text type:type];
 			_state = 6;
 			return YES;
 		case PGTokenizerKeyword:
 			if([self _isAllowedMethod:text]) {
-				[self _setMethod:text];
+				[self _setMethod:text type:type];
 				_state = 10;
 				return YES;
 			} else {
@@ -410,28 +395,24 @@
 }
 
 -(NSString* )_description_host {
-	NSMutableString* host = [[NSMutableString alloc] init];
-	if(_ip4addr) {
-		NSParameterAssert(_ip6addr==nil);
-		[host appendString:_ip4addr];
-	} else if(_ip6addr) {
-		NSParameterAssert(_ip4addr==nil);
-		[host appendString:_ip6addr];
-	} else if(_host) {
-		NSParameterAssert(_ip6addr==nil && _ip4addr==nil && _ipmask==nil);
-		return _host;
-	} else {
-		NSParameterAssert(_ip6addr==nil && _ip4addr==nil && _ipmask==nil && _host==nil);
+	if(_address==nil) {
 		return nil;
 	}
-	// append the mask
-	if(_ipmask && [_ipmask hasPrefix:@"/"]) {
-		[host appendString:_ipmask];
-	} else {
-		[host appendString:@" "];
-		[host appendString:_ipmask];
+	if([_address type]==PGTokenizerHostname || [_address type]==PGTokenizerKeyword) {
+		NSParameterAssert(_ipmask==nil);
+		return [_address stringValue];
 	}
-	return host;
+	if(([_address type]==PGTokenizerIP4Addr || [_address type]==PGTokenizerIP6Addr) && _ipmask==nil) {
+		return [_address stringValue];
+	}
+	if(([_address type]==PGTokenizerIP4Addr || [_address type]==PGTokenizerIP6Addr) && [[_ipmask stringValue] hasPrefix:@"/"]) {
+		return [NSString stringWithFormat:@"%@%@",[_address stringValue],[_ipmask stringValue]];
+	}
+	if([_address type]==PGTokenizerIP4Addr && [_ipmask type]==PGTokenizerIP4Addr) {
+		return [NSString stringWithFormat:@"%@ %@",[_address stringValue],[_ipmask stringValue]];
+	}
+	NSParameterAssert(NO);
+	return nil;
 }
 
 -(NSString* )description {
@@ -445,8 +426,8 @@
 	NSString* database = [self _description_database];
 	NSDictionary* dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
 								_enabled ? @"YES" : @"NO",@"enabled",
-								_type ? _type : @"(null)",@"type",
-								_method ? _method : @"(null)",@"method",
+								_type ? [_type stringValue] : @"(null)",@"type",
+								_method ? [_method stringValue] : @"(null)",@"method",
 								host ? host : @"(null)",@"host",
 								user ? user : @"(null)",@"user",
 								database ? database : @"(null)",@"database",
@@ -461,7 +442,7 @@
 @implementation PGServerHostAccess
 
 // line factory
--(PGTokenizerLine* )makeLine {
+-(PGTokenizerLine* )lineFactory {
 	return [[PGServerHostAccessLine alloc] init];
 }
 
