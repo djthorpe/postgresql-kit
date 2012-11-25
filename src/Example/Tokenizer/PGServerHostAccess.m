@@ -50,11 +50,26 @@
 	NSLog(@"user=>%s",text);
 }
 
+-(void)_setIP4Address:(const char* )text {
+	NSLog(@"ip4addr=>%s",text);
+}
+
+-(void)_setIP6Address:(const char* )text {
+	NSLog(@"ip6addr=>%s",text);
+}
+
+-(void)_setIPMask:(const char* )text {
+	NSLog(@"ipmask=>%s",text);
+}
+
 -(void)_setMethod:(const char* )text {
 	NSLog(@"method=>%s",text);
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// parser state machine
 
+// start of line state
 -(BOOL)_parse0:(PGTokenizerType)type text:(const char* )text {
 	switch(type) {
 		case PGTokenizerHash:
@@ -80,6 +95,7 @@
 	}
 }
 
+// start of comment state
 -(BOOL)_parse1:(PGTokenizerType)type text:(const char* )text {
 	switch(type) {
 		case PGTokenizerKeyword:
@@ -93,13 +109,13 @@
 		case PGTokenizerNewline:
 			[self setEject:YES];
 			return YES;
-		case PGTokenizerWhitespace:
 		default:
 			_state = 99;
 			return YES;
 	}
 }
 
+// after type, before database
 -(BOOL)_parse2:(PGTokenizerType)type text:(const char* )text {
 	switch(type) {
 		case PGTokenizerNewline:
@@ -118,6 +134,7 @@
 	}
 }
 
+// after database, before user
 -(BOOL)_parse3:(PGTokenizerType)type text:(const char* )text {
 	switch(type) {
 		case PGTokenizerNewline:
@@ -136,6 +153,7 @@
 	}
 }
 
+// after user, before host or method
 -(BOOL)_parse4:(PGTokenizerType)type text:(const char* )text {
 	switch(type) {
 		case PGTokenizerNewline:
@@ -151,8 +169,74 @@
 			} else {
 				return NO;
 			}
+		case PGTokenizerIP4Addr:
+			[self _setIP4Address:text];
+			_state = 5;
+			return YES;
+		case PGTokenizerIP6Addr:
+			[self _setIP6Address:text];
+			_state = 5;
+			return YES;
 		default:
 			return NO;
+	}
+}
+
+// after host, before optional mask
+-(BOOL)_parse5:(PGTokenizerType)type text:(const char* )text {
+	switch(type) {
+		case PGTokenizerNewline:
+			[self setEject:YES];
+			return YES;
+		case PGTokenizerWhitespace:
+			_state = 6;
+			return YES;
+		case PGTokenizerIPMask:
+			[self _setIPMask:text];
+			_state = 6;
+			return YES;
+			
+		default:
+			return NO;
+	}
+}
+
+// after host & optional mask, before mask or method
+-(BOOL)_parse6:(PGTokenizerType)type text:(const char* )text {
+	switch(type) {
+		case PGTokenizerNewline:
+			[self setEject:YES];
+			return YES;
+		case PGTokenizerWhitespace:
+			_state = 6;
+			return YES;
+		case PGTokenizerIP4Addr:
+			[self _setIPMask:text];
+			_state = 6;
+			return YES;
+		case PGTokenizerKeyword:
+			if([self _isAllowedMethod:text]) {
+				[self _setMethod:text];
+				_state = 10;
+				return YES;
+			} else {
+				return NO;
+			}			
+		default:
+			return NO;
+	}
+}
+
+-(BOOL)_parse10:(PGTokenizerType)type text:(const char* )text {
+	switch(type) {
+		case PGTokenizerNewline:
+			[self setEject:YES];
+			return YES;
+		case PGTokenizerWhitespace:
+			return YES;			
+		default:
+			NSLog(@"do stuff with %s",text);
+			return YES;
 	}
 }
 
@@ -180,12 +264,18 @@
 			return [self _parse0:type text:text];
 		case 1: // start of comment state
 			return [self _parse1:type text:text];
-		case 2: // after type identifier
+		case 2: // after type, before database
 			return [self _parse2:type text:text];
-		case 3: // after database
+		case 3: // after database, before user
 			return [self _parse3:type text:text];
-		case 4: // after user
+		case 4: // after user, before host
 			return [self _parse4:type text:text];
+		case 5: // after host, before method
+			return [self _parse5:type text:text];
+		case 6: // after host & optional mask, before mask or method
+			return [self _parse6:type text:text];
+		case 10: // after method, before options
+			return [self _parse10:type text:text];
 		case 99: // continued comment state
 			return [self _parse99:type text:text];
 		default:
