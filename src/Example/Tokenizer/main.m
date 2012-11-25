@@ -9,7 +9,7 @@ int main (int argc, const char* argv[]) {
 	@autoreleasepool {
 //		NSString* thePath = @"~/Library/Application Support/PostgreSQL/postgresql.conf";
 //		PGServerConfiguration* config = [[PGServerConfiguration alloc] initWithPath:[thePath stringByExpandingTildeInPath]];
-		NSString* thePath = @"~/Library/Application Support/PostgreSQL/pg_hba.conf";
+		NSString* thePath = @"~/pg_hba.conf";
 		PGServerHostAccess* config = [[PGServerHostAccess alloc] initWithPath:[thePath stringByExpandingTildeInPath]];
 		
 		BOOL success = [config load];
@@ -17,7 +17,7 @@ int main (int argc, const char* argv[]) {
 			NSLog(@"error!");
 			returnValue = -1;
 		} else {
-			NSLog(@"config = %@",config);
+//NSLog(@"config = %@",config);
 		}
 		
 /*		for(NSString* key in [config keys]) {

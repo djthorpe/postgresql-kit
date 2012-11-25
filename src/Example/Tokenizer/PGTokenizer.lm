@@ -4,6 +4,7 @@ ID	    [A-Za-z_][A-Za-z0-9_]*
 FLOAT   [-+]?[0-9]+\.[0-9]+
 OCTAL   [0][0-7]+
 DECIMAL [-+]?[0-9]+
+IP4ADDR [0-9][0-9]?[0-9]?\.[0-9][0-9]?[0-9]?\.[0-9][0-9]?[0-9]?\.[0-9][0-9]?[0-9]?
 EQUALS	[=]
 WHITESP [\t ]+
 NEWLINE \r?\n
@@ -19,6 +20,7 @@ NEWLINE \r?\n
 %%
 \'(\\.|[^\\'])*\'  { return PGTokenizerSQString; }
 \"(\\.|[^\\"])*\"  { return PGTokenizerDQString; }
+{IP4ADDR}          { return PGTokenizerIP4Addr; }
 {FLOAT}            { return PGTokenizerFloat; }
 {OCTAL}            { return PGTokenizerOctal; }
 {DECIMAL}          { return PGTokenizerDecimal; }

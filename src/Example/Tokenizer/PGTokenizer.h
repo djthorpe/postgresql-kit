@@ -14,6 +14,7 @@ typedef enum {
 	PGTokenizerKeyword,
 	PGTokenizerWhitespace,
 	PGTokenizerNewline,
+	PGTokenizerIP4Addr,
 	PGTokenizerOther
 } PGTokenizerType;
 
