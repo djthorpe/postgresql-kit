@@ -13,15 +13,20 @@
 	return nil;
 }
 
--(id)initWithResult:(PGresult* )theResult format:(PGClientTupleFormat)format;
- {
+-(id)initWithResult:(PGresult* )theResult format:(PGClientTupleFormat)format encoding:(NSStringEncoding)encoding {
 	self = [super init];
 	if(self) {
 		NSParameterAssert(theResult);
 		_result = theResult;
 		_format = format;
+		_encoding = encoding;
+
 	}
 	return self;	
+}
+
+-(id)initWithResult:(PGresult* )theResult format:(PGClientTupleFormat)format {
+	return [self initWithResult:theResult format:format encoding:NSUTF8StringEncoding];
 }
 
 -(void)dealloc {
@@ -94,14 +99,18 @@
 	NSUInteger size = PQgetlength(_result,(int)r,(int)c);
 	NSParameterAssert(bytes);
 	NSParameterAssert(size);
-	// check for format
+
+	// text return
 	if(_format==PGClientTupleFormatText) {
-		return [[NSString alloc] initWithBytes:bytes length:size encoding:NSUTF8StringEncoding];
-	} else {
-		//	Oid theType = PQftype(_result,(int)c);
-		NSData* theData = [NSData dataWithBytes:bytes length:size];
-		return theData;
+		return [[NSString alloc] initWithBytes:bytes length:size encoding:_encoding];
 	}
+	
+	// binary return
+	return nil;
+	//NSParameterAssert(_format==PGClientTupleFormatBinary);
+	//PGResultConverterType* t = _pgresult_converter(PQftype(_result,(int)c));
+	//NSParameterAssert(t);
+	//return t->object(bytes,size);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

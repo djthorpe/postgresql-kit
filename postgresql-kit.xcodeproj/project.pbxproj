@@ -43,6 +43,8 @@
 		141FCD0F1646D13400197F3F /* PGTokenizer.lm in Sources */ = {isa = PBXBuildFile; fileRef = 141FCD071646CD1300197F3F /* PGTokenizer.lm */; };
 		141FCD101646D13800197F3F /* PGTokenizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 141FCD0A1646CDA400197F3F /* PGTokenizer.m */; };
 		141FCD141646D34B00197F3F /* PGTokenizerLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 141FCD121646D34B00197F3F /* PGTokenizerLine.m */; };
+		1422C5B61663FD7100FB22FE /* PGResult+Converters.h in Headers */ = {isa = PBXBuildFile; fileRef = 1422C5B41663FD7100FB22FE /* PGResult+Converters.h */; };
+		1422C5B71663FD7100FB22FE /* PGResult+Converters.m in Sources */ = {isa = PBXBuildFile; fileRef = 1422C5B51663FD7100FB22FE /* PGResult+Converters.m */; };
 		14805A1716622F9000A4019F /* PGStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 14805A1516622F9000A4019F /* PGStore.h */; };
 		14805A1816622F9000A4019F /* PGStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 14805A1616622F9000A4019F /* PGStore.m */; };
 		14805A191662300700A4019F /* PGClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
@@ -52,8 +54,6 @@
 		6E031031162FE50B003225B1 /* PGStatement.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E03102F162FE50B003225B1 /* PGStatement.m */; };
 		6E0773D9163744D90028783F /* PGResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0773D7163744D90028783F /* PGResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E0773DA163744D90028783F /* PGResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0773D8163744D90028783F /* PGResult.m */; };
-		6E0978211631AFAB0000A097 /* PGConnectionPool.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E09781F1631AFAB0000A097 /* PGConnectionPool.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		6E0978221631AFAB0000A097 /* PGConnectionPool.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0978201631AFAB0000A097 /* PGConnectionPool.m */; };
 		6E11AC0F162F4722009A077C /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E11AC0E162F4722009A077C /* Application.m */; };
 		6E1B43D715F3A308001ED3BE /* PGServerKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
 		6E1B43FE15F3A4C2001ED3BE /* elephant.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43E715F3A465001ED3BE /* elephant.icns */; };
@@ -227,6 +227,8 @@
 		141FCD0A1646CDA400197F3F /* PGTokenizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGTokenizer.m; sourceTree = "<group>"; };
 		141FCD111646D34B00197F3F /* PGTokenizerLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGTokenizerLine.h; sourceTree = "<group>"; };
 		141FCD121646D34B00197F3F /* PGTokenizerLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGTokenizerLine.m; sourceTree = "<group>"; };
+		1422C5B41663FD7100FB22FE /* PGResult+Converters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PGResult+Converters.h"; sourceTree = "<group>"; };
+		1422C5B51663FD7100FB22FE /* PGResult+Converters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PGResult+Converters.m"; sourceTree = "<group>"; };
 		14805A1416622F4F00A4019F /* PGDataKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGDataKit.h; sourceTree = "<group>"; };
 		14805A1516622F9000A4019F /* PGStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGStore.h; sourceTree = "<group>"; };
 		14805A1616622F9000A4019F /* PGStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGStore.m; sourceTree = "<group>"; };
@@ -306,8 +308,6 @@
 		6E03102F162FE50B003225B1 /* PGStatement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGStatement.m; sourceTree = "<group>"; };
 		6E0773D7163744D90028783F /* PGResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGResult.h; sourceTree = "<group>"; };
 		6E0773D8163744D90028783F /* PGResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGResult.m; sourceTree = "<group>"; };
-		6E09781F1631AFAB0000A097 /* PGConnectionPool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGConnectionPool.h; sourceTree = "<group>"; };
-		6E0978201631AFAB0000A097 /* PGConnectionPool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGConnectionPool.m; sourceTree = "<group>"; };
 		6E11AC0D162F4722009A077C /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
 		6E11AC0E162F4722009A077C /* Application.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Application.m; sourceTree = "<group>"; };
 		6E1B43E415F3A465001ED3BE /* elephant-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "elephant-32.png"; sourceTree = "<group>"; };
@@ -564,6 +564,17 @@
 			name = Preferences;
 			sourceTree = "<group>";
 		};
+		1422C5B21663FD3800FB22FE /* PGResult */ = {
+			isa = PBXGroup;
+			children = (
+				6E0773D7163744D90028783F /* PGResult.h */,
+				6E0773D8163744D90028783F /* PGResult.m */,
+				1422C5B41663FD7100FB22FE /* PGResult+Converters.h */,
+				1422C5B51663FD7100FB22FE /* PGResult+Converters.m */,
+			);
+			name = PGResult;
+			sourceTree = "<group>";
+		};
 		14805A1A1662305200A4019F /* Cocoa */ = {
 			isa = PBXGroup;
 			children = (
@@ -576,14 +587,11 @@
 			children = (
 				6EE23F5B1631EF7500C99BA7 /* PGConnection.h */,
 				6EE23F5C1631EF7500C99BA7 /* PGConnection.m */,
-				6E09781F1631AFAB0000A097 /* PGConnectionPool.h */,
-				6E0978201631AFAB0000A097 /* PGConnectionPool.m */,
 				6EE23F62163207DA00C99BA7 /* PGClientParams.h */,
 				6EE23F601632076800C99BA7 /* PGClientParams.m */,
-				6E0773D7163744D90028783F /* PGResult.h */,
-				6E0773D8163744D90028783F /* PGResult.m */,
 				6E03102E162FE50B003225B1 /* PGStatement.h */,
 				6E03102F162FE50B003225B1 /* PGStatement.m */,
+				1422C5B21663FD3800FB22FE /* PGResult */,
 			);
 			name = Foundation;
 			sourceTree = "<group>";
@@ -994,10 +1002,10 @@
 			files = (
 				6E4DEC95162CC4AB008B26BD /* PGClientKit.h in Headers */,
 				6E031030162FE50B003225B1 /* PGStatement.h in Headers */,
-				6E0978211631AFAB0000A097 /* PGConnectionPool.h in Headers */,
 				6E0773D9163744D90028783F /* PGResult.h in Headers */,
 				6EE23F5D1631EF7500C99BA7 /* PGClientKit+Private.h in Headers */,
 				6EE23F5E1631EF7500C99BA7 /* PGConnection.h in Headers */,
+				1422C5B61663FD7100FB22FE /* PGResult+Converters.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1344,10 +1352,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E031031162FE50B003225B1 /* PGStatement.m in Sources */,
-				6E0978221631AFAB0000A097 /* PGConnectionPool.m in Sources */,
 				6EE23F5F1631EF7500C99BA7 /* PGConnection.m in Sources */,
 				6EE23F611632076800C99BA7 /* PGClientParams.m in Sources */,
 				6E0773DA163744D90028783F /* PGResult.m in Sources */,
+				1422C5B71663FD7100FB22FE /* PGResult+Converters.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -63,6 +63,7 @@
 		NSLog(@"Connection is not good (status: %d)",status);
 		return;
 	}
+
 	// execute to get time
 	NSError* theError = nil;
 	PGResult* theResult = [[self db] execute:@"SELECT 10 AS value1,'George' AS value2,NULL AS value3" format:PGClientTupleFormatText error:&theError];
@@ -71,11 +72,14 @@
 		[self setSignal:-1];
 		return;
 	}
+	
 	NSLog(@"Result = %@",theResult);
 	NSArray* row = nil;
 	while((row = [theResult fetchRowAsArray])) {
 		NSLog(@"%@",row);
 	}
+	
+	[self setSignal:-1];
 }
 
 @end

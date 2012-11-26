@@ -4,8 +4,12 @@
 @interface PGResult : NSObject {
 	void* _result;
 	PGClientTupleFormat _format;
+	NSStringEncoding _encoding;
 	NSUInteger _rowNumber;
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// properties
 
 @property (readonly) NSUInteger numberOfColumns;
 @property (readonly) NSUInteger affectedRows;
@@ -14,6 +18,9 @@
 @property (readonly) BOOL dataReturned;
 @property (readonly) NSArray* columnNames;
 @property (readonly) PGClientTupleFormat format;
+
+////////////////////////////////////////////////////////////////////////////////
+// methods
 
 // fetch rows
 -(NSArray* )fetchRowAsArray;
