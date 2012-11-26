@@ -387,17 +387,37 @@
 	if([_user count]==0) {
 		return nil;
 	}
-	return [_user componentsJoinedByString:@","];
+	NSMutableArray* stringArray = [NSMutableArray arrayWithCapacity:[_user count]];
+	for(PGTokenizerValue* value in _user) {
+		[stringArray addObject:[value text]];
+	}
+	return [stringArray componentsJoinedByString:@","];
 }
 
 -(NSString* )_description_database {
 	if([_database count]==0) {
 		return nil;
 	}
-	return [_database componentsJoinedByString:@","];
+	NSMutableArray* stringArray = [NSMutableArray arrayWithCapacity:[_database count]];
+	for(PGTokenizerValue* value in _database) {
+		[stringArray addObject:[value text]];
+	}
+	return [stringArray componentsJoinedByString:@","];
 }
 
--(NSString* )_description_host {
+-(NSString* )_description_options {
+	if([_options count]==0) {
+		return nil;
+	}
+	NSMutableArray* stringArray = [NSMutableArray arrayWithCapacity:[_database count]];
+	for(NSString* key in _options) {
+		PGTokenizerValue* value = [_options objectForKey:key];		
+		[stringArray addObject:[NSString stringWithFormat:@"%@=%@",key,[value text]]];
+	}
+	return [stringArray componentsJoinedByString:@" "];
+}
+
+-(NSString* )_description_address {
 	if(_address==nil) {
 		return nil;
 	}
@@ -424,19 +444,47 @@
 		return [super description];
 	}
 	
-	NSString* host = [self _description_host];
-	NSString* user = [self _description_user];
+	NSMutableString* line = [[NSMutableString alloc] init];
+	
+	// add in a hash if line is not enabled
+	if(_enabled==NO) {
+		[line appendString:@"#"];
+	}
+
+	// we expect a 'type'
+	NSParameterAssert(_type);
+	[line appendFormat:@"%-7s ",[[_type text] UTF8String]];
+
+	// database
 	NSString* database = [self _description_database];
-	NSDictionary* dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
-								_enabled ? @"YES" : @"NO",@"enabled",
-								_type ? [_type stringValue] : @"(null)",@"type",
-								_method ? [_method stringValue] : @"(null)",@"method",
-								host ? host : @"(null)",@"host",
-								user ? user : @"(null)",@"user",
-								database ? database : @"(null)",@"database",
-								_options,@"options",
-								nil];
-	return [dictionary description];
+	NSParameterAssert(database);
+	[line appendFormat:@"%-15s ",[database UTF8String]];
+
+	// user
+	NSString* user = [self _description_user];
+	NSParameterAssert(user);
+	[line appendFormat:@"%-15s ",[user UTF8String]];
+
+	// address
+	NSString* address = [self _description_address];
+	if(address) {
+		[line appendFormat:@"%-23s ",[address UTF8String]];
+	} else {
+		[line appendFormat:@"%-23s ",""];		
+	}
+	
+	// method
+	if(_method) {
+		[line appendFormat:@"%-7s ",[[_method text] UTF8String]];
+	}
+	
+	// options
+	NSString* options = [self _description_options];
+	if(options) {
+		[line appendFormat:@"%@",options];
+	}
+	
+	return line;
 }
 
 @end
@@ -460,8 +508,6 @@
 	if([super append:line]==NO) {
 		return NO;
 	}
-	
-	NSLog(@"%@",[line description]);
 	
 	return YES;
 }

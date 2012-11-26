@@ -27,12 +27,13 @@ typedef enum {
 
 @interface PGTokenizerValue : NSObject {
 	PGTokenizerType _type;
-	NSString* _value;
+	NSString* _text;
 }
 
 +(PGTokenizerValue* )valueWithText:(const char* )text type:(PGTokenizerType)type;
 
 @property (readonly) PGTokenizerType type;
+@property (readonly) NSString* text;
 
 -(NSString* )stringValue;
 
