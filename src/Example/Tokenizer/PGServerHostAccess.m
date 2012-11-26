@@ -286,7 +286,8 @@
 		case PGTokenizerWhitespace:
 			return YES;
 		case PGTokenizerKeyword:
-			NSLog(@"name=%s",text);
+			NSParameterAssert([_options objectForKey:@"_name"]==nil);
+			[_options setValue:[NSString stringWithUTF8String:text] forKey:@"_name"];
 			_state = 11;
 			return YES;
 		default:
@@ -320,7 +321,9 @@
 		case PGTokenizerHostname:
 		case PGTokenizerIP4Addr:
 		case PGTokenizerIP6Addr:
-			NSLog(@"value=%s",text);
+			NSParameterAssert([_options objectForKey:@"_name"]);
+			[_options setValue:[PGTokenizerValue valueWithText:text type:type] forKey:[_options objectForKey:@"_name"]];
+			[_options removeObjectForKey:@"_name"];
 			_state = 10;
 			return YES;
 		default:
@@ -431,6 +434,7 @@
 								host ? host : @"(null)",@"host",
 								user ? user : @"(null)",@"user",
 								database ? database : @"(null)",@"database",
+								_options,@"options",
 								nil];
 	return [dictionary description];
 }

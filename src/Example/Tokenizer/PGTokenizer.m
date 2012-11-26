@@ -28,7 +28,24 @@ BOOL file_tokenize(PGTokenizer* tokenizer,const char* file);
 }
 
 -(NSString* )stringValue {
-	return _value;
+	NSMutableString* value = [_value mutableCopy];
+	if(_type==PGTokenizerSQString) {
+		NSParameterAssert([_value hasPrefix:@"\'"] && [_value hasSuffix:@"\'"]);
+		[value replaceCharactersInRange:NSMakeRange(0,1) withString:@""];
+		[value replaceCharactersInRange:NSMakeRange([value length]-1,1) withString:@""];
+		[value replaceOccurrencesOfString:@"\\\'" withString:@"\'" options:0 range:NSMakeRange(0,[value length])];
+		[value replaceOccurrencesOfString:@"\\\\" withString:@"\\" options:0 range:NSMakeRange(0,[value length])];
+		return value;
+	} else if(_type==PGTokenizerDQString) {
+		NSParameterAssert([_value hasPrefix:@"\""] && [_value hasSuffix:@"\""]);
+		[value replaceCharactersInRange:NSMakeRange(0,1) withString:@""];
+		[value replaceCharactersInRange:NSMakeRange([value length]-1,1) withString:@""];
+		[value replaceOccurrencesOfString:@"\\\"" withString:@"\"" options:0 range:NSMakeRange(0,[value length])];
+		[value replaceOccurrencesOfString:@"\\\\" withString:@"\\" options:0 range:NSMakeRange(0,[value length])];
+		return value;
+	} else {
+		return _value;
+	}
 }
 
 +(NSString* )_stringForType:(PGTokenizerType)type {
