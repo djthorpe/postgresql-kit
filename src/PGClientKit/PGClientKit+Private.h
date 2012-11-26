@@ -1,6 +1,5 @@
 
 #include <libpq-fe.h>
-#import "PGConnectionPool.h"
 #import "PGClientParams.h"
 
 typedef enum {
@@ -12,6 +11,13 @@ typedef enum {
 } PGClientErrorDomainCode;
 
 extern NSString* PGClientErrorDomain;
+
+////////////////////////////////////////////////////////////////////////////////
+// cache methods
+
+void _pgresult_cache_init();
+void _pgresult_cache_destroy();
+id _pgresult_bin2obj(NSUInteger oid,const void* bytes,NSUInteger size);
 
 ////////////////////////////////////////////////////////////////////////////////
 

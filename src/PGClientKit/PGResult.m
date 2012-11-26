@@ -9,6 +9,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 // initialization
 
++(void)initialize {
+	_pgresult_cache_init();
+}
+
 -(id)init {
 	return nil;
 }
@@ -106,11 +110,8 @@
 	}
 	
 	// binary return
-	return nil;
-	//NSParameterAssert(_format==PGClientTupleFormatBinary);
-	//PGResultConverterType* t = _pgresult_converter(PQftype(_result,(int)c));
-	//NSParameterAssert(t);
-	//return t->object(bytes,size);
+	NSParameterAssert(_format==PGClientTupleFormatBinary);
+	return _pgresult_bin2obj(PQftype(_result,(int)c),bytes,size);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

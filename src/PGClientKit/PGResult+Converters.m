@@ -59,7 +59,7 @@ enum {
 */
 
 id _bin2obj_data(NSUInteger oid,const void* bytes,NSUInteger size) {
-	return nil;
+	return [NSData dataWithBytesNoCopy:(void* )bytes length:size];
 }
 
 id _bin2obj_bool(NSUInteger oid,const void* bytes,NSUInteger size) {
@@ -107,8 +107,8 @@ id _bin2obj_varchar(NSUInteger oid,const void* bytes,NSUInteger size) {
 }
 
 PGResultConverterType _pgresult_default_converters[] = {
-	{    0, _bin2obj_data,     nil,          "default" },
-	{   16, _bin2obj_bool,     nil,          "bool"    },
+	{    0, _bin2obj_data,     nil,          "default" }, // default converter
+/*	{   16, _bin2obj_bool,     nil,          "bool"    },
 	{   17, _bin2obj_data,     nil,          "data"    },
 	{   19, _bin2obj_name,     nil,          "name"    },
 	{   20, _bin2obj_int8,     nil,          "int8"    },
@@ -119,9 +119,71 @@ PGResultConverterType _pgresult_default_converters[] = {
 	{   700, _bin2obj_float4,  nil,          "float4"  },
 	{   701, _bin2obj_float8,  nil,          "float8"  },
 	{  1042, _bin2obj_char,    nil,          "char"    },
-	{  1043, _bin2obj_varchar, nil,          "varchar" },
-	{     0, nil,              nil,          nil       }
+	{  1043, _bin2obj_varchar, nil,          "varchar" }, */
+	{     0, nil,              nil,          nil       }  // last entry
 };
+
+PGResultConverterType* _pgresult_cache = nil;
+NSUInteger _pgresult_cache_max = 0;
+
+void _pgresult_cache_init() {
+	assert(_pgresult_cache==nil);
+	assert(_pgresult_cache_max==0);
+	PGResultConverterType* t = nil;
+
+	// determine maximum number of entries
+	NSUInteger i = 0;
+	do {
+		t = &(_pgresult_default_converters[i]);
+		if(t->oid > _pgresult_cache_max) {
+			_pgresult_cache_max = t->oid;
+		}
+		i++;
+	} while(t->name);
+#ifdef DEBUG
+	NSLog(@"_pgresult_cache_init: allocating %lu entries, %lu bytes for cache",_pgresult_cache_max,sizeof(PGResultConverterType) * (_pgresult_cache_max+1));
+#endif
+	_pgresult_cache = malloc((_pgresult_cache_max+1) * sizeof(PGResultConverterType));
+	assert(_pgresult_cache);
+	// make it all zero
+	memset(_pgresult_cache,0,(_pgresult_cache_max+1) * sizeof(PGResultConverterType));
+	// now copy contents across
+	NSUInteger j = 0;
+	do {
+		t = &(_pgresult_default_converters[j]);
+		if(t->name) {
+			assert(t->oid <= _pgresult_cache_max);
+			memcpy(_pgresult_cache + t->oid,t,sizeof(PGResultConverterType));
+		}
+		j++;
+	} while(t->name);	
+}
+
+void _pgresult_cache_destroy() {
+#ifdef DEBUG
+	NSLog(@"_pgresult_cache_destroy");
+#endif
+	free(_pgresult_cache);
+	_pgresult_cache_max = 0;
+}
+
+PGResultConverterType* _pgresult_cache_fetch(NSUInteger oid) {
+	assert(_pgresult_cache);
+	// return default if not found in cache
+	if(oid > _pgresult_cache_max) {
+		return _pgresult_cache;
+	}
+	PGResultConverterType* t = _pgresult_cache + oid;
+	return t->oid ? t : _pgresult_cache;
+}
+
+id _pgresult_bin2obj(NSUInteger oid,const void* bytes,NSUInteger size) {
+	assert(oid && bytes && size);
+	PGResultConverterType* t = _pgresult_cache_fetch(oid);
+	assert(t);
+	assert(t->bin2obj);	
+	return (t->bin2obj)(oid,bytes,size);
+}
 
 
 

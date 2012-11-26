@@ -3,9 +3,9 @@
 
 typedef struct {
 	NSUInteger oid;
-	id (*bin2obj)(NSUInteger out,const void* bytes,NSUInteger size);
-	id (*obj2bin)(NSUInteger out,const void* bytes,NSUInteger size);
+	id (*bin2obj)(NSUInteger oid,const void* bytes,NSUInteger size);
+	const void* (*obj2bin)(NSUInteger oid,id object,NSUInteger* size);
 	const char* name;
 } PGResultConverterType;
 
-extern PGResultConverterType _pgresult_default_converters[];
+id _pgresult_bin2obj(NSUInteger oid,const void* bytes,NSUInteger size);

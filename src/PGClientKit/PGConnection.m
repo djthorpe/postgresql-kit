@@ -220,8 +220,7 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 		
 		NSError* theError = nil;
 		if(returnStatus==PGConnectionStatusConnected) {
-			[[PGConnectionPool sharedConnectionPool] addConnection:self forHandle:_connection];
-			PQsetNoticeProcessor(_connection,PGConnectionNoticeProcessor,_connection);
+// TODO PQsetNoticeProcessor(_connection,PGConnectionNoticeProcessor,_connection);
 		} else {
 			PQfinish(_connection);
 			_connection = nil;
@@ -333,8 +332,7 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 	}
 
 	// set up the connection
-	[[PGConnectionPool sharedConnectionPool] addConnection:self forHandle:_connection];
-	PQsetNoticeProcessor(_connection,PGConnectionNoticeProcessor,_connection);
+	// TODO PQsetNoticeProcessor(_connection,PGConnectionNoticeProcessor,_connection);
 
 	// return success
 	return YES;
@@ -420,7 +418,6 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 		return NO;
 	}
 	PQfinish(_connection);
-	[[PGConnectionPool sharedConnectionPool] removeConnectionForHandle:_connection];
 	_connection = nil;
 	return YES;
 }
@@ -556,9 +553,10 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void PGConnectionNoticeProcessor(void* arg,const char* cString) {
+/*void PGConnectionNoticeProcessor(void* arg,const char* cString) {
 	PGConnection* theConnection = [[PGConnectionPool sharedConnectionPool] connectionForHandle:arg];
 	[theConnection _noticeProcess:cString];
 }
+*/
 
 
