@@ -61,12 +61,13 @@
 	PGConnectionStatus status = [[self db] status];
 	if(status != PGConnectionStatusConnected) {
 		NSLog(@"Connection is not good (status: %d)",status);
+		[self setSignal:-1];
 		return;
 	}
 
 	// execute to get time
 	NSError* theError = nil;
-	PGResult* theResult = [[self db] execute:@"SELECT 10 AS value1,'George' AS value2,NULL AS value3" format:PGClientTupleFormatBinary error:&theError];
+	PGResult* theResult = [[self db] execute:@"SELECT pg_database.datname as Database,pg_user.usename as Owner,pg_encoding_to_char(pg_database.encoding) as Encoding,obj_description(pg_database.oid) as Description FROM pg_database, pg_user WHERE pg_database.datdba = pg_user.usesysid" format:PGClientTupleFormatBinary error:&theError];
 	if(theError) {
 		NSLog(@"Error: %@",theError);
 		[self setSignal:-1];

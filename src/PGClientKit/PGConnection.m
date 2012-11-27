@@ -187,6 +187,7 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 				default:
 					break;
 			}
+#ifdef DEBUG
 			switch(PQstatus(_connection)) {
 				case CONNECTION_STARTED:
 					NSLog(@"CONNECTION_STARTED");
@@ -216,6 +217,7 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 					NSLog(@"CONNECTION_UNKNOWN");
 					break;
 			}
+#endif
 		} while(status != PGRES_POLLING_OK && status!= PGRES_POLLING_FAILED);
 		
 		NSError* theError = nil;
@@ -505,10 +507,9 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 		if([obj isKindOfClass:[NSNull class]]) {
 			_paramSetNull(params,i);
 			continue;
-		} else {
-			_paramSetNull(params,i);
-			continue;
 		}
+		// TODO
+		_paramSetNull(params,i);
 	}
 	// check number of parameters
 	if(params->size > INT_MAX) {
