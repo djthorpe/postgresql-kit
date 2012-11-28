@@ -67,18 +67,14 @@
 
 	// execute to get time
 	NSError* theError = nil;
-	PGResult* theResult = [[self db] execute:@"SELECT pg_database.datname as Database,pg_user.usename as Owner,pg_encoding_to_char(pg_database.encoding) as Encoding,obj_description(pg_database.oid) as Description FROM pg_database, pg_user WHERE pg_database.datdba = pg_user.usesysid" format:PGClientTupleFormatBinary error:&theError];
+	PGResult* theResult = [[self db] execute:@"SELECT pg_database.datname as Database,pg_user.usename as Owner,pg_encoding_to_char(pg_database.encoding) as Encoding,obj_description(pg_database.oid) as Description FROM pg_database, pg_user WHERE pg_database.datdba = pg_user.usesysid" format:PGClientTupleFormatText error:&theError];
 	if(theError) {
 		NSLog(@"Error: %@",theError);
 		[self setSignal:-1];
 		return;
 	}
 	
-	NSLog(@"Result = %@",theResult);
-	NSArray* row = nil;
-	while((row = [theResult fetchRowAsArray])) {
-		NSLog(@"%@",row);
-	}
+	NSLog(@"Result\n%@",[theResult tableWithWidth:70]);
 	
 	[self setSignal:-1];
 }

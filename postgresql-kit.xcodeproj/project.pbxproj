@@ -48,6 +48,8 @@
 		14805A1716622F9000A4019F /* PGStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 14805A1516622F9000A4019F /* PGStore.h */; };
 		14805A1816622F9000A4019F /* PGStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 14805A1616622F9000A4019F /* PGStore.m */; };
 		14805A191662300700A4019F /* PGClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
+		1489AEC716669A6B00C3B67D /* PGResult+TextTable.h in Headers */ = {isa = PBXBuildFile; fileRef = 1489AEC516669A6B00C3B67D /* PGResult+TextTable.h */; };
+		1489AEC816669A6B00C3B67D /* PGResult+TextTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 1489AEC616669A6B00C3B67D /* PGResult+TextTable.m */; };
 		14A556C9164E727800584C21 /* PGServerPreferences+Configuration.h in Headers */ = {isa = PBXBuildFile; fileRef = 14A556C7164E727800584C21 /* PGServerPreferences+Configuration.h */; };
 		14A556CA164E727800584C21 /* PGServerPreferences+Configuration.m in Sources */ = {isa = PBXBuildFile; fileRef = 14A556C8164E727800584C21 /* PGServerPreferences+Configuration.m */; };
 		6E031030162FE50B003225B1 /* PGStatement.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E03102E162FE50B003225B1 /* PGStatement.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -302,6 +304,8 @@
 		14805AAF1662313E00A4019F /* FLXPostgresServerIdentityTuple.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLXPostgresServerIdentityTuple.m; sourceTree = "<group>"; };
 		14805AB01662313E00A4019F /* PostgresServerKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostgresServerKit.h; sourceTree = "<group>"; };
 		14805AB11662313E00A4019F /* PostgresServerKitPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostgresServerKitPrivate.h; sourceTree = "<group>"; };
+		1489AEC516669A6B00C3B67D /* PGResult+TextTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PGResult+TextTable.h"; sourceTree = "<group>"; };
+		1489AEC616669A6B00C3B67D /* PGResult+TextTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PGResult+TextTable.m"; sourceTree = "<group>"; };
 		14A556C7164E727800584C21 /* PGServerPreferences+Configuration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PGServerPreferences+Configuration.h"; sourceTree = "<group>"; };
 		14A556C8164E727800584C21 /* PGServerPreferences+Configuration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PGServerPreferences+Configuration.m"; sourceTree = "<group>"; };
 		6E03102E162FE50B003225B1 /* PGStatement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGStatement.h; sourceTree = "<group>"; };
@@ -569,6 +573,8 @@
 			children = (
 				6E0773D7163744D90028783F /* PGResult.h */,
 				6E0773D8163744D90028783F /* PGResult.m */,
+				1489AEC516669A6B00C3B67D /* PGResult+TextTable.h */,
+				1489AEC616669A6B00C3B67D /* PGResult+TextTable.m */,
 				1422C5B41663FD7100FB22FE /* PGResult+Converters.h */,
 				1422C5B51663FD7100FB22FE /* PGResult+Converters.m */,
 			);
@@ -1006,6 +1012,7 @@
 				6EE23F5D1631EF7500C99BA7 /* PGClientKit+Private.h in Headers */,
 				6EE23F5E1631EF7500C99BA7 /* PGConnection.h in Headers */,
 				1422C5B61663FD7100FB22FE /* PGResult+Converters.h in Headers */,
+				1489AEC716669A6B00C3B67D /* PGResult+TextTable.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1356,6 +1363,7 @@
 				6EE23F611632076800C99BA7 /* PGClientParams.m in Sources */,
 				6E0773DA163744D90028783F /* PGResult.m in Sources */,
 				1422C5B71663FD7100FB22FE /* PGResult+Converters.m in Sources */,
+				1489AEC816669A6B00C3B67D /* PGResult+TextTable.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -104,14 +104,14 @@
 	NSParameterAssert(bytes);
 	NSParameterAssert(size);
 
-	// text return
-	if(_format==PGClientTupleFormatText) {
-		return [[NSString alloc] initWithBytes:bytes length:size encoding:_encoding];
+	switch(_format) {
+		case PGClientTupleFormatText:
+			return _pgresult_text2obj(PQftype(_result,(int)c),bytes,size,_encoding);
+		case PGClientTupleFormatBinary:
+			return _pgresult_bin2obj(PQftype(_result,(int)c),bytes,size,_encoding);
+		default:
+			return nil;
 	}
-	
-	// binary return
-	NSParameterAssert(_format==PGClientTupleFormatBinary);
-	return _pgresult_bin2obj(PQftype(_result,(int)c),bytes,size);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -126,7 +126,9 @@
 	NSMutableArray* theArray = [NSMutableArray arrayWithCapacity:numberOfColumns];
 	// fill in the columns
 	for(NSUInteger i = 0; i < numberOfColumns; i++) {
-		[theArray addObject:[self _tupleForRow:_rowNumber column:i]];
+		id obj = [self _tupleForRow:_rowNumber column:i];
+		NSParameterAssert(obj);
+		[theArray addObject:obj];
 	}
 	// increment to next row, return
 	_rowNumber++;

@@ -4,14 +4,14 @@
 ////////////////////////////////////////////////////////////////////////////////
 // binary data
 
-id _bin2obj_data(NSUInteger oid,const void* bytes,NSUInteger size) {
+id _bin2obj_data(NSUInteger oid,const void* bytes,NSUInteger size,NSStringEncoding encoding) {
 	return [NSData dataWithBytesNoCopy:(void* )bytes length:size freeWhenDone:NO];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // integers
 
-id _bin2obj_int(NSUInteger oid,const void* bytes,NSUInteger size) {
+id _bin2obj_int(NSUInteger oid,const void* bytes,NSUInteger size,NSStringEncoding encoding) {
 	assert(bytes);
 	assert(size);
 	assert(size==2 || size==4 || size==8);
@@ -26,7 +26,7 @@ id _bin2obj_int(NSUInteger oid,const void* bytes,NSUInteger size) {
 	return nil;
 }
 
-id _bin2obj_uint(NSUInteger oid,const void* bytes,NSUInteger size) {
+id _bin2obj_uint(NSUInteger oid,const void* bytes,NSUInteger size,NSStringEncoding encoding) {
 	assert(bytes);
 	assert(size);
 	assert(size==2 || size==4 || size==8);
@@ -44,7 +44,7 @@ id _bin2obj_uint(NSUInteger oid,const void* bytes,NSUInteger size) {
 ////////////////////////////////////////////////////////////////////////////////
 // boolean
 
-id _bin2obj_bool(NSUInteger oid,const void* bytes,NSUInteger size) {
+id _bin2obj_bool(NSUInteger oid,const void* bytes,NSUInteger size,NSStringEncoding encoding) {
 	assert(bytes);
 	assert(size==1);
 	return [NSNumber numberWithBool:(*((const int8_t* )bytes) ? YES : NO)];
@@ -53,8 +53,8 @@ id _bin2obj_bool(NSUInteger oid,const void* bytes,NSUInteger size) {
 ////////////////////////////////////////////////////////////////////////////////
 // text
 
-id _bin2obj_text(NSUInteger oid,const void* bytes,NSUInteger size) {
-	return [[NSString alloc] initWithBytes:bytes length:size encoding:NSUTF8StringEncoding];
+id _bin2obj_text(NSUInteger oid,const void* bytes,NSUInteger size,NSStringEncoding encoding) {
+	return [[NSString alloc] initWithBytes:bytes length:size encoding:encoding];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -74,7 +74,7 @@ Float64 _float64FromBytes(const void*  theBytes) {
 	return u64.r;
 }
 
-id _bin2obj_real(NSUInteger oid,const void* bytes,NSUInteger size) {
+id _bin2obj_real(NSUInteger oid,const void* bytes,NSUInteger size,NSStringEncoding encoding) {
 	assert(bytes && size);
 	assert(size==4 || size==8);
 	switch(size) {
@@ -92,21 +92,21 @@ id _bin2obj_real(NSUInteger oid,const void* bytes,NSUInteger size) {
 // http://doxygen.postgresql.org/include_2catalog_2pg__type_8h.html
 
 PGResultConverterType _pgresult_default_converters[] = {
-	{    0, _bin2obj_data,     nil,          "default" }, // default converter
-	{   16, _bin2obj_bool,     nil,          "bool"    },	
-	{   17, _bin2obj_data,     nil,          "data"    },
-	{   19, _bin2obj_text,     nil,          "name"    },
-	{   20, _bin2obj_int,      nil,          "int8"    },
-	{   21, _bin2obj_int,      nil,          "int2"    },
-	{   23, _bin2obj_int,      nil,          "int4"    },
-	{   25, _bin2obj_text,     nil,          "text"    },
-	{   26, _bin2obj_uint,     nil,          "oid"     },
-	{  700, _bin2obj_real,     nil,          "float4"  },
-	{  701, _bin2obj_real,     nil,          "float8"  },
-	{  705, _bin2obj_text,     nil,          "unknown" },
-	{ 1042, _bin2obj_text,     nil,          "char"    },
-	{ 1043, _bin2obj_text,     nil,          "varchar" },
-	{    0, nil,               nil,          nil       }  // last entry
+	{    0, _bin2obj_data, _bin2obj_text,          "default" }, // default converter
+	{   16, _bin2obj_bool, _bin2obj_text,          "bool"    },
+	{   17, _bin2obj_data, _bin2obj_data,          "data"    },
+	{   19, _bin2obj_text, _bin2obj_text,          "name"    },
+	{   20, _bin2obj_int,  _bin2obj_text,          "int8"    },
+	{   21, _bin2obj_int,  _bin2obj_text,          "int2"    },
+	{   23, _bin2obj_int,  _bin2obj_text,          "int4"    },
+	{   25, _bin2obj_text, _bin2obj_text,          "text"    },
+	{   26, _bin2obj_uint, _bin2obj_text,          "oid"     },
+	{  700, _bin2obj_real, _bin2obj_text,          "float4"  },
+	{  701, _bin2obj_real, _bin2obj_text,          "float8"  },
+	{  705, _bin2obj_text, _bin2obj_text,          "unknown" },
+	{ 1042, _bin2obj_text, _bin2obj_text,          "char"    },
+	{ 1043, _bin2obj_text, _bin2obj_text,          "varchar" },
+	{    0, nil,           nil,                    nil       }  // last entry
 };
 
 PGResultConverterType* _pgresult_cache = nil;
@@ -160,21 +160,33 @@ PGResultConverterType* _pgresult_cache_fetch(NSUInteger oid) {
 	assert(_pgresult_cache);
 	// return default if not found in cache
 	if(oid > _pgresult_cache_max) {
+#ifdef DEBUG
+		NSLog(@"No type convertors for oid=%lu, using default",oid);
+#endif
 		return _pgresult_cache;
 	}
 	PGResultConverterType* t = _pgresult_cache + oid;
 	if(t->oid==0) {
+#ifdef DEBUG
+		NSLog(@"No type convertors (2) for oid=%lu, using default",oid);
+#endif
 		return _pgresult_cache;
 	}
 	return t;
 }
 
-id _pgresult_bin2obj(NSUInteger oid,const void* bytes,NSUInteger size) {
+id _pgresult_bin2obj(NSUInteger oid,const void* bytes,NSUInteger size,NSStringEncoding encoding) {
 	assert(oid && bytes && size);
 	PGResultConverterType* t = _pgresult_cache_fetch(oid);
-	assert(t);
-	assert(t->bin2obj);	
-	return (t->bin2obj)(oid,bytes,size);
+	assert(t && t->bin2obj);
+	return (t->bin2obj)(oid,bytes,size,encoding);
+}
+
+id _pgresult_text2obj(NSUInteger oid,const void* bytes,NSUInteger size,NSStringEncoding encoding) {
+	assert(oid && bytes && size);
+	PGResultConverterType* t = _pgresult_cache_fetch(oid);
+	assert(t && t->text2obj);
+	return (t->text2obj)(oid,bytes,size,encoding);
 }
 
 

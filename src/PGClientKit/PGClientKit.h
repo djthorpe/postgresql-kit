@@ -25,3 +25,6 @@ typedef enum {
 #import "PGResult.h"
 #import "PGStatement.h"
 
+// category includes
+#import "PGResult+TextTable.h"
+
