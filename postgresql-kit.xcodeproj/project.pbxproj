@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
+		14280457166811D700A61BF6 /* openssl */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 14280459166811D700A61BF6 /* Build configuration list for PBXAggregateTarget "openssl" */;
+			buildPhases = (
+				14280458166811D700A61BF6 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = openssl;
+			productName = postgresql;
+		};
 		6E256FEE15F255780079AD2D /* postgresql */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 6E256FEF15F255780079AD2D /* Build configuration list for PBXAggregateTarget "postgresql" */;
@@ -775,10 +786,10 @@
 				14CF6E931667488500D2DF78 /* README.md */,
 				6EB1E70A15F273350093F784 /* src */,
 				6E1B43DC15F3A465001ED3BE /* resources */,
-				14805A671662313E00A4019F /* old */,
 				14EE3C35166752F80083C735 /* doc */,
 				14EE3C3A166752F80083C735 /* etc */,
 				14EE3C3E166752F80083C735 /* tar */,
+				14805A671662313E00A4019F /* old */,
 				6ED763FD15F2673600687079 /* Frameworks */,
 				6ED763FC15F2673600687079 /* Products */,
 			);
@@ -1229,6 +1240,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				14280457166811D700A61BF6 /* openssl */,
 				6E256FEE15F255780079AD2D /* postgresql */,
 				6ED763FA15F2673600687079 /* PGServerKit */,
 				6ED85B3516288C4800A6DC02 /* PGClientKit */,
@@ -1301,6 +1313,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		14280458166811D700A61BF6 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/tar/openssl-1.0.1c.tar.gz",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "\nif [ \"${SCRIPT_INPUT_FILE_COUNT}\" != \"1\" ] ; then\n  echo \"Invalid number of input files\"\n  exit 1\nfi\n\nif [ ! -f ${SCRIPT_INPUT_FILE_0} ] ; then\n  echo \"Missing input file\"\n  exit 1\nfi\n\necho \"Making ${SCRIPT_INPUT_FILE_0}\"\necho \"Output to ${BUILT_PRODUCTS_DIR}\"\n\nif [ ! -d ${BUILT_PRODUCTS_DIR} ]\nthen\n  mkdir -pv ${BUILT_PRODUCTS_DIR}\nfi\n  \n/bin/bash ${SRCROOT}/etc/make-openssl.sh ${SCRIPT_INPUT_FILE_0} ${BUILT_PRODUCTS_DIR}\n\n\n";
+			showEnvVarsInLog = 0;
+		};
 		6E256FF415F255D00079AD2D /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1583,6 +1610,23 @@
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx10.7;
+			};
+			name = Release;
+		};
+		1428045A166811D700A61BF6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "postgresql copy";
+			};
+			name = Debug;
+		};
+		1428045B166811D700A61BF6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				PRODUCT_NAME = "postgresql copy";
 			};
 			name = Release;
 		};
@@ -2007,6 +2051,15 @@
 			buildConfigurations = (
 				141FCCF21646911C00197F3F /* Debug */,
 				141FCCF31646911C00197F3F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		14280459166811D700A61BF6 /* Build configuration list for PBXAggregateTarget "openssl" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1428045A166811D700A61BF6 /* Debug */,
+				1428045B166811D700A61BF6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
