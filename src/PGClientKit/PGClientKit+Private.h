@@ -15,8 +15,8 @@ extern NSString* PGClientErrorDomain;
 ////////////////////////////////////////////////////////////////////////////////
 // cache methods
 
-void _pgresult_cache_init();
-void _pgresult_cache_destroy();
+void _pgresult_cache_init_pgconnection();
+void _pgresult_cache_destroy_pgconnection();
 
 id _pgresult_bin2obj(NSUInteger oid,const void* bytes,NSUInteger size,NSStringEncoding encoding);
 id _pgresult_text2obj(NSUInteger oid,const void* bytes,NSUInteger size,NSStringEncoding encoding);

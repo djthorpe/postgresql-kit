@@ -64,11 +64,18 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 	self = [super init];
 	if(self) {
 		_connection = nil;
+		// call the initializer
+		_pgresult_cache_init_pgconnection();
 	}
+	
 	return self;
 }
 
 -(void)dealloc {
+	if(self) {
+		// call the destroyer
+		_pgresult_cache_destroy_pgconnection();
+	}
 	[self disconnect];
 }
 

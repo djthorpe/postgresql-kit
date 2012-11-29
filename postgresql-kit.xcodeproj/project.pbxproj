@@ -309,6 +309,14 @@
 		14A556C7164E727800584C21 /* PGServerPreferences+Configuration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PGServerPreferences+Configuration.h"; sourceTree = "<group>"; };
 		14A556C8164E727800584C21 /* PGServerPreferences+Configuration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PGServerPreferences+Configuration.m"; sourceTree = "<group>"; };
 		14CF6E931667488500D2DF78 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		14EE3C36166752F80083C735 /* NOTICE */ = {isa = PBXFileReference; lastKnownFileType = text; path = NOTICE; sourceTree = "<group>"; };
+		14EE3C38166752F80083C735 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
+		14EE3C39166752F80083C735 /* snapshot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = snapshot.png; sourceTree = "<group>"; };
+		14EE3C3B166752F80083C735 /* googlecode_upload.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = googlecode_upload.py; sourceTree = "<group>"; };
+		14EE3C3C166752F80083C735 /* make-postgresql.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "make-postgresql.sh"; sourceTree = "<group>"; };
+		14EE3C3D166752F80083C735 /* upload-file.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "upload-file.sh"; sourceTree = "<group>"; };
+		14EE3C3F166752F80083C735 /* postgresql-8.4.1.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = "postgresql-8.4.1.tar.gz"; sourceTree = "<group>"; };
+		14EE3C40166752F80083C735 /* postgresql-9.1.5.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = "postgresql-9.1.5.tar.gz"; sourceTree = "<group>"; };
 		6E03102E162FE50B003225B1 /* PGStatement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGStatement.h; sourceTree = "<group>"; };
 		6E03102F162FE50B003225B1 /* PGStatement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGStatement.m; sourceTree = "<group>"; };
 		6E0773D7163744D90028783F /* PGResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGResult.h; sourceTree = "<group>"; };
@@ -323,9 +331,6 @@
 		6E1B43EB15F3A465001ED3BE /* gradient-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gradient-1.png"; sourceTree = "<group>"; };
 		6E1B43ED15F3A465001ED3BE /* logo_w_elephant.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = logo_w_elephant.pdf; sourceTree = "<group>"; };
 		6E1B43F915F3A465001ED3BE /* strapline-200x40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "strapline-200x40.png"; sourceTree = "<group>"; };
-		6E256FE815F252B40079AD2D /* doc */ = {isa = PBXFileReference; lastKnownFileType = folder; path = doc; sourceTree = "<group>"; };
-		6E256FE915F252B40079AD2D /* etc */ = {isa = PBXFileReference; lastKnownFileType = folder; path = etc; sourceTree = "<group>"; };
-		6E256FEC15F252B40079AD2D /* tar */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tar; sourceTree = "<group>"; };
 		6E2B8B731659131500E5F15C /* ControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ControllerDelegate.h; sourceTree = "<group>"; };
 		6E2B8B7416591A3B00E5F15C /* PGTokenizer.lm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; path = PGTokenizer.lm; sourceTree = "<group>"; };
 		6E2B8B7616591AD900E5F15C /* PGServerConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGServerConfiguration.h; sourceTree = "<group>"; };
@@ -712,6 +717,43 @@
 			path = PostgresServerKit;
 			sourceTree = "<group>";
 		};
+		14EE3C35166752F80083C735 /* doc */ = {
+			isa = PBXGroup;
+			children = (
+				14EE3C36166752F80083C735 /* NOTICE */,
+				14EE3C37166752F80083C735 /* PostgresPrefPaneHelp */,
+				14EE3C39166752F80083C735 /* snapshot.png */,
+			);
+			path = doc;
+			sourceTree = "<group>";
+		};
+		14EE3C37166752F80083C735 /* PostgresPrefPaneHelp */ = {
+			isa = PBXGroup;
+			children = (
+				14EE3C38166752F80083C735 /* index.html */,
+			);
+			path = PostgresPrefPaneHelp;
+			sourceTree = "<group>";
+		};
+		14EE3C3A166752F80083C735 /* etc */ = {
+			isa = PBXGroup;
+			children = (
+				14EE3C3B166752F80083C735 /* googlecode_upload.py */,
+				14EE3C3C166752F80083C735 /* make-postgresql.sh */,
+				14EE3C3D166752F80083C735 /* upload-file.sh */,
+			);
+			path = etc;
+			sourceTree = "<group>";
+		};
+		14EE3C3E166752F80083C735 /* tar */ = {
+			isa = PBXGroup;
+			children = (
+				14EE3C3F166752F80083C735 /* postgresql-8.4.1.tar.gz */,
+				14EE3C40166752F80083C735 /* postgresql-9.1.5.tar.gz */,
+			);
+			path = tar;
+			sourceTree = "<group>";
+		};
 		6E1B43DC15F3A465001ED3BE /* resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -733,12 +775,12 @@
 			isa = PBXGroup;
 			children = (
 				14CF6E931667488500D2DF78 /* README.md */,
-				6E256FE815F252B40079AD2D /* doc */,
-				6E256FE915F252B40079AD2D /* etc */,
-				6E256FEC15F252B40079AD2D /* tar */,
-				6E1B43DC15F3A465001ED3BE /* resources */,
 				6EB1E70A15F273350093F784 /* src */,
+				6E1B43DC15F3A465001ED3BE /* resources */,
 				14805A671662313E00A4019F /* old */,
+				14EE3C35166752F80083C735 /* doc */,
+				14EE3C3A166752F80083C735 /* etc */,
+				14EE3C3E166752F80083C735 /* tar */,
 				6ED763FD15F2673600687079 /* Frameworks */,
 				6ED763FC15F2673600687079 /* Products */,
 			);

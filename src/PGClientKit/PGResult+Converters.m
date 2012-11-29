@@ -109,6 +109,8 @@ PGResultConverterType _pgresult_default_converters[] = {
 	{    0, nil,           nil,                    nil       }  // last entry
 };
 
+////////////////////////////////////////////////////////////////////////////////
+
 PGResultConverterType* _pgresult_cache = nil;
 NSUInteger _pgresult_cache_max = 0;
 
@@ -189,5 +191,21 @@ id _pgresult_text2obj(NSUInteger oid,const void* bytes,NSUInteger size,NSStringE
 	return (t->text2obj)(oid,bytes,size,encoding);
 }
 
+////////////////////////////////////////////////////////////////////////////////
 
+static NSUInteger _pgresult_cache_counter_pgconnection = 0;
+
+void _pgresult_cache_init_pgconnection() {
+	_pgresult_cache_counter_pgconnection++;
+	if(_pgresult_cache==nil) {
+		_pgresult_cache_init();
+	}
+}
+
+void _pgresult_cache_destroy_pgconnection() {
+	_pgresult_cache_counter_pgconnection--;
+	if(_pgresult_cache_counter_pgconnection==0 && _pgresult_cache) {
+		_pgresult_cache_destroy();
+	}
+}
 
