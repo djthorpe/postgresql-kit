@@ -25,11 +25,13 @@ The code provided will compile to the following products:
 	administer and use a remote PostgreSQL server. Again, it's an example of 
 	using PGClientKit to connect to remote databases.
 
-==Screenshots!==
+Screenshots!
+============
 
 TBD
 
-==Compiling==
+Compiling
+=========
 
 There are several targets in the XCode project. You'll need to build the 
 "Build Everything Useful!" target to compile everything at once. You will 
@@ -44,11 +46,12 @@ The built frameworks should be workable on Intel based machines, for
 Lion 10.7 64-bit and above.
 
 
-==Limitations==
+Limitations
+===========
 
 This software is in development and as such there are plenty of limitations
-and probably issues. These are listed on each component page. If you know of
-any issues or feature requests, please let me know and I may be able to help out.
+and probably issues. If you know of any issues or feature requests, please 
+file an issue and I may be able to help out.
 
 License
 =======
