@@ -231,6 +231,8 @@
 		141FCD121646D34B00197F3F /* PGTokenizerLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGTokenizerLine.m; sourceTree = "<group>"; };
 		1422C5B41663FD7100FB22FE /* PGResult+Converters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PGResult+Converters.h"; sourceTree = "<group>"; };
 		1422C5B51663FD7100FB22FE /* PGResult+Converters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PGResult+Converters.m"; sourceTree = "<group>"; };
+		142804551668114400A61BF6 /* openssl-1.0.1c.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = "openssl-1.0.1c.tar.gz"; sourceTree = "<group>"; };
+		142804561668115600A61BF6 /* make-openssl.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "make-openssl.sh"; sourceTree = "<group>"; };
 		14805A1416622F4F00A4019F /* PGDataKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGDataKit.h; sourceTree = "<group>"; };
 		14805A1516622F9000A4019F /* PGStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGStore.h; sourceTree = "<group>"; };
 		14805A1616622F9000A4019F /* PGStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGStore.m; sourceTree = "<group>"; };
@@ -309,14 +311,11 @@
 		14A556C7164E727800584C21 /* PGServerPreferences+Configuration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PGServerPreferences+Configuration.h"; sourceTree = "<group>"; };
 		14A556C8164E727800584C21 /* PGServerPreferences+Configuration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PGServerPreferences+Configuration.m"; sourceTree = "<group>"; };
 		14CF6E931667488500D2DF78 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
-		14EE3C36166752F80083C735 /* NOTICE */ = {isa = PBXFileReference; lastKnownFileType = text; path = NOTICE; sourceTree = "<group>"; };
-		14EE3C38166752F80083C735 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
-		14EE3C39166752F80083C735 /* snapshot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = snapshot.png; sourceTree = "<group>"; };
-		14EE3C3B166752F80083C735 /* googlecode_upload.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = googlecode_upload.py; sourceTree = "<group>"; };
+		14EE3C36166752F80083C735 /* NOTICE.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = NOTICE.md; sourceTree = "<group>"; };
 		14EE3C3C166752F80083C735 /* make-postgresql.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "make-postgresql.sh"; sourceTree = "<group>"; };
-		14EE3C3D166752F80083C735 /* upload-file.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "upload-file.sh"; sourceTree = "<group>"; };
 		14EE3C3F166752F80083C735 /* postgresql-8.4.1.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = "postgresql-8.4.1.tar.gz"; sourceTree = "<group>"; };
 		14EE3C40166752F80083C735 /* postgresql-9.1.5.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = "postgresql-9.1.5.tar.gz"; sourceTree = "<group>"; };
+		14EE3C5B166778530083C735 /* changelog.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = changelog.md; sourceTree = "<group>"; };
 		6E03102E162FE50B003225B1 /* PGStatement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGStatement.h; sourceTree = "<group>"; };
 		6E03102F162FE50B003225B1 /* PGStatement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGStatement.m; sourceTree = "<group>"; };
 		6E0773D7163744D90028783F /* PGResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGResult.h; sourceTree = "<group>"; };
@@ -720,9 +719,9 @@
 		14EE3C35166752F80083C735 /* doc */ = {
 			isa = PBXGroup;
 			children = (
-				14EE3C36166752F80083C735 /* NOTICE */,
 				14EE3C37166752F80083C735 /* PostgresPrefPaneHelp */,
-				14EE3C39166752F80083C735 /* snapshot.png */,
+				14EE3C36166752F80083C735 /* NOTICE.md */,
+				14EE3C5B166778530083C735 /* changelog.md */,
 			);
 			path = doc;
 			sourceTree = "<group>";
@@ -730,7 +729,6 @@
 		14EE3C37166752F80083C735 /* PostgresPrefPaneHelp */ = {
 			isa = PBXGroup;
 			children = (
-				14EE3C38166752F80083C735 /* index.html */,
 			);
 			path = PostgresPrefPaneHelp;
 			sourceTree = "<group>";
@@ -738,9 +736,8 @@
 		14EE3C3A166752F80083C735 /* etc */ = {
 			isa = PBXGroup;
 			children = (
-				14EE3C3B166752F80083C735 /* googlecode_upload.py */,
+				142804561668115600A61BF6 /* make-openssl.sh */,
 				14EE3C3C166752F80083C735 /* make-postgresql.sh */,
-				14EE3C3D166752F80083C735 /* upload-file.sh */,
 			);
 			path = etc;
 			sourceTree = "<group>";
@@ -748,6 +745,7 @@
 		14EE3C3E166752F80083C735 /* tar */ = {
 			isa = PBXGroup;
 			children = (
+				142804551668114400A61BF6 /* openssl-1.0.1c.tar.gz */,
 				14EE3C3F166752F80083C735 /* postgresql-8.4.1.tar.gz */,
 				14EE3C40166752F80083C735 /* postgresql-9.1.5.tar.gz */,
 			);
