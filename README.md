@@ -1,4 +1,5 @@
-PostgresqlKit
+postgresql-kit
 =============
 
-PostgresqlKit frameworks for integrating a PostgreSQL database with your Cocoa, Foundation and iOS projects
+postgresql-kit frameworks for integrating a PostgreSQL database with your 
+Cocoa, Foundation and iOS projects
