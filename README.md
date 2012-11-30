@@ -1,5 +1,5 @@
 
-![Logo](https://github.com/djthorpe/postgresql-kit/blob/master/resources/elephant-64.png)
+![Logo](https://raw.github.com/djthorpe/postgresql-kit/master/resources/elephant-64.png)
 ![Logo](https://raw.github.com/djthorpe/postgresql-kit/master/resources/strapline-200x40.png)
 
 This set of frameworks and test applications provides a kit of frameworks, tools,
