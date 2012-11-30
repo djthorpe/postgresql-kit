@@ -142,7 +142,7 @@ void _pgresult_cache_init() {
 		if(t->name) {
 			assert(t->oid <= _pgresult_cache_max);
 #ifdef DEBUG
-			NSLog(@"registering oid %lu => %s",t->oid,t->name);
+			//NSLog(@"registering oid %lu => %s",t->oid,t->name);
 #endif
 			memcpy(_pgresult_cache + t->oid,t,sizeof(PGResultConverterType));
 		}
