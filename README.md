@@ -19,8 +19,7 @@ Copyright 2009-2012 David Thorpe
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this 
 file except in compliance with the License. You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
+http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software distributed under
 the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
@@ -29,16 +28,16 @@ permissions and limitations under the License.
    
 ## Source Code organization
 
+  * `src` contains source code for `Frameworks` and `Example` folders.
+  
+  * `tar` contains third party libraries and frameworks
+
+  * `resources` contains icons and other images required
+  
   * `doc` contains help files and other documentation. Please also see `NOTICE` file.
     Any Derivative Works that You distribute must include a readable copy of the 
     attribution notices contained within such NOTICE file.
 
-  * `src` contains source code for `Frameworks` and `Example` folders.
-  
-  * `resources` contains icons and other images required
-  
-  * `tar` contains third party libraries and frameworks
-  
   * `etc` contains other miscellaneous files required for the build of the frameworks and
     applications.
     
