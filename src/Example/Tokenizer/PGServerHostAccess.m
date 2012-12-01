@@ -3,7 +3,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-@implementation PGServerHostAccessLine
+@implementation PGServerHostAccessRule
 
 ////////////////////////////////////////////////////////////////////////////////
 // constructor
@@ -14,6 +14,7 @@
 		_state = 0;
 		_comment = NO;
 		_enabled = NO;
+		_modified = NO;
 		_type = nil;
 		_address = nil;
 		_ipmask = nil;
@@ -346,8 +347,10 @@
 	if(type != PGTokenizerNewline) {
 		[super append:text];
 	}
-	
+
+#ifdef DEBUG
 	// NSLog(@"{%d, %lu} => %s",type,_state,text);
+#endif
 	
 	// parse
 	switch(_state) {
@@ -495,14 +498,30 @@
 
 // line factory
 -(PGTokenizerLine* )lineFactory {
-	return [[PGServerHostAccessLine alloc] init];
+	return [[PGServerHostAccessRule alloc] init];
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// properties
+
+-(BOOL)modified {
+	if([super modified]) {
+		return YES;
+	}
+	for(PGServerHostAccessRule* rule in [self rules]) {
+		if([rule modified]) {
+			return YES;
+		}
+	}
+	return NO;
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
 
 -(BOOL)append:(PGTokenizerLine* )line {
-	NSParameterAssert([line isKindOfClass:[PGServerHostAccessLine class]]);
+	NSParameterAssert([line isKindOfClass:[PGServerHostAccessRule class]]);
 	
 	// append the line
 	if([super append:line]==NO) {
@@ -510,6 +529,10 @@
 	}
 	
 	return YES;
+}
+
+-(NSArray* )rules {
+	return [super lines];
 }
 
 @end

@@ -5,10 +5,11 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-@interface PGServerHostAccessLine : PGTokenizerLine {
+@interface PGServerHostAccessRule : PGTokenizerLine {
 	NSUInteger _state;
 	BOOL _comment;
 	BOOL _enabled;
+	BOOL _modified;
 	PGTokenizerValue* _type;
 	NSMutableArray* _user;
 	NSMutableArray* _database;
@@ -18,10 +19,14 @@
 	NSMutableDictionary* _options;
 }
 
+@property (readonly) BOOL modified;
+
 @end
 
 ////////////////////////////////////////////////////////////////////////////////
 
 @interface PGServerHostAccess : PGTokenizer
+
+-(NSArray* )rules;
 
 @end
