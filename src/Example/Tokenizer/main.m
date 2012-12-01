@@ -1,4 +1,5 @@
 
+/*
 #import <Foundation/Foundation.h>
 #import <PGServerKit/PGServerKit.h>
 
@@ -24,3 +25,5 @@ int main (int argc, const char* argv[]) {
 	
     return returnValue;
 }
+
+*/
