@@ -48,10 +48,14 @@
 		14032DD8164AB3C700CD5796 /* start.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14032D74164A6F2200CD5796 /* start.tiff */; };
 		14032DD9164AB3CA00CD5796 /* stop.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14032D75164A6F2200CD5796 /* stop.tiff */; };
 		141E7F0F16518D23009D81E8 /* PGFoundationServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 141E7F0E16518D23009D81E8 /* PGFoundationServer.m */; };
-		141FCCEA1646911C00197F3F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C168115F26BF20013A382 /* Foundation.framework */; };
-		141FCCFA1646919E00197F3F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 141FCCF71646917B00197F3F /* main.m */; };
 		1422C5B61663FD7100FB22FE /* PGResult+Converters.h in Headers */ = {isa = PBXBuildFile; fileRef = 1422C5B41663FD7100FB22FE /* PGResult+Converters.h */; };
 		1422C5B71663FD7100FB22FE /* PGResult+Converters.m in Sources */ = {isa = PBXBuildFile; fileRef = 1422C5B51663FD7100FB22FE /* PGResult+Converters.m */; };
+		145D3E21166A1AF1002FEA91 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C167C15F26BF20013A382 /* Cocoa.framework */; };
+		145D3E27166A1AF1002FEA91 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 145D3E25166A1AF1002FEA91 /* InfoPlist.strings */; };
+		145D3E29166A1AF1002FEA91 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 145D3E28166A1AF1002FEA91 /* main.m */; };
+		145D3E2D166A1AF1002FEA91 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 145D3E2B166A1AF1002FEA91 /* Credits.rtf */; };
+		145D3E30166A1AF1002FEA91 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 145D3E2F166A1AF1002FEA91 /* AppDelegate.m */; };
+		145D3E33166A1AF1002FEA91 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 145D3E31166A1AF1002FEA91 /* MainMenu.xib */; };
 		14805A1716622F9000A4019F /* PGStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 14805A1516622F9000A4019F /* PGStore.h */; };
 		14805A1816622F9000A4019F /* PGStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 14805A1616622F9000A4019F /* PGStore.m */; };
 		14805A191662300700A4019F /* PGClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
@@ -64,7 +68,6 @@
 		14D2FCB9166A16AC005E6390 /* PGTokenizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 14D2FCB2166A16AC005E6390 /* PGTokenizer.h */; };
 		14D2FCBA166A16AC005E6390 /* PGTokenizer.lm in Sources */ = {isa = PBXBuildFile; fileRef = 14D2FCB3166A16AC005E6390 /* PGTokenizer.lm */; };
 		14D2FCBB166A16AC005E6390 /* PGTokenizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 14D2FCB4166A16AC005E6390 /* PGTokenizer.m */; };
-		14D2FCBE166A1764005E6390 /* PGServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
 		6E031030162FE50B003225B1 /* PGStatement.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E03102E162FE50B003225B1 /* PGStatement.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E031031162FE50B003225B1 /* PGStatement.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E03102F162FE50B003225B1 /* PGStatement.m */; };
 		6E0773D9163744D90028783F /* PGResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0773D7163744D90028783F /* PGResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -113,18 +116,6 @@
 		6EF30D1215F3975F00EE0656 /* PGServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXBuildRule section */
-		141FCD0216469CB400197F3F /* PBXBuildRule */ = {
-			isa = PBXBuildRule;
-			compilerSpec = com.apple.compilers.lex;
-			fileType = sourcecode.lex;
-			isEditable = 1;
-			outputFiles = (
-			);
-			script = "# $(LEX)\n";
-		};
-/* End PBXBuildRule section */
-
 /* Begin PBXContainerItemProxy section */
 		14182366166128DA00765768 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -132,13 +123,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 6ED85B3516288C4800A6DC02;
 			remoteInfo = PGClientKit;
-		};
-		14D2FCBC166A1759005E6390 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6E256FDE15F252620079AD2D /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 6ED763FA15F2673600687079;
-			remoteInfo = PGServerKit;
 		};
 		6E30F78E15F3A5180056C749 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -178,15 +162,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		141FCCE61646911C00197F3F /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-		};
 		6E1B43D515F3A2F9001ED3BE /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -237,12 +212,22 @@
 		14182368166129D300765768 /* PGDataKit.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PGDataKit.plist; sourceTree = "<group>"; };
 		141E7F0D16518D23009D81E8 /* PGFoundationServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGFoundationServer.h; sourceTree = "<group>"; };
 		141E7F0E16518D23009D81E8 /* PGFoundationServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGFoundationServer.m; sourceTree = "<group>"; };
-		141FCCE81646911C00197F3F /* Tokenizer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Tokenizer; sourceTree = BUILT_PRODUCTS_DIR; };
 		141FCCF71646917B00197F3F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		1422C5B41663FD7100FB22FE /* PGResult+Converters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PGResult+Converters.h"; sourceTree = "<group>"; };
 		1422C5B51663FD7100FB22FE /* PGResult+Converters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PGResult+Converters.m"; sourceTree = "<group>"; };
 		142804551668114400A61BF6 /* openssl-1.0.1c.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = "openssl-1.0.1c.tar.gz"; sourceTree = "<group>"; };
 		142804561668115600A61BF6 /* make-openssl.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "make-openssl.sh"; sourceTree = "<group>"; };
+		145D3E16166A186F002FEA91 /* HostAccess.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HostAccess.xib; sourceTree = "<group>"; };
+		145D3E19166A19AC002FEA91 /* Tokenizer.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Tokenizer.plist; sourceTree = "<group>"; };
+		145D3E1F166A1AF1002FEA91 /* Configuration.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Configuration.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		145D3E24166A1AF1002FEA91 /* Configuration-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Configuration-Info.plist"; sourceTree = "<group>"; };
+		145D3E26166A1AF1002FEA91 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		145D3E28166A1AF1002FEA91 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		145D3E2A166A1AF1002FEA91 /* Configuration-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Configuration-Prefix.pch"; sourceTree = "<group>"; };
+		145D3E2C166A1AF1002FEA91 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		145D3E2E166A1AF1002FEA91 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		145D3E2F166A1AF1002FEA91 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		145D3E32166A1AF1002FEA91 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		14805A1416622F4F00A4019F /* PGDataKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGDataKit.h; sourceTree = "<group>"; };
 		14805A1516622F9000A4019F /* PGStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGStore.h; sourceTree = "<group>"; };
 		14805A1616622F9000A4019F /* PGStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGStore.m; sourceTree = "<group>"; };
@@ -445,12 +430,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		141FCCE51646911C00197F3F /* Frameworks */ = {
+		145D3E1C166A1AF1002FEA91 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				14D2FCBE166A1764005E6390 /* PGServerKit.framework in Frameworks */,
-				141FCCEA1646911C00197F3F /* Foundation.framework in Frameworks */,
+				145D3E21166A1AF1002FEA91 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -552,7 +536,9 @@
 		141FCCF61646917B00197F3F /* Tokenizer */ = {
 			isa = PBXGroup;
 			children = (
+				145D3E19166A19AC002FEA91 /* Tokenizer.plist */,
 				141FCCF71646917B00197F3F /* main.m */,
+				145D3E16166A186F002FEA91 /* HostAccess.xib */,
 			);
 			path = Tokenizer;
 			sourceTree = "<group>";
@@ -582,6 +568,29 @@
 				1422C5B51663FD7100FB22FE /* PGResult+Converters.m */,
 			);
 			name = PGResult;
+			sourceTree = "<group>";
+		};
+		145D3E22166A1AF1002FEA91 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				145D3E2E166A1AF1002FEA91 /* AppDelegate.h */,
+				145D3E2F166A1AF1002FEA91 /* AppDelegate.m */,
+				145D3E31166A1AF1002FEA91 /* MainMenu.xib */,
+				145D3E23166A1AF1002FEA91 /* Supporting Files */,
+			);
+			path = Configuration;
+			sourceTree = "<group>";
+		};
+		145D3E23166A1AF1002FEA91 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				145D3E24166A1AF1002FEA91 /* Configuration-Info.plist */,
+				145D3E25166A1AF1002FEA91 /* InfoPlist.strings */,
+				145D3E28166A1AF1002FEA91 /* main.m */,
+				145D3E2A166A1AF1002FEA91 /* Configuration-Prefix.pch */,
+				145D3E2B166A1AF1002FEA91 /* Credits.rtf */,
+			);
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		14805A1A1662305200A4019F /* Cocoa */ = {
@@ -777,6 +786,7 @@
 				14EE3C3A166752F80083C735 /* etc */,
 				14EE3C3E166752F80083C735 /* tar */,
 				14805A671662313E00A4019F /* old */,
+				145D3E22166A1AF1002FEA91 /* Configuration */,
 				6ED763FD15F2673600687079 /* Frameworks */,
 				6ED763FC15F2673600687079 /* Products */,
 			);
@@ -969,8 +979,8 @@
 				6ED85B4616288C4800A6DC02 /* PGClientKit.framework */,
 				6E4DEC85162CC38D008B26BD /* PGFoundationClient */,
 				6E68ADE51635DB4400436234 /* PGClient.app */,
-				141FCCE81646911C00197F3F /* Tokenizer */,
 				14182364166128C000765768 /* PGDataKit.framework */,
+				145D3E1F166A1AF1002FEA91 /* Configuration.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1079,24 +1089,22 @@
 			productReference = 14182364166128C000765768 /* PGDataKit.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		141FCCE71646911C00197F3F /* Tokenizer */ = {
+		145D3E1E166A1AF1002FEA91 /* Configuration */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 141FCCF41646911C00197F3F /* Build configuration list for PBXNativeTarget "Tokenizer" */;
+			buildConfigurationList = 145D3E34166A1AF1002FEA91 /* Build configuration list for PBXNativeTarget "Configuration" */;
 			buildPhases = (
-				141FCCE41646911C00197F3F /* Sources */,
-				141FCCE51646911C00197F3F /* Frameworks */,
-				141FCCE61646911C00197F3F /* CopyFiles */,
+				145D3E1B166A1AF1002FEA91 /* Sources */,
+				145D3E1C166A1AF1002FEA91 /* Frameworks */,
+				145D3E1D166A1AF1002FEA91 /* Resources */,
 			);
 			buildRules = (
-				141FCD0216469CB400197F3F /* PBXBuildRule */,
 			);
 			dependencies = (
-				14D2FCBD166A1759005E6390 /* PBXTargetDependency */,
 			);
-			name = Tokenizer;
-			productName = Tokenizer;
-			productReference = 141FCCE81646911C00197F3F /* Tokenizer */;
-			productType = "com.apple.product-type.tool";
+			name = Configuration;
+			productName = Configuration;
+			productReference = 145D3E1F166A1AF1002FEA91 /* Configuration.app */;
+			productType = "com.apple.product-type.application";
 		};
 		6E4DEC84162CC38D008B26BD /* PGFoundationClient */ = {
 			isa = PBXNativeTarget;
@@ -1238,7 +1246,7 @@
 				6E4DEC84162CC38D008B26BD /* PGFoundationClient */,
 				6EF30CF115F3957900EE0656 /* PGServer */,
 				6E68ADE41635DB4400436234 /* PGClient */,
-				141FCCE71646911C00197F3F /* Tokenizer */,
+				145D3E1E166A1AF1002FEA91 /* Configuration */,
 			);
 		};
 /* End PBXProject section */
@@ -1248,6 +1256,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		145D3E1D166A1AF1002FEA91 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				145D3E27166A1AF1002FEA91 /* InfoPlist.strings in Resources */,
+				145D3E2D166A1AF1002FEA91 /* Credits.rtf in Resources */,
+				145D3E33166A1AF1002FEA91 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1356,11 +1374,12 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		141FCCE41646911C00197F3F /* Sources */ = {
+		145D3E1B166A1AF1002FEA91 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				141FCCFA1646919E00197F3F /* main.m in Sources */,
+				145D3E29166A1AF1002FEA91 /* main.m in Sources */,
+				145D3E30166A1AF1002FEA91 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1439,11 +1458,6 @@
 			target = 6ED85B3516288C4800A6DC02 /* PGClientKit */;
 			targetProxy = 14182366166128DA00765768 /* PBXContainerItemProxy */;
 		};
-		14D2FCBD166A1759005E6390 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 6ED763FA15F2673600687079 /* PGServerKit */;
-			targetProxy = 14D2FCBC166A1759005E6390 /* PBXContainerItemProxy */;
-		};
 		6E30F78F15F3A5180056C749 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 6ED763FA15F2673600687079 /* PGServerKit */;
@@ -1470,6 +1484,33 @@
 			targetProxy = 6ED85B3716288C4800A6DC02 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		145D3E25166A1AF1002FEA91 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				145D3E26166A1AF1002FEA91 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		145D3E2B166A1AF1002FEA91 /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				145D3E2C166A1AF1002FEA91 /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		145D3E31166A1AF1002FEA91 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				145D3E32166A1AF1002FEA91 /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		14182362166128C000765768 /* Debug */ = {
@@ -1544,64 +1585,6 @@
 			};
 			name = Release;
 		};
-		141FCCF21646911C00197F3F /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = NO;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.7;
-			};
-			name = Debug;
-		};
-		141FCCF31646911C00197F3F /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				ONLY_ACTIVE_ARCH = NO;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.7;
-			};
-			name = Release;
-		};
 		1428045A166811D700A61BF6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1616,6 +1599,71 @@
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				PRODUCT_NAME = "postgresql copy";
+			};
+			name = Release;
+		};
+		145D3E35166A1AF1002FEA91 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Configuration/Configuration-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "${SRCROOT}/src/Examples/Tokenizer/Tokenizer.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.7;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		145D3E36166A1AF1002FEA91 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Configuration/Configuration-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "${SRCROOT}/src/Examples/Tokenizer/Tokenizer.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.7;
+				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
 		};
@@ -2036,15 +2084,6 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		141FCCF41646911C00197F3F /* Build configuration list for PBXNativeTarget "Tokenizer" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				141FCCF21646911C00197F3F /* Debug */,
-				141FCCF31646911C00197F3F /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		14280459166811D700A61BF6 /* Build configuration list for PBXAggregateTarget "openssl" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -2053,6 +2092,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		145D3E34166A1AF1002FEA91 /* Build configuration list for PBXNativeTarget "Configuration" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				145D3E35166A1AF1002FEA91 /* Debug */,
+				145D3E36166A1AF1002FEA91 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		6E256FE115F252620079AD2D /* Build configuration list for PBXProject "postgresql-kit" */ = {
 			isa = XCConfigurationList;
