@@ -60,6 +60,7 @@
 		1489AEC716669A6B00C3B67D /* PGResult+TextTable.h in Headers */ = {isa = PBXBuildFile; fileRef = 1489AEC516669A6B00C3B67D /* PGResult+TextTable.h */; };
 		1489AEC816669A6B00C3B67D /* PGResult+TextTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 1489AEC616669A6B00C3B67D /* PGResult+TextTable.m */; };
 		14D2F493166A278B002DBD25 /* Configuration.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14D2F492166A278B002DBD25 /* Configuration.xib */; };
+		14D2F497166A28F5002DBD25 /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = 14D2F496166A28F5002DBD25 /* Application.m */; };
 		14D2FCB5166A16AC005E6390 /* PGServerConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 14D2FCAE166A16AC005E6390 /* PGServerConfiguration.h */; };
 		14D2FCB6166A16AC005E6390 /* PGServerConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 14D2FCAF166A16AC005E6390 /* PGServerConfiguration.m */; };
 		14D2FCB7166A16AC005E6390 /* PGServerHostAccess.h in Headers */ = {isa = PBXBuildFile; fileRef = 14D2FCB0166A16AC005E6390 /* PGServerHostAccess.h */; };
@@ -295,6 +296,8 @@
 		1489AEC616669A6B00C3B67D /* PGResult+TextTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PGResult+TextTable.m"; sourceTree = "<group>"; };
 		14CF6E931667488500D2DF78 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		14D2F492166A278B002DBD25 /* Configuration.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Configuration.xib; sourceTree = "<group>"; };
+		14D2F495166A28F5002DBD25 /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
+		14D2F496166A28F5002DBD25 /* Application.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Application.m; sourceTree = "<group>"; };
 		14D2FCAE166A16AC005E6390 /* PGServerConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGServerConfiguration.h; sourceTree = "<group>"; };
 		14D2FCAF166A16AC005E6390 /* PGServerConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGServerConfiguration.m; sourceTree = "<group>"; };
 		14D2FCB0166A16AC005E6390 /* PGServerHostAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGServerHostAccess.h; sourceTree = "<group>"; };
@@ -528,6 +531,8 @@
 		141FCCF61646917B00197F3F /* Tokenizer */ = {
 			isa = PBXGroup;
 			children = (
+				14D2F495166A28F5002DBD25 /* Application.h */,
+				14D2F496166A28F5002DBD25 /* Application.m */,
 				145D3E19166A19AC002FEA91 /* Configuration.plist */,
 				141FCCF71646917B00197F3F /* main.m */,
 				14D2F492166A278B002DBD25 /* Configuration.xib */,
@@ -1346,6 +1351,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				145D3E37166A1BD3002FEA91 /* main.m in Sources */,
+				14D2F497166A28F5002DBD25 /* Application.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
