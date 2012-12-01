@@ -1,7 +1,6 @@
 
 #import <Foundation/Foundation.h>
-#import "PGServerHostAccess.h"
-#import "PGServerConfiguration.h"
+#import <PGServerKit/PGServerKit.h>
 
 int main (int argc, const char* argv[]) {
 	int returnValue = 0;

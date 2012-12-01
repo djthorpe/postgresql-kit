@@ -723,10 +723,10 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 ////////////////////////////////////////////////////////////////////////////////
 // read configuration
 
--(PGServerPreferences* )configuration {
+-(PGServerConfiguration* )configuration {
 	if(_configuration==nil) {
 		NSString* thePath = [_dataPath stringByAppendingPathComponent:[PGServer _configurationPreferencesFilename]];
-		_configuration = [[PGServerPreferences alloc] initWithConfigurationFile:thePath];
+		_configuration = [[PGServerConfiguration alloc] initWithPath:thePath];
 	}
 	return _configuration;
 }

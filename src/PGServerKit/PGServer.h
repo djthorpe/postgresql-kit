@@ -14,8 +14,7 @@ extern NSUInteger PGServerDefaultPort;
 	NSTimer* _timer;
 	int _pid;
 	NSUInteger _startTime;
-	PGServerPreferences* _authentication;
-	PGServerPreferences* _configuration;
+	PGServerConfiguration* _configuration;
 }
 
 // properties
@@ -41,7 +40,7 @@ extern NSUInteger PGServerDefaultPort;
 -(BOOL)reload;
 
 // configuration
--(PGServerPreferences* )configuration;
+-(PGServerConfiguration* )configuration;
 
 // utility methods
 +(NSString* )stateAsString:(PGServerState)theState;
