@@ -59,6 +59,8 @@
 		14805A191662300700A4019F /* PGClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
 		1489AEC716669A6B00C3B67D /* PGResult+TextTable.h in Headers */ = {isa = PBXBuildFile; fileRef = 1489AEC516669A6B00C3B67D /* PGResult+TextTable.h */; };
 		1489AEC816669A6B00C3B67D /* PGResult+TextTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 1489AEC616669A6B00C3B67D /* PGResult+TextTable.m */; };
+		148F88C9166D63AC0088D3DF /* ResizeControl.png in Resources */ = {isa = PBXBuildFile; fileRef = 148F88C7166D61060088D3DF /* ResizeControl.png */; };
+		148F88CA166D63AE0088D3DF /* Gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = 148F88C6166D61060088D3DF /* Gradient.png */; };
 		14D2F493166A278B002DBD25 /* Configuration.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14D2F492166A278B002DBD25 /* Configuration.xib */; };
 		14D2F497166A28F5002DBD25 /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = 14D2F496166A28F5002DBD25 /* Application.m */; };
 		14D2FCB5166A16AC005E6390 /* PGServerConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 14D2FCAE166A16AC005E6390 /* PGServerConfiguration.h */; };
@@ -294,6 +296,8 @@
 		14805AB11662313E00A4019F /* PostgresServerKitPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostgresServerKitPrivate.h; sourceTree = "<group>"; };
 		1489AEC516669A6B00C3B67D /* PGResult+TextTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PGResult+TextTable.h"; sourceTree = "<group>"; };
 		1489AEC616669A6B00C3B67D /* PGResult+TextTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PGResult+TextTable.m"; sourceTree = "<group>"; };
+		148F88C6166D61060088D3DF /* Gradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Gradient.png; sourceTree = "<group>"; };
+		148F88C7166D61060088D3DF /* ResizeControl.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ResizeControl.png; sourceTree = "<group>"; };
 		14CF6E931667488500D2DF78 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		14D2F492166A278B002DBD25 /* Configuration.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Configuration.xib; sourceTree = "<group>"; };
 		14D2F495166A28F5002DBD25 /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
@@ -697,6 +701,15 @@
 			path = PostgresServerKit;
 			sourceTree = "<group>";
 		};
+		148F88C5166D61060088D3DF /* ui */ = {
+			isa = PBXGroup;
+			children = (
+				148F88C7166D61060088D3DF /* ResizeControl.png */,
+				148F88C6166D61060088D3DF /* Gradient.png */,
+			);
+			path = ui;
+			sourceTree = "<group>";
+		};
 		14EE3C35166752F80083C735 /* doc */ = {
 			isa = PBXGroup;
 			children = (
@@ -736,6 +749,7 @@
 		6E1B43DC15F3A465001ED3BE /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				148F88C5166D61060088D3DF /* ui */,
 				14032D71164A6F2200CD5796 /* icons */,
 				14032D77164A6F2200CD5796 /* traffic */,
 				6E1B43E415F3A465001ED3BE /* elephant-32.png */,
@@ -1238,6 +1252,8 @@
 			files = (
 				145D3E3A166A1C3A002FEA91 /* elephant.icns in Resources */,
 				14D2F493166A278B002DBD25 /* Configuration.xib in Resources */,
+				148F88C9166D63AC0088D3DF /* ResizeControl.png in Resources */,
+				148F88CA166D63AE0088D3DF /* Gradient.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
