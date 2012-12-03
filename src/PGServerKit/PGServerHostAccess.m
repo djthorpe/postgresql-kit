@@ -490,13 +490,55 @@
 	return line;
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// properties
+
+@dynamic type;
+@dynamic method;
+
+-(NSString* )type {
+	return _type ? [_type stringValue] : nil;
+}
+
+-(void)setType:(NSString* )value {
+	NSParameterAssert(value);
+	NSParameterAssert([[self _allowedTypes] containsObject:value]);
+	_type = [PGTokenizerValue valueWithText:[value UTF8String] type:PGTokenizerKeyword];
+	_modified = YES;
+}
+
+-(NSString* )method {
+	NSParameterAssert(_method);
+	return [_method stringValue];
+}
+
+-(void)setMethod:(NSString* )value {
+	NSParameterAssert(value);
+	NSParameterAssert([[self _allowedMethods] containsObject:value]);
+	_method = [PGTokenizerValue valueWithText:[value UTF8String] type:PGTokenizerKeyword];
+	_modified = YES;
+}
+
 @end
 
 ////////////////////////////////////////////////////////////////////////////////
 
 @implementation PGServerHostAccess
 
+////////////////////////////////////////////////////////////////////////////////
+// constructor
+
+-(id)initWithPath:(NSString* )path {
+    self = [super initWithPath:path];
+    if (self) {
+		_rules = [[NSMutableArray alloc] init];
+    }
+    return self;
+}
+
+////////////////////////////////////////////////////////////////////////////////
 // line factory
+
 -(PGTokenizerLine* )lineFactory {
 	return [[PGServerHostAccessRule alloc] init];
 }
@@ -508,7 +550,7 @@
 	if([super modified]) {
 		return YES;
 	}
-	for(PGServerHostAccessRule* rule in [self rules]) {
+	for(PGServerHostAccessRule* rule in _rules) {
 		if([rule modified]) {
 			return YES;
 		}
@@ -528,11 +570,56 @@
 		return NO;
 	}
 	
+	// if this is a rule, then add it to line of rules
+	if([(PGServerHostAccessRule* )line type]) {
+		[_rules addObject:line];
+	}
+	
 	return YES;
 }
 
--(NSArray* )rules {
-	return [super lines];
+-(NSUInteger)count {
+	return [_rules count];
+}
+
+-(PGServerHostAccessRule* )ruleAtIndex:(NSUInteger)index {
+	NSParameterAssert(index < [self count]);
+	return [_rules objectAtIndex:index];
+}
+
+-(void)removeRuleAtIndex:(NSUInteger)index {
+	NSParameterAssert(index < [self count]);
+	PGServerHostAccessRule* rule = [self ruleAtIndex:index];
+	[super remove:rule];
+	[_rules removeObject:rule];
+}
+
+-(void)insertRule:(PGServerHostAccessRule* )rule atIndex:(NSUInteger)index {
+	NSParameterAssert(rule);
+	NSParameterAssert(index >= 0 && index <= ([self count] + 1));
+	[_rules insertObject:rule atIndex:index];
+}
+
+-(NSUInteger)moveRuleAtIndex:(NSUInteger)index toIndex:(NSUInteger )proposedIndex {
+	NSParameterAssert(index < [self count]);
+	NSParameterAssert(proposedIndex < ([self count] + 1));
+	PGServerHostAccessRule* rule = [self ruleAtIndex:index];
+	NSParameterAssert(rule);
+	if(proposedIndex==[self count]) {
+		// move rule to the end
+		NSLog(@"moving rule to end");
+		[self removeRuleAtIndex:index];
+		[self append:rule];
+	} else if(proposedIndex < index) {
+		NSLog(@"moving rule to %lu (before current)",proposedIndex);
+		[self removeRuleAtIndex:index];
+		[self insertRule:rule atIndex:proposedIndex];
+	} else if(proposedIndex > index) {
+		NSLog(@"moving rule to %lu (after current)",proposedIndex);
+		[self removeRuleAtIndex:index];
+		[self insertRule:rule atIndex:(proposedIndex-1)];
+	}
+	return [_rules indexOfObject:rule];
 }
 
 @end

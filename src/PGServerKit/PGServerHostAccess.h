@@ -20,13 +20,20 @@
 }
 
 @property (readonly) BOOL modified;
+@property (retain) NSString* type;
+@property (retain) NSString* method;
 
 @end
 
 ////////////////////////////////////////////////////////////////////////////////
 
-@interface PGServerHostAccess : PGTokenizer
+@interface PGServerHostAccess : PGTokenizer {
+	NSMutableArray* _rules;
+}
 
--(NSArray* )rules;
+-(NSUInteger)count;
+-(PGServerHostAccessRule* )ruleAtIndex:(NSUInteger)index;
+-(void)removeRuleAtIndex:(NSUInteger)index;
+-(NSUInteger)moveRuleAtIndex:(NSUInteger)index toIndex:(NSUInteger )proposedIndex;
 
 @end

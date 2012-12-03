@@ -146,6 +146,18 @@ BOOL file_tokenize(PGTokenizer* tokenizer,const char* file);
 -(BOOL)append:(PGTokenizerLine* )line {
 	NSParameterAssert(line);
 	[_lines addObject:line];
+	_modified = YES;
+	return YES;
+}
+
+// remove a line
+-(BOOL)remove:(PGTokenizerLine* )line {
+	NSParameterAssert(line);
+	if([_lines containsObject:line]==NO) {
+		return NO;
+	}
+	[_lines removeObject:line];
+	_modified = YES;
 	return YES;
 }
 
@@ -164,8 +176,9 @@ BOOL file_tokenize(PGTokenizer* tokenizer,const char* file);
 // load the file
 -(BOOL)load {
 	[_lines removeAllObjects];
+	BOOL success = file_tokenize(self,[[self path] UTF8String]);
 	_modified = NO;
-	return file_tokenize(self,[[self path] UTF8String]);
+	return success;
 }
 
 // save the file
@@ -188,6 +201,7 @@ BOOL file_tokenize(PGTokenizer* tokenizer,const char* file);
 		[fileHandle writeData:newLine];
 	}
 	[fileHandle closeFile];
+	_modified = NO;
 	return YES;
 }
 

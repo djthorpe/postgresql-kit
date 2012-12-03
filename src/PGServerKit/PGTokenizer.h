@@ -70,6 +70,7 @@ typedef enum {
 
 // public methods
 -(BOOL)append:(PGTokenizerLine* )line;
+-(BOOL)remove:(PGTokenizerLine* )line;
 -(BOOL)load;
 -(BOOL)save;
 
