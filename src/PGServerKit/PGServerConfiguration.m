@@ -364,7 +364,7 @@
 -(BOOL)load {
 	[_keys removeAllObjects];
 	[_index removeAllObjects];
-	_modified = NO;
+	[self setModified:NO];
 	return [super load];
 }
 

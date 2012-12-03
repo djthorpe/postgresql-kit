@@ -56,7 +56,6 @@ typedef enum {
 
 @interface PGTokenizer : NSObject {
 	NSString* _path;
-	BOOL _modified;
 	NSMutableArray* _lines;
 }
 
@@ -65,7 +64,7 @@ typedef enum {
 
 // properties
 @property (readonly) NSString* path;
-@property (readonly) BOOL modified;
+@property BOOL modified;
 @property (readonly) NSArray* lines;
 
 // public methods

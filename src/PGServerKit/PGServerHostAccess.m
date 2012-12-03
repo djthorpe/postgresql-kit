@@ -544,23 +544,12 @@
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// properties
-
--(BOOL)modified {
-	if([super modified]) {
-		return YES;
-	}
-	for(PGServerHostAccessRule* rule in _rules) {
-		if([rule modified]) {
-			return YES;
-		}
-	}
-	return NO;
-}
-
-
-////////////////////////////////////////////////////////////////////////////////
 // public methods
+
+-(BOOL)load {
+	[_rules removeAllObjects];
+	return [super load];
+}
 
 -(BOOL)append:(PGTokenizerLine* )line {
 	NSParameterAssert([line isKindOfClass:[PGServerHostAccessRule class]]);
@@ -594,31 +583,36 @@
 	[_rules removeObject:rule];
 }
 
--(void)insertRule:(PGServerHostAccessRule* )rule atIndex:(NSUInteger)index {
+-(NSUInteger)insertRule:(PGServerHostAccessRule* )rule atIndex:(NSUInteger)index {
 	NSParameterAssert(rule);
-	NSParameterAssert(index >= 0 && index <= ([self count] + 1));
-	[_rules insertObject:rule atIndex:index];
-}
+	NSParameterAssert(index <= [_rules count]);
+	NSUInteger currentIndex = [_rules indexOfObject:rule];
+	NSParameterAssert(currentIndex==NSNotFound || currentIndex < [_rules count]);
 
--(NSUInteger)moveRuleAtIndex:(NSUInteger)index toIndex:(NSUInteger )proposedIndex {
-	NSParameterAssert(index < [self count]);
-	NSParameterAssert(proposedIndex < ([self count] + 1));
-	PGServerHostAccessRule* rule = [self ruleAtIndex:index];
-	NSParameterAssert(rule);
-	if(proposedIndex==[self count]) {
-		// move rule to the end
-		NSLog(@"moving rule to end");
-		[self removeRuleAtIndex:index];
+	// rule not yet in the rules database
+	if(currentIndex==NSNotFound) {
+		// straight insert
+		[_rules insertObject:rule atIndex:index];
+	} else if(index==[_rules count]) {
+		// rule to be added to the end
+		// remove rule
+		[self removeRuleAtIndex:currentIndex];
+		// add to end
 		[self append:rule];
-	} else if(proposedIndex < index) {
-		NSLog(@"moving rule to %lu (before current)",proposedIndex);
-		[self removeRuleAtIndex:index];
-		[self insertRule:rule atIndex:proposedIndex];
-	} else if(proposedIndex > index) {
-		NSLog(@"moving rule to %lu (after current)",proposedIndex);
-		[self removeRuleAtIndex:index];
-		[self insertRule:rule atIndex:(proposedIndex-1)];
-	}
+	} else if(index > currentIndex) {
+		// rule to be added after current index
+		// remove rule
+		[self removeRuleAtIndex:currentIndex];
+		// add in position
+		[_rules insertObject:rule atIndex:(index-1)];
+	} else if(index < currentIndex) {
+		// rule to be added before current index
+		// remove rule
+		[self removeRuleAtIndex:currentIndex];
+		// add in position
+		[_rules insertObject:rule atIndex:index];
+	}	
+
 	return [_rules indexOfObject:rule];
 }
 

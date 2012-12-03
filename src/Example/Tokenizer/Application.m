@@ -47,6 +47,7 @@ NSString* PGServerHostAccessDragType = @"PGServerHostAccessDragType";
 	if(success==NO) {
 		NSLog(@"Save failed!");
 	}
+	[_tableView reloadData];
 }
 
 -(IBAction)ibFileRevert:(id)sender {
@@ -58,6 +59,7 @@ NSString* PGServerHostAccessDragType = @"PGServerHostAccessDragType";
 	if(success==NO) {
 		NSLog(@"Revert failed!");
 	}	
+	[_tableView reloadData];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -144,7 +146,8 @@ NSString* PGServerHostAccessDragType = @"PGServerHostAccessDragType";
 	NSParameterAssert(pboard && propertyList);
 	NSNumber* rowIndex = [propertyList objectForKey:@"rule"];
 	if(operation==NSTableViewDropAbove) {
-		NSUInteger newRow = [_hostAccessRules moveRuleAtIndex:[rowIndex unsignedIntegerValue] toIndex:proposedRow];
+		PGServerHostAccessRule* rule = [_hostAccessRules ruleAtIndex:[rowIndex unsignedIntegerValue]];		
+		NSUInteger newRow = [_hostAccessRules insertRule:rule atIndex:proposedRow];
 		[_tableView reloadData];
 		if(newRow < [_hostAccessRules	count]) {
 			[_tableView selectRowIndexes:[NSIndexSet indexSetWithIndex:newRow] byExtendingSelection:NO];
