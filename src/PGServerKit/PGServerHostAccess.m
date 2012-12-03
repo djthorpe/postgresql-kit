@@ -603,8 +603,9 @@
 		// rule to be added after current index
 		// remove rule
 		[self removeRuleAtIndex:currentIndex];
-		// add in position
+		// add in position for _rules
 		[_rules insertObject:rule atIndex:(index-1)];
+		
 	} else if(index < currentIndex) {
 		// rule to be added before current index
 		// remove rule

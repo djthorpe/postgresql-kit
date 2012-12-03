@@ -7,8 +7,8 @@ NSString* PGServerHostAccessDragType = @"PGServerHostAccessDragType";
 
 -(void)awakeFromNib {
 	[_tableView setDataSource:self];
-	[_tableView reloadData];
 	[_tableView registerForDraggedTypes:[NSArray arrayWithObject:PGServerHostAccessDragType]];
+	[_tableView reloadData];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -32,10 +32,6 @@ NSString* PGServerHostAccessDragType = @"PGServerHostAccessDragType";
 		}
     }];
 
-}
-
--(void)alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
-	// do nothing
 }
 
 -(IBAction)ibFileSave:(id)sender {
@@ -63,15 +59,6 @@ NSString* PGServerHostAccessDragType = @"PGServerHostAccessDragType";
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// properties
-
-@dynamic modified;
-
--(BOOL)modified {
-	return [_hostAccessRules modified];
-}
-
-////////////////////////////////////////////////////////////////////////////////
 // methods
 
 -(BOOL)load:(NSURL* )url {
@@ -93,9 +80,6 @@ NSString* PGServerHostAccessDragType = @"PGServerHostAccessDragType";
 // NSTableViewDataSource implementation
 
 -(NSInteger)numberOfRowsInTableView:(NSTableView* )tableView {
-	if(_hostAccessRules==nil) {
-		return 0;
-	}
 	return [_hostAccessRules count];
 }
 
