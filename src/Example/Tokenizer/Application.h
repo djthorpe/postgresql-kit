@@ -2,9 +2,11 @@
 #import <Cocoa/Cocoa.h>
 #import <PGServerKit/PGServerKit.h>
 
-@interface Application : NSObject <NSTableViewDataSource> {
+@interface Application : NSObject <NSTableViewDataSource, NSSplitViewDelegate> {
 	IBOutlet NSWindow* _mainWindow;
 	IBOutlet NSTableView* _tableView;
+	IBOutlet NSSplitView* _splitView;
+	IBOutlet NSImageView* _resizeView;
 }
 
 @property (readwrite) PGServerHostAccess* hostAccessRules;

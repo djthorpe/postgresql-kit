@@ -7,6 +7,7 @@ NSString* PGServerHostAccessDragType = @"PGServerHostAccessDragType";
 
 -(void)awakeFromNib {
 	[_tableView setDataSource:self];
+	[_splitView setDelegate:self];
 	[_tableView registerForDraggedTypes:[NSArray arrayWithObject:PGServerHostAccessDragType]];
 	[_tableView reloadData];
 }
@@ -74,6 +75,13 @@ NSString* PGServerHostAccessDragType = @"PGServerHostAccessDragType";
 	[self setHostAccessRules:hostAccessRules];
 	// return success
 	return YES;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// NSSplitView delegate methods
+
+-(NSRect)splitView:(NSSplitView* )splitView additionalEffectiveRectOfDividerAtIndex:(NSInteger)dividerIndex {
+	return [_resizeView convertRect:[_resizeView bounds] toView:splitView];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
