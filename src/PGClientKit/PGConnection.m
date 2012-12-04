@@ -478,8 +478,8 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 		(*error) = theError;
 	}
 	if([[self delegate] respondsToSelector:@selector(connectionError:)]) {
-		// perform selector on main thread
-		[(NSObject* )[self delegate] performSelector:@selector(connectionError:) onThread:[NSThread mainThread] withObject:theError waitUntilDone:NO];
+		// perform selector
+		[[self delegate] connectionError:(*error)];
 	}
 	return theError;
 }
