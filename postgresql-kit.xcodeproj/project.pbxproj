@@ -81,6 +81,7 @@
 		14EB37511671325900B038B6 /* green.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14032D78164A6F2200CD5796 /* green.tiff */; };
 		14EB37521671325E00B038B6 /* red.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14032D79164A6F2200CD5796 /* red.tiff */; };
 		14EB37531671326100B038B6 /* yellow.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14032D7A164A6F2200CD5796 /* yellow.tiff */; };
+		14EB375516713B3600B038B6 /* PGClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
 		6E031030162FE50B003225B1 /* PGStatement.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E03102E162FE50B003225B1 /* PGStatement.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E031031162FE50B003225B1 /* PGStatement.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E03102F162FE50B003225B1 /* PGStatement.m */; };
 		6E0773D9163744D90028783F /* PGResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0773D7163744D90028783F /* PGResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -455,6 +456,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				14EB375516713B3600B038B6 /* PGClientKit.framework in Frameworks */,
 				145D3E39166A1C1E002FEA91 /* PGServerKit.framework in Frameworks */,
 				145D3E21166A1AF1002FEA91 /* Cocoa.framework in Frameworks */,
 			);
@@ -617,11 +619,9 @@
 		141FCCF61646917B00197F3F /* Tokenizer */ = {
 			isa = PBXGroup;
 			children = (
-				14D2F495166A28F5002DBD25 /* Application.h */,
-				14D2F496166A28F5002DBD25 /* Application.m */,
+				14EB37541671395200B038B6 /* Old */,
 				145D3E19166A19AC002FEA91 /* Configuration.plist */,
 				141FCCF71646917B00197F3F /* main.m */,
-				14D2F492166A278B002DBD25 /* Configuration.xib */,
 				14237AED166E6FEC000DBCE1 /* MainWindow.xib */,
 				14EB374A1671204A00B038B6 /* NSWindow+ResizeAdditions.h */,
 				14EB374B1671204A00B038B6 /* NSWindow+ResizeAdditions.m */,
@@ -823,6 +823,16 @@
 				148F88C6166D61060088D3DF /* Gradient.png */,
 			);
 			path = ui;
+			sourceTree = "<group>";
+		};
+		14EB37541671395200B038B6 /* Old */ = {
+			isa = PBXGroup;
+			children = (
+				14D2F495166A28F5002DBD25 /* Application.h */,
+				14D2F496166A28F5002DBD25 /* Application.m */,
+				14D2F492166A278B002DBD25 /* Configuration.xib */,
+			);
+			name = Old;
 			sourceTree = "<group>";
 		};
 		14EE3C35166752F80083C735 /* doc */ = {
