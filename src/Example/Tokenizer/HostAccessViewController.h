@@ -1,7 +1,10 @@
 
 #import <Cocoa/Cocoa.h>
-#import <PGServerKit/PGServerKit.h>
+#import "ViewController.h"
 
-@interface HostAccessViewController : NSViewController
+@interface HostAccessViewController : ViewController <NSSplitViewDelegate> {
+	IBOutlet NSSplitView* _splitView;
+	IBOutlet NSImageView* _resizeView;
+}
 
 @end

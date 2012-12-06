@@ -68,7 +68,6 @@
 		148F88C9166D63AC0088D3DF /* ResizeControl.png in Resources */ = {isa = PBXBuildFile; fileRef = 148F88C7166D61060088D3DF /* ResizeControl.png */; };
 		148F88CA166D63AE0088D3DF /* Gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = 148F88C6166D61060088D3DF /* Gradient.png */; };
 		14D2F493166A278B002DBD25 /* Configuration.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14D2F492166A278B002DBD25 /* Configuration.xib */; };
-		14D2F497166A28F5002DBD25 /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = 14D2F496166A28F5002DBD25 /* Application.m */; };
 		14D2FCB5166A16AC005E6390 /* PGServerConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 14D2FCAE166A16AC005E6390 /* PGServerConfiguration.h */; };
 		14D2FCB6166A16AC005E6390 /* PGServerConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 14D2FCAF166A16AC005E6390 /* PGServerConfiguration.m */; };
 		14D2FCB7166A16AC005E6390 /* PGServerHostAccess.h in Headers */ = {isa = PBXBuildFile; fileRef = 14D2FCB0166A16AC005E6390 /* PGServerHostAccess.h */; };
@@ -76,6 +75,12 @@
 		14D2FCB9166A16AC005E6390 /* PGTokenizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 14D2FCB2166A16AC005E6390 /* PGTokenizer.h */; };
 		14D2FCBA166A16AC005E6390 /* PGTokenizer.lm in Sources */ = {isa = PBXBuildFile; fileRef = 14D2FCB3166A16AC005E6390 /* PGTokenizer.lm */; };
 		14D2FCBB166A16AC005E6390 /* PGTokenizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 14D2FCB4166A16AC005E6390 /* PGTokenizer.m */; };
+		14EB374C1671204A00B038B6 /* NSWindow+ResizeAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 14EB374B1671204A00B038B6 /* NSWindow+ResizeAdditions.m */; };
+		14EB374F16712BC000B038B6 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14EB374E16712BC000B038B6 /* ViewController.m */; };
+		14EB37501671325500B038B6 /* elephant-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43E415F3A465001ED3BE /* elephant-32.png */; };
+		14EB37511671325900B038B6 /* green.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14032D78164A6F2200CD5796 /* green.tiff */; };
+		14EB37521671325E00B038B6 /* red.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14032D79164A6F2200CD5796 /* red.tiff */; };
+		14EB37531671326100B038B6 /* yellow.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14032D7A164A6F2200CD5796 /* yellow.tiff */; };
 		6E031030162FE50B003225B1 /* PGStatement.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E03102E162FE50B003225B1 /* PGStatement.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E031031162FE50B003225B1 /* PGStatement.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E03102F162FE50B003225B1 /* PGStatement.m */; };
 		6E0773D9163744D90028783F /* PGResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0773D7163744D90028783F /* PGResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -355,6 +360,10 @@
 		14D2FCB2166A16AC005E6390 /* PGTokenizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGTokenizer.h; sourceTree = "<group>"; };
 		14D2FCB3166A16AC005E6390 /* PGTokenizer.lm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; path = PGTokenizer.lm; sourceTree = "<group>"; };
 		14D2FCB4166A16AC005E6390 /* PGTokenizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGTokenizer.m; sourceTree = "<group>"; };
+		14EB374A1671204A00B038B6 /* NSWindow+ResizeAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSWindow+ResizeAdditions.h"; sourceTree = "<group>"; };
+		14EB374B1671204A00B038B6 /* NSWindow+ResizeAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSWindow+ResizeAdditions.m"; sourceTree = "<group>"; };
+		14EB374D16712BC000B038B6 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		14EB374E16712BC000B038B6 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		14EE3C36166752F80083C735 /* NOTICE.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = NOTICE.md; sourceTree = "<group>"; };
 		14EE3C3C166752F80083C735 /* make-postgresql.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "make-postgresql.sh"; sourceTree = "<group>"; };
 		14EE3C3F166752F80083C735 /* postgresql-8.4.1.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = "postgresql-8.4.1.tar.gz"; sourceTree = "<group>"; };
@@ -608,16 +617,20 @@
 		141FCCF61646917B00197F3F /* Tokenizer */ = {
 			isa = PBXGroup;
 			children = (
-				14237AF9166E7B31000DBCE1 /* Configuration */,
-				14237AF6166E76A7000DBCE1 /* HostAccessView */,
 				14D2F495166A28F5002DBD25 /* Application.h */,
 				14D2F496166A28F5002DBD25 /* Application.m */,
 				145D3E19166A19AC002FEA91 /* Configuration.plist */,
 				141FCCF71646917B00197F3F /* main.m */,
 				14D2F492166A278B002DBD25 /* Configuration.xib */,
 				14237AED166E6FEC000DBCE1 /* MainWindow.xib */,
+				14EB374A1671204A00B038B6 /* NSWindow+ResizeAdditions.h */,
+				14EB374B1671204A00B038B6 /* NSWindow+ResizeAdditions.m */,
 				14237AF0166E7413000DBCE1 /* AppDelegate.h */,
 				14237AF1166E7413000DBCE1 /* AppDelegate.m */,
+				14EB374D16712BC000B038B6 /* ViewController.h */,
+				14EB374E16712BC000B038B6 /* ViewController.m */,
+				14237AF9166E7B31000DBCE1 /* ConfigurationView */,
+				14237AF6166E76A7000DBCE1 /* HostAccessView */,
 			);
 			path = Tokenizer;
 			sourceTree = "<group>";
@@ -659,14 +672,14 @@
 			name = HostAccessView;
 			sourceTree = "<group>";
 		};
-		14237AF9166E7B31000DBCE1 /* Configuration */ = {
+		14237AF9166E7B31000DBCE1 /* ConfigurationView */ = {
 			isa = PBXGroup;
 			children = (
 				14237AFC166E7BA2000DBCE1 /* ConfigurationViewController.h */,
 				14237AFD166E7BA2000DBCE1 /* ConfigurationViewController.m */,
 				14237AFA166E7B58000DBCE1 /* ConfigurationView.xib */,
 			);
-			name = Configuration;
+			name = ConfigurationView;
 			sourceTree = "<group>";
 		};
 		14805A1A1662305200A4019F /* Cocoa */ = {
@@ -1287,6 +1300,10 @@
 				14237AEF166E734A000DBCE1 /* MainWindow.xib in Resources */,
 				14237AF8166E76DA000DBCE1 /* HostAccessView.xib in Resources */,
 				14237AFB166E7B58000DBCE1 /* ConfigurationView.xib in Resources */,
+				14EB37501671325500B038B6 /* elephant-32.png in Resources */,
+				14EB37511671325900B038B6 /* green.tiff in Resources */,
+				14EB37521671325E00B038B6 /* red.tiff in Resources */,
+				14EB37531671326100B038B6 /* yellow.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1400,10 +1417,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				145D3E37166A1BD3002FEA91 /* main.m in Sources */,
-				14D2F497166A28F5002DBD25 /* Application.m in Sources */,
 				14237AF2166E7413000DBCE1 /* AppDelegate.m in Sources */,
 				14237AF5166E758F000DBCE1 /* HostAccessViewController.m in Sources */,
 				14237AFE166E7BA2000DBCE1 /* ConfigurationViewController.m in Sources */,
+				14EB374C1671204A00B038B6 /* NSWindow+ResizeAdditions.m in Sources */,
+				14EB374F16712BC000B038B6 /* ViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

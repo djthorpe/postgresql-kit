@@ -1,7 +1,7 @@
 
 #import <Cocoa/Cocoa.h>
-#import <PGServerKit/PGServerKit.h>
+#import "ViewController.h"
 
-@interface ConfigurationViewController : NSViewController
+@interface ConfigurationViewController : ViewController
 
 @end

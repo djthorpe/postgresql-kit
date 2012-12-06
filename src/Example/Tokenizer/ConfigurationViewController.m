@@ -7,4 +7,8 @@
 	return @"ConfigurationView";
 }
 
+-(NSString* )identifier {
+	return @"configuration";
+}
+
 @end
