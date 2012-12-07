@@ -230,9 +230,23 @@ NSString* PGServerMessageNotificationInfo = @"PGServerMessageNotificationInfo";
 	NSToolbarItem* item = (NSToolbarItem* )sender;
 	NSParameterAssert([item isKindOfClass:[NSToolbarItem class]]);
 	NSString* identifier = [item itemIdentifier];
-	ViewController* viewController = [_views objectForKey:identifier];
+
+	NSString* oldIdentifier = [[_tabView selectedTabViewItem] identifier];
+	
+	ViewController* oldViewController = [_views objectForKey:oldIdentifier];	
+	ViewController* newViewController = [_views objectForKey:identifier];
+
+	// calculate the size
+	NSSize viewControllerSize = [[oldViewController view] frame].size;
+	NSSize windowContentSize = [[_mainWindow contentView] frame].size;
+	CGFloat extraHeight = windowContentSize.height - viewControllerSize.height;
+	NSSize newViewControllerSize = [newViewController frameSize];
+	if(viewControllerSize.height > 0 && extraHeight > 0) {
+		newViewControllerSize.height += extraHeight;
+	}
+	
 	[_tabView selectTabViewItemWithIdentifier:identifier];
-	[_mainWindow resizeToSize:[viewController frameSize]];
+	[_mainWindow resizeToSize:newViewControllerSize];
 }
 
 -(IBAction)ibStartStopButtonClicked:(id)sender {

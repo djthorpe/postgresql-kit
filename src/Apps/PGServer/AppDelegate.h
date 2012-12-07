@@ -11,7 +11,7 @@ extern NSString* PGServerMessageNotificationInfo;
 
 @interface AppDelegate : NSObject <ViewControllerDelegate,PGServerDelegate,NSApplicationDelegate> {
 	IBOutlet NSWindow* _mainWindow;
-	IBOutlet NSTabView* _tabView;
+	IBOutlet NSTabView* _tabView;	
 	NSMutableDictionary* _views;
 	PGConnection* _connection;
 	PGServer* _server;
