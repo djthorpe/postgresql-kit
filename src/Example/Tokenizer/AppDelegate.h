@@ -4,6 +4,11 @@
 #import <PGClientKit/PGClientKit.h>
 #import "ViewController.h"
 
+extern NSString* PGServerMessageNotificationError;
+extern NSString* PGServerMessageNotificationWarning;
+extern NSString* PGServerMessageNotificationFatal;
+extern NSString* PGServerMessageNotificationInfo;
+
 @interface AppDelegate : NSObject <ViewControllerDelegate,PGServerDelegate,NSApplicationDelegate> {
 	IBOutlet NSWindow* _mainWindow;
 	IBOutlet NSTabView* _tabView;

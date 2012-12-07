@@ -2,6 +2,8 @@
 #import <Cocoa/Cocoa.h>
 #import "ViewController.h"
 
-@interface LogViewController : ViewController
+@interface LogViewController : ViewController {
+	IBOutlet NSTextView* _textView;
+}
 
 @end

@@ -71,16 +71,21 @@
 									<int key="NSFlags">67119365</int>
 									<int key="NSTextCheckingTypes">0</int>
 									<nil key="NSMarkedAttributes"/>
-									<object class="NSColor" key="NSBackgroundColor" id="962848086">
-										<int key="NSColorSpace">3</int>
-										<bytes key="NSWhite">MQA</bytes>
+									<object class="NSColor" key="NSBackgroundColor">
+										<int key="NSColorSpace">6</int>
+										<string key="NSCatalogName">System</string>
+										<string key="NSColorName">controlDarkShadowColor</string>
+										<object class="NSColor" key="NSColor" id="184908031">
+											<int key="NSColorSpace">3</int>
+											<bytes key="NSWhite">MAA</bytes>
+										</object>
 									</object>
 									<dictionary key="NSSelectedAttributes">
 										<object class="NSColor" key="NSBackgroundColor">
 											<int key="NSColorSpace">6</int>
 											<string key="NSCatalogName">System</string>
 											<string key="NSColorName">selectedTextBackgroundColor</string>
-											<object class="NSColor" key="NSColor">
+											<object class="NSColor" key="NSColor" id="186029904">
 												<int key="NSColorSpace">3</int>
 												<bytes key="NSWhite">MC42NjY2NjY2NjY3AA</bytes>
 											</object>
@@ -89,13 +94,15 @@
 											<int key="NSColorSpace">6</int>
 											<string key="NSCatalogName">System</string>
 											<string key="NSColorName">selectedTextColor</string>
-											<object class="NSColor" key="NSColor" id="184908031">
-												<int key="NSColorSpace">3</int>
-												<bytes key="NSWhite">MAA</bytes>
-											</object>
+											<reference key="NSColor" ref="184908031"/>
 										</object>
 									</dictionary>
-									<reference key="NSInsertionColor" ref="184908031"/>
+									<object class="NSColor" key="NSInsertionColor" id="1028078093">
+										<int key="NSColorSpace">6</int>
+										<string key="NSCatalogName">System</string>
+										<string key="NSColorName">controlBackgroundColor</string>
+										<reference key="NSColor" ref="186029904"/>
+									</object>
 									<dictionary key="NSLinkAttributes">
 										<object class="NSColor" key="NSColor">
 											<int key="NSColorSpace">1</int>
@@ -122,7 +129,7 @@
 						<reference key="NSNextKeyView" ref="260970612"/>
 						<string key="NSReuseIdentifierKey">_NS:11</string>
 						<reference key="NSDocView" ref="260970612"/>
-						<reference key="NSBGColor" ref="962848086"/>
+						<reference key="NSBGColor" ref="1028078093"/>
 						<object class="NSCursor" key="NSCursor">
 							<string key="NSHotSpot">{4, 5}</string>
 							<object class="NSImage" key="NSImage">
@@ -280,7 +287,7 @@ wGw</bytes>
 					</object>
 					<object class="NSScroller" id="202970094">
 						<reference key="NSNextResponder" ref="368136210"/>
-						<int key="NSvFlags">256</int>
+						<int key="NSvFlags">-2147483392</int>
 						<string key="NSFrame">{{623, 1}, {16, 358}}</string>
 						<reference key="NSSuperview" ref="368136210"/>
 						<reference key="NSWindow"/>
@@ -289,6 +296,7 @@ wGw</bytes>
 						<reference key="NSTarget" ref="368136210"/>
 						<string key="NSAction">_doScroller:</string>
 						<double key="NSPercent">0.98712446351931327</double>
+						<int key="NSKnobStyle">2</int>
 					</object>
 					<object class="NSScroller" id="436691579">
 						<reference key="NSNextResponder" ref="368136210"/>
@@ -304,6 +312,7 @@ wGw</bytes>
 						<string key="NSAction">_doScroller:</string>
 						<double key="NSCurValue">1</double>
 						<double key="NSPercent">0.94565218687057495</double>
+						<int key="NSKnobStyle">2</int>
 					</object>
 				</array>
 				<string key="NSFrameSize">{640, 360}</string>
@@ -311,10 +320,11 @@ wGw</bytes>
 				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="73445360"/>
 				<string key="NSReuseIdentifierKey">_NS:9</string>
-				<int key="NSsFlags">133138</int>
+				<int key="NSsFlags">133682</int>
 				<reference key="NSVScroller" ref="202970094"/>
 				<reference key="NSHScroller" ref="436691579"/>
 				<reference key="NSContentView" ref="73445360"/>
+				<int key="NSScrollerKnobStyle">2</int>
 				<double key="NSMinMagnification">0.25</double>
 				<double key="NSMaxMagnification">4</double>
 				<double key="NSMagnification">1</double>
@@ -324,11 +334,19 @@ wGw</bytes>
 			<array class="NSMutableArray" key="connectionRecords">
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
+						<string key="label">_textView</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="260970612"/>
+					</object>
+					<int key="connectionID">9</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
 						<string key="label">view</string>
 						<reference key="source" ref="1001"/>
 						<reference key="destination" ref="368136210"/>
 					</object>
-					<int key="connectionID">7</int>
+					<int key="connectionID">10</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -397,13 +415,24 @@ wGw</bytes>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">7</int>
+			<int key="maxID">10</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<object class="IBPartialClassDescription">
 					<string key="className">LogViewController</string>
 					<string key="superclassName">ViewController</string>
+					<object class="NSMutableDictionary" key="outlets">
+						<string key="NS.key.0">_textView</string>
+						<string key="NS.object.0">NSTextView</string>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<string key="NS.key.0">_textView</string>
+						<object class="IBToOneOutletInfo" key="NS.object.0">
+							<string key="name">_textView</string>
+							<string key="candidateClassName">NSTextView</string>
+						</object>
+					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/LogViewController.h</string>

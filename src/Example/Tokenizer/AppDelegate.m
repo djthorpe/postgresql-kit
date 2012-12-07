@@ -8,6 +8,11 @@
 #import "ConfigurationViewController.h"
 #import "ConnectionViewController.h"
 
+NSString* PGServerMessageNotificationError = @"PGServerMessageNotificationError";
+NSString* PGServerMessageNotificationWarning = @"PGServerMessageNotificationWarning";
+NSString* PGServerMessageNotificationFatal = @"PGServerMessageNotificationFatal";
+NSString* PGServerMessageNotificationInfo = @"PGServerMessageNotificationInfo";
+
 @implementation AppDelegate
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -164,15 +169,15 @@
 ////////////////////////////////////////////////////////////////////////////////
 // PGServerDelegate
 
--(void)message:(PGServer* )server message:(NSString* )message {
+-(void)pgserver:(PGServer *)sender message:(NSString *)message {
 	if([message hasPrefix:@"ERROR:"]) {
-//		[self addLogMessage:message color:[NSColor redColor] bold:NO];
+		[[NSNotificationCenter defaultCenter] postNotificationName:PGServerMessageNotificationError object:message];
 	} else if([message hasPrefix:@"WARNING:"]) {
-//		[self addLogMessage:message color:[NSColor redColor] bold:NO];
+		[[NSNotificationCenter defaultCenter] postNotificationName:PGServerMessageNotificationWarning object:message];
 	} else if([message hasPrefix:@"FATAL:"]) {
-//		[self addLogMessage:message color:[NSColor redColor] bold:NO];
+		[[NSNotificationCenter defaultCenter] postNotificationName:PGServerMessageNotificationFatal object:message];
 	} else {
-//		[self addLogMessage:message color:nil bold:NO];
+		[[NSNotificationCenter defaultCenter] postNotificationName:PGServerMessageNotificationInfo object:message];
 	}
 #ifdef DEBUG
 	NSLog(@"%@",message);
