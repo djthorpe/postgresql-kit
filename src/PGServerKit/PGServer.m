@@ -70,7 +70,7 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 	return @"postgres";
 }
 
-+(NSString* )_authenticationPreferencesFilename {
++(NSString* )_hostAccessRulesFilename {
 	return @"pg_hba.conf";
 }
 
@@ -528,6 +528,7 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 			_port = 0;
 			_pid = -1;
 			_currentTask = nil;
+			_startTime = 0;
 			[_timer invalidate];
 			_timer = nil;
 			break;
@@ -728,7 +729,25 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 		NSString* thePath = [_dataPath stringByAppendingPathComponent:[PGServer _configurationPreferencesFilename]];
 		_configuration = [[PGServerConfiguration alloc] initWithPath:thePath];
 	}
-	return _configuration;
+	if([_configuration load]) {
+		return _configuration;
+	} else {
+		_configuration = nil;
+		return nil;
+	}
+}
+
+-(PGServerHostAccess* )hostAccessRules {
+	if(_hostAccess==nil) {
+		NSString* thePath = [_dataPath stringByAppendingPathComponent:[PGServer _hostAccessRulesFilename]];
+		_hostAccess = [[PGServerHostAccess alloc] initWithPath:thePath];
+	}
+	if([_hostAccess load]) {
+		return _hostAccess;
+	} else {
+		_hostAccess = nil;
+		return nil;
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////
