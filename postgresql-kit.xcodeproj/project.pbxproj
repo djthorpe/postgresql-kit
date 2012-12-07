@@ -108,7 +108,6 @@
 		6E4DEC94162CC3E1008B26BD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E4DEC80162CC307008B26BD /* main.m */; };
 		6E4DEC95162CC4AB008B26BD /* PGClientKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 6ED85B4916288D0200A6DC02 /* PGClientKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E4DEC96162CC5E6008B26BD /* PGClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
-		6E6679521606387B00EF8E98 /* ConnectionPrefs.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E6679511606387B00EF8E98 /* ConnectionPrefs.m */; };
 		6E68ADE71635DB4400436234 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C167C15F26BF20013A382 /* Cocoa.framework */; };
 		6E68AE011635DB6900436234 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB1E72D15F273350093F784 /* main.m */; };
 		6E68AE071635DD6E00436234 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E68AE041635DD6E00436234 /* AppDelegate.m */; };
@@ -129,12 +128,9 @@
 		6EE23F5E1631EF7500C99BA7 /* PGConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EE23F5B1631EF7500C99BA7 /* PGConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6EE23F5F1631EF7500C99BA7 /* PGConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE23F5C1631EF7500C99BA7 /* PGConnection.m */; };
 		6EE23F611632076800C99BA7 /* PGClientParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE23F601632076800C99BA7 /* PGClientParams.m */; };
-		6EEE176416287D7A0029ACDC /* ConfigurationPrefs.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEE176316287D7A0029ACDC /* ConfigurationPrefs.m */; };
 		6EF22D76163D533C00F28238 /* TerminalData.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF22D75163D533C00F28238 /* TerminalData.m */; };
 		6EF30CF415F3957900EE0656 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C167C15F26BF20013A382 /* Cocoa.framework */; };
-		6EF30D0715F3957900EE0656 /* Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF30D0615F3957900EE0656 /* Controller.m */; };
 		6EF30D0F15F3964D00EE0656 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB1E72D15F273350093F784 /* main.m */; };
-		6EF30D1115F396D000EE0656 /* PGServer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6EF30D1015F396D000EE0656 /* PGServer.xib */; };
 		6EF30D1215F3975F00EE0656 /* PGServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
 /* End PBXBuildFile section */
 
@@ -281,6 +277,15 @@
 		14237AFD166E7BA2000DBCE1 /* ConfigurationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfigurationViewController.m; sourceTree = "<group>"; };
 		142804551668114400A61BF6 /* openssl-1.0.1c.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = "openssl-1.0.1c.tar.gz"; sourceTree = "<group>"; };
 		142804561668115600A61BF6 /* make-openssl.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "make-openssl.sh"; sourceTree = "<group>"; };
+		143742CA1672954C0092F862 /* ConfigurationPrefs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConfigurationPrefs.h; sourceTree = "<group>"; };
+		143742CB1672954C0092F862 /* ConfigurationPrefs.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConfigurationPrefs.m; sourceTree = "<group>"; };
+		143742CC1672954C0092F862 /* ConnectionPrefs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConnectionPrefs.h; sourceTree = "<group>"; };
+		143742CD1672954C0092F862 /* ConnectionPrefs.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConnectionPrefs.m; sourceTree = "<group>"; };
+		143742CE1672954C0092F862 /* Controller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Controller.h; sourceTree = "<group>"; };
+		143742CF1672954C0092F862 /* Controller.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Controller.m; sourceTree = "<group>"; };
+		143742D01672954C0092F862 /* ControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ControllerDelegate.h; sourceTree = "<group>"; };
+		143742D11672954C0092F862 /* PGServer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PGServer-Info.plist"; sourceTree = "<group>"; };
+		143742D21672954C0092F862 /* PGServer.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PGServer.xib; sourceTree = "<group>"; };
 		145695F116718D39004471F9 /* ConnectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionViewController.h; sourceTree = "<group>"; };
 		145695F216718D39004471F9 /* ConnectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionViewController.m; sourceTree = "<group>"; };
 		145695F316718D39004471F9 /* ConnectionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConnectionView.xib; sourceTree = "<group>"; };
@@ -399,7 +404,6 @@
 		6E1B43EB15F3A465001ED3BE /* gradient-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gradient-1.png"; sourceTree = "<group>"; };
 		6E1B43ED15F3A465001ED3BE /* logo_w_elephant.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = logo_w_elephant.pdf; sourceTree = "<group>"; };
 		6E1B43F915F3A465001ED3BE /* strapline-200x40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "strapline-200x40.png"; sourceTree = "<group>"; };
-		6E2B8B731659131500E5F15C /* ControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ControllerDelegate.h; sourceTree = "<group>"; };
 		6E2DFD2C163C54F400911094 /* TerminalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TerminalView.h; sourceTree = "<group>"; };
 		6E2DFD2D163C54F400911094 /* TerminalView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TerminalView.m; sourceTree = "<group>"; };
 		6E48B36E1605E34A0044A6CB /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = /usr/lib/libz.1.2.5.dylib; sourceTree = "<absolute>"; };
@@ -408,8 +412,6 @@
 		6E4DEC7D162CC252008B26BD /* libssl.0.9.8.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libssl.0.9.8.dylib; path = ../../../../usr/lib/libssl.0.9.8.dylib; sourceTree = "<group>"; };
 		6E4DEC80162CC307008B26BD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		6E4DEC85162CC38D008B26BD /* PGFoundationClient */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PGFoundationClient; sourceTree = BUILT_PRODUCTS_DIR; };
-		6E6679501606387B00EF8E98 /* ConnectionPrefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionPrefs.h; sourceTree = "<group>"; };
-		6E6679511606387B00EF8E98 /* ConnectionPrefs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionPrefs.m; sourceTree = "<group>"; };
 		6E68ADE51635DB4400436234 /* PGClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PGClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E68ADE91635DB4400436234 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		6E68ADEA1635DB4400436234 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -448,15 +450,9 @@
 		6EE23F5C1631EF7500C99BA7 /* PGConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGConnection.m; sourceTree = "<group>"; };
 		6EE23F601632076800C99BA7 /* PGClientParams.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGClientParams.m; sourceTree = "<group>"; };
 		6EE23F62163207DA00C99BA7 /* PGClientParams.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGClientParams.h; sourceTree = "<group>"; };
-		6EEE176216287D7A0029ACDC /* ConfigurationPrefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfigurationPrefs.h; sourceTree = "<group>"; };
-		6EEE176316287D7A0029ACDC /* ConfigurationPrefs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfigurationPrefs.m; sourceTree = "<group>"; };
 		6EF22D74163D533C00F28238 /* TerminalData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TerminalData.h; sourceTree = "<group>"; };
 		6EF22D75163D533C00F28238 /* TerminalData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TerminalData.m; sourceTree = "<group>"; };
 		6EF30CF215F3957900EE0656 /* PGServer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PGServer.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		6EF30CFB15F3957900EE0656 /* PGServer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PGServer-Info.plist"; sourceTree = "<group>"; };
-		6EF30D0515F3957900EE0656 /* Controller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Controller.h; sourceTree = "<group>"; };
-		6EF30D0615F3957900EE0656 /* Controller.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Controller.m; sourceTree = "<group>"; };
-		6EF30D1015F396D000EE0656 /* PGServer.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PGServer.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -720,6 +716,22 @@
 			path = Frameworks;
 			sourceTree = "<group>";
 		};
+		143742C91672954C0092F862 /* PGServer */ = {
+			isa = PBXGroup;
+			children = (
+				143742CA1672954C0092F862 /* ConfigurationPrefs.h */,
+				143742CB1672954C0092F862 /* ConfigurationPrefs.m */,
+				143742CC1672954C0092F862 /* ConnectionPrefs.h */,
+				143742CD1672954C0092F862 /* ConnectionPrefs.m */,
+				143742CE1672954C0092F862 /* Controller.h */,
+				143742CF1672954C0092F862 /* Controller.m */,
+				143742D01672954C0092F862 /* ControllerDelegate.h */,
+				143742D11672954C0092F862 /* PGServer-Info.plist */,
+				143742D21672954C0092F862 /* PGServer.xib */,
+			);
+			path = PGServer;
+			sourceTree = "<group>";
+		};
 		145695EF16718D0B004471F9 /* ConnectionView */ = {
 			isa = PBXGroup;
 			children = (
@@ -754,6 +766,7 @@
 		14805A671662313E00A4019F /* old */ = {
 			isa = PBXGroup;
 			children = (
+				143742C91672954C0092F862 /* PGServer */,
 				14187D481668C5FA00A5A67D /* ClientConnect */,
 				14187D511668C5FA00A5A67D /* CocoaServer */,
 				14187D621668C5FA00A5A67D /* EmbeddedServer */,
@@ -1021,7 +1034,6 @@
 			isa = PBXGroup;
 			children = (
 				6EB1E72D15F273350093F784 /* main.m */,
-				6EF30CF915F3957900EE0656 /* PGServer */,
 				6E68AE021635DD6E00436234 /* PGClient */,
 				6ECA7AD615F3635A00AF2B70 /* PGFoundationServer */,
 				6E4DEC7F162CC2E7008B26BD /* PGFoundationClient */,
@@ -1107,22 +1119,6 @@
 				14805A1A1662305200A4019F /* Cocoa */,
 			);
 			path = PGClientKit;
-			sourceTree = "<group>";
-		};
-		6EF30CF915F3957900EE0656 /* PGServer */ = {
-			isa = PBXGroup;
-			children = (
-				6EF30CFB15F3957900EE0656 /* PGServer-Info.plist */,
-				6EF30D1015F396D000EE0656 /* PGServer.xib */,
-				6EF30D0515F3957900EE0656 /* Controller.h */,
-				6EF30D0615F3957900EE0656 /* Controller.m */,
-				6E6679501606387B00EF8E98 /* ConnectionPrefs.h */,
-				6E6679511606387B00EF8E98 /* ConnectionPrefs.m */,
-				6EEE176216287D7A0029ACDC /* ConfigurationPrefs.h */,
-				6EEE176316287D7A0029ACDC /* ConfigurationPrefs.m */,
-				6E2B8B731659131500E5F15C /* ControllerDelegate.h */,
-			);
-			path = PGServer;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1407,7 +1403,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6EF30D1115F396D000EE0656 /* PGServer.xib in Resources */,
 				6E1B43FE15F3A4C2001ED3BE /* elephant.icns in Resources */,
 				6E48B37116060D980044A6CB /* strapline-200x40.png in Resources */,
 				14032DC6164A6FAD00CD5796 /* green.tiff in Resources */,
@@ -1559,10 +1554,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6EF30D0715F3957900EE0656 /* Controller.m in Sources */,
 				6EF30D0F15F3964D00EE0656 /* main.m in Sources */,
-				6E6679521606387B00EF8E98 /* ConnectionPrefs.m in Sources */,
-				6EEE176416287D7A0029ACDC /* ConfigurationPrefs.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
