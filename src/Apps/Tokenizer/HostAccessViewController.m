@@ -40,18 +40,25 @@ NSString* PGServerHostAccessDragType = @"PGServerHostAccessDragType";
 // NSTableViewDataSource implementation
 
 -(NSInteger)numberOfRowsInTableView:(NSTableView* )tableView {
-	return [[self hostAccessRules] count];
+	if([self hostAccessRules]) {
+		return [[self hostAccessRules] count];
+	} else {
+		return 0;
+	}
 }
 
 -(id)tableView:(NSTableView* )tableView objectValueForTableColumn:(NSTableColumn* )tableColumn row:(NSInteger)rowIndex {
-	return [NSString stringWithFormat:@"HELLO"];
+	NSParameterAssert([self hostAccessRules]);
+	NSParameterAssert(rowIndex >= 0 && rowIndex < [[self hostAccessRules] count]);
+	PGServerHostAccessRule* rule = [[self hostAccessRules] ruleAtIndex:rowIndex];
+	return [rule description];
 }
-
 
 ////////////////////////////////////////////////////////////////////////////////
 // NSTableView dragging implementation
 
 -(BOOL)tableView:(NSTableView* )tableView writeRowsWithIndexes:(NSIndexSet* )rowIndexes toPasteboard:(NSPasteboard* )pboard {
+	NSParameterAssert([self hostAccessRules]);
 	// return NO if more than one row
 	if([rowIndexes count] != 1) {
 		return NO;
@@ -67,6 +74,7 @@ NSString* PGServerHostAccessDragType = @"PGServerHostAccessDragType";
 }
 
 -(NSDragOperation)tableView:(NSTableView* )tableView validateDrop:(id <NSDraggingInfo>)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)operation {
+	NSParameterAssert([self hostAccessRules]);
 	if(operation==NSTableViewDropAbove) {
 		return NSDragOperationMove;
 	}
