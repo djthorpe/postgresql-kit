@@ -73,6 +73,8 @@
 		1489AEC816669A6B00C3B67D /* PGResult+TextTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 1489AEC616669A6B00C3B67D /* PGResult+TextTable.m */; };
 		148F88C9166D63AC0088D3DF /* ResizeControl.png in Resources */ = {isa = PBXBuildFile; fileRef = 148F88C7166D61060088D3DF /* ResizeControl.png */; };
 		148F88CA166D63AE0088D3DF /* Gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = 148F88C6166D61060088D3DF /* Gradient.png */; };
+		14A228D01672389D007B16A2 /* ConnectionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14A228CE1672389D007B16A2 /* ConnectionsViewController.m */; };
+		14A228D11672389D007B16A2 /* ConnectionsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14A228CF1672389D007B16A2 /* ConnectionsView.xib */; };
 		14D2F493166A278B002DBD25 /* Configuration.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14D2F492166A278B002DBD25 /* Configuration.xib */; };
 		14D2FCB5166A16AC005E6390 /* PGServerConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 14D2FCAE166A16AC005E6390 /* PGServerConfiguration.h */; };
 		14D2FCB6166A16AC005E6390 /* PGServerConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 14D2FCAF166A16AC005E6390 /* PGServerConfiguration.m */; };
@@ -361,6 +363,9 @@
 		1489AEC616669A6B00C3B67D /* PGResult+TextTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PGResult+TextTable.m"; sourceTree = "<group>"; };
 		148F88C6166D61060088D3DF /* Gradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Gradient.png; sourceTree = "<group>"; };
 		148F88C7166D61060088D3DF /* ResizeControl.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ResizeControl.png; sourceTree = "<group>"; };
+		14A228CD1672389D007B16A2 /* ConnectionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionsViewController.h; sourceTree = "<group>"; };
+		14A228CE1672389D007B16A2 /* ConnectionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionsViewController.m; sourceTree = "<group>"; };
+		14A228CF1672389D007B16A2 /* ConnectionsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConnectionsView.xib; sourceTree = "<group>"; };
 		14CF6E931667488500D2DF78 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		14D2F492166A278B002DBD25 /* Configuration.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Configuration.xib; sourceTree = "<group>"; };
 		14D2F495166A28F5002DBD25 /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
@@ -652,6 +657,7 @@
 				145695EF16718D0B004471F9 /* ConnectionView */,
 				14237AF9166E7B31000DBCE1 /* ConfigurationView */,
 				14237AF6166E76A7000DBCE1 /* HostAccessView */,
+				14A228D3167238A3007B16A2 /* ConnectionsView */,
 				14EB37541671395200B038B6 /* Old */,
 			);
 			path = Tokenizer;
@@ -855,6 +861,16 @@
 				148F88C6166D61060088D3DF /* Gradient.png */,
 			);
 			path = ui;
+			sourceTree = "<group>";
+		};
+		14A228D3167238A3007B16A2 /* ConnectionsView */ = {
+			isa = PBXGroup;
+			children = (
+				14A228CD1672389D007B16A2 /* ConnectionsViewController.h */,
+				14A228CE1672389D007B16A2 /* ConnectionsViewController.m */,
+				14A228CF1672389D007B16A2 /* ConnectionsView.xib */,
+			);
+			name = ConnectionsView;
 			sourceTree = "<group>";
 		};
 		14EB37541671395200B038B6 /* Old */ = {
@@ -1350,6 +1366,7 @@
 				141C52D1167150E100648E67 /* terminal.tiff in Resources */,
 				145695F516718D39004471F9 /* ConnectionView.xib in Resources */,
 				145695F616718EE2004471F9 /* network.tiff in Resources */,
+				14A228D11672389D007B16A2 /* ConnectionsView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1470,6 +1487,7 @@
 				14EB374F16712BC000B038B6 /* ViewController.m in Sources */,
 				141C52CF16714F9D00648E67 /* LogViewController.m in Sources */,
 				145695F416718D39004471F9 /* ConnectionViewController.m in Sources */,
+				14A228D01672389D007B16A2 /* ConnectionsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,6 +7,7 @@
 #import "HostAccessViewController.h"
 #import "ConfigurationViewController.h"
 #import "ConnectionViewController.h"
+#import "ConnectionsViewController.h"
 
 NSString* PGServerMessageNotificationError = @"PGServerMessageNotificationError";
 NSString* PGServerMessageNotificationWarning = @"PGServerMessageNotificationWarning";
@@ -72,6 +73,7 @@ NSString* PGServerMessageNotificationInfo = @"PGServerMessageNotificationInfo";
 	[self _addViewController:[[HostAccessViewController alloc] init]];
 	[self _addViewController:[[ConfigurationViewController alloc] init]];
 	[self _addViewController:[[ConnectionViewController alloc] init]];
+	[self _addViewController:[[ConnectionsViewController alloc] init]];
 	
 	// switch toolbar to log
 	[self _toolbarSelectItemWithIdentifier:@"log"];
