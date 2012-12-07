@@ -710,6 +710,16 @@
 			name = ConfigurationView;
 			sourceTree = "<group>";
 		};
+		143742C8167294B90092F862 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6EB1E73E15F273350093F784 /* PGServerKit */,
+				6ED85B3316288BEF00A6DC02 /* PGClientKit */,
+				1418234B166128A500765768 /* PGDataKit */,
+			);
+			path = Frameworks;
+			sourceTree = "<group>";
+		};
 		145695EF16718D0B004471F9 /* ConnectionView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1000,9 +1010,7 @@
 		6EB1E70A15F273350093F784 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				6EB1E73E15F273350093F784 /* PGServerKit */,
-				6ED85B3316288BEF00A6DC02 /* PGClientKit */,
-				1418234B166128A500765768 /* PGDataKit */,
+				143742C8167294B90092F862 /* Frameworks */,
 				6EB1E78C15F273350093F784 /* UnitTests */,
 				6EB1E70B15F273350093F784 /* Example */,
 			);
@@ -1019,7 +1027,8 @@
 				6E4DEC7F162CC2E7008B26BD /* PGFoundationClient */,
 				141FCCF61646917B00197F3F /* Tokenizer */,
 			);
-			path = Example;
+			name = Example;
+			path = Apps;
 			sourceTree = "<group>";
 		};
 		6EB1E73E15F273350093F784 /* PGServerKit */ = {
