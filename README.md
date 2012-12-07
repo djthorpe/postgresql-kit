@@ -14,7 +14,7 @@ including a changelog of recent changes.
 
 This software is in alpha development state and as such there are plenty of limitations
 and issues. Hoping to get a beta version completed in early 2013. If you know of any 
-issues or feature requests, please  file an issue and I may be  able to help out.
+issues or feature requests, please file an issue and I may be able to help out.
 
 ## License
 
@@ -49,7 +49,7 @@ THE UNIVERSITY OF CALIFORNIA SPECIFICALLY DISCLAIMS ANY WARRANTIES, INCLUDING, B
 
 ## Repository organization
 
-  * `src` contains source code for `Frameworks` and `Example` folders.
+  * `src` contains source code for `Frameworks`, `Apps` and `UnitTests` folders.
   
   * `tar` contains third party libraries and frameworks
 
