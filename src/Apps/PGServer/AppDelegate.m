@@ -245,8 +245,15 @@ NSString* PGServerMessageNotificationInfo = @"PGServerMessageNotificationInfo";
 		newViewControllerSize.height += extraHeight;
 	}
 	
-	[_tabView selectTabViewItemWithIdentifier:identifier];
-	[_mainWindow resizeToSize:newViewControllerSize];
+	// determine if we really want to select the view
+	BOOL selectView = YES;
+	if([newViewController respondsToSelector:@selector(willSelectView:)]) {
+		selectView = [newViewController willSelectView:self];
+	}
+	if(selectView) {
+		[_tabView selectTabViewItemWithIdentifier:identifier];
+		[_mainWindow resizeToSize:newViewControllerSize];
+	}
 }
 
 -(IBAction)ibStartStopButtonClicked:(id)sender {

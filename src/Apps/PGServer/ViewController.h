@@ -16,4 +16,6 @@
 @property NSSize frameSize;
 @property (readonly) NSString* identifier;
 
+-(BOOL)willSelectView:(id)sender;
+
 @end
