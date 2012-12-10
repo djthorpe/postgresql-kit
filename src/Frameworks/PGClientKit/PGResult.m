@@ -40,7 +40,7 @@
 }
 
 -(NSUInteger)size {
-	static NSUInteger _number = NSIntegerMax;
+	NSUInteger _number = NSIntegerMax;
 	if(_number==NSIntegerMax) {
 		_number = PQntuples(_result);
 	}
@@ -48,7 +48,7 @@
 }
 
 -(NSUInteger)numberOfColumns {
-	static NSUInteger _number = NSIntegerMax;
+	NSUInteger _number = NSIntegerMax;
 	if(_number==NSIntegerMax) {
 		_number = PQnfields(_result);
 	}
@@ -56,7 +56,7 @@
 }
 
 -(NSUInteger)affectedRows {
-	static NSUInteger _number = NSIntegerMax;
+	NSUInteger _number = NSIntegerMax;
 	if(_number==NSIntegerMax) {
 		NSString* affectedRows = [NSString stringWithUTF8String:PQcmdTuples(_result)];
 		_number = [affectedRows integerValue];
@@ -129,6 +129,10 @@
 	// increment to next row, return
 	_rowNumber++;
 	return theArray;
+}
+
+-(NSDictionary* )fetchRowAsDictionary {
+	return [NSDictionary dictionaryWithObjects:[self fetchRowAsArray] forKeys:[self columnNames]];
 }
 
 ////////////////////////////////////////////////////////////////////////////////

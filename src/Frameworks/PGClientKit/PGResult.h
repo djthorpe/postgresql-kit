@@ -24,5 +24,6 @@
 
 // fetch rows
 -(NSArray* )fetchRowAsArray;
+-(NSDictionary* )fetchRowAsDictionary;
 
 @end

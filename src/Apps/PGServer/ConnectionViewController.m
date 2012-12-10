@@ -19,6 +19,14 @@
 	return @"connection";
 }
 
+
+-(PGServerConfiguration* )configuration {
+	return [[[self delegate] server] configuration];
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// methods
+
 -(void)loadView {
 	[super loadView];
 }

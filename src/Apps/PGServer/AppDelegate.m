@@ -152,6 +152,38 @@ NSString* PGServerMessageNotificationInfo = @"PGServerMessageNotificationInfo";
 	}
 }
 
+-(void)_setConnection:(PGServerState)state {
+	switch(state) {
+		case PGServerStateRunning:
+			if([[self connection] status] != PGConnectionStatusConnected) {
+#ifdef DEBUG
+				NSLog(@"PGConnection Connecting to server");
+#endif
+				NSError* theError = nil;
+				// TODO!!!!
+				NSURL* theURL = [NSURL URLWithString:@"pgsql://postgres@/"];
+				BOOL isSuccess = [[self connection] connectWithURL:theURL error:&theError];
+				if(isSuccess==NO) {
+					NSString* message = [NSString stringWithFormat:@"Connection error: %@",[theError description]];
+					[[NSNotificationCenter defaultCenter] postNotificationName:PGServerMessageNotificationError object:message];
+				}
+			}
+			break;
+		case PGServerStateStopping:
+		case PGServerStateRestart:
+			if([[self connection] status]==PGConnectionStatusConnected) {
+#ifdef DEBUG
+				NSLog(@"PGConnection Disconnecting from server");
+#endif
+				[[self connection] disconnect];
+			}
+			break;
+		default:
+			break;
+	}
+}
+
+
 ////////////////////////////////////////////////////////////////////////////////
 // NSApplicationDelegate
 
@@ -193,26 +225,8 @@ NSString* PGServerMessageNotificationInfo = @"PGServerMessageNotificationInfo";
 	[self _setButtonState:state];
 	[self _setStatusString:state];
 
-	/*
 	// connect and disconnect
-	if(state==PGServerStateRunning &&  [[self connection] status] != PGConnectionStatusConnected) {
-#ifdef DEBUG
-		NSLog(@"Connecting to server");
-#endif
-		NSError* theError = nil;
-		NSURL* theURL = [NSURL URLWithString:@"pgsql://postgres@/"];
-		BOOL isSuccess = [[self connection] connectWithURL:theURL error:&theError];
-		if(isSuccess==NO) {
-			[self addLogMessage:[NSString stringWithFormat:@"Connection error: %@",[theError description]] color:[NSColor redColor] bold:NO];
-		}
-		
-	} else if((state==PGServerStateStopping || state==PGServerStateRestart) && [[self connection] status]==PGConnectionStatusConnected) {
-#ifdef DEBUG
-		NSLog(@"Disconnecting from server");
-#endif
-		[[self connection] disconnect];
-	}
-	*/
+	[self _setConnection:state];
 	
 	// check for terminating
 	if(state==PGServerStateStopped && [self terminateRequested]) {
@@ -232,11 +246,19 @@ NSString* PGServerMessageNotificationInfo = @"PGServerMessageNotificationInfo";
 	NSString* identifier = [item itemIdentifier];
 
 	NSString* oldIdentifier = [[_tabView selectedTabViewItem] identifier];
-	
-	ViewController* oldViewController = [_views objectForKey:oldIdentifier];	
-	ViewController* newViewController = [_views objectForKey:identifier];
+	ViewController* oldViewController = [_views objectForKey:oldIdentifier];
 
-	// calculate the size
+	// determine if we really want to deselect the view
+	BOOL deselectView = YES;
+	if([oldViewController respondsToSelector:@selector(willUnselectView:)]) {
+		deselectView = [oldViewController willUnselectView:self];
+	}
+	if(deselectView==NO) {
+		return;
+	}
+	
+	// calculate the size of new view
+	ViewController* newViewController = [_views objectForKey:identifier];
 	NSSize viewControllerSize = [[oldViewController view] frame].size;
 	NSSize windowContentSize = [[_mainWindow contentView] frame].size;
 	CGFloat extraHeight = windowContentSize.height - viewControllerSize.height;
@@ -264,6 +286,8 @@ NSString* PGServerMessageNotificationInfo = @"PGServerMessageNotificationInfo";
 		// switch to logging pane
 		[self _toolbarSelectItemWithIdentifier:@"log"];
 	} else if(state==PGServerStateRunning || state==PGServerStateAlreadyRunning) {
+		// switch to logging pane
+		[self _toolbarSelectItemWithIdentifier:@"log"];
 		// stop the server
 		[[self server] stop];
 	} else {
