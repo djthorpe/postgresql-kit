@@ -36,12 +36,13 @@
 
 -(NSInteger)numberOfRowsInTableView:(NSTableView* )tableView {
 	NSArray* keys = [[self configuration] keys];
-	NSLog(@"configuration = %@",keys);
 	return [keys count];
 }
 
 -(id)tableView:(NSTableView* )tableView objectValueForTableColumn:(NSTableColumn* )tableColumn row:(NSInteger)rowIndex {
-	return [NSString stringWithFormat:@"%@",[self configuration]];
+	NSArray* keys = [[self configuration] keys];
+	NSParameterAssert(rowIndex < [keys count]);
+	return [keys objectAtIndex:rowIndex];
 }
 
 

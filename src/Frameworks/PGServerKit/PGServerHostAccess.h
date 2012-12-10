@@ -2,7 +2,6 @@
 #import <Foundation/Foundation.h>
 #import "PGTokenizer.h"
 
-
 ////////////////////////////////////////////////////////////////////////////////
 
 @interface PGServerHostAccessRule : PGTokenizerLine {
@@ -31,7 +30,8 @@
 	NSMutableArray* _rules;
 }
 
--(NSUInteger)count;
+@property (readonly) NSUInteger count;
+
 -(PGServerHostAccessRule* )ruleAtIndex:(NSUInteger)index;
 -(void)removeRuleAtIndex:(NSUInteger)index;
 -(NSUInteger)insertRule:(PGServerHostAccessRule* )rule atIndex:(NSUInteger)index;

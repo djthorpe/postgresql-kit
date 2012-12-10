@@ -14,4 +14,10 @@
 	return YES;
 }
 
+// called just before view is selected, return NO to
+// not unselect the view
+-(BOOL)willUnselectView:(id)sender {
+	return YES;
+}
+
 @end

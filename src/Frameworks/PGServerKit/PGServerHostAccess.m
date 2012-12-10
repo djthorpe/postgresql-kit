@@ -2,6 +2,8 @@
 #import "PGServerHostAccess.h"
 
 ////////////////////////////////////////////////////////////////////////////////
+#pragma mark PGServerHostAccessRule
+////////////////////////////////////////////////////////////////////////////////
 
 @implementation PGServerHostAccessRule
 
@@ -322,6 +324,8 @@
 		case PGTokenizerHostname:
 		case PGTokenizerIP4Addr:
 		case PGTokenizerIP6Addr:
+		case PGTokenizerIPMask:
+		case PGTokenizerGroupMap:
 			NSParameterAssert([_options objectForKey:@"_name"]);
 			[_options setValue:[PGTokenizerValue valueWithText:text type:type] forKey:[_options objectForKey:@"_name"]];
 			[_options removeObjectForKey:@"_name"];
@@ -521,6 +525,8 @@
 
 @end
 
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark PGServerHostAccess
 ////////////////////////////////////////////////////////////////////////////////
 
 @implementation PGServerHostAccess

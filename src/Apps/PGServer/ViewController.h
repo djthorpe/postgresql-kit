@@ -17,5 +17,6 @@
 @property (readonly) NSString* identifier;
 
 -(BOOL)willSelectView:(id)sender;
+-(BOOL)willUnselectView:(id)sender;
 
 @end

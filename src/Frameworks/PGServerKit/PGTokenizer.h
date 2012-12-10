@@ -20,6 +20,7 @@ typedef enum {
 	PGTokenizerIP6Addr,
 	PGTokenizerHostname,
 	PGTokenizerGroupMap,
+	PGTokenizerBool,
 	PGTokenizerOther
 } PGTokenizerType;
 
