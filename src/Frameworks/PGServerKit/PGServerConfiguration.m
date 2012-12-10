@@ -325,6 +325,10 @@
 	return [[self _lineForKey:key] value];
 }
 
+-(NSString* )stringForKey:(NSString* )key {
+	return [[self valueForKey:key] stringValue];
+}
+
 -(BOOL)enabledForKey:(NSString* )key {
 	return [[self _lineForKey:key] enabled];
 }

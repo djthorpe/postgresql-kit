@@ -33,6 +33,7 @@
 
 // methods
 -(PGTokenizerValue* )valueForKey:(NSString* )key;
+-(NSString* )stringForKey:(NSString* )key;
 -(BOOL)enabledForKey:(NSString* )key;
 -(NSString* )commentForKey:(NSString* )key;
 
