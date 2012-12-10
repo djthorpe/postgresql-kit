@@ -21,7 +21,6 @@
 
 -(void)loadView {
 	[super loadView];
-	NSLog(@"loadView");
 }
 
 -(IBAction)ibUseDefaultPort:(id)sender {
