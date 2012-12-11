@@ -79,6 +79,7 @@
 
 -(BOOL)willUnselectView:(id)sender {
 	[self _stopConnectionsTimer];
+	[self setConnections:nil];
 	return YES;
 }
 
