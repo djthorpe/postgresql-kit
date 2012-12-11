@@ -199,6 +199,27 @@ NSString* PGServerMessageNotificationInfo = @"PGServerMessageNotificationInfo";
 	}
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// Confirm Server Stop/Start/Restart
+
+-(IBAction)ibConfirmCloseStartSheet:(id)sender {
+	[NSApp beginSheet:_closeConfirmSheet modalForWindow:_mainWindow modalDelegate:self didEndSelector:@selector(_endCloseConfirmSheet:returnCode:contextInfo:) contextInfo:nil];
+}
+
+-(IBAction)ibConfirmCloseSheetForButton:(id)sender {
+	NSParameterAssert([sender isKindOfClass:[NSButton class]]);
+	if([[(NSButton* )sender title] isEqualToString:@"Cancel"]) {
+		[NSApp endSheet:[(NSButton* )sender window] returnCode:NSCancelButton];
+	} else {
+		[NSApp endSheet:[(NSButton* )sender window] returnCode:NSOKButton];
+	}
+}
+
+
+-(void)_endCloseConfirmSheet:(NSWindow* )sheet returnCode:(NSInteger)returnCode contextInfo:(void* )contextInfo {
+	[sheet orderOut:self];
+	NSLog(@"returnCode=%ld",returnCode);
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // NSApplicationDelegate
@@ -302,10 +323,12 @@ NSString* PGServerMessageNotificationInfo = @"PGServerMessageNotificationInfo";
 		// switch to logging pane
 		[self _toolbarSelectItemWithIdentifier:@"log"];
 	} else if(state==PGServerStateRunning || state==PGServerStateAlreadyRunning) {
+		// confirm stopping
+		[self ibConfirmCloseStartSheet:sender];
 		// switch to logging pane
-		[self _toolbarSelectItemWithIdentifier:@"log"];
+		//[self _toolbarSelectItemWithIdentifier:@"log"];
 		// stop the server
-		[[self server] stop];
+		//[[self server] stop];
 	} else {
 		// don't know what to do!
 #ifdef DEBUG
