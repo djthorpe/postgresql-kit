@@ -16,6 +16,10 @@ NSString* PGServerMessageNotificationWarning = @"PGServerMessageNotificationWarn
 NSString* PGServerMessageNotificationFatal = @"PGServerMessageNotificationFatal";
 NSString* PGServerMessageNotificationInfo = @"PGServerMessageNotificationInfo";
 
+const NSInteger PGServerButtonCancel = 100;
+const NSInteger PGServerButtonConnections = 200;
+const NSInteger PGServerButtonContinue = 300;
+
 @implementation AppDelegate
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -199,6 +203,33 @@ NSString* PGServerMessageNotificationInfo = @"PGServerMessageNotificationInfo";
 	}
 }
 
+
+////////////////////////////////////////////////////////////////////////////////
+// Retrieve number of remote connections
+
+-(NSUInteger)_numberOfConnections {
+	if([[self connection] status] != PGConnectionStatusConnected) {
+		return 0;
+	}
+	NSError* error;
+	PGResult* result = [[self connection] execute:@"SELECT COUNT(*) AS num_connections FROM pg_stat_activity WHERE procpid <> pg_backend_pid()" format:PGClientTupleFormatBinary error:&error];
+	if(error) {
+#ifdef DEBUG
+		NSLog(@"_numberOfConnections: Error: %@",error);
+		result = nil;
+#endif
+	}
+	if([result dataReturned]) {
+		NSParameterAssert([result size]==1);
+		NSParameterAssert([result numberOfColumns]==1);
+		NSArray* row = [result fetchRowAsArray];
+		NSNumber* numConnections = [row objectAtIndex:0];
+		NSParameterAssert([numConnections isKindOfClass:[NSNumber class]]);
+		return [numConnections unsignedIntegerValue];
+	}
+	return 0;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // Confirm Server Stop/Start/Restart
 
@@ -208,17 +239,33 @@ NSString* PGServerMessageNotificationInfo = @"PGServerMessageNotificationInfo";
 
 -(IBAction)ibConfirmCloseSheetForButton:(id)sender {
 	NSParameterAssert([sender isKindOfClass:[NSButton class]]);
+	NSInteger returnCode = -1;
 	if([[(NSButton* )sender title] isEqualToString:@"Cancel"]) {
-		[NSApp endSheet:[(NSButton* )sender window] returnCode:NSCancelButton];
-	} else {
-		[NSApp endSheet:[(NSButton* )sender window] returnCode:NSOKButton];
+		returnCode = PGServerButtonCancel;
+	} else if([[(NSButton* )sender title] isEqualToString:@"Continue"]) {
+		returnCode = PGServerButtonContinue;
+	} else if([[(NSButton* )sender title] isEqualToString:@"Connections"]) {
+		returnCode = PGServerButtonConnections;
 	}
+	NSLog(@"%@ => %ld",[(NSButton* )sender title],returnCode);
+	[NSApp endSheet:[(NSButton* )sender window] returnCode:returnCode];
 }
 
 
 -(void)_endCloseConfirmSheet:(NSWindow* )sheet returnCode:(NSInteger)returnCode contextInfo:(void* )contextInfo {
 	[sheet orderOut:self];
-	NSLog(@"returnCode=%ld",returnCode);
+
+	switch(returnCode) {
+		case PGServerButtonContinue:
+			NSLog(@"TERMINATE CONNECTIONS");
+			break;
+		case PGServerButtonConnections:
+			// switch toolbar to connections
+			[self _toolbarSelectItemWithIdentifier:@"connections"];
+			break;
+		default:
+			break;
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -317,23 +364,31 @@ NSString* PGServerMessageNotificationInfo = @"PGServerMessageNotificationInfo";
 
 -(IBAction)ibStartStopButtonClicked:(id)sender {
 	PGServerState state = [[self server] state];
-	if(state==PGServerStateUnknown || state==PGServerStateStopped) {
-		// start the server
-		[[self server] start];
-		// switch to logging pane
-		[self _toolbarSelectItemWithIdentifier:@"log"];
-	} else if(state==PGServerStateRunning || state==PGServerStateAlreadyRunning) {
-		// confirm stopping
-		[self ibConfirmCloseStartSheet:sender];
-		// switch to logging pane
-		//[self _toolbarSelectItemWithIdentifier:@"log"];
-		// stop the server
-		//[[self server] stop];
-	} else {
-		// don't know what to do!
+	switch(state) {
+		case PGServerStateUnknown:
+		case PGServerStateStopped:
+			// start the server
+			[[self server] start];
+			// switch to logging pane
+			[self _toolbarSelectItemWithIdentifier:@"log"];
+			break;
+		case PGServerStateRunning:
+		case PGServerStateAlreadyRunning:
+			if([self _numberOfConnections] > 0) {
+				// confirm stopping
+				[self ibConfirmCloseStartSheet:sender];
+			} else {
+				// switch to logging pane
+				[self _toolbarSelectItemWithIdentifier:@"log"];
+				// stop the server
+				[[self server] stop];
+			}
+		default:
+			// don't know what to do!
 #ifdef DEBUG
-		NSLog(@"button pressed, but don't know what to do: %@",[PGServer stateAsString:state]);
-#endif		
+			NSLog(@"button pressed, but don't know what to do: %@",[PGServer stateAsString:state]);
+#endif
+			break;
 	}
 }
 
