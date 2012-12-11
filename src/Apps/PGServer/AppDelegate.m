@@ -254,28 +254,30 @@ NSString* PGServerMessageNotificationInfo = @"PGServerMessageNotificationInfo";
 		deselectView = [oldViewController willUnselectView:self];
 	}
 	if(deselectView==NO) {
+		[[item toolbar] setSelectedItemIdentifier:oldIdentifier];
 		return;
 	}
 	
-	// calculate the size of new view
+	// new view
 	ViewController* newViewController = [_views objectForKey:identifier];
+	BOOL selectView = YES;
+	if([newViewController respondsToSelector:@selector(willSelectView:)]) {
+		selectView = [newViewController willSelectView:self];
+	}
+	if(selectView==NO) {
+		[[item toolbar] setSelectedItemIdentifier:oldIdentifier];
+		return;
+	}
+
 	NSSize viewControllerSize = [[oldViewController view] frame].size;
 	NSSize windowContentSize = [[_mainWindow contentView] frame].size;
 	CGFloat extraHeight = windowContentSize.height - viewControllerSize.height;
 	NSSize newViewControllerSize = [newViewController frameSize];
 	if(viewControllerSize.height > 0 && extraHeight > 0) {
 		newViewControllerSize.height += extraHeight;
-	}
-	
-	// determine if we really want to select the view
-	BOOL selectView = YES;
-	if([newViewController respondsToSelector:@selector(willSelectView:)]) {
-		selectView = [newViewController willSelectView:self];
-	}
-	if(selectView) {
-		[_tabView selectTabViewItemWithIdentifier:identifier];
-		[_mainWindow resizeToSize:newViewControllerSize];
-	}
+	}	
+	[_tabView selectTabViewItemWithIdentifier:identifier];
+	[_mainWindow resizeToSize:newViewControllerSize];
 }
 
 -(IBAction)ibStartStopButtonClicked:(id)sender {
