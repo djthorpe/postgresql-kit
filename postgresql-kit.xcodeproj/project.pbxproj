@@ -60,7 +60,6 @@
 		148F88CA166D63AE0088D3DF /* Gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = 148F88C6166D61060088D3DF /* Gradient.png */; };
 		14A228D01672389D007B16A2 /* ConnectionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14A228CE1672389D007B16A2 /* ConnectionsViewController.m */; };
 		14A228D11672389D007B16A2 /* ConnectionsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14A228CF1672389D007B16A2 /* ConnectionsView.xib */; };
-		14D2F493166A278B002DBD25 /* Configuration.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14D2F492166A278B002DBD25 /* Configuration.xib */; };
 		14D2FCB5166A16AC005E6390 /* PGServerConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 14D2FCAE166A16AC005E6390 /* PGServerConfiguration.h */; };
 		14D2FCB6166A16AC005E6390 /* PGServerConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 14D2FCAF166A16AC005E6390 /* PGServerConfiguration.m */; };
 		14D2FCB7166A16AC005E6390 /* PGServerHostAccess.h in Headers */ = {isa = PBXBuildFile; fileRef = 14D2FCB0166A16AC005E6390 /* PGServerHostAccess.h */; };
@@ -333,9 +332,6 @@
 		14A228CE1672389D007B16A2 /* ConnectionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionsViewController.m; sourceTree = "<group>"; };
 		14A228CF1672389D007B16A2 /* ConnectionsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConnectionsView.xib; sourceTree = "<group>"; };
 		14CF6E931667488500D2DF78 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
-		14D2F492166A278B002DBD25 /* Configuration.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Configuration.xib; sourceTree = "<group>"; };
-		14D2F495166A28F5002DBD25 /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
-		14D2F496166A28F5002DBD25 /* Application.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Application.m; sourceTree = "<group>"; };
 		14D2FCAE166A16AC005E6390 /* PGServerConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGServerConfiguration.h; sourceTree = "<group>"; };
 		14D2FCAF166A16AC005E6390 /* PGServerConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGServerConfiguration.m; sourceTree = "<group>"; };
 		14D2FCB0166A16AC005E6390 /* PGServerHostAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGServerHostAccess.h; sourceTree = "<group>"; };
@@ -600,11 +596,10 @@
 				14EB374D16712BC000B038B6 /* ViewController.h */,
 				14EB374E16712BC000B038B6 /* ViewController.m */,
 				141C52CA16714F7200648E67 /* LogView */,
-				145695EF16718D0B004471F9 /* ConnectionView */,
+				145695EF16718D0B004471F9 /* NetworkView */,
 				14237AF9166E7B31000DBCE1 /* ConfigurationView */,
 				14237AF6166E76A7000DBCE1 /* HostAccessView */,
 				14A228D3167238A3007B16A2 /* ConnectionsView */,
-				14EB37541671395200B038B6 /* Old */,
 			);
 			path = PGServer;
 			sourceTree = "<group>";
@@ -682,14 +677,14 @@
 			path = PGServer;
 			sourceTree = "<group>";
 		};
-		145695EF16718D0B004471F9 /* ConnectionView */ = {
+		145695EF16718D0B004471F9 /* NetworkView */ = {
 			isa = PBXGroup;
 			children = (
 				145695F116718D39004471F9 /* ConnectionViewController.h */,
 				145695F216718D39004471F9 /* ConnectionViewController.m */,
 				145695F316718D39004471F9 /* ConnectionView.xib */,
 			);
-			name = ConnectionView;
+			name = NetworkView;
 			sourceTree = "<group>";
 		};
 		14805A1A1662305200A4019F /* Cocoa */ = {
@@ -844,16 +839,6 @@
 				14A228CF1672389D007B16A2 /* ConnectionsView.xib */,
 			);
 			name = ConnectionsView;
-			sourceTree = "<group>";
-		};
-		14EB37541671395200B038B6 /* Old */ = {
-			isa = PBXGroup;
-			children = (
-				14D2F495166A28F5002DBD25 /* Application.h */,
-				14D2F496166A28F5002DBD25 /* Application.m */,
-				14D2F492166A278B002DBD25 /* Configuration.xib */,
-			);
-			name = Old;
 			sourceTree = "<group>";
 		};
 		14EE3C35166752F80083C735 /* doc */ = {
@@ -1285,7 +1270,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				145D3E3A166A1C3A002FEA91 /* elephant.icns in Resources */,
-				14D2F493166A278B002DBD25 /* Configuration.xib in Resources */,
 				148F88C9166D63AC0088D3DF /* ResizeControl.png in Resources */,
 				148F88CA166D63AE0088D3DF /* Gradient.png in Resources */,
 				14237AEF166E734A000DBCE1 /* MainWindow.xib in Resources */,

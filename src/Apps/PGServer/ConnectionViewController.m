@@ -16,7 +16,7 @@
 }
 
 -(NSString* )identifier {
-	return @"connection";
+	return @"network";
 }
 
 
