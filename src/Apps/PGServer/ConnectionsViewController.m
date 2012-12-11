@@ -63,8 +63,7 @@
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// public methods
-
+// NSViewController overrides
 
 -(BOOL)willSelectView:(id)sender {
 	// only allow view to be selected if server is running
@@ -82,6 +81,28 @@
 	[self _stopConnectionsTimer];
 	return YES;
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// NSMenu actions
+
+-(IBAction)doKillProcess:(id)sender {
+	NSInteger selectedRow = [_tableView selectedRow];
+	if(selectedRow >= 0 && selectedRow < [[self connections] size]) {
+		[[self connections] setRowNumber:selectedRow];
+		NSDictionary* row = [[self connections] fetchRowAsDictionary];
+		NSString* query = [NSString stringWithFormat:@"SELECT pg_terminate_backend(%@)",[row objectForKey:@"pid"]];
+		NSError* error;
+		[[self connection] execute:query format:PGClientTupleFormatBinary error:&error];
+		if(error) {
+#ifdef DEBUG
+			NSLog(@"doKillProcess: Error: %@",error);
+#endif
+		}
+		// reload data
+		[self refreshConnections:sender];
+	}
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // NSTableViewDataSource implementation
