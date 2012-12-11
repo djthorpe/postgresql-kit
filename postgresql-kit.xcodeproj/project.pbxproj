@@ -44,6 +44,11 @@
 		14237AF8166E76DA000DBCE1 /* HostAccessView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14237AF7166E76DA000DBCE1 /* HostAccessView.xib */; };
 		14237AFB166E7B58000DBCE1 /* ConfigurationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14237AFA166E7B58000DBCE1 /* ConfigurationView.xib */; };
 		14237AFE166E7BA2000DBCE1 /* ConfigurationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14237AFD166E7BA2000DBCE1 /* ConfigurationViewController.m */; };
+		14284F4D1677D7B900B805C9 /* UsersRolesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14284F4B1677D7B900B805C9 /* UsersRolesViewController.m */; };
+		14284F4E1677D7B900B805C9 /* UsersRolesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14284F4C1677D7B900B805C9 /* UsersRolesView.xib */; };
+		14284F521677D94800B805C9 /* DatabaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14284F501677D94800B805C9 /* DatabaseViewController.m */; };
+		14284F531677D94800B805C9 /* DatabaseView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14284F511677D94800B805C9 /* DatabaseView.xib */; };
+		14284F541677DA5200B805C9 /* database.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14032D72164A6F2200CD5796 /* database.tiff */; };
 		145695F416718D39004471F9 /* ConnectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 145695F216718D39004471F9 /* ConnectionViewController.m */; };
 		145695F516718D39004471F9 /* ConnectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 145695F316718D39004471F9 /* ConnectionView.xib */; };
 		145695F616718EE2004471F9 /* network.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14032DCD164A726400CD5796 /* network.tiff */; };
@@ -237,6 +242,12 @@
 		14237AFD166E7BA2000DBCE1 /* ConfigurationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfigurationViewController.m; sourceTree = "<group>"; };
 		142804551668114400A61BF6 /* openssl-1.0.1c.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = "openssl-1.0.1c.tar.gz"; sourceTree = "<group>"; };
 		142804561668115600A61BF6 /* make-openssl.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "make-openssl.sh"; sourceTree = "<group>"; };
+		14284F4A1677D7B900B805C9 /* UsersRolesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UsersRolesViewController.h; sourceTree = "<group>"; };
+		14284F4B1677D7B900B805C9 /* UsersRolesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UsersRolesViewController.m; sourceTree = "<group>"; };
+		14284F4C1677D7B900B805C9 /* UsersRolesView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UsersRolesView.xib; sourceTree = "<group>"; };
+		14284F4F1677D94800B805C9 /* DatabaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatabaseViewController.h; sourceTree = "<group>"; };
+		14284F501677D94800B805C9 /* DatabaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatabaseViewController.m; sourceTree = "<group>"; };
+		14284F511677D94800B805C9 /* DatabaseView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DatabaseView.xib; sourceTree = "<group>"; };
 		143742CA1672954C0092F862 /* ConfigurationPrefs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConfigurationPrefs.h; sourceTree = "<group>"; };
 		143742CB1672954C0092F862 /* ConfigurationPrefs.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConfigurationPrefs.m; sourceTree = "<group>"; };
 		143742CC1672954C0092F862 /* ConnectionPrefs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConnectionPrefs.h; sourceTree = "<group>"; };
@@ -574,14 +585,14 @@
 			path = TypeTests;
 			sourceTree = "<group>";
 		};
-		141C52CA16714F7200648E67 /* LogView */ = {
+		141C52CA16714F7200648E67 /* Logs */ = {
 			isa = PBXGroup;
 			children = (
 				141C52CC16714F9D00648E67 /* LogViewController.h */,
 				141C52CD16714F9D00648E67 /* LogViewController.m */,
 				141C52CE16714F9D00648E67 /* LogView.xib */,
 			);
-			name = LogView;
+			name = Logs;
 			sourceTree = "<group>";
 		};
 		141FCCF61646917B00197F3F /* PGServer */ = {
@@ -595,11 +606,13 @@
 				145D3E19166A19AC002FEA91 /* PGServer.plist */,
 				14EB374D16712BC000B038B6 /* ViewController.h */,
 				14EB374E16712BC000B038B6 /* ViewController.m */,
-				141C52CA16714F7200648E67 /* LogView */,
-				145695EF16718D0B004471F9 /* NetworkView */,
-				14237AF9166E7B31000DBCE1 /* ConfigurationView */,
-				14237AF6166E76A7000DBCE1 /* HostAccessView */,
-				14A228D3167238A3007B16A2 /* ConnectionsView */,
+				14284F491677D52C00B805C9 /* UsersRoles */,
+				14284F481677D52400B805C9 /* Databases */,
+				141C52CA16714F7200648E67 /* Logs */,
+				145695EF16718D0B004471F9 /* Network */,
+				14237AF9166E7B31000DBCE1 /* Configuration */,
+				14237AF6166E76A7000DBCE1 /* HostAccessRules */,
+				14A228D3167238A3007B16A2 /* Connections */,
 			);
 			path = PGServer;
 			sourceTree = "<group>";
@@ -631,24 +644,44 @@
 			name = PGResult;
 			sourceTree = "<group>";
 		};
-		14237AF6166E76A7000DBCE1 /* HostAccessView */ = {
+		14237AF6166E76A7000DBCE1 /* HostAccessRules */ = {
 			isa = PBXGroup;
 			children = (
 				14237AF3166E758E000DBCE1 /* HostAccessViewController.h */,
 				14237AF4166E758E000DBCE1 /* HostAccessViewController.m */,
 				14237AF7166E76DA000DBCE1 /* HostAccessView.xib */,
 			);
-			name = HostAccessView;
+			name = HostAccessRules;
 			sourceTree = "<group>";
 		};
-		14237AF9166E7B31000DBCE1 /* ConfigurationView */ = {
+		14237AF9166E7B31000DBCE1 /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
 				14237AFC166E7BA2000DBCE1 /* ConfigurationViewController.h */,
 				14237AFD166E7BA2000DBCE1 /* ConfigurationViewController.m */,
 				14237AFA166E7B58000DBCE1 /* ConfigurationView.xib */,
 			);
-			name = ConfigurationView;
+			name = Configuration;
+			sourceTree = "<group>";
+		};
+		14284F481677D52400B805C9 /* Databases */ = {
+			isa = PBXGroup;
+			children = (
+				14284F4F1677D94800B805C9 /* DatabaseViewController.h */,
+				14284F501677D94800B805C9 /* DatabaseViewController.m */,
+				14284F511677D94800B805C9 /* DatabaseView.xib */,
+			);
+			name = Databases;
+			sourceTree = "<group>";
+		};
+		14284F491677D52C00B805C9 /* UsersRoles */ = {
+			isa = PBXGroup;
+			children = (
+				14284F4A1677D7B900B805C9 /* UsersRolesViewController.h */,
+				14284F4B1677D7B900B805C9 /* UsersRolesViewController.m */,
+				14284F4C1677D7B900B805C9 /* UsersRolesView.xib */,
+			);
+			name = UsersRoles;
 			sourceTree = "<group>";
 		};
 		143742C8167294B90092F862 /* Frameworks */ = {
@@ -677,14 +710,14 @@
 			path = PGServer;
 			sourceTree = "<group>";
 		};
-		145695EF16718D0B004471F9 /* NetworkView */ = {
+		145695EF16718D0B004471F9 /* Network */ = {
 			isa = PBXGroup;
 			children = (
 				145695F116718D39004471F9 /* ConnectionViewController.h */,
 				145695F216718D39004471F9 /* ConnectionViewController.m */,
 				145695F316718D39004471F9 /* ConnectionView.xib */,
 			);
-			name = NetworkView;
+			name = Network;
 			sourceTree = "<group>";
 		};
 		14805A1A1662305200A4019F /* Cocoa */ = {
@@ -831,14 +864,14 @@
 			path = ui;
 			sourceTree = "<group>";
 		};
-		14A228D3167238A3007B16A2 /* ConnectionsView */ = {
+		14A228D3167238A3007B16A2 /* Connections */ = {
 			isa = PBXGroup;
 			children = (
 				14A228CD1672389D007B16A2 /* ConnectionsViewController.h */,
 				14A228CE1672389D007B16A2 /* ConnectionsViewController.m */,
 				14A228CF1672389D007B16A2 /* ConnectionsView.xib */,
 			);
-			name = ConnectionsView;
+			name = Connections;
 			sourceTree = "<group>";
 		};
 		14EE3C35166752F80083C735 /* doc */ = {
@@ -1284,6 +1317,9 @@
 				145695F516718D39004471F9 /* ConnectionView.xib in Resources */,
 				145695F616718EE2004471F9 /* network.tiff in Resources */,
 				14A228D11672389D007B16A2 /* ConnectionsView.xib in Resources */,
+				14284F4E1677D7B900B805C9 /* UsersRolesView.xib in Resources */,
+				14284F531677D94800B805C9 /* DatabaseView.xib in Resources */,
+				14284F541677DA5200B805C9 /* database.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1382,6 +1418,8 @@
 				141C52CF16714F9D00648E67 /* LogViewController.m in Sources */,
 				145695F416718D39004471F9 /* ConnectionViewController.m in Sources */,
 				14A228D01672389D007B16A2 /* ConnectionsViewController.m in Sources */,
+				14284F4D1677D7B900B805C9 /* UsersRolesViewController.m in Sources */,
+				14284F521677D94800B805C9 /* DatabaseViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

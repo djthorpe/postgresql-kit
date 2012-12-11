@@ -25,6 +25,7 @@ extern NSString* PGServerMessageNotificationInfo;
 @property (retain) NSString* versionString;
 @property (retain) NSString* buttonText;
 @property (assign) BOOL buttonEnabled;
+@property (assign) BOOL connectionsToolbarItemEnabled;
 @property (retain) NSImage* buttonImage;
 @property (assign) BOOL terminateRequested;
 

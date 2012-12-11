@@ -8,6 +8,8 @@
 #import "ConfigurationViewController.h"
 #import "ConnectionViewController.h"
 #import "ConnectionsViewController.h"
+#import "UsersRolesViewController.h"
+#import "DatabaseViewController.h"
 
 NSString* PGServerMessageNotificationError = @"PGServerMessageNotificationError";
 NSString* PGServerMessageNotificationWarning = @"PGServerMessageNotificationWarning";
@@ -74,6 +76,8 @@ NSString* PGServerMessageNotificationInfo = @"PGServerMessageNotificationInfo";
 	[self _addViewController:[[ConfigurationViewController alloc] init]];
 	[self _addViewController:[[ConnectionViewController alloc] init]];
 	[self _addViewController:[[ConnectionsViewController alloc] init]];
+	[self _addViewController:[[UsersRolesViewController alloc] init]];
+	[self _addViewController:[[DatabaseViewController alloc] init]];
 	
 	// switch toolbar to log
 	[self _toolbarSelectItemWithIdentifier:@"log"];
@@ -87,6 +91,9 @@ NSString* PGServerMessageNotificationInfo = @"PGServerMessageNotificationInfo";
 	
 	// set button state
 	[self _setButtonState:[[self server] state]];
+	
+	// set connections toolbar item state
+	[self setConnectionsToolbarItemEnabled:NO];
 	
 	// timer to update the uptime
 	[NSTimer scheduledTimerWithTimeInterval:60.0 target:self selector:@selector(timerFired:) userInfo:nil repeats:YES];
@@ -181,6 +188,15 @@ NSString* PGServerMessageNotificationInfo = @"PGServerMessageNotificationInfo";
 		default:
 			break;
 	}
+	
+	switch([[self connection] status]) {
+		case PGConnectionStatusConnected:
+			[self setConnectionsToolbarItemEnabled:YES];
+			break;
+		default:
+			[self setConnectionsToolbarItemEnabled:NO];
+			break;			
+	}
 }
 
 
@@ -224,8 +240,6 @@ NSString* PGServerMessageNotificationInfo = @"PGServerMessageNotificationInfo";
 #endif
 	[self _setButtonState:state];
 	[self _setStatusString:state];
-
-	// connect and disconnect
 	[self _setConnection:state];
 	
 	// check for terminating
