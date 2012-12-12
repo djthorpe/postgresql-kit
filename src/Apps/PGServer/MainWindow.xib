@@ -909,14 +909,6 @@
 									<reference key="NSOnImage" ref="556924116"/>
 									<reference key="NSMixedImage" ref="312570081"/>
 								</object>
-								<object class="NSMenuItem" id="600243958">
-									<reference key="NSMenu" ref="452342050"/>
-									<string key="NSTitle">Server Status</string>
-									<string key="NSKeyEquiv"/>
-									<int key="NSMnemonicLoc">2147483647</int>
-									<reference key="NSOnImage" ref="556924116"/>
-									<reference key="NSMixedImage" ref="312570081"/>
-								</object>
 								<object class="NSMenuItem" id="632107224">
 									<reference key="NSMenu" ref="452342050"/>
 									<string key="NSTitle">Server Connections</string>
@@ -1009,7 +1001,7 @@
 				<int key="NSWindowBacking">2</int>
 				<string key="NSWindowRect">{{121, 123}, {485, 152}}</string>
 				<int key="NSWTFlags">1685586944</int>
-				<string key="NSWindowTitle">Window</string>
+				<string key="NSWindowTitle">Confirm Connections Sheet</string>
 				<string key="NSWindowClass">NSWindow</string>
 				<nil key="NSViewClass"/>
 				<nil key="NSUserInterfaceItemIdentifier"/>
@@ -1073,7 +1065,6 @@
 							<string key="NSFrame">{{349, 13}, {119, 32}}</string>
 							<reference key="NSSuperview" ref="189169247"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="207917958">
@@ -1440,6 +1431,94 @@
 					<int key="connectionID">502</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">ibServerMenuItemClicked:</string>
+						<reference key="source" ref="736345086"/>
+						<reference key="destination" ref="708901972"/>
+					</object>
+					<int key="connectionID">503</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">ibServerMenuItemClicked:</string>
+						<reference key="source" ref="736345086"/>
+						<reference key="destination" ref="470670335"/>
+					</object>
+					<int key="connectionID">504</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">ibServerMenuItemClicked:</string>
+						<reference key="source" ref="736345086"/>
+						<reference key="destination" ref="358591995"/>
+					</object>
+					<int key="connectionID">505</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">ibServerMenuItemClicked:</string>
+						<reference key="source" ref="736345086"/>
+						<reference key="destination" ref="981536586"/>
+					</object>
+					<int key="connectionID">506</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">ibViewMenuItemClicked:</string>
+						<reference key="source" ref="736345086"/>
+						<reference key="destination" ref="882945921"/>
+					</object>
+					<int key="connectionID">527</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">ibViewMenuItemClicked:</string>
+						<reference key="source" ref="736345086"/>
+						<reference key="destination" ref="994483226"/>
+					</object>
+					<int key="connectionID">528</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">ibViewMenuItemClicked:</string>
+						<reference key="source" ref="736345086"/>
+						<reference key="destination" ref="1063768150"/>
+					</object>
+					<int key="connectionID">529</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">ibViewMenuItemClicked:</string>
+						<reference key="source" ref="736345086"/>
+						<reference key="destination" ref="164184592"/>
+					</object>
+					<int key="connectionID">530</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">ibViewMenuItemClicked:</string>
+						<reference key="source" ref="736345086"/>
+						<reference key="destination" ref="778867502"/>
+					</object>
+					<int key="connectionID">531</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">ibViewMenuItemClicked:</string>
+						<reference key="source" ref="736345086"/>
+						<reference key="destination" ref="632107224"/>
+					</object>
+					<int key="connectionID">532</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">ibViewMenuItemClicked:</string>
+						<reference key="source" ref="736345086"/>
+						<reference key="destination" ref="637588928"/>
+					</object>
+					<int key="connectionID">533</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">title: buttonText</string>
 						<reference key="source" ref="643949613"/>
@@ -1537,51 +1616,163 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled: connectionsToolbarItemEnabled</string>
+						<string key="label">enabled: clientConnected</string>
 						<reference key="source" ref="1037747922"/>
 						<reference key="destination" ref="736345086"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="1037747922"/>
 							<reference key="NSDestination" ref="736345086"/>
-							<string key="NSLabel">enabled: connectionsToolbarItemEnabled</string>
+							<string key="NSLabel">enabled: clientConnected</string>
 							<string key="NSBinding">enabled</string>
-							<string key="NSKeyPath">connectionsToolbarItemEnabled</string>
+							<string key="NSKeyPath">clientConnected</string>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">433</int>
+					<int key="connectionID">518</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled: connectionsToolbarItemEnabled</string>
+						<string key="label">enabled: clientConnected</string>
+						<reference key="source" ref="632107224"/>
+						<reference key="destination" ref="736345086"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="632107224"/>
+							<reference key="NSDestination" ref="736345086"/>
+							<string key="NSLabel">enabled: clientConnected</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">clientConnected</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">526</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: clientConnected</string>
+						<reference key="source" ref="164184592"/>
+						<reference key="destination" ref="736345086"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="164184592"/>
+							<reference key="NSDestination" ref="736345086"/>
+							<string key="NSLabel">enabled: clientConnected</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">clientConnected</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">522</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: clientConnected</string>
+						<reference key="source" ref="778867502"/>
+						<reference key="destination" ref="736345086"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="778867502"/>
+							<reference key="NSDestination" ref="736345086"/>
+							<string key="NSLabel">enabled: clientConnected</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">clientConnected</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">524</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: serverStopped</string>
+						<reference key="source" ref="708901972"/>
+						<reference key="destination" ref="736345086"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="708901972"/>
+							<reference key="NSDestination" ref="736345086"/>
+							<string key="NSLabel">enabled: serverStopped</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">serverStopped</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">520</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: serverRunning</string>
+						<reference key="source" ref="470670335"/>
+						<reference key="destination" ref="736345086"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="470670335"/>
+							<reference key="NSDestination" ref="736345086"/>
+							<string key="NSLabel">enabled: serverRunning</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">serverRunning</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">511</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: serverRunning</string>
+						<reference key="source" ref="981536586"/>
+						<reference key="destination" ref="736345086"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="981536586"/>
+							<reference key="NSDestination" ref="736345086"/>
+							<string key="NSLabel">enabled: serverRunning</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">serverRunning</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">515</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: serverRunning</string>
+						<reference key="source" ref="358591995"/>
+						<reference key="destination" ref="736345086"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="358591995"/>
+							<reference key="NSDestination" ref="736345086"/>
+							<string key="NSLabel">enabled: serverRunning</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">serverRunning</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">513</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: clientConnected</string>
 						<reference key="source" ref="751765697"/>
 						<reference key="destination" ref="736345086"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="751765697"/>
 							<reference key="NSDestination" ref="736345086"/>
-							<string key="NSLabel">enabled: connectionsToolbarItemEnabled</string>
+							<string key="NSLabel">enabled: clientConnected</string>
 							<string key="NSBinding">enabled</string>
-							<string key="NSKeyPath">connectionsToolbarItemEnabled</string>
+							<string key="NSKeyPath">clientConnected</string>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">437</int>
+					<int key="connectionID">516</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled: connectionsToolbarItemEnabled</string>
+						<string key="label">enabled: clientConnected</string>
 						<reference key="source" ref="866887628"/>
 						<reference key="destination" ref="736345086"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="866887628"/>
 							<reference key="NSDestination" ref="736345086"/>
-							<string key="NSLabel">enabled: connectionsToolbarItemEnabled</string>
+							<string key="NSLabel">enabled: clientConnected</string>
 							<string key="NSBinding">enabled</string>
-							<string key="NSKeyPath">connectionsToolbarItemEnabled</string>
+							<string key="NSKeyPath">clientConnected</string>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">440</int>
+					<int key="connectionID">517</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -2425,7 +2616,6 @@
 							<reference ref="667967705"/>
 							<reference ref="164184592"/>
 							<reference ref="778867502"/>
-							<reference ref="600243958"/>
 						</array>
 						<reference key="parent" ref="141352393"/>
 					</object>
@@ -2645,11 +2835,6 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">421</int>
 						<reference key="object" ref="778867502"/>
-						<reference key="parent" ref="452342050"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">422</int>
-						<reference key="object" ref="600243958"/>
 						<reference key="parent" ref="452342050"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -3258,7 +3443,6 @@
 				<string key="419.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="420.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="421.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="422.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="423.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="424.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="425.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -3349,7 +3533,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">502</int>
+			<int key="maxID">533</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">

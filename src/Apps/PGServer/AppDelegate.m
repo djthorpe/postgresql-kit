@@ -93,11 +93,9 @@ const NSInteger PGServerButtonContinue = 300;
 	[self setUptimeString:@""];
 	[self setVersionString:[[self server] version]];
 	
-	// set button state
+	// set button state, server status
 	[self _setButtonState:[[self server] state]];
-	
-	// set connections toolbar item state
-	[self setConnectionsToolbarItemEnabled:NO];
+	[self _setServerStatus:[[self server] state]];
 	
 	// timer to update the uptime
 	[NSTimer scheduledTimerWithTimeInterval:60.0 target:self selector:@selector(timerFired:) userInfo:nil repeats:YES];
@@ -195,14 +193,29 @@ const NSInteger PGServerButtonContinue = 300;
 	
 	switch([[self connection] status]) {
 		case PGConnectionStatusConnected:
-			[self setConnectionsToolbarItemEnabled:YES];
+			[self setClientConnected:YES];
 			break;
 		default:
-			[self setConnectionsToolbarItemEnabled:NO];
+			[self setClientConnected:NO];
 			break;			
 	}
 }
 
+-(void)_setServerStatus:(PGServerState)state {
+	// set serverRunning state
+	if(state==PGServerStateAlreadyRunning || state==PGServerStateRunning) {
+		[self setServerRunning:YES];
+	} else {
+		[self setServerRunning:NO];
+	}
+	
+	// set serverStopped state
+	if(state==PGServerStateUnknown || state==PGServerStateStopped) {
+		[self setServerStopped:YES];
+	} else {
+		[self setServerStopped:NO];
+	}
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // Retrieve number of remote connections
@@ -231,7 +244,7 @@ const NSInteger PGServerButtonContinue = 300;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// Confirm Server Stop/Start/Restart
+// Confirm Server Stop/Restart
 
 -(IBAction)ibConfirmCloseStartSheet:(id)sender {
 	[NSApp beginSheet:_closeConfirmSheet modalForWindow:_mainWindow modalDelegate:self didEndSelector:@selector(_endCloseConfirmSheet:returnCode:contextInfo:) contextInfo:nil];
@@ -247,7 +260,6 @@ const NSInteger PGServerButtonContinue = 300;
 	} else if([[(NSButton* )sender title] isEqualToString:@"Connections"]) {
 		returnCode = PGServerButtonConnections;
 	}
-	NSLog(@"%@ => %ld",[(NSButton* )sender title],returnCode);
 	[NSApp endSheet:[(NSButton* )sender window] returnCode:returnCode];
 }
 
@@ -309,6 +321,7 @@ const NSInteger PGServerButtonContinue = 300;
 	[self _setButtonState:state];
 	[self _setStatusString:state];
 	[self _setConnection:state];
+	[self _setServerStatus:state];
 	
 	// check for terminating
 	if(state==PGServerStateStopped && [self terminateRequested]) {
@@ -391,5 +404,14 @@ const NSInteger PGServerButtonContinue = 300;
 			break;
 	}
 }
+
+-(IBAction)ibServerMenuItemClicked:(id)sender {
+	NSLog(@"sender server = %@",sender);
+}
+
+-(IBAction)ibViewMenuItemClicked:(id)sender {
+	NSLog(@"sender view = %@",sender);
+}
+
 
 @end
