@@ -317,10 +317,6 @@
 }
 */
 
-/*-(void)setValue:(NSObject* )value enabled:(BOOL)enabled forKey:(NSString* )key error:(NSError** )error {
- 
- }*/
-
 -(PGTokenizerValue* )valueForKey:(NSString* )key {
 	return [[self _lineForKey:key] value];
 }
@@ -336,5 +332,31 @@
 -(NSString* )commentForKey:(NSString* )key {
 	return [[self _lineForKey:key] comment];
 }
+
+-(void)setEnabled:(BOOL)value forKey:(NSString* )key {
+	NSParameterAssert(key);
+	
+	PGServerConfigurationKeyValue* pair = [self _lineForKey:key];
+	NSParameterAssert(pair);
+	
+	if(value==[pair enabled]) {
+		// ignore if the new value is the same
+		return;
+	}
+
+	[pair setEnabled:value];
+	[self setModified:YES];
+}
+
+/*
+-(void)setString:(NSString* )value forKey:(NSString* )key {
+	NSParameterAssert(key);
+	
+	PGServerConfigurationKeyValue* pair = [self _lineForKey:key];
+	NSParameterAssert(pair);
+
+	// TODO
+}
+*/
 
 @end

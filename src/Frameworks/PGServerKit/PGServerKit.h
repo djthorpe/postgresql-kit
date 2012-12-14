@@ -36,5 +36,6 @@ typedef enum {
 #import "PGServer+Backup.h"
 #import "PGTokenizer.h"
 #import "PGServerConfiguration.h"
+#import "PGServerConfiguration+Helpers.h"
 #import "PGServerHostAccess.h"
 

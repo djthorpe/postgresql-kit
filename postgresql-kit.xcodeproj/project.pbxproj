@@ -66,6 +66,8 @@
 		14A053EA1677F35A004C086A /* halt.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14032DC9164A718C00CD5796 /* halt.tiff */; };
 		14A228D01672389D007B16A2 /* ConnectionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14A228CE1672389D007B16A2 /* ConnectionsViewController.m */; };
 		14A228D11672389D007B16A2 /* ConnectionsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14A228CF1672389D007B16A2 /* ConnectionsView.xib */; };
+		14B7DCF9167A6A410064B37F /* PGServerConfiguration+Helpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 14B7DCF7167A6A410064B37F /* PGServerConfiguration+Helpers.h */; };
+		14B7DCFA167A6A410064B37F /* PGServerConfiguration+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 14B7DCF8167A6A410064B37F /* PGServerConfiguration+Helpers.m */; };
 		14D2FCB5166A16AC005E6390 /* PGServerConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 14D2FCAE166A16AC005E6390 /* PGServerConfiguration.h */; };
 		14D2FCB6166A16AC005E6390 /* PGServerConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 14D2FCAF166A16AC005E6390 /* PGServerConfiguration.m */; };
 		14D2FCB7166A16AC005E6390 /* PGServerHostAccess.h in Headers */ = {isa = PBXBuildFile; fileRef = 14D2FCB0166A16AC005E6390 /* PGServerHostAccess.h */; };
@@ -343,6 +345,8 @@
 		14A228CD1672389D007B16A2 /* ConnectionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionsViewController.h; sourceTree = "<group>"; };
 		14A228CE1672389D007B16A2 /* ConnectionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionsViewController.m; sourceTree = "<group>"; };
 		14A228CF1672389D007B16A2 /* ConnectionsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConnectionsView.xib; sourceTree = "<group>"; };
+		14B7DCF7167A6A410064B37F /* PGServerConfiguration+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PGServerConfiguration+Helpers.h"; sourceTree = "<group>"; };
+		14B7DCF8167A6A410064B37F /* PGServerConfiguration+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PGServerConfiguration+Helpers.m"; sourceTree = "<group>"; };
 		14CF6E931667488500D2DF78 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		14D2FCAE166A16AC005E6390 /* PGServerConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGServerConfiguration.h; sourceTree = "<group>"; };
 		14D2FCAF166A16AC005E6390 /* PGServerConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGServerConfiguration.m; sourceTree = "<group>"; };
@@ -623,6 +627,8 @@
 			children = (
 				14D2FCAE166A16AC005E6390 /* PGServerConfiguration.h */,
 				14D2FCAF166A16AC005E6390 /* PGServerConfiguration.m */,
+				14B7DCF7167A6A410064B37F /* PGServerConfiguration+Helpers.h */,
+				14B7DCF8167A6A410064B37F /* PGServerConfiguration+Helpers.m */,
 				14D2FCB0166A16AC005E6390 /* PGServerHostAccess.h */,
 				14D2FCB1166A16AC005E6390 /* PGServerHostAccess.m */,
 				14D2FCB2166A16AC005E6390 /* PGTokenizer.h */,
@@ -1110,6 +1116,7 @@
 				14D2FCB5166A16AC005E6390 /* PGServerConfiguration.h in Headers */,
 				14D2FCB7166A16AC005E6390 /* PGServerHostAccess.h in Headers */,
 				14D2FCB9166A16AC005E6390 /* PGTokenizer.h in Headers */,
+				14B7DCF9167A6A410064B37F /* PGServerConfiguration+Helpers.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1465,6 +1472,7 @@
 				14D2FCB8166A16AC005E6390 /* PGServerHostAccess.m in Sources */,
 				14D2FCBA166A16AC005E6390 /* PGTokenizer.lm in Sources */,
 				14D2FCBB166A16AC005E6390 /* PGTokenizer.m in Sources */,
+				14B7DCFA167A6A410064B37F /* PGServerConfiguration+Helpers.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

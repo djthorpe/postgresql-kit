@@ -37,4 +37,7 @@
 -(BOOL)enabledForKey:(NSString* )key;
 -(NSString* )commentForKey:(NSString* )key;
 
+-(void)setEnabled:(BOOL)enabled forKey:(NSString* )key;
+-(void)setString:(NSString* )value forKey:(NSString* )key;
+
 @end
