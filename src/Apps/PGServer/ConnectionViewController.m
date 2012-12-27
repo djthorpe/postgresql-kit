@@ -19,6 +19,9 @@
 	return @"network";
 }
 
+-(NSInteger)tag {
+	return 1;
+}
 
 -(PGServerConfiguration* )configuration {
 	return [[[self delegate] server] configuration];

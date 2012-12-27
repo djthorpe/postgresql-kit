@@ -13,6 +13,9 @@ NSString* PGServerHostAccessDragType = @"PGServerHostAccessDragType";
 	return @"hostaccess";
 }
 
+-(NSInteger)tag {
+	return 3;
+}
 
 -(PGServer* )server {
 	return [[self delegate] server];

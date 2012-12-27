@@ -12,6 +12,9 @@
 	return @"databases";
 }
 
+-(NSInteger)tag {
+	return 5;
+}
 
 -(PGConnection* )connection {
 	return [[self delegate] connection];

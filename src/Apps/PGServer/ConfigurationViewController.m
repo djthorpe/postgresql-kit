@@ -16,6 +16,10 @@
 	return @"configuration";
 }
 
+-(NSInteger)tag {
+	return 2;
+}
+
 -(PGServer* )server {
 	return [[self delegate] server];
 }

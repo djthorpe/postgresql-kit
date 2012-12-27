@@ -3,6 +3,8 @@
 
 @implementation ViewController
 
+@dynamic tag;
+
 -(void)loadView {
 	[super loadView];
 	[self setFrameSize:[[self view] frame].size];
@@ -18,6 +20,10 @@
 // not unselect the view
 -(BOOL)willUnselectView:(id)sender {
 	return YES;
+}
+
+-(NSInteger)tag {
+	return -1;
 }
 
 @end

@@ -54,6 +54,7 @@ const NSInteger PGServerButtonContinue = 300;
 	return [[theApplicationSupportDirectory objectAtIndex:0] stringByAppendingPathComponent:theIdent];
 }
 
+
 -(void)_addViewController:(ViewController* )viewController {
 	// set delegate
 	[viewController setDelegate:self];
@@ -410,7 +411,13 @@ const NSInteger PGServerButtonContinue = 300;
 }
 
 -(IBAction)ibViewMenuItemClicked:(id)sender {
-	NSLog(@"sender view = %@",sender);
+	NSMenuItem* menuItem = (NSMenuItem* )sender;
+	NSParameterAssert([menuItem isKindOfClass:[NSMenuItem class]]);
+	for(ViewController* viewController in [_views allValues]) {
+		if([viewController tag]==[menuItem tag]) {
+			[self _toolbarSelectItemWithIdentifier:[viewController identifier]];
+		}
+	}
 }
 
 

@@ -12,6 +12,10 @@
 	return @"log";
 }
 
+-(NSInteger)tag {
+	return 0;
+}
+
 -(void)loadView {
 	[super loadView];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(log:) name:PGServerMessageNotificationFatal object:nil];

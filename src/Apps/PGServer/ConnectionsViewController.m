@@ -15,6 +15,10 @@
 	return @"connections";
 }
 
+-(NSInteger)tag {
+	return 9;
+}
+
 -(PGConnection* )connection {
 	return [[self delegate] connection];
 }

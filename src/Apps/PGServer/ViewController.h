@@ -17,7 +17,9 @@
 @property id<ViewControllerDelegate> delegate;
 @property NSSize frameSize;
 @property (readonly) NSString* identifier;
+@property (readonly) NSInteger tag;
 
+// messages sent to ViewController
 -(BOOL)willSelectView:(id)sender;
 -(BOOL)willUnselectView:(id)sender;
 

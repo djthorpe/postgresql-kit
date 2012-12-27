@@ -12,6 +12,11 @@
 	return @"users";
 }
 
+
+-(NSInteger)tag {
+	return 4;
+}
+
 -(void)loadView {
 	[super loadView];
 }
