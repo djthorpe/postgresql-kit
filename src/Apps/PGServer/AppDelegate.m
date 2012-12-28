@@ -19,6 +19,10 @@ NSString* PGServerMessageNotificationInfo = @"PGServerMessageNotificationInfo";
 const NSInteger PGServerButtonCancel = 100;
 const NSInteger PGServerButtonConnections = 200;
 const NSInteger PGServerButtonContinue = 300;
+const NSInteger PGServerMenuTagStart = 1;
+const NSInteger PGServerMenuTagStop = 2;
+const NSInteger PGServerMenuTagReload = 3;
+const NSInteger PGServerMenuTagRestart = 4;
 
 @implementation AppDelegate
 
@@ -406,12 +410,52 @@ const NSInteger PGServerButtonContinue = 300;
 	}
 }
 
--(IBAction)ibServerMenuItemClicked:(id)sender {
-	NSLog(@"sender server = %@",sender);
+-(IBAction)ibServerMenuItemClicked:(NSMenuItem* )menuItem {
+	NSParameterAssert([menuItem isKindOfClass:[NSMenuItem class]]);
+	switch([menuItem tag]) {
+		case PGServerMenuTagStart:
+			// start the server
+			[[self server] start];
+			// switch to logging pane
+			[self _toolbarSelectItemWithIdentifier:@"log"];
+			break;
+		case PGServerMenuTagStop:
+			if([self _numberOfConnections] > 0) {
+				// confirm stopping
+				[self ibConfirmCloseStartSheet:menuItem];
+			} else {
+				// switch to logging pane
+				[self _toolbarSelectItemWithIdentifier:@"log"];
+				// stop the server
+				[[self server] stop];
+			}
+			break;
+		case PGServerMenuTagReload:
+			// reload the server
+			[[self server] reload];
+			// switch to logging pane
+			[self _toolbarSelectItemWithIdentifier:@"log"];
+			break;
+		case PGServerMenuTagRestart:
+			if([self _numberOfConnections] > 0) {
+				// confirm stopping
+				[self ibConfirmCloseStartSheet:menuItem];
+			} else {
+				// switch to logging pane
+				[self _toolbarSelectItemWithIdentifier:@"log"];
+				// restart the server
+				[[self server] restart];
+			}
+			break;
+		default:
+#ifdef DEBUG
+			NSLog(@"menuItem pressed, but don't know what to do: %@",menuItem);
+#endif
+			break;
+	}
 }
 
--(IBAction)ibViewMenuItemClicked:(id)sender {
-	NSMenuItem* menuItem = (NSMenuItem* )sender;
+-(IBAction)ibViewMenuItemClicked:(NSMenuItem* )menuItem {
 	NSParameterAssert([menuItem isKindOfClass:[NSMenuItem class]]);
 	for(ViewController* viewController in [_views allValues]) {
 		if([viewController tag]==[menuItem tag]) {

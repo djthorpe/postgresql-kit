@@ -32,7 +32,9 @@ extern NSString* PGServerMessageNotificationInfo;
 @property (retain) NSImage* buttonImage;
 @property (assign) BOOL terminateRequested;
 
-// toolbar item
+// toolbar/menu items clicked
 -(IBAction)ibToolbarItemClicked:(id)sender;
+-(IBAction)ibViewMenuItemClicked:(NSMenuItem* )menuItem;
+-(IBAction)ibServerMenuItemClicked:(NSMenuItem* )menuItem;
 
 @end
