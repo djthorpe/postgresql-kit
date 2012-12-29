@@ -10,4 +10,9 @@
 
 @property PGResult* result;
 
+// IBActions
+-(IBAction)ibCreateDatabase:(id)sender;
+-(IBAction)ibDropDatabase:(id)sender;
+-(IBAction)ibBackupDatabase:(id)sender;
+
 @end

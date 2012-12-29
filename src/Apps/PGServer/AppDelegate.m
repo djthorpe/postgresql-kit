@@ -528,5 +528,4 @@ const NSInteger PGServerMenuTagRestart = 4;
 	}
 }
 
-
 @end

@@ -72,7 +72,6 @@
 		result = nil;
 	}
 	[self setResult:result];
-	NSLog(@"result = %@",[result tableWithWidth:80]);
 	[_tableView reloadData];
 }
 
@@ -102,5 +101,22 @@
 -(void)loadView {
 	[super loadView];
 }
+
+
+////////////////////////////////////////////////////////////////////////////////
+// Actions
+
+-(IBAction)ibCreateDatabase:(id)sender {
+	NSLog(@"create");
+}
+
+-(IBAction)ibDropDatabase:(id)sender {
+	NSLog(@"drop");
+}
+
+-(IBAction)ibBackupDatabase:(id)sender {
+	NSLog(@"backup");	
+}
+
 
 @end
