@@ -87,7 +87,7 @@ const NSInteger PGServerMenuTagRestart = 4;
 	[self _addViewController:[[ConnectionsViewController alloc] init]];
 	[self _addViewController:[[UsersRolesViewController alloc] init]];
 	[self _addViewController:[[DatabaseViewController alloc] init]];
-	
+		
 	// switch toolbar to log
 	[self _toolbarSelectItemWithIdentifier:@"log"];
 	
@@ -222,6 +222,15 @@ const NSInteger PGServerMenuTagRestart = 4;
 	}
 }
 
+-(void)_setDockIcon {
+	NSDockTile* dockIcon = [[NSApplication sharedApplication] dockTile];
+	if([self serverRunning]) {
+		[dockIcon setBadgeLabel:@"1"];
+	} else {
+		[dockIcon setBadgeLabel:nil];
+	}
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // Retrieve number of remote connections
 
@@ -230,7 +239,9 @@ const NSInteger PGServerMenuTagRestart = 4;
 		return 0;
 	}
 	NSError* error;
-	PGResult* result = [[self connection] execute:@"SELECT COUNT(*) AS num_connections FROM pg_stat_activity WHERE procpid <> pg_backend_pid()" format:PGClientTupleFormatBinary error:&error];
+	PGResult* result = [[self connection] execute:NSLocalizedStringFromTable(@"PGServerNumberOfConnections",@"SQL",@"")
+										   format:PGClientTupleFormatBinary
+											error:&error];
 	if(error) {
 #ifdef DEBUG
 		NSLog(@"_numberOfConnections: Error: %@",error);
@@ -246,6 +257,91 @@ const NSInteger PGServerMenuTagRestart = 4;
 		return [numConnections unsignedIntegerValue];
 	}
 	return 0;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Start, Stop, Reload and Restart server
+
+-(void)_doServerStop:(id)sender {
+	PGServerState state = [[self server] state];
+	switch(state) {
+		case PGServerStateRunning:
+		case PGServerStateAlreadyRunning:
+			if([self _numberOfConnections] > 0) {
+				// confirm stopping
+				[self ibConfirmCloseStartSheet:sender];
+			} else {
+				// switch to logging pane
+				[self _toolbarSelectItemWithIdentifier:@"log"];
+				// stop the server
+				[[self server] stop];
+			}
+			break;
+		default:
+#ifdef DEBUG
+			NSLog(@"_doServerStop: wrong state: %@: sender: %@",[PGServer stateAsString:state],sender);
+#endif		
+			break;
+	}
+}
+
+-(void)_doServerStart:(id)sender {
+	PGServerState state = [[self server] state];
+	switch(state) {
+		case PGServerStateUnknown:
+		case PGServerStateStopped:
+			// start the server
+			[[self server] start];
+			// switch to logging pane
+			[self _toolbarSelectItemWithIdentifier:@"log"];
+			break;
+		default:
+#ifdef DEBUG
+			NSLog(@"_doServerStart: wrong state: %@: sender: %@",[PGServer stateAsString:state],sender);
+#endif
+			break;
+	}
+}
+
+-(void)_doServerRestart:(id)sender {
+	PGServerState state = [[self server] state];
+	switch(state) {
+		case PGServerStateRunning:
+		case PGServerStateAlreadyRunning:
+			if([self _numberOfConnections] > 0) {
+				// confirm stopping
+				[self ibConfirmCloseStartSheet:sender];
+			} else {
+				// switch to logging pane
+				[self _toolbarSelectItemWithIdentifier:@"log"];
+				// restart the server
+				[[self server] restart];
+			}
+			break;
+		default:
+#ifdef DEBUG
+			NSLog(@"_doServerRestart: wrong state: %@: sender: %@",[PGServer stateAsString:state],sender);
+#endif
+			break;
+	}	
+}
+
+-(void)_doServerReload:(id)sender {
+	PGServerState state = [[self server] state];
+	switch(state) {
+		case PGServerStateRunning:
+		case PGServerStateAlreadyRunning:
+			// switch to logging pane
+			[self _toolbarSelectItemWithIdentifier:@"log"];
+			// reload the server
+			[[self server] reload];
+			break;
+		default:
+#ifdef DEBUG
+			NSLog(@"_doServerReload: wrong state: %@: sender: %@",[PGServer stateAsString:state],sender);
+#endif
+			break;
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -274,6 +370,7 @@ const NSInteger PGServerMenuTagRestart = 4;
 
 	switch(returnCode) {
 		case PGServerButtonContinue:
+			// TODO
 			NSLog(@"TERMINATE CONNECTIONS");
 			break;
 		case PGServerButtonConnections:
@@ -327,6 +424,7 @@ const NSInteger PGServerMenuTagRestart = 4;
 	[self _setStatusString:state];
 	[self _setConnection:state];
 	[self _setServerStatus:state];
+	[self _setDockIcon];
 	
 	// check for terminating
 	if(state==PGServerStateStopped && [self terminateRequested]) {
@@ -385,24 +483,12 @@ const NSInteger PGServerMenuTagRestart = 4;
 	switch(state) {
 		case PGServerStateUnknown:
 		case PGServerStateStopped:
-			// start the server
-			[[self server] start];
-			// switch to logging pane
-			[self _toolbarSelectItemWithIdentifier:@"log"];
+			[self _doServerStart:sender];
 			break;
 		case PGServerStateRunning:
 		case PGServerStateAlreadyRunning:
-			if([self _numberOfConnections] > 0) {
-				// confirm stopping
-				[self ibConfirmCloseStartSheet:sender];
-			} else {
-				// switch to logging pane
-				[self _toolbarSelectItemWithIdentifier:@"log"];
-				// stop the server
-				[[self server] stop];
-			}
+			[self _doServerStop:sender];
 		default:
-			// don't know what to do!
 #ifdef DEBUG
 			NSLog(@"button pressed, but don't know what to do: %@",[PGServer stateAsString:state]);
 #endif
@@ -414,38 +500,16 @@ const NSInteger PGServerMenuTagRestart = 4;
 	NSParameterAssert([menuItem isKindOfClass:[NSMenuItem class]]);
 	switch([menuItem tag]) {
 		case PGServerMenuTagStart:
-			// start the server
-			[[self server] start];
-			// switch to logging pane
-			[self _toolbarSelectItemWithIdentifier:@"log"];
+			[self _doServerStart:menuItem];
 			break;
 		case PGServerMenuTagStop:
-			if([self _numberOfConnections] > 0) {
-				// confirm stopping
-				[self ibConfirmCloseStartSheet:menuItem];
-			} else {
-				// switch to logging pane
-				[self _toolbarSelectItemWithIdentifier:@"log"];
-				// stop the server
-				[[self server] stop];
-			}
+			[self _doServerStop:menuItem];
 			break;
 		case PGServerMenuTagReload:
-			// reload the server
-			[[self server] reload];
-			// switch to logging pane
-			[self _toolbarSelectItemWithIdentifier:@"log"];
+			[self _doServerReload:menuItem];
 			break;
 		case PGServerMenuTagRestart:
-			if([self _numberOfConnections] > 0) {
-				// confirm stopping
-				[self ibConfirmCloseStartSheet:menuItem];
-			} else {
-				// switch to logging pane
-				[self _toolbarSelectItemWithIdentifier:@"log"];
-				// restart the server
-				[[self server] restart];
-			}
+			[self _doServerRestart:menuItem];
 			break;
 		default:
 #ifdef DEBUG

@@ -11,6 +11,17 @@ TARZ=${1}
 BUILD=${2}
 VERSION=`basename ${TARZ} | sed 's/\.tar\.gz//'`
 
+# Check for openssl installation
+if [ "${OPENSSL}XX" != "XX" ] && [ -d ${OPENSSL} ]
+then
+  echo "Using openssl libraries: ${OPENSSL}"
+  MY_INC=${OPENSSL}/include
+  MY_LIB=${OPENSSL}
+else
+  MY_INC=""
+  MY_LIB=""
+fi
+
 # Check for the TAR file to make sure it exists
 if [ "${TARZ}XX" == "XX" ] || [ ! -e ${TARZ} ]
 then
@@ -58,7 +69,7 @@ tar -C ${UNARCHIVE} -zxvf ${TARZ}
 cd "${UNARCHIVE}/${VERSION}"
 export CFLAGS="-arch x86_64"
 export LDFLAGS="-arch x86_64"
-./configure --prefix="${PREFIX}" --enable-thread-safety --without-readline --with-bonjour --with-openssl --with-libxml --with-libxslt --disable-rpath
+./configure --prefix="${PREFIX}" --enable-thread-safety --without-readline --with-bonjour --with-openssl --with-libxml --with-libxslt --disable-rpath --with-includes=${MY_INC} --with-libs=${MY_LIB}
 
 # make and install
 make

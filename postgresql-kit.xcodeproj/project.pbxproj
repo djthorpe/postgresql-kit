@@ -25,6 +25,7 @@
 				6E256FF415F255D00079AD2D /* ShellScript */,
 			);
 			dependencies = (
+				143398D5168F4F1A00234FBF /* PBXTargetDependency */,
 			);
 			name = postgresql;
 			productName = postgresql;
@@ -52,6 +53,9 @@
 		145695F416718D39004471F9 /* ConnectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 145695F216718D39004471F9 /* ConnectionViewController.m */; };
 		145695F516718D39004471F9 /* ConnectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 145695F316718D39004471F9 /* ConnectionView.xib */; };
 		145695F616718EE2004471F9 /* network.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14032DCD164A726400CD5796 /* network.tiff */; };
+		145CD70D168E5448007B0F06 /* SQL.strings in Resources */ = {isa = PBXBuildFile; fileRef = 145CD70C168E5448007B0F06 /* SQL.strings */; };
+		145CD710168E58FC007B0F06 /* PGServerKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
+		145CD711168E5901007B0F06 /* PGClientKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
 		145D3E21166A1AF1002FEA91 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C167C15F26BF20013A382 /* Cocoa.framework */; };
 		145D3E37166A1BD3002FEA91 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB1E72D15F273350093F784 /* main.m */; };
 		145D3E39166A1C1E002FEA91 /* PGServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
@@ -129,6 +133,13 @@
 			remoteGlobalIDString = 6ED85B3516288C4800A6DC02;
 			remoteInfo = PGClientKit;
 		};
+		143398D4168F4F1A00234FBF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E256FDE15F252620079AD2D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 14280457166811D700A61BF6;
+			remoteInfo = openssl;
+		};
 		6E4DEC92162CC3A7008B26BD /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6E256FDE15F252620079AD2D /* Project object */;
@@ -160,6 +171,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		145CD70F168E58F0007B0F06 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				145CD710168E58FC007B0F06 /* PGServerKit.framework in CopyFiles */,
+				145CD711168E5901007B0F06 /* PGClientKit.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6E2A0EC1163753F900970FEF /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -264,6 +286,7 @@
 		145695F116718D39004471F9 /* ConnectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionViewController.h; sourceTree = "<group>"; };
 		145695F216718D39004471F9 /* ConnectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionViewController.m; sourceTree = "<group>"; };
 		145695F316718D39004471F9 /* ConnectionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConnectionView.xib; sourceTree = "<group>"; };
+		145CD70C168E5448007B0F06 /* SQL.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = SQL.strings; sourceTree = "<group>"; };
 		145D3E19166A19AC002FEA91 /* PGServer.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PGServer.plist; sourceTree = "<group>"; };
 		145D3E1F166A1AF1002FEA91 /* PGServer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PGServer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		14805A1416622F4F00A4019F /* PGDataKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGDataKit.h; sourceTree = "<group>"; };
@@ -610,6 +633,7 @@
 				14EB374A1671204A00B038B6 /* NSWindow+ResizeAdditions.h */,
 				14EB374B1671204A00B038B6 /* NSWindow+ResizeAdditions.m */,
 				145D3E19166A19AC002FEA91 /* PGServer.plist */,
+				145CD70C168E5448007B0F06 /* SQL.strings */,
 				14EB374D16712BC000B038B6 /* ViewController.h */,
 				14EB374E16712BC000B038B6 /* ViewController.m */,
 				14284F491677D52C00B805C9 /* UsersRoles */,
@@ -1164,6 +1188,7 @@
 				145D3E1B166A1AF1002FEA91 /* Sources */,
 				145D3E1C166A1AF1002FEA91 /* Frameworks */,
 				145D3E1D166A1AF1002FEA91 /* Resources */,
+				145CD70F168E58F0007B0F06 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -1331,6 +1356,7 @@
 				14284F541677DA5200B805C9 /* database.tiff in Resources */,
 				14A053EA1677F35A004C086A /* halt.tiff in Resources */,
 				147D65D1168CC2F20034C7EC /* gear-14x14.png in Resources */,
+				145CD70D168E5448007B0F06 /* SQL.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1389,7 +1415,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "\nif [ \"${SCRIPT_INPUT_FILE_COUNT}\" != \"1\" ] ; then\n  echo \"Invalid number of input files\"\n  exit 1\nfi\n\nif [ ! -f ${SCRIPT_INPUT_FILE_0} ] ; then\n  echo \"Missing input file\"\n  exit 1\nfi\n\necho \"Making ${SCRIPT_INPUT_FILE_0}\"\necho \"Output to ${BUILT_PRODUCTS_DIR}\"\n\nif [ ! -d ${BUILT_PRODUCTS_DIR} ]\nthen\n  mkdir -pv ${BUILT_PRODUCTS_DIR}\nfi\n  \n/bin/bash ${SRCROOT}/etc/make-postgresql.sh ${SCRIPT_INPUT_FILE_0} ${BUILT_PRODUCTS_DIR}\n\n\n";
+			shellScript = "\nif [ \"${SCRIPT_INPUT_FILE_COUNT}\" != \"1\" ] ; then\n  echo \"Invalid number of input files\"\n  exit 1\nfi\n\nif [ ! -f ${SCRIPT_INPUT_FILE_0} ] ; then\n  echo \"Missing input file\"\n  exit 1\nfi\n\necho \"Making ${SCRIPT_INPUT_FILE_0}\"\necho \"Output to ${BUILT_PRODUCTS_DIR}\"\n\nif [ ! -d ${BUILT_PRODUCTS_DIR} ]\nthen\n  mkdir -pv ${BUILT_PRODUCTS_DIR}\nfi\n\nOPENSSL=${BUILT_PRODUCTS_DIR}/openssl-current\nif [ -d  ${OPENSSL} ]\nthen\n  export OPENSSL\nfi\n\n/bin/bash ${SRCROOT}/etc/make-postgresql.sh ${SCRIPT_INPUT_FILE_0} ${BUILT_PRODUCTS_DIR}\n\n\n";
 			showEnvVarsInLog = 0;
 		};
 		6EB1E79715F282A10093F784 /* ShellScript */ = {
@@ -1499,6 +1525,11 @@
 			target = 6ED85B3516288C4800A6DC02 /* PGClientKit */;
 			targetProxy = 14182366166128DA00765768 /* PBXContainerItemProxy */;
 		};
+		143398D5168F4F1A00234FBF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 14280457166811D700A61BF6 /* openssl */;
+			targetProxy = 143398D4168F4F1A00234FBF /* PBXContainerItemProxy */;
+		};
 		6E4DEC93162CC3A7008B26BD /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 6ED85B3516288C4800A6DC02 /* PGClientKit */;
@@ -1597,6 +1628,7 @@
 		1428045A166811D700A61BF6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = openssl;
@@ -1606,6 +1638,7 @@
 		1428045B166811D700A61BF6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = openssl;
@@ -1680,7 +1713,7 @@
 		6E256FE315F252620079AD2D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				SDKROOT = macosx10.7;
 			};
 			name = Debug;
@@ -1688,7 +1721,7 @@
 		6E256FE415F252620079AD2D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				SDKROOT = macosx10.7;
 			};
 			name = Release;
@@ -1696,6 +1729,7 @@
 		6E256FF015F255780079AD2D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1705,6 +1739,7 @@
 		6E256FF115F255780079AD2D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -1909,6 +1944,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx10.7;
+				SKIP_INSTALL = NO;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Debug;
@@ -1940,6 +1976,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx10.7;
+				SKIP_INSTALL = NO;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Release;
@@ -1982,6 +2019,7 @@
 				"PRELINK_LIBS[arch=*]" = "${BUILT_PRODUCTS_DIR}/postgresql-current/lib/libpq.a";
 				PRODUCT_NAME = PGClientKit;
 				SDKROOT = macosx10.7;
+				SKIP_INSTALL = NO;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Debug;
@@ -2017,6 +2055,7 @@
 				"PRELINK_LIBS[arch=*]" = "${BUILT_PRODUCTS_DIR}/postgresql-current/lib/libpq.a";
 				PRODUCT_NAME = PGClientKit;
 				SDKROOT = macosx10.7;
+				SKIP_INSTALL = NO;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Release;

@@ -44,6 +44,8 @@ if [ -e ${PREFIX} ] && [ ${CLEAN} == 0 ]
 then
   echo "Assuming already exists: ${PREFIX}"
   exit 0
+else
+  echo "Not exists: ${PREFIX}"
 fi
 
 echo "Unarchiving sources to ${UNARCHIVE}"
@@ -55,18 +57,12 @@ mkdir "${UNARCHIVE}"
 tar -C ${UNARCHIVE} -zxvf ${TARZ}
 
 
-# 32-bit architecture
+# build 64-bit architecture
 cd "${UNARCHIVE}/${VERSION}"
-./Configure darwin-i386-cc --prefix=${PREFIX}
+./Configure darwin64-x86_64-cc shared --prefix=${PREFIX}
 make && make install
 
+# make symbolic link
+rm -f ${BUILD}/openssl-current
+ln -s ${PREFIX} ${BUILD}/openssl-current
 exit 0
-
-
-./Configure darwin64-x86_64-cc
-make
-
-#cd ../
-#lipo -create openssl_i386/libcrypto.1.0.0.dylib openssl_x86_64/libcrypto.1.0.0.dylib -output libcrypto.1.0.0.dylib
-#lipo -create openssl_i386/libssl.1.0.0.dylib openssl_x86_64/libssl.1.0.0.dylib -output libssl.1.0.0.dylib
-#rm openssl-$OPENSSL_VERSION.tar.gz
