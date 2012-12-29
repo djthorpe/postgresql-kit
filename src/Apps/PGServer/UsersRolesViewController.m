@@ -21,4 +21,11 @@
 	[super loadView];
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// NSSplitView delegate methods
+
+-(NSRect)splitView:(NSSplitView* )splitView additionalEffectiveRectOfDividerAtIndex:(NSInteger)dividerIndex {
+	return [_resizeView convertRect:[_resizeView bounds] toView:splitView];
+}
+
 @end
