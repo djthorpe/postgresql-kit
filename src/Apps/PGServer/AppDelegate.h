@@ -2,7 +2,9 @@
 #import <Cocoa/Cocoa.h>
 #import <PGServerKit/PGServerKit.h>
 #import <PGClientKit/PGClientKit.h>
+#import "AppPreferences.h"
 #import "ViewController.h"
+
 
 extern NSString* PGServerMessageNotificationError;
 extern NSString* PGServerMessageNotificationWarning;
@@ -13,6 +15,7 @@ extern NSString* PGServerMessageNotificationInfo;
 	IBOutlet NSWindow* _mainWindow;
 	IBOutlet NSWindow* _closeConfirmSheet;
 	IBOutlet NSTabView* _tabView;
+	IBOutlet AppPreferences* _preferences;
 	NSMutableDictionary* _views;
 	PGConnection* _connection;
 	PGServer* _server;
@@ -21,6 +24,7 @@ extern NSString* PGServerMessageNotificationInfo;
 // properties
 @property (readonly) PGServer* server;
 @property (readonly) PGConnection* connection;
+@property (readonly) AppPreferences* preferences;
 @property (retain) NSString* uptimeString;
 @property (retain) NSString* statusString;
 @property (retain) NSString* versionString;

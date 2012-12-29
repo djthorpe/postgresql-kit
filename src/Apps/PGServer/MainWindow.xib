@@ -1120,7 +1120,6 @@
 							<string key="NSFrame">{{349, 13}, {119, 32}}</string>
 							<reference key="NSSuperview" ref="189169247"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="207917958">
@@ -1245,7 +1244,6 @@
 							<string key="NSFrame">{{334, 13}, {59, 32}}</string>
 							<reference key="NSSuperview" ref="198314383"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="563719468">
@@ -1825,6 +1823,14 @@
 						<reference key="destination" ref="183875700"/>
 					</object>
 					<int key="connectionID">638</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_preferences</string>
+						<reference key="source" ref="736345086"/>
+						<reference key="destination" ref="179809109"/>
+					</object>
+					<int key="connectionID">782</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -4197,7 +4203,7 @@
 				<string key="-3.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1.IBWindowTemplateEditedContentRect">{{357, 418}, {480, 270}}</string>
-				<integer value="1" key="1.NSWindowTemplate.visibleAtLaunch"/>
+				<boolean value="YES" key="1.NSWindowTemplate.visibleAtLaunch"/>
 				<boolean value="NO" key="102.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="102.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="103.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -4489,7 +4495,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">781</int>
+			<int key="maxID">782</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -4501,7 +4507,10 @@
 						<string key="doServerBackup:">id</string>
 						<string key="doServerStart:">id</string>
 						<string key="doServerStop:">id</string>
+						<string key="ibConfirmCloseSheetForButton:">id</string>
+						<string key="ibConfirmCloseStartSheet:">id</string>
 						<string key="ibServerMenuItemClicked:">NSMenuItem</string>
+						<string key="ibStartStopButtonClicked:">id</string>
 						<string key="ibToolbarItemClicked:">id</string>
 						<string key="ibViewMenuItemClicked:">NSMenuItem</string>
 					</dictionary>
@@ -4522,9 +4531,21 @@
 							<string key="name">doServerStop:</string>
 							<string key="candidateClassName">id</string>
 						</object>
+						<object class="IBActionInfo" key="ibConfirmCloseSheetForButton:">
+							<string key="name">ibConfirmCloseSheetForButton:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="ibConfirmCloseStartSheet:">
+							<string key="name">ibConfirmCloseStartSheet:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="ibServerMenuItemClicked:">
 							<string key="name">ibServerMenuItemClicked:</string>
 							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBActionInfo" key="ibStartStopButtonClicked:">
+							<string key="name">ibStartStopButtonClicked:</string>
+							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="ibToolbarItemClicked:">
 							<string key="name">ibToolbarItemClicked:</string>
@@ -4538,6 +4559,7 @@
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="_closeConfirmSheet">NSWindow</string>
 						<string key="_mainWindow">NSWindow</string>
+						<string key="_preferences">AppPreferences</string>
 						<string key="_tabView">NSTabView</string>
 						<string key="ibLogView">NSTextView</string>
 						<string key="ibWindow">NSWindow</string>
@@ -4551,6 +4573,10 @@
 						<object class="IBToOneOutletInfo" key="_mainWindow">
 							<string key="name">_mainWindow</string>
 							<string key="candidateClassName">NSWindow</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="_preferences">
+							<string key="name">_preferences</string>
+							<string key="candidateClassName">AppPreferences</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="_tabView">
 							<string key="name">_tabView</string>
@@ -4579,17 +4605,12 @@
 					<string key="superclassName">NSObject</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="ibPreferencesEnd:">id</string>
-						<string key="ibPreferencesSheetEnd:returnCode:contextInfo:">NSWindow</string>
 						<string key="ibPreferencesStart:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="ibPreferencesEnd:">
 							<string key="name">ibPreferencesEnd:</string>
 							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="ibPreferencesSheetEnd:returnCode:contextInfo:">
-							<string key="name">ibPreferencesSheetEnd:returnCode:contextInfo:</string>
-							<string key="candidateClassName">NSWindow</string>
 						</object>
 						<object class="IBActionInfo" key="ibPreferencesStart:">
 							<string key="name">ibPreferencesStart:</string>

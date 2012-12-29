@@ -44,6 +44,7 @@ const NSInteger PGServerMenuTagRestart = 4;
 
 @synthesize server = _server;
 @synthesize connection = _connection;
+@synthesize preferences = _preferences;
 @synthesize uptimeString;
 @synthesize versionString;
 @synthesize buttonText;
@@ -384,6 +385,17 @@ const NSInteger PGServerMenuTagRestart = 4;
 
 ////////////////////////////////////////////////////////////////////////////////
 // NSApplicationDelegate
+
+-(void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+	if([[self preferences] autoHideWindow]) {
+		[_mainWindow miniaturize:self];
+	}
+	if([[self preferences] autoStartServer]) {
+		[self _doServerStart:nil];
+	}
+}
+
+
 
 -(NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication* )sender {
 	if([[self server] state]==PGServerStateRunning) {
