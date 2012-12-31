@@ -27,11 +27,14 @@
 -(NSAttributedString* )notice {
 	NSBundle* bundle = [NSBundle mainBundle];
 	NSString* filePath = [bundle pathForResource:@"NOTICE" ofType:@"md"];
+	NSDictionary* noticeAttributes = [NSDictionary dictionaryWithObject:[NSFont systemFontOfSize:11.0] forKey:NSFontAttributeName];
 	if(filePath && [[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
-		return [[NSAttributedString alloc] initWithPath:filePath documentAttributes:nil];
-	} else {
-		return nil;
+		NSString* theString = [[NSString alloc] initWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
+		if(theString) {
+			return [[NSAttributedString alloc] initWithString:theString attributes:noticeAttributes];
+		}
 	}
+	return nil;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
