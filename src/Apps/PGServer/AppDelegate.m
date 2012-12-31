@@ -27,7 +27,8 @@ const NSInteger PGServerMenuTagRestart = 4;
 @implementation AppDelegate
 
 ////////////////////////////////////////////////////////////////////////////////
-// init method
+#pragma mark Initialization
+////////////////////////////////////////////////////////////////////////////////
 
 -(id)init {
     self = [super init];
@@ -40,7 +41,8 @@ const NSInteger PGServerMenuTagRestart = 4;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// Properties
+#pragma mark Properties
+////////////////////////////////////////////////////////////////////////////////
 
 @synthesize server = _server;
 @synthesize connection = _connection;
@@ -50,7 +52,8 @@ const NSInteger PGServerMenuTagRestart = 4;
 @synthesize buttonText;
 
 ////////////////////////////////////////////////////////////////////////////////
-// Private methods
+#pragma mark Private methods
+////////////////////////////////////////////////////////////////////////////////
 
 -(NSString* )_dataPath {
 	NSString* theIdent = @"PostgreSQL";
@@ -79,6 +82,10 @@ const NSInteger PGServerMenuTagRestart = 4;
 	}
 }
 
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark Awake from NIB file
+////////////////////////////////////////////////////////////////////////////////
+
 -(void)awakeFromNib {
 	// add the views
 	[self _addViewController:[[LogViewController alloc] init]];
@@ -102,10 +109,11 @@ const NSInteger PGServerMenuTagRestart = 4;
 	// set button state, server status
 	[self _setButtonState:[[self server] state]];
 	[self _setServerStatus:[[self server] state]];
-	
-	// timer to update the uptime
-	[NSTimer scheduledTimerWithTimeInterval:60.0 target:self selector:@selector(timerFired:) userInfo:nil repeats:YES];
 }
+
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark Set UI State
+////////////////////////////////////////////////////////////////////////////////
 
 -(void)_setButtonState:(PGServerState)state {
 	switch(state) {
@@ -155,16 +163,6 @@ const NSInteger PGServerMenuTagRestart = 4;
 		default:
 			break;
 	 }
-}
-
--(void)timerFired:(id)sender {
-	NSTimeInterval uptime = [[self server] uptime];
-	if(uptime > 0.0) {
-		NSTimeInterval mins = (uptime / 60.0);
-		[self setUptimeString:[NSString stringWithFormat:@"Running %lu mins",(NSUInteger)mins]];
-	} else {
-		[self setUptimeString:@""];		
-	}
 }
 
 -(void)_setConnection:(PGServerState)state {
@@ -224,51 +222,76 @@ const NSInteger PGServerMenuTagRestart = 4;
 }
 
 -(void)_setDockIcon {
+	// Dock Icon shows badge
 	NSDockTile* dockIcon = [[NSApplication sharedApplication] dockTile];
 	if([self serverRunning]) {
-		[dockIcon setBadgeLabel:@"1"];
+		[dockIcon setBadgeLabel:[NSString stringWithFormat:@"%ld",[self numberOfConnections]]];
 	} else {
 		[dockIcon setBadgeLabel:nil];
 	}
 }
 
-////////////////////////////////////////////////////////////////////////////////
-// Retrieve number of remote connections
-
--(NSUInteger)_numberOfConnections {
-	if([[self connection] status] != PGConnectionStatusConnected) {
-		return 0;
+-(void)_setUptimeString:(PGServerState)state {
+	if(state==PGServerStateRunning || state==PGServerStateAlreadyRunning) {
+		NSTimeInterval uptime = [[self server] uptime];
+		if(uptime < 1.0) {
+			[self setUptimeString:@""];
+		} else if(uptime < 60.0) {
+			[self setUptimeString:[NSString stringWithFormat:@"Uptime: %lu secs",(NSUInteger)uptime]];
+		} else if(uptime < 3600.0) {
+			[self setUptimeString:[NSString stringWithFormat:@"Uptime: %lu mins",(NSUInteger)(uptime / 60.0)]];
+		} else {
+			[self setUptimeString:[NSString stringWithFormat:@"Uptime: %lu hours",(NSUInteger)(uptime / 3600.0)]];
+		}
+	} else {
+		[self setUptimeString:@""];
 	}
-	NSError* error;
+}
+
+-(void)_setNumberOfConnections:(PGServerState)state {
+	if(state != PGServerStateRunning && state != PGServerStateAlreadyRunning) {
+		[self setNumberOfConnections:0];
+		return;
+	}
+	if([[self connection] status] != PGConnectionStatusConnected) {
+		[self setNumberOfConnections:0];
+		return;
+	}
+	NSError* error = nil;
 	PGResult* result = [[self connection] execute:NSLocalizedStringFromTable(@"PGServerNumberOfConnections",@"SQL",@"")
 										   format:PGClientTupleFormatBinary
 											error:&error];
-	if(error) {
+	if(error || result==nil) {
 #ifdef DEBUG
 		NSLog(@"_numberOfConnections: Error: %@",error);
-		result = nil;
 #endif
+		[self setNumberOfConnections:0];
+		return;
 	}
-	if([result dataReturned]) {
-		NSParameterAssert([result size]==1);
-		NSParameterAssert([result numberOfColumns]==1);
-		NSArray* row = [result fetchRowAsArray];
-		NSNumber* numConnections = [row objectAtIndex:0];
-		NSParameterAssert([numConnections isKindOfClass:[NSNumber class]]);
-		return [numConnections unsignedIntegerValue];
+	if([result dataReturned]==NO) {
+		[self setNumberOfConnections:0];
+		return;
 	}
-	return 0;
+	
+	NSParameterAssert([result size]==1);
+	NSParameterAssert([result numberOfColumns]==1);
+	NSArray* row = [result fetchRowAsArray];
+	NSNumber* numConnections = [row objectAtIndex:0];
+	NSParameterAssert([numConnections isKindOfClass:[NSNumber class]]);
+	[self setNumberOfConnections:[numConnections unsignedIntegerValue]];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// Start, Stop, Reload and Restart server
+#pragma mark Start, Stop, Reload and Restart server
+////////////////////////////////////////////////////////////////////////////////
 
 -(void)_doServerStop:(id)sender {
 	PGServerState state = [[self server] state];
 	switch(state) {
 		case PGServerStateRunning:
 		case PGServerStateAlreadyRunning:
-			if([self _numberOfConnections] > 0) {
+			[self _setNumberOfConnections:state];
+			if([self numberOfConnections] > 0) {
 				// confirm stopping
 				[self ibConfirmCloseStartSheet:sender];
 			} else {
@@ -309,7 +332,8 @@ const NSInteger PGServerMenuTagRestart = 4;
 	switch(state) {
 		case PGServerStateRunning:
 		case PGServerStateAlreadyRunning:
-			if([self _numberOfConnections] > 0) {
+			[self _setNumberOfConnections:state];
+			if([self numberOfConnections] > 0) {
 				// confirm stopping
 				[self ibConfirmCloseStartSheet:sender];
 			} else {
@@ -346,7 +370,8 @@ const NSInteger PGServerMenuTagRestart = 4;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// Confirm Server Stop/Restart
+#pragma mark Confirm Server Stop/Restart
+////////////////////////////////////////////////////////////////////////////////
 
 -(IBAction)ibConfirmCloseStartSheet:(id)sender {
 	[NSApp beginSheet:_closeConfirmSheet modalForWindow:_mainWindow modalDelegate:self didEndSelector:@selector(_endCloseConfirmSheet:returnCode:contextInfo:) contextInfo:nil];
@@ -384,18 +409,22 @@ const NSInteger PGServerMenuTagRestart = 4;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// NSApplicationDelegate
+#pragma mark NSApplicationDelegate
+////////////////////////////////////////////////////////////////////////////////
 
 -(void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+
+	// show/hide window, automatically start server
 	if([[self preferences] autoHideWindow]) {
 		[_mainWindow miniaturize:self];
 	}
 	if([[self preferences] autoStartServer]) {
 		[self _doServerStart:nil];
 	}
+	
+	// schedule timer for retrieving connection count and server uptime
+	[NSTimer scheduledTimerWithTimeInterval:[[self preferences] statusRefreshInterval] target:self selector:@selector(statusRefreshTimer:) userInfo:nil repeats:YES];
 }
-
-
 
 -(NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication* )sender {
 	if([[self server] state]==PGServerStateRunning) {
@@ -411,7 +440,8 @@ const NSInteger PGServerMenuTagRestart = 4;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// PGServerDelegate
+#pragma mark PGServerDelegate
+////////////////////////////////////////////////////////////////////////////////
 
 -(void)pgserver:(PGServer *)sender message:(NSString *)message {
 	if([message hasPrefix:@"ERROR:"]) {
@@ -436,6 +466,7 @@ const NSInteger PGServerMenuTagRestart = 4;
 	[self _setStatusString:state];
 	[self _setConnection:state];
 	[self _setServerStatus:state];
+	[self _setUptimeString:state];
 	[self _setDockIcon];
 	
 	// check for terminating
@@ -448,7 +479,8 @@ const NSInteger PGServerMenuTagRestart = 4;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// IBActions
+#pragma mark IBActions
+////////////////////////////////////////////////////////////////////////////////
 
 -(IBAction)ibToolbarItemClicked:(id)sender {
 	NSToolbarItem* item = (NSToolbarItem* )sender;
@@ -539,5 +571,21 @@ const NSInteger PGServerMenuTagRestart = 4;
 		}
 	}
 }
+
+-(IBAction)ibStatusStringClicked:(id)sender {
+	NSLog(@"click %@!",sender);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark Timers
+////////////////////////////////////////////////////////////////////////////////
+
+-(void)statusRefreshTimer:(id)sender {
+	[self _setUptimeString:[[self server] state]];
+	[self _setNumberOfConnections:[[self server] state]];
+	[self _setDockIcon];
+}
+
+////////////////////////////////////////////////////////////////////////////////
 
 @end

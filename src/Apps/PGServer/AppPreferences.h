@@ -9,6 +9,7 @@
 // properties
 @property BOOL autoStartServer;
 @property BOOL autoHideWindow;
+@property NSTimeInterval statusRefreshInterval;
 
 // actions
 -(IBAction)ibPreferencesStart:(id)sender;

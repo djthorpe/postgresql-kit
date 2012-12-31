@@ -28,6 +28,7 @@ extern NSString* PGServerMessageNotificationInfo;
 @property (retain) NSString* uptimeString;
 @property (retain) NSString* statusString;
 @property (retain) NSString* versionString;
+@property (assign) NSUInteger numberOfConnections;
 @property (retain) NSString* buttonText;
 @property (assign) BOOL buttonEnabled;
 @property (assign) BOOL serverRunning;
@@ -40,5 +41,6 @@ extern NSString* PGServerMessageNotificationInfo;
 -(IBAction)ibToolbarItemClicked:(id)sender;
 -(IBAction)ibViewMenuItemClicked:(NSMenuItem* )menuItem;
 -(IBAction)ibServerMenuItemClicked:(NSMenuItem* )menuItem;
+-(IBAction)ibStatusStringClicked:(id)sender;
 
 @end

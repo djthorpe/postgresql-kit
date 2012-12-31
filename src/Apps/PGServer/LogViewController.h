@@ -6,4 +6,7 @@
 	IBOutlet NSTextView* _textView;
 }
 
+// actions
+-(IBAction)doClearLog:(id)sender;
+
 @end

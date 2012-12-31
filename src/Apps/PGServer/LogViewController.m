@@ -24,12 +24,6 @@
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(log:) name:PGServerMessageNotificationInfo object:nil];
 }
 
-
--(void)clearLog {
-	NSMutableAttributedString* theLog = [_textView textStorage];
-	[theLog deleteCharactersInRange:NSMakeRange(0,[theLog length])];
-}
-
 -(void)addLogMessage:(NSString* )theString color:(NSColor* )theColor bold:(BOOL)isBold {
 	NSMutableAttributedString* theLog = [_textView textStorage];
 	NSUInteger theStartPoint = [theLog length];
@@ -67,5 +61,11 @@
 		[self addLogMessage:message color:[NSColor whiteColor] bold:NO];
 	}
 }
+
+-(IBAction)doClearLog:(id)sender {
+	NSMutableAttributedString* theLog = [_textView textStorage];
+	[theLog deleteCharactersInRange:NSMakeRange(0,[theLog length])];
+}
+
 
 @end

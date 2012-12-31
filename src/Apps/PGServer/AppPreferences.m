@@ -10,6 +10,13 @@
 	NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
 	[self setAutoHideWindow:[defaults boolForKey:@"autoHideWindow"]];
 	[self setAutoStartServer:[defaults boolForKey:@"autoStartServer"]];
+	[self setStatusRefreshInterval:[defaults floatForKey:@"statusRefreshInterval"]];
+
+	// set defaults
+	if([self statusRefreshInterval] <= 0.0) {
+		[self setStatusRefreshInterval:5.0];
+		[self saveUserDefaults];
+	}
 }
 
 -(void)saveUserDefaults {

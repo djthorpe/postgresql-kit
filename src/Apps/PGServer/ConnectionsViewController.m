@@ -51,10 +51,12 @@
 }
 
 -(void)refreshConnections:(id)sender {
-	PGConnection* connection = [self connection];
 	NSError* error = nil;
-	PGResult* result = [connection execute:@"SELECT datname AS database,procpid AS pid,current_query AS query,usename AS username,client_hostname AS remotehost,application_name,query_start,waiting FROM pg_stat_activity" format:PGClientTupleFormatBinary error:&error];
-	if(error) {
+	PGResult* result = [[self connection] execute:NSLocalizedStringFromTable(@"PGServerConnectionTable",@"SQL",@"")
+										   format:PGClientTupleFormatBinary
+											error:&error];
+	
+	if(result==nil || error) {
 #ifdef DEBUG
 		NSLog(@"_startConnectionsTimer: Error: %@",error);
 		NSLog(@"_startConnectionsTimer: Stopping timer");
