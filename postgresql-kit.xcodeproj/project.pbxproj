@@ -50,6 +50,7 @@
 		14284F521677D94800B805C9 /* DatabaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14284F501677D94800B805C9 /* DatabaseViewController.m */; };
 		14284F531677D94800B805C9 /* DatabaseView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14284F511677D94800B805C9 /* DatabaseView.xib */; };
 		14284F541677DA5200B805C9 /* database.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14032D72164A6F2200CD5796 /* database.tiff */; };
+		145538CE1690CC96005630A0 /* AppAbout.m in Sources */ = {isa = PBXBuildFile; fileRef = 145538CD1690CC96005630A0 /* AppAbout.m */; };
 		145695F416718D39004471F9 /* ConnectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 145695F216718D39004471F9 /* ConnectionViewController.m */; };
 		145695F516718D39004471F9 /* ConnectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 145695F316718D39004471F9 /* ConnectionView.xib */; };
 		145695F616718EE2004471F9 /* network.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14032DCD164A726400CD5796 /* network.tiff */; };
@@ -81,6 +82,7 @@
 		14D2FCB9166A16AC005E6390 /* PGTokenizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 14D2FCB2166A16AC005E6390 /* PGTokenizer.h */; };
 		14D2FCBA166A16AC005E6390 /* PGTokenizer.lm in Sources */ = {isa = PBXBuildFile; fileRef = 14D2FCB3166A16AC005E6390 /* PGTokenizer.lm */; };
 		14D2FCBB166A16AC005E6390 /* PGTokenizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 14D2FCB4166A16AC005E6390 /* PGTokenizer.m */; };
+		14E03F541691271400C1150A /* NOTICE.md in Resources */ = {isa = PBXBuildFile; fileRef = 14EE3C36166752F80083C735 /* NOTICE.md */; };
 		14EB374C1671204A00B038B6 /* NSWindow+ResizeAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 14EB374B1671204A00B038B6 /* NSWindow+ResizeAdditions.m */; };
 		14EB374F16712BC000B038B6 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14EB374E16712BC000B038B6 /* ViewController.m */; };
 		14EB37501671325500B038B6 /* elephant-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43E415F3A465001ED3BE /* elephant-32.png */; };
@@ -284,6 +286,8 @@
 		143742D01672954C0092F862 /* ControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ControllerDelegate.h; sourceTree = "<group>"; };
 		143742D11672954C0092F862 /* PGServer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PGServer-Info.plist"; sourceTree = "<group>"; };
 		143742D21672954C0092F862 /* PGServer.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PGServer.xib; sourceTree = "<group>"; };
+		145538CC1690CC96005630A0 /* AppAbout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppAbout.h; sourceTree = "<group>"; };
+		145538CD1690CC96005630A0 /* AppAbout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppAbout.m; sourceTree = "<group>"; };
 		145695F116718D39004471F9 /* ConnectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionViewController.h; sourceTree = "<group>"; };
 		145695F216718D39004471F9 /* ConnectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionViewController.m; sourceTree = "<group>"; };
 		145695F316718D39004471F9 /* ConnectionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConnectionView.xib; sourceTree = "<group>"; };
@@ -634,6 +638,8 @@
 				14237AF1166E7413000DBCE1 /* AppDelegate.m */,
 				14A7FFA6168FA705007FC9B0 /* AppPreferences.h */,
 				14A7FFA7168FA705007FC9B0 /* AppPreferences.m */,
+				145538CC1690CC96005630A0 /* AppAbout.h */,
+				145538CD1690CC96005630A0 /* AppAbout.m */,
 				14EB374A1671204A00B038B6 /* NSWindow+ResizeAdditions.h */,
 				14EB374B1671204A00B038B6 /* NSWindow+ResizeAdditions.m */,
 				14EB374D16712BC000B038B6 /* ViewController.h */,
@@ -1362,6 +1368,7 @@
 				14A053EA1677F35A004C086A /* halt.tiff in Resources */,
 				147D65D1168CC2F20034C7EC /* gear-14x14.png in Resources */,
 				145CD70D168E5448007B0F06 /* SQL.strings in Resources */,
+				14E03F541691271400C1150A /* NOTICE.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1463,6 +1470,7 @@
 				14284F4D1677D7B900B805C9 /* UsersRolesViewController.m in Sources */,
 				14284F521677D94800B805C9 /* DatabaseViewController.m in Sources */,
 				14A7FFA8168FA705007FC9B0 /* AppPreferences.m in Sources */,
+				145538CE1690CC96005630A0 /* AppAbout.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

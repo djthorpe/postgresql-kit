@@ -1,10 +1,3 @@
-//
-//  AppPreferences.m
-//  postgresql-kit
-//
-//  Created by David Thorpe on 29/12/2012.
-//
-//
 
 #import "AppPreferences.h"
 
