@@ -8,6 +8,7 @@
 @protocol ViewControllerDelegate
 -(PGServer* )server;
 -(PGConnection* )connection;
+-(NSWindow* )mainWindow;
 @end
 
 ////////////////////////////////////////////////////////////////////////////////

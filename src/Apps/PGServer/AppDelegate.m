@@ -47,6 +47,7 @@ const NSInteger PGServerMenuTagRestart = 4;
 @synthesize server = _server;
 @synthesize connection = _connection;
 @synthesize preferences = _preferences;
+@synthesize mainWindow = _mainWindow;
 @synthesize uptimeString;
 @synthesize versionString;
 @synthesize buttonText;

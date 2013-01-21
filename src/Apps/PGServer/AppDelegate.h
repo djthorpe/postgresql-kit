@@ -25,6 +25,7 @@ extern NSString* PGServerMessageNotificationInfo;
 @property (readonly) PGServer* server;
 @property (readonly) PGConnection* connection;
 @property (readonly) AppPreferences* preferences;
+@property (readonly) NSWindow* mainWindow;
 @property (retain) NSString* uptimeString;
 @property (retain) NSString* statusString;
 @property (retain) NSString* versionString;

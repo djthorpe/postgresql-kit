@@ -20,6 +20,10 @@
 	return [[self delegate] connection];
 }
 
+-(NSWindow* )mainWindow {
+	return [[self delegate] mainWindow];
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // NSSplitView delegate methods
 
@@ -102,12 +106,37 @@
 	[super loadView];
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// Create Database
+
+-(IBAction)_showCreateDatabaseSheet {
+	[NSApp beginSheet:_createDatabaseSheet modalForWindow:[self mainWindow] modalDelegate:self didEndSelector:@selector(_endCreateDatabaseSheet:returnCode:contextInfo:) contextInfo:nil];
+}
+
+-(IBAction)ibConfirmCloseCreateDatabaseSheetForButton:(id)sender {
+	NSParameterAssert([sender isKindOfClass:[NSButton class]]);
+	NSInteger returnCode = -1;
+	if([[(NSButton* )sender title] isEqualToString:@"Cancel"]) {
+		returnCode = NSCancelButton;
+	}
+	if([[(NSButton* )sender title] isEqualToString:@"OK"]) {
+		returnCode = NSOKButton;
+	}
+	[NSApp endSheet:[(NSButton* )sender window] returnCode:returnCode];
+}
+
+
+-(void)_endCreateDatabaseSheet:(NSWindow* )sheet returnCode:(NSInteger)returnCode contextInfo:(void* )contextInfo {
+	[sheet orderOut:self];
+}
+
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // Actions
 
 -(IBAction)ibCreateDatabase:(id)sender {
-	NSLog(@"create");
+	[self _showCreateDatabaseSheet];
 }
 
 -(IBAction)ibDropDatabase:(id)sender {
