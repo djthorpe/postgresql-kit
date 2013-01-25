@@ -128,14 +128,32 @@
 
 -(void)_endCreateDatabaseSheet:(NSWindow* )sheet returnCode:(NSInteger)returnCode contextInfo:(void* )contextInfo {
 	[sheet orderOut:self];
+	if(returnCode==NSOKButton) {
+		[self _createDatabase:[self ibDatabaseName]];
+	}
 }
 
-
+-(void)_createDatabase:(NSString* )name {
+	NSError* error = nil;
+	PGResult* result = [[self connection] execute:NSLocalizedStringFromTable(@"PGServerCreateDatabase",@"SQL",@"")
+										   format:PGClientTupleFormatBinary
+											value:name
+											error:&error];
+	
+	if(result==nil || error) {
+#ifdef DEBUG
+		NSLog(@"_createDatabase: Error: %@",error);
+#endif
+		result = nil;
+	}
+	[self refreshDatabases:self];
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // Actions
 
 -(IBAction)ibCreateDatabase:(id)sender {
+	[self setIbDatabaseName:@""];
 	[self _showCreateDatabaseSheet];
 }
 

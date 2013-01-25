@@ -5,7 +5,8 @@
    FROM
      pg_stat_activity
    WHERE
-     procpid <> pg_backend_pid()";
+     procpid <> pg_backend_pid()"
+;
 
 "PGServerConnectionTable" =
   "SELECT 
@@ -15,6 +16,11 @@
    FROM
      pg_stat_activity
    WHERE
-     procpid <> pg_backend_pid()";
+     procpid <> pg_backend_pid()"
+;
 
+"PGServerCreateDatabase" =
+  "CREATE DATABASE $1; 
+   COMMENT ON DATABASE $1 IS $2"
+;
 

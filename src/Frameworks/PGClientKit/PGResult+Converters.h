@@ -8,3 +8,8 @@ typedef struct {
 	const char* name;
 } PGResultConverterType;
 
+typedef struct {
+	NSUInteger hash;
+	const char* classname;
+	const char* name;
+} PGObjectConverterType;

@@ -29,6 +29,11 @@
 // execute statements
 -(PGResult* )execute:(NSString* )query format:(PGClientTupleFormat)format error:(NSError** )error;
 -(PGResult* )execute:(NSString* )query format:(PGClientTupleFormat)format values:(NSArray* )values error:(NSError** )error;
+-(PGResult* )execute:(NSString* )query format:(PGClientTupleFormat)format value:(id)value error:(NSError** )error;
+-(PGResult* )execute:(NSString* )query error:(NSError** )error;
+-(PGResult* )execute:(NSString* )query values:(NSArray* )values error:(NSError** )error;
+-(PGResult* )execute:(NSString* )query value:(id)value error:(NSError** )error;
+
 @end
 
 // delegate for PGConnection

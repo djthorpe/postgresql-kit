@@ -41,3 +41,14 @@ void _paramSetNull(PGClientParams* params,NSUInteger i) {
 	params->lengths[i] = 0;
 	params->formats[i] = 0;
 }
+
+void _paramSetData(PGClientParams* params,NSUInteger i,NSData* data,Oid pgtype,int format) {
+	assert(params);
+	assert(i < params->size);
+	assert(data);
+	assert([data length] < ((NSUInteger)INT_MAX));
+	params->values[i] = [data bytes];
+	params->types[i] = pgtype;
+	params->lengths[i] = (int)[data length];
+	params->formats[i] = format;
+}

@@ -25,7 +25,14 @@
 	
 	// connect to database
 	[[self db] connectWithURL:url error:&error];
+	if(error) return -1;
+
+	// create database
+	PGResult* r = [[self db] execute:@"SELECT $1::int" value:@"1000" error:&error];
+	NSLog(@"r=%@",[r tableWithWidth:80]);
 	
+	// disconnect from database 
+	[[self db] disconnect];
 	
 	return 0;
 }

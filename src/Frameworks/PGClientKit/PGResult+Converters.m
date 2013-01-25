@@ -208,4 +208,3 @@ void _pgresult_cache_destroy_pgconnection() {
 		_pgresult_cache_destroy();
 	}
 }
-

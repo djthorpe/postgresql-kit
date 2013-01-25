@@ -515,7 +515,13 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 			_paramSetNull(params,i);
 			continue;
 		}
-		// TODO
+		if([obj isKindOfClass:[NSString class]]) {
+			NSData* data = [(NSString* )obj dataUsingEncoding:NSUTF8StringEncoding];
+			_paramSetData(params,i,data,(Oid)25,PGClientTupleFormatBinary);
+			continue;
+		}
+		// TODO - other kinds of parameters
+		NSLog(@"TODO: Turn %@ into arg",[obj class]);		
 		_paramSetNull(params,i);
 	}
 	// check number of parameters
@@ -553,8 +559,24 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 	return [self _execute:query format:format values:values error:error];
 }
 
+-(PGResult* )execute:(NSString* )query format:(PGClientTupleFormat)format value:(id)value error:(NSError** )error {
+	return [self _execute:query format:format values:[NSArray arrayWithObject:value] error:error];
+}
+
 -(PGResult* )execute:(NSString* )query format:(PGClientTupleFormat)format error:(NSError** )error {
 	return [self _execute:query format:format values:nil error:error];
+}
+
+-(PGResult* )execute:(NSString* )query error:(NSError** )error {
+	return [self _execute:query format:PGClientTupleFormatBinary values:nil error:error];
+}
+
+-(PGResult* )execute:(NSString* )query values:(NSArray* )values error:(NSError** )error {
+	return [self _execute:query format:PGClientTupleFormatBinary values:values error:error];
+}
+
+-(PGResult* )execute:(NSString* )query value:(id)value error:(NSError** )error {
+	return [self _execute:query format:PGClientTupleFormatBinary values:[NSArray arrayWithObject:value] error:error];	
 }
 
 @end

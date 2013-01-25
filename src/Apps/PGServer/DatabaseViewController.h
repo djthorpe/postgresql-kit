@@ -11,6 +11,11 @@
 
 @property PGResult* result;
 
+// IB Bindings
+@property NSString* ibDatabaseName;
+@property NSString* ibOwnerName;
+@property NSString* ibNotes;
+
 // IBActions
 -(IBAction)ibCreateDatabase:(id)sender;
 -(IBAction)ibDropDatabase:(id)sender;
