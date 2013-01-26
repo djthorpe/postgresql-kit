@@ -45,8 +45,8 @@ id _bin2obj_uint(NSUInteger oid,const void* bytes,NSUInteger size,NSStringEncodi
 // boolean
 
 id _bin2obj_bool(NSUInteger oid,const void* bytes,NSUInteger size,NSStringEncoding encoding) {
-	assert(bytes);
-	assert(size==1);
+	NSCParameterAssert(bytes);
+	NSCParameterAssert(size==1);
 	return [NSNumber numberWithBool:(*((const int8_t* )bytes) ? YES : NO)];
 }
 
@@ -75,14 +75,75 @@ Float64 _float64FromBytes(const void*  theBytes) {
 }
 
 id _bin2obj_real(NSUInteger oid,const void* bytes,NSUInteger size,NSStringEncoding encoding) {
-	assert(bytes && size);
-	assert(size==4 || size==8);
+	NSCParameterAssert(bytes && size);
+	NSCParameterAssert(size==4 || size==8);
 	switch(size) {
 		case 4:
 			return [NSNumber numberWithFloat:_float32FromBytes(bytes)];
 		case 8:
 			return [NSNumber numberWithDouble:_float64FromBytes(bytes)];
 	}
+	return nil;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+const void* _obj2bin_text(id obj,NSUInteger* type,NSUInteger* size,BOOL* freeWhenDone,NSStringEncoding encoding) {
+	NSCParameterAssert(obj);
+	NSCParameterAssert([obj isKindOfClass:[NSString class]]);
+	NSData* data = [(NSString* )obj dataUsingEncoding:encoding];
+	(*type) = 25;
+	(*freeWhenDone) = NO;
+	(*size) = [data length];
+	return [data bytes];
+}
+
+const void* _obj2bin_data(id obj,NSUInteger* type,NSUInteger* size,BOOL* freeWhenDone,NSStringEncoding encoding) {
+	NSCParameterAssert(obj);
+	NSCParameterAssert([obj isKindOfClass:[NSData class]]);
+	NSData* data = (NSData* )obj;
+	(*type) = 17;
+	(*freeWhenDone) = NO;
+	(*size) = [data length];
+	return [data bytes];
+}
+
+const void* _obj2bin_number(id obj,NSUInteger* type,NSUInteger* size,BOOL* freeWhenDone,NSStringEncoding encoding) {
+	NSCParameterAssert(obj);
+	NSCParameterAssert([obj isKindOfClass:[NSNumber class]]);
+	const char* t = [(NSNumber* )obj objCType];
+	switch(t[0]) {
+		case 'c':
+		case 'C':
+		case 'B': // boolean
+			(*type) = 16;
+			(*size) = 1;
+			(*freeWhenDone) = NO;
+			return [self remoteDataFromBoolean:[(NSNumber* )theObject boolValue]];
+		case 'i': // integer
+		case 'l': // long
+		case 'S': // unsigned short
+			(*type) = 23;
+			return [self remoteDataFromInt32:[(NSNumber* )theObject shortValue]];
+		case 's':
+			(*type) = 21;
+			return [self remoteDataFromInt16:[(NSNumber* )theObject shortValue]];
+		case 'q': // long long
+		case 'Q': // unsigned long long
+		case 'I': // unsigned integer
+		case 'L': // unsigned long
+			(*type) = 20;
+			return [self remoteDataFromInt64:[(NSNumber* )theObject longLongValue]];
+		case 'f': // float
+			(*type) = FLXPostgresOidFloat4;
+			return [self remoteDataFromFloat32:[(NSNumber* )theObject floatValue]];
+		case 'd': // double
+			(*type) = FLXPostgresOidFloat8;
+			return [self remoteDataFromFloat64:[(NSNumber* )theObject doubleValue]];
+	}
+	// we shouldn't get here
+	NSCParameterAssert(NO);
 	return nil;
 }
 
@@ -107,6 +168,12 @@ PGResultConverterType _pgresult_default_converters[] = {
 	{ 1042, _bin2obj_text, _bin2obj_text,          "char"    },
 	{ 1043, _bin2obj_text, _bin2obj_text,          "varchar" },
 	{    0, nil,           nil,                    nil       }  // last entry
+};
+
+PGObjectConverterType _pgobject_default_converters[] = {
+	{ "NSString", _obj2bin_text, nil },
+	{ "NSNumber", _obj2bin_number, nil },
+	{ "NSData", _obj2bin_data, nil }
 };
 
 ////////////////////////////////////////////////////////////////////////////////

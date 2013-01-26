@@ -9,7 +9,8 @@ typedef struct {
 } PGResultConverterType;
 
 typedef struct {
-	NSUInteger hash;
-	const char* classname;
 	const char* name;
+	const void* (*obj2bin)(id obj,NSUInteger* type,NSUInteger* size,BOOL* freeWhenDone,NSStringEncoding encoding);
+	const void* (*obj2text)(id obj,NSUInteger* type,NSUInteger* size,BOOL* freeWhenDone,NSStringEncoding encoding);
 } PGObjectConverterType;
+
