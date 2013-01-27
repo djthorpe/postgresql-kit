@@ -1,6 +1,7 @@
 
 #include <libpq-fe.h>
 #import "PGClientParams.h"
+#import "PGConverters.h"
 
 typedef enum {
 	PGClientErrorConnectionStateMismatch = 1, // state is wrong for this call
@@ -11,15 +12,6 @@ typedef enum {
 } PGClientErrorDomainCode;
 
 extern NSString* PGClientErrorDomain;
-
-////////////////////////////////////////////////////////////////////////////////
-// cache methods
-
-void _pgresult_cache_init_pgconnection();
-void _pgresult_cache_destroy_pgconnection();
-
-id _pgresult_bin2obj(NSUInteger oid,const void* bytes,NSUInteger size,NSStringEncoding encoding);
-id _pgresult_text2obj(NSUInteger oid,const void* bytes,NSUInteger size,NSStringEncoding encoding);
 
 ////////////////////////////////////////////////////////////////////////////////
 

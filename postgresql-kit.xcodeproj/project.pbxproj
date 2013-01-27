@@ -38,8 +38,6 @@
 		141C52D016714F9D00648E67 /* LogView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 141C52CE16714F9D00648E67 /* LogView.xib */; };
 		141C52D1167150E100648E67 /* terminal.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14032D76164A6F2200CD5796 /* terminal.tiff */; };
 		141E7F0F16518D23009D81E8 /* PGFoundationServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 141E7F0E16518D23009D81E8 /* PGFoundationServer.m */; };
-		1422C5B61663FD7100FB22FE /* PGResult+Converters.h in Headers */ = {isa = PBXBuildFile; fileRef = 1422C5B41663FD7100FB22FE /* PGResult+Converters.h */; };
-		1422C5B71663FD7100FB22FE /* PGResult+Converters.m in Sources */ = {isa = PBXBuildFile; fileRef = 1422C5B51663FD7100FB22FE /* PGResult+Converters.m */; };
 		14237AEF166E734A000DBCE1 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14237AED166E6FEC000DBCE1 /* MainWindow.xib */; };
 		14237AF2166E7413000DBCE1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 14237AF1166E7413000DBCE1 /* AppDelegate.m */; };
 		14237AF5166E758F000DBCE1 /* HostAccessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14237AF4166E758E000DBCE1 /* HostAccessViewController.m */; };
@@ -83,6 +81,10 @@
 		14D2FCB9166A16AC005E6390 /* PGTokenizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 14D2FCB2166A16AC005E6390 /* PGTokenizer.h */; };
 		14D2FCBA166A16AC005E6390 /* PGTokenizer.lm in Sources */ = {isa = PBXBuildFile; fileRef = 14D2FCB3166A16AC005E6390 /* PGTokenizer.lm */; };
 		14D2FCBB166A16AC005E6390 /* PGTokenizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 14D2FCB4166A16AC005E6390 /* PGTokenizer.m */; };
+		14DECDA116B56D7300178235 /* PGConverters.h in Headers */ = {isa = PBXBuildFile; fileRef = 14DECD9F16B56D7300178235 /* PGConverters.h */; };
+		14DECDA216B56D7300178235 /* PGConverters+Object2Data.m in Sources */ = {isa = PBXBuildFile; fileRef = 14DECDA016B56D7300178235 /* PGConverters+Object2Data.m */; };
+		14DECDA616B56DF300178235 /* PGConverters+Data2Object.m in Sources */ = {isa = PBXBuildFile; fileRef = 14DECDA516B56DF300178235 /* PGConverters+Data2Object.m */; };
+		14DECDA816B57EC400178235 /* PGConverters+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 14DECDA716B57EC400178235 /* PGConverters+Private.h */; };
 		14E03F541691271400C1150A /* NOTICE.md in Resources */ = {isa = PBXBuildFile; fileRef = 14EE3C36166752F80083C735 /* NOTICE.md */; };
 		14EB374C1671204A00B038B6 /* NSWindow+ResizeAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 14EB374B1671204A00B038B6 /* NSWindow+ResizeAdditions.m */; };
 		14EB374F16712BC000B038B6 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14EB374E16712BC000B038B6 /* ViewController.m */; };
@@ -259,8 +261,6 @@
 		141C52CE16714F9D00648E67 /* LogView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LogView.xib; sourceTree = "<group>"; };
 		141E7F0D16518D23009D81E8 /* PGFoundationServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGFoundationServer.h; sourceTree = "<group>"; };
 		141E7F0E16518D23009D81E8 /* PGFoundationServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGFoundationServer.m; sourceTree = "<group>"; };
-		1422C5B41663FD7100FB22FE /* PGResult+Converters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PGResult+Converters.h"; sourceTree = "<group>"; };
-		1422C5B51663FD7100FB22FE /* PGResult+Converters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PGResult+Converters.m"; sourceTree = "<group>"; };
 		14237AED166E6FEC000DBCE1 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		14237AF0166E7413000DBCE1 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		14237AF1166E7413000DBCE1 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -387,6 +387,10 @@
 		14D2FCB2166A16AC005E6390 /* PGTokenizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGTokenizer.h; sourceTree = "<group>"; };
 		14D2FCB3166A16AC005E6390 /* PGTokenizer.lm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; path = PGTokenizer.lm; sourceTree = "<group>"; };
 		14D2FCB4166A16AC005E6390 /* PGTokenizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGTokenizer.m; sourceTree = "<group>"; };
+		14DECD9F16B56D7300178235 /* PGConverters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGConverters.h; sourceTree = "<group>"; };
+		14DECDA016B56D7300178235 /* PGConverters+Object2Data.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PGConverters+Object2Data.m"; sourceTree = "<group>"; };
+		14DECDA516B56DF300178235 /* PGConverters+Data2Object.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PGConverters+Data2Object.m"; sourceTree = "<group>"; };
+		14DECDA716B57EC400178235 /* PGConverters+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PGConverters+Private.h"; sourceTree = "<group>"; };
 		14EB374A1671204A00B038B6 /* NSWindow+ResizeAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSWindow+ResizeAdditions.h"; sourceTree = "<group>"; };
 		14EB374B1671204A00B038B6 /* NSWindow+ResizeAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSWindow+ResizeAdditions.m"; sourceTree = "<group>"; };
 		14EB374D16712BC000B038B6 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
@@ -682,8 +686,6 @@
 				6E0773D8163744D90028783F /* PGResult.m */,
 				1489AEC516669A6B00C3B67D /* PGResult+TextTable.h */,
 				1489AEC616669A6B00C3B67D /* PGResult+TextTable.m */,
-				1422C5B41663FD7100FB22FE /* PGResult+Converters.h */,
-				1422C5B51663FD7100FB22FE /* PGResult+Converters.m */,
 			);
 			name = PGResult;
 			sourceTree = "<group>";
@@ -774,6 +776,7 @@
 		14805A1B1662306100A4019F /* Foundation */ = {
 			isa = PBXGroup;
 			children = (
+				14DECDA416B56D7B00178235 /* Data Translation */,
 				6EE23F5B1631EF7500C99BA7 /* PGConnection.h */,
 				6EE23F5C1631EF7500C99BA7 /* PGConnection.m */,
 				6EE23F62163207DA00C99BA7 /* PGClientParams.h */,
@@ -916,6 +919,17 @@
 				14A228CF1672389D007B16A2 /* ConnectionsView.xib */,
 			);
 			name = Connections;
+			sourceTree = "<group>";
+		};
+		14DECDA416B56D7B00178235 /* Data Translation */ = {
+			isa = PBXGroup;
+			children = (
+				14DECD9F16B56D7300178235 /* PGConverters.h */,
+				14DECDA716B57EC400178235 /* PGConverters+Private.h */,
+				14DECDA016B56D7300178235 /* PGConverters+Object2Data.m */,
+				14DECDA516B56DF300178235 /* PGConverters+Data2Object.m */,
+			);
+			name = "Data Translation";
 			sourceTree = "<group>";
 		};
 		14EE3C35166752F80083C735 /* doc */ = {
@@ -1166,8 +1180,9 @@
 				6E0773D9163744D90028783F /* PGResult.h in Headers */,
 				6EE23F5D1631EF7500C99BA7 /* PGClientKit+Private.h in Headers */,
 				6EE23F5E1631EF7500C99BA7 /* PGConnection.h in Headers */,
-				1422C5B61663FD7100FB22FE /* PGResult+Converters.h in Headers */,
 				1489AEC716669A6B00C3B67D /* PGResult+TextTable.h in Headers */,
+				14DECDA116B56D7300178235 /* PGConverters.h in Headers */,
+				14DECDA816B57EC400178235 /* PGConverters+Private.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1528,8 +1543,9 @@
 				6EE23F5F1631EF7500C99BA7 /* PGConnection.m in Sources */,
 				6EE23F611632076800C99BA7 /* PGClientParams.m in Sources */,
 				6E0773DA163744D90028783F /* PGResult.m in Sources */,
-				1422C5B71663FD7100FB22FE /* PGResult+Converters.m in Sources */,
 				1489AEC816669A6B00C3B67D /* PGResult+TextTable.m in Sources */,
+				14DECDA216B56D7300178235 /* PGConverters+Object2Data.m in Sources */,
+				14DECDA616B56DF300178235 /* PGConverters+Data2Object.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

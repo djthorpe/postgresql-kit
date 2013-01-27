@@ -65,7 +65,7 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 	if(self) {
 		_connection = nil;
 		// call the initializer
-		_pgresult_cache_init_pgconnection();
+		pgdata2obj_init();
 	}
 	
 	return self;
@@ -74,7 +74,7 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 -(void)dealloc {
 	if(self) {
 		// call the destroyer
-		_pgresult_cache_destroy_pgconnection();
+		pgdata2obj_destroy();
 	}
 	[self disconnect];
 }
