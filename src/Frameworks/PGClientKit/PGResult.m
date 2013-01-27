@@ -20,7 +20,7 @@
 		_result = theResult;
 		_format = format;
 		_encoding = encoding;
-
+		_cachedData = [NSMutableDictionary dictionaryWithCapacity:PQntuples(_result)];
 	}
 	return self;	
 }
@@ -30,6 +30,7 @@
 }
 
 -(void)dealloc {
+	[_cachedData removeAllObjects];
 	PQclear((PGresult* )_result);
 }
 
@@ -102,9 +103,9 @@
 
 	switch(_format) {
 		case PGClientTupleFormatText:
-			return _pgresult_text2obj(PQftype(_result,(int)c),bytes,size,_encoding);
+			return pgdata_text2obj(PQftype(_result,(int)c),bytes,size,_encoding);
 		case PGClientTupleFormatBinary:
-			return _pgresult_bin2obj(PQftype(_result,(int)c),bytes,size,_encoding);
+			return pgdata_bin2obj(PQftype(_result,(int)c),bytes,size,_encoding);
 		default:
 			return nil;
 	}
@@ -117,15 +118,21 @@
 	if(_rowNumber >= [self size]) {
 		return nil;
 	}
-	// create the array
-	NSUInteger numberOfColumns = [self numberOfColumns];
-	NSMutableArray* theArray = [NSMutableArray arrayWithCapacity:numberOfColumns];
-	// fill in the columns
-	for(NSUInteger i = 0; i < numberOfColumns; i++) {
-		id obj = [self _tupleForRow:_rowNumber column:i];
-		NSParameterAssert(obj);
-		[theArray addObject:obj];
-	}
+	NSNumber* key = [NSNumber numberWithUnsignedInteger:_rowNumber];
+	NSMutableArray* theArray = [_cachedData objectForKey:key];
+	if(theArray==nil) {
+		// create the array
+		NSUInteger numberOfColumns = [self numberOfColumns];
+		theArray = [NSMutableArray arrayWithCapacity:numberOfColumns];
+		// fill in the columns
+		for(NSUInteger i = 0; i < numberOfColumns; i++) {
+			id obj = [self _tupleForRow:_rowNumber column:i];
+			NSParameterAssert(obj);
+			[theArray addObject:obj];
+		}
+		// cache the array
+		[_cachedData setObject:theArray forKey:key];
+	}	
 	// increment to next row, return
 	_rowNumber++;
 	return theArray;

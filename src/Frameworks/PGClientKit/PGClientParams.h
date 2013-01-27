@@ -3,7 +3,8 @@
 
 typedef struct {
 	NSUInteger size;
-	const char** values;
+	const void** values;
+	BOOL* freeWhenDone;
 	Oid* types;
 	int* lengths;
 	int* formats;
@@ -12,4 +13,5 @@ typedef struct {
 PGClientParams* _paramAllocForValues(NSArray* values);
 void _paramFree(PGClientParams* params);
 void _paramSetNull(PGClientParams* params,NSUInteger i);
-void _paramSetData(PGClientParams* params,NSUInteger i,NSData* data,Oid pgtype,int format);
+void _paramSetBinary(PGClientParams* params,NSUInteger i,NSData* data,Oid pgtype);
+void _paramSetText(PGClientParams* params,NSUInteger i,NSString* text,NSStringEncoding encoding,Oid pgtype);

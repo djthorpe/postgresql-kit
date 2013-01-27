@@ -517,7 +517,7 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 		}
 		if([obj isKindOfClass:[NSString class]]) {
 			NSData* data = [(NSString* )obj dataUsingEncoding:NSUTF8StringEncoding];
-			_paramSetData(params,i,data,(Oid)25,PGClientTupleFormatBinary);
+			_paramSetBinary(params,i,data,(Oid)25);
 			continue;
 		}
 		// TODO - other kinds of parameters
@@ -526,12 +526,13 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 	}
 	// check number of parameters
 	if(params->size > INT_MAX) {
+		_paramFree(params);
 		[self _raiseError:PGClientErrorParameterError reason:@"Bad parameters" error:error];
 		return nil;		
 	}
 	// execute the command, free parameters
 	int resultFormat = (format==PGClientTupleFormatBinary) ? 1 : 0;
-	PGresult* theResult = PQexecParams(_connection,[query UTF8String],(int)params->size,params->types,params->values,params->lengths,params->formats,resultFormat);
+	PGresult* theResult = PQexecParams(_connection,[query UTF8String],(int)params->size,params->types,(const char** )params->values,params->lengths,params->formats,resultFormat);
 	_paramFree(params);	
 	if(theResult==nil) {
 		[self _raiseError:PGClientErrorExecutionError reason:@"Execution Error" error:error];

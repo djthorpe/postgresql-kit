@@ -2,37 +2,39 @@
 #import "PGConverters.h"
 #import "PGConverters+Private.h"
 
-PGObjectConverterType _pgobject_default_converters[] = {
-	{ "NSString", _obj2bin_text, nil },
-	{ "NSNumber", _obj2bin_number, nil },
-	{ "NSData", _obj2bin_data, nil }
-};
-
-
-#import "PGResult+Converters.h"
-
 ////////////////////////////////////////////////////////////////////////////////
 
-const void* _obj2bin_text(id obj,NSUInteger* type,NSUInteger* size,BOOL* freeWhenDone,NSStringEncoding encoding) {
-	NSCParameterAssert(obj);
-	NSCParameterAssert([obj isKindOfClass:[NSString class]]);
-	NSData* data = [(NSString* )obj dataUsingEncoding:encoding];
-	(*type) = 25;
-	(*freeWhenDone) = NO;
-	(*size) = [data length];
-	return [data bytes];
+NSData* _obj2bin_text(id obj,NSUInteger* type,NSStringEncoding encoding) {
 }
 
-const void* _obj2bin_data(id obj,NSUInteger* type,NSUInteger* size,BOOL* freeWhenDone,NSStringEncoding encoding) {
+NSData* _obj2bin_data(id obj,NSUInteger* type,NSStringEncoding encoding) {
 	NSCParameterAssert(obj);
 	NSCParameterAssert([obj isKindOfClass:[NSData class]]);
 	NSData* data = (NSData* )obj;
-	(*type) = 17;
-	(*freeWhenDone) = NO;
-	(*size) = [data length];
-	return [data bytes];
+	(*type) = PGOidTypeData;
+	return data;
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
+@interface NSString (PGConverters)
+
++(NSData* )obj2data:(id)obj type:(NSUInteger* )oid {
+	NSCParameterAssert(obj);
+	NSCParameterAssert([obj isKindOfClass:[NSString class]]);
+	NSData* data = [(NSString* )obj dataUsingEncoding:encoding];
+	(*type) = PGOidTypeText;
+	return data;
+}
+
++(NSData* )obj2text:(id)obj type:(NSUInteger* )oid {
+	NSCParameterAssert(obj);
+	NSCParameterAssert([obj isKindOfClass:[NSString class]]);
+
+
+@end
+
+/*
 const void* _obj2bin_number(id obj,NSUInteger* type,NSUInteger* size,BOOL* freeWhenDone,NSStringEncoding encoding) {
 	NSCParameterAssert(obj);
 	NSCParameterAssert([obj isKindOfClass:[NSNumber class]]);
@@ -70,3 +72,4 @@ const void* _obj2bin_number(id obj,NSUInteger* type,NSUInteger* size,BOOL* freeW
 	NSCParameterAssert(NO);
 	return nil;
 }
+*/

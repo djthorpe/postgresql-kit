@@ -6,6 +6,7 @@
 	PGClientTupleFormat _format;
 	NSStringEncoding _encoding;
 	NSUInteger _rowNumber;
+	NSMutableDictionary* _cachedData;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
