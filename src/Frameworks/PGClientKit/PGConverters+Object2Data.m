@@ -5,6 +5,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 NSData* _obj2bin_text(id obj,NSUInteger* type,NSStringEncoding encoding) {
+	// TODO
+	return nil;
 }
 
 NSData* _obj2bin_data(id obj,NSUInteger* type,NSStringEncoding encoding) {
@@ -19,6 +21,9 @@ NSData* _obj2bin_data(id obj,NSUInteger* type,NSStringEncoding encoding) {
 
 @interface NSString (PGConverters)
 
+@end
+
+/*
 +(NSData* )obj2data:(id)obj type:(NSUInteger* )oid {
 	NSCParameterAssert(obj);
 	NSCParameterAssert([obj isKindOfClass:[NSString class]]);
@@ -33,6 +38,7 @@ NSData* _obj2bin_data(id obj,NSUInteger* type,NSStringEncoding encoding) {
 
 
 @end
+ */
 
 /*
 const void* _obj2bin_number(id obj,NSUInteger* type,NSUInteger* size,BOOL* freeWhenDone,NSStringEncoding encoding) {
