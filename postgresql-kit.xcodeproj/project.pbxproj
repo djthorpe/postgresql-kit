@@ -60,6 +60,9 @@
 		1433618B17917F86000A79D5 /* PGSchemaKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 14336165179173BB000A79D5 /* PGSchemaKit.framework */; };
 		1433618D1791809B000A79D5 /* elephant.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43E715F3A465001ED3BE /* elephant.icns */; };
 		1433618F179180C4000A79D5 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1433618E179180C4000A79D5 /* MainMenu.xib */; };
+		14336192179181A2000A79D5 /* PGSchemaTestApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 14336191179181A2000A79D5 /* PGSchemaTestApplication.m */; };
+		14336195179182A3000A79D5 /* base.schema.xml in Resources */ = {isa = PBXBuildFile; fileRef = 14336194179182A3000A79D5 /* base.schema.xml */; };
+		14336197179184F1000A79D5 /* tree.schema.xml in Resources */ = {isa = PBXBuildFile; fileRef = 14336196179184F1000A79D5 /* tree.schema.xml */; };
 		145538CE1690CC96005630A0 /* AppAbout.m in Sources */ = {isa = PBXBuildFile; fileRef = 145538CD1690CC96005630A0 /* AppAbout.m */; };
 		145695F416718D39004471F9 /* ConnectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 145695F216718D39004471F9 /* ConnectionViewController.m */; };
 		145695F516718D39004471F9 /* ConnectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 145695F316718D39004471F9 /* ConnectionView.xib */; };
@@ -329,6 +332,10 @@
 		1433618517917F47000A79D5 /* PGSchemaTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PGSchemaTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1433618C17917FC9000A79D5 /* PGSchemaTest.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PGSchemaTest.plist; sourceTree = "<group>"; };
 		1433618E179180C4000A79D5 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
+		14336190179181A2000A79D5 /* PGSchemaTestApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSchemaTestApplication.h; sourceTree = "<group>"; };
+		14336191179181A2000A79D5 /* PGSchemaTestApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSchemaTestApplication.m; sourceTree = "<group>"; };
+		14336194179182A3000A79D5 /* base.schema.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = base.schema.xml; sourceTree = "<group>"; };
+		14336196179184F1000A79D5 /* tree.schema.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = tree.schema.xml; sourceTree = "<group>"; };
 		143742CA1672954C0092F862 /* ConfigurationPrefs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConfigurationPrefs.h; sourceTree = "<group>"; };
 		143742CB1672954C0092F862 /* ConfigurationPrefs.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConfigurationPrefs.m; sourceTree = "<group>"; };
 		143742CC1672954C0092F862 /* ConnectionPrefs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConnectionPrefs.h; sourceTree = "<group>"; };
@@ -812,10 +819,22 @@
 		1433617017917E7F000A79D5 /* PGSchemaTest */ = {
 			isa = PBXGroup;
 			children = (
+				143361931791827F000A79D5 /* schemas */,
 				1433618C17917FC9000A79D5 /* PGSchemaTest.plist */,
 				1433618E179180C4000A79D5 /* MainMenu.xib */,
+				14336190179181A2000A79D5 /* PGSchemaTestApplication.h */,
+				14336191179181A2000A79D5 /* PGSchemaTestApplication.m */,
 			);
 			path = PGSchemaTest;
+			sourceTree = "<group>";
+		};
+		143361931791827F000A79D5 /* schemas */ = {
+			isa = PBXGroup;
+			children = (
+				14336196179184F1000A79D5 /* tree.schema.xml */,
+				14336194179182A3000A79D5 /* base.schema.xml */,
+			);
+			name = schemas;
 			sourceTree = "<group>";
 		};
 		143742C8167294B90092F862 /* Frameworks */ = {
@@ -1514,6 +1533,8 @@
 			files = (
 				1433618D1791809B000A79D5 /* elephant.icns in Resources */,
 				1433618F179180C4000A79D5 /* MainMenu.xib in Resources */,
+				14336195179182A3000A79D5 /* base.schema.xml in Resources */,
+				14336197179184F1000A79D5 /* tree.schema.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1642,6 +1663,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1433617317917F47000A79D5 /* main.m in Sources */,
+				14336192179181A2000A79D5 /* PGSchemaTestApplication.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
