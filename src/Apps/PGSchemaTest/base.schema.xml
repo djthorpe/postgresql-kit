@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<product name="com.mutablelogic.reflex.base" version="1">
+<!DOCTYPE pgschema>
+<pgschema name="com.mutablelogic.reflex.base" version="1">
 	<create-table name="t_product">
 		name	CHAR(80) NOT NULL,
 		version	INT NOT NULL,
 		PRIMARY KEY (name),
 		CONSTRAINT (version > 0)
 	</create-table>
-</product>
+</pgschema>
