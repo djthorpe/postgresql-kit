@@ -4,16 +4,29 @@
 NSString* PGSchemaErrorDomain = @"PGSchemaDomain";
 
 ////////////////////////////////////////////////////////////////////////////////
+// private method declarations
+
+@interface PGSchema (Private)
+-(BOOL)_readSchemaWithPath:(NSString* )path error:(NSError** )error;
+@end
+
+////////////////////////////////////////////////////////////////////////////////
 
 @implementation PGSchema
 
 ////////////////////////////////////////////////////////////////////////////////
 // constructor
 
+-(id)init {
+	return nil;
+}
+
 -(id)initWithPath:(NSString* )path error:(NSError** )error {
 	self = [super init];
 	if(self) {
-		// read in the statements
+		if([self _readSchemaWithPath:path error:error]==NO) {
+			return nil;
+		}
 	}
 	return self;
 }
@@ -31,6 +44,8 @@ NSString* PGSchemaErrorDomain = @"PGSchemaDomain";
 	if(document==nil) {
 		return NO;
 	}
+	// validate against DTD
+	// extract parts
 	return YES;
 }
 
