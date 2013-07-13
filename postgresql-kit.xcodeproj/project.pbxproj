@@ -49,6 +49,17 @@
 		14284F521677D94800B805C9 /* DatabaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14284F501677D94800B805C9 /* DatabaseViewController.m */; };
 		14284F531677D94800B805C9 /* DatabaseView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14284F511677D94800B805C9 /* DatabaseView.xib */; };
 		14284F541677DA5200B805C9 /* database.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14032D72164A6F2200CD5796 /* database.tiff */; };
+		1433616C179175C7000A79D5 /* PGSchema.h in Headers */ = {isa = PBXBuildFile; fileRef = 1433616A179175C7000A79D5 /* PGSchema.h */; };
+		1433616D179175C7000A79D5 /* PGSchema.m in Sources */ = {isa = PBXBuildFile; fileRef = 1433616B179175C7000A79D5 /* PGSchema.m */; };
+		1433616F17917650000A79D5 /* PGSchemaKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 1433616E17917650000A79D5 /* PGSchemaKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1433617317917F47000A79D5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB1E72D15F273350093F784 /* main.m */; };
+		1433617917917F47000A79D5 /* PGClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
+		1433617A17917F47000A79D5 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C167C15F26BF20013A382 /* Cocoa.framework */; };
+		1433618117917F47000A79D5 /* PGClientKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
+		1433618A17917F6C000A79D5 /* PGSchemaKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14336165179173BB000A79D5 /* PGSchemaKit.framework */; };
+		1433618B17917F86000A79D5 /* PGSchemaKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 14336165179173BB000A79D5 /* PGSchemaKit.framework */; };
+		1433618D1791809B000A79D5 /* elephant.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43E715F3A465001ED3BE /* elephant.icns */; };
+		1433618F179180C4000A79D5 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1433618E179180C4000A79D5 /* MainMenu.xib */; };
 		145538CE1690CC96005630A0 /* AppAbout.m in Sources */ = {isa = PBXBuildFile; fileRef = 145538CD1690CC96005630A0 /* AppAbout.m */; };
 		145695F416718D39004471F9 /* ConnectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 145695F216718D39004471F9 /* ConnectionViewController.m */; };
 		145695F516718D39004471F9 /* ConnectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 145695F316718D39004471F9 /* ConnectionView.xib */; };
@@ -139,6 +150,27 @@
 			remoteGlobalIDString = 6ED85B3516288C4800A6DC02;
 			remoteInfo = PGClientKit;
 		};
+		14336167179173D3000A79D5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E256FDE15F252620079AD2D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6ED85B3516288C4800A6DC02;
+			remoteInfo = PGClientKit;
+		};
+		1433618617917F5B000A79D5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E256FDE15F252620079AD2D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6ED85B3516288C4800A6DC02;
+			remoteInfo = PGClientKit;
+		};
+		1433618817917F5B000A79D5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E256FDE15F252620079AD2D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1433614A179173BB000A79D5;
+			remoteInfo = PGSchemaKit;
+		};
 		143398D4168F4F1A00234FBF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6E256FDE15F252620079AD2D /* Project object */;
@@ -177,6 +209,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		1433618017917F47000A79D5 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				1433618B17917F86000A79D5 /* PGSchemaKit.framework in CopyFiles */,
+				1433618117917F47000A79D5 /* PGClientKit.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		145CD70F168E58F0007B0F06 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -278,6 +321,14 @@
 		14284F4F1677D94800B805C9 /* DatabaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatabaseViewController.h; sourceTree = "<group>"; };
 		14284F501677D94800B805C9 /* DatabaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatabaseViewController.m; sourceTree = "<group>"; };
 		14284F511677D94800B805C9 /* DatabaseView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DatabaseView.xib; sourceTree = "<group>"; };
+		14336165179173BB000A79D5 /* PGSchemaKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PGSchemaKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		14336169179174C0000A79D5 /* PGSchemaKit.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PGSchemaKit.plist; sourceTree = "<group>"; };
+		1433616A179175C7000A79D5 /* PGSchema.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSchema.h; sourceTree = "<group>"; };
+		1433616B179175C7000A79D5 /* PGSchema.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSchema.m; sourceTree = "<group>"; };
+		1433616E17917650000A79D5 /* PGSchemaKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSchemaKit.h; sourceTree = "<group>"; };
+		1433618517917F47000A79D5 /* PGSchemaTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PGSchemaTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1433618C17917FC9000A79D5 /* PGSchemaTest.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PGSchemaTest.plist; sourceTree = "<group>"; };
+		1433618E179180C4000A79D5 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		143742CA1672954C0092F862 /* ConfigurationPrefs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConfigurationPrefs.h; sourceTree = "<group>"; };
 		143742CB1672954C0092F862 /* ConfigurationPrefs.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConfigurationPrefs.m; sourceTree = "<group>"; };
 		143742CC1672954C0092F862 /* ConnectionPrefs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConnectionPrefs.h; sourceTree = "<group>"; };
@@ -469,6 +520,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				14805A191662300700A4019F /* PGClientKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		14336155179173BB000A79D5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1433617817917F47000A79D5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1433618A17917F6C000A79D5 /* PGSchemaKit.framework in Frameworks */,
+				1433617917917F47000A79D5 /* PGClientKit.framework in Frameworks */,
+				1433617A17917F47000A79D5 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -730,11 +798,32 @@
 			name = UsersRoles;
 			sourceTree = "<group>";
 		};
+		1433614917917376000A79D5 /* PGSchemaKit */ = {
+			isa = PBXGroup;
+			children = (
+				14336169179174C0000A79D5 /* PGSchemaKit.plist */,
+				1433616E17917650000A79D5 /* PGSchemaKit.h */,
+				1433616A179175C7000A79D5 /* PGSchema.h */,
+				1433616B179175C7000A79D5 /* PGSchema.m */,
+			);
+			path = PGSchemaKit;
+			sourceTree = "<group>";
+		};
+		1433617017917E7F000A79D5 /* PGSchemaTest */ = {
+			isa = PBXGroup;
+			children = (
+				1433618C17917FC9000A79D5 /* PGSchemaTest.plist */,
+				1433618E179180C4000A79D5 /* MainMenu.xib */,
+			);
+			path = PGSchemaTest;
+			sourceTree = "<group>";
+		};
 		143742C8167294B90092F862 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				6EB1E73E15F273350093F784 /* PGServerKit */,
 				6ED85B3316288BEF00A6DC02 /* PGClientKit */,
+				1433614917917376000A79D5 /* PGSchemaKit */,
 				1418234B166128A500765768 /* PGDataKit */,
 			);
 			path = Frameworks;
@@ -1063,6 +1152,7 @@
 				6E68AE021635DD6E00436234 /* PGClient */,
 				6ECA7AD615F3635A00AF2B70 /* PGFoundationServer */,
 				6E4DEC7F162CC2E7008B26BD /* PGFoundationClient */,
+				1433617017917E7F000A79D5 /* PGSchemaTest */,
 				6EB1E72D15F273350093F784 /* main.m */,
 			);
 			path = Apps;
@@ -1114,6 +1204,8 @@
 				6E68ADE51635DB4400436234 /* PGClient.app */,
 				14182364166128C000765768 /* PGDataKit.framework */,
 				145D3E1F166A1AF1002FEA91 /* PGServer.app */,
+				14336165179173BB000A79D5 /* PGSchemaKit.framework */,
+				1433618517917F47000A79D5 /* PGSchemaTest.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1154,6 +1246,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				14805A1716622F9000A4019F /* PGStore.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		14336158179173BB000A79D5 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1433616F17917650000A79D5 /* PGSchemaKit.h in Headers */,
+				1433616C179175C7000A79D5 /* PGSchema.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1207,6 +1308,45 @@
 			productName = PGServerKit;
 			productReference = 14182364166128C000765768 /* PGDataKit.framework */;
 			productType = "com.apple.product-type.framework";
+		};
+		1433614A179173BB000A79D5 /* PGSchemaKit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 14336162179173BB000A79D5 /* Build configuration list for PBXNativeTarget "PGSchemaKit" */;
+			buildPhases = (
+				1433614D179173BB000A79D5 /* Sources */,
+				14336155179173BB000A79D5 /* Frameworks */,
+				14336158179173BB000A79D5 /* Headers */,
+				14336161179173BB000A79D5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				14336168179173D3000A79D5 /* PBXTargetDependency */,
+			);
+			name = PGSchemaKit;
+			productName = PGServerKit;
+			productReference = 14336165179173BB000A79D5 /* PGSchemaKit.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		1433617117917F47000A79D5 /* PGSchemaTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1433618217917F47000A79D5 /* Build configuration list for PBXNativeTarget "PGSchemaTest" */;
+			buildPhases = (
+				1433617217917F47000A79D5 /* Sources */,
+				1433617817917F47000A79D5 /* Frameworks */,
+				1433617B17917F47000A79D5 /* Resources */,
+				1433618017917F47000A79D5 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1433618717917F5B000A79D5 /* PBXTargetDependency */,
+				1433618917917F5B000A79D5 /* PBXTargetDependency */,
+			);
+			name = PGSchemaTest;
+			productName = PGClient;
+			productReference = 1433618517917F47000A79D5 /* PGSchemaTest.app */;
+			productType = "com.apple.product-type.application";
 		};
 		145D3E1E166A1AF1002FEA91 /* PGServer */ = {
 			isa = PBXNativeTarget;
@@ -1342,11 +1482,13 @@
 				6E256FEE15F255780079AD2D /* postgresql */,
 				6ED763FA15F2673600687079 /* PGServerKit */,
 				6ED85B3516288C4800A6DC02 /* PGClientKit */,
+				1433614A179173BB000A79D5 /* PGSchemaKit */,
 				1418234D166128C000765768 /* PGDataKit */,
 				6ECA7ADB15F3637600AF2B70 /* PGFoundationServer */,
 				6E4DEC84162CC38D008B26BD /* PGFoundationClient */,
 				6E68ADE41635DB4400436234 /* PGClient */,
 				145D3E1E166A1AF1002FEA91 /* PGServer */,
+				1433617117917F47000A79D5 /* PGSchemaTest */,
 			);
 		};
 /* End PBXProject section */
@@ -1356,6 +1498,22 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		14336161179173BB000A79D5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1433617B17917F47000A79D5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1433618D1791809B000A79D5 /* elephant.icns in Resources */,
+				1433618F179180C4000A79D5 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1471,6 +1629,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		1433614D179173BB000A79D5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1433616D179175C7000A79D5 /* PGSchema.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1433617217917F47000A79D5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1433617317917F47000A79D5 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		145D3E1B166A1AF1002FEA91 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1556,6 +1730,21 @@
 			isa = PBXTargetDependency;
 			target = 6ED85B3516288C4800A6DC02 /* PGClientKit */;
 			targetProxy = 14182366166128DA00765768 /* PBXContainerItemProxy */;
+		};
+		14336168179173D3000A79D5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6ED85B3516288C4800A6DC02 /* PGClientKit */;
+			targetProxy = 14336167179173D3000A79D5 /* PBXContainerItemProxy */;
+		};
+		1433618717917F5B000A79D5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6ED85B3516288C4800A6DC02 /* PGClientKit */;
+			targetProxy = 1433618617917F5B000A79D5 /* PBXContainerItemProxy */;
+		};
+		1433618917917F5B000A79D5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1433614A179173BB000A79D5 /* PGSchemaKit */;
+			targetProxy = 1433618817917F5B000A79D5 /* PBXContainerItemProxy */;
 		};
 		143398D5168F4F1A00234FBF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1674,6 +1863,138 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = openssl;
+			};
+			name = Release;
+		};
+		14336163179173BB000A79D5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_MASTER_OBJECT_FILE = YES;
+				INFOPLIST_FILE = src/Frameworks/PGSchemaKit/PGSchemaKit.plist;
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = PGSchemaKit;
+				SDKROOT = macosx10.7;
+				SKIP_INSTALL = NO;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Debug;
+		};
+		14336164179173BB000A79D5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_MASTER_OBJECT_FILE = YES;
+				INFOPLIST_FILE = src/Frameworks/PGSchemaKit/PGSchemaKit.plist;
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = PGSchemaKit;
+				SDKROOT = macosx10.7;
+				SKIP_INSTALL = NO;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Release;
+		};
+		1433618317917F47000A79D5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/src/Apps/PGSchemaTest/PGSchemaTest.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = PGSchemaTest;
+				SDKROOT = macosx10.7;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		1433618417917F47000A79D5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/src/Apps/PGSchemaTest/PGSchemaTest.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = PGSchemaTest;
+				SDKROOT = macosx10.7;
+				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
 		};
@@ -2109,6 +2430,24 @@
 			buildConfigurations = (
 				1428045A166811D700A61BF6 /* Debug */,
 				1428045B166811D700A61BF6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		14336162179173BB000A79D5 /* Build configuration list for PBXNativeTarget "PGSchemaKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				14336163179173BB000A79D5 /* Debug */,
+				14336164179173BB000A79D5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1433618217917F47000A79D5 /* Build configuration list for PBXNativeTarget "PGSchemaTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1433618317917F47000A79D5 /* Debug */,
+				1433618417917F47000A79D5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
