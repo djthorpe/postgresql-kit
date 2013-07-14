@@ -1,7 +1,9 @@
 
 #import <Foundation/Foundation.h>
 
-@interface PGSchema : NSObject
+@interface PGSchema : NSObject {
+	NSXMLDocument* _document;
+}
 
 // constructor
 +(PGSchema* )schemaWithPath:(NSString* )path error:(NSError** )error;
@@ -10,5 +12,4 @@
 @property (readonly) NSString* name;
 @property (readonly) NSUInteger version;
 @property (readonly) NSArray* requires;
-
 @end

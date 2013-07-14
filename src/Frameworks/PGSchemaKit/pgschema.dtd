@@ -1,6 +1,20 @@
 
 <!-- PRODUCT -->
-<!ELEMENT product (requires)>
-<!ATTLIST product name "CDATA" #REQUIRED>
-<!ATTLIST product version "CDATA" #REQUIRED>
+<!ELEMENT product (requires?,create,drop)>
+<!ATTLIST product name CDATA #REQUIRED>
+<!ATTLIST product version CDATA #REQUIRED>
 
+<!-- REQUIRES -->
+<!ELEMENT requires EMPTY>
+<!ATTLIST requires name CDATA #REQUIRED>
+<!ATTLIST requires version CDATA #REQUIRED>
+
+<!-- CREATE, DROP -->
+<!ELEMENT create (create-table|create-index)*>
+<!ELEMENT drop (drop-table|drop-index)*>
+
+<!-- CREATE, DROP TABLE -->
+<!ELEMENT create-table (#PCDATA)>
+<!ATTLIST create-table name CDATA #REQUIRED>
+<!ELEMENT drop-table EMPTY>
+<!ATTLIST drop-table name CDATA #REQUIRED>
