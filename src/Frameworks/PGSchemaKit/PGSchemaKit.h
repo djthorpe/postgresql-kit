@@ -1,11 +1,18 @@
 
 #import <Foundation/Foundation.h>
 
+// externs
+extern NSString* PGSchemaErrorDomain;
+
 // typedefs
+typedef enum {
+	PGSchemaErrorMissingDTD = 100,
+	PGSchemaErrorParse = 101
+} PGSchemaErrorType;
 
 // forward class declarations
-@class PGSchema;
+@class PGSchemaProduct;
 
 // header includes
-#import "PGSchema.h"
+#import "PGSchemaProduct.h"
 

@@ -10,7 +10,7 @@ NSString* schemaTypes = @"schema.xml";
 	NSArray* resources = [[NSBundle mainBundle] pathsForResourcesOfType:schemaTypes inDirectory:nil];
 	for(NSString* path in resources) {
 		NSError* error = nil;
-		PGSchema* schema = [PGSchema schemaWithPath:path error:&error];
+		PGSchemaProduct* schema = [PGSchemaProduct schemaWithPath:path error:&error];
 		if(error) {
 			NSLog(@"Error: %@: %@",[path lastPathComponent],[error localizedDescription]);
 		} else {

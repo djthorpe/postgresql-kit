@@ -10,11 +10,39 @@
 <!ATTLIST requires version CDATA #REQUIRED>
 
 <!-- CREATE, DROP -->
-<!ELEMENT create (create-table|create-index)*>
-<!ELEMENT drop (drop-table|drop-index)*>
+<!ELEMENT create (create-table|create-serial|create-type|create-index|create-function)*>
+<!ELEMENT drop (drop-table|drop-serial|drop-type|drop-index|drop-function)*>
 
 <!-- CREATE, DROP TABLE -->
 <!ELEMENT create-table (#PCDATA)>
 <!ATTLIST create-table name CDATA #REQUIRED>
 <!ELEMENT drop-table EMPTY>
 <!ATTLIST drop-table name CDATA #REQUIRED>
+
+<!-- CREATE, DROP SERIAL -->
+<!ELEMENT create-serial EMPTY>
+<!ATTLIST create-serial name CDATA #REQUIRED>
+<!ELEMENT drop-serial EMPTY>
+<!ATTLIST drop-serial name CDATA #REQUIRED>
+
+<!-- CREATE, DROP TYPE -->
+<!ELEMENT create-type (#PCDATA)>
+<!ATTLIST create-type name CDATA #REQUIRED>
+<!ELEMENT drop-type EMPTY>
+<!ATTLIST drop-type name CDATA #REQUIRED>
+
+<!-- CREATE, DROP INDEX -->
+<!ELEMENT create-index (#PCDATA)>
+<!ATTLIST create-index name CDATA #REQUIRED>
+<!ELEMENT drop-index EMPTY>
+<!ATTLIST drop-index name CDATA #REQUIRED>
+
+<!-- CREATE, DROP FUNCTION -->
+<!ELEMENT create-function (#PCDATA)>
+<!ATTLIST create-function name CDATA #REQUIRED>
+<!ATTLIST create-function returns CDATA #REQUIRED>
+<!ATTLIST create-function language CDATA #REQUIRED>
+<!ELEMENT drop-function EMPTY>
+<!ATTLIST drop-function name CDATA #REQUIRED>
+
+

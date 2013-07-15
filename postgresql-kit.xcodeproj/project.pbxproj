@@ -49,8 +49,8 @@
 		14284F521677D94800B805C9 /* DatabaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14284F501677D94800B805C9 /* DatabaseViewController.m */; };
 		14284F531677D94800B805C9 /* DatabaseView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14284F511677D94800B805C9 /* DatabaseView.xib */; };
 		14284F541677DA5200B805C9 /* database.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14032D72164A6F2200CD5796 /* database.tiff */; };
-		1433616C179175C7000A79D5 /* PGSchema.h in Headers */ = {isa = PBXBuildFile; fileRef = 1433616A179175C7000A79D5 /* PGSchema.h */; };
-		1433616D179175C7000A79D5 /* PGSchema.m in Sources */ = {isa = PBXBuildFile; fileRef = 1433616B179175C7000A79D5 /* PGSchema.m */; };
+		1433616C179175C7000A79D5 /* PGSchemaProduct.h in Headers */ = {isa = PBXBuildFile; fileRef = 1433616A179175C7000A79D5 /* PGSchemaProduct.h */; };
+		1433616D179175C7000A79D5 /* PGSchemaProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = 1433616B179175C7000A79D5 /* PGSchemaProduct.m */; };
 		1433616F17917650000A79D5 /* PGSchemaKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 1433616E17917650000A79D5 /* PGSchemaKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1433617317917F47000A79D5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB1E72D15F273350093F784 /* main.m */; };
 		1433617917917F47000A79D5 /* PGClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
@@ -82,6 +82,12 @@
 		14805A191662300700A4019F /* PGClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
 		1489AEC716669A6B00C3B67D /* PGResult+TextTable.h in Headers */ = {isa = PBXBuildFile; fileRef = 1489AEC516669A6B00C3B67D /* PGResult+TextTable.h */; };
 		1489AEC816669A6B00C3B67D /* PGResult+TextTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 1489AEC616669A6B00C3B67D /* PGResult+TextTable.m */; };
+		148D2EED179420980005DB1B /* PGSchemaProductNV.h in Headers */ = {isa = PBXBuildFile; fileRef = 148D2EEB179420980005DB1B /* PGSchemaProductNV.h */; };
+		148D2EEE179420980005DB1B /* PGSchemaProductNV.m in Sources */ = {isa = PBXBuildFile; fileRef = 148D2EEC179420980005DB1B /* PGSchemaProductNV.m */; };
+		148D2EF1179432CB0005DB1B /* PGSchemaProductOp.h in Headers */ = {isa = PBXBuildFile; fileRef = 148D2EEF179432CB0005DB1B /* PGSchemaProductOp.h */; };
+		148D2EF2179432CB0005DB1B /* PGSchemaProductOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 148D2EF0179432CB0005DB1B /* PGSchemaProductOp.m */; };
+		148D2EF517943BC80005DB1B /* PGSchema.h in Headers */ = {isa = PBXBuildFile; fileRef = 148D2EF317943BC80005DB1B /* PGSchema.h */; };
+		148D2EF617943BC80005DB1B /* PGSchema.m in Sources */ = {isa = PBXBuildFile; fileRef = 148D2EF417943BC80005DB1B /* PGSchema.m */; };
 		148F88C9166D63AC0088D3DF /* ResizeControl.png in Resources */ = {isa = PBXBuildFile; fileRef = 148F88C7166D61060088D3DF /* ResizeControl.png */; };
 		148F88CA166D63AE0088D3DF /* Gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = 148F88C6166D61060088D3DF /* Gradient.png */; };
 		14A053EA1677F35A004C086A /* halt.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14032DC9164A718C00CD5796 /* halt.tiff */; };
@@ -328,8 +334,8 @@
 		14284F511677D94800B805C9 /* DatabaseView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DatabaseView.xib; sourceTree = "<group>"; };
 		14336165179173BB000A79D5 /* PGSchemaKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PGSchemaKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		14336169179174C0000A79D5 /* PGSchemaKit.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PGSchemaKit.plist; sourceTree = "<group>"; };
-		1433616A179175C7000A79D5 /* PGSchema.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSchema.h; sourceTree = "<group>"; };
-		1433616B179175C7000A79D5 /* PGSchema.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSchema.m; sourceTree = "<group>"; };
+		1433616A179175C7000A79D5 /* PGSchemaProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSchemaProduct.h; sourceTree = "<group>"; };
+		1433616B179175C7000A79D5 /* PGSchemaProduct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSchemaProduct.m; sourceTree = "<group>"; };
 		1433616E17917650000A79D5 /* PGSchemaKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSchemaKit.h; sourceTree = "<group>"; };
 		1433618517917F47000A79D5 /* PGSchemaTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PGSchemaTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1433618C17917FC9000A79D5 /* PGSchemaTest.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PGSchemaTest.plist; sourceTree = "<group>"; };
@@ -431,6 +437,12 @@
 		14805AB11662313E00A4019F /* PostgresServerKitPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostgresServerKitPrivate.h; sourceTree = "<group>"; };
 		1489AEC516669A6B00C3B67D /* PGResult+TextTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PGResult+TextTable.h"; sourceTree = "<group>"; };
 		1489AEC616669A6B00C3B67D /* PGResult+TextTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PGResult+TextTable.m"; sourceTree = "<group>"; };
+		148D2EEB179420980005DB1B /* PGSchemaProductNV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSchemaProductNV.h; sourceTree = "<group>"; };
+		148D2EEC179420980005DB1B /* PGSchemaProductNV.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSchemaProductNV.m; sourceTree = "<group>"; };
+		148D2EEF179432CB0005DB1B /* PGSchemaProductOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSchemaProductOp.h; sourceTree = "<group>"; };
+		148D2EF0179432CB0005DB1B /* PGSchemaProductOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSchemaProductOp.m; sourceTree = "<group>"; };
+		148D2EF317943BC80005DB1B /* PGSchema.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSchema.h; sourceTree = "<group>"; };
+		148D2EF417943BC80005DB1B /* PGSchema.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSchema.m; sourceTree = "<group>"; };
 		148F88C6166D61060088D3DF /* Gradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Gradient.png; sourceTree = "<group>"; };
 		148F88C7166D61060088D3DF /* ResizeControl.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ResizeControl.png; sourceTree = "<group>"; };
 		14A228CD1672389D007B16A2 /* ConnectionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionsViewController.h; sourceTree = "<group>"; };
@@ -813,8 +825,14 @@
 			children = (
 				14336169179174C0000A79D5 /* PGSchemaKit.plist */,
 				1433616E17917650000A79D5 /* PGSchemaKit.h */,
-				1433616A179175C7000A79D5 /* PGSchema.h */,
-				1433616B179175C7000A79D5 /* PGSchema.m */,
+				1433616A179175C7000A79D5 /* PGSchemaProduct.h */,
+				148D2EF317943BC80005DB1B /* PGSchema.h */,
+				148D2EF417943BC80005DB1B /* PGSchema.m */,
+				1433616B179175C7000A79D5 /* PGSchemaProduct.m */,
+				148D2EEB179420980005DB1B /* PGSchemaProductNV.h */,
+				148D2EEC179420980005DB1B /* PGSchemaProductNV.m */,
+				148D2EEF179432CB0005DB1B /* PGSchemaProductOp.h */,
+				148D2EF0179432CB0005DB1B /* PGSchemaProductOp.m */,
 				1433619817919033000A79D5 /* pgschema.dtd */,
 			);
 			path = PGSchemaKit;
@@ -1277,7 +1295,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				1433616F17917650000A79D5 /* PGSchemaKit.h in Headers */,
-				1433616C179175C7000A79D5 /* PGSchema.h in Headers */,
+				1433616C179175C7000A79D5 /* PGSchemaProduct.h in Headers */,
+				148D2EED179420980005DB1B /* PGSchemaProductNV.h in Headers */,
+				148D2EF1179432CB0005DB1B /* PGSchemaProductOp.h in Headers */,
+				148D2EF517943BC80005DB1B /* PGSchema.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1660,7 +1681,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1433616D179175C7000A79D5 /* PGSchema.m in Sources */,
+				1433616D179175C7000A79D5 /* PGSchemaProduct.m in Sources */,
+				148D2EEE179420980005DB1B /* PGSchemaProductNV.m in Sources */,
+				148D2EF2179432CB0005DB1B /* PGSchemaProductOp.m in Sources */,
+				148D2EF617943BC80005DB1B /* PGSchema.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

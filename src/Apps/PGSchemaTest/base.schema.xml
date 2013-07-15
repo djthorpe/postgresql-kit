@@ -5,10 +5,18 @@
 			name	CHAR(80) NOT NULL,
 			version	INT NOT NULL,
 			PRIMARY KEY (name),
-			CONSTRAINT (version > 0)
+			CONSTRAINT CHECK (version > 0)
+		</create-table>
+		<create-table name="t_serial">
+			class        CHAR(32) NOT NULL,
+			serial       INTEGER NOT NULL DEFAULT 0,
+			PRIMARY KEY (class),
+			CONSTRAINT CHECK (CHAR_LENGTH(class) > 0),
+			CONSTRAINT CHECK (serial > 0)
 		</create-table>
 	</create>
 	<drop>
 		<drop-table name="t_product"/>
+		<drop-table name="t_serial"/>
 	</drop>
 </product>

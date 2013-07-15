@@ -1,15 +1,13 @@
+//
+//  PGSchema.h
+//  postgresql-kit
+//
+//  Created by David Thorpe on 15/07/2013.
+//
+//
 
 #import <Foundation/Foundation.h>
 
-@interface PGSchema : NSObject {
-	NSXMLDocument* _document;
-}
+@interface PGSchema : NSObject
 
-// constructor
-+(PGSchema* )schemaWithPath:(NSString* )path error:(NSError** )error;
-
-// properties
-@property (readonly) NSString* name;
-@property (readonly) NSUInteger version;
-@property (readonly) NSArray* requires;
 @end
