@@ -61,7 +61,6 @@
 		1433618D1791809B000A79D5 /* elephant.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43E715F3A465001ED3BE /* elephant.icns */; };
 		1433618F179180C4000A79D5 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1433618E179180C4000A79D5 /* MainMenu.xib */; };
 		14336192179181A2000A79D5 /* PGSchemaTestApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 14336191179181A2000A79D5 /* PGSchemaTestApplication.m */; };
-		14336195179182A3000A79D5 /* base.schema.xml in Resources */ = {isa = PBXBuildFile; fileRef = 14336194179182A3000A79D5 /* base.schema.xml */; };
 		14336197179184F1000A79D5 /* tree.schema.xml in Resources */ = {isa = PBXBuildFile; fileRef = 14336196179184F1000A79D5 /* tree.schema.xml */; };
 		1433619917919033000A79D5 /* pgschema.dtd in Resources */ = {isa = PBXBuildFile; fileRef = 1433619817919033000A79D5 /* pgschema.dtd */; };
 		1433619A17919033000A79D5 /* pgschema.dtd in Resources */ = {isa = PBXBuildFile; fileRef = 1433619817919033000A79D5 /* pgschema.dtd */; };
@@ -88,6 +87,7 @@
 		148D2EF2179432CB0005DB1B /* PGSchemaProductOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 148D2EF0179432CB0005DB1B /* PGSchemaProductOp.m */; };
 		148D2EF517943BC80005DB1B /* PGSchema.h in Headers */ = {isa = PBXBuildFile; fileRef = 148D2EF317943BC80005DB1B /* PGSchema.h */; };
 		148D2EF617943BC80005DB1B /* PGSchema.m in Sources */ = {isa = PBXBuildFile; fileRef = 148D2EF417943BC80005DB1B /* PGSchema.m */; };
+		148D2EF81794550A0005DB1B /* pgschema.base.schema.xml in Resources */ = {isa = PBXBuildFile; fileRef = 148D2EF71794550A0005DB1B /* pgschema.base.schema.xml */; };
 		148F88C9166D63AC0088D3DF /* ResizeControl.png in Resources */ = {isa = PBXBuildFile; fileRef = 148F88C7166D61060088D3DF /* ResizeControl.png */; };
 		148F88CA166D63AE0088D3DF /* Gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = 148F88C6166D61060088D3DF /* Gradient.png */; };
 		14A053EA1677F35A004C086A /* halt.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14032DC9164A718C00CD5796 /* halt.tiff */; };
@@ -342,7 +342,6 @@
 		1433618E179180C4000A79D5 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		14336190179181A2000A79D5 /* PGSchemaTestApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSchemaTestApplication.h; sourceTree = "<group>"; };
 		14336191179181A2000A79D5 /* PGSchemaTestApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSchemaTestApplication.m; sourceTree = "<group>"; };
-		14336194179182A3000A79D5 /* base.schema.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = base.schema.xml; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.xml; };
 		14336196179184F1000A79D5 /* tree.schema.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = tree.schema.xml; sourceTree = "<group>"; };
 		1433619817919033000A79D5 /* pgschema.dtd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = pgschema.dtd; sourceTree = "<group>"; };
 		143742CA1672954C0092F862 /* ConfigurationPrefs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConfigurationPrefs.h; sourceTree = "<group>"; };
@@ -443,6 +442,7 @@
 		148D2EF0179432CB0005DB1B /* PGSchemaProductOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSchemaProductOp.m; sourceTree = "<group>"; };
 		148D2EF317943BC80005DB1B /* PGSchema.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSchema.h; sourceTree = "<group>"; };
 		148D2EF417943BC80005DB1B /* PGSchema.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSchema.m; sourceTree = "<group>"; };
+		148D2EF71794550A0005DB1B /* pgschema.base.schema.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = pgschema.base.schema.xml; sourceTree = "<group>"; };
 		148F88C6166D61060088D3DF /* Gradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Gradient.png; sourceTree = "<group>"; };
 		148F88C7166D61060088D3DF /* ResizeControl.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ResizeControl.png; sourceTree = "<group>"; };
 		14A228CD1672389D007B16A2 /* ConnectionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionsViewController.h; sourceTree = "<group>"; };
@@ -825,15 +825,16 @@
 			children = (
 				14336169179174C0000A79D5 /* PGSchemaKit.plist */,
 				1433616E17917650000A79D5 /* PGSchemaKit.h */,
-				1433616A179175C7000A79D5 /* PGSchemaProduct.h */,
 				148D2EF317943BC80005DB1B /* PGSchema.h */,
 				148D2EF417943BC80005DB1B /* PGSchema.m */,
+				1433616A179175C7000A79D5 /* PGSchemaProduct.h */,
 				1433616B179175C7000A79D5 /* PGSchemaProduct.m */,
 				148D2EEB179420980005DB1B /* PGSchemaProductNV.h */,
 				148D2EEC179420980005DB1B /* PGSchemaProductNV.m */,
 				148D2EEF179432CB0005DB1B /* PGSchemaProductOp.h */,
 				148D2EF0179432CB0005DB1B /* PGSchemaProductOp.m */,
 				1433619817919033000A79D5 /* pgschema.dtd */,
+				148D2EF71794550A0005DB1B /* pgschema.base.schema.xml */,
 			);
 			path = PGSchemaKit;
 			sourceTree = "<group>";
@@ -854,7 +855,6 @@
 			isa = PBXGroup;
 			children = (
 				14336196179184F1000A79D5 /* tree.schema.xml */,
-				14336194179182A3000A79D5 /* base.schema.xml */,
 			);
 			name = schemas;
 			sourceTree = "<group>";
@@ -1550,6 +1550,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1433619917919033000A79D5 /* pgschema.dtd in Resources */,
+				148D2EF81794550A0005DB1B /* pgschema.base.schema.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1559,7 +1560,6 @@
 			files = (
 				1433618D1791809B000A79D5 /* elephant.icns in Resources */,
 				1433618F179180C4000A79D5 /* MainMenu.xib in Resources */,
-				14336195179182A3000A79D5 /* base.schema.xml in Resources */,
 				14336197179184F1000A79D5 /* tree.schema.xml in Resources */,
 				1433619A17919033000A79D5 /* pgschema.dtd in Resources */,
 			);

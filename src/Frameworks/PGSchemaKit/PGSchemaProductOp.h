@@ -8,7 +8,7 @@
 }
 
 // constructor
--(id)initWithXMLNode:(NSXMLElement* )node error:(NSError** )error;
+-(id)initWithXMLNode:(NSXMLElement* )node;
 
 // properties
 @property (readonly) NSString* name;

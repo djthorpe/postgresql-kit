@@ -5,7 +5,7 @@
 // private method declarations
 
 @interface PGSchemaProductOp (Private)
--(BOOL)_initWithXMLNode:(NSXMLElement* )node error:(NSError** )error;
+-(BOOL)_initWithXMLNode:(NSXMLElement* )node;
 @end
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -19,14 +19,14 @@
 	return nil;
 }
 
--(id)initWithXMLNode:(NSXMLElement* )node error:(NSError** )error {
+-(id)initWithXMLNode:(NSXMLElement* )node {
 	NSParameterAssert(node);
 	self = [super init];
 	if(self) {
 		_name = nil;
 		_operation = nil;
 		_cdata = nil;
-		if([self _initWithXMLNode:node error:error]==NO) {
+		if([self _initWithXMLNode:node]==NO) {
 			return nil;
 		}
 	}
@@ -49,7 +49,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // private methods
 
--(BOOL)_initWithXMLNode:(NSXMLElement* )node error:(NSError** )error {
+-(BOOL)_initWithXMLNode:(NSXMLElement* )node {
 	
 	// set operation from node name
 	_operation = [node name];
@@ -58,8 +58,6 @@
 	NSString* nameString =
 		[[[node attributeForName:@"name"] stringValue] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 	if(nameString==nil) {
-		// TODO: raise error
-		NSLog(@"error = %@",node);
 		return nil;
 	}
 	_name = nameString;

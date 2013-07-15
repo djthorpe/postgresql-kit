@@ -163,9 +163,9 @@ NSString* PGSchemaRootNode = @"product";
 	}
 	_create = [NSMutableArray arrayWithCapacity:[create count]];
 	for(NSXMLElement* node in create) {
-		PGSchemaProductOp* op = [[PGSchemaProductOp alloc] initWithXMLNode:node error:&localerror];
+		PGSchemaProductOp* op = [[PGSchemaProductOp alloc] initWithXMLNode:node];
 		if(op==nil) {
-			(*error) = [self _errorWithCode:PGSchemaErrorParse description:[localerror localizedDescription] path:path];
+			(*error) = [self _errorWithCode:PGSchemaErrorParse description:@"invalid operation on <create> element" path:path];
 			return NO;
 		}
 		[_create addObject:op];
@@ -179,9 +179,9 @@ NSString* PGSchemaRootNode = @"product";
 	}
 	_drop = [NSMutableArray arrayWithCapacity:[drop count]];
 	for(NSXMLElement* node in drop) {
-		PGSchemaProductOp* op = [[PGSchemaProductOp alloc] initWithXMLNode:node error:&localerror];
+		PGSchemaProductOp* op = [[PGSchemaProductOp alloc] initWithXMLNode:node];
 		if(op==nil) {
-			(*error) = [self _errorWithCode:PGSchemaErrorParse description:[localerror localizedDescription] path:path];
+			(*error) = [self _errorWithCode:PGSchemaErrorParse description:@"invalid operation on <drop> element" path:path];
 			return NO;
 		}
 		[_drop addObject:op];
