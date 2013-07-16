@@ -15,6 +15,12 @@
 @property (readonly) PGLoginController* logincontroller;
 @property (readonly) PGConnection* connection;
 @property (readonly) PGSchema* schema;
+@property (readonly) NSArray* schemas;
+@property (readonly) BOOL ibCanLogin;
+@property (readonly) BOOL ibCanLogout;
+
+// methods
+-(void)addSchemaPath:(NSString* )path;
 
 // actions
 -(IBAction)doLogin:(id)sender;
