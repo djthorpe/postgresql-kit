@@ -4,12 +4,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 NSString* PGSchemaErrorDomain = @"PGSchemaDomain";
-NSString* PGSchemaFileExtension = @"schema.xml";
+NSString* PGSchemaFileExtension = @".schema.xml";
 
 ////////////////////////////////////////////////////////////////////////////////
 
 @interface PGSchema (Private)
-
+-(NSArray* )_scanForSchemasAtPath:(NSString* )path recursive:(BOOL)isRecursive error:(NSError** )error;
 @end
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -27,7 +27,7 @@ NSString* PGSchemaFileExtension = @"schema.xml";
 		_name = name;
 		_searchpath = [NSMutableArray array];
 		[_searchpath addObject:[[NSBundle mainBundle] resourcePath]];
-		_schemas = nil;
+		_schemas = [NSArray array];
 	}
 	return self;
 }
@@ -36,11 +36,19 @@ NSString* PGSchemaFileExtension = @"schema.xml";
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
 
--(BOOL)addSchemaPath:(NSString* )schemaPath recursive:(BOOL)isRecursive error:(NSError** )error {
-	if([_searchpath containsObject:schemaPath]==NO) {
-		BOOL 
-		
+-(BOOL)addSearchPath:(NSString* )schemaPath error:(NSError** )error {
+	NSParameterAssert(schemaPath);
+	[_searchpath addObject:schemaPath];
+	NSMutableArray* schemas = [NSMutableArray array];
+	for(NSString* path in _searchpath) {
+		NSArray* products = [self _scanForSchemasAtPath:path recursive:NO error:error];
+		if(products==nil) {
+			[_searchpath removeObject:schemaPath];
+			return NO;
+		}
+		[schemas addObjectsFromArray:products];
 	}
+	_schemas = schemas;
 	return YES;
 }
 
@@ -57,7 +65,7 @@ NSString* PGSchemaFileExtension = @"schema.xml";
 		}
 		NSString* filepath = [path stringByAppendingPathComponent:filename];
 		BOOL isDirectory = NO;
-		if([[filename pathExtension] isEqualToString:PGSchemaFileExtension]) {
+		if([filename hasSuffix:PGSchemaFileExtension]) {
 			PGSchemaProduct* schemaproduct = [PGSchemaProduct schemaWithPath:filepath error:error];
 			if(schemaproduct==nil) {
 				return nil;

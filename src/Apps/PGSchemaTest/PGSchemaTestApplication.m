@@ -1,5 +1,6 @@
 
 #import "PGSchemaTestApplication.h"
+#import <PGClientKit/PGClientKit.h>
 #import <PGSchemaKit/PGSchemaKit.h>
 
 @implementation PGSchemaTestApplication
@@ -7,16 +8,15 @@
 NSString* schemaTypes = @"schema.xml";
 
 -(void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-	NSArray* resources = [[NSBundle mainBundle] pathsForResourcesOfType:schemaTypes inDirectory:nil];
-	for(NSString* path in resources) {
-		NSError* error = nil;
-		PGSchemaProduct* schema = [PGSchemaProduct schemaWithPath:path error:&error];
-		if(error) {
-			NSLog(@"Error: %@: %@",[path lastPathComponent],[error localizedDescription]);
-		} else {
-			NSLog(@"Schema = %@",schema);
-		}
+	NSError* error = nil;
+	PGConnection* connection = [[PGConnection alloc] init];
+	PGSchema* schema = [[PGSchema alloc] initWithConnection:connection name:nil];
+	[schema addSchemaPath:[[NSBundle mainBundle] resourcePath] error:&error];
+	if(error) {
+		NSLog(@"Error: %@",[error localizedDescription]);
+		return;
 	}
+	NSLog(@"Schema = %@",[schema schemas]);
 }
 
 @end

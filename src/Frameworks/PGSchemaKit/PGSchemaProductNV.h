@@ -6,8 +6,9 @@
 	NSUInteger _version;
 }
 
-// constructor
+// constructors
 -(id)initWithXMLNode:(NSXMLElement* )node;
+-(id)initWithName:(NSString* )name version:(NSUInteger)version;
 
 // properties
 @property (readonly) NSString* name;

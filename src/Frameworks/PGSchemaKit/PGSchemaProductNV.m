@@ -10,6 +10,17 @@
 	return nil;
 }
 
+-(id)initWithName:(NSString* )name version:(NSUInteger)version {
+	NSParameterAssert(name);
+	NSParameterAssert(version > 0);
+	self = [super init];
+	if(self) {
+		_name = name;
+		_version = version;
+	}
+	return self;	
+}
+
 -(id)initWithXMLNode:(NSXMLElement* )node {
 	NSParameterAssert(node);
 	self = [super init];

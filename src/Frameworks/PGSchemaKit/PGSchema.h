@@ -8,6 +8,13 @@
 	NSArray* _schemas;
 }
 
+// constructor
 -(id)initWithConnection:(PGConnection* )connection name:(NSString* )name;
+
+// properties
+@property (readonly) NSArray* schemas;
+
+// methods
+-(BOOL)addSchemaPath:(NSString* )schemaPath error:(NSError** )error;
 
 @end
