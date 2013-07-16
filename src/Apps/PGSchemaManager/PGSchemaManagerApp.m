@@ -43,7 +43,7 @@
 }
 
 -(NSArray* )schemas {
-	return [[self schema] schemas];
+	return [[self schema] products];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -53,7 +53,7 @@
 	NSError* error = nil;
 	
 	[self willChangeValueForKey:@"schemas"];
-	[[self schema] addSchemaSearchPath:path error:&error];
+	[[self schema] addSearchPath:path error:&error];
 	[self didChangeValueForKey:@"schemas"];
 
 	if(error) {

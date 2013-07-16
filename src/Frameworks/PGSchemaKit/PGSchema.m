@@ -21,40 +21,135 @@ NSString* PGSchemaFileExtension = @".schema.xml";
 		_connection = connection;
 		_name = name;
 		_searchpath = [NSMutableArray array];
-		[_searchpath addObject:[[NSBundle mainBundle] resourcePath]];
-		_schemas = [NSArray array];
+		_products = [NSMutableDictionary dictionary];
 	}
 	return self;
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// properties
+
+@dynamic products;
+
+-(NSArray* )products {
+	return [_products allValues];
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
 
--(BOOL)addSchemaSearchPath:(NSString* )path error:(NSError** )error {
++(NSArray* )defaultSearchPath {
+	NSBundle* thisBundle = [NSBundle bundleForClass:[self class]];
+	return [NSArray arrayWithObject:[thisBundle resourcePath]];
+}
+
+-(BOOL)addSearchPath:(NSString* )path error:(NSError** )error {
+	return [self addSearchPath:path recursive:NO error:error];
+}
+
+-(BOOL)addSearchPath:(NSString* )path recursive:(BOOL)isRecursive error:(NSError** )error {
 	NSParameterAssert(path);
 	BOOL isDirectory = NO;
 	if([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDirectory]==NO || isDirectory==NO) {
 		(*error) = [PGSchema errorWithCode:PGSchemaErrorSearchPath description:@"Invalid search path" path:path];
 		return NO;
 	}
-	[_searchpath addObject:path];
-	NSMutableArray* schemas = [NSMutableArray array];
+	
+	// add default search path
+	if([_searchpath count]==0) {
+		for(NSString* path in [PGSchema defaultSearchPath]) {
+			[self _addSearchPath:path];
+		}
+	}
+
+	// add paths to the search path
+	[self _addSearchPath:path];
+	if(isRecursive) {
+		for(NSString* subpath in [self _subpathsAtPath:path]) {
+			[self _addSearchPath:subpath];
+		}
+	}
+	
+	// add products
 	for(NSString* path in _searchpath) {
-		NSArray* products = [self _scanForSchemasAtPath:path recursive:NO error:error];
+		NSArray* products = [self _productsAtPath:path error:error];
 		if(products==nil) {
 			[_searchpath removeObject:path];
 			return NO;
+		} else {
+			for(PGSchemaProduct* product in products) {
+				[_products setObject:product forKey:[product key]];
+			}
 		}
-		[schemas addObjectsFromArray:products];
+		
 	}
-	_schemas = schemas;
 	return YES;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // private methods
 
+-(BOOL)_addSearchPath:(NSString* )path {
+	if([_searchpath containsObject:path]==NO) {
+		[_searchpath addObject:path];
+		return YES;
+	} else {
+		return NO;
+	}
+}
+
+-(NSArray* )_subpathsAtPath:(NSString* )path {
+	NSDirectoryEnumerator* enumerator = [[NSFileManager defaultManager] enumeratorAtPath:path];
+	NSString* filename = nil;
+	NSMutableArray* paths = [NSMutableArray array];
+	while(filename = [enumerator nextObject]) {
+		NSString* filepath = [path stringByAppendingPathComponent:filename];
+		if([filename hasPrefix:@"."]) {
+			// check for hidden or special
+			continue;
+		}
+		if([[NSFileManager defaultManager] isReadableFileAtPath:filepath]==NO) {
+			// check for non-readable
+			continue;
+		}
+		BOOL isDirectory = NO;
+		if([[NSFileManager defaultManager] fileExistsAtPath:filepath isDirectory:&isDirectory]==YES && isDirectory==YES) {
+			// needs to be a directory
+			NSArray* subpaths = [self _subpathsAtPath:filepath];
+			NSParameterAssert(subpaths);
+			[paths addObjectsFromArray:subpaths];
+		}
+	}
+	return paths;
+}
+
+-(NSArray* )_productsAtPath:(NSString* )path error:(NSError** )error {
+	NSDirectoryEnumerator* enumerator = [[NSFileManager defaultManager] enumeratorAtPath:path];
+	NSString* filename = nil;
+	NSMutableArray* products = [NSMutableArray array];
+	while(filename = [enumerator nextObject]) {
+		if([filename hasPrefix:@"."]) {
+			continue;
+		}
+		NSString* filepath = [path stringByAppendingPathComponent:filename];
+		if([filename hasSuffix:PGSchemaFileExtension]==NO) {
+			continue;
+		}
+		BOOL isDirectory = NO;
+		if([[NSFileManager defaultManager] fileExistsAtPath:filepath isDirectory:&isDirectory]==NO || isDirectory==YES) {
+			continue;
+		}
+		if([[NSFileManager defaultManager] isReadableFileAtPath:filepath]==NO) {
+			continue;
+		}
+		PGSchemaProduct* schemaproduct = [PGSchemaProduct schemaWithPath:filepath error:error];
+		if(schemaproduct==nil) {
+			return nil;
+		}
+		[products addObject:schemaproduct];
+	}
+	return products;
+}
 
 +(NSError* )errorWithCode:(PGSchemaErrorType)code description:(NSString* )description path:(NSString* )path {
 	NSMutableDictionary* dictionary = [NSMutableDictionary dictionary];
@@ -79,37 +174,6 @@ NSString* PGSchemaFileExtension = @".schema.xml";
 		[dictionary setObject:reason forKey:NSLocalizedDescriptionKey];
 	}
 	return [NSError errorWithDomain:PGSchemaErrorDomain code:code userInfo:dictionary];
-}
-
--(NSArray* )_scanForSchemasAtPath:(NSString* )path recursive:(BOOL)isRecursive error:(NSError** )error {
-	NSDirectoryEnumerator* enumerator = [[NSFileManager defaultManager] enumeratorAtPath:path];
-	NSString* filename = nil;
-	NSMutableArray* schemas = [NSMutableArray array];
-	while(filename = [enumerator nextObject]) {
-		if([filename hasPrefix:@"."]) {
-			continue;
-		}
-		NSString* filepath = [path stringByAppendingPathComponent:filename];
-		BOOL isDirectory = NO;
-		if([filename hasSuffix:PGSchemaFileExtension]) {
-			PGSchemaProduct* schemaproduct = [PGSchemaProduct schemaWithPath:filepath error:error];
-			if(schemaproduct==nil) {
-				return nil;
-			}
-			[schemas addObject:schemaproduct];
-			continue;
-		}
-		if([[NSFileManager defaultManager] fileExistsAtPath:filepath isDirectory:&isDirectory]==YES && isDirectory==YES) {
-			if(isRecursive) {
-				NSArray* subschemas = [self _scanForSchemasAtPath:filepath recursive:isRecursive error:error];
-				if(subschemas==nil) {
-					return nil;
-				}
-				[schemas addObjectsFromArray:subschemas];
-			}
-		}
-	}				
-	return schemas;
 }
 
 @end

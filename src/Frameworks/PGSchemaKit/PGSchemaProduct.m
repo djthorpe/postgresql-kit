@@ -43,7 +43,7 @@ NSString* PGSchemaRootNode = @"product";
 ////////////////////////////////////////////////////////////////////////////////
 // properties
 
-@dynamic name,version;
+@dynamic name,version,key;
 
 -(NSString* )name {
 	return [(PGSchemaProductNV* )_productnv name];
@@ -51,6 +51,10 @@ NSString* PGSchemaRootNode = @"product";
 
 -(NSUInteger)version {
 	return [(PGSchemaProductNV* )_productnv version];
+}
+
+-(NSString* )key {
+	return [NSString stringWithFormat:@"%@,%lu",[self name],[self version]];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
