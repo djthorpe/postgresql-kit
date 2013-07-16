@@ -89,6 +89,12 @@
 		148D2EF617943BC80005DB1B /* PGSchema.m in Sources */ = {isa = PBXBuildFile; fileRef = 148D2EF417943BC80005DB1B /* PGSchema.m */; };
 		148D2EF81794550A0005DB1B /* pgschema.base.schema.xml in Resources */ = {isa = PBXBuildFile; fileRef = 148D2EF71794550A0005DB1B /* pgschema.base.schema.xml */; };
 		148D2EFA1795518E0005DB1B /* PGSchemaKit+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 148D2EF91795518E0005DB1B /* PGSchemaKit+Private.h */; };
+		148D2EFE179555AD0005DB1B /* PGLoginController.h in Headers */ = {isa = PBXBuildFile; fileRef = 148D2EFB179555AD0005DB1B /* PGLoginController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		148D2EFF179555AD0005DB1B /* PGLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 148D2EFC179555AD0005DB1B /* PGLoginController.m */; };
+		148D2F00179555AD0005DB1B /* PGLoginController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 148D2EFD179555AD0005DB1B /* PGLoginController.xib */; };
+		148D2F02179555E60005DB1B /* PGClientKit+Cocoa.h in Headers */ = {isa = PBXBuildFile; fileRef = 148D2F01179555E60005DB1B /* PGClientKit+Cocoa.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		148D2F03179557330005DB1B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C167C15F26BF20013A382 /* Cocoa.framework */; };
+		148D2F04179558D40005DB1B /* elephant-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43E615F3A465001ED3BE /* elephant-64.png */; };
 		148F88C9166D63AC0088D3DF /* ResizeControl.png in Resources */ = {isa = PBXBuildFile; fileRef = 148F88C7166D61060088D3DF /* ResizeControl.png */; };
 		148F88CA166D63AE0088D3DF /* Gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = 148F88C6166D61060088D3DF /* Gradient.png */; };
 		14A053EA1677F35A004C086A /* halt.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14032DC9164A718C00CD5796 /* halt.tiff */; };
@@ -445,6 +451,10 @@
 		148D2EF417943BC80005DB1B /* PGSchema.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSchema.m; sourceTree = "<group>"; };
 		148D2EF71794550A0005DB1B /* pgschema.base.schema.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = pgschema.base.schema.xml; sourceTree = "<group>"; };
 		148D2EF91795518E0005DB1B /* PGSchemaKit+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PGSchemaKit+Private.h"; sourceTree = "<group>"; };
+		148D2EFB179555AD0005DB1B /* PGLoginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGLoginController.h; sourceTree = "<group>"; };
+		148D2EFC179555AD0005DB1B /* PGLoginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGLoginController.m; sourceTree = "<group>"; };
+		148D2EFD179555AD0005DB1B /* PGLoginController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PGLoginController.xib; sourceTree = "<group>"; };
+		148D2F01179555E60005DB1B /* PGClientKit+Cocoa.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PGClientKit+Cocoa.h"; sourceTree = "<group>"; };
 		148F88C6166D61060088D3DF /* Gradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Gradient.png; sourceTree = "<group>"; };
 		148F88C7166D61060088D3DF /* ResizeControl.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ResizeControl.png; sourceTree = "<group>"; };
 		14A228CD1672389D007B16A2 /* ConnectionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionsViewController.h; sourceTree = "<group>"; };
@@ -615,6 +625,7 @@
 			files = (
 				6E4DEC7B162CC19C008B26BD /* libcrypto.0.9.8.dylib in Frameworks */,
 				6E4DEC7E162CC252008B26BD /* libssl.0.9.8.dylib in Frameworks */,
+				148D2F03179557330005DB1B /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -902,8 +913,11 @@
 		14805A1A1662305200A4019F /* Cocoa */ = {
 			isa = PBXGroup;
 			children = (
+				148D2EFB179555AD0005DB1B /* PGLoginController.h */,
+				148D2EFC179555AD0005DB1B /* PGLoginController.m */,
+				148D2EFD179555AD0005DB1B /* PGLoginController.xib */,
 			);
-			name = Cocoa;
+			path = Cocoa;
 			sourceTree = "<group>";
 		};
 		14805A1B1662306100A4019F /* Foundation */ = {
@@ -1274,6 +1288,7 @@
 			isa = PBXGroup;
 			children = (
 				6ED85B4916288D0200A6DC02 /* PGClientKit.h */,
+				148D2F01179555E60005DB1B /* PGClientKit+Cocoa.h */,
 				6EE23F5A1631EF7500C99BA7 /* PGClientKit+Private.h */,
 				6ED85B4816288CDE00A6DC02 /* PGClientKit.plist */,
 				14805A1B1662306100A4019F /* Foundation */,
@@ -1332,6 +1347,8 @@
 				1489AEC716669A6B00C3B67D /* PGResult+TextTable.h in Headers */,
 				14DECDA116B56D7300178235 /* PGConverters.h in Headers */,
 				14DECDA816B57EC400178235 /* PGConverters+Private.h in Headers */,
+				148D2EFE179555AD0005DB1B /* PGLoginController.h in Headers */,
+				148D2F02179555E60005DB1B /* PGClientKit+Cocoa.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1566,6 +1583,7 @@
 				1433618F179180C4000A79D5 /* MainMenu.xib in Resources */,
 				14336197179184F1000A79D5 /* tree.schema.xml in Resources */,
 				1433619A17919033000A79D5 /* pgschema.dtd in Resources */,
+				148D2F04179558D40005DB1B /* elephant-64.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1621,6 +1639,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				148D2F00179555AD0005DB1B /* PGLoginController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1776,6 +1795,7 @@
 				1489AEC816669A6B00C3B67D /* PGResult+TextTable.m in Sources */,
 				14DECDA216B56D7300178235 /* PGConverters+Object2Data.m in Sources */,
 				14DECDA616B56DF300178235 /* PGConverters+Data2Object.m in Sources */,
+				148D2EFF179555AD0005DB1B /* PGLoginController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
