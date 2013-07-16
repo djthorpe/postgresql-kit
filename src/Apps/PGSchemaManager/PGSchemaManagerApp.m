@@ -1,17 +1,16 @@
 
-#import "PGSchemaTestApplication.h"
+#import "PGSchemaManagerApp.h"
 #import <PGClientKit/PGClientKit.h>
 #import <PGSchemaKit/PGSchemaKit.h>
 
-@implementation PGSchemaTestApplication
-
-NSString* schemaTypes = @"schema.xml";
+@implementation PGSchemaManagerApp
 
 -(void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 	NSError* error = nil;
 	PGConnection* connection = [[PGConnection alloc] init];
 	PGSchema* schema = [[PGSchema alloc] initWithConnection:connection name:nil];
-	[schema addSchemaPath:[[NSBundle mainBundle] resourcePath] error:&error];
+	NSString* schemaPath = [[NSBundle mainBundle] resourcePath];
+	[schema addSchemaSearchPath:schemaPath error:&error];
 	if(error) {
 		NSLog(@"Error: %@",[error localizedDescription]);
 		return;

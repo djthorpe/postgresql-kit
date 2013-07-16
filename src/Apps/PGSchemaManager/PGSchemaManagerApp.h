@@ -1,8 +1,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface PGSchemaTestApplication : NSObject <NSApplicationDelegate>
-
+@interface PGSchemaManagerApp : NSObject <NSApplicationDelegate>
 @property (assign) IBOutlet NSWindow* window;
-
 @end

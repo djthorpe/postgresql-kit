@@ -15,6 +15,6 @@
 @property (readonly) NSArray* schemas;
 
 // methods
--(BOOL)addSchemaPath:(NSString* )schemaPath error:(NSError** )error;
+-(BOOL)addSchemaSearchPath:(NSString* )path error:(NSError** )error;
 
 @end
