@@ -18,6 +18,7 @@
 @property (readonly) NSArray* schemas;
 @property (readonly) BOOL ibCanLogin;
 @property (readonly) BOOL ibCanLogout;
+@property (readonly) PGSchemaProduct* selected;
 
 // methods
 -(void)addSchemaPath:(NSString* )path;

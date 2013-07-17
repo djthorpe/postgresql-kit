@@ -32,7 +32,7 @@
 
 @synthesize schema = _schema;
 @synthesize logincontroller = _logincontroller;
-@dynamic schemas, ibCanLogin, ibCanLogout;
+@dynamic schemas, selected, ibCanLogin, ibCanLogout;
 
 -(BOOL)ibCanLogin {
 	return ([[[self logincontroller] connection] status] != PGConnectionStatusConnected);
@@ -46,6 +46,14 @@
 	return [[self schema] products];
 }
 
+-(PGSchemaProduct* )selected {
+	if([[self schemas] count]==0) {
+		return nil;
+	} else {
+		return [[self schemas] objectAtIndex:0];
+	}
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // methods
 
@@ -53,8 +61,10 @@
 	NSError* error = nil;
 	
 	[self willChangeValueForKey:@"schemas"];
+	[self willChangeValueForKey:@"selected"];
 	[[self schema] addSearchPath:path error:&error];
 	[self didChangeValueForKey:@"schemas"];
+	[self didChangeValueForKey:@"selected"];
 
 	if(error) {
 		NSLog(@"Error: %@",[error localizedDescription]);
