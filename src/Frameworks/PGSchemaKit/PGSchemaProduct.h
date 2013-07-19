@@ -17,7 +17,7 @@
 @property (readonly) NSString* name;
 @property (readonly) NSUInteger version;
 @property (readonly) NSString* comment;
-@property (readonly) NSString* key;
 @property (readonly) NSArray* requires;
+@property (readonly) NSString* key;
 
 @end

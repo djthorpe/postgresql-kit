@@ -7,13 +7,6 @@
 NSString* PGSchemaRootNode = @"product";
 
 ////////////////////////////////////////////////////////////////////////////////
-// private method declarations
-
-@interface PGSchemaProduct (Private)
--(BOOL)_initWithPath:(NSString* )path error:(NSError** )error;
-@end
-
-////////////////////////////////////////////////////////////////////////////////
 
 @implementation PGSchemaProduct
 
@@ -57,7 +50,11 @@ NSString* PGSchemaRootNode = @"product";
 }
 
 -(NSString* )key {
-	return [NSString stringWithFormat:@"%@,%lu",[self name],[self version]];
+	return [(PGSchemaProductNV* )_productnv key];
+}
+
+-(PGSchemaProductNV* )productnv {
+	return _productnv;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

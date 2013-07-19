@@ -7,12 +7,10 @@
 	</comment>
 	<create>
 		<create-table name="t_product">
-			name	CHAR(80) NOT NULL,
-			version	INT NOT NULL,
+			product_version CHAR(80) NOT NULL,
 			comment VARCHAR(200),
 			date_installed TIMESTAMP NOT NULL,
-			PRIMARY KEY (name),
-			CONSTRAINT CHECK (version > 0)
+			PRIMARY KEY (product_version)
 		</create-table>
 		<create-table name="t_serial">
 			class        CHAR(32) NOT NULL,

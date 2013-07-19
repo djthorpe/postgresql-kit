@@ -10,5 +10,10 @@
 -(NSArray* )_productsAtPath:(NSString* )path error:(NSError** )error;
 -(BOOL)_hasProductTableWithError:(NSError** )error;
 -(BOOL)_hasProductInstalled:(PGSchemaProduct* )product error:(NSError** )error;
--(BOOL)_checkDependentProduct:(PGSchemaProduct* )product error:(NSError** )error;
+-(NSArray* )_checkDependentProductsNV:(PGSchemaProductNV *)productnv error:(NSError** )error;
+@end
+
+@interface PGSchemaProduct (Private)
+-(BOOL)_initWithPath:(NSString* )path error:(NSError** )error;
+@property (readonly) PGSchemaProductNV* productnv;
 @end

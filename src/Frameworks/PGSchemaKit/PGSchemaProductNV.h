@@ -13,5 +13,6 @@
 // properties
 @property (readonly) NSString* name;
 @property (readonly) NSUInteger version;
+@property (readonly) NSString* key;
 
 @end

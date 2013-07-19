@@ -106,9 +106,13 @@ NSString* PGSchemaTable = @"t_product";
 		(*error) = [PGSchema errorWithCode:PGSchemaErrorDependency description:@"Already installed" path:nil];
 		return NO;		
 	}
-	// check each 'requires' and install these recursively
-	for(PGSchemaProductNV* require in [product requires]) {
-		NSLog(@"Check requires: %@",require);
+	NSArray* missing_products = [self _checkDependentProductsNV:[product productnv] error:error];
+	if(missing_products==nil) {
+		return NO;
+	}
+	if([missing_products count] > 0) {
+		NSLog(@"Products to install: %@",missing_products);
+		return NO;
 	}
 	
 	// install product
@@ -210,30 +214,21 @@ NSString* PGSchemaTable = @"t_product";
 }
 
 -(BOOL)_hasProductInstalled:(PGSchemaProduct* )product error:(NSError** )error {
-	// check for products table, return empty array if it doesn't yet exist
-	NSError* localError = nil;
-	NSArray* bindings = [NSArray arrayWithObjects:[[self connection] database],PGSchemaName,PGSchemaTable,nil];
-	PGResult* result = [[self connection] execute:[self _sqlfor:@"PGSchemaHasTable"] format:PGClientTupleFormatBinary values:bindings error:&localError];
-	if(result==nil) {
-		(*error) = [PGSchema errorWithCode:PGSchemaErrorDatabase description:[localError localizedDescription] path:nil];
-		return NO;
-	}
-	if([result size]) {
-		NSParameterAssert([result size]==1);
-		return YES;
-	}
+	// TODO
 	return NO;
 }
 
--(BOOL)_checkDependentProduct:(PGSchemaProduct* )product error:(NSError** )error {
-	NSParameterAssert(product);
+-(NSArray* )_checkDependentProductsNV:(PGSchemaProductNV* )productnv error:(NSError** )error {
+	NSParameterAssert(productnv);
 	// check to make sure product is in list of available products
-	if([_products objectForKey:[product key]]==nil) {
-		(*error) = [PGSchema errorWithCode:PGSchemaErrorDependency description:@"Schema product not found" path:nil];
-		return NO;
+	if([_products objectForKey:[productnv key]]==nil) {
+		(*error) = [PGSchema errorWithCode:PGSchemaErrorDependency description:		[NSString stringWithFormat:@"Missing schema product file: %@",[productnv filename]] path:nil];
+		return nil;
 	}
+	// has product been installed?
+	
 	// TODO
-	return YES;
+	return [NSArray array];
 }
 
 

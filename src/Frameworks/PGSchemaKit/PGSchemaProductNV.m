@@ -47,6 +47,11 @@
 
 @synthesize name= _name;
 @synthesize version = _version;
+@dynamic key;
+
+-(NSString* )key {
+	return [NSString stringWithFormat:@"%@,%lu",[self name],[self version]];
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // description
