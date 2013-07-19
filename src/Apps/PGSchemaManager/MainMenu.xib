@@ -1167,7 +1167,7 @@
 											<object class="NSTextFieldCell" key="NSCell" id="763711094">
 												<int key="NSCellFlags">68157504</int>
 												<int key="NSCellFlags2">71304192</int>
-												<string key="NSContents">Description</string>
+												<string key="NSContents">Comment</string>
 												<reference key="NSSupport" ref="27"/>
 												<string key="NSCellIdentifier">_NS:1535</string>
 												<reference key="NSControlView" ref="616605037"/>
@@ -1230,7 +1230,7 @@
 											<object class="NSTextFieldCell" key="NSCell" id="47577804">
 												<int key="NSCellFlags">68157504</int>
 												<int key="NSCellFlags2">4195328</int>
-												<string key="NSContents">Description</string>
+												<string key="NSContents">Comment</string>
 												<reference key="NSSupport" ref="26"/>
 												<string key="NSCellIdentifier">_NS:1535</string>
 												<reference key="NSControlView" ref="957127267"/>
@@ -1611,6 +1611,30 @@
 					<int key="connectionID">991</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">doCreate:</string>
+						<reference key="source" ref="419539804"/>
+						<reference key="destination" ref="828117820"/>
+					</object>
+					<int key="connectionID">1247</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">doDrop:</string>
+						<reference key="source" ref="419539804"/>
+						<reference key="destination" ref="1054974708"/>
+					</object>
+					<int key="connectionID">1248</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="799366787"/>
+						<reference key="destination" ref="419539804"/>
+					</object>
+					<int key="connectionID">1245</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">value: arrangedObjects.name</string>
 						<reference key="source" ref="1073429700"/>
@@ -1641,6 +1665,14 @@
 						</object>
 					</object>
 					<int key="connectionID">1007</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="549224481"/>
+						<reference key="destination" ref="419539804"/>
+					</object>
+					<int key="connectionID">1246</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -1724,19 +1756,19 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: selected.description</string>
+						<string key="label">value: selected.comment</string>
 						<reference key="source" ref="957127267"/>
 						<reference key="destination" ref="419539804"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="957127267"/>
 							<reference key="NSDestination" ref="419539804"/>
-							<string key="NSLabel">value: selected.description</string>
+							<string key="NSLabel">value: selected.comment</string>
 							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">selected.description</string>
+							<string key="NSKeyPath">selected.comment</string>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">1243</int>
+					<int key="connectionID">1244</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -3747,7 +3779,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1243</int>
+			<int key="maxID">1248</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3762,17 +3794,30 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">PGSchemaManagerApp</string>
 					<string key="superclassName">NSObject</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">doLogin:</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">doLogin:</string>
-						<object class="IBActionInfo" key="NS.object.0">
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="doCreate:">id</string>
+						<string key="doDrop:">id</string>
+						<string key="doLogin:">id</string>
+						<string key="doLogout:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="doCreate:">
+							<string key="name">doCreate:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="doDrop:">
+							<string key="name">doDrop:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="doLogin:">
 							<string key="name">doLogin:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-					</object>
+						<object class="IBActionInfo" key="doLogout:">
+							<string key="name">doLogout:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
 					<object class="NSMutableDictionary" key="outlets">
 						<string key="NS.key.0">window</string>
 						<string key="NS.object.0">NSWindow</string>

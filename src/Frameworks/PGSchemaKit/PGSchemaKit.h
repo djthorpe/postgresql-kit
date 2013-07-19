@@ -10,7 +10,9 @@ extern NSString* PGSchemaFileExtension;
 typedef enum {
 	PGSchemaErrorMissingDTD = 100,
 	PGSchemaErrorParse = 101,
-	PGSchemaErrorSearchPath = 102
+	PGSchemaErrorSearchPath = 102,
+	PGSchemaErrorDependency = 103,
+	PGSchemaErrorDatabase = 104
 } PGSchemaErrorType;
 
 // forward class declarations

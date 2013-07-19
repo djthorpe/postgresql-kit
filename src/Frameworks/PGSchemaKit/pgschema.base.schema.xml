@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <product name="com.mutablelogic.pgschema.base" version="1">
-	<description>
+	<comment>
 		Provides product and serial number services for all postgresql-kit
 		functionality, see https://github.com/djthorpe/postgresql-kit/wiki
 		for more information.
-	</description>
+	</comment>
 	<create>
 		<create-table name="t_product">
 			name	CHAR(80) NOT NULL,
 			version	INT NOT NULL,
-			description VARCHAR(200),
+			comment VARCHAR(200),
 			date_installed TIMESTAMP NOT NULL,
 			PRIMARY KEY (name),
 			CONSTRAINT CHECK (version > 0)

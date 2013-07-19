@@ -29,6 +29,7 @@ NSString* PGSchemaRootNode = @"product";
 	if(self) {
 		_productnv = nil;
 		_requires = nil;
+		_comment = nil;
 		if([self _initWithPath:path error:error]==NO) {
 			return nil;
 		}
@@ -44,6 +45,8 @@ NSString* PGSchemaRootNode = @"product";
 // properties
 
 @dynamic name,version,key;
+@synthesize comment = _comment;
+@synthesize requires = _requires;
 
 -(NSString* )name {
 	return [(PGSchemaProductNV* )_productnv name];
@@ -114,6 +117,20 @@ NSString* PGSchemaRootNode = @"product";
 	if(_productnv==nil) {
 		(*error) = [PGSchema errorWithCode:PGSchemaErrorParse description:@"invalid name or version on <product> element" path:path];
 		return NO;
+	}
+	
+	// get comment statement
+	NSArray* comment = [document nodesForXPath:@"//comment" error:&localerror];
+	if(comment==nil) {
+		(*error) = [PGSchema errorWithCode:PGSchemaErrorParse description:[localerror localizedDescription] path:path];
+		return NO;
+	}
+	if([comment count] > 1) {
+		(*error) = [PGSchema errorWithCode:PGSchemaErrorParse description:@"only one <comment> element is allowed" path:path];
+		return NO;		
+	}
+	if([comment count]==1) {
+		_comment = [(NSXMLNode* )[comment objectAtIndex:0] stringValue];
 	}
 	
 	// get requires statements

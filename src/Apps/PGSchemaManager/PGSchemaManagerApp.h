@@ -4,7 +4,7 @@
 #import <PGClientKit/PGClientKit+Cocoa.h>
 #import <PGSchemaKit/PGSchemaKit.h>
 
-@interface PGSchemaManagerApp : NSObject <NSApplicationDelegate,PGLoginDelegate> {
+@interface PGSchemaManagerApp : NSObject <NSApplicationDelegate,PGLoginDelegate,NSTableViewDelegate> {
 	PGConnection* _connection;
 	PGLoginController* _logincontroller;
 	PGSchema* _schema;
@@ -25,5 +25,8 @@
 
 // actions
 -(IBAction)doLogin:(id)sender;
+-(IBAction)doLogout:(id)sender;
+-(IBAction)doCreate:(id)sender;
+-(IBAction)doDrop:(id)sender;
 
 @end

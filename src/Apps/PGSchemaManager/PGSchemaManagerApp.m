@@ -86,6 +86,32 @@
 	[[[self logincontroller] connection] disconnect];
 }
 
+-(IBAction)doCreate:(id)sender {
+	PGSchemaProduct* product = [self selected];
+	NSError* error = nil;
+	if([[self schema] create:product dryrun:YES error:&error]==NO) {
+		NSLog(@"Cannot create product: %@",error);
+		return;
+	}
+	if([[self schema] create:product dryrun:NO error:&error]==NO) {
+		NSLog(@"Cannot create product: %@",error);
+		return;
+	}
+}
+
+-(IBAction)doDrop:(id)sender {
+	PGSchemaProduct* product = [self selected];
+	NSError* error = nil;
+	if([[self schema] drop:product dryrun:YES error:&error]==NO) {
+		NSLog(@"Cannot drop product: %@",error);
+		return;
+	}
+	if([[self schema] drop:product dryrun:NO error:&error]==NO) {
+		NSLog(@"Cannot drop product: %@",error);
+		return;
+	}	
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // PGLoginDelegate methods
 
@@ -94,6 +120,14 @@
 
 	// add standard products
 	[self addSchemaPath:[[NSBundle mainBundle] resourcePath]];
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// NSTableViewDelegate methods
+
+-(void)tableViewSelectionDidChange:(NSNotification *)aNotification {
+	NSTableView* theTableView = [aNotification object];
+	NSLog(@"tableViewSelectionDidChange: %@",theTableView);
 }
 
 @end

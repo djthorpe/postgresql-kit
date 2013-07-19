@@ -1,11 +1,11 @@
 
 <!-- PRODUCT -->
-<!ELEMENT product (description?,requires?,create,drop)>
+<!ELEMENT product (comment?,requires?,create,drop)>
 <!ATTLIST product name CDATA #REQUIRED>
 <!ATTLIST product version CDATA #REQUIRED>
 
 <!-- DESCRIPTION -->
-<!ELEMENT description (#PCDATA)>
+<!ELEMENT comment (#PCDATA)>
 
 <!-- REQUIRES -->
 <!ELEMENT requires EMPTY>
