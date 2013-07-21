@@ -12,3 +12,8 @@ AND
   table_name=$3
 ";
 
+"PGSchemaCreateTable" = "
+CREATE TABLE IF NOT EXISTS $schema$.$name$ (
+  $cdata$
+);
+";
