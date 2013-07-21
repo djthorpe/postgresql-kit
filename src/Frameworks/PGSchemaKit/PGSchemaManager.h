@@ -1,7 +1,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface PGSchema : NSObject {
+@interface PGSchemaManager : NSObject {
 	PGConnection* _connection;
 	NSString* _name;
 	NSBundle* _bundle;

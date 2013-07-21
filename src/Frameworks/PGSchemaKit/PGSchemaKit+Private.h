@@ -3,7 +3,7 @@
 #import "PGSchemaProductNV.h"
 #import "PGSchemaProductOp.h"
 
-@interface PGSchema (Private)
+@interface PGSchemaManager (Private)
 +(NSError* )errorWithCode:(PGSchemaErrorType)code description:(NSString* )description path:(NSString* )path;
 -(BOOL)_addSearchPath:(NSString* )path;
 -(NSArray* )_subpathsAtPath:(NSString* )path;

@@ -63,13 +63,13 @@ NSString* PGSchemaRootNode = @"product";
 -(NSXMLDTD* )_dtdWithError:(NSError** )error rootName:(NSString* )rootName {
 	NSString* path = [[NSBundle mainBundle] pathForResource:@"pgschema" ofType:@"dtd"];
 	if(path==nil) {
-		(*error) = [PGSchema errorWithCode:PGSchemaErrorMissingDTD description:nil path:nil];
+		(*error) = [PGSchemaManager errorWithCode:PGSchemaErrorMissingDTD description:nil path:nil];
 		return nil;
 	}
 	NSError* xmlerror = nil;
 	NSXMLDTD* dtd = [[NSXMLDTD alloc] initWithContentsOfURL:[NSURL fileURLWithPath:path] options:0 error:&xmlerror];
 	if(xmlerror) {
-		(*error) = [PGSchema errorWithCode:PGSchemaErrorMissingDTD description:[xmlerror localizedDescription] path:nil];
+		(*error) = [PGSchemaManager errorWithCode:PGSchemaErrorMissingDTD description:[xmlerror localizedDescription] path:nil];
 		return nil;
 	}
 	[dtd setName:rootName];
@@ -81,7 +81,7 @@ NSString* PGSchemaRootNode = @"product";
 	NSError* xmlerror = nil;
 	NSXMLDocument* document = [[NSXMLDocument alloc] initWithContentsOfURL:url options:NSXMLDocumentValidate error:&xmlerror];
 	if(document==nil) {
-		(*error) = [PGSchema errorWithCode:PGSchemaErrorParse description:[xmlerror localizedDescription] path:path];
+		(*error) = [PGSchemaManager errorWithCode:PGSchemaErrorParse description:[xmlerror localizedDescription] path:path];
 		return nil;
 	}
 	// read DTD
@@ -92,7 +92,7 @@ NSString* PGSchemaRootNode = @"product";
 	// validate document against DTD
 	[document setDTD:dtd];
 	if([document validateAndReturnError:&xmlerror]==NO) {
-		(*error) = [PGSchema errorWithCode:PGSchemaErrorParse description:[xmlerror localizedDescription] path:path];
+		(*error) = [PGSchemaManager errorWithCode:PGSchemaErrorParse description:[xmlerror localizedDescription] path:path];
 		return nil;
 	}
 	
@@ -112,18 +112,18 @@ NSString* PGSchemaRootNode = @"product";
 
 	_productnv = [[PGSchemaProductNV alloc] initWithXMLNode:rootNode];
 	if(_productnv==nil) {
-		(*error) = [PGSchema errorWithCode:PGSchemaErrorParse description:@"invalid name or version on <product> element" path:path];
+		(*error) = [PGSchemaManager errorWithCode:PGSchemaErrorParse description:@"invalid name or version on <product> element" path:path];
 		return NO;
 	}
 	
 	// get comment statement
 	NSArray* comment = [document nodesForXPath:@"//comment" error:&localerror];
 	if(comment==nil) {
-		(*error) = [PGSchema errorWithCode:PGSchemaErrorParse description:[localerror localizedDescription] path:path];
+		(*error) = [PGSchemaManager errorWithCode:PGSchemaErrorParse description:[localerror localizedDescription] path:path];
 		return NO;
 	}
 	if([comment count] > 1) {
-		(*error) = [PGSchema errorWithCode:PGSchemaErrorParse description:@"only one <comment> element is allowed" path:path];
+		(*error) = [PGSchemaManager errorWithCode:PGSchemaErrorParse description:@"only one <comment> element is allowed" path:path];
 		return NO;		
 	}
 	if([comment count]==1) {
@@ -133,14 +133,14 @@ NSString* PGSchemaRootNode = @"product";
 	// get requires statements
 	NSArray* requires = [document nodesForXPath:@"//requires" error:&localerror];
 	if(requires==nil) {
-		(*error) = [PGSchema errorWithCode:PGSchemaErrorParse description:[localerror localizedDescription] path:path];
+		(*error) = [PGSchemaManager errorWithCode:PGSchemaErrorParse description:[localerror localizedDescription] path:path];
 		return NO;
 	}
 	_requires = [NSMutableArray arrayWithCapacity:[requires count]];
 	for(NSXMLElement* node in requires) {
 		PGSchemaProductNV* productnv = [[PGSchemaProductNV alloc] initWithXMLNode:node];
 		if(productnv==nil) {
-			(*error) = [PGSchema errorWithCode:PGSchemaErrorParse description:@"invalid name or version on <requires> element" path:path];
+			(*error) = [PGSchemaManager errorWithCode:PGSchemaErrorParse description:@"invalid name or version on <requires> element" path:path];
 			return NO;
 		}
 		[_requires addObject:productnv];
@@ -149,14 +149,14 @@ NSString* PGSchemaRootNode = @"product";
 	// create statements
 	NSArray* create = [document nodesForXPath:@"//create/*" error:&localerror];
 	if(create==nil) {
-		(*error) = [PGSchema errorWithCode:PGSchemaErrorParse description:[localerror localizedDescription] path:path];
+		(*error) = [PGSchemaManager errorWithCode:PGSchemaErrorParse description:[localerror localizedDescription] path:path];
 		return NO;
 	}
 	_create = [NSMutableArray arrayWithCapacity:[create count]];
 	for(NSXMLElement* node in create) {
 		PGSchemaProductOp* op = [[PGSchemaProductOp alloc] initWithXMLNode:node];
 		if(op==nil) {
-			(*error) = [PGSchema errorWithCode:PGSchemaErrorParse description:@"invalid operation on <create> element" path:path];
+			(*error) = [PGSchemaManager errorWithCode:PGSchemaErrorParse description:@"invalid operation on <create> element" path:path];
 			return NO;
 		}
 		[_create addObject:op];
@@ -165,14 +165,14 @@ NSString* PGSchemaRootNode = @"product";
 	// drop statements
 	NSArray* drop = [document nodesForXPath:@"//drop/*" error:&localerror];
 	if(drop==nil) {
-		(*error) = [PGSchema errorWithCode:PGSchemaErrorParse description:[localerror localizedDescription] path:path];
+		(*error) = [PGSchemaManager errorWithCode:PGSchemaErrorParse description:[localerror localizedDescription] path:path];
 		return NO;
 	}
 	_drop = [NSMutableArray arrayWithCapacity:[drop count]];
 	for(NSXMLElement* node in drop) {
 		PGSchemaProductOp* op = [[PGSchemaProductOp alloc] initWithXMLNode:node];
 		if(op==nil) {
-			(*error) = [PGSchema errorWithCode:PGSchemaErrorParse description:@"invalid operation on <drop> element" path:path];
+			(*error) = [PGSchemaManager errorWithCode:PGSchemaErrorParse description:@"invalid operation on <drop> element" path:path];
 			return NO;
 		}
 		[_drop addObject:op];

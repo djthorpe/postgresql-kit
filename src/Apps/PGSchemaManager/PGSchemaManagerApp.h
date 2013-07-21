@@ -7,14 +7,14 @@
 @interface PGSchemaManagerApp : NSObject <NSApplicationDelegate,PGLoginDelegate,NSTableViewDelegate> {
 	PGConnection* _connection;
 	PGLoginController* _logincontroller;
-	PGSchema* _schema;
+	PGSchemaManager* _schema;
 }
 
 // properties
 @property (assign) IBOutlet NSWindow* window;
 @property (readonly) PGLoginController* logincontroller;
 @property (readonly) PGConnection* connection;
-@property (readonly) PGSchema* schema;
+@property (readonly) PGSchemaManager* schema;
 @property (readonly) NSArray* schemas;
 @property (readonly) BOOL ibCanLogin;
 @property (readonly) BOOL ibCanLogout;

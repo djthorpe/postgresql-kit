@@ -17,9 +17,9 @@ typedef enum {
 
 // forward class declarations
 @class PGSchemaProduct;
-@class PGSchema;
+@class PGSchemaManager;
 
 // header includes
-#import "PGSchema.h"
+#import "PGSchemaManager.h"
 #import "PGSchemaProduct.h"
 

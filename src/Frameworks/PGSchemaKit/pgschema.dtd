@@ -19,6 +19,7 @@
 <!-- CREATE, DROP TABLE -->
 <!ELEMENT create-table (#PCDATA)>
 <!ATTLIST create-table name CDATA #REQUIRED>
+<!ATTLIST create-table observe CDATA #IMPLICIT>
 <!ELEMENT drop-table EMPTY>
 <!ATTLIST drop-table name CDATA #REQUIRED>
 

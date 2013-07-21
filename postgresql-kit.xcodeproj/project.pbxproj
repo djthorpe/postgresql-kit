@@ -86,8 +86,8 @@
 		148D2EEE179420980005DB1B /* PGSchemaProductNV.m in Sources */ = {isa = PBXBuildFile; fileRef = 148D2EEC179420980005DB1B /* PGSchemaProductNV.m */; };
 		148D2EF1179432CB0005DB1B /* PGSchemaProductOp.h in Headers */ = {isa = PBXBuildFile; fileRef = 148D2EEF179432CB0005DB1B /* PGSchemaProductOp.h */; };
 		148D2EF2179432CB0005DB1B /* PGSchemaProductOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 148D2EF0179432CB0005DB1B /* PGSchemaProductOp.m */; };
-		148D2EF517943BC80005DB1B /* PGSchema.h in Headers */ = {isa = PBXBuildFile; fileRef = 148D2EF317943BC80005DB1B /* PGSchema.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		148D2EF617943BC80005DB1B /* PGSchema.m in Sources */ = {isa = PBXBuildFile; fileRef = 148D2EF417943BC80005DB1B /* PGSchema.m */; };
+		148D2EF517943BC80005DB1B /* PGSchemaManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 148D2EF317943BC80005DB1B /* PGSchemaManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		148D2EF617943BC80005DB1B /* PGSchemaManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 148D2EF417943BC80005DB1B /* PGSchemaManager.m */; };
 		148D2EF81794550A0005DB1B /* pgschema.base.schema.xml in Resources */ = {isa = PBXBuildFile; fileRef = 148D2EF71794550A0005DB1B /* pgschema.base.schema.xml */; };
 		148D2EFA1795518E0005DB1B /* PGSchemaKit+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 148D2EF91795518E0005DB1B /* PGSchemaKit+Private.h */; };
 		148D2EFE179555AD0005DB1B /* PGLoginController.h in Headers */ = {isa = PBXBuildFile; fileRef = 148D2EFB179555AD0005DB1B /* PGLoginController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -449,8 +449,8 @@
 		148D2EEC179420980005DB1B /* PGSchemaProductNV.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSchemaProductNV.m; sourceTree = "<group>"; };
 		148D2EEF179432CB0005DB1B /* PGSchemaProductOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSchemaProductOp.h; sourceTree = "<group>"; };
 		148D2EF0179432CB0005DB1B /* PGSchemaProductOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSchemaProductOp.m; sourceTree = "<group>"; };
-		148D2EF317943BC80005DB1B /* PGSchema.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSchema.h; sourceTree = "<group>"; };
-		148D2EF417943BC80005DB1B /* PGSchema.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSchema.m; sourceTree = "<group>"; };
+		148D2EF317943BC80005DB1B /* PGSchemaManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSchemaManager.h; sourceTree = "<group>"; };
+		148D2EF417943BC80005DB1B /* PGSchemaManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSchemaManager.m; sourceTree = "<group>"; };
 		148D2EF71794550A0005DB1B /* pgschema.base.schema.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = pgschema.base.schema.xml; sourceTree = "<group>"; };
 		148D2EF91795518E0005DB1B /* PGSchemaKit+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PGSchemaKit+Private.h"; sourceTree = "<group>"; };
 		148D2EFB179555AD0005DB1B /* PGLoginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGLoginController.h; sourceTree = "<group>"; };
@@ -842,8 +842,8 @@
 				14336169179174C0000A79D5 /* PGSchemaKit.plist */,
 				1433616E17917650000A79D5 /* PGSchemaKit.h */,
 				148D2EF91795518E0005DB1B /* PGSchemaKit+Private.h */,
-				148D2EF317943BC80005DB1B /* PGSchema.h */,
-				148D2EF417943BC80005DB1B /* PGSchema.m */,
+				148D2EF317943BC80005DB1B /* PGSchemaManager.h */,
+				148D2EF417943BC80005DB1B /* PGSchemaManager.m */,
 				1433616A179175C7000A79D5 /* PGSchemaProduct.h */,
 				1433616B179175C7000A79D5 /* PGSchemaProduct.m */,
 				148D2EEB179420980005DB1B /* PGSchemaProductNV.h */,
@@ -1321,7 +1321,7 @@
 				1433616C179175C7000A79D5 /* PGSchemaProduct.h in Headers */,
 				148D2EED179420980005DB1B /* PGSchemaProductNV.h in Headers */,
 				148D2EF1179432CB0005DB1B /* PGSchemaProductOp.h in Headers */,
-				148D2EF517943BC80005DB1B /* PGSchema.h in Headers */,
+				148D2EF517943BC80005DB1B /* PGSchemaManager.h in Headers */,
 				148D2EFA1795518E0005DB1B /* PGSchemaKit+Private.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1713,7 +1713,7 @@
 				1433616D179175C7000A79D5 /* PGSchemaProduct.m in Sources */,
 				148D2EEE179420980005DB1B /* PGSchemaProductNV.m in Sources */,
 				148D2EF2179432CB0005DB1B /* PGSchemaProductOp.m in Sources */,
-				148D2EF617943BC80005DB1B /* PGSchema.m in Sources */,
+				148D2EF617943BC80005DB1B /* PGSchemaManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

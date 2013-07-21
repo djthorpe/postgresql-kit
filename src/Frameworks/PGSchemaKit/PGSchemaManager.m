@@ -11,7 +11,7 @@ NSString* PGSchemaTable = @"t_product";
 
 ////////////////////////////////////////////////////////////////////////////////
 
-@implementation PGSchema
+@implementation PGSchemaManager
 
 ////////////////////////////////////////////////////////////////////////////////
 // constructors
@@ -55,13 +55,13 @@ NSString* PGSchemaTable = @"t_product";
 	NSParameterAssert(path);
 	BOOL isDirectory = NO;
 	if([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDirectory]==NO || isDirectory==NO) {
-		(*error) = [PGSchema errorWithCode:PGSchemaErrorSearchPath description:@"Invalid search path" path:path];
+		(*error) = [PGSchemaManager errorWithCode:PGSchemaErrorSearchPath description:@"Invalid search path" path:path];
 		return NO;
 	}
 	
 	// add default search path
 	if([_searchpath count]==0) {
-		for(NSString* path in [PGSchema defaultSearchPath]) {
+		for(NSString* path in [PGSchemaManager defaultSearchPath]) {
 			[self _addSearchPath:path];
 		}
 	}
@@ -94,7 +94,7 @@ NSString* PGSchemaTable = @"t_product";
 	NSParameterAssert(product);
 	// check to make sure product is in list of available products
 	if([_products objectForKey:[product key]]==nil) {
-		(*error) = [PGSchema errorWithCode:PGSchemaErrorDependency description:@"Schema product not found" path:nil];
+		(*error) = [PGSchemaManager errorWithCode:PGSchemaErrorDependency description:@"Schema product not found" path:nil];
 		return NO;		
 	}
 	// check to make sure product is not already installed
@@ -103,7 +103,7 @@ NSString* PGSchemaTable = @"t_product";
 		return NO;
 	}
 	if(isInstalled) {
-		(*error) = [PGSchema errorWithCode:PGSchemaErrorDependency description:@"Already installed" path:nil];
+		(*error) = [PGSchemaManager errorWithCode:PGSchemaErrorDependency description:@"Already installed" path:nil];
 		return NO;		
 	}
 	NSArray* missing_products = [self _checkDependentProductsNV:[product productnv] error:error];
@@ -203,7 +203,7 @@ NSString* PGSchemaTable = @"t_product";
 	NSArray* bindings = [NSArray arrayWithObjects:[[self connection] database],PGSchemaName,PGSchemaTable,nil];
 	PGResult* result = [[self connection] execute:[self _sqlfor:@"PGSchemaHasTable"] format:PGClientTupleFormatBinary values:bindings error:&localError];
 	if(result==nil) {
-		(*error) = [PGSchema errorWithCode:PGSchemaErrorDatabase description:[localError localizedDescription] path:nil];
+		(*error) = [PGSchemaManager errorWithCode:PGSchemaErrorDatabase description:[localError localizedDescription] path:nil];
 		return NO;
 	}
 	if([result size]) {
@@ -222,7 +222,7 @@ NSString* PGSchemaTable = @"t_product";
 	NSParameterAssert(productnv);
 	// check to make sure product is in list of available products
 	if([_products objectForKey:[productnv key]]==nil) {
-		(*error) = [PGSchema errorWithCode:PGSchemaErrorDependency description:		[NSString stringWithFormat:@"Missing schema product file: %@",[productnv filename]] path:nil];
+		(*error) = [PGSchemaManager errorWithCode:PGSchemaErrorDependency description:@"Missing schema product file" path:nil];
 		return nil;
 	}
 	// has product been installed?
