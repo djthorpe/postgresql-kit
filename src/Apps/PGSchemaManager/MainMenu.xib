@@ -729,7 +729,7 @@
 												</object>
 											</object>
 											<double key="NSRowHeight">17</double>
-											<int key="NSTvFlags">373293056</int>
+											<int key="NSTvFlags">314572800</int>
 											<reference key="NSDelegate"/>
 											<reference key="NSDataSource"/>
 											<int key="NSColumnAutoresizingStyle">4</int>
@@ -900,7 +900,7 @@
 											<reference key="NSBackgroundColor" ref="92410293"/>
 											<reference key="NSGridColor" ref="459352285"/>
 											<double key="NSRowHeight">17</double>
-											<int key="NSTvFlags">373293056</int>
+											<int key="NSTvFlags">314572800</int>
 											<reference key="NSDelegate"/>
 											<reference key="NSDataSource"/>
 											<int key="NSColumnAutoresizingStyle">4</int>
@@ -1287,9 +1287,7 @@
 				<bool key="NSWindowIsRestorable">YES</bool>
 			</object>
 			<object class="NSArrayController" id="102867485">
-				<bool key="NSEditable">YES</bool>
 				<object class="_NSManagedProxy" key="_NSManagedProxy"/>
-				<bool key="NSAvoidsEmptySelection">YES</bool>
 				<bool key="NSPreservesSelection">YES</bool>
 				<bool key="NSSelectsInsertedObjects">YES</bool>
 				<bool key="NSFilterRestrictsInsertion">YES</bool>
@@ -1625,6 +1623,14 @@
 						<reference key="destination" ref="1054974708"/>
 					</object>
 					<int key="connectionID">1248</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">doAddSearchPath:</string>
+						<reference key="source" ref="419539804"/>
+						<reference key="destination" ref="969330355"/>
+					</object>
+					<int key="connectionID">1249</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -3691,6 +3697,7 @@
 				<boolean value="NO" key="799.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="799.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="800.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="800.userInterfaceItemIdentifier">available</string>
 				<string key="801.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="802.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="803.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -3705,6 +3712,7 @@
 				<string key="818.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="819.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="820.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="820.userInterfaceItemIdentifier">installed</string>
 				<string key="821.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="822.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="823.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -3779,7 +3787,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1248</int>
+			<int key="maxID">1252</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3795,12 +3803,17 @@
 					<string key="className">PGSchemaManagerApp</string>
 					<string key="superclassName">NSObject</string>
 					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="doAddSearchPath:">id</string>
 						<string key="doCreate:">id</string>
 						<string key="doDrop:">id</string>
 						<string key="doLogin:">id</string>
 						<string key="doLogout:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="doAddSearchPath:">
+							<string key="name">doAddSearchPath:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="doCreate:">
 							<string key="name">doCreate:</string>
 							<string key="candidateClassName">id</string>

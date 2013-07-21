@@ -89,7 +89,7 @@
 		148D2EF517943BC80005DB1B /* PGSchemaManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 148D2EF317943BC80005DB1B /* PGSchemaManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		148D2EF617943BC80005DB1B /* PGSchemaManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 148D2EF417943BC80005DB1B /* PGSchemaManager.m */; };
 		148D2EF81794550A0005DB1B /* pgschema.base.schema.xml in Resources */ = {isa = PBXBuildFile; fileRef = 148D2EF71794550A0005DB1B /* pgschema.base.schema.xml */; };
-		148D2EFA1795518E0005DB1B /* PGSchemaKit+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 148D2EF91795518E0005DB1B /* PGSchemaKit+Private.h */; };
+		148D2EFA1795518E0005DB1B /* PGSchemaKit+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 148D2EF91795518E0005DB1B /* PGSchemaKit+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		148D2EFE179555AD0005DB1B /* PGLoginController.h in Headers */ = {isa = PBXBuildFile; fileRef = 148D2EFB179555AD0005DB1B /* PGLoginController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		148D2EFF179555AD0005DB1B /* PGLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 148D2EFC179555AD0005DB1B /* PGLoginController.m */; };
 		148D2F00179555AD0005DB1B /* PGLoginController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 148D2EFD179555AD0005DB1B /* PGLoginController.xib */; };
@@ -485,7 +485,6 @@
 		14EB374E16712BC000B038B6 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		14EE3C36166752F80083C735 /* NOTICE.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = NOTICE.md; sourceTree = "<group>"; };
 		14EE3C3C166752F80083C735 /* make-postgresql.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "make-postgresql.sh"; sourceTree = "<group>"; };
-		14EE3C3F166752F80083C735 /* postgresql-8.4.1.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = "postgresql-8.4.1.tar.gz"; sourceTree = "<group>"; };
 		14EE3C40166752F80083C735 /* postgresql-9.1.5.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = "postgresql-9.1.5.tar.gz"; sourceTree = "<group>"; };
 		6E03102E162FE50B003225B1 /* PGStatement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGStatement.h; sourceTree = "<group>"; };
 		6E03102F162FE50B003225B1 /* PGStatement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGStatement.m; sourceTree = "<group>"; };
@@ -1104,7 +1103,6 @@
 			isa = PBXGroup;
 			children = (
 				142804551668114400A61BF6 /* openssl-1.0.1c.tar.gz */,
-				14EE3C3F166752F80083C735 /* postgresql-8.4.1.tar.gz */,
 				14EE3C40166752F80083C735 /* postgresql-9.1.5.tar.gz */,
 			);
 			path = tar;
@@ -1320,9 +1318,9 @@
 				1433616F17917650000A79D5 /* PGSchemaKit.h in Headers */,
 				1433616C179175C7000A79D5 /* PGSchemaProduct.h in Headers */,
 				148D2EED179420980005DB1B /* PGSchemaProductNV.h in Headers */,
+				148D2EFA1795518E0005DB1B /* PGSchemaKit+Private.h in Headers */,
 				148D2EF1179432CB0005DB1B /* PGSchemaProductOp.h in Headers */,
 				148D2EF517943BC80005DB1B /* PGSchemaManager.h in Headers */,
-				148D2EFA1795518E0005DB1B /* PGSchemaKit+Private.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,6 +8,7 @@
 	PGConnection* _connection;
 	PGLoginController* _logincontroller;
 	PGSchemaManager* _schema;
+	PGSchemaProduct* _selected;
 }
 
 // properties
@@ -18,7 +19,7 @@
 @property (readonly) NSArray* schemas;
 @property (readonly) BOOL ibCanLogin;
 @property (readonly) BOOL ibCanLogout;
-@property (readonly) PGSchemaProduct* selected;
+@property (retain) PGSchemaProduct* selected;
 
 // methods
 -(void)addSchemaPath:(NSString* )path;
@@ -28,5 +29,6 @@
 -(IBAction)doLogout:(id)sender;
 -(IBAction)doCreate:(id)sender;
 -(IBAction)doDrop:(id)sender;
+-(IBAction)doAddSearchPath:(id)sender;
 
 @end

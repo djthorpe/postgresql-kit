@@ -11,6 +11,7 @@
 	if(self) {
 		_logincontroller = [[PGLoginController alloc] init];
 		_schema = [[PGSchemaManager alloc] initWithConnection:[_logincontroller connection] name:nil];
+		_selected = nil;
 	}
 	return self;
 }
@@ -25,14 +26,13 @@
 	
 }
 
-
-
 ////////////////////////////////////////////////////////////////////////////////
 // properties
 
 @synthesize schema = _schema;
 @synthesize logincontroller = _logincontroller;
-@dynamic schemas, selected, ibCanLogin, ibCanLogout;
+@synthesize selected = _selected;
+@dynamic schemas, ibCanLogin, ibCanLogout;
 
 -(BOOL)ibCanLogin {
 	return ([[[self logincontroller] connection] status] != PGConnectionStatusConnected);
@@ -44,14 +44,6 @@
 
 -(NSArray* )schemas {
 	return [[self schema] products];
-}
-
--(PGSchemaProduct* )selected {
-	if([[self schemas] count]==0) {
-		return nil;
-	} else {
-		return [[self schemas] objectAtIndex:0];
-	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -112,6 +104,20 @@
 	}	
 }
 
+-(IBAction)doAddSearchPath:(id)sender {
+	NSOpenPanel* panel = [NSOpenPanel openPanel];
+	[panel setCanChooseDirectories:YES];
+	[panel setCanChooseFiles:NO];
+	[panel setCanCreateDirectories:NO];
+	[panel setAllowsMultipleSelection:NO];
+	[panel beginSheetModalForWindow:[self window] completionHandler:^(NSInteger result) {
+		if(result == NSFileHandlingPanelOKButton) {
+			NSURL* thePath = [[panel URLs] objectAtIndex:0];
+			[self addSchemaPath:[thePath path]];
+		}
+	}];
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // PGLoginDelegate methods
 
@@ -127,7 +133,15 @@
 
 -(void)tableViewSelectionDidChange:(NSNotification *)aNotification {
 	NSTableView* theTableView = [aNotification object];
-	NSLog(@"tableViewSelectionDidChange: %@",theTableView);
+	NSIndexSet* indexSet = [theTableView selectedRowIndexes];
+	if([[theTableView identifier] isEqualToString:@"available"]) {
+		if([indexSet count]==1) {
+			PGSchemaProduct* product = [[self schemas] objectAtIndex:[indexSet firstIndex]];
+			[self setSelected:product];
+		}
+	} else {
+		[self setSelected:nil];
+	}
 }
 
 @end
