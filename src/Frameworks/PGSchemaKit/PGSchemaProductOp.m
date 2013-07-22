@@ -19,13 +19,14 @@
 	return nil;
 }
 
--(id)initWithXMLNode:(NSXMLElement* )node {
+-(id)initWithXMLNode:(NSXMLElement* )node schema:(NSString* )schema {
 	NSParameterAssert(node);
 	self = [super init];
 	if(self) {
 		_name = nil;
-		_operation = nil;
+		_operation = 0;
 		_cdata = nil;
+		_schema = schema;
 		if([self _initWithXMLNode:node]==NO) {
 			return nil;
 		}
@@ -37,6 +38,8 @@
 // properties
 
 @synthesize name= _name;
+@synthesize schema = _schema;
+@synthesize cdata = _cdata;
 
 ////////////////////////////////////////////////////////////////////////////////
 // description
@@ -48,6 +51,12 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 // private methods
+
++(NSDictionary* )_lookup {
+	return @{
+	  @"create-table": [NSNumber numberWithInteger:PGSchemaOpCreateTable]
+	};
+}
 
 -(BOOL)_initWithXMLNode:(NSXMLElement* )node {
 	
@@ -68,5 +77,6 @@
 	// success
 	return YES;
 }
+
 
 @end

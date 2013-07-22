@@ -22,12 +22,6 @@
 <!ELEMENT drop-table EMPTY>
 <!ATTLIST drop-table name CDATA #REQUIRED>
 
-<!-- CREATE, DROP SERIAL -->
-<!ELEMENT create-serial EMPTY>
-<!ATTLIST create-serial name CDATA #REQUIRED>
-<!ELEMENT drop-serial EMPTY>
-<!ATTLIST drop-serial name CDATA #REQUIRED>
-
 <!-- CREATE, DROP TYPE -->
 <!ELEMENT create-type (#PCDATA)>
 <!ATTLIST create-type name CDATA #REQUIRED>
