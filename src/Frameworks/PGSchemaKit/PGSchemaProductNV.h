@@ -1,6 +1,4 @@
 
-#import <Foundation/Foundation.h>
-
 @interface PGSchemaProductNV : NSObject {
 	NSString* _name;
 	NSUInteger _version;

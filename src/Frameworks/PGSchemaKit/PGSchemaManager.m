@@ -6,7 +6,8 @@
 
 NSString* PGSchemaErrorDomain = @"PGSchemaDomain";
 NSString* PGSchemaFileExtension = @".schema.xml";
-NSString* PGSchemaName = @"postgreskit";
+NSString* PGSchemaUserDefaultName = @"public";
+NSString* PGSchemaSystemDefaultName = @"postgreskit";
 NSString* PGSchemaTable = @"t_product";
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -16,24 +17,43 @@ NSString* PGSchemaTable = @"t_product";
 ////////////////////////////////////////////////////////////////////////////////
 // constructors
 
--(id)initWithConnection:(PGConnection* )connection name:(NSString* )name {
+-(id)initWithConnection:(PGConnection* )connection userSchema:(NSString* )usrschema {
+	return [self initWithConnection:connection userSchema:usrschema systemSchema:nil];
+}
+
+-(id)initWithConnection:(PGConnection* )connection userSchema:(NSString* )usrschema systemSchema:(NSString* )sysschema {
+	NSParameterAssert(connection);
+
+	// default schema names
+	if(usrschema==nil) {
+		usrschema = PGSchemaUserDefaultName;
+	}
+	if(sysschema==nil) {
+		sysschema = PGSchemaSystemDefaultName;
+	}
+	
+	// initialize object
 	self = [super init];
 	if(self) {
-		NSParameterAssert(connection);
 		_connection = connection;
-		_name = name;
+		_usrschema = [usrschema copy];
+		_sysschema = [sysschema copy];
 		_bundle = [NSBundle bundleForClass:[self class]];
 		_searchpath = [NSMutableArray array];
 		_products = [NSMutableDictionary dictionary];
 	}
+
 	return self;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // properties
 
-@dynamic products;
 @synthesize connection = _connection;
+@synthesize systemSchema = _sysschema;
+@synthesize userSchema = _usrschema;
+
+@dynamic products;
 
 -(NSArray* )products {
 	return [_products allValues];
@@ -121,11 +141,12 @@ NSString* PGSchemaTable = @"t_product";
 
 -(BOOL)drop:(PGSchemaProduct* )product dryrun:(BOOL)isDryrun error:(NSError** )error {
 	NSParameterAssert(product);
-	// check to make sure product is in list of available products
-	// check to make sure product is already installed
-	// make sure no other installed product depends on this one
-	// drop product
-	return YES;
+	return NO;
+}
+
+-(BOOL)update:(PGSchemaProduct* )product dryrun:(BOOL)isDryrun error:(NSError** )error {
+	NSParameterAssert(product);
+	return NO;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -200,7 +221,7 @@ NSString* PGSchemaTable = @"t_product";
 
 -(BOOL)_hasProductTableWithError:(NSError** )error {
 	NSError* localError = nil;
-	NSArray* bindings = [NSArray arrayWithObjects:[[self connection] database],PGSchemaName,PGSchemaTable,nil];
+	NSArray* bindings = [NSArray arrayWithObjects:[[self connection] database],[self systemSchema],PGSchemaTable,nil];
 	PGResult* result = [[self connection] execute:[self _sqlfor:@"PGSchemaHasTable"] format:PGClientTupleFormatBinary values:bindings error:&localError];
 	if(result==nil) {
 		(*error) = [PGSchemaManager errorWithCode:PGSchemaErrorDatabase description:[localError localizedDescription] path:nil];

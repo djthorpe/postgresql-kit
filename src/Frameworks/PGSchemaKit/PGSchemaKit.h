@@ -12,7 +12,8 @@ typedef enum {
 	PGSchemaErrorParse = 101,
 	PGSchemaErrorSearchPath = 102,
 	PGSchemaErrorDependency = 103,
-	PGSchemaErrorDatabase = 104
+	PGSchemaErrorDatabase = 104,
+	PGSchemaErrorInternal = 105
 } PGSchemaErrorType;
 
 // forward class declarations

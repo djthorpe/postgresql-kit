@@ -123,6 +123,7 @@
 		14EB37521671325E00B038B6 /* red.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14032D79164A6F2200CD5796 /* red.tiff */; };
 		14EB37531671326100B038B6 /* yellow.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14032D7A164A6F2200CD5796 /* yellow.tiff */; };
 		14EB375516713B3600B038B6 /* PGClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
+		14F94E0017A67C5C008212B0 /* PGSchemaProductOpTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 14F94DFF17A67C5C008212B0 /* PGSchemaProductOpTable.m */; };
 		6E031030162FE50B003225B1 /* PGStatement.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E03102E162FE50B003225B1 /* PGStatement.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E031031162FE50B003225B1 /* PGStatement.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E03102F162FE50B003225B1 /* PGStatement.m */; };
 		6E0773D9163744D90028783F /* PGResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0773D7163744D90028783F /* PGResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -487,6 +488,8 @@
 		14EE3C36166752F80083C735 /* NOTICE.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = NOTICE.md; sourceTree = "<group>"; };
 		14EE3C3C166752F80083C735 /* make-postgresql.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "make-postgresql.sh"; sourceTree = "<group>"; };
 		14EE3C40166752F80083C735 /* postgresql-9.1.5.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = "postgresql-9.1.5.tar.gz"; sourceTree = "<group>"; };
+		14F94DFE17A67C5C008212B0 /* PGSchemaProductOpTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSchemaProductOpTable.h; sourceTree = "<group>"; };
+		14F94DFF17A67C5C008212B0 /* PGSchemaProductOpTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSchemaProductOpTable.m; sourceTree = "<group>"; };
 		6E03102E162FE50B003225B1 /* PGStatement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGStatement.h; sourceTree = "<group>"; };
 		6E03102F162FE50B003225B1 /* PGStatement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGStatement.m; sourceTree = "<group>"; };
 		6E0773D7163744D90028783F /* PGResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGResult.h; sourceTree = "<group>"; };
@@ -850,6 +853,8 @@
 				148D2EEC179420980005DB1B /* PGSchemaProductNV.m */,
 				148D2EEF179432CB0005DB1B /* PGSchemaProductOp.h */,
 				148D2EF0179432CB0005DB1B /* PGSchemaProductOp.m */,
+				14F94DFE17A67C5C008212B0 /* PGSchemaProductOpTable.h */,
+				14F94DFF17A67C5C008212B0 /* PGSchemaProductOpTable.m */,
 				1433619817919033000A79D5 /* pgschema.dtd */,
 				148D2EF71794550A0005DB1B /* pgschema.base.schema.xml */,
 				1412A7AD17998BF4005A217D /* PGSchemaKitSQL.strings */,
@@ -1534,7 +1539,7 @@
 		6E256FDE15F252620079AD2D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0450;
+				LastUpgradeCheck = 0460;
 			};
 			buildConfigurationList = 6E256FE115F252620079AD2D /* Build configuration list for PBXProject "postgresql-kit" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1723,6 +1728,7 @@
 			files = (
 				1433617317917F47000A79D5 /* main.m in Sources */,
 				14336192179181A2000A79D5 /* PGSchemaManagerApp.m in Sources */,
+				14F94E0017A67C5C008212B0 /* PGSchemaProductOpTable.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1891,7 +1897,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = PGDataKit;
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Debug;
@@ -1923,7 +1929,7 @@
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = PGDataKit;
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Release;
@@ -1982,7 +1988,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = PGSchemaKit;
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 				SKIP_INSTALL = NO;
 				WRAPPER_EXTENSION = framework;
 			};
@@ -2015,7 +2021,7 @@
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = PGSchemaKit;
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 				SKIP_INSTALL = NO;
 				WRAPPER_EXTENSION = framework;
 			};
@@ -2049,7 +2055,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = PGSchemaManager;
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -2075,7 +2081,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/src/Apps/PGSchemaManager/PGSchemaManager.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = PGSchemaManager;
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -2111,7 +2117,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -2140,7 +2146,7 @@
 				INFOPLIST_FILE = src/Apps/PGServer/PGServer.plist;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -2149,7 +2155,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -2157,7 +2163,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};
@@ -2206,7 +2212,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -2229,7 +2235,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};
@@ -2261,7 +2267,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -2287,7 +2293,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/src/Example/PGClient/PGClient.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -2318,7 +2324,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -2341,7 +2347,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};
@@ -2378,7 +2384,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 				SKIP_INSTALL = NO;
 				WRAPPER_EXTENSION = framework;
 			};
@@ -2410,7 +2416,7 @@
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 				SKIP_INSTALL = NO;
 				WRAPPER_EXTENSION = framework;
 			};
@@ -2453,7 +2459,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				"PRELINK_LIBS[arch=*]" = "${BUILT_PRODUCTS_DIR}/postgresql-current/lib/libpq.a";
 				PRODUCT_NAME = PGClientKit;
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 				SKIP_INSTALL = NO;
 				WRAPPER_EXTENSION = framework;
 			};
@@ -2489,7 +2495,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				"PRELINK_LIBS[arch=*]" = "${BUILT_PRODUCTS_DIR}/postgresql-current/lib/libpq.a";
 				PRODUCT_NAME = PGClientKit;
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 				SKIP_INSTALL = NO;
 				WRAPPER_EXTENSION = framework;
 			};

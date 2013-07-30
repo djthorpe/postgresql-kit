@@ -12,15 +12,21 @@
 <!ATTLIST requires name CDATA #REQUIRED>
 <!ATTLIST requires version CDATA #REQUIRED>
 
-<!-- CREATE, DROP -->
-<!ELEMENT create (create-table|create-serial|create-type|create-index|create-function)*>
-<!ELEMENT drop (drop-table|drop-serial|drop-type|drop-index|drop-function)*>
+<!-- CREATE, DROP, UPDATE -->
+<!ELEMENT create (create-table|create-view|create-type|create-index|create-function)*>
+<!ELEMENT drop (drop-table|drop-view|drop-type|drop-index|drop-function)*>
 
 <!-- CREATE, DROP TABLE -->
 <!ELEMENT create-table (#PCDATA)>
 <!ATTLIST create-table name CDATA #REQUIRED>
 <!ELEMENT drop-table EMPTY>
 <!ATTLIST drop-table name CDATA #REQUIRED>
+
+<!-- CREATE, DROP VIEW -->
+<!ELEMENT create-view (#PCDATA)>
+<!ATTLIST create-view name CDATA #REQUIRED>
+<!ELEMENT drop-view EMPTY>
+<!ATTLIST drop-view name CDATA #REQUIRED>
 
 <!-- CREATE, DROP TYPE -->
 <!ELEMENT create-type (#PCDATA)>

@@ -1,5 +1,6 @@
 
-#import "PGSchemaProductNV.h"
+#import "PGSchemaKit.h"
+#import "PGSchemaKit+Private.h"
 
 @implementation PGSchemaProductNV
 

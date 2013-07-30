@@ -1,0 +1,5 @@
+
+
+@interface PGSchemaProductOpTable : PGSchemaProductOp
+
+@end

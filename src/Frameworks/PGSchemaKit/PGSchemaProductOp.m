@@ -1,34 +1,66 @@
 
-#import "PGSchemaProductOp.h"
+#import "PGSchemaKit.h"
+#import "PGSchemaKit+Private.h"
 
-////////////////////////////////////////////////////////////////////////////////
-// private method declarations
-
-@interface PGSchemaProductOp (Private)
--(BOOL)_initWithXMLNode:(NSXMLElement* )node;
-@end
+const NSDictionary* PGSchemaProductOpLookup = nil;
 
 ////////////////////////////////////////////////////////////////////////////////
 
 @implementation PGSchemaProductOp
 
 ////////////////////////////////////////////////////////////////////////////////
+// private methods
+
++(void)initialize {
+	PGSchemaProductOpLookup = @{
+		@"create-table":    @"PGSchemaProductOpTable",
+		@"update-table":    @"PGSchemaProductOpTable",
+		@"drop-table":      @"PGSchemaProductOpTable",
+		@"create-view":     @"PGSchemaProductOpView",
+		@"update-view":     @"PGSchemaProductOpView",
+		@"drop-view":       @"PGSchemaProductOpView",
+		@"create-index":    @"PGSchemaProductOpIndex",
+		@"update-index":    @"PGSchemaProductOpIndex",
+		@"drop-index":      @"PGSchemaProductOpIndex",
+		@"create-type":     @"PGSchemaProductOpType",
+		@"update-type":     @"PGSchemaProductOpType",
+		@"drop-type":       @"PGSchemaProductOpType",
+		@"create-function": @"PGSchemaProductOpFunction",
+		@"update-function": @"PGSchemaProductOpFunction",
+		@"drop-function":   @"PGSchemaProductOpFunction"
+	};
+}
+
+////////////////////////////////////////////////////////////////////////////////
 // constructor
+
++(PGSchemaProductOp* )operationWithXMLNode:(NSXMLElement* )node {
+	NSParameterAssert(PGSchemaProductOpLookup);
+	NSParameterAssert(node);
+	Class opclass = NSClassFromString([PGSchemaProductOpLookup objectForKey:[node name]]);
+	if(!opclass) {
+		return nil;
+	}
+	return [[opclass alloc] initWithXMLNode:node];
+}
 
 -(id)init {
 	return nil;
 }
 
--(id)initWithXMLNode:(NSXMLElement* )node schema:(NSString* )schema {
+-(id)initWithXMLNode:(NSXMLElement* )node {
 	NSParameterAssert(node);
 	self = [super init];
 	if(self) {
-		_name = nil;
-		_operation = 0;
-		_cdata = nil;
-		_schema = schema;
-		if([self _initWithXMLNode:node]==NO) {
-			return nil;
+		_name = [node name];
+		_cdata = [node stringValue];
+		_attributes = [NSMutableDictionary dictionaryWithCapacity:[[node attributes] count]];
+		for(NSXMLNode* attr in [node attributes]) {
+			NSString* key = [attr name];
+			if([_attributes objectForKey:key]==nil) {
+				// only first attribute of the same name is allowed
+				[_attributes setValue:[attr stringValue] forKey:key];
+			}
 		}
 	}
 	return self;
@@ -38,45 +70,15 @@
 // properties
 
 @synthesize name= _name;
-@synthesize schema = _schema;
 @synthesize cdata = _cdata;
+@synthesize attributes = _attributes;
 
 ////////////////////////////////////////////////////////////////////////////////
-// description
+// methods
 
--(NSString* )description {
-	return [NSString stringWithFormat:@"<%@ operation=\"%@\" name=\"%@\">",NSStringFromClass([self class]),[self operation],[self name]];
+-(BOOL)executeWithConnection:(PGConnection* )connection type:(PGSchemaProductOpType)type dryrun:(BOOL)isDryrun error:(NSError** )error {
+	(*error) = [PGSchemaManager errorWithCode:PGSchemaErrorInternal description:@"executeWithConnection not implemented"];
+	return NO;
 }
-
-
-////////////////////////////////////////////////////////////////////////////////
-// private methods
-
-+(NSDictionary* )_lookup {
-	return @{
-	  @"create-table": [NSNumber numberWithInteger:PGSchemaOpCreateTable]
-	};
-}
-
--(BOOL)_initWithXMLNode:(NSXMLElement* )node {
-	
-	// set operation from node name
-	_operation = [node name];
-	
-	// get name of database object
-	NSString* nameString =
-		[[[node attributeForName:@"name"] stringValue] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-	if(nameString==nil) {
-		return nil;
-	}
-	_name = nameString;
-	
-	// get cdata part
-	_cdata = [node stringValue];
-	
-	// success
-	return YES;
-}
-
 
 @end

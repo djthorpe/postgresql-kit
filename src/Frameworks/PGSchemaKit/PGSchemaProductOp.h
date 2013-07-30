@@ -1,31 +1,26 @@
 
-#import <Foundation/Foundation.h>
-
-// typedefs
 typedef enum {
-	PGSchemaOpCreateTable = 100, PGSchemaOpDropTable,
-	PGSchemaOpCreateIndex, PGSchemaOpDropIndex,
-	PGSchemaOpCreateType, PGSchemaOpDropType,
-	PGSchemaOpCreateView, PGSchemaOpDropView,
-	PGSchemaOpCreateFunction, PGSchemaOpDropFunction,
-	PGSchemaOpCreateTrigger, PGSchemaOpDropTrigger
-} PGSchemaOpType;
-
+	PGSchemaProductOpCreate,
+	PGSchemaProductOpUpdate,
+	PGSchemaProductOpDrop
+} 	PGSchemaProductOpType;
 
 @interface PGSchemaProductOp : NSObject {
-	PGSchemaOpType _operation;
 	NSString* _name;
-	NSString* _schema;
 	NSString* _cdata;
+	NSDictionary* _attributes;
 }
 
-// constructor
--(id)initWithXMLNode:(NSXMLElement* )node schema:(NSString* )schema;
+// constructors
++(PGSchemaProductOp* )operationWithXMLNode:(NSXMLElement* )node;
+-(id)initWithXMLNode:(NSXMLElement* )node;
 
 // properties
-@property (readonly) PGSchemaOpType operation;
 @property (readonly) NSString* name;
-@property (readonly) NSString* schema;
 @property (readonly) NSString* cdata;
+@property (readonly) NSDictionary* attributes;
+
+// methods
+-(BOOL)executeWithConnection:(PGConnection* )connection type:(PGSchemaProductOpType)type dryrun:(BOOL)isDryrun error:(NSError** )error;
 
 @end

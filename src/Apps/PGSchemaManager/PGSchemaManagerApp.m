@@ -10,7 +10,7 @@
 	self = [super init];
 	if(self) {
 		_logincontroller = [[PGLoginController alloc] init];
-		_schema = [[PGSchemaManager alloc] initWithConnection:[_logincontroller connection] name:nil];
+		_schema = [[PGSchemaManager alloc] initWithConnection:[_logincontroller connection] userSchema:nil];
 		_selected = nil;
 	}
 	return self;

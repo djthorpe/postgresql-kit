@@ -1,11 +1,10 @@
 
-#import <Foundation/Foundation.h>
-
 @interface PGSchemaProduct : NSObject {
 	id _productnv; // returns PGSchemaProductNV*
 	NSString* _comment;
 	NSMutableArray* _requires; // array of PGSchemaProductNV*
 	NSMutableArray* _create; // array of PGSchemaProductOp*
+	NSMutableArray* _update; // array of PGSchemaProductOp*
 	NSMutableArray* _drop; // array of PGSchemaProductOp*
 }
 
