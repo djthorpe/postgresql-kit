@@ -1,10 +1,4 @@
 
-typedef enum {
-	PGSchemaProductOpCreate,
-	PGSchemaProductOpUpdate,
-	PGSchemaProductOpDrop
-} 	PGSchemaProductOpType;
-
 @interface PGSchemaProductOp : NSObject {
 	NSString* _name;
 	NSString* _cdata;
@@ -21,6 +15,8 @@ typedef enum {
 @property (readonly) NSDictionary* attributes;
 
 // methods
--(BOOL)executeWithConnection:(PGConnection* )connection type:(PGSchemaProductOpType)type dryrun:(BOOL)isDryrun error:(NSError** )error;
+-(BOOL)createWithConnection:(PGConnection* )connection dryrun:(BOOL)isDryrun error:(NSError** )error;
+-(BOOL)updateWithConnection:(PGConnection* )connection dryrun:(BOOL)isDryrun error:(NSError** )error;
+-(BOOL)dropWithConnection:(PGConnection* )connection dryrun:(BOOL)isDryrun error:(NSError** )error;
 
 @end

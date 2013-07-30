@@ -38,7 +38,6 @@ NSString* PGSchemaTable = @"t_product";
 		_connection = connection;
 		_usrschema = [usrschema copy];
 		_sysschema = [sysschema copy];
-		_bundle = [NSBundle bundleForClass:[self class]];
 		_searchpath = [NSMutableArray array];
 		_products = [NSMutableDictionary dictionary];
 	}
@@ -134,27 +133,71 @@ NSString* PGSchemaTable = @"t_product";
 		NSLog(@"Products to install: %@",missing_products);
 		return NO;
 	}
-	
+
 	// install product
-	return YES;
+	return [product createWithConnection:_connection dryrun:isDryrun error:error];
 }
 
 -(BOOL)drop:(PGSchemaProduct* )product dryrun:(BOOL)isDryrun error:(NSError** )error {
 	NSParameterAssert(product);
-	return NO;
+	return [product dropWithConnection:_connection dryrun:isDryrun error:error];
 }
 
 -(BOOL)update:(PGSchemaProduct* )product dryrun:(BOOL)isDryrun error:(NSError** )error {
 	NSParameterAssert(product);
-	return NO;
+	return [product updateWithConnection:_connection dryrun:isDryrun error:error];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // private methods
 
--(NSString* )_sqlfor:(NSString* )key {
++(NSString* )formatSQL:(NSString* )key attributes:(NSDictionary* )attr {
 	NSParameterAssert(key);
-	return NSLocalizedStringFromTableInBundle(key,@"PGSchemaKitSQL",_bundle,@"");
+	NSBundle* bundle = [NSBundle bundleForClass:self];
+	NSString* format = NSLocalizedStringFromTableInBundle(key,@"PGSchemaKitSQL",bundle,@"");
+	NSParameterAssert(format);
+	
+	// create a scanner object and use '$' as delimiter
+	NSScanner* scanner = [NSScanner scannerWithString:format];
+	NSCharacterSet* delimiter = [NSCharacterSet characterSetWithCharactersInString:@"$"];
+	NSCharacterSet* alphanumeric = [NSCharacterSet alphanumericCharacterSet];
+	NSMutableString* statement = [NSMutableString string];
+	NSString* tmpstr = nil;
+	NSInteger tmpint;
+	while([scanner isAtEnd]==NO) {
+		BOOL foundDelimiter = [scanner scanUpToCharactersFromSet:delimiter intoString:&tmpstr];
+		[statement appendString:tmpstr];
+		if(foundDelimiter==NO) {
+			continue;
+		}
+		foundDelimiter = [scanner scanCharactersFromSet:delimiter intoString:&tmpstr];
+		if(foundDelimiter==NO) {
+			continue;
+		}
+		// scan in binding value $1, $2, etc
+		if([scanner scanInteger:&tmpint]) {
+			[statement appendFormat:@"%ld",tmpint];
+			continue;
+		}
+		// scan in attribute name
+		if([scanner scanCharactersFromSet:alphanumeric intoString:&tmpstr]) {
+			NSString* value = [attr objectForKey:tmpstr];
+			if(value==nil) {
+				[statement appendFormat:@"$%@$",tmpstr];
+			} else {
+				[statement appendString:value];
+			}
+		} else {
+			return nil;
+		}
+		// scan delimiter
+		foundDelimiter = [scanner scanCharactersFromSet:delimiter intoString:&tmpstr];
+		if(foundDelimiter==NO) {
+			return nil;
+		}
+	}
+	
+	return statement;
 }
 
 -(BOOL)_addSearchPath:(NSString* )path {
@@ -222,7 +265,7 @@ NSString* PGSchemaTable = @"t_product";
 -(BOOL)_hasProductTableWithError:(NSError** )error {
 	NSError* localError = nil;
 	NSArray* bindings = [NSArray arrayWithObjects:[[self connection] database],[self systemSchema],PGSchemaTable,nil];
-	PGResult* result = [[self connection] execute:[self _sqlfor:@"PGSchemaHasTable"] format:PGClientTupleFormatBinary values:bindings error:&localError];
+	PGResult* result = [[self connection] execute:[PGSchemaManager formatSQL:@"PGSchemaHasTable" attributes:nil] format:PGClientTupleFormatBinary values:bindings error:&localError];
 	if(result==nil) {
 		(*error) = [PGSchemaManager errorWithCode:PGSchemaErrorDatabase description:[localError localizedDescription] path:nil];
 		return NO;
@@ -252,6 +295,9 @@ NSString* PGSchemaTable = @"t_product";
 	return [NSArray array];
 }
 
++(NSError* )errorWithCode:(PGSchemaErrorType)code description:(NSString* )description {
+	return [self errorWithCode:code description:description path:nil];
+}
 
 +(NSError* )errorWithCode:(PGSchemaErrorType)code description:(NSString* )description path:(NSString* )path {
 	NSMutableDictionary* dictionary = [NSMutableDictionary dictionary];
@@ -272,6 +318,9 @@ NSString* PGSchemaTable = @"t_product";
 		case PGSchemaErrorDatabase:
 			reason = @"Database Error";
 			break;			
+		case PGSchemaErrorInternal:
+			reason = @"Internal Error";
+			break;
 		default:
 			reason = @"Unknown error";
 			break;

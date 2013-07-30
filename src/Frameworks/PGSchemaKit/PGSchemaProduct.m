@@ -197,6 +197,36 @@ NSString* PGSchemaRootNode = @"product";
 	return YES;
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// public methods
+
+-(BOOL)createWithConnection:(PGConnection* )connection dryrun:(BOOL)isDryrun error:(NSError** )error {
+	for(PGSchemaProductOp* op in _create) {
+		if([op createWithConnection:connection dryrun:isDryrun error:error]==NO) {
+			return NO;
+		}
+	}
+	return YES;
+}
+
+-(BOOL)updateWithConnection:(PGConnection* )connection dryrun:(BOOL)isDryrun error:(NSError** )error {
+	for(PGSchemaProductOp* op in _update) {
+		if([op updateWithConnection:connection dryrun:isDryrun error:error]==NO) {
+			return NO;
+		}
+	}
+	return YES;
+}
+
+-(BOOL)dropWithConnection:(PGConnection* )connection dryrun:(BOOL)isDryrun error:(NSError** )error {
+	for(PGSchemaProductOp* op in _drop) {
+		if([op dropWithConnection:connection dryrun:isDryrun error:error]==NO) {
+			return NO;
+		}
+	}
+	return YES;	
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // description

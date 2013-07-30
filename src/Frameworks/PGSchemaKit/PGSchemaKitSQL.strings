@@ -12,7 +12,7 @@ AND
   table_name=$3
 ";
 
-"PGSchemaCreateTable" = "
+"PGSchemaProductOpTableCreate" = "
 CREATE TABLE IF NOT EXISTS $schema$.$name$ (
   $cdata$
 );

@@ -76,8 +76,18 @@ const NSDictionary* PGSchemaProductOpLookup = nil;
 ////////////////////////////////////////////////////////////////////////////////
 // methods
 
--(BOOL)executeWithConnection:(PGConnection* )connection type:(PGSchemaProductOpType)type dryrun:(BOOL)isDryrun error:(NSError** )error {
-	(*error) = [PGSchemaManager errorWithCode:PGSchemaErrorInternal description:@"executeWithConnection not implemented"];
+-(BOOL)createWithConnection:(PGConnection* )connection dryrun:(BOOL)isDryrun error:(NSError** )error {
+	(*error) = [PGSchemaManager errorWithCode:PGSchemaErrorInternal description:@"createWithConnection not implemented"];
+	return NO;
+}
+
+-(BOOL)updateWithConnection:(PGConnection* )connection dryrun:(BOOL)isDryrun error:(NSError** )error {
+	(*error) = [PGSchemaManager errorWithCode:PGSchemaErrorInternal description:@"updateWithConnection not implemented"];
+	return NO;
+}
+
+-(BOOL)dropWithConnection:(PGConnection* )connection dryrun:(BOOL)isDryrun error:(NSError** )error {
+	(*error) = [PGSchemaManager errorWithCode:PGSchemaErrorInternal description:@"dropWithConnection not implemented"];
 	return NO;
 }
 

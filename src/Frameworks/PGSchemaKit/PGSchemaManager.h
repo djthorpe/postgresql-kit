@@ -1,11 +1,8 @@
 
-#import "PGSchemaKit.h"
-
 @interface PGSchemaManager : NSObject {
 	PGConnection* _connection;
 	NSString* _sysschema;
 	NSString* _usrschema;
-	NSBundle* _bundle;
 	NSMutableArray* _searchpath;
 	NSMutableDictionary* _products;
 }

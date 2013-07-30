@@ -6,6 +6,7 @@
 @interface PGSchemaManager (Private)
 +(NSError* )errorWithCode:(PGSchemaErrorType)code description:(NSString* )description path:(NSString* )path;
 +(NSError* )errorWithCode:(PGSchemaErrorType)code description:(NSString* )description;
++(NSString* )formatSQL:(NSString* )key attributes:(NSDictionary* )attr;
 -(BOOL)_addSearchPath:(NSString* )path;
 -(NSArray* )_subpathsAtPath:(NSString* )path;
 -(NSArray* )_productsAtPath:(NSString* )path error:(NSError** )error;
