@@ -52,16 +52,17 @@ const NSDictionary* PGSchemaProductOpLookup = nil;
 	NSParameterAssert(node);
 	self = [super init];
 	if(self) {
-		_name = [node name];
-		_cdata = [node stringValue];
 		_attributes = [NSMutableDictionary dictionaryWithCapacity:[[node attributes] count]];
 		for(NSXMLNode* attr in [node attributes]) {
 			NSString* key = [attr name];
 			if([_attributes objectForKey:key]==nil) {
 				// only first attribute of the same name is allowed
 				[_attributes setValue:[attr stringValue] forKey:key];
+			} else {
+				NSLog(@"Warning: ignored repeated attribute: %@",key);
 			}
 		}
+		[_attributes setValue:[[node stringValue] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] forKey:@"cdata"];
 	}
 	return self;
 }
@@ -69,8 +70,6 @@ const NSDictionary* PGSchemaProductOpLookup = nil;
 ////////////////////////////////////////////////////////////////////////////////
 // properties
 
-@synthesize name= _name;
-@synthesize cdata = _cdata;
 @synthesize attributes = _attributes;
 
 ////////////////////////////////////////////////////////////////////////////////

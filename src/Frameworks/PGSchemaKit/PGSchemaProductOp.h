@@ -1,7 +1,5 @@
 
 @interface PGSchemaProductOp : NSObject {
-	NSString* _name;
-	NSString* _cdata;
 	NSDictionary* _attributes;
 }
 
@@ -10,8 +8,6 @@
 -(id)initWithXMLNode:(NSXMLElement* )node;
 
 // properties
-@property (readonly) NSString* name;
-@property (readonly) NSString* cdata;
 @property (readonly) NSDictionary* attributes;
 
 // methods

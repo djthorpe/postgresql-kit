@@ -18,9 +18,15 @@
 
 <!-- CREATE, DROP TABLE -->
 <!ELEMENT create-table (#PCDATA)>
-<!ATTLIST create-table name CDATA #REQUIRED>
+<!ATTLIST create-table 
+  name   CDATA #REQUIRED
+  schema CDATA #IMPLIED
+>
 <!ELEMENT drop-table EMPTY>
-<!ATTLIST drop-table name CDATA #REQUIRED>
+<!ATTLIST drop-table
+  name   CDATA #REQUIRED
+  schema CDATA #IMPLIED
+>
 
 <!-- CREATE, DROP VIEW -->
 <!ELEMENT create-view (#PCDATA)>

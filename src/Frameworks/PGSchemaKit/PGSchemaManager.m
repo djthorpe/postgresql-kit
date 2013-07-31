@@ -160,7 +160,7 @@ NSString* PGSchemaTable = @"t_product";
 	// create a scanner object and use '$' as delimiter
 	NSScanner* scanner = [NSScanner scannerWithString:format];
 	NSCharacterSet* delimiter = [NSCharacterSet characterSetWithCharactersInString:@"$"];
-	NSCharacterSet* alphanumeric = [NSCharacterSet alphanumericCharacterSet];
+	NSCharacterSet* alphanumeric = [NSCharacterSet characterSetWithCharactersInString:@"_0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"];
 	NSMutableString* statement = [NSMutableString string];
 	NSString* tmpstr = nil;
 	NSInteger tmpint;
