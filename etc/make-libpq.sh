@@ -58,7 +58,7 @@ VERSION=`basename ${TARZ} | sed 's/\.tar\.gz//'`
 # Check for the BUILD directory
 if [ "${BUILD}XX" == "XX" ] || [ ! -d ${BUILD} ]
 then
-  echo "Syntax error: make-openssl.sh {INPUT_TAR_GZ} {OUTPUT_FOLDER}"
+  echo "Syntax error: make-libpq.sh {INPUT_TAR_GZ} {OUTPUT_FOLDER} (--clean) (--platform=mac_x86_64|ios_armv7|ios_armv7s|ios_simulator)"
   exit 1
 fi
 
@@ -89,46 +89,45 @@ MACOSX_DEPLOYMENT_TARGET=10.7
 IPHONE_DEPLOYMENT_TARGET=6.1
 
 case ${PLATFORM} in
-  mac_x86_64 )
-    ARCH="x86_64"
-    DEVROOT="${DEVELOPER_PATH}/Platforms/MacOSX.platform/Developer"
-    SDKROOT="${DEVROOT}/SDKs/MacOSX${MACOSX_DEPLOYMENT_TARGET}.sdk"
-    CC="/usr/bin/gcc -arch ${ARCH}"
-    CONFIGURE_FLAGS="--enable-thread-safety --without-readline --with-bonjour --with-openssl --with-libxml --with-libxslt --disable-rpath"
-    ;;
   ios_armv7 )
     ARCH="armv7"
     DEVROOT="${DEVELOPER_PATH}/Platforms/iPhoneOS.platform/Developer"
     SDKROOT="${DEVROOT}/SDKs/iPhoneOS${IPHONE_DEPLOYMENT_TARGET}.sdk"
     CC="${DEVROOT}/usr/bin/gcc -arch ${ARCH}"
-    CONFIGURE_FLAGS="--host=arm-apple-darwin --without-readline --disable-ipv6 --with-bonjour --with-openssl --with-libxml --with-libxslt --disable-rpath"
+    CONFIGURE_FLAGS="--host=arm-apple-darwin --enable-thread-safety --without-readline --with-openssl --with-libxml --disable-rpath"
+    DEPLOYMENT_TARGET=""
     ;;
   ios_armv7s )
     ARCH="armv7s"
     DEVROOT="${DEVELOPER_PATH}/Platforms/iPhoneOS.platform/Developer"
     SDKROOT="${DEVROOT}/SDKs/iPhoneOS${IPHONE_DEPLOYMENT_TARGET}.sdk"
     CC="${DEVROOT}/usr/bin/gcc -arch ${ARCH}"
-    CONFIGURE_FLAGS="iphoneos-cross no-shared no-asm no-krb5 no-zlib"
+    CONFIGURE_FLAGS="--host=arm-apple-darwin --enable-thread-safety --without-readline --with-openssl --with-libxml --disable-rpath"
+    DEPLOYMENT_TARGET=""
     ;;
   ios_simulator )
     ARCH="i386"
-    DEVROOT="${DEVELOPER_PATH}/Platforms/iPhoneOS.platform/Developer"
-    SDKROOT="${DEVROOT}/SDKs/iPhoneOS${IPHONE_DEPLOYMENT_TARGET}.sdk"
+    DEVROOT="${DEVELOPER_PATH}/Platforms/iPhoneSimulator.platform/Developer"
+    SDKROOT="${DEVROOT}/SDKs/iPhoneSimulator${IPHONE_DEPLOYMENT_TARGET}.sdk"
     CC="${DEVROOT}/usr/bin/gcc -arch ${ARCH}"
-    CONFIGURE_FLAGS="iphoneos-cross no-shared no-asm no-krb5 no-zlib"
+    CONFIGURE_FLAGS="--host=i386-apple-darwin --enable-thread-safety --without-readline --with-openssl --with-libxml --disable-rpath"
+    DEPLOYMENT_TARGET=""
     ;;
   * )
     echo "Unknown build platform: ${PLATFORM}"
     exit 1
 esac
 
-CFLAGS="-isysroot ${SDKROOT} -arch ${ARCH}"
-LDFLAGS="-arch ${ARCH}"
+
+CFLAGS="-isysroot ${SDKROOT} ${DEPLOYMENT_TARGET}"
+CPPFLAGS="-I$SDKROOT/usr/lib/gcc/arm-apple-darwin10/4.2.1/include/ -I$SDKROOT/usr/include/ -I$SDKROOT/usr/include/"
+LDFLAGS="-Wl,-syslibroot,${SDKROOT} ${DEPLOYMENT_TARGET}"
 
 if [ -d "${OPENSSL}" ]
 then
-  CONFIGURE_FLAGS="${CONFIGURE_FLAGS} --with-includes=${OPENSSL}/${PLATFORM}/include --with-libs=${OPENSSL}/${PLATFORM}/lib"
-  echo "Using openssl libraries: ${OPENSSL}"
+  WITH_INCLUDES="${OPENSSL}/include"
+  WITH_LIBS="${OPENSSL}/lib"
+  CONFIGURE_FLAGS="${CONFIGURE_FLAGS} --with-includes=${WITH_INCLUDES} --with-libs=${WITH_LIBS}"
 fi
 
 ##############################################################
@@ -138,8 +137,8 @@ PREFIX=${BUILD}/${VERSION}/${PLATFORM}
 
 if [ -e ${PREFIX} ] && [ ${CLEAN} == 0 ]
 then
-echo "Assuming already exists: ${PREFIX}"
-exit 0
+  echo "Assuming already exists: ${PREFIX}"
+  exit 0
 fi
 
 ##############################################################
@@ -151,9 +150,18 @@ echo "Architecture: ${ARCH}"
 echo "       Flags: ${CONFIGURE_FLAGS}"
 
 pushd "${UNARCHIVE}/${VERSION}"
-export CFLAGS="-arch x86_64"
-./configure CC="${CC}" CFLAGS="${CFLAGS}" LDFLAGS="${LDFLAGS}" --prefix="${PREFIX}" ${CONFIGURE_FLAGS}
-make -C src/interfaces/libpq
+./configure CC="${CC}" CFLAGS="${CFLAGS}" CPPFLAGS="${CPPFLAGS}" LDFLAGS="${LDFLAGS}" --prefix="${PREFIX}" ${CONFIGURE_FLAGS}
+make -C src/interfaces/libpq && make -C src/interfaces/libpq install
+
+##############################################################
+# Make symbolic links
+
+rm -f ${BUILD}/libpq-current-${PLATFORM}
+ln -s ${PREFIX} ${BUILD}/libpq-current-${PLATFORM}
+
+exit 0
+
+
 
 
 

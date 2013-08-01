@@ -106,8 +106,8 @@ case ${PLATFORM} in
     ;;
   ios_simulator )
     ARCH="i386"
-    DEVROOT="${DEVELOPER_PATH}/Platforms/iPhoneOS.platform/Developer"
-    SDKROOT="${DEVROOT}/SDKs/iPhoneOS${IPHONE_DEPLOYMENT_TARGET}.sdk"
+    DEVROOT="${DEVELOPER_PATH}/Platforms/iPhoneSimulator.platform/Developer"
+    SDKROOT="${DEVROOT}/SDKs/iPhoneSimulator${IPHONE_DEPLOYMENT_TARGET}.sdk"
     CC="${DEVROOT}/usr/bin/gcc -arch ${ARCH}"
     CONFIGURE_FLAGS="iphoneos-cross no-shared no-asm no-krb5 no-zlib"
 	;;
@@ -116,7 +116,7 @@ case ${PLATFORM} in
 	exit -1
 esac
 
-CFLAGS="-isysroot ${SDKROOT}"
+CFLAGS="-isysroot ${SDKROOT} ${DEPLOYMENT_TARGET}"
 
 ##############################################################
 # Check to see if already built, ignore if so
@@ -141,7 +141,6 @@ cd "${UNARCHIVE}/${VERSION}"
 ./Configure ${CONFIGURE_FLAGS} --prefix=${PREFIX}
 make CC="${CC}" CFLAG="${CFLAGS}"
 make install_sw >/dev/null
-
 
 ##############################################################
 # Make symbolic links

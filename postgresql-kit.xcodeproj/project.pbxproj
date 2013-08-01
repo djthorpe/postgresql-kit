@@ -525,6 +525,9 @@
 		6E8C168115F26BF20013A382 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6EA41EEE1610E7DB00E81046 /* PGServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGServer.h; sourceTree = "<group>"; };
 		6EA41EEF1610E7DB00E81046 /* PGServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGServer.m; sourceTree = "<group>"; };
+		6EA5EA8017AAE136005A3343 /* postgresql-9.2.4.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = "postgresql-9.2.4.tar.gz"; sourceTree = "<group>"; };
+		6EA5EA8117AAE480005A3343 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		6EA5EA8217AAF9DC005A3343 /* lipo-libpq.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "lipo-libpq.sh"; sourceTree = "<group>"; };
 		6EB1E6F415F271C70093F784 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		6EB1E72D15F273350093F784 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		6EB1E73F15F273350093F784 /* PGServerKit.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PGServerKit.plist; sourceTree = "<group>"; };
@@ -1101,7 +1104,9 @@
 			children = (
 				142804561668115600A61BF6 /* make-openssl.sh */,
 				1426753117A1B65000956F22 /* make-libpq.sh */,
+				6EA5EA8217AAF9DC005A3343 /* lipo-libpq.sh */,
 				14EE3C3C166752F80083C735 /* make-postgresql.sh */,
+				6EA5EA8117AAE480005A3343 /* README.md */,
 			);
 			path = etc;
 			sourceTree = "<group>";
@@ -1109,6 +1114,7 @@
 		14EE3C3E166752F80083C735 /* tar */ = {
 			isa = PBXGroup;
 			children = (
+				6EA5EA8017AAE136005A3343 /* postgresql-9.2.4.tar.gz */,
 				142804551668114400A61BF6 /* openssl-1.0.1c.tar.gz */,
 				14EE3C40166752F80083C735 /* postgresql-9.1.5.tar.gz */,
 			);
