@@ -62,7 +62,7 @@ then
 	UNARCHIVE=${TMPDIR}/${VERSION}/src
 fi
 
-if [ ! -d ${UNARCHIVE} ]
+if [ ! -d "${UNARCHIVE}" ]
 then
 	echo "mkdir ${UNARCHIVE}"
 	mkdir -pv ${UNARCHIVE}
@@ -73,7 +73,7 @@ fi
 
 rm -fr "${UNARCHIVE}"
 mkdir "${UNARCHIVE}"
-tar -C ${UNARCHIVE} -zxf ${TARZ}
+tar -C "${UNARCHIVE}" -zxf ${TARZ}
 
 ##############################################################
 # Architectures

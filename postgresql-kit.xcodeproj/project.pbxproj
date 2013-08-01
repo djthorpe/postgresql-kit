@@ -7,27 +7,27 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		14280457166811D700A61BF6 /* openssl */ = {
+		14280457166811D700A61BF6 /* openssl - Mac 64 bit */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 14280459166811D700A61BF6 /* Build configuration list for PBXAggregateTarget "openssl" */;
+			buildConfigurationList = 14280459166811D700A61BF6 /* Build configuration list for PBXAggregateTarget "openssl - Mac 64 bit" */;
 			buildPhases = (
 				14280458166811D700A61BF6 /* ShellScript */,
 			);
 			dependencies = (
 			);
-			name = openssl;
+			name = "openssl - Mac 64 bit";
 			productName = postgresql;
 		};
-		6E256FEE15F255780079AD2D /* postgresql */ = {
+		6E256FEE15F255780079AD2D /* postgresql - Mac 64 bit */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 6E256FEF15F255780079AD2D /* Build configuration list for PBXAggregateTarget "postgresql" */;
+			buildConfigurationList = 6E256FEF15F255780079AD2D /* Build configuration list for PBXAggregateTarget "postgresql - Mac 64 bit" */;
 			buildPhases = (
 				6E256FF415F255D00079AD2D /* ShellScript */,
 			);
 			dependencies = (
 				143398D5168F4F1A00234FBF /* PBXTargetDependency */,
 			);
-			name = postgresql;
+			name = "postgresql - Mac 64 bit";
 			productName = postgresql;
 		};
 /* End PBXAggregateTarget section */
@@ -1559,8 +1559,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				14280457166811D700A61BF6 /* openssl */,
-				6E256FEE15F255780079AD2D /* postgresql */,
+				14280457166811D700A61BF6 /* openssl - Mac 64 bit */,
+				6E256FEE15F255780079AD2D /* postgresql - Mac 64 bit */,
 				6ED763FA15F2673600687079 /* PGServerKit */,
 				6ED85B3516288C4800A6DC02 /* PGClientKit */,
 				1433614A179173BB000A79D5 /* PGSchemaKit */,
@@ -1675,7 +1675,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "\nif [ \"${SCRIPT_INPUT_FILE_COUNT}\" != \"1\" ] ; then\n  echo \"Invalid number of input files\"\n  exit 1\nfi\n\nif [ ! -f ${SCRIPT_INPUT_FILE_0} ] ; then\n  echo \"Missing input file\"\n  exit 1\nfi\n\necho \"Making ${SCRIPT_INPUT_FILE_0}\"\necho \"Output to ${BUILT_PRODUCTS_DIR}\"\n\nif [ ! -d ${BUILT_PRODUCTS_DIR} ]\nthen\n  mkdir -pv ${BUILT_PRODUCTS_DIR}\nfi\n  \n/bin/bash ${SRCROOT}/etc/make-openssl.sh ${SCRIPT_INPUT_FILE_0} ${BUILT_PRODUCTS_DIR}\n\n\n";
+			shellScript = "\nif [ \"${SCRIPT_INPUT_FILE_COUNT}\" != \"1\" ] ; then\n  echo \"Invalid number of input files\"\n  exit 1\nfi\n\nif [ ! -f ${SCRIPT_INPUT_FILE_0} ] ; then\n  echo \"Missing input file\"\n  exit 1\nfi\n\necho \"Making ${SCRIPT_INPUT_FILE_0}\"\necho \"Output to ${BUILT_PRODUCTS_DIR}\"\n\nif [ ! -d ${BUILT_PRODUCTS_DIR} ]\nthen\n  mkdir -pv ${BUILT_PRODUCTS_DIR}\nfi\n  \n/bin/bash ${SRCROOT}/etc/make-openssl.sh ${SCRIPT_INPUT_FILE_0} ${BUILT_PRODUCTS_DIR} --platform=mac_x86_64\n\n\n";
 			showEnvVarsInLog = 0;
 		};
 		6E256FF415F255D00079AD2D /* ShellScript */ = {
@@ -1684,13 +1684,13 @@
 			files = (
 			);
 			inputPaths = (
-				"$(SRCROOT)/tar/postgresql-9.1.5.tar.gz",
+				"$(SRCROOT)/tar/postgresql-9.2.4.tar.gz",
 			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "\nif [ \"${SCRIPT_INPUT_FILE_COUNT}\" != \"1\" ] ; then\n  echo \"Invalid number of input files\"\n  exit 1\nfi\n\nif [ ! -f ${SCRIPT_INPUT_FILE_0} ] ; then\n  echo \"Missing input file\"\n  exit 1\nfi\n\necho \"Making ${SCRIPT_INPUT_FILE_0}\"\necho \"Output to ${BUILT_PRODUCTS_DIR}\"\n\nif [ ! -d ${BUILT_PRODUCTS_DIR} ]\nthen\n  mkdir -pv ${BUILT_PRODUCTS_DIR}\nfi\n\nOPENSSL=${BUILT_PRODUCTS_DIR}/openssl-current\nif [ -d  ${OPENSSL} ]\nthen\n  export OPENSSL\nfi\n\n/bin/bash ${SRCROOT}/etc/make-postgresql.sh ${SCRIPT_INPUT_FILE_0} ${BUILT_PRODUCTS_DIR}\n\n\n";
+			shellScript = "\nif [ \"${SCRIPT_INPUT_FILE_COUNT}\" != \"1\" ] ; then\n  echo \"Invalid number of input files\"\n  exit 1\nfi\n\nif [ ! -f ${SCRIPT_INPUT_FILE_0} ] ; then\n  echo \"Missing input file\"\n  exit 1\nfi\n\necho \"Making ${SCRIPT_INPUT_FILE_0}\"\necho \"Output to ${BUILT_PRODUCTS_DIR}\"\n\nif [ ! -d \"${BUILT_PRODUCTS_DIR}\" ]\nthen\n  mkdir -pv \"${BUILT_PRODUCTS_DIR}\"\nfi\n\nOPENSSL=\"${BUILT_PRODUCTS_DIR}/openssl-current-mac_x86_64\"\n/bin/bash ${SRCROOT}/etc/make-postgresql.sh ${SCRIPT_INPUT_FILE_0} ${BUILT_PRODUCTS_DIR} --openssl=${OPENSSL} --platform=mac_x86_64\n\n\n\n";
 			showEnvVarsInLog = 0;
 		};
 		6EB1E79715F282A10093F784 /* ShellScript */ = {
@@ -1842,7 +1842,7 @@
 		};
 		143398D5168F4F1A00234FBF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 14280457166811D700A61BF6 /* openssl */;
+			target = 14280457166811D700A61BF6 /* openssl - Mac 64 bit */;
 			targetProxy = 143398D4168F4F1A00234FBF /* PBXContainerItemProxy */;
 		};
 		6E4DEC93162CC3A7008B26BD /* PBXTargetDependency */ = {
@@ -1857,12 +1857,12 @@
 		};
 		6ED7641315F2674E00687079 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 6E256FEE15F255780079AD2D /* postgresql */;
+			target = 6E256FEE15F255780079AD2D /* postgresql - Mac 64 bit */;
 			targetProxy = 6ED7641215F2674E00687079 /* PBXContainerItemProxy */;
 		};
 		6ED85B3616288C4800A6DC02 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 6E256FEE15F255780079AD2D /* postgresql */;
+			target = 6E256FEE15F255780079AD2D /* postgresql - Mac 64 bit */;
 			targetProxy = 6ED85B3716288C4800A6DC02 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -1947,6 +1947,8 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = openssl;
+				SDKROOT = macosx10.7;
+				SUPPORTED_PLATFORMS = macosx;
 			};
 			name = Debug;
 		};
@@ -1957,6 +1959,8 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = openssl;
+				SDKROOT = macosx10.7;
+				SUPPORTED_PLATFORMS = macosx;
 			};
 			name = Release;
 		};
@@ -2180,6 +2184,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.7;
 			};
 			name = Debug;
 		};
@@ -2189,6 +2194,7 @@
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.7;
 			};
 			name = Release;
 		};
@@ -2519,7 +2525,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		14280459166811D700A61BF6 /* Build configuration list for PBXAggregateTarget "openssl" */ = {
+		14280459166811D700A61BF6 /* Build configuration list for PBXAggregateTarget "openssl - Mac 64 bit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1428045A166811D700A61BF6 /* Debug */,
@@ -2564,7 +2570,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6E256FEF15F255780079AD2D /* Build configuration list for PBXAggregateTarget "postgresql" */ = {
+		6E256FEF15F255780079AD2D /* Build configuration list for PBXAggregateTarget "postgresql - Mac 64 bit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6E256FF015F255780079AD2D /* Debug */,
