@@ -5,8 +5,15 @@
 @implementation PGSchemaProductOpTable
 
 -(BOOL)createWithConnection:(PGConnection* )connection dryrun:(BOOL)isDryrun error:(NSError** )error {
-	NSString* statement = [PGSchemaManager formatSQL:@"PGSchemaProductOpTableCreate" attributes:[self attributes]];
-	NSLog(@"TODO: Create %@",statement);
+	if(isDryrun) {
+		// TODO: check to make sure table is not created
+	} else {
+		NSString* statement = [PGSchemaManager sqlWithFormat:@"PGSchemaProductOpTableCreate" attributes:[self attributes] error:error];
+		if(statement==nil) {
+			return NO;
+		}
+		NSLog(@"TODO: Create %@",statement);
+	}
 	return YES;
 }
 

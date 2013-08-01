@@ -151,16 +151,19 @@ NSString* PGSchemaTable = @"t_product";
 ////////////////////////////////////////////////////////////////////////////////
 // private methods
 
-+(NSString* )formatSQL:(NSString* )key attributes:(NSDictionary* )attr {
++(NSString* )sqlWithFormatFromStringTable:(NSString* )key attributes:(NSDictionary* )attr error:(NSError** )error {
 	NSParameterAssert(key);
 	NSBundle* bundle = [NSBundle bundleForClass:self];
 	NSString* format = NSLocalizedStringFromTableInBundle(key,@"PGSchemaKitSQL",bundle,@"");
-	NSParameterAssert(format);
+	if(format==nil) {
+		(*error) = [PGSchemaManager errorWithCode:PGSchemaErrorInternal description:@"Invalid string table key '%@'",key]
+		return nil;
+	}
 	
 	// create a scanner object and use '$' as delimiter
 	NSScanner* scanner = [NSScanner scannerWithString:format];
 	NSCharacterSet* delimiter = [NSCharacterSet characterSetWithCharactersInString:@"$"];
-	NSCharacterSet* alphanumeric = [NSCharacterSet characterSetWithCharactersInString:@"_0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"];
+	NSCharacterSet* alpha = [NSCharacterSet characterSetWithCharactersInString:@"_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"];
 	NSMutableString* statement = [NSMutableString string];
 	NSString* tmpstr = nil;
 	NSInteger tmpint;
@@ -176,23 +179,26 @@ NSString* PGSchemaTable = @"t_product";
 		}
 		// scan in binding value $1, $2, etc
 		if([scanner scanInteger:&tmpint]) {
-			[statement appendFormat:@"%ld",tmpint];
+			[statement appendFormat:@"$%ld",tmpint];
 			continue;
 		}
 		// scan in attribute name
-		if([scanner scanCharactersFromSet:alphanumeric intoString:&tmpstr]) {
+		if([scanner scanCharactersFromSet:alpha intoString:&tmpstr]) {
 			NSString* value = [attr objectForKey:tmpstr];
 			if(value==nil) {
-				[statement appendFormat:@"$%@$",tmpstr];
+				(*error) = [PGSchemaManager errorWithCode:PGSchemaErrorInternal description:@"Missing attribute '%@'",tmpstr];
+				return nil;
 			} else {
 				[statement appendString:value];
 			}
 		} else {
+			(*error) = [PGSchemaManager errorWithCode:PGSchemaErrorInternal description:@"Syntax error"];
 			return nil;
 		}
 		// scan delimiter
 		foundDelimiter = [scanner scanCharactersFromSet:delimiter intoString:&tmpstr];
 		if(foundDelimiter==NO) {
+			(*error) = [PGSchemaManager errorWithCode:PGSchemaErrorInternal description:@"Syntax error"];
 			return nil;
 		}
 	}
@@ -295,11 +301,18 @@ NSString* PGSchemaTable = @"t_product";
 	return [NSArray array];
 }
 
-+(NSError* )errorWithCode:(PGSchemaErrorType)code description:(NSString* )description {
++(NSError* )errorWithCode:(PGSchemaErrorType)code path:(NSString* )path format:(NSString* )format,... {
+	va_list args;
+	va_start(args,description);
+	NSString* message = [[NSString alloc] initWithFormat:description arguments:args];
+	va_end(args);
+	NSError* error = [self errorWithCode:code ]
+		[self _output:message type:RPLoggingMessageDebug];
+	}
 	return [self errorWithCode:code description:description path:nil];
 }
 
-+(NSError* )errorWithCode:(PGSchemaErrorType)code description:(NSString* )description path:(NSString* )path {
++(NSError* )errorWithCode:(PGSchemaErrorType)code description:(NSString* )description  {
 	NSMutableDictionary* dictionary = [NSMutableDictionary dictionary];
 	NSString* reason = nil;
 	switch(code) {

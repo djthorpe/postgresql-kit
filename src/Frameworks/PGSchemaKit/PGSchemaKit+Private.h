@@ -4,9 +4,12 @@
 #import "PGSchemaProductOpTable.h"
 
 @interface PGSchemaManager (Private)
-+(NSError* )errorWithCode:(PGSchemaErrorType)code description:(NSString* )description path:(NSString* )path;
-+(NSError* )errorWithCode:(PGSchemaErrorType)code description:(NSString* )description;
-+(NSString* )formatSQL:(NSString* )key attributes:(NSDictionary* )attr;
+// generate error objects
++(NSError* )errorWithCode:(PGSchemaErrorType)code path:(NSString* )path description:(NSString* )description,...;
++(NSError* )errorWithCode:(PGSchemaErrorType)code description:(NSString* )description,...;
+
++(NSString* )sqlWithFormatFromStringTable:(NSString* )key attributes:(NSDictionary* )attr error:(NSError** )error;
+
 -(BOOL)_addSearchPath:(NSString* )path;
 -(NSArray* )_subpathsAtPath:(NSString* )path;
 -(NSArray* )_productsAtPath:(NSString* )path error:(NSError** )error;

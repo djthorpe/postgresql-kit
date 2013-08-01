@@ -7,12 +7,15 @@
 	</comment>
 	<create>
 		<create-table name="t_product" schema="$_sysschema_$">
-			product_version CHAR(80) NOT NULL,
+			product CHAR(80) NOT NULL,
+			schema  CHAR(80) NOT NULL,
+			version INTEGER NOT NULL,
 			comment VARCHAR(200),
-			date_installed TIMESTAMP NOT NULL,
-			PRIMARY KEY (product_version)
+			stamp   TIMESTAMP NOT NULL,
+			PRIMARY KEY (product,version)
 		</create-table>
 		<create-table name="t_serial" schema="$_sysschema_$">
+			schema       CHAR(80) NOT NULL,
 			class        CHAR(32) NOT NULL,
 			serial       INTEGER NOT NULL DEFAULT 0,
 			PRIMARY KEY (class),
