@@ -7,50 +7,50 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		14280457166811D700A61BF6 /* openssl - Mac */ = {
+		14280457166811D700A61BF6 /* openssl_mac */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 14280459166811D700A61BF6 /* Build configuration list for PBXAggregateTarget "openssl - Mac" */;
+			buildConfigurationList = 14280459166811D700A61BF6 /* Build configuration list for PBXAggregateTarget "openssl_mac" */;
 			buildPhases = (
 				14280458166811D700A61BF6 /* ShellScript */,
 			);
 			dependencies = (
 			);
-			name = "openssl - Mac";
+			name = openssl_mac;
 			productName = postgresql;
 		};
-		6E256FEE15F255780079AD2D /* postgresql - Mac */ = {
+		6E256FEE15F255780079AD2D /* postgresql_mac */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 6E256FEF15F255780079AD2D /* Build configuration list for PBXAggregateTarget "postgresql - Mac" */;
+			buildConfigurationList = 6E256FEF15F255780079AD2D /* Build configuration list for PBXAggregateTarget "postgresql_mac" */;
 			buildPhases = (
 				6E256FF415F255D00079AD2D /* ShellScript */,
 			);
 			dependencies = (
 				143398D5168F4F1A00234FBF /* PBXTargetDependency */,
 			);
-			name = "postgresql - Mac";
+			name = postgresql_mac;
 			productName = postgresql;
 		};
-		6E83260A17AD15C9002AFCBC /* openssl - iOS */ = {
+		6E83260A17AD15C9002AFCBC /* openssl_ios */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 6E83260C17AD15C9002AFCBC /* Build configuration list for PBXAggregateTarget "openssl - iOS" */;
+			buildConfigurationList = 6E83260C17AD15C9002AFCBC /* Build configuration list for PBXAggregateTarget "openssl_ios" */;
 			buildPhases = (
 				6E83260B17AD15C9002AFCBC /* ShellScript */,
 			);
 			dependencies = (
 			);
-			name = "openssl - iOS";
+			name = openssl_ios;
 			productName = postgresql;
 		};
-		6E83260F17AD15F3002AFCBC /* libpq - iOS */ = {
+		6E83260F17AD15F3002AFCBC /* libpq_ios */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 6E83261317AD15F3002AFCBC /* Build configuration list for PBXAggregateTarget "libpq - iOS" */;
+			buildConfigurationList = 6E83261317AD15F3002AFCBC /* Build configuration list for PBXAggregateTarget "libpq_ios" */;
 			buildPhases = (
 				6E83261217AD15F3002AFCBC /* ShellScript */,
 			);
 			dependencies = (
 				6E83261017AD15F3002AFCBC /* PBXTargetDependency */,
 			);
-			name = "libpq - iOS";
+			name = libpq_ios;
 			productName = postgresql;
 		};
 /* End PBXAggregateTarget section */
@@ -1413,9 +1413,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		1418234D166128C000765768 /* PGDataKit */ = {
+		1418234D166128C000765768 /* PGDataKit_mac */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 14182361166128C000765768 /* Build configuration list for PBXNativeTarget "PGDataKit" */;
+			buildConfigurationList = 14182361166128C000765768 /* Build configuration list for PBXNativeTarget "PGDataKit_mac" */;
 			buildPhases = (
 				14182350166128C000765768 /* Sources */,
 				14182356166128C000765768 /* Frameworks */,
@@ -1427,14 +1427,14 @@
 			dependencies = (
 				14182367166128DA00765768 /* PBXTargetDependency */,
 			);
-			name = PGDataKit;
+			name = PGDataKit_mac;
 			productName = PGServerKit;
 			productReference = 14182364166128C000765768 /* PGDataKit.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		1433614A179173BB000A79D5 /* PGSchemaKit */ = {
+		1433614A179173BB000A79D5 /* PGSchemaKit_mac */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 14336162179173BB000A79D5 /* Build configuration list for PBXNativeTarget "PGSchemaKit" */;
+			buildConfigurationList = 14336162179173BB000A79D5 /* Build configuration list for PBXNativeTarget "PGSchemaKit_mac" */;
 			buildPhases = (
 				1433614D179173BB000A79D5 /* Sources */,
 				14336155179173BB000A79D5 /* Frameworks */,
@@ -1446,7 +1446,7 @@
 			dependencies = (
 				14336168179173D3000A79D5 /* PBXTargetDependency */,
 			);
-			name = PGSchemaKit;
+			name = PGSchemaKit_mac;
 			productName = PGServerKit;
 			productReference = 14336165179173BB000A79D5 /* PGSchemaKit.framework */;
 			productType = "com.apple.product-type.framework";
@@ -1542,9 +1542,9 @@
 			productReference = 6ECA7ADC15F3637600AF2B70 /* PGFoundationServer */;
 			productType = "com.apple.product-type.tool";
 		};
-		6ED763FA15F2673600687079 /* PGServerKit - Mac 64 bit */ = {
+		6ED763FA15F2673600687079 /* PGServerKit_mac */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6ED7641015F2673600687079 /* Build configuration list for PBXNativeTarget "PGServerKit - Mac 64 bit" */;
+			buildConfigurationList = 6ED7641015F2673600687079 /* Build configuration list for PBXNativeTarget "PGServerKit_mac" */;
 			buildPhases = (
 				6ED763F615F2673600687079 /* Sources */,
 				6ED763F715F2673600687079 /* Frameworks */,
@@ -1557,14 +1557,14 @@
 			dependencies = (
 				6ED7641315F2674E00687079 /* PBXTargetDependency */,
 			);
-			name = "PGServerKit - Mac 64 bit";
+			name = PGServerKit_mac;
 			productName = PGServerKit;
 			productReference = 6ED763FB15F2673600687079 /* PGServerKit - Mac 64 bit.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		6ED85B3516288C4800A6DC02 /* PGClientKit - Mac 64 bit */ = {
+		6ED85B3516288C4800A6DC02 /* PGClientKit_mac */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6ED85B4316288C4800A6DC02 /* Build configuration list for PBXNativeTarget "PGClientKit - Mac 64 bit" */;
+			buildConfigurationList = 6ED85B4316288C4800A6DC02 /* Build configuration list for PBXNativeTarget "PGClientKit_mac" */;
 			buildPhases = (
 				6ED85B3816288C4800A6DC02 /* Sources */,
 				6ED85B3B16288C4800A6DC02 /* Frameworks */,
@@ -1576,7 +1576,7 @@
 			dependencies = (
 				6ED85B3616288C4800A6DC02 /* PBXTargetDependency */,
 			);
-			name = "PGClientKit - Mac 64 bit";
+			name = PGClientKit_mac;
 			productName = PGServerKit;
 			productReference = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */;
 			productType = "com.apple.product-type.framework";
@@ -1601,14 +1601,14 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				14280457166811D700A61BF6 /* openssl - Mac */,
-				6E256FEE15F255780079AD2D /* postgresql - Mac */,
-				6E83260A17AD15C9002AFCBC /* openssl - iOS */,
-				6E83260F17AD15F3002AFCBC /* libpq - iOS */,
-				6ED763FA15F2673600687079 /* PGServerKit - Mac 64 bit */,
-				6ED85B3516288C4800A6DC02 /* PGClientKit - Mac 64 bit */,
-				1433614A179173BB000A79D5 /* PGSchemaKit */,
-				1418234D166128C000765768 /* PGDataKit */,
+				14280457166811D700A61BF6 /* openssl_mac */,
+				6E256FEE15F255780079AD2D /* postgresql_mac */,
+				6E83260A17AD15C9002AFCBC /* openssl_ios */,
+				6E83260F17AD15F3002AFCBC /* libpq_ios */,
+				6ED763FA15F2673600687079 /* PGServerKit_mac */,
+				6ED85B3516288C4800A6DC02 /* PGClientKit_mac */,
+				1433614A179173BB000A79D5 /* PGSchemaKit_mac */,
+				1418234D166128C000765768 /* PGDataKit_mac */,
 				6ECA7ADB15F3637600AF2B70 /* PGFoundationServer */,
 				6E4DEC84162CC38D008B26BD /* PGFoundationClient */,
 				6E68ADE41635DB4400436234 /* PGClient */,
@@ -1896,52 +1896,52 @@
 /* Begin PBXTargetDependency section */
 		14182367166128DA00765768 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 6ED85B3516288C4800A6DC02 /* PGClientKit - Mac 64 bit */;
+			target = 6ED85B3516288C4800A6DC02 /* PGClientKit_mac */;
 			targetProxy = 14182366166128DA00765768 /* PBXContainerItemProxy */;
 		};
 		14336168179173D3000A79D5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 6ED85B3516288C4800A6DC02 /* PGClientKit - Mac 64 bit */;
+			target = 6ED85B3516288C4800A6DC02 /* PGClientKit_mac */;
 			targetProxy = 14336167179173D3000A79D5 /* PBXContainerItemProxy */;
 		};
 		1433618717917F5B000A79D5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 6ED85B3516288C4800A6DC02 /* PGClientKit - Mac 64 bit */;
+			target = 6ED85B3516288C4800A6DC02 /* PGClientKit_mac */;
 			targetProxy = 1433618617917F5B000A79D5 /* PBXContainerItemProxy */;
 		};
 		1433618917917F5B000A79D5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 1433614A179173BB000A79D5 /* PGSchemaKit */;
+			target = 1433614A179173BB000A79D5 /* PGSchemaKit_mac */;
 			targetProxy = 1433618817917F5B000A79D5 /* PBXContainerItemProxy */;
 		};
 		143398D5168F4F1A00234FBF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 14280457166811D700A61BF6 /* openssl - Mac */;
+			target = 14280457166811D700A61BF6 /* openssl_mac */;
 			targetProxy = 143398D4168F4F1A00234FBF /* PBXContainerItemProxy */;
 		};
 		6E4DEC93162CC3A7008B26BD /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 6ED85B3516288C4800A6DC02 /* PGClientKit - Mac 64 bit */;
+			target = 6ED85B3516288C4800A6DC02 /* PGClientKit_mac */;
 			targetProxy = 6E4DEC92162CC3A7008B26BD /* PBXContainerItemProxy */;
 		};
 		6E83261017AD15F3002AFCBC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 14280457166811D700A61BF6 /* openssl - Mac */;
+			target = 14280457166811D700A61BF6 /* openssl_mac */;
 			targetProxy = 6E83261117AD15F3002AFCBC /* PBXContainerItemProxy */;
 		};
 		6ECA7AEC15F363DB00AF2B70 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 6ED763FA15F2673600687079 /* PGServerKit - Mac 64 bit */;
+			target = 6ED763FA15F2673600687079 /* PGServerKit_mac */;
 			targetProxy = 6ECA7AEB15F363DB00AF2B70 /* PBXContainerItemProxy */;
 		};
 		6ED7641315F2674E00687079 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 6E256FEE15F255780079AD2D /* postgresql - Mac */;
+			target = 6E256FEE15F255780079AD2D /* postgresql_mac */;
 			targetProxy = 6ED7641215F2674E00687079 /* PBXContainerItemProxy */;
 		};
 		6ED85B3616288C4800A6DC02 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 6E256FEE15F255780079AD2D /* postgresql - Mac */;
+			target = 6E256FEE15F255780079AD2D /* postgresql_mac */;
 			targetProxy = 6ED85B3716288C4800A6DC02 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -2650,7 +2650,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		14182361166128C000765768 /* Build configuration list for PBXNativeTarget "PGDataKit" */ = {
+		14182361166128C000765768 /* Build configuration list for PBXNativeTarget "PGDataKit_mac" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				14182362166128C000765768 /* Debug */,
@@ -2659,7 +2659,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		14280459166811D700A61BF6 /* Build configuration list for PBXAggregateTarget "openssl - Mac" */ = {
+		14280459166811D700A61BF6 /* Build configuration list for PBXAggregateTarget "openssl_mac" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1428045A166811D700A61BF6 /* Debug */,
@@ -2668,7 +2668,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		14336162179173BB000A79D5 /* Build configuration list for PBXNativeTarget "PGSchemaKit" */ = {
+		14336162179173BB000A79D5 /* Build configuration list for PBXNativeTarget "PGSchemaKit_mac" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				14336163179173BB000A79D5 /* Debug */,
@@ -2704,7 +2704,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6E256FEF15F255780079AD2D /* Build configuration list for PBXAggregateTarget "postgresql - Mac" */ = {
+		6E256FEF15F255780079AD2D /* Build configuration list for PBXAggregateTarget "postgresql_mac" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6E256FF015F255780079AD2D /* Debug */,
@@ -2731,7 +2731,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6E83260C17AD15C9002AFCBC /* Build configuration list for PBXAggregateTarget "openssl - iOS" */ = {
+		6E83260C17AD15C9002AFCBC /* Build configuration list for PBXAggregateTarget "openssl_ios" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6E83260D17AD15C9002AFCBC /* Debug */,
@@ -2740,7 +2740,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6E83261317AD15F3002AFCBC /* Build configuration list for PBXAggregateTarget "libpq - iOS" */ = {
+		6E83261317AD15F3002AFCBC /* Build configuration list for PBXAggregateTarget "libpq_ios" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6E83261417AD15F3002AFCBC /* Debug */,
@@ -2758,7 +2758,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6ED7641015F2673600687079 /* Build configuration list for PBXNativeTarget "PGServerKit - Mac 64 bit" */ = {
+		6ED7641015F2673600687079 /* Build configuration list for PBXNativeTarget "PGServerKit_mac" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6ED7640E15F2673600687079 /* Debug */,
@@ -2767,7 +2767,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6ED85B4316288C4800A6DC02 /* Build configuration list for PBXNativeTarget "PGClientKit - Mac 64 bit" */ = {
+		6ED85B4316288C4800A6DC02 /* Build configuration list for PBXNativeTarget "PGClientKit_mac" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6ED85B4416288C4800A6DC02 /* Debug */,

@@ -90,26 +90,30 @@ IPHONE_DEPLOYMENT_TARGET=6.1
 case ${PLATFORM} in
   mac_x86_64 )
     ARCH="x86_64"
-	CROSS_TOP="${DEVELOPER_PATH}/Platforms/MacOSX.platform/Developer"
-    CROSS_SDK="MacOSX${MACOSX_DEPLOYMENT_TARGET}.sdk"
+	export CROSS_TOP="${DEVELOPER_PATH}/Platforms/MacOSX.platform/Developer"
+    export CROSS_SDK="MacOSX${MACOSX_DEPLOYMENT_TARGET}.sdk"
+    export CC="/usr/bin/gcc -arch ${ARCH}"
 	CONFIGURE_FLAGS="darwin64-x86_64-cc no-gost zlib"
 	;;
   ios_armv7 )
     ARCH="armv7"
     export CROSS_TOP="${DEVELOPER_PATH}/Platforms/iPhoneOS.platform/Developer"
     export CROSS_SDK="iPhoneOS${IPHONE_DEPLOYMENT_TARGET}.sdk"
+    export CC="${CROSS_TOP}/usr/bin/gcc -arch ${ARCH}"
     CONFIGURE_FLAGS="iphoneos-cross no-gost zlib"
     ;;
   ios_armv7s )
     ARCH="armv7s"
-    CROSS_TOP="${DEVELOPER_PATH}/Platforms/iPhoneOS.platform/Developer"
-    CROSS_SDK="iPhoneOS${IPHONE_DEPLOYMENT_TARGET}.sdk"
+    export CROSS_TOP="${DEVELOPER_PATH}/Platforms/iPhoneOS.platform/Developer"
+    export CROSS_SDK="iPhoneOS${IPHONE_DEPLOYMENT_TARGET}.sdk"
+    export CC="${CROSS_TOP}/usr/bin/gcc -arch ${ARCH}"
     CONFIGURE_FLAGS="iphoneos-cross no-gost zlib"
     ;;
   ios_simulator )
     ARCH="i386"
-    CROSS_TOP="${DEVELOPER_PATH}/Platforms/iPhoneSimulator.platform/Developer"
-    CROSS_SDK="iPhoneSimulator${IPHONE_DEPLOYMENT_TARGET}.sdk"
+    export CROSS_TOP="${DEVELOPER_PATH}/Platforms/iPhoneSimulator.platform/Developer"
+    export CROSS_SDK="iPhoneSimulator${IPHONE_DEPLOYMENT_TARGET}.sdk"
+	export CC="${CROSS_TOP}/usr/bin/gcc -arch ${ARCH}"
     CONFIGURE_FLAGS="iphoneos-cross no-gost zlib"
 	;;
   * )
@@ -117,7 +121,6 @@ case ${PLATFORM} in
 	exit -1
 esac
 
-export CC="${CROSS_TOP}/usr/bin/gcc -arch ${ARCH}"
 
 ##############################################################
 # Check to see if already built, ignore if so

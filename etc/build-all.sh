@@ -15,13 +15,14 @@ CURRENT_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 CONFIGURATION=Release
 PROJECT=${CURRENT_PATH}/../postgresql-kit.xcodeproj
 
-# TO BUILD FOR iOS
-xcodebuild -project ${PROJECT} -target "openssl - iOS" -configuration ${CONFIGURATION} || exit -1
+# Build OpenSSL
+xcodebuild -project ${PROJECT} -target "openssl_ios" -configuration ${CONFIGURATION} || exit -1
+xcodebuild -project ${PROJECT} -target "openssl_mac" -configuration ${CONFIGURATION} || exit -1
+
 #xcodebuild -project ${PROJECT} -target "libpq - iOS" -configuration ${CONFIGURATION} || exit -1
 #xcodebuild -project ${PROJECT} -target "PGClientKit - iOS" -configuration ${CONFIGURATION} || exit -1
 
 # TO BUILD FOR Mac
-#xcodebuild -project ${PROJECT} -target "openssl - Mac" -configuration ${CONFIGURATION} || exit -1
 #xcodebuild -project ${PROJECT} -target "postgresql - Mac" -configuration ${CONFIGURATION} || exit -1
 #xcodebuild -project ${PROJECT} -target "PGServerKit - Mac" -configuration ${CONFIGURATION} || exit -1
 #xcodebuild -project ${PROJECT} -target "PGClientKit - Mac" -configuration ${CONFIGURATION} || exit -1
