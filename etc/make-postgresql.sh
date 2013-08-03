@@ -20,9 +20,9 @@
 # Process command line arguments
 
 CURRENT_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-UNARCHIVE=${DERIVED_SOURCES_DIR}
-TARZ=${1}
-BUILD=${2}
+UNARCHIVE="${DERIVED_SOURCES_DIR}"
+TARZ="${1}"
+BUILD="${2}"
 CLEAN=0
 PLATFORM=mac_x86_64
 OPENSSL=
@@ -68,17 +68,17 @@ fi
 # Check for the UNARCHIVE  directories, use TMP if necessary
 if [ "${UNARCHIVE}" == "" ]
 then
-	UNARCHIVE=${TMPDIR}/${VERSION}/src
+	UNARCHIVE="${TMPDIR}/${VERSION}/src"
 fi
 
 ##############################################################
 # Set version number
 
 VERSION=`basename ${TARZ} | sed 's/\.tar\.gz//'`
-if [ ! -d ${UNARCHIVE} ]
+if [ ! -d "${UNARCHIVE}" ]
 then
   echo "mkdir ${UNARCHIVE}"
-  mkdir -pv ${UNARCHIVE}
+  mkdir -pv "${UNARCHIVE}"
 fi
 
 ##############################################################
@@ -86,13 +86,13 @@ fi
 
 rm -fr "${UNARCHIVE}"
 mkdir "${UNARCHIVE}"
-tar -C ${UNARCHIVE} -zxf ${TARZ}
+tar -C "${UNARCHIVE}" -zxf "${TARZ}"
 
 ##############################################################
 # Architectures
 
 DEVELOPER_PATH=`xcode-select --print-path`
-MACOSX_DEPLOYMENT_TARGET=10.7
+MACOSX_DEPLOYMENT_TARGET=10.8
 IPHONE_DEPLOYMENT_TARGET=6.1
 
 case ${PLATFORM} in
@@ -110,7 +110,7 @@ case ${PLATFORM} in
 esac
 
 CFLAGS="-isysroot ${SDKROOT} ${DEPLOYMENT_TARGET}"
-#CPPFLAGS="-I${SDKROOT}/usr/include/libxml2"
+CPPFLAGS="-I/usr/include/libxml2"
 LDFLAGS="-Wl,-syslibroot,${SDKROOT} ${DEPLOYMENT_TARGET}"
 
 if [ -d "${OPENSSL}" ]
@@ -124,9 +124,9 @@ fi
 ##############################################################
 # Check to see if already built, ignore if so
 
-PREFIX=${BUILD}/${VERSION}/${PLATFORM}
+PREFIX="${BUILD}/${VERSION}/${PLATFORM}"
 
-if [ -e ${PREFIX} ] && [ ${CLEAN} == 0 ]
+if [ -e "${PREFIX}" ] && [ ${CLEAN} == 0 ]
 then
   echo "Assuming already exists: ${PREFIX}"
   exit 0
@@ -136,22 +136,27 @@ fi
 ##############################################################
 # Building
 
+pushd "${UNARCHIVE}/${VERSION}"
+
 echo "Derived data: ${UNARCHIVE}"
 echo "    Build to: ${PREFIX}"
 echo "Architecture: ${ARCH}"
 echo "       Flags: ${CONFIGURE_FLAGS}"
 
-pushd "${UNARCHIVE}/${VERSION}"
 ./configure CC="${CC}" CFLAGS="${CFLAGS}" LDFLAGS="${LDFLAGS}" CPPFLAGS="${CPPFLAGS}" --prefix="${PREFIX}" ${CONFIGURE_FLAGS}
+make && make install
 
-# make and install
-make
-make install
+if [ $? != 0 ]; then
+  echo "Error building postgresql"
+  exit -1
+fi
+
+popd
 
 ##############################################################
 # Make symbolic links
 
-rm -f ${BUILD}/postgresql-current-${PLATFORM}
-ln -s ${PREFIX} ${BUILD}/postgresql-current-${PLATFORM}
+rm -f "${BUILD}/postgresql-current-${PLATFORM}"
+ln -s "${PREFIX} ${BUILD}/postgresql-current-${PLATFORM}"
+echo "${BUILD}/postgresql-current-${PLATFORM}"
 
-exit 0
