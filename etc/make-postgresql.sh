@@ -92,32 +92,35 @@ tar -C "${UNARCHIVE}" -zxf "${TARZ}"
 # Architectures
 
 DEVELOPER_PATH=`xcode-select --print-path`
+if [ ! -d "$DEVELOPER_PATH" ]; then
+  echo "XCode not installed"
+  exit -1
+fi
+
 MACOSX_DEPLOYMENT_TARGET=10.8
-IPHONE_DEPLOYMENT_TARGET=6.1
 
 case ${PLATFORM} in
   mac_x86_64 )
     ARCH="x86_64"
     DEVROOT="${DEVELOPER_PATH}/Platforms/MacOSX.platform/Developer"
     SDKROOT="${DEVROOT}/SDKs/MacOSX${MACOSX_DEPLOYMENT_TARGET}.sdk"
-    CC="/usr/bin/gcc -arch ${ARCH}"
-    CONFIGURE_FLAGS="--enable-thread-safety --without-readline --with-ldap --with-bonjour --with-openssl --with-libxml --with-libxslt --disable-rpath"
-    DEPLOYMENT_TARGET="-mmacosx-version-min=${MACOSX_DEPLOYMENT_TARGET}"
     ;;
   * )
     echo "Unknown build platform: ${PLATFORM}"
     exit 1
 esac
 
-CFLAGS="-isysroot ${SDKROOT} ${DEPLOYMENT_TARGET}"
-CPPFLAGS="-I/usr/include/libxml2"
-LDFLAGS="-Wl,-syslibroot,${SDKROOT} ${DEPLOYMENT_TARGET}"
+CC="/usr/bin/gcc -arch ${ARCH}"
+CPPFLAGS=""
+CFLAGS="-isysroot ${SDKROOT} ${CPPFLAGS}"
+LDFLAGS="-Wl,-syslibroot,${SDKROOT} -lz"
+CONFIGURE_FLAGS="--enable-thread-safety --without-readline --with-ldap --with-bonjour --with-libxml --with-libxslt"
 
 if [ -d "${OPENSSL}" ]
 then
   WITH_INCLUDES="${OPENSSL}/include"
   WITH_LIBS="${OPENSSL}/lib"
-  CONFIGURE_FLAGS="${CONFIGURE_FLAGS} --with-includes=${WITH_INCLUDES} --with-libs=${WITH_LIBS}"
+  CONFIGURE_FLAGS="${CONFIGURE_FLAGS} --with-openssl --with-includes=${WITH_INCLUDES} --with-libs=${WITH_LIBS}"
 fi
 
 
@@ -157,6 +160,6 @@ popd
 # Make symbolic links
 
 rm -f "${BUILD}/postgresql-current-${PLATFORM}"
-ln -s "${PREFIX} ${BUILD}/postgresql-current-${PLATFORM}"
+ln -s "${PREFIX}" "${BUILD}/postgresql-current-${PLATFORM}"
 echo "${BUILD}/postgresql-current-${PLATFORM}"
 

@@ -18,7 +18,7 @@
 # Process command line arguments
 
 CURRENT_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-UNARCHIVE=${DERIVED_SOURCES_DIR}
+UNARCHIVE="${DERIVED_SOURCES_DIR}"
 TARZ=${1}
 BUILD=${2}
 CLEAN=0
@@ -65,13 +65,13 @@ fi
 # Check for the UNARCHIVE  directories, use TMP if necessary
 if [ "${UNARCHIVE}" == "" ]
 then
-    UNARCHIVE=${TMPDIR}/${VERSION}/src
+    UNARCHIVE="${TMPDIR}/${VERSION}/src"
 fi
 
-if [ ! -d ${UNARCHIVE} ]
+if [ ! -d "${UNARCHIVE}" ]
 then
   echo "mkdir ${UNARCHIVE}"
-  mkdir -pv ${UNARCHIVE}
+  mkdir -pv "${UNARCHIVE}"
 fi
 
 ##############################################################
@@ -79,12 +79,17 @@ fi
 
 rm -fr "${UNARCHIVE}"
 mkdir "${UNARCHIVE}"
-tar -C ${UNARCHIVE} -zxf ${TARZ}
+tar -C "${UNARCHIVE}" -zxf "${TARZ}"
 
 ##############################################################
 # Architectures
 
 DEVELOPER_PATH=`xcode-select --print-path`
+if [ ! -d "$DEVELOPER_PATH" ]; then
+  echo "XCode not installed"
+  exit -1
+fi
+
 MACOSX_DEPLOYMENT_TARGET=10.8
 IPHONE_DEPLOYMENT_TARGET=6.1
 
@@ -93,41 +98,33 @@ case ${PLATFORM} in
     ARCH="armv7"
     DEVROOT="${DEVELOPER_PATH}/Platforms/iPhoneOS.platform/Developer"
     SDKROOT="${DEVROOT}/SDKs/iPhoneOS${IPHONE_DEPLOYMENT_TARGET}.sdk"
-    CC="${DEVROOT}/usr/bin/gcc -arch ${ARCH}"
-    CONFIGURE_FLAGS="--host=arm-apple-darwin --enable-thread-safety --without-readline --with-openssl --with-libxml --disable-rpath"
-    DEPLOYMENT_TARGET=""
     ;;
   ios_armv7s )
     ARCH="armv7s"
     DEVROOT="${DEVELOPER_PATH}/Platforms/iPhoneOS.platform/Developer"
     SDKROOT="${DEVROOT}/SDKs/iPhoneOS${IPHONE_DEPLOYMENT_TARGET}.sdk"
-    CC="${DEVROOT}/usr/bin/gcc -arch ${ARCH}"
-    CONFIGURE_FLAGS="--host=arm-apple-darwin --enable-thread-safety --without-readline --with-openssl --with-libxml --disable-rpath"
-    DEPLOYMENT_TARGET=""
     ;;
   ios_simulator )
     ARCH="i386"
     DEVROOT="${DEVELOPER_PATH}/Platforms/iPhoneSimulator.platform/Developer"
     SDKROOT="${DEVROOT}/SDKs/iPhoneSimulator${IPHONE_DEPLOYMENT_TARGET}.sdk"
-    CC="${DEVROOT}/usr/bin/gcc -arch ${ARCH}"
-    CONFIGURE_FLAGS="--host=i386-apple-darwin --enable-thread-safety --without-readline --with-openssl --with-libxml --disable-rpath"
-    DEPLOYMENT_TARGET=""
     ;;
   * )
     echo "Unknown build platform: ${PLATFORM}"
     exit 1
 esac
 
-
-CFLAGS="-isysroot ${SDKROOT} ${DEPLOYMENT_TARGET}"
-CPPFLAGS="-I$SDKROOT/usr/lib/gcc/arm-apple-darwin10/4.2.1/include/ -I$SDKROOT/usr/include/ -I$SDKROOT/usr/include/"
-LDFLAGS="-Wl,-syslibroot,${SDKROOT} ${DEPLOYMENT_TARGET}"
+CC="${DEVROOT}/usr/bin/gcc -arch ${ARCH}"
+CPPFLAGS="-I${SDKROOT}/usr/lib/gcc/arm-apple-darwin9/4.0.1/include/ -I${SDKROOT}/usr/include/"
+CFLAGS="-isysroot ${SDKROOT} ${CPPFLAGS}"
+LDFLAGS="-Wl,-syslibroot,${SDKROOT} -lz"
+CONFIGURE_FLAGS="--host=arm-apple-darwin --enable-thread-safety --without-readline"
 
 if [ -d "${OPENSSL}" ]
 then
   WITH_INCLUDES="${OPENSSL}/include"
   WITH_LIBS="${OPENSSL}/lib"
-  CONFIGURE_FLAGS="${CONFIGURE_FLAGS} --with-includes=${WITH_INCLUDES} --with-libs=${WITH_LIBS}"
+  CONFIGURE_FLAGS="${CONFIGURE_FLAGS} --with-openssl --with-includes=${WITH_INCLUDES} --with-libs=${WITH_LIBS}"
 fi
 
 ##############################################################
@@ -144,20 +141,24 @@ fi
 ##############################################################
 # Building
 
+pushd "${UNARCHIVE}/${VERSION}"
+
 echo "Derived data: ${UNARCHIVE}"
 echo "    Build to: ${PREFIX}"
 echo "Architecture: ${ARCH}"
 echo "       Flags: ${CONFIGURE_FLAGS}"
 
-pushd "${UNARCHIVE}/${VERSION}"
-./configure CC="${CC}" CFLAGS="${CFLAGS}" CPPFLAGS="${CPPFLAGS}" LDFLAGS="${LDFLAGS}" --prefix="${PREFIX}" ${CONFIGURE_FLAGS}
-make -C src/interfaces/libpq && make -C src/interfaces/libpq install
+./configure CC="${CC}" CFLAGS="${CFLAGS}" LDFLAGS="${LDFLAGS}" CPPFLAGS="${CPPFLAGS}" --prefix="${PREFIX}" ${CONFIGURE_FLAGS}
+make -C src/interfaces/libpq || exit -1
+make -C src/interfaces/libpq install || exit -1
+
+popd
 
 ##############################################################
 # Make symbolic links
 
-rm -f ${BUILD}/libpq-current-${PLATFORM}
-ln -s ${PREFIX} ${BUILD}/libpq-current-${PLATFORM}
+rm -f "${BUILD}/libpq-current-${PLATFORM}"
+ln -s "${PREFIX}" "${BUILD}/libpq-current-${PLATFORM}"
 
 exit 0
 

@@ -4,8 +4,7 @@
 
 This set of frameworks and test applications provides a kit of frameworks, tools,
 applications and examples for deploying the wildly brilliant PostgreSQL database on 
-the Mac OS X operating system. For more information on PostgreSQL 
-see: http://www.postgresql.org/.
+the Mac OS X and iOS. For more information on PostgreSQL see: http://www.postgresql.org/.
 
 ## Documentation
 
@@ -13,7 +12,7 @@ Please see https://github.com/djthorpe/postgresql-kit/wiki for the documentation
 including a changelog of recent changes.
 
 This software is in alpha development state and as such there are plenty of limitations
-and issues. Hoping to get a beta version completed in early 2013. If you know of any 
+and issues. Hoping to get a beta version completed later in 2013. If you know of any 
 issues or feature requests, please file an issue and I may be able to help out.
 
 ## License
