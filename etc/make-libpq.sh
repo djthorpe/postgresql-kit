@@ -155,10 +155,23 @@ make -C src/interfaces/libpq install || exit -1
 popd
 
 ##############################################################
+# Copy postgres-ext.h
+
+cp "${UNARCHIVE}/${VERSION}/src/include/postgres_ext.h" "${PREFIX}/include"
+
+##############################################################
 # Make symbolic links
 
 rm -f "${BUILD}/libpq-current-${PLATFORM}"
 ln -s "${PREFIX}" "${BUILD}/libpq-current-${PLATFORM}"
+
+##############################################################
+# Success
+
+echo
+echo
+echo "Installed: ${BUILD}/libpq-current-${PLATFORM}"
+echo
 
 exit 0
 
