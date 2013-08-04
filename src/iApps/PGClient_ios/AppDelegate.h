@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <PGClientKit_ios/PGClientKit.h>
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
