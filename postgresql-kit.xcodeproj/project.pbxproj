@@ -2129,12 +2129,14 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_MASTER_OBJECT_FILE = YES;
 				HEADER_SEARCH_PATHS = "${BUILT_PRODUCTS_DIR}/libpq-current/include";
 				INFOPLIST_FILE = src/Frameworks/PGClientKit/PGClientKit_ios.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
+				PRELINK_LIBS = "${BUILT_PRODUCTS_DIR}/openssl-current/lib/libcrypto.a ${BUILT_PRODUCTS_DIR}/openssl-current/lib/libssl.a ${BUILT_PRODUCTS_DIR}/libpq-current/lib/libpq.a";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
+				SDKROOT = iphoneos6.1;
 				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = framework;
 			};
@@ -2165,11 +2167,13 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_MASTER_OBJECT_FILE = YES;
 				HEADER_SEARCH_PATHS = "${BUILT_PRODUCTS_DIR}/libpq-current/include";
 				INFOPLIST_FILE = src/Frameworks/PGClientKit/PGClientKit_ios.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				PRELINK_LIBS = "${BUILT_PRODUCTS_DIR}/openssl-current/lib/libcrypto.a ${BUILT_PRODUCTS_DIR}/openssl-current/lib/libssl.a ${BUILT_PRODUCTS_DIR}/libpq-current/lib/libpq.a";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
+				SDKROOT = iphoneos6.1;
 				SKIP_INSTALL = YES;
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = framework;
@@ -2896,6 +2900,7 @@
 				1413DF0B17AD77A0009615E5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		14182361166128C000765768 /* Build configuration list for PBXNativeTarget "PGDataKit_mac" */ = {
 			isa = XCConfigurationList;
