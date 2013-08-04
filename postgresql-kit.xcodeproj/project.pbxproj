@@ -75,6 +75,15 @@
 		1413DF1A17AD786E009615E5 /* PGResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0773D8163744D90028783F /* PGResult.m */; };
 		1413DF1B17AD7872009615E5 /* PGResult+TextTable.h in Headers */ = {isa = PBXBuildFile; fileRef = 1489AEC516669A6B00C3B67D /* PGResult+TextTable.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1413DF1C17AD7878009615E5 /* PGResult+TextTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 1489AEC616669A6B00C3B67D /* PGResult+TextTable.m */; };
+		1413DF2B17AEABF6009615E5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1413DF2A17AEABF6009615E5 /* UIKit.framework */; };
+		1413DF2C17AEABF6009615E5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C168115F26BF20013A382 /* Foundation.framework */; };
+		1413DF2E17AEABF6009615E5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1413DF2D17AEABF6009615E5 /* CoreGraphics.framework */; };
+		1413DF3417AEABF6009615E5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1413DF3217AEABF6009615E5 /* InfoPlist.strings */; };
+		1413DF3617AEABF6009615E5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1413DF3517AEABF6009615E5 /* main.m */; };
+		1413DF3A17AEABF6009615E5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1413DF3917AEABF6009615E5 /* AppDelegate.m */; };
+		1413DF3C17AEABF6009615E5 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 1413DF3B17AEABF6009615E5 /* Default.png */; };
+		1413DF3E17AEABF6009615E5 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1413DF3D17AEABF6009615E5 /* Default@2x.png */; };
+		1413DF4017AEABF6009615E5 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1413DF3F17AEABF6009615E5 /* Default-568h@2x.png */; };
 		141C52CF16714F9D00648E67 /* LogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 141C52CD16714F9D00648E67 /* LogViewController.m */; };
 		141C52D016714F9D00648E67 /* LogView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 141C52CE16714F9D00648E67 /* LogView.xib */; };
 		141C52D1167150E100648E67 /* terminal.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14032D76164A6F2200CD5796 /* terminal.tiff */; };
@@ -346,6 +355,18 @@
 		1413DF0117AD77A0009615E5 /* PGClientKit_ios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework.static; includeInIndex = 0; path = PGClientKit_ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1413DF1D17AD79AC009615E5 /* PGClientKit_ios.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PGClientKit_ios.plist; sourceTree = "<group>"; };
 		1413DF1E17AD79AC009615E5 /* PGClientKit_mac.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PGClientKit_mac.plist; sourceTree = "<group>"; };
+		1413DF2917AEABF6009615E5 /* PGClient_ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PGClient_ios.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1413DF2A17AEABF6009615E5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		1413DF2D17AEABF6009615E5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
+		1413DF3117AEABF6009615E5 /* PGClient_ios-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PGClient_ios-Info.plist"; sourceTree = "<group>"; };
+		1413DF3317AEABF6009615E5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1413DF3517AEABF6009615E5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		1413DF3717AEABF6009615E5 /* PGClient_ios-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PGClient_ios-Prefix.pch"; sourceTree = "<group>"; };
+		1413DF3817AEABF6009615E5 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		1413DF3917AEABF6009615E5 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		1413DF3B17AEABF6009615E5 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		1413DF3D17AEABF6009615E5 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		1413DF3F17AEABF6009615E5 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		14182364166128C000765768 /* PGDataKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PGDataKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		14182368166129D300765768 /* PGDataKit.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PGDataKit.plist; sourceTree = "<group>"; };
 		14187D491668C5FA00A5A67D /* Controller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Controller.h; sourceTree = "<group>"; };
@@ -625,6 +646,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		1413DF2617AEABF6009615E5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1413DF2B17AEABF6009615E5 /* UIKit.framework in Frameworks */,
+				1413DF2C17AEABF6009615E5 /* Foundation.framework in Frameworks */,
+				1413DF2E17AEABF6009615E5 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		14182356166128C000765768 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -734,6 +765,37 @@
 				14032D7A164A6F2200CD5796 /* yellow.tiff */,
 			);
 			path = traffic;
+			sourceTree = "<group>";
+		};
+		1413DF2417AEABA5009615E5 /* iApps */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = iApps;
+			sourceTree = "<group>";
+		};
+		1413DF2F17AEABF6009615E5 /* PGClient_ios */ = {
+			isa = PBXGroup;
+			children = (
+				1413DF3817AEABF6009615E5 /* AppDelegate.h */,
+				1413DF3917AEABF6009615E5 /* AppDelegate.m */,
+				1413DF3017AEABF6009615E5 /* Supporting Files */,
+			);
+			path = PGClient_ios;
+			sourceTree = "<group>";
+		};
+		1413DF3017AEABF6009615E5 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				1413DF3117AEABF6009615E5 /* PGClient_ios-Info.plist */,
+				1413DF3217AEABF6009615E5 /* InfoPlist.strings */,
+				1413DF3517AEABF6009615E5 /* main.m */,
+				1413DF3717AEABF6009615E5 /* PGClient_ios-Prefix.pch */,
+				1413DF3B17AEABF6009615E5 /* Default.png */,
+				1413DF3D17AEABF6009615E5 /* Default@2x.png */,
+				1413DF3F17AEABF6009615E5 /* Default-568h@2x.png */,
+			);
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		1418234B166128A500765768 /* PGDataKit */ = {
@@ -1220,6 +1282,7 @@
 				14EE3C3A166752F80083C735 /* etc */,
 				14EE3C3E166752F80083C735 /* tar */,
 				14805A671662313E00A4019F /* old */,
+				1413DF2F17AEABF6009615E5 /* PGClient_ios */,
 				6ED763FD15F2673600687079 /* Frameworks */,
 				6ED763FC15F2673600687079 /* Products */,
 				14DDA272179BE90000C13AC2 /* postgresql-kit.wiki */,
@@ -1304,6 +1367,7 @@
 				143742C8167294B90092F862 /* Frameworks */,
 				6EB1E78C15F273350093F784 /* UnitTests */,
 				6EB1E70B15F273350093F784 /* Apps */,
+				1413DF2417AEABA5009615E5 /* iApps */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -1370,6 +1434,7 @@
 				14336165179173BB000A79D5 /* PGSchemaKit.framework */,
 				1433618517917F47000A79D5 /* PGSchemaManager.app */,
 				1413DF0117AD77A0009615E5 /* PGClientKit_ios.framework */,
+				1413DF2917AEABF6009615E5 /* PGClient_ios.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1382,6 +1447,8 @@
 				6E8C167F15F26BF20013A382 /* AppKit.framework */,
 				6E8C168115F26BF20013A382 /* Foundation.framework */,
 				6E8C167C15F26BF20013A382 /* Cocoa.framework */,
+				1413DF2A17AEABF6009615E5 /* UIKit.framework */,
+				1413DF2D17AEABF6009615E5 /* CoreGraphics.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1496,6 +1563,23 @@
 			productName = PGClientKit_ios;
 			productReference = 1413DF0117AD77A0009615E5 /* PGClientKit_ios.framework */;
 			productType = "com.apple.product-type.framework.static";
+		};
+		1413DF2817AEABF6009615E5 /* PGClient_ios */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1413DF4117AEABF6009615E5 /* Build configuration list for PBXNativeTarget "PGClient_ios" */;
+			buildPhases = (
+				1413DF2517AEABF6009615E5 /* Sources */,
+				1413DF2617AEABF6009615E5 /* Frameworks */,
+				1413DF2717AEABF6009615E5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PGClient_ios;
+			productName = PGClient_ios;
+			productReference = 1413DF2917AEABF6009615E5 /* PGClient_ios.app */;
+			productType = "com.apple.product-type.application";
 		};
 		1418234D166128C000765768 /* PGDataKit_mac */ = {
 			isa = PBXNativeTarget;
@@ -1699,6 +1783,7 @@
 				6E68ADE41635DB4400436234 /* PGClient */,
 				145D3E1E166A1AF1002FEA91 /* PGServer */,
 				1433617117917F47000A79D5 /* PGSchemaManager */,
+				1413DF2817AEABF6009615E5 /* PGClient_ios */,
 			);
 		};
 /* End PBXProject section */
@@ -1708,6 +1793,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1413DF2717AEABF6009615E5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1413DF3417AEABF6009615E5 /* InfoPlist.strings in Resources */,
+				1413DF3C17AEABF6009615E5 /* Default.png in Resources */,
+				1413DF3E17AEABF6009615E5 /* Default@2x.png in Resources */,
+				1413DF4017AEABF6009615E5 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1928,6 +2024,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		1413DF2517AEABF6009615E5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1413DF3617AEABF6009615E5 /* main.m in Sources */,
+				1413DF3A17AEABF6009615E5 /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		14182350166128C000765768 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2096,6 +2201,17 @@
 		};
 /* End PBXTargetDependency section */
 
+/* Begin PBXVariantGroup section */
+		1413DF3217AEABF6009615E5 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1413DF3317AEABF6009615E5 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
 		1413DF0A17AD77A0009615E5 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -2177,6 +2293,82 @@
 				SKIP_INSTALL = YES;
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = framework;
+			};
+			name = Release;
+		};
+		1413DF4217AEABF6009615E5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SYSTEM_APPS_DIR)/Xcode.app/Contents/Developer/Library/Frameworks\"",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PGClient_ios/PGClient_ios-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "PGClient_ios/PGClient_ios-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 2;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		1413DF4317AEABF6009615E5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SYSTEM_APPS_DIR)/Xcode.app/Contents/Developer/Library/Frameworks\"",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PGClient_ios/PGClient_ios-Prefix.pch";
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "PGClient_ios/PGClient_ios-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 2;
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
 		};
@@ -2901,6 +3093,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		1413DF4117AEABF6009615E5 /* Build configuration list for PBXNativeTarget "PGClient_ios" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1413DF4217AEABF6009615E5 /* Debug */,
+				1413DF4317AEABF6009615E5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		14182361166128C000765768 /* Build configuration list for PBXNativeTarget "PGDataKit_mac" */ = {
 			isa = XCConfigurationList;
