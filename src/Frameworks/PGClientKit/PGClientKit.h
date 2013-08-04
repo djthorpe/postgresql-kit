@@ -25,6 +25,10 @@ typedef enum {
 #import "PGResult.h"
 #import "PGStatement.h"
 
-// category includes
+#if TARGET_OS_IPHONE
+// Do not import additional header files
+#else
+// Import Mac OS X specific header files
+#import "PGClientKit+Cocoa.h"
 #import "PGResult+TextTable.h"
-
+#endif
