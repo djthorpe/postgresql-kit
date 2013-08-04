@@ -1,7 +1,7 @@
 
-
 #import "PGConverters.h"
 #import "PGConverters+Private.h"
+#import "CoreFoundation/CoreFoundation.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // forward declarations
@@ -59,7 +59,7 @@ void _pgdata2obj_cache_init() {
 		i++;
 	} while(t->name);
 #ifdef DEBUG
-	NSLog(@"pgdata2obj_cache_init: allocating %lu entries, %lu bytes for cache",(_pgdata2obj_cache_max+1),sizeof(PGResultConverterType) * (_pgdata2obj_cache_max+1));
+	NSLog(@"pgdata2obj_cache_init: allocating %u entries, %lu bytes for cache",(_pgdata2obj_cache_max+1),sizeof(PGResultConverterType) * (_pgdata2obj_cache_max+1));
 #endif
 	_pgdata2obj_cache = malloc((_pgdata2obj_cache_max+1) * sizeof(PGResultConverterType));
 	assert(_pgdata2obj_cache);
@@ -110,14 +110,14 @@ PGResultConverterType* _pgdata2obj_cache_fetch(NSUInteger oid) {
 	// return default if not found in cache
 	if(oid > _pgdata2obj_cache_max) {
 #ifdef DEBUG
-		NSLog(@"No type convertors for oid=%lu, using default",oid);
+		NSLog(@"No type convertors for oid=%u, using default",oid);
 #endif
 		return _pgdata2obj_cache;
 	}
 	PGResultConverterType* t = _pgdata2obj_cache + oid;
 	if(t->oid==0) {
 #ifdef DEBUG
-		NSLog(@"No type convertors (2) for oid=%lu, using default",oid);
+		NSLog(@"No type convertors (2) for oid=%u, using default",oid);
 #endif
 		return _pgdata2obj_cache;
 	}
@@ -156,11 +156,11 @@ id _bin2obj_int(NSUInteger oid,const void* bytes,NSUInteger size,NSStringEncodin
 	assert(size==2 || size==4 || size==8);
 	switch(size) {
 		case 2:
-			return [NSNumber numberWithShort:EndianS16_BtoN(*((SInt16* )bytes))];
+			return [NSNumber numberWithShort:(int16_t)CFSwapInt16BigToHost(*((uint16_t* )bytes))];
 		case 4:
-			return [NSNumber numberWithInteger:EndianS32_BtoN(*((SInt32* )bytes))];
+			return [NSNumber numberWithInteger:(int32_t)CFSwapInt32BigToHost(*((uint32_t* )bytes))];
 		case 8:
-			return [NSNumber numberWithLongLong:EndianS64_BtoN(*((SInt64* )bytes))];
+			return [NSNumber numberWithLongLong:(int64_t)CFSwapInt64BigToHost(*((uint64_t* )bytes))];
 	}
 	return nil;
 }
@@ -171,11 +171,11 @@ id _bin2obj_uint(NSUInteger oid,const void* bytes,NSUInteger size,NSStringEncodi
 	assert(size==2 || size==4 || size==8);
 	switch(size) {
 		case 2:
-			return [NSNumber numberWithUnsignedShort:EndianU16_BtoN(*((UInt16* )bytes))];
+			return [NSNumber numberWithUnsignedShort:CFSwapInt16BigToHost(*((uint16_t* )bytes))];
 		case 4:
-			return [NSNumber numberWithUnsignedInteger:EndianU32_BtoN(*((UInt32* )bytes))];
+			return [NSNumber numberWithUnsignedInteger:CFSwapInt32BigToHost(*((uint32_t* )bytes))];
 		case 8:
-			return [NSNumber numberWithUnsignedLongLong:EndianU64_BtoN(*((UInt64* )bytes))];
+			return [NSNumber numberWithUnsignedLongLong:CFSwapInt64BigToHost(*((uint64_t* )bytes))];
 	}
 	return nil;
 }
