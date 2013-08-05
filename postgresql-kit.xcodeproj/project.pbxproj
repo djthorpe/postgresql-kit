@@ -178,6 +178,8 @@
 		6E0773D9163744D90028783F /* PGResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0773D7163744D90028783F /* PGResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E0773DA163744D90028783F /* PGResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0773D8163744D90028783F /* PGResult.m */; };
 		6E11AC0F162F4722009A077C /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E11AC0E162F4722009A077C /* Application.m */; };
+		6E222C5017B035E90087A483 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E222C4F17B035E90087A483 /* libz.dylib */; };
+		6E222C5217B035F00087A483 /* LDAP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E222C5117B035F00087A483 /* LDAP.framework */; };
 		6E2A0EBF16374CAF00970FEF /* elephant-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43E615F3A465001ED3BE /* elephant-64.png */; };
 		6E2A0EC21637540400970FEF /* PGClientKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
 		6E2DFD2E163C54F400911094 /* TerminalView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2DFD2D163C54F400911094 /* TerminalView.m */; };
@@ -588,6 +590,8 @@
 		6E1B43EB15F3A465001ED3BE /* gradient-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gradient-1.png"; sourceTree = "<group>"; };
 		6E1B43ED15F3A465001ED3BE /* logo_w_elephant.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = logo_w_elephant.pdf; sourceTree = "<group>"; };
 		6E1B43F915F3A465001ED3BE /* strapline-200x40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "strapline-200x40.png"; sourceTree = "<group>"; };
+		6E222C4F17B035E90087A483 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		6E222C5117B035F00087A483 /* LDAP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LDAP.framework; path = System/Library/Frameworks/LDAP.framework; sourceTree = SDKROOT; };
 		6E2DFD2C163C54F400911094 /* TerminalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TerminalView.h; sourceTree = "<group>"; };
 		6E2DFD2D163C54F400911094 /* TerminalView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TerminalView.m; sourceTree = "<group>"; };
 		6E48B370160604270044A6CB /* PGServer+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PGServer+Private.h"; sourceTree = "<group>"; };
@@ -739,6 +743,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6E222C5217B035F00087A483 /* LDAP.framework in Frameworks */,
+				6E222C5017B035E90087A483 /* libz.dylib in Frameworks */,
 				14D7C3E617AD721D00479231 /* Foundation.framework in Frameworks */,
 				148D2F03179557330005DB1B /* Cocoa.framework in Frameworks */,
 			);
@@ -1304,8 +1310,9 @@
 		6E256FDC15F252620079AD2D = {
 			isa = PBXGroup;
 			children = (
+				6E222C5117B035F00087A483 /* LDAP.framework */,
+				6E222C4F17B035E90087A483 /* libz.dylib */,
 				14CF6E931667488500D2DF78 /* README.md */,
-				6E6A7E3F17B0311D00032B48 /* postgresql-kit.wiki */,
 				6EB1E70A15F273350093F784 /* src */,
 				6E1B43DC15F3A465001ED3BE /* resources */,
 				14EE3C35166752F80083C735 /* doc */,
@@ -1314,6 +1321,7 @@
 				14805A671662313E00A4019F /* old */,
 				6ED763FD15F2673600687079 /* Frameworks */,
 				6ED763FC15F2673600687079 /* Products */,
+				6E6A7E3F17B0311D00032B48 /* postgresql-kit.wiki */,
 			);
 			sourceTree = "<group>";
 		};
