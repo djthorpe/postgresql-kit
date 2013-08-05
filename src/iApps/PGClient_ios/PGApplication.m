@@ -1,17 +1,20 @@
 
-#import "AppDelegate.h"
+#import "PGApplication.h"
 #import "PGClientView.h"
 
-@implementation AppDelegate
+@implementation PGApplication
+
+////////////////////////////////////////////////////////////////////////////////
+// UIApplicationDelegate implementation
 
 -(BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    [self setWindow:[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]]];
+
+	_connection = [[PGConnection alloc] init];
+	NSParameterAssert(_connection);
 	
-	PGConnection* connection = [[PGConnection alloc] init];
-	NSLog(@"connection = %@",connection);
-	
-	self.window.rootViewController = [[PGClientView alloc] init];
-	[self.window makeKeyAndVisible];
+	[[self window] setRootViewController:[[PGClientView alloc] init]];
+	[[self window] makeKeyAndVisible];
 	
     return YES;
 }
@@ -36,6 +39,19 @@
 
 -(void)applicationWillTerminate:(UIApplication *)application {
 	// Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// PGClientDelegate implementation
+
+-(BOOL)connect {
+	NSURL* url = [NSURL URLWithString:@"pgsql://localhost/"];
+	NSError* error = nil;
+	BOOL isConnected = [_connection connectWithURL:url error:&error];
+	if(error) {
+		NSLog(@"Error: %@",error);
+	}
+	return isConnected;
 }
 
 @end

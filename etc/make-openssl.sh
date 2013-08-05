@@ -56,25 +56,6 @@ then
     exit 1
 fi
 
-# Check for the UNARCHIVE  directories, use TMP if necessary
-if [ "${UNARCHIVE}" == "" ]
-then
-	UNARCHIVE="${TMPDIR}/${VERSION}/src"
-fi
-
-if [ ! -d "${UNARCHIVE}" ]
-then
-	echo "mkdir ${UNARCHIVE}"
-	mkdir -pv "${UNARCHIVE}"
-fi
-
-##############################################################
-# remove existing build directory, unarchive
-
-rm -fr "${UNARCHIVE}"
-mkdir "${UNARCHIVE}"
-tar -C "${UNARCHIVE}" -zxf "${TARZ}"
-
 ##############################################################
 # Architectures
 
@@ -132,6 +113,25 @@ then
   echo "Assuming already exists: ${PREFIX}"
   exit 0
 fi
+
+##############################################################
+# remove existing build directory, unarchive
+
+# Check for the UNARCHIVE  directories, use TMP if necessary
+if [ "${UNARCHIVE}" == "" ]
+then
+UNARCHIVE="${TMPDIR}/${VERSION}/src"
+fi
+
+if [ ! -d "${UNARCHIVE}" ]
+then
+echo "mkdir ${UNARCHIVE}"
+mkdir -pv "${UNARCHIVE}"
+fi
+
+rm -fr "${UNARCHIVE}"
+mkdir "${UNARCHIVE}"
+tar -C "${UNARCHIVE}" -zxf "${TARZ}"
 
 ##############################################################
 # Building

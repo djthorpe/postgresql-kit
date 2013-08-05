@@ -2,7 +2,9 @@
 #import <UIKit/UIKit.h>
 
 @interface PGClientView : UIViewController {
-	IBOutlet UILabel* _clientVersionLabel;
+	__weak IBOutlet UILabel* _statusLabel;
 }
+
+-(IBAction)doConnect:(id)sender;
 
 @end
