@@ -65,12 +65,6 @@ then
   echo "Using openssl libraries: ${OPENSSL}"
 fi
 
-# Check for the UNARCHIVE  directories, use TMP if necessary
-if [ "${UNARCHIVE}" == "" ]
-then
-	UNARCHIVE="${TMPDIR}/${VERSION}/src"
-fi
-
 ##############################################################
 # Set version number
 
@@ -80,13 +74,6 @@ then
   echo "mkdir ${UNARCHIVE}"
   mkdir -pv "${UNARCHIVE}"
 fi
-
-##############################################################
-# remove existing build directory, unarchive
-
-rm -fr "${UNARCHIVE}"
-mkdir "${UNARCHIVE}"
-tar -C "${UNARCHIVE}" -zxf "${TARZ}"
 
 ##############################################################
 # Architectures
@@ -123,7 +110,6 @@ then
   CONFIGURE_FLAGS="${CONFIGURE_FLAGS} --with-openssl --with-includes=${WITH_INCLUDES} --with-libs=${WITH_LIBS}"
 fi
 
-
 ##############################################################
 # Check to see if already built, ignore if so
 
@@ -135,6 +121,19 @@ then
   exit 0
 fi
 
+
+##############################################################
+# remove existing build directory, unarchive
+
+# Check for the UNARCHIVE  directories, use TMP if necessary
+if [ "${UNARCHIVE}" == "" ]
+then
+UNARCHIVE="${TMPDIR}/${VERSION}/src"
+fi
+
+rm -fr "${UNARCHIVE}"
+mkdir "${UNARCHIVE}"
+tar -C "${UNARCHIVE}" -zxf "${TARZ}"
 
 ##############################################################
 # Building
