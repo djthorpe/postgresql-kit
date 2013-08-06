@@ -88,10 +88,6 @@
 		141E7F0F16518D23009D81E8 /* PGFoundationServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 141E7F0E16518D23009D81E8 /* PGFoundationServer.m */; };
 		14237AEF166E734A000DBCE1 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14237AED166E6FEC000DBCE1 /* MainWindow.xib */; };
 		14237AF2166E7413000DBCE1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 14237AF1166E7413000DBCE1 /* AppDelegate.m */; };
-		14237AF5166E758F000DBCE1 /* HostAccessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14237AF4166E758E000DBCE1 /* HostAccessViewController.m */; };
-		14237AF8166E76DA000DBCE1 /* HostAccessView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14237AF7166E76DA000DBCE1 /* HostAccessView.xib */; };
-		14237AFB166E7B58000DBCE1 /* ConfigurationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14237AFA166E7B58000DBCE1 /* ConfigurationView.xib */; };
-		14237AFE166E7BA2000DBCE1 /* ConfigurationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14237AFD166E7BA2000DBCE1 /* ConfigurationViewController.m */; };
 		14284F4D1677D7B900B805C9 /* UsersRolesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14284F4B1677D7B900B805C9 /* UsersRolesViewController.m */; };
 		14284F4E1677D7B900B805C9 /* UsersRolesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14284F4C1677D7B900B805C9 /* UsersRolesView.xib */; };
 		14284F521677D94800B805C9 /* DatabaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14284F501677D94800B805C9 /* DatabaseViewController.m */; };
@@ -117,11 +113,11 @@
 		145695F516718D39004471F9 /* ConnectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 145695F316718D39004471F9 /* ConnectionView.xib */; };
 		145695F616718EE2004471F9 /* network.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14032DCD164A726400CD5796 /* network.tiff */; };
 		145CD70D168E5448007B0F06 /* SQL.strings in Resources */ = {isa = PBXBuildFile; fileRef = 145CD70C168E5448007B0F06 /* SQL.strings */; };
-		145CD710168E58FC007B0F06 /* PGServerKit_mac.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit_mac.framework */; };
+		145CD710168E58FC007B0F06 /* PGServerKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
 		145CD711168E5901007B0F06 /* PGClientKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
 		145D3E21166A1AF1002FEA91 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C167C15F26BF20013A382 /* Cocoa.framework */; };
 		145D3E37166A1BD3002FEA91 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB1E72D15F273350093F784 /* main.m */; };
-		145D3E39166A1C1E002FEA91 /* PGServerKit_mac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit_mac.framework */; };
+		145D3E39166A1C1E002FEA91 /* PGServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
 		145D3E3A166A1C3A002FEA91 /* elephant.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43E715F3A465001ED3BE /* elephant.icns */; };
 		147D65D1168CC2F20034C7EC /* gear-14x14.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43EA15F3A465001ED3BE /* gear-14x14.png */; };
 		14805A1716622F9000A4019F /* PGStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 14805A1516622F9000A4019F /* PGStore.h */; };
@@ -149,15 +145,6 @@
 		14A228D01672389D007B16A2 /* ConnectionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14A228CE1672389D007B16A2 /* ConnectionsViewController.m */; };
 		14A228D11672389D007B16A2 /* ConnectionsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14A228CF1672389D007B16A2 /* ConnectionsView.xib */; };
 		14A7FFA8168FA705007FC9B0 /* AppPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 14A7FFA7168FA705007FC9B0 /* AppPreferences.m */; };
-		14B7DCF9167A6A410064B37F /* PGServerConfiguration+Helpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 14B7DCF7167A6A410064B37F /* PGServerConfiguration+Helpers.h */; };
-		14B7DCFA167A6A410064B37F /* PGServerConfiguration+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 14B7DCF8167A6A410064B37F /* PGServerConfiguration+Helpers.m */; };
-		14D2FCB5166A16AC005E6390 /* PGServerConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 14D2FCAE166A16AC005E6390 /* PGServerConfiguration.h */; };
-		14D2FCB6166A16AC005E6390 /* PGServerConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 14D2FCAF166A16AC005E6390 /* PGServerConfiguration.m */; };
-		14D2FCB7166A16AC005E6390 /* PGServerHostAccess.h in Headers */ = {isa = PBXBuildFile; fileRef = 14D2FCB0166A16AC005E6390 /* PGServerHostAccess.h */; };
-		14D2FCB8166A16AC005E6390 /* PGServerHostAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = 14D2FCB1166A16AC005E6390 /* PGServerHostAccess.m */; };
-		14D2FCB9166A16AC005E6390 /* PGTokenizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 14D2FCB2166A16AC005E6390 /* PGTokenizer.h */; };
-		14D2FCBA166A16AC005E6390 /* PGTokenizer.lm in Sources */ = {isa = PBXBuildFile; fileRef = 14D2FCB3166A16AC005E6390 /* PGTokenizer.lm */; };
-		14D2FCBB166A16AC005E6390 /* PGTokenizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 14D2FCB4166A16AC005E6390 /* PGTokenizer.m */; };
 		14D7C3E617AD721D00479231 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C168115F26BF20013A382 /* Foundation.framework */; };
 		14D7C3E717AD729000479231 /* PGClientParams.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EE23F62163207DA00C99BA7 /* PGClientParams.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		14DECDA116B56D7300178235 /* PGConverters.h in Headers */ = {isa = PBXBuildFile; fileRef = 14DECD9F16B56D7300178235 /* PGConverters.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -204,11 +191,9 @@
 		6EB5485B17AECD2A000F4AA2 /* elephant-144.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EB5485917AECCAF000F4AA2 /* elephant-144.png */; };
 		6ECA7ADE15F3637600AF2B70 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C168115F26BF20013A382 /* Foundation.framework */; };
 		6ECA7AE915F3638500AF2B70 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ECA7AD715F3635A00AF2B70 /* main.m */; };
-		6ECA7AEA15F363C400AF2B70 /* PGServerKit_mac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit_mac.framework */; };
+		6ECA7AEA15F363C400AF2B70 /* PGServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
 		6ED7EA7C1637219B0040066F /* PGLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ED7EA7B1637219B0040066F /* PGLoginController.m */; };
 		6ED7EA7F1637249C0040066F /* PGLoginController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6ED7EA7E1637249C0040066F /* PGLoginController.xib */; };
-		6EDFA08415F3FCDF000C7BA4 /* PGServer+Backup.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EDFA08215F3FCDF000C7BA4 /* PGServer+Backup.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6EDFA08515F3FCDF000C7BA4 /* PGServer+Backup.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EDFA08315F3FCDF000C7BA4 /* PGServer+Backup.m */; };
 		6EE23F5D1631EF7500C99BA7 /* PGClientKit+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EE23F5A1631EF7500C99BA7 /* PGClientKit+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6EE23F5E1631EF7500C99BA7 /* PGConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EE23F5B1631EF7500C99BA7 /* PGConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6EE23F5F1631EF7500C99BA7 /* PGConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE23F5C1631EF7500C99BA7 /* PGConnection.m */; };
@@ -273,6 +258,20 @@
 			remoteGlobalIDString = 14280457166811D700A61BF6;
 			remoteInfo = openssl;
 		};
+		6E14274C17B182700022238D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E256FDE15F252620079AD2D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6ED85B3516288C4800A6DC02;
+			remoteInfo = PGClientKit_mac;
+		};
+		6E14274E17B182700022238D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E256FDE15F252620079AD2D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6ED763FA15F2673600687079;
+			remoteInfo = PGServerKit_mac;
+		};
 		6E4DEC92162CC3A7008B26BD /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6E256FDE15F252620079AD2D /* Project object */;
@@ -321,7 +320,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				145CD710168E58FC007B0F06 /* PGServerKit_mac.framework in CopyFiles */,
+				145CD710168E58FC007B0F06 /* PGServerKit.framework in CopyFiles */,
 				145CD711168E5901007B0F06 /* PGClientKit.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -415,12 +414,6 @@
 		14237AED166E6FEC000DBCE1 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		14237AF0166E7413000DBCE1 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		14237AF1166E7413000DBCE1 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		14237AF3166E758E000DBCE1 /* HostAccessViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HostAccessViewController.h; sourceTree = "<group>"; };
-		14237AF4166E758E000DBCE1 /* HostAccessViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HostAccessViewController.m; sourceTree = "<group>"; };
-		14237AF7166E76DA000DBCE1 /* HostAccessView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HostAccessView.xib; sourceTree = "<group>"; };
-		14237AFA166E7B58000DBCE1 /* ConfigurationView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConfigurationView.xib; sourceTree = "<group>"; };
-		14237AFC166E7BA2000DBCE1 /* ConfigurationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfigurationViewController.h; sourceTree = "<group>"; };
-		14237AFD166E7BA2000DBCE1 /* ConfigurationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfigurationViewController.m; sourceTree = "<group>"; };
 		1426753117A1B65000956F22 /* make-libpq.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "make-libpq.sh"; sourceTree = "<group>"; };
 		142804551668114400A61BF6 /* openssl-1.0.1c.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = "openssl-1.0.1c.tar.gz"; sourceTree = "<group>"; };
 		142804561668115600A61BF6 /* make-openssl.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "make-openssl.sh"; sourceTree = "<group>"; };
@@ -553,16 +546,7 @@
 		14A228CF1672389D007B16A2 /* ConnectionsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConnectionsView.xib; sourceTree = "<group>"; };
 		14A7FFA6168FA705007FC9B0 /* AppPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppPreferences.h; sourceTree = "<group>"; };
 		14A7FFA7168FA705007FC9B0 /* AppPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppPreferences.m; sourceTree = "<group>"; };
-		14B7DCF7167A6A410064B37F /* PGServerConfiguration+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PGServerConfiguration+Helpers.h"; sourceTree = "<group>"; };
-		14B7DCF8167A6A410064B37F /* PGServerConfiguration+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PGServerConfiguration+Helpers.m"; sourceTree = "<group>"; };
 		14CF6E931667488500D2DF78 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
-		14D2FCAE166A16AC005E6390 /* PGServerConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGServerConfiguration.h; sourceTree = "<group>"; };
-		14D2FCAF166A16AC005E6390 /* PGServerConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGServerConfiguration.m; sourceTree = "<group>"; };
-		14D2FCB0166A16AC005E6390 /* PGServerHostAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGServerHostAccess.h; sourceTree = "<group>"; };
-		14D2FCB1166A16AC005E6390 /* PGServerHostAccess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGServerHostAccess.m; sourceTree = "<group>"; };
-		14D2FCB2166A16AC005E6390 /* PGTokenizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGTokenizer.h; sourceTree = "<group>"; };
-		14D2FCB3166A16AC005E6390 /* PGTokenizer.lm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; path = PGTokenizer.lm; sourceTree = "<group>"; };
-		14D2FCB4166A16AC005E6390 /* PGTokenizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGTokenizer.m; sourceTree = "<group>"; };
 		14DECD9F16B56D7300178235 /* PGConverters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGConverters.h; sourceTree = "<group>"; };
 		14DECDA016B56D7300178235 /* PGConverters+Object2Data.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PGConverters+Object2Data.m"; sourceTree = "<group>"; };
 		14DECDA516B56DF300178235 /* PGConverters+Data2Object.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PGConverters+Data2Object.m"; sourceTree = "<group>"; };
@@ -632,14 +616,12 @@
 		6EB5485917AECCAF000F4AA2 /* elephant-144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "elephant-144.png"; sourceTree = "<group>"; };
 		6ECA7AD715F3635A00AF2B70 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		6ECA7ADC15F3637600AF2B70 /* PGFoundationServer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PGFoundationServer; sourceTree = BUILT_PRODUCTS_DIR; };
-		6ED763FB15F2673600687079 /* PGServerKit_mac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PGServerKit_mac.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6ED763FB15F2673600687079 /* PGServerKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PGServerKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6ED7EA7A1637219B0040066F /* PGLoginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGLoginController.h; sourceTree = "<group>"; };
 		6ED7EA7B1637219B0040066F /* PGLoginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGLoginController.m; sourceTree = "<group>"; };
 		6ED7EA7E1637249C0040066F /* PGLoginController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PGLoginController.xib; sourceTree = "<group>"; };
 		6ED85B4616288C4800A6DC02 /* PGClientKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PGClientKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6ED85B4916288D0200A6DC02 /* PGClientKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGClientKit.h; sourceTree = "<group>"; };
-		6EDFA08215F3FCDF000C7BA4 /* PGServer+Backup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PGServer+Backup.h"; sourceTree = "<group>"; };
-		6EDFA08315F3FCDF000C7BA4 /* PGServer+Backup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PGServer+Backup.m"; sourceTree = "<group>"; };
 		6EE23F5A1631EF7500C99BA7 /* PGClientKit+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PGClientKit+Private.h"; sourceTree = "<group>"; };
 		6EE23F5B1631EF7500C99BA7 /* PGConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGConnection.h; sourceTree = "<group>"; };
 		6EE23F5C1631EF7500C99BA7 /* PGConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGConnection.m; sourceTree = "<group>"; };
@@ -700,7 +682,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				14EB375516713B3600B038B6 /* PGClientKit.framework in Frameworks */,
-				145D3E39166A1C1E002FEA91 /* PGServerKit_mac.framework in Frameworks */,
+				145D3E39166A1C1E002FEA91 /* PGServerKit.framework in Frameworks */,
 				145D3E21166A1AF1002FEA91 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -728,7 +710,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6ECA7ADE15F3637600AF2B70 /* Foundation.framework in Frameworks */,
-				6ECA7AEA15F363C400AF2B70 /* PGServerKit_mac.framework in Frameworks */,
+				6ECA7AEA15F363C400AF2B70 /* PGServerKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -930,30 +912,12 @@
 				14284F481677D52400B805C9 /* Databases */,
 				141C52CA16714F7200648E67 /* Logs */,
 				145695EF16718D0B004471F9 /* Network */,
-				14237AF9166E7B31000DBCE1 /* Configuration */,
-				14237AF6166E76A7000DBCE1 /* HostAccessRules */,
 				14A228D3167238A3007B16A2 /* Connections */,
 				14237AED166E6FEC000DBCE1 /* MainWindow.xib */,
 				145D3E19166A19AC002FEA91 /* PGServer.plist */,
 				145CD70C168E5448007B0F06 /* SQL.strings */,
 			);
 			path = PGServer;
-			sourceTree = "<group>";
-		};
-		141FCD061646CC7800197F3F /* Configuration */ = {
-			isa = PBXGroup;
-			children = (
-				14D2FCAE166A16AC005E6390 /* PGServerConfiguration.h */,
-				14D2FCAF166A16AC005E6390 /* PGServerConfiguration.m */,
-				14B7DCF7167A6A410064B37F /* PGServerConfiguration+Helpers.h */,
-				14B7DCF8167A6A410064B37F /* PGServerConfiguration+Helpers.m */,
-				14D2FCB0166A16AC005E6390 /* PGServerHostAccess.h */,
-				14D2FCB1166A16AC005E6390 /* PGServerHostAccess.m */,
-				14D2FCB2166A16AC005E6390 /* PGTokenizer.h */,
-				14D2FCB3166A16AC005E6390 /* PGTokenizer.lm */,
-				14D2FCB4166A16AC005E6390 /* PGTokenizer.m */,
-			);
-			name = Configuration;
 			sourceTree = "<group>";
 		};
 		1422C5B21663FD3800FB22FE /* PGResult */ = {
@@ -965,26 +929,6 @@
 				1489AEC616669A6B00C3B67D /* PGResult+TextTable.m */,
 			);
 			name = PGResult;
-			sourceTree = "<group>";
-		};
-		14237AF6166E76A7000DBCE1 /* HostAccessRules */ = {
-			isa = PBXGroup;
-			children = (
-				14237AF3166E758E000DBCE1 /* HostAccessViewController.h */,
-				14237AF4166E758E000DBCE1 /* HostAccessViewController.m */,
-				14237AF7166E76DA000DBCE1 /* HostAccessView.xib */,
-			);
-			name = HostAccessRules;
-			sourceTree = "<group>";
-		};
-		14237AF9166E7B31000DBCE1 /* Configuration */ = {
-			isa = PBXGroup;
-			children = (
-				14237AFC166E7BA2000DBCE1 /* ConfigurationViewController.h */,
-				14237AFD166E7BA2000DBCE1 /* ConfigurationViewController.m */,
-				14237AFA166E7B58000DBCE1 /* ConfigurationView.xib */,
-			);
-			name = Configuration;
 			sourceTree = "<group>";
 		};
 		14284F481677D52400B805C9 /* Databases */ = {
@@ -1425,13 +1369,10 @@
 			isa = PBXGroup;
 			children = (
 				6EB1E74015F273350093F784 /* PGServerKit.h */,
-				6EDFA08215F3FCDF000C7BA4 /* PGServer+Backup.h */,
-				6EDFA08315F3FCDF000C7BA4 /* PGServer+Backup.m */,
 				6E48B370160604270044A6CB /* PGServer+Private.h */,
 				6EA41EEE1610E7DB00E81046 /* PGServer.h */,
 				6EA41EEF1610E7DB00E81046 /* PGServer.m */,
 				6EB1E73F15F273350093F784 /* PGServerKit.plist */,
-				141FCD061646CC7800197F3F /* Configuration */,
 			);
 			path = PGServerKit;
 			sourceTree = "<group>";
@@ -1460,7 +1401,7 @@
 		6ED763FC15F2673600687079 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6ED763FB15F2673600687079 /* PGServerKit_mac.framework */,
+				6ED763FB15F2673600687079 /* PGServerKit.framework */,
 				6ECA7ADC15F3637600AF2B70 /* PGFoundationServer */,
 				6ED85B4616288C4800A6DC02 /* PGClientKit.framework */,
 				6E4DEC85162CC38D008B26BD /* PGFoundationClient */,
@@ -1543,12 +1484,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6EB1E79615F282910093F784 /* PGServerKit.h in Headers */,
-				6EDFA08415F3FCDF000C7BA4 /* PGServer+Backup.h in Headers */,
 				6EA41EF01610E7DB00E81046 /* PGServer.h in Headers */,
-				14D2FCB5166A16AC005E6390 /* PGServerConfiguration.h in Headers */,
-				14D2FCB7166A16AC005E6390 /* PGServerHostAccess.h in Headers */,
-				14D2FCB9166A16AC005E6390 /* PGTokenizer.h in Headers */,
-				14B7DCF9167A6A410064B37F /* PGServerConfiguration+Helpers.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1683,6 +1619,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				6E14274D17B182700022238D /* PBXTargetDependency */,
+				6E14274F17B182700022238D /* PBXTargetDependency */,
 			);
 			name = PGServer;
 			productName = Configuration;
@@ -1759,7 +1697,7 @@
 			);
 			name = PGServerKit_mac;
 			productName = PGServerKit;
-			productReference = 6ED763FB15F2673600687079 /* PGServerKit_mac.framework */;
+			productReference = 6ED763FB15F2673600687079 /* PGServerKit.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		6ED85B3516288C4800A6DC02 /* PGClientKit_mac */ = {
@@ -1877,8 +1815,6 @@
 				148F88C9166D63AC0088D3DF /* ResizeControl.png in Resources */,
 				148F88CA166D63AE0088D3DF /* Gradient.png in Resources */,
 				14237AEF166E734A000DBCE1 /* MainWindow.xib in Resources */,
-				14237AF8166E76DA000DBCE1 /* HostAccessView.xib in Resources */,
-				14237AFB166E7B58000DBCE1 /* ConfigurationView.xib in Resources */,
 				14EB37501671325500B038B6 /* elephant-32.png in Resources */,
 				14EB37511671325900B038B6 /* green.tiff in Resources */,
 				14EB37521671325E00B038B6 /* red.tiff in Resources */,
@@ -2038,7 +1974,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "VERSION=postgresql-current\nBUILD=${BUILT_PRODUCTS_DIR}\nPREFIX=${BUILD}/${VERSION}\nDESTINATION=${BUILD}/${CONTENTS_FOLDER_PATH}/Resources\n\necho Installing from ${PREFIX} to ${DESTINATION}/${VERSION}\n\n# copy bin directory\necho cp -r ${PREFIX}/bin ${DESTINATION}/${VERSION}\ninstall -d ${DESTINATION}/${VERSION}/bin\ncp -r ${PREFIX}/bin ${DESTINATION}/${VERSION}\n\n# copy share directory\necho cp -r ${PREFIX}/share ${DESTINATION}/${VERSION}\ninstall -d ${DESTINATION}/${VERSION}/share\ncp -r ${PREFIX}/share ${DESTINATION}/${VERSION}\n\n# copy lib directory\necho cp -r ${PREFIX}/lib ${DESTINATION}/${VERSION}\ninstall -d ${DESTINATION}/${VERSION}/lib\ncp -r ${PREFIX}/lib ${DESTINATION}/${VERSION}\n\n";
+			shellScript = "VERSION=postgresql-current-mac_x86_64\nBUILD=${BUILT_PRODUCTS_DIR}\nPREFIX=${BUILD}/${VERSION}\nDESTINATION=${BUILD}/${CONTENTS_FOLDER_PATH}/Resources\n\necho Installing from ${PREFIX} to ${DESTINATION}/${VERSION}\n\n# copy bin directory\necho cp -r ${PREFIX}/bin ${DESTINATION}/${VERSION}\ninstall -d ${DESTINATION}/${VERSION}/bin\ncp -r ${PREFIX}/bin ${DESTINATION}/${VERSION}\n\n# copy share directory\necho cp -r ${PREFIX}/share ${DESTINATION}/${VERSION}\ninstall -d ${DESTINATION}/${VERSION}/share\ncp -r ${PREFIX}/share ${DESTINATION}/${VERSION}\n\n# copy lib directory\necho cp -r ${PREFIX}/lib ${DESTINATION}/${VERSION}\ninstall -d ${DESTINATION}/${VERSION}/lib\ncp -r ${PREFIX}/lib ${DESTINATION}/${VERSION}\n\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -2102,8 +2038,6 @@
 			files = (
 				145D3E37166A1BD3002FEA91 /* main.m in Sources */,
 				14237AF2166E7413000DBCE1 /* AppDelegate.m in Sources */,
-				14237AF5166E758F000DBCE1 /* HostAccessViewController.m in Sources */,
-				14237AFE166E7BA2000DBCE1 /* ConfigurationViewController.m in Sources */,
 				14EB374C1671204A00B038B6 /* NSWindow+ResizeAdditions.m in Sources */,
 				14EB374F16712BC000B038B6 /* ViewController.m in Sources */,
 				141C52CF16714F9D00648E67 /* LogViewController.m in Sources */,
@@ -2150,13 +2084,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6EDFA08515F3FCDF000C7BA4 /* PGServer+Backup.m in Sources */,
 				6EA41EF11610E7DB00E81046 /* PGServer.m in Sources */,
-				14D2FCB6166A16AC005E6390 /* PGServerConfiguration.m in Sources */,
-				14D2FCB8166A16AC005E6390 /* PGServerHostAccess.m in Sources */,
-				14D2FCBA166A16AC005E6390 /* PGTokenizer.lm in Sources */,
-				14D2FCBB166A16AC005E6390 /* PGTokenizer.m in Sources */,
-				14B7DCFA167A6A410064B37F /* PGServerConfiguration+Helpers.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2217,6 +2145,16 @@
 			isa = PBXTargetDependency;
 			target = 14280457166811D700A61BF6 /* openssl_mac */;
 			targetProxy = 143398D4168F4F1A00234FBF /* PBXContainerItemProxy */;
+		};
+		6E14274D17B182700022238D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6ED85B3516288C4800A6DC02 /* PGClientKit_mac */;
+			targetProxy = 6E14274C17B182700022238D /* PBXContainerItemProxy */;
+		};
+		6E14274F17B182700022238D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6ED763FA15F2673600687079 /* PGServerKit_mac */;
+			targetProxy = 6E14274E17B182700022238D /* PBXContainerItemProxy */;
 		};
 		6E4DEC93162CC3A7008B26BD /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -2280,7 +2218,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRELINK_LIBS = "${BUILT_PRODUCTS_DIR}/openssl-current/lib/libcrypto.a ${BUILT_PRODUCTS_DIR}/openssl-current/lib/libssl.a ${BUILT_PRODUCTS_DIR}/libpq-current/lib/libpq.a";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos6.1;
+				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = framework;
 			};
@@ -2318,7 +2256,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRELINK_LIBS = "${BUILT_PRODUCTS_DIR}/openssl-current/lib/libcrypto.a ${BUILT_PRODUCTS_DIR}/openssl-current/lib/libssl.a ${BUILT_PRODUCTS_DIR}/libpq-current/lib/libpq.a";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos6.1;
+				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = framework;
@@ -2486,7 +2424,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = openssl;
-				SDKROOT = macosx10.8;
+				SDKROOT = macosx;
 				SUPPORTED_PLATFORMS = macosx;
 			};
 			name = Debug;
@@ -2498,7 +2436,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = openssl;
-				SDKROOT = macosx10.8;
+				SDKROOT = macosx;
 				SUPPORTED_PLATFORMS = macosx;
 			};
 			name = Release;
@@ -2723,7 +2661,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.8;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -2733,7 +2671,7 @@
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.8;
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};
@@ -2860,7 +2798,7 @@
 				MACH_O_TYPE = mh_execute;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "openssl - Mac 64 bit copy";
-				SDKROOT = iphoneos6.1;
+				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 			};
 			name = Debug;
@@ -2876,7 +2814,7 @@
 				MACH_O_TYPE = mh_execute;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "openssl - Mac 64 bit copy";
-				SDKROOT = iphoneos6.1;
+				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 			};
 			name = Release;
@@ -2890,7 +2828,7 @@
 				CONFIGURATION_TEMP_DIR = "$(PROJECT_TEMP_DIR)/$(CONFIGURATION)";
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "postgresql - Mac copy";
-				SDKROOT = iphoneos6.1;
+				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 			};
 			name = Debug;
@@ -2903,7 +2841,7 @@
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)";
 				CONFIGURATION_TEMP_DIR = "$(PROJECT_TEMP_DIR)/$(CONFIGURATION)";
 				PRODUCT_NAME = "postgresql - Mac copy";
-				SDKROOT = iphoneos6.1;
+				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 			};
 			name = Release;
@@ -2993,8 +2931,8 @@
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.8;
+				PRODUCT_NAME = PGServerKit;
+				SDKROOT = macosx;
 				SKIP_INSTALL = NO;
 				WRAPPER_EXTENSION = framework;
 			};
@@ -3025,8 +2963,8 @@
 				INFOPLIST_FILE = src/Frameworks/PGServerKit/PGServerKit.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.8;
+				PRODUCT_NAME = PGServerKit;
+				SDKROOT = macosx;
 				SKIP_INSTALL = NO;
 				WRAPPER_EXTENSION = framework;
 			};
@@ -3072,7 +3010,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRELINK_LIBS = "${BUILT_PRODUCTS_DIR}/postgresql-current-mac_x86_64/lib/libpq.a ${BUILT_PRODUCTS_DIR}/openssl-current-mac_x86_64/lib/libcrypto.a ${BUILT_PRODUCTS_DIR}/openssl-current-mac_x86_64/lib/libssl.a";
 				PRODUCT_NAME = PGClientKit;
-				SDKROOT = macosx10.8;
+				SDKROOT = macosx;
 				SKIP_INSTALL = NO;
 				WRAPPER_EXTENSION = framework;
 			};
@@ -3111,7 +3049,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRELINK_LIBS = "${BUILT_PRODUCTS_DIR}/postgresql-current-mac_x86_64/lib/libpq.a ${BUILT_PRODUCTS_DIR}/openssl-current-mac_x86_64/lib/libcrypto.a ${BUILT_PRODUCTS_DIR}/openssl-current-mac_x86_64/lib/libssl.a";
 				PRODUCT_NAME = PGClientKit;
-				SDKROOT = macosx10.8;
+				SDKROOT = macosx;
 				SKIP_INSTALL = NO;
 				WRAPPER_EXTENSION = framework;
 			};

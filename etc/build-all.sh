@@ -5,7 +5,6 @@
 # Syntax:
 #   build-all.sh
 
-
 CURRENT_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 CONFIGURATION=Release
 PROJECT=${CURRENT_PATH}/../postgresql-kit.xcodeproj
@@ -19,7 +18,7 @@ xcodebuild -project ${PROJECT} -target "PGClientKit_ios" -configuration ${CONFIG
 xcodebuild -project ${PROJECT} -target "openssl_mac" -configuration ${CONFIGURATION} || exit -1
 xcodebuild -project ${PROJECT} -target "postgresql_mac" -configuration ${CONFIGURATION} || exit -1
 xcodebuild -project ${PROJECT} -target "PGClientKit_mac" -configuration ${CONFIGURATION} || exit -1
-xcodebuild -project ${PROJECT} -target "PGSchemaKit_mac" -configuration ${CONFIGURATION} || exit -1
 xcodebuild -project ${PROJECT} -target "PGServerKit_mac" -configuration ${CONFIGURATION} || exit -1
+xcodebuild -project ${PROJECT} -target "PGSchemaKit_mac" -configuration ${CONFIGURATION} || exit -1
 
 

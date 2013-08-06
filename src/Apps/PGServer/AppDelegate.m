@@ -4,8 +4,6 @@
 #import "ViewController.h"
 
 #import "LogViewController.h"
-#import "HostAccessViewController.h"
-#import "ConfigurationViewController.h"
 #import "ConnectionViewController.h"
 #import "ConnectionsViewController.h"
 #import "UsersRolesViewController.h"
@@ -90,8 +88,6 @@ const NSInteger PGServerMenuTagRestart = 4;
 -(void)awakeFromNib {
 	// add the views
 	[self _addViewController:[[LogViewController alloc] init]];
-	[self _addViewController:[[HostAccessViewController alloc] init]];
-	[self _addViewController:[[ConfigurationViewController alloc] init]];
 	[self _addViewController:[[ConnectionViewController alloc] init]];
 	[self _addViewController:[[ConnectionsViewController alloc] init]];
 	[self _addViewController:[[UsersRolesViewController alloc] init]];

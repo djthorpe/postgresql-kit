@@ -59,7 +59,7 @@ void _pgdata2obj_cache_init() {
 		i++;
 	} while(t->name);
 #ifdef DEBUG
-	NSLog(@"pgdata2obj_cache_init: allocating %u entries, %lu bytes for cache",(_pgdata2obj_cache_max+1),sizeof(PGResultConverterType) * (_pgdata2obj_cache_max+1));
+	NSLog(@"pgdata2obj_cache_init: allocating %lu entries, %lu bytes for cache",(_pgdata2obj_cache_max+1),sizeof(PGResultConverterType) * (_pgdata2obj_cache_max+1));
 #endif
 	_pgdata2obj_cache = malloc((_pgdata2obj_cache_max+1) * sizeof(PGResultConverterType));
 	assert(_pgdata2obj_cache);
@@ -110,14 +110,14 @@ PGResultConverterType* _pgdata2obj_cache_fetch(NSUInteger oid) {
 	// return default if not found in cache
 	if(oid > _pgdata2obj_cache_max) {
 #ifdef DEBUG
-		NSLog(@"No type convertors for oid=%u, using default",oid);
+		NSLog(@"No type convertors for oid=%lu, using default",oid);
 #endif
 		return _pgdata2obj_cache;
 	}
 	PGResultConverterType* t = _pgdata2obj_cache + oid;
 	if(t->oid==0) {
 #ifdef DEBUG
-		NSLog(@"No type convertors (2) for oid=%u, using default",oid);
+		NSLog(@"No type convertors (2) for oid=%lu, using default",oid);
 #endif
 		return _pgdata2obj_cache;
 	}

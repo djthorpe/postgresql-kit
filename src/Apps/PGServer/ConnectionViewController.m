@@ -23,10 +23,6 @@
 	return 1;
 }
 
--(PGServerConfiguration* )configuration {
-	return [[[self delegate] server] configuration];
-}
-
 ////////////////////////////////////////////////////////////////////////////////
 // get hostname
 
@@ -37,7 +33,7 @@
 	if(state==PGServerStateRunning || state==PGServerStateAlreadyRunning) {
 		return [server hostname];
 	} else {
-		return [[self configuration] stringForKey:@"listen_addresses"];
+		return nil;
 	}
 }
 
@@ -48,7 +44,6 @@
 	if(state==PGServerStateRunning || state==PGServerStateAlreadyRunning) {
 		return [server port];
 	} else {
-		NSLog(@"string port = %@",[[self configuration] stringForKey:@"port"]);
 		return 0;
 	}	
 }
@@ -58,8 +53,10 @@
 
 -(void)loadView {
 	[super loadView];
+#ifdef DEBUG
 	NSLog(@"listen = %@",[self listenAddresses]);
 	NSLog(@"port = %lu",[self configPort]);
+#endif
 }
 
 -(IBAction)ibUseDefaultPort:(id)sender {

@@ -30,7 +30,6 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 		_socketPath = nil;
 		_currentTask = nil;
 		_timer = nil;
-		_configuration = nil;
 	}
 	return self;
 }
@@ -51,19 +50,19 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 }
 
 +(NSString* )_serverBinary {
-	return [[self _bundlePath] stringByAppendingPathComponent:@"Resources/postgresql-current/bin/postgres"];
+	return [[self _bundlePath] stringByAppendingPathComponent:@"Resources/postgresql-current-mac_x86_64/bin/postgres"];
 }
 
 +(NSString* )_initBinary {
-	return [[self _bundlePath] stringByAppendingPathComponent:@"Resources/postgresql-current/bin/initdb"];
+	return [[self _bundlePath] stringByAppendingPathComponent:@"Resources/postgresql-current-mac_x86_64/bin/initdb"];
 }
 
 +(NSString* )_libraryPath {
-	return [[self _bundlePath] stringByAppendingPathComponent:@"Resources/postgresql-current/lib"];
+	return [[self _bundlePath] stringByAppendingPathComponent:@"Resources/postgresql-current-mac_x86_64/lib"];
 }
 
 +(NSString* )_dumpBinary {
-	return [[self _bundlePath] stringByAppendingPathComponent:@"Resources/postgresql-current/bin/pg_dumpall"];
+	return [[self _bundlePath] stringByAppendingPathComponent:@"Resources/postgresql-current-mac_x86_64/bin/pg_dumpall"];
 }
 
 +(NSString* )_superUsername {
@@ -257,7 +256,7 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 	if(sysctl(mib,4,kp,&count,0,0) < 0) {
 		returnValue = -1;
 	} else {
-		int nentries = count / sizeof(struct kinfo_proc);
+		long nentries = (long)count / (long)sizeof(struct kinfo_proc);
 		if(nentries < 1) {
 			returnValue = 0;
 		}
@@ -551,6 +550,9 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 	[theTask setEnvironment:[NSDictionary dictionaryWithObject:[PGServer _libraryPath] forKey:@"DYLD_LIBRARY_PATH"]];
 	
 	// get the version number
+#ifdef DEBUG
+	NSLog(@"launchPath = %@",[PGServer _serverBinary]);
+#endif	
 	[theTask launch];
 	
 	NSMutableData* theVersion = [NSMutableData data];
@@ -651,9 +653,6 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 	// start the state machine timer
 	[self _startTimer];
 
-	// remove preferences
-	_configuration = nil;
-
 	// return YES
 	return YES;
 }
@@ -674,9 +673,6 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 	// start the state machine timer
 	[self _startTimer];
 
-	// remove preferences
-	_configuration = nil;
-
 	// return success
 	return YES;
 }
@@ -695,9 +691,6 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 	// start the state machine timer
 	[self _startTimer];
 
-	// remove preferences
-	_configuration = nil;
-
 	// return success
 	return YES;
 }
@@ -714,40 +707,9 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 	NSLog(@"Sending HUP signal to %d",_pid);
 #endif
 	kill(_pid,SIGHUP);
-	// remove preferences
-	_configuration = nil;
 
 	// return success
 	return YES;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// read configuration
-
--(PGServerConfiguration* )configuration {
-	if(_configuration==nil) {
-		NSString* thePath = [_dataPath stringByAppendingPathComponent:[PGServer _configurationPreferencesFilename]];
-		_configuration = [[PGServerConfiguration alloc] initWithPath:thePath];
-	}
-	if([_configuration load]) {
-		return _configuration;
-	} else {
-		_configuration = nil;
-		return nil;
-	}
-}
-
--(PGServerHostAccess* )hostAccessRules {
-	if(_hostAccess==nil) {
-		NSString* thePath = [_dataPath stringByAppendingPathComponent:[PGServer _hostAccessRulesFilename]];
-		_hostAccess = [[PGServerHostAccess alloc] initWithPath:thePath];
-	}
-	if([_hostAccess load]) {
-		return _hostAccess;
-	} else {
-		_hostAccess = nil;
-		return nil;
-	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////
