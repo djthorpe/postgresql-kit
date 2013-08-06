@@ -394,7 +394,7 @@ const NSInteger PGServerMenuTagRestart = 4;
 	switch(returnCode) {
 		case PGServerButtonContinue:
 			// TODO
-			NSLog(@"TERMINATE CONNECTIONS");
+			NSLog(@"TODO: TERMINATE CONNECTIONS");
 			break;
 		case PGServerButtonConnections:
 			// switch toolbar to connections
