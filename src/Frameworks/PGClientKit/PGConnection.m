@@ -79,6 +79,15 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 	[self disconnect];
 }
 
++(PGConnection* )connectionWithURL:(NSURL* )url error:(NSError** )error {
+	PGConnection* connection = [[PGConnection alloc] init];
+	if([connection connectWithURL:url error:error]==NO) {
+		return nil;
+	} else {
+		return connection;
+	}
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // private methods
 
