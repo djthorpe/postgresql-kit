@@ -4,6 +4,10 @@
 
 @implementation NSURL (PGAdditions)
 
++(NSString* )_pg_urlencode:(NSString* )string {
+	return (NSString* )CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,(CFStringRef)string,NULL,(CFStringRef)@"!*'();:@&=+$,/?%#[]",kCFStringEncodingUTF8));
+}
+
 +(NSString* )_pg_urlencode_params:(NSDictionary* )params {
 	if(params==nil || [params count]==0) {
 		return @"";
@@ -17,19 +21,22 @@
 		if([value isKindOfClass:[NSObject class]]==NO) {
 			return nil;
 		}
-		NSString* keyenc = [(NSString* )key stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-		NSString* valueenc = [[(NSObject* )value description] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+		NSString* keyenc = [self _pg_urlencode:(NSString* )key];
+		NSString* valueenc = [self _pg_urlencode:[(NSObject* )value description]];
+		if(keyenc==nil || valueenc==nil) {
+			return nil;
+		}
 		NSString* pair = [NSString stringWithFormat:@"%@=%@",keyenc,valueenc];
 		[parts addObject:pair];
 	}
-	return [[parts componentsJoinedByString:@"&"] stringByAppendingString:@"?"];
+	return [@"?" stringByAppendingString:[parts componentsJoinedByString:@"&"]];
 }
 
 +(NSString* )_pg_urlencode_database:(NSString* )db {
 	if(db==nil || [db length]==0) {
 		return @"";
 	}
-	return [db stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+	return [self _pg_urlencode:db];
 }
 
 +(NSString* )_pg_urlencode_host:(NSString* )host {
@@ -43,7 +50,7 @@
 		return [NSString stringWithFormat:@"[%@]",host];
 	} else {
 		// is likely a hostname
-		return [host stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+		return [self _pg_urlencode:host];
 	}
 }
 
@@ -71,6 +78,7 @@
 	NSString* method = [PGConnection defaultURLScheme];
 	NSString* dbenc = [NSURL _pg_urlencode_database:[database stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
 	NSString* queryenc = [NSURL _pg_urlencode_params:params];
+	NSParameterAssert(method && dbenc && queryenc);
 	return [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@:///%@%@",method,dbenc,queryenc]];
 }
 
@@ -81,6 +89,7 @@
 	NSString* hostenc = [NSURL _pg_urlencode_host:[host stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
 	NSString* portenc = [NSURL _pg_urlencode_port:port];
 	NSString* queryenc = [NSURL _pg_urlencode_params:params];
+	NSParameterAssert(method && dbenc && queryenc && sslenc && hostenc && portenc);
 	return [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@%@://%@%@/%@%@",method,sslenc,hostenc,portenc,dbenc,queryenc]];
 }
 

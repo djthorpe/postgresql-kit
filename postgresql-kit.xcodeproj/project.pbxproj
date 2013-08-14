@@ -198,8 +198,10 @@
 		6ECA7AEA15F363C400AF2B70 /* PGServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
 		6ED7EA7C1637219B0040066F /* PGLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ED7EA7B1637219B0040066F /* PGLoginController.m */; };
 		6ED7EA7F1637249C0040066F /* PGLoginController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6ED7EA7E1637249C0040066F /* PGLoginController.xib */; };
-		6EDC4CB217BC2459009E040D /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EDC4CB117BC2459009E040D /* SenTestingKit.framework */; };
-		6EDC4CB417BC2459009E040D /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EDC4CB317BC2459009E040D /* Cocoa.framework */; };
+		6EDC4CCF17BC25FF009E040D /* NSURL_PGAdditions_tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EDC4CCE17BC24DA009E040D /* NSURL_PGAdditions_tests.m */; };
+		6EDC4CD217BC274B009E040D /* PGClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
+		6EDC4CD317BC274B009E040D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C168115F26BF20013A382 /* Foundation.framework */; };
+		6EDC4CD517BC2755009E040D /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EDC4CD417BC2755009E040D /* SenTestingKit.framework */; };
 		6EE23F5D1631EF7500C99BA7 /* PGClientKit+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EE23F5A1631EF7500C99BA7 /* PGClientKit+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6EE23F5E1631EF7500C99BA7 /* PGConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EE23F5B1631EF7500C99BA7 /* PGConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6EE23F5F1631EF7500C99BA7 /* PGConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE23F5C1631EF7500C99BA7 /* PGConnection.m */; };
@@ -305,6 +307,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 6E256FEE15F255780079AD2D;
 			remoteInfo = postgresql;
+		};
+		6EDC4CD017BC2659009E040D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E256FDE15F252620079AD2D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6ED85B3516288C4800A6DC02;
+			remoteInfo = PGClientKit_mac;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -496,11 +505,6 @@
 		6EA5EA8017AAE136005A3343 /* postgresql-9.2.4.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = "postgresql-9.2.4.tar.gz"; sourceTree = "<group>"; };
 		6EA5EA8117AAE480005A3343 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		6EA5EA8217AAF9DC005A3343 /* lipo.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = lipo.sh; sourceTree = "<group>"; };
-		6EA5EA9617AB02C0005A3343 /* libpq-int.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "libpq-int.h"; sourceTree = "<group>"; };
-		6EA5EA9717AB02C0005A3343 /* pqexpbuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pqexpbuffer.h; sourceTree = "<group>"; };
-		6EA5EA9817AB02C0005A3343 /* libpq-events.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "libpq-events.h"; sourceTree = "<group>"; };
-		6EA5EA9917AB02C0005A3343 /* libpq-fe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "libpq-fe.h"; sourceTree = "<group>"; };
-		6EA5EA9A17AB02C0005A3343 /* libpq.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libpq.a; sourceTree = "<group>"; };
 		6EAA40E917BC150E0078EB32 /* NSURL+PGAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+PGAdditions.h"; sourceTree = "<group>"; };
 		6EAA40EA17BC150E0078EB32 /* NSURL+PGAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+PGAdditions.m"; sourceTree = "<group>"; };
 		6EB1E72D15F273350093F784 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -522,11 +526,10 @@
 		6EDC4CB617BC2459009E040D /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		6EDC4CB717BC2459009E040D /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		6EDC4CB817BC2459009E040D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		6EDC4CCA17BC24DA009E040D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		6EDC4CCB17BC24DA009E040D /* PGClientKit_testcases-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PGClientKit_testcases-Info.plist"; sourceTree = "<group>"; };
-		6EDC4CCC17BC24DA009E040D /* PGClientKit_testcases-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PGClientKit_testcases-Prefix.pch"; sourceTree = "<group>"; };
-		6EDC4CCD17BC24DA009E040D /* PGClientKit_testcases.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGClientKit_testcases.h; sourceTree = "<group>"; };
-		6EDC4CCE17BC24DA009E040D /* PGClientKit_testcases.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PGClientKit_testcases.m; sourceTree = "<group>"; };
+		6EDC4CCB17BC24DA009E040D /* PGClientKit_testcases.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PGClientKit_testcases.plist; sourceTree = "<group>"; };
+		6EDC4CCD17BC24DA009E040D /* NSURL_PGAdditions_tests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSURL_PGAdditions_tests.h; sourceTree = "<group>"; };
+		6EDC4CCE17BC24DA009E040D /* NSURL_PGAdditions_tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSURL_PGAdditions_tests.m; sourceTree = "<group>"; };
+		6EDC4CD417BC2755009E040D /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		6EE23F5A1631EF7500C99BA7 /* PGClientKit+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PGClientKit+Private.h"; sourceTree = "<group>"; };
 		6EE23F5B1631EF7500C99BA7 /* PGConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGConnection.h; sourceTree = "<group>"; };
 		6EE23F5C1631EF7500C99BA7 /* PGConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGConnection.m; sourceTree = "<group>"; };
@@ -641,8 +644,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6EDC4CB217BC2459009E040D /* SenTestingKit.framework in Frameworks */,
-				6EDC4CB417BC2459009E040D /* Cocoa.framework in Frameworks */,
+				6EDC4CD517BC2755009E040D /* SenTestingKit.framework in Frameworks */,
+				6EDC4CD217BC274B009E040D /* PGClientKit.framework in Frameworks */,
+				6EDC4CD317BC274B009E040D /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -852,7 +856,6 @@
 		143742C8167294B90092F862 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				6EA5EA9317AB02C0005A3343 /* libpq */,
 				6EB1E73E15F273350093F784 /* PGServerKit */,
 				6ED85B3316288BEF00A6DC02 /* PGClientKit */,
 				1433614917917376000A79D5 /* PGSchemaKit */,
@@ -983,6 +986,7 @@
 		6E256FDC15F252620079AD2D = {
 			isa = PBXGroup;
 			children = (
+				6EDC4CD417BC2755009E040D /* SenTestingKit.framework */,
 				14CF6E931667488500D2DF78 /* README.md */,
 				6EB1E70A15F273350093F784 /* src */,
 				6E1B43DC15F3A465001ED3BE /* resources */,
@@ -1037,34 +1041,6 @@
 				6E68AE061635DD6E00436234 /* PGClient.plist */,
 			);
 			path = PGClient;
-			sourceTree = "<group>";
-		};
-		6EA5EA9317AB02C0005A3343 /* libpq */ = {
-			isa = PBXGroup;
-			children = (
-				6EA5EA9417AB02C0005A3343 /* include */,
-				6EA5EA9A17AB02C0005A3343 /* libpq.a */,
-			);
-			path = libpq;
-			sourceTree = "<group>";
-		};
-		6EA5EA9417AB02C0005A3343 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				6EA5EA9517AB02C0005A3343 /* internal */,
-				6EA5EA9817AB02C0005A3343 /* libpq-events.h */,
-				6EA5EA9917AB02C0005A3343 /* libpq-fe.h */,
-			);
-			path = include;
-			sourceTree = "<group>";
-		};
-		6EA5EA9517AB02C0005A3343 /* internal */ = {
-			isa = PBXGroup;
-			children = (
-				6EA5EA9617AB02C0005A3343 /* libpq-int.h */,
-				6EA5EA9717AB02C0005A3343 /* pqexpbuffer.h */,
-			);
-			path = internal;
 			sourceTree = "<group>";
 		};
 		6EB1E70A15F273350093F784 /* src */ = {
@@ -1179,11 +1155,9 @@
 		6EDC4CC817BC24DA009E040D /* PGClientKit_testcases */ = {
 			isa = PBXGroup;
 			children = (
-				6EDC4CC917BC24DA009E040D /* InfoPlist.strings */,
-				6EDC4CCB17BC24DA009E040D /* PGClientKit_testcases-Info.plist */,
-				6EDC4CCC17BC24DA009E040D /* PGClientKit_testcases-Prefix.pch */,
-				6EDC4CCD17BC24DA009E040D /* PGClientKit_testcases.h */,
-				6EDC4CCE17BC24DA009E040D /* PGClientKit_testcases.m */,
+				6EDC4CCB17BC24DA009E040D /* PGClientKit_testcases.plist */,
+				6EDC4CCD17BC24DA009E040D /* NSURL_PGAdditions_tests.h */,
+				6EDC4CCE17BC24DA009E040D /* NSURL_PGAdditions_tests.m */,
 			);
 			path = PGClientKit_testcases;
 			sourceTree = "<group>";
@@ -1482,6 +1456,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				6EDC4CD117BC2659009E040D /* PBXTargetDependency */,
 			);
 			name = PGClientKit_testcases;
 			productName = PGClientKit_testcases;
@@ -1899,6 +1874,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6EDC4CCF17BC25FF009E040D /* NSURL_PGAdditions_tests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1975,18 +1951,12 @@
 			target = 6E256FEE15F255780079AD2D /* postgresql_mac */;
 			targetProxy = 6ED85B3716288C4800A6DC02 /* PBXContainerItemProxy */;
 		};
-/* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		6EDC4CC917BC24DA009E040D /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6EDC4CCA17BC24DA009E040D /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
+		6EDC4CD117BC2659009E040D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6ED85B3516288C4800A6DC02 /* PGClientKit_mac */;
+			targetProxy = 6EDC4CD017BC2659009E040D /* PBXContainerItemProxy */;
 		};
-/* End PBXVariantGroup section */
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		1413DF0A17AD77A0009615E5 /* Debug */ = {
@@ -2884,8 +2854,8 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "PGClientKit_testcases/PGClientKit_testcases-Prefix.pch";
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -2895,7 +2865,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "PGClientKit_testcases/PGClientKit_testcases-Info.plist";
+				INFOPLIST_FILE = src/UnitTests/PGClientKit_testcases/PGClientKit_testcases.plist;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2921,13 +2891,13 @@
 				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "PGClientKit_testcases/PGClientKit_testcases-Prefix.pch";
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "PGClientKit_testcases/PGClientKit_testcases-Info.plist";
+				INFOPLIST_FILE = src/UnitTests/PGClientKit_testcases/PGClientKit_testcases.plist;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
