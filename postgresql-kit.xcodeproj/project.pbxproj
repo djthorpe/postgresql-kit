@@ -200,8 +200,6 @@
 		6ED7EA7F1637249C0040066F /* PGLoginController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6ED7EA7E1637249C0040066F /* PGLoginController.xib */; };
 		6EDC4CB217BC2459009E040D /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EDC4CB117BC2459009E040D /* SenTestingKit.framework */; };
 		6EDC4CB417BC2459009E040D /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EDC4CB317BC2459009E040D /* Cocoa.framework */; };
-		6EDC4CBE17BC2459009E040D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6EDC4CBC17BC2459009E040D /* InfoPlist.strings */; };
-		6EDC4CC117BC2459009E040D /* PGClientKit_testcases.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EDC4CC017BC2459009E040D /* PGClientKit_testcases.m */; };
 		6EDC4CC617BC2468009E040D /* NSURL+PGAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EDC4CA617BC23E1009E040D /* NSURL+PGAdditions.m */; };
 		6EE23F5D1631EF7500C99BA7 /* PGClientKit+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EE23F5A1631EF7500C99BA7 /* PGClientKit+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6EE23F5E1631EF7500C99BA7 /* PGConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EE23F5B1631EF7500C99BA7 /* PGConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -641,11 +639,11 @@
 		6EDC4CB617BC2459009E040D /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		6EDC4CB717BC2459009E040D /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		6EDC4CB817BC2459009E040D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		6EDC4CBB17BC2459009E040D /* PGClientKit_testcases-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PGClientKit_testcases-Info.plist"; sourceTree = "<group>"; };
-		6EDC4CBD17BC2459009E040D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		6EDC4CBF17BC2459009E040D /* PGClientKit_testcases.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGClientKit_testcases.h; sourceTree = "<group>"; };
-		6EDC4CC017BC2459009E040D /* PGClientKit_testcases.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PGClientKit_testcases.m; sourceTree = "<group>"; };
-		6EDC4CC217BC2459009E040D /* PGClientKit_testcases-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PGClientKit_testcases-Prefix.pch"; sourceTree = "<group>"; };
+		6EDC4CCA17BC24DA009E040D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		6EDC4CCB17BC24DA009E040D /* PGClientKit_testcases-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PGClientKit_testcases-Info.plist"; sourceTree = "<group>"; };
+		6EDC4CCC17BC24DA009E040D /* PGClientKit_testcases-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PGClientKit_testcases-Prefix.pch"; sourceTree = "<group>"; };
+		6EDC4CCD17BC24DA009E040D /* PGClientKit_testcases.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGClientKit_testcases.h; sourceTree = "<group>"; };
+		6EDC4CCE17BC24DA009E040D /* PGClientKit_testcases.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PGClientKit_testcases.m; sourceTree = "<group>"; };
 		6EE23F5A1631EF7500C99BA7 /* PGClientKit+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PGClientKit+Private.h"; sourceTree = "<group>"; };
 		6EE23F5B1631EF7500C99BA7 /* PGConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGConnection.h; sourceTree = "<group>"; };
 		6EE23F5C1631EF7500C99BA7 /* PGConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGConnection.m; sourceTree = "<group>"; };
@@ -1298,7 +1296,6 @@
 				14EE3C3A166752F80083C735 /* etc */,
 				14EE3C3E166752F80083C735 /* tar */,
 				14805A671662313E00A4019F /* old */,
-				6EDC4CB917BC2459009E040D /* PGClientKit_testcases */,
 				6ED763FD15F2673600687079 /* Frameworks */,
 				6ED763FC15F2673600687079 /* Products */,
 				6E6A7E3F17B0311D00032B48 /* postgresql-kit.wiki */,
@@ -1416,6 +1413,7 @@
 		6EB1E78C15F273350093F784 /* UnitTests */ = {
 			isa = PBXGroup;
 			children = (
+				6EDC4CC817BC24DA009E040D /* PGClientKit_testcases */,
 				6EB1E78D15F273350093F784 /* ClientConnection.h */,
 				6EB1E78E15F273350093F784 /* ClientConnection.m */,
 				6EB1E78F15F273350093F784 /* TypeTests+NSString.h */,
@@ -1491,24 +1489,16 @@
 			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
-		6EDC4CB917BC2459009E040D /* PGClientKit_testcases */ = {
+		6EDC4CC817BC24DA009E040D /* PGClientKit_testcases */ = {
 			isa = PBXGroup;
 			children = (
-				6EDC4CBF17BC2459009E040D /* PGClientKit_testcases.h */,
-				6EDC4CC017BC2459009E040D /* PGClientKit_testcases.m */,
-				6EDC4CBA17BC2459009E040D /* Supporting Files */,
+				6EDC4CC917BC24DA009E040D /* InfoPlist.strings */,
+				6EDC4CCB17BC24DA009E040D /* PGClientKit_testcases-Info.plist */,
+				6EDC4CCC17BC24DA009E040D /* PGClientKit_testcases-Prefix.pch */,
+				6EDC4CCD17BC24DA009E040D /* PGClientKit_testcases.h */,
+				6EDC4CCE17BC24DA009E040D /* PGClientKit_testcases.m */,
 			);
 			path = PGClientKit_testcases;
-			sourceTree = "<group>";
-		};
-		6EDC4CBA17BC2459009E040D /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				6EDC4CBB17BC2459009E040D /* PGClientKit_testcases-Info.plist */,
-				6EDC4CBC17BC2459009E040D /* InfoPlist.strings */,
-				6EDC4CC217BC2459009E040D /* PGClientKit_testcases-Prefix.pch */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1958,7 +1948,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6EDC4CBE17BC2459009E040D /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2223,7 +2212,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6EDC4CC117BC2459009E040D /* PGClientKit_testcases.m in Sources */,
 				6EDC4CC617BC2468009E040D /* NSURL+PGAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2304,10 +2292,10 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		6EDC4CBC17BC2459009E040D /* InfoPlist.strings */ = {
+		6EDC4CC917BC24DA009E040D /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				6EDC4CBD17BC2459009E040D /* en */,
+				6EDC4CCA17BC24DA009E040D /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
