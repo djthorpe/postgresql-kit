@@ -184,6 +184,10 @@
 		6E725FE417AEC3A0002EEF67 /* PGClientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E725FE317AEC3A0002EEF67 /* PGClientView.m */; };
 		6EA41EF01610E7DB00E81046 /* PGServer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EA41EEE1610E7DB00E81046 /* PGServer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6EA41EF11610E7DB00E81046 /* PGServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EA41EEF1610E7DB00E81046 /* PGServer.m */; };
+		6EAA40EB17BC150E0078EB32 /* NSURL+PGAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EAA40E917BC150E0078EB32 /* NSURL+PGAdditions.h */; };
+		6EAA40EC17BC150E0078EB32 /* NSURL+PGAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EAA40E917BC150E0078EB32 /* NSURL+PGAdditions.h */; };
+		6EAA40ED17BC150E0078EB32 /* NSURL+PGAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EAA40EA17BC150E0078EB32 /* NSURL+PGAdditions.m */; };
+		6EAA40EE17BC150E0078EB32 /* NSURL+PGAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EAA40EA17BC150E0078EB32 /* NSURL+PGAdditions.m */; };
 		6EB1E79615F282910093F784 /* PGServerKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EB1E74015F273350093F784 /* PGServerKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6EB5485017AEC8F6000F4AA2 /* elephant-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43E615F3A465001ED3BE /* elephant-64.png */; };
 		6EB5485117AEC8FD000F4AA2 /* elephant.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43E715F3A465001ED3BE /* elephant.icns */; };
@@ -194,6 +198,11 @@
 		6ECA7AEA15F363C400AF2B70 /* PGServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
 		6ED7EA7C1637219B0040066F /* PGLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ED7EA7B1637219B0040066F /* PGLoginController.m */; };
 		6ED7EA7F1637249C0040066F /* PGLoginController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6ED7EA7E1637249C0040066F /* PGLoginController.xib */; };
+		6EDC4CB217BC2459009E040D /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EDC4CB117BC2459009E040D /* SenTestingKit.framework */; };
+		6EDC4CB417BC2459009E040D /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EDC4CB317BC2459009E040D /* Cocoa.framework */; };
+		6EDC4CBE17BC2459009E040D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6EDC4CBC17BC2459009E040D /* InfoPlist.strings */; };
+		6EDC4CC117BC2459009E040D /* PGClientKit_testcases.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EDC4CC017BC2459009E040D /* PGClientKit_testcases.m */; };
+		6EDC4CC617BC2468009E040D /* NSURL+PGAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EDC4CA617BC23E1009E040D /* NSURL+PGAdditions.m */; };
 		6EE23F5D1631EF7500C99BA7 /* PGClientKit+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EE23F5A1631EF7500C99BA7 /* PGClientKit+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6EE23F5E1631EF7500C99BA7 /* PGConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EE23F5B1631EF7500C99BA7 /* PGConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6EE23F5F1631EF7500C99BA7 /* PGConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE23F5C1631EF7500C99BA7 /* PGConnection.m */; };
@@ -605,6 +614,8 @@
 		6EA5EA9817AB02C0005A3343 /* libpq-events.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "libpq-events.h"; sourceTree = "<group>"; };
 		6EA5EA9917AB02C0005A3343 /* libpq-fe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "libpq-fe.h"; sourceTree = "<group>"; };
 		6EA5EA9A17AB02C0005A3343 /* libpq.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libpq.a; sourceTree = "<group>"; };
+		6EAA40E917BC150E0078EB32 /* NSURL+PGAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+PGAdditions.h"; sourceTree = "<group>"; };
+		6EAA40EA17BC150E0078EB32 /* NSURL+PGAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+PGAdditions.m"; sourceTree = "<group>"; };
 		6EB1E72D15F273350093F784 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		6EB1E73F15F273350093F784 /* PGServerKit.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PGServerKit.plist; sourceTree = "<group>"; };
 		6EB1E74015F273350093F784 /* PGServerKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGServerKit.h; sourceTree = "<group>"; };
@@ -622,6 +633,19 @@
 		6ED7EA7E1637249C0040066F /* PGLoginController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PGLoginController.xib; sourceTree = "<group>"; };
 		6ED85B4616288C4800A6DC02 /* PGClientKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PGClientKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6ED85B4916288D0200A6DC02 /* PGClientKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGClientKit.h; sourceTree = "<group>"; };
+		6EDC4CA517BC23E1009E040D /* NSURL+PGAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+PGAdditions.h"; sourceTree = "<group>"; };
+		6EDC4CA617BC23E1009E040D /* NSURL+PGAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+PGAdditions.m"; sourceTree = "<group>"; };
+		6EDC4CB017BC2459009E040D /* PGClientKit_testcases.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PGClientKit_testcases.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6EDC4CB117BC2459009E040D /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		6EDC4CB317BC2459009E040D /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
+		6EDC4CB617BC2459009E040D /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		6EDC4CB717BC2459009E040D /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		6EDC4CB817BC2459009E040D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		6EDC4CBB17BC2459009E040D /* PGClientKit_testcases-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PGClientKit_testcases-Info.plist"; sourceTree = "<group>"; };
+		6EDC4CBD17BC2459009E040D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		6EDC4CBF17BC2459009E040D /* PGClientKit_testcases.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGClientKit_testcases.h; sourceTree = "<group>"; };
+		6EDC4CC017BC2459009E040D /* PGClientKit_testcases.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PGClientKit_testcases.m; sourceTree = "<group>"; };
+		6EDC4CC217BC2459009E040D /* PGClientKit_testcases-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PGClientKit_testcases-Prefix.pch"; sourceTree = "<group>"; };
 		6EE23F5A1631EF7500C99BA7 /* PGClientKit+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PGClientKit+Private.h"; sourceTree = "<group>"; };
 		6EE23F5B1631EF7500C99BA7 /* PGConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGConnection.h; sourceTree = "<group>"; };
 		6EE23F5C1631EF7500C99BA7 /* PGConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGConnection.m; sourceTree = "<group>"; };
@@ -729,6 +753,15 @@
 				6E222C5017B035E90087A483 /* libz.dylib in Frameworks */,
 				14D7C3E617AD721D00479231 /* Foundation.framework in Frameworks */,
 				148D2F03179557330005DB1B /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6EDC4CAC17BC2459009E040D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6EDC4CB217BC2459009E040D /* SenTestingKit.framework in Frameworks */,
+				6EDC4CB417BC2459009E040D /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1045,6 +1078,8 @@
 		14805A1B1662306100A4019F /* Foundation */ = {
 			isa = PBXGroup;
 			children = (
+				6EAA40E917BC150E0078EB32 /* NSURL+PGAdditions.h */,
+				6EAA40EA17BC150E0078EB32 /* NSURL+PGAdditions.m */,
 				6EE23F5B1631EF7500C99BA7 /* PGConnection.h */,
 				6EE23F5C1631EF7500C99BA7 /* PGConnection.m */,
 				6EE23F62163207DA00C99BA7 /* PGClientParams.h */,
@@ -1263,6 +1298,7 @@
 				14EE3C3A166752F80083C735 /* etc */,
 				14EE3C3E166752F80083C735 /* tar */,
 				14805A671662313E00A4019F /* old */,
+				6EDC4CB917BC2459009E040D /* PGClientKit_testcases */,
 				6ED763FD15F2673600687079 /* Frameworks */,
 				6ED763FC15F2673600687079 /* Products */,
 				6E6A7E3F17B0311D00032B48 /* postgresql-kit.wiki */,
@@ -1384,6 +1420,8 @@
 				6EB1E78E15F273350093F784 /* ClientConnection.m */,
 				6EB1E78F15F273350093F784 /* TypeTests+NSString.h */,
 				6EB1E79015F273350093F784 /* TypeTests+NSString.m */,
+				6EDC4CA517BC23E1009E040D /* NSURL+PGAdditions.h */,
+				6EDC4CA617BC23E1009E040D /* NSURL+PGAdditions.m */,
 			);
 			path = UnitTests;
 			sourceTree = "<group>";
@@ -1412,6 +1450,7 @@
 				1433618517917F47000A79D5 /* PGSchemaManager.app */,
 				1413DF0117AD77A0009615E5 /* PGClientKit_ios.framework */,
 				1413DF2917AEABF6009615E5 /* PGClient_ios.app */,
+				6EDC4CB017BC2459009E040D /* PGClientKit_testcases.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1421,6 +1460,9 @@
 			children = (
 				1413DF5817AEB041009615E5 /* mac */,
 				1413DF5717AEB03B009615E5 /* ios */,
+				6EDC4CB117BC2459009E040D /* SenTestingKit.framework */,
+				6EDC4CB317BC2459009E040D /* Cocoa.framework */,
+				6EDC4CB517BC2459009E040D /* Other Frameworks */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1439,6 +1481,36 @@
 			path = PGClientKit;
 			sourceTree = "<group>";
 		};
+		6EDC4CB517BC2459009E040D /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6EDC4CB617BC2459009E040D /* AppKit.framework */,
+				6EDC4CB717BC2459009E040D /* CoreData.framework */,
+				6EDC4CB817BC2459009E040D /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		6EDC4CB917BC2459009E040D /* PGClientKit_testcases */ = {
+			isa = PBXGroup;
+			children = (
+				6EDC4CBF17BC2459009E040D /* PGClientKit_testcases.h */,
+				6EDC4CC017BC2459009E040D /* PGClientKit_testcases.m */,
+				6EDC4CBA17BC2459009E040D /* Supporting Files */,
+			);
+			path = PGClientKit_testcases;
+			sourceTree = "<group>";
+		};
+		6EDC4CBA17BC2459009E040D /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				6EDC4CBB17BC2459009E040D /* PGClientKit_testcases-Info.plist */,
+				6EDC4CBC17BC2459009E040D /* InfoPlist.strings */,
+				6EDC4CC217BC2459009E040D /* PGClientKit_testcases-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -1455,6 +1527,7 @@
 				1413DF1617AD785A009615E5 /* PGConverters+Private.h in Headers */,
 				1413DF1917AD7868009615E5 /* PGResult.h in Headers */,
 				1413DF1B17AD7872009615E5 /* PGResult+TextTable.h in Headers */,
+				6EAA40EC17BC150E0078EB32 /* NSURL+PGAdditions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1503,6 +1576,7 @@
 				148D2EFE179555AD0005DB1B /* PGLoginController.h in Headers */,
 				148D2F02179555E60005DB1B /* PGClientKit+Cocoa.h in Headers */,
 				14D7C3E717AD729000479231 /* PGClientParams.h in Headers */,
+				6EAA40EB17BC150E0078EB32 /* NSURL+PGAdditions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1719,6 +1793,24 @@
 			productReference = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		6EDC4CAF17BC2459009E040D /* PGClientKit_testcases */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6EDC4CC317BC2459009E040D /* Build configuration list for PBXNativeTarget "PGClientKit_testcases" */;
+			buildPhases = (
+				6EDC4CAB17BC2459009E040D /* Sources */,
+				6EDC4CAC17BC2459009E040D /* Frameworks */,
+				6EDC4CAD17BC2459009E040D /* Resources */,
+				6EDC4CAE17BC2459009E040D /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PGClientKit_testcases;
+			productName = PGClientKit_testcases;
+			productReference = 6EDC4CB017BC2459009E040D /* PGClientKit_testcases.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1754,6 +1846,7 @@
 				6E68ADE41635DB4400436234 /* PGClient */,
 				145D3E1E166A1AF1002FEA91 /* PGServer */,
 				1433617117917F47000A79D5 /* PGSchemaManager */,
+				6EDC4CAF17BC2459009E040D /* PGClientKit_testcases */,
 			);
 		};
 /* End PBXProject section */
@@ -1858,6 +1951,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				148D2F00179555AD0005DB1B /* PGLoginController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6EDC4CAD17BC2459009E040D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6EDC4CBE17BC2459009E040D /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1976,6 +2077,19 @@
 			shellPath = /bin/sh;
 			shellScript = "VERSION=postgresql-current-mac_x86_64\nBUILD=${BUILT_PRODUCTS_DIR}\nPREFIX=${BUILD}/${VERSION}\nDESTINATION=${BUILD}/${CONTENTS_FOLDER_PATH}/Resources\n\necho Installing from ${PREFIX} to ${DESTINATION}/${VERSION}\n\n# copy bin directory\necho cp -r ${PREFIX}/bin ${DESTINATION}/${VERSION}\ninstall -d ${DESTINATION}/${VERSION}/bin\ncp -r ${PREFIX}/bin ${DESTINATION}/${VERSION}\n\n# copy share directory\necho cp -r ${PREFIX}/share ${DESTINATION}/${VERSION}\ninstall -d ${DESTINATION}/${VERSION}/share\ncp -r ${PREFIX}/share ${DESTINATION}/${VERSION}\n\n# copy lib directory\necho cp -r ${PREFIX}/lib ${DESTINATION}/${VERSION}\ninstall -d ${DESTINATION}/${VERSION}/lib\ncp -r ${PREFIX}/lib ${DESTINATION}/${VERSION}\n\n";
 		};
+		6EDC4CAE17BC2459009E040D /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1990,6 +2104,7 @@
 				1413DF1817AD7863009615E5 /* PGConverters+Data2Object.m in Sources */,
 				1413DF1A17AD786E009615E5 /* PGResult.m in Sources */,
 				1413DF1C17AD7878009615E5 /* PGResult+TextTable.m in Sources */,
+				6EAA40EE17BC150E0078EB32 /* NSURL+PGAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2100,6 +2215,16 @@
 				14DECDA216B56D7300178235 /* PGConverters+Object2Data.m in Sources */,
 				14DECDA616B56DF300178235 /* PGConverters+Data2Object.m in Sources */,
 				148D2EFF179555AD0005DB1B /* PGLoginController.m in Sources */,
+				6EAA40ED17BC150E0078EB32 /* NSURL+PGAdditions.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6EDC4CAB17BC2459009E040D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6EDC4CC117BC2459009E040D /* PGClientKit_testcases.m in Sources */,
+				6EDC4CC617BC2468009E040D /* NSURL+PGAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2177,6 +2302,17 @@
 			targetProxy = 6ED85B3716288C4800A6DC02 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		6EDC4CBC17BC2459009E040D /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6EDC4CBD17BC2459009E040D /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		1413DF0A17AD77A0009615E5 /* Debug */ = {
@@ -3055,6 +3191,75 @@
 			};
 			name = Release;
 		};
+		6EDC4CC417BC2459009E040D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PGClientKit_testcases/PGClientKit_testcases-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "PGClientKit_testcases/PGClientKit_testcases-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		6EDC4CC517BC2459009E040D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PGClientKit_testcases/PGClientKit_testcases-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "PGClientKit_testcases/PGClientKit_testcases-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -3201,6 +3406,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		6EDC4CC317BC2459009E040D /* Build configuration list for PBXNativeTarget "PGClientKit_testcases" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6EDC4CC417BC2459009E040D /* Debug */,
+				6EDC4CC517BC2459009E040D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

@@ -25,6 +25,9 @@ typedef enum {
 #import "PGResult.h"
 #import "PGStatement.h"
 
+// helpers
+#import "NSURL+PGAdditions.h"
+
 #if TARGET_OS_IPHONE
 // Do not import additional header files
 #else
