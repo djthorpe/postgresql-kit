@@ -200,7 +200,6 @@
 		6ED7EA7F1637249C0040066F /* PGLoginController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6ED7EA7E1637249C0040066F /* PGLoginController.xib */; };
 		6EDC4CB217BC2459009E040D /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EDC4CB117BC2459009E040D /* SenTestingKit.framework */; };
 		6EDC4CB417BC2459009E040D /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EDC4CB317BC2459009E040D /* Cocoa.framework */; };
-		6EDC4CC617BC2468009E040D /* NSURL+PGAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EDC4CA617BC23E1009E040D /* NSURL+PGAdditions.m */; };
 		6EE23F5D1631EF7500C99BA7 /* PGClientKit+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EE23F5A1631EF7500C99BA7 /* PGClientKit+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6EE23F5E1631EF7500C99BA7 /* PGConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EE23F5B1631EF7500C99BA7 /* PGConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6EE23F5F1631EF7500C99BA7 /* PGConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE23F5C1631EF7500C99BA7 /* PGConnection.m */; };
@@ -382,37 +381,6 @@
 		1413DF5B17AEB0B8009615E5 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.1.sdk/usr/lib/libz.dylib; sourceTree = DEVELOPER_DIR; };
 		14182364166128C000765768 /* PGDataKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PGDataKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		14182368166129D300765768 /* PGDataKit.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PGDataKit.plist; sourceTree = "<group>"; };
-		14187D491668C5FA00A5A67D /* Controller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Controller.h; sourceTree = "<group>"; };
-		14187D4A1668C5FA00A5A67D /* Controller.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Controller.m; sourceTree = "<group>"; };
-		14187D4B1668C5FA00A5A67D /* FLXPostgresConnectSetting.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLXPostgresConnectSetting.h; sourceTree = "<group>"; };
-		14187D4C1668C5FA00A5A67D /* FLXPostgresConnectSetting.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLXPostgresConnectSetting.m; sourceTree = "<group>"; };
-		14187D4D1668C5FA00A5A67D /* FLXPostgresConnectWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLXPostgresConnectWindowController.h; sourceTree = "<group>"; };
-		14187D4E1668C5FA00A5A67D /* FLXPostgresConnectWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLXPostgresConnectWindowController.m; sourceTree = "<group>"; };
-		14187D4F1668C5FA00A5A67D /* FLXTaggedView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLXTaggedView.h; sourceTree = "<group>"; };
-		14187D501668C5FA00A5A67D /* FLXTaggedView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLXTaggedView.m; sourceTree = "<group>"; };
-		14187D521668C5FA00A5A67D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		14187D531668C5FA00A5A67D /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		14187D541668C5FA00A5A67D /* BackupPreferences.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BackupPreferences.h; sourceTree = "<group>"; };
-		14187D551668C5FA00A5A67D /* BackupPreferences.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BackupPreferences.m; sourceTree = "<group>"; };
-		14187D561668C5FA00A5A67D /* ConnectionPreferences.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConnectionPreferences.h; sourceTree = "<group>"; };
-		14187D571668C5FA00A5A67D /* ConnectionPreferences.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConnectionPreferences.m; sourceTree = "<group>"; };
-		14187D581668C5FA00A5A67D /* HostAccessArrayController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HostAccessArrayController.h; sourceTree = "<group>"; };
-		14187D591668C5FA00A5A67D /* HostAccessArrayController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HostAccessArrayController.m; sourceTree = "<group>"; };
-		14187D5A1668C5FA00A5A67D /* HostAccessPreferences.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HostAccessPreferences.h; sourceTree = "<group>"; };
-		14187D5B1668C5FA00A5A67D /* HostAccessPreferences.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HostAccessPreferences.m; sourceTree = "<group>"; };
-		14187D5C1668C5FA00A5A67D /* IdentityGroupArrayController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IdentityGroupArrayController.h; sourceTree = "<group>"; };
-		14187D5D1668C5FA00A5A67D /* IdentityGroupArrayController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IdentityGroupArrayController.m; sourceTree = "<group>"; };
-		14187D5E1668C5FA00A5A67D /* IdentityMapPreferences.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IdentityMapPreferences.h; sourceTree = "<group>"; };
-		14187D5F1668C5FA00A5A67D /* IdentityMapPreferences.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IdentityMapPreferences.m; sourceTree = "<group>"; };
-		14187D601668C5FA00A5A67D /* IdentityUserArrayController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IdentityUserArrayController.h; sourceTree = "<group>"; };
-		14187D611668C5FA00A5A67D /* IdentityUserArrayController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IdentityUserArrayController.m; sourceTree = "<group>"; };
-		14187D631668C5FA00A5A67D /* Bindings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bindings.h; sourceTree = "<group>"; };
-		14187D641668C5FA00A5A67D /* Bindings.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Bindings.m; sourceTree = "<group>"; };
-		14187D651668C5FA00A5A67D /* Controller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Controller.h; sourceTree = "<group>"; };
-		14187D661668C5FA00A5A67D /* Controller.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Controller.m; sourceTree = "<group>"; };
-		14187DB21668C5FA00A5A67D /* Application.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
-		14187DB31668C5FA00A5A67D /* Application.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Application.m; sourceTree = "<group>"; };
-		14187DB41668C5FA00A5A67D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		141C52CC16714F9D00648E67 /* LogViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogViewController.h; sourceTree = "<group>"; };
 		141C52CD16714F9D00648E67 /* LogViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogViewController.m; sourceTree = "<group>"; };
 		141C52CE16714F9D00648E67 /* LogView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LogView.xib; sourceTree = "<group>"; };
@@ -442,15 +410,6 @@
 		14336191179181A2000A79D5 /* PGSchemaManagerApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSchemaManagerApp.m; sourceTree = "<group>"; };
 		14336196179184F1000A79D5 /* tree.schema.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = tree.schema.xml; sourceTree = "<group>"; };
 		1433619817919033000A79D5 /* pgschema.dtd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = pgschema.dtd; sourceTree = "<group>"; };
-		143742CA1672954C0092F862 /* ConfigurationPrefs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConfigurationPrefs.h; sourceTree = "<group>"; };
-		143742CB1672954C0092F862 /* ConfigurationPrefs.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConfigurationPrefs.m; sourceTree = "<group>"; };
-		143742CC1672954C0092F862 /* ConnectionPrefs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConnectionPrefs.h; sourceTree = "<group>"; };
-		143742CD1672954C0092F862 /* ConnectionPrefs.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConnectionPrefs.m; sourceTree = "<group>"; };
-		143742CE1672954C0092F862 /* Controller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Controller.h; sourceTree = "<group>"; };
-		143742CF1672954C0092F862 /* Controller.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Controller.m; sourceTree = "<group>"; };
-		143742D01672954C0092F862 /* ControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ControllerDelegate.h; sourceTree = "<group>"; };
-		143742D11672954C0092F862 /* PGServer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PGServer-Info.plist"; sourceTree = "<group>"; };
-		143742D21672954C0092F862 /* PGServer.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PGServer.xib; sourceTree = "<group>"; };
 		145538CC1690CC96005630A0 /* AppAbout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppAbout.h; sourceTree = "<group>"; };
 		145538CD1690CC96005630A0 /* AppAbout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppAbout.m; sourceTree = "<group>"; };
 		145695F116718D39004471F9 /* ConnectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionViewController.h; sourceTree = "<group>"; };
@@ -462,76 +421,6 @@
 		14805A1416622F4F00A4019F /* PGDataKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGDataKit.h; sourceTree = "<group>"; };
 		14805A1516622F9000A4019F /* PGStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGStore.h; sourceTree = "<group>"; };
 		14805A1616622F9000A4019F /* PGStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGStore.m; sourceTree = "<group>"; };
-		14805A691662313E00A4019F /* FLXGeometry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLXGeometry.h; sourceTree = "<group>"; };
-		14805A6A1662313E00A4019F /* FLXGeometry.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLXGeometry.m; sourceTree = "<group>"; };
-		14805A6B1662313E00A4019F /* FLXMacAddr.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLXMacAddr.h; sourceTree = "<group>"; };
-		14805A6C1662313E00A4019F /* FLXMacAddr.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLXMacAddr.m; sourceTree = "<group>"; };
-		14805A6D1662313E00A4019F /* FLXPostgresArray.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLXPostgresArray.h; sourceTree = "<group>"; };
-		14805A6E1662313E00A4019F /* FLXPostgresArray.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLXPostgresArray.m; sourceTree = "<group>"; };
-		14805A6F1662313E00A4019F /* FLXPostgresConnection+Utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FLXPostgresConnection+Utils.h"; sourceTree = "<group>"; };
-		14805A701662313E00A4019F /* FLXPostgresConnection+Utils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "FLXPostgresConnection+Utils.m"; sourceTree = "<group>"; };
-		14805A711662313E00A4019F /* FLXPostgresConnection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLXPostgresConnection.h; sourceTree = "<group>"; };
-		14805A721662313E00A4019F /* FLXPostgresConnection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLXPostgresConnection.m; sourceTree = "<group>"; };
-		14805A731662313E00A4019F /* FLXPostgresException.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLXPostgresException.h; sourceTree = "<group>"; };
-		14805A741662313E00A4019F /* FLXPostgresException.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLXPostgresException.m; sourceTree = "<group>"; };
-		14805A751662313E00A4019F /* FLXPostgresResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLXPostgresResult.h; sourceTree = "<group>"; };
-		14805A761662313E00A4019F /* FLXPostgresResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLXPostgresResult.m; sourceTree = "<group>"; };
-		14805A771662313E00A4019F /* FLXPostgresStatement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLXPostgresStatement.h; sourceTree = "<group>"; };
-		14805A781662313E00A4019F /* FLXPostgresStatement.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLXPostgresStatement.m; sourceTree = "<group>"; };
-		14805A791662313E00A4019F /* FLXPostgresTypeNSNumber.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLXPostgresTypeNSNumber.h; sourceTree = "<group>"; };
-		14805A7A1662313E00A4019F /* FLXPostgresTypeNSNumber.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLXPostgresTypeNSNumber.m; sourceTree = "<group>"; };
-		14805A7B1662313E00A4019F /* FLXPostgresTypeNSString.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLXPostgresTypeNSString.h; sourceTree = "<group>"; };
-		14805A7C1662313E00A4019F /* FLXPostgresTypeNSString.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLXPostgresTypeNSString.m; sourceTree = "<group>"; };
-		14805A7D1662313E00A4019F /* FLXPostgresTypes+Array.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FLXPostgresTypes+Array.h"; sourceTree = "<group>"; };
-		14805A7E1662313E00A4019F /* FLXPostgresTypes+Array.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "FLXPostgresTypes+Array.m"; sourceTree = "<group>"; };
-		14805A7F1662313E00A4019F /* FLXPostgresTypes+DateTime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FLXPostgresTypes+DateTime.h"; sourceTree = "<group>"; };
-		14805A801662313E00A4019F /* FLXPostgresTypes+DateTime.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "FLXPostgresTypes+DateTime.m"; sourceTree = "<group>"; };
-		14805A811662313E00A4019F /* FLXPostgresTypes+Geometry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FLXPostgresTypes+Geometry.h"; sourceTree = "<group>"; };
-		14805A821662313E00A4019F /* FLXPostgresTypes+Geometry.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "FLXPostgresTypes+Geometry.m"; sourceTree = "<group>"; };
-		14805A831662313E00A4019F /* FLXPostgresTypes+NetAddr.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FLXPostgresTypes+NetAddr.h"; sourceTree = "<group>"; };
-		14805A841662313E00A4019F /* FLXPostgresTypes+NetAddr.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "FLXPostgresTypes+NetAddr.m"; sourceTree = "<group>"; };
-		14805A851662313E00A4019F /* FLXPostgresTypes+NSData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FLXPostgresTypes+NSData.h"; sourceTree = "<group>"; };
-		14805A861662313E00A4019F /* FLXPostgresTypes+NSData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "FLXPostgresTypes+NSData.m"; sourceTree = "<group>"; };
-		14805A871662313E00A4019F /* FLXPostgresTypes+NSNumber.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FLXPostgresTypes+NSNumber.h"; sourceTree = "<group>"; };
-		14805A881662313E00A4019F /* FLXPostgresTypes+NSNumber.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "FLXPostgresTypes+NSNumber.m"; sourceTree = "<group>"; };
-		14805A891662313E00A4019F /* FLXPostgresTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLXPostgresTypes.h; sourceTree = "<group>"; };
-		14805A8A1662313E00A4019F /* FLXPostgresTypes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLXPostgresTypes.m; sourceTree = "<group>"; };
-		14805A8B1662313E00A4019F /* FLXTimeInterval.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLXTimeInterval.h; sourceTree = "<group>"; };
-		14805A8C1662313E00A4019F /* FLXTimeInterval.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLXTimeInterval.m; sourceTree = "<group>"; };
-		14805A8D1662313E00A4019F /* PostgresClientKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostgresClientKit.h; sourceTree = "<group>"; };
-		14805A8E1662313E00A4019F /* PostgresClientKitPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostgresClientKitPrivate.h; sourceTree = "<group>"; };
-		14805A901662313E00A4019F /* FLXPostgresConnection+DataUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FLXPostgresConnection+DataUtils.h"; sourceTree = "<group>"; };
-		14805A911662313E00A4019F /* FLXPostgresConnection+DataUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "FLXPostgresConnection+DataUtils.m"; sourceTree = "<group>"; };
-		14805A921662313E00A4019F /* FLXPostgresDataCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLXPostgresDataCache.h; sourceTree = "<group>"; };
-		14805A931662313E00A4019F /* FLXPostgresDataCache.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLXPostgresDataCache.m; sourceTree = "<group>"; };
-		14805A941662313E00A4019F /* FLXPostgresDataObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLXPostgresDataObject.h; sourceTree = "<group>"; };
-		14805A951662313E00A4019F /* FLXPostgresDataObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLXPostgresDataObject.m; sourceTree = "<group>"; };
-		14805A961662313E00A4019F /* FLXPostgresDataObjectContext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLXPostgresDataObjectContext.h; sourceTree = "<group>"; };
-		14805A971662313E00A4019F /* FLXPostgresDataObjectContext.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLXPostgresDataObjectContext.m; sourceTree = "<group>"; };
-		14805A981662313E00A4019F /* PostgresDataKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostgresDataKit.h; sourceTree = "<group>"; };
-		14805A991662313E00A4019F /* PostgresDataKitPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostgresDataKitPrivate.h; sourceTree = "<group>"; };
-		14805A9B1662313E00A4019F /* PostgresInstallerMain.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PostgresInstallerMain.m; sourceTree = "<group>"; };
-		14805A9C1662313E00A4019F /* PostgresPrefPaneBindings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostgresPrefPaneBindings.h; sourceTree = "<group>"; };
-		14805A9D1662313E00A4019F /* PostgresPrefPaneBindings.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PostgresPrefPaneBindings.m; sourceTree = "<group>"; };
-		14805A9E1662313E00A4019F /* PostgresPrefPaneController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostgresPrefPaneController.h; sourceTree = "<group>"; };
-		14805A9F1662313E00A4019F /* PostgresPrefPaneController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PostgresPrefPaneController.m; sourceTree = "<group>"; };
-		14805AA01662313E00A4019F /* PostgresPrefPaneShared.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostgresPrefPaneShared.h; sourceTree = "<group>"; };
-		14805AA11662313E00A4019F /* PostgresPrefPaneShared.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PostgresPrefPaneShared.m; sourceTree = "<group>"; };
-		14805AA21662313E00A4019F /* PostgresServerApp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostgresServerApp.h; sourceTree = "<group>"; };
-		14805AA31662313E00A4019F /* PostgresServerApp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PostgresServerApp.m; sourceTree = "<group>"; };
-		14805AA41662313E00A4019F /* PostgresServerKeychain.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostgresServerKeychain.h; sourceTree = "<group>"; };
-		14805AA51662313E00A4019F /* PostgresServerKeychain.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PostgresServerKeychain.m; sourceTree = "<group>"; };
-		14805AA61662313E00A4019F /* PostgresServerMain.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PostgresServerMain.m; sourceTree = "<group>"; };
-		14805AA81662313E00A4019F /* FLXPostgresServer+Access.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FLXPostgresServer+Access.h"; sourceTree = "<group>"; };
-		14805AA91662313E00A4019F /* FLXPostgresServer+Access.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "FLXPostgresServer+Access.m"; sourceTree = "<group>"; };
-		14805AAA1662313E00A4019F /* FLXPostgresServer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLXPostgresServer.h; sourceTree = "<group>"; };
-		14805AAB1662313E00A4019F /* FLXPostgresServer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLXPostgresServer.m; sourceTree = "<group>"; };
-		14805AAC1662313E00A4019F /* FLXPostgresServerAccessTuple.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLXPostgresServerAccessTuple.h; sourceTree = "<group>"; };
-		14805AAD1662313E00A4019F /* FLXPostgresServerAccessTuple.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLXPostgresServerAccessTuple.m; sourceTree = "<group>"; };
-		14805AAE1662313E00A4019F /* FLXPostgresServerIdentityTuple.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLXPostgresServerIdentityTuple.h; sourceTree = "<group>"; };
-		14805AAF1662313E00A4019F /* FLXPostgresServerIdentityTuple.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLXPostgresServerIdentityTuple.m; sourceTree = "<group>"; };
-		14805AB01662313E00A4019F /* PostgresServerKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostgresServerKit.h; sourceTree = "<group>"; };
-		14805AB11662313E00A4019F /* PostgresServerKitPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostgresServerKitPrivate.h; sourceTree = "<group>"; };
 		1489AEC516669A6B00C3B67D /* PGResult+TextTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PGResult+TextTable.h"; sourceTree = "<group>"; };
 		1489AEC616669A6B00C3B67D /* PGResult+TextTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PGResult+TextTable.m"; sourceTree = "<group>"; };
 		148D2EEB179420980005DB1B /* PGSchemaProductNV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSchemaProductNV.h; sourceTree = "<group>"; };
@@ -617,10 +506,6 @@
 		6EB1E72D15F273350093F784 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		6EB1E73F15F273350093F784 /* PGServerKit.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PGServerKit.plist; sourceTree = "<group>"; };
 		6EB1E74015F273350093F784 /* PGServerKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGServerKit.h; sourceTree = "<group>"; };
-		6EB1E78D15F273350093F784 /* ClientConnection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ClientConnection.h; sourceTree = "<group>"; };
-		6EB1E78E15F273350093F784 /* ClientConnection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ClientConnection.m; sourceTree = "<group>"; };
-		6EB1E78F15F273350093F784 /* TypeTests+NSString.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TypeTests+NSString.h"; sourceTree = "<group>"; };
-		6EB1E79015F273350093F784 /* TypeTests+NSString.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "TypeTests+NSString.m"; sourceTree = "<group>"; };
 		6EB5485417AEC9CA000F4AA2 /* elephant-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "elephant-72.png"; sourceTree = "<group>"; };
 		6EB5485917AECCAF000F4AA2 /* elephant-144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "elephant-144.png"; sourceTree = "<group>"; };
 		6ECA7AD715F3635A00AF2B70 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -631,8 +516,6 @@
 		6ED7EA7E1637249C0040066F /* PGLoginController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PGLoginController.xib; sourceTree = "<group>"; };
 		6ED85B4616288C4800A6DC02 /* PGClientKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PGClientKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6ED85B4916288D0200A6DC02 /* PGClientKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGClientKit.h; sourceTree = "<group>"; };
-		6EDC4CA517BC23E1009E040D /* NSURL+PGAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+PGAdditions.h"; sourceTree = "<group>"; };
-		6EDC4CA617BC23E1009E040D /* NSURL+PGAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+PGAdditions.m"; sourceTree = "<group>"; };
 		6EDC4CB017BC2459009E040D /* PGClientKit_testcases.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PGClientKit_testcases.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6EDC4CB117BC2459009E040D /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		6EDC4CB317BC2459009E040D /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
@@ -857,65 +740,6 @@
 			path = PGDataKit;
 			sourceTree = "<group>";
 		};
-		14187D481668C5FA00A5A67D /* ClientConnect */ = {
-			isa = PBXGroup;
-			children = (
-				14187D491668C5FA00A5A67D /* Controller.h */,
-				14187D4A1668C5FA00A5A67D /* Controller.m */,
-				14187D4B1668C5FA00A5A67D /* FLXPostgresConnectSetting.h */,
-				14187D4C1668C5FA00A5A67D /* FLXPostgresConnectSetting.m */,
-				14187D4D1668C5FA00A5A67D /* FLXPostgresConnectWindowController.h */,
-				14187D4E1668C5FA00A5A67D /* FLXPostgresConnectWindowController.m */,
-				14187D4F1668C5FA00A5A67D /* FLXTaggedView.h */,
-				14187D501668C5FA00A5A67D /* FLXTaggedView.m */,
-			);
-			path = ClientConnect;
-			sourceTree = "<group>";
-		};
-		14187D511668C5FA00A5A67D /* CocoaServer */ = {
-			isa = PBXGroup;
-			children = (
-				14187D521668C5FA00A5A67D /* AppDelegate.h */,
-				14187D531668C5FA00A5A67D /* AppDelegate.m */,
-				14187D541668C5FA00A5A67D /* BackupPreferences.h */,
-				14187D551668C5FA00A5A67D /* BackupPreferences.m */,
-				14187D561668C5FA00A5A67D /* ConnectionPreferences.h */,
-				14187D571668C5FA00A5A67D /* ConnectionPreferences.m */,
-				14187D581668C5FA00A5A67D /* HostAccessArrayController.h */,
-				14187D591668C5FA00A5A67D /* HostAccessArrayController.m */,
-				14187D5A1668C5FA00A5A67D /* HostAccessPreferences.h */,
-				14187D5B1668C5FA00A5A67D /* HostAccessPreferences.m */,
-				14187D5C1668C5FA00A5A67D /* IdentityGroupArrayController.h */,
-				14187D5D1668C5FA00A5A67D /* IdentityGroupArrayController.m */,
-				14187D5E1668C5FA00A5A67D /* IdentityMapPreferences.h */,
-				14187D5F1668C5FA00A5A67D /* IdentityMapPreferences.m */,
-				14187D601668C5FA00A5A67D /* IdentityUserArrayController.h */,
-				14187D611668C5FA00A5A67D /* IdentityUserArrayController.m */,
-			);
-			path = CocoaServer;
-			sourceTree = "<group>";
-		};
-		14187D621668C5FA00A5A67D /* EmbeddedServer */ = {
-			isa = PBXGroup;
-			children = (
-				14187D631668C5FA00A5A67D /* Bindings.h */,
-				14187D641668C5FA00A5A67D /* Bindings.m */,
-				14187D651668C5FA00A5A67D /* Controller.h */,
-				14187D661668C5FA00A5A67D /* Controller.m */,
-			);
-			path = EmbeddedServer;
-			sourceTree = "<group>";
-		};
-		14187DB11668C5FA00A5A67D /* TypeTests */ = {
-			isa = PBXGroup;
-			children = (
-				14187DB21668C5FA00A5A67D /* Application.h */,
-				14187DB31668C5FA00A5A67D /* Application.m */,
-				14187DB41668C5FA00A5A67D /* main.m */,
-			);
-			path = TypeTests;
-			sourceTree = "<group>";
-		};
 		141C52CA16714F7200648E67 /* Logs */ = {
 			isa = PBXGroup;
 			children = (
@@ -1037,22 +861,6 @@
 			path = Frameworks;
 			sourceTree = "<group>";
 		};
-		143742C91672954C0092F862 /* PGServer */ = {
-			isa = PBXGroup;
-			children = (
-				143742CA1672954C0092F862 /* ConfigurationPrefs.h */,
-				143742CB1672954C0092F862 /* ConfigurationPrefs.m */,
-				143742CC1672954C0092F862 /* ConnectionPrefs.h */,
-				143742CD1672954C0092F862 /* ConnectionPrefs.m */,
-				143742CE1672954C0092F862 /* Controller.h */,
-				143742CF1672954C0092F862 /* Controller.m */,
-				143742D01672954C0092F862 /* ControllerDelegate.h */,
-				143742D11672954C0092F862 /* PGServer-Info.plist */,
-				143742D21672954C0092F862 /* PGServer.xib */,
-			);
-			path = PGServer;
-			sourceTree = "<group>";
-		};
 		145695EF16718D0B004471F9 /* Network */ = {
 			isa = PBXGroup;
 			children = (
@@ -1088,120 +896,6 @@
 				1422C5B21663FD3800FB22FE /* PGResult */,
 			);
 			name = Foundation;
-			sourceTree = "<group>";
-		};
-		14805A671662313E00A4019F /* old */ = {
-			isa = PBXGroup;
-			children = (
-				143742C91672954C0092F862 /* PGServer */,
-				14187D481668C5FA00A5A67D /* ClientConnect */,
-				14187D511668C5FA00A5A67D /* CocoaServer */,
-				14187D621668C5FA00A5A67D /* EmbeddedServer */,
-				14187DB11668C5FA00A5A67D /* TypeTests */,
-				14805A681662313E00A4019F /* PostgresClientKit */,
-				14805A8F1662313E00A4019F /* PostgresDataKit */,
-				14805A9A1662313E00A4019F /* PostgresPrefPane */,
-				14805AA71662313E00A4019F /* PostgresServerKit */,
-			);
-			path = old;
-			sourceTree = "<group>";
-		};
-		14805A681662313E00A4019F /* PostgresClientKit */ = {
-			isa = PBXGroup;
-			children = (
-				14805A691662313E00A4019F /* FLXGeometry.h */,
-				14805A6A1662313E00A4019F /* FLXGeometry.m */,
-				14805A6B1662313E00A4019F /* FLXMacAddr.h */,
-				14805A6C1662313E00A4019F /* FLXMacAddr.m */,
-				14805A6D1662313E00A4019F /* FLXPostgresArray.h */,
-				14805A6E1662313E00A4019F /* FLXPostgresArray.m */,
-				14805A6F1662313E00A4019F /* FLXPostgresConnection+Utils.h */,
-				14805A701662313E00A4019F /* FLXPostgresConnection+Utils.m */,
-				14805A711662313E00A4019F /* FLXPostgresConnection.h */,
-				14805A721662313E00A4019F /* FLXPostgresConnection.m */,
-				14805A731662313E00A4019F /* FLXPostgresException.h */,
-				14805A741662313E00A4019F /* FLXPostgresException.m */,
-				14805A751662313E00A4019F /* FLXPostgresResult.h */,
-				14805A761662313E00A4019F /* FLXPostgresResult.m */,
-				14805A771662313E00A4019F /* FLXPostgresStatement.h */,
-				14805A781662313E00A4019F /* FLXPostgresStatement.m */,
-				14805A791662313E00A4019F /* FLXPostgresTypeNSNumber.h */,
-				14805A7A1662313E00A4019F /* FLXPostgresTypeNSNumber.m */,
-				14805A7B1662313E00A4019F /* FLXPostgresTypeNSString.h */,
-				14805A7C1662313E00A4019F /* FLXPostgresTypeNSString.m */,
-				14805A7D1662313E00A4019F /* FLXPostgresTypes+Array.h */,
-				14805A7E1662313E00A4019F /* FLXPostgresTypes+Array.m */,
-				14805A7F1662313E00A4019F /* FLXPostgresTypes+DateTime.h */,
-				14805A801662313E00A4019F /* FLXPostgresTypes+DateTime.m */,
-				14805A811662313E00A4019F /* FLXPostgresTypes+Geometry.h */,
-				14805A821662313E00A4019F /* FLXPostgresTypes+Geometry.m */,
-				14805A831662313E00A4019F /* FLXPostgresTypes+NetAddr.h */,
-				14805A841662313E00A4019F /* FLXPostgresTypes+NetAddr.m */,
-				14805A851662313E00A4019F /* FLXPostgresTypes+NSData.h */,
-				14805A861662313E00A4019F /* FLXPostgresTypes+NSData.m */,
-				14805A871662313E00A4019F /* FLXPostgresTypes+NSNumber.h */,
-				14805A881662313E00A4019F /* FLXPostgresTypes+NSNumber.m */,
-				14805A891662313E00A4019F /* FLXPostgresTypes.h */,
-				14805A8A1662313E00A4019F /* FLXPostgresTypes.m */,
-				14805A8B1662313E00A4019F /* FLXTimeInterval.h */,
-				14805A8C1662313E00A4019F /* FLXTimeInterval.m */,
-				14805A8D1662313E00A4019F /* PostgresClientKit.h */,
-				14805A8E1662313E00A4019F /* PostgresClientKitPrivate.h */,
-			);
-			path = PostgresClientKit;
-			sourceTree = "<group>";
-		};
-		14805A8F1662313E00A4019F /* PostgresDataKit */ = {
-			isa = PBXGroup;
-			children = (
-				14805A901662313E00A4019F /* FLXPostgresConnection+DataUtils.h */,
-				14805A911662313E00A4019F /* FLXPostgresConnection+DataUtils.m */,
-				14805A921662313E00A4019F /* FLXPostgresDataCache.h */,
-				14805A931662313E00A4019F /* FLXPostgresDataCache.m */,
-				14805A941662313E00A4019F /* FLXPostgresDataObject.h */,
-				14805A951662313E00A4019F /* FLXPostgresDataObject.m */,
-				14805A961662313E00A4019F /* FLXPostgresDataObjectContext.h */,
-				14805A971662313E00A4019F /* FLXPostgresDataObjectContext.m */,
-				14805A981662313E00A4019F /* PostgresDataKit.h */,
-				14805A991662313E00A4019F /* PostgresDataKitPrivate.h */,
-			);
-			path = PostgresDataKit;
-			sourceTree = "<group>";
-		};
-		14805A9A1662313E00A4019F /* PostgresPrefPane */ = {
-			isa = PBXGroup;
-			children = (
-				14805A9B1662313E00A4019F /* PostgresInstallerMain.m */,
-				14805A9C1662313E00A4019F /* PostgresPrefPaneBindings.h */,
-				14805A9D1662313E00A4019F /* PostgresPrefPaneBindings.m */,
-				14805A9E1662313E00A4019F /* PostgresPrefPaneController.h */,
-				14805A9F1662313E00A4019F /* PostgresPrefPaneController.m */,
-				14805AA01662313E00A4019F /* PostgresPrefPaneShared.h */,
-				14805AA11662313E00A4019F /* PostgresPrefPaneShared.m */,
-				14805AA21662313E00A4019F /* PostgresServerApp.h */,
-				14805AA31662313E00A4019F /* PostgresServerApp.m */,
-				14805AA41662313E00A4019F /* PostgresServerKeychain.h */,
-				14805AA51662313E00A4019F /* PostgresServerKeychain.m */,
-				14805AA61662313E00A4019F /* PostgresServerMain.m */,
-			);
-			path = PostgresPrefPane;
-			sourceTree = "<group>";
-		};
-		14805AA71662313E00A4019F /* PostgresServerKit */ = {
-			isa = PBXGroup;
-			children = (
-				14805AA81662313E00A4019F /* FLXPostgresServer+Access.h */,
-				14805AA91662313E00A4019F /* FLXPostgresServer+Access.m */,
-				14805AAA1662313E00A4019F /* FLXPostgresServer.h */,
-				14805AAB1662313E00A4019F /* FLXPostgresServer.m */,
-				14805AAC1662313E00A4019F /* FLXPostgresServerAccessTuple.h */,
-				14805AAD1662313E00A4019F /* FLXPostgresServerAccessTuple.m */,
-				14805AAE1662313E00A4019F /* FLXPostgresServerIdentityTuple.h */,
-				14805AAF1662313E00A4019F /* FLXPostgresServerIdentityTuple.m */,
-				14805AB01662313E00A4019F /* PostgresServerKit.h */,
-				14805AB11662313E00A4019F /* PostgresServerKitPrivate.h */,
-			);
-			path = PostgresServerKit;
 			sourceTree = "<group>";
 		};
 		148F88C5166D61060088D3DF /* ui */ = {
@@ -1295,7 +989,6 @@
 				14EE3C35166752F80083C735 /* doc */,
 				14EE3C3A166752F80083C735 /* etc */,
 				14EE3C3E166752F80083C735 /* tar */,
-				14805A671662313E00A4019F /* old */,
 				6ED763FD15F2673600687079 /* Frameworks */,
 				6ED763FC15F2673600687079 /* Products */,
 				6E6A7E3F17B0311D00032B48 /* postgresql-kit.wiki */,
@@ -1414,12 +1107,6 @@
 			isa = PBXGroup;
 			children = (
 				6EDC4CC817BC24DA009E040D /* PGClientKit_testcases */,
-				6EB1E78D15F273350093F784 /* ClientConnection.h */,
-				6EB1E78E15F273350093F784 /* ClientConnection.m */,
-				6EB1E78F15F273350093F784 /* TypeTests+NSString.h */,
-				6EB1E79015F273350093F784 /* TypeTests+NSString.m */,
-				6EDC4CA517BC23E1009E040D /* NSURL+PGAdditions.h */,
-				6EDC4CA617BC23E1009E040D /* NSURL+PGAdditions.m */,
 			);
 			path = UnitTests;
 			sourceTree = "<group>";
@@ -2212,7 +1899,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6EDC4CC617BC2468009E040D /* NSURL+PGAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
