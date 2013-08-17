@@ -1,9 +1,8 @@
 #!/bin/bash
-
-# Build all targets!
+# Build all frameworks in Release configuration
 #
 # Syntax:
-#   build-all.sh
+#   build-frameworks.sh
 
 CURRENT_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 CONFIGURATION=Release

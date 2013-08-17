@@ -29,7 +29,7 @@
 }
 
 -(NSString* )windowNibName {
-	return @"SocketWindow";
+	return @"SocketConnectionWindow";
 }
 
 ////////////////////////////////////////////////////////////////////////////////
