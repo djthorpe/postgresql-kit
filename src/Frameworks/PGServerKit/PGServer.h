@@ -3,6 +3,7 @@
 #import "PGServerKit.h"
 
 extern NSUInteger PGServerDefaultPort;
+extern NSString* PGServerSuperuser;
 
 @interface PGServer : NSObject {
 	PGServerState _state;

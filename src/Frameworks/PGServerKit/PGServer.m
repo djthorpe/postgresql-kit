@@ -5,15 +5,9 @@
 #import "PGServer+Private.h"
 
 NSUInteger PGServerDefaultPort = DEF_PGPORT;
+NSString* PGServerSuperuser = @"postgres";
 
 @implementation PGServer
-
-@dynamic version;
-@dynamic uptime;
-@dynamic pid;
-@dynamic state;
-@dynamic dataPath;
-@dynamic socketPath;
 
 ////////////////////////////////////////////////////////////////////////////////
 // initialization methods
@@ -63,10 +57,6 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 
 +(NSString* )_dumpBinary {
 	return [[self _bundlePath] stringByAppendingPathComponent:@"Resources/postgresql-current-mac_x86_64/bin/pg_dumpall"];
-}
-
-+(NSString* )_superUsername {
-	return @"postgres";
 }
 
 +(NSString* )_hostAccessRulesFilename {
@@ -396,7 +386,7 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 }
 
 -(BOOL)_startTaskInitialize {
-	NSArray* theArguments = [NSArray arrayWithObjects:@"-D",[self dataPath],@"--encoding=UTF8",@"--no-locale",@"-U",[PGServer _superUsername],nil];
+	NSArray* theArguments = [NSArray arrayWithObjects:@"-D",[self dataPath],@"--encoding=UTF8",@"--no-locale",@"-U",PGServerSuperuser,nil];
 	return [self _startTask:[PGServer _initBinary] arguments:theArguments];
 }
 
@@ -538,7 +528,16 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// property implementation
+// properties
+
+@dynamic version;
+@dynamic uptime;
+@synthesize pid = _pid;
+@synthesize port = _port;
+@synthesize state = _state;
+@synthesize dataPath = _dataPath;
+@synthesize socketPath = _socketPath;
+@synthesize hostname = _hostname;
 
 -(NSString* )version {
 	NSPipe* theOutPipe = [[NSPipe alloc] init];
@@ -569,30 +568,6 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 	} else {
 		return nil;
 	}
-}
-
--(int)pid {
-	return _pid;
-}
-
--(PGServerState)state {
-	return _state;
-}
-
--(NSUInteger)port {
-	return _port;
-}
-
--(NSString* )hostname {
-	return _hostname;
-}
-
--(NSString* )dataPath {
-	return _dataPath;
-}
-
--(NSString* )socketPath {
-	return _socketPath;
 }
 
 -(NSTimeInterval)uptime {
@@ -745,3 +720,4 @@ NSUInteger PGServerDefaultPort = DEF_PGPORT;
 }
 
 @end
+

@@ -174,6 +174,9 @@
 		6E4DEC94162CC3E1008B26BD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E4DEC80162CC307008B26BD /* main.m */; };
 		6E4DEC95162CC4AB008B26BD /* PGClientKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 6ED85B4916288D0200A6DC02 /* PGClientKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E4DEC96162CC5E6008B26BD /* PGClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
+		6E5FCF9617BE9EFE00483AF6 /* PGConnection_tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E5FCF9517BE9EFE00483AF6 /* PGConnection_tests.m */; };
+		6E5FCF9917BEA04100483AF6 /* PGFoundationServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E5FCF9817BEA04100483AF6 /* PGFoundationServer.m */; };
+		6E5FCF9A17BEA3AD00483AF6 /* PGServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
 		6E68ADE71635DB4400436234 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C167C15F26BF20013A382 /* Cocoa.framework */; };
 		6E68AE011635DB6900436234 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB1E72D15F273350093F784 /* main.m */; };
 		6E68AE071635DD6E00436234 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E68AE041635DD6E00436234 /* AppDelegate.m */; };
@@ -265,6 +268,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 14280457166811D700A61BF6;
 			remoteInfo = openssl;
+		};
+		6E002D2F17BF9774001FB183 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E256FDE15F252620079AD2D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6ED763FA15F2673600687079;
+			remoteInfo = PGServerKit_mac;
 		};
 		6E14274C17B182700022238D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -486,6 +496,10 @@
 		6E48B370160604270044A6CB /* PGServer+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PGServer+Private.h"; sourceTree = "<group>"; };
 		6E4DEC80162CC307008B26BD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		6E4DEC85162CC38D008B26BD /* PGFoundationClient */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PGFoundationClient; sourceTree = BUILT_PRODUCTS_DIR; };
+		6E5FCF9417BE9EFE00483AF6 /* PGConnection_tests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGConnection_tests.h; sourceTree = "<group>"; };
+		6E5FCF9517BE9EFE00483AF6 /* PGConnection_tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGConnection_tests.m; sourceTree = "<group>"; };
+		6E5FCF9717BEA04100483AF6 /* PGFoundationServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGFoundationServer.h; sourceTree = "<group>"; };
+		6E5FCF9817BEA04100483AF6 /* PGFoundationServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGFoundationServer.m; sourceTree = "<group>"; };
 		6E68ADE51635DB4400436234 /* PGClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PGClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E68AE031635DD6E00436234 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		6E68AE041635DD6E00436234 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -521,11 +535,6 @@
 		6ED85B4616288C4800A6DC02 /* PGClientKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PGClientKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6ED85B4916288D0200A6DC02 /* PGClientKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGClientKit.h; sourceTree = "<group>"; };
 		6EDC4CB017BC2459009E040D /* PGClientKit_testcases.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PGClientKit_testcases.octest; sourceTree = BUILT_PRODUCTS_DIR; };
-		6EDC4CB117BC2459009E040D /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		6EDC4CB317BC2459009E040D /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
-		6EDC4CB617BC2459009E040D /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
-		6EDC4CB717BC2459009E040D /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		6EDC4CB817BC2459009E040D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6EDC4CCB17BC24DA009E040D /* PGClientKit_testcases.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PGClientKit_testcases.plist; sourceTree = "<group>"; };
 		6EDC4CCD17BC24DA009E040D /* NSURL_PGAdditions_tests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSURL_PGAdditions_tests.h; sourceTree = "<group>"; };
 		6EDC4CCE17BC24DA009E040D /* NSURL_PGAdditions_tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSURL_PGAdditions_tests.m; sourceTree = "<group>"; };
@@ -646,6 +655,7 @@
 			files = (
 				6EDC4CD517BC2755009E040D /* SenTestingKit.framework in Frameworks */,
 				6EDC4CD217BC274B009E040D /* PGClientKit.framework in Frameworks */,
+				6E5FCF9A17BEA3AD00483AF6 /* PGServerKit.framework in Frameworks */,
 				6EDC4CD317BC274B009E040D /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -986,7 +996,6 @@
 		6E256FDC15F252620079AD2D = {
 			isa = PBXGroup;
 			children = (
-				6EDC4CD417BC2755009E040D /* SenTestingKit.framework */,
 				14CF6E931667488500D2DF78 /* README.md */,
 				6EB1E70A15F273350093F784 /* src */,
 				6E1B43DC15F3A465001ED3BE /* resources */,
@@ -1119,11 +1128,9 @@
 		6ED763FD15F2673600687079 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6EDC4CD417BC2755009E040D /* SenTestingKit.framework */,
 				1413DF5817AEB041009615E5 /* mac */,
 				1413DF5717AEB03B009615E5 /* ios */,
-				6EDC4CB117BC2459009E040D /* SenTestingKit.framework */,
-				6EDC4CB317BC2459009E040D /* Cocoa.framework */,
-				6EDC4CB517BC2459009E040D /* Other Frameworks */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1142,22 +1149,16 @@
 			path = PGClientKit;
 			sourceTree = "<group>";
 		};
-		6EDC4CB517BC2459009E040D /* Other Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				6EDC4CB617BC2459009E040D /* AppKit.framework */,
-				6EDC4CB717BC2459009E040D /* CoreData.framework */,
-				6EDC4CB817BC2459009E040D /* Foundation.framework */,
-			);
-			name = "Other Frameworks";
-			sourceTree = "<group>";
-		};
 		6EDC4CC817BC24DA009E040D /* PGClientKit_testcases */ = {
 			isa = PBXGroup;
 			children = (
 				6EDC4CCB17BC24DA009E040D /* PGClientKit_testcases.plist */,
+				6E5FCF9717BEA04100483AF6 /* PGFoundationServer.h */,
+				6E5FCF9817BEA04100483AF6 /* PGFoundationServer.m */,
 				6EDC4CCD17BC24DA009E040D /* NSURL_PGAdditions_tests.h */,
 				6EDC4CCE17BC24DA009E040D /* NSURL_PGAdditions_tests.m */,
+				6E5FCF9417BE9EFE00483AF6 /* PGConnection_tests.h */,
+				6E5FCF9517BE9EFE00483AF6 /* PGConnection_tests.m */,
 			);
 			path = PGClientKit_testcases;
 			sourceTree = "<group>";
@@ -1456,6 +1457,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				6E002D3017BF9774001FB183 /* PBXTargetDependency */,
 				6EDC4CD117BC2659009E040D /* PBXTargetDependency */,
 			);
 			name = PGClientKit_testcases;
@@ -1875,6 +1877,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				6EDC4CCF17BC25FF009E040D /* NSURL_PGAdditions_tests.m in Sources */,
+				6E5FCF9617BE9EFE00483AF6 /* PGConnection_tests.m in Sources */,
+				6E5FCF9917BEA04100483AF6 /* PGFoundationServer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1920,6 +1924,11 @@
 			isa = PBXTargetDependency;
 			target = 14280457166811D700A61BF6 /* openssl_mac */;
 			targetProxy = 143398D4168F4F1A00234FBF /* PBXContainerItemProxy */;
+		};
+		6E002D3017BF9774001FB183 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6ED763FA15F2673600687079 /* PGServerKit_mac */;
+			targetProxy = 6E002D2F17BF9774001FB183 /* PBXContainerItemProxy */;
 		};
 		6E14274D17B182700022238D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -2869,6 +2878,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_AFTER_BUILD = YES;
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
@@ -2900,6 +2910,7 @@
 				INFOPLIST_FILE = src/UnitTests/PGClientKit_testcases/PGClientKit_testcases.plist;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_AFTER_BUILD = YES;
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Release;
@@ -3058,6 +3069,7 @@
 				6EDC4CC517BC2459009E040D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

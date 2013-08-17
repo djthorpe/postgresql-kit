@@ -17,12 +17,16 @@
 // constructors
 
 /**
- *  Create connection object and connect to remote endpoint in foreground
+ *  Create connection object and connect to remote endpoint in foreground. This
+ *  is a convenience method which allocates the PGConnection object, initializes
+ *  it, and connects to the remote server all at once. In general, you should
+ *  perform these three steps separately.
  *
  *  @param url The endpoint for PostgreSQL server communication
  *  @param error  A pointer to an NSError object
  *
- *  @return Will return YES on successful connection, or NO on failure.
+ *  @return Will return a PGConnection reference on successful connection, 
+ *          or nil on failure, and return the error message via the argument.
  */
 +(PGConnection* )connectionWithURL:(NSURL* )url error:(NSError** )error;
 

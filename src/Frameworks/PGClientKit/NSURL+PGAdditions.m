@@ -64,6 +64,13 @@
 	}
 }
 
++(NSString* )_pg_urlencode_path:(NSString* )path {
+	if(path==nil || [path length]==0) {
+		return @"";
+	}
+	return [self _pg_urlencode:path];
+}
+
 +(NSString* )_pg_urlencode_port:(NSUInteger)port {
 	if(port==0) {
 		return @"";
@@ -74,6 +81,10 @@
 
 /////////////////////////////////////////////////////////////////////////////
 // CONSTRUCTORS
+
++(id)URLWithSocketPath:(NSString* )path port:(NSUInteger)port database:(NSString* )database username:(NSString* )username params:(NSDictionary* )params {
+	return [[NSURL alloc] initWithSocketPath:path port:port database:database username:username params:params];
+}
 
 +(id)URLWithLocalDatabase:(NSString* )database username:(NSString* )username params:(NSDictionary* )params {
 	return [[NSURL alloc] initWithLocalDatabase:database username:username params:params];
@@ -87,13 +98,19 @@
 	return [[NSURL alloc] initWithHost:host port:port ssl:ssl username:username database:database params:params];
 }
 
--(id)initWithLocalDatabase:(NSString* )database username:(NSString* )username params:(NSDictionary* )params {
+-(id)initWithSocketPath:(NSString* )path port:(NSUInteger)port database:(NSString* )database username:(NSString* )username params:(NSDictionary* )params {
 	NSString* method = [PGConnection defaultURLScheme];
+	NSString* pathenc = [NSURL _pg_urlencode_path:[path stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
+	NSString* portenc = [NSURL _pg_urlencode_port:port];
 	NSString* dbenc = [NSURL _pg_urlencode_database:[database stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
 	NSString* queryenc = [NSURL _pg_urlencode_params:params];
 	NSString* userenc = [NSURL _pg_urlencode_user:[username stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
 	NSParameterAssert(method && dbenc && queryenc && userenc);
-	return [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@://%@/%@%@",method,userenc,dbenc,queryenc]];
+	return [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@://%@%@%@/%@%@",method,userenc,pathenc,portenc,dbenc,queryenc]];
+}
+
+-(id)initWithLocalDatabase:(NSString* )database username:(NSString* )username params:(NSDictionary* )params {
+	return [self initWithSocketPath:nil port:0 database:database username:username params:params];
 }
 
 -(id)initWithHost:(NSString* )host port:(NSUInteger)port ssl:(BOOL)ssl username:(NSString* )username database:(NSString* )database params:(NSDictionary* )params {
