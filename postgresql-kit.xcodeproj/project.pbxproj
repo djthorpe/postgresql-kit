@@ -160,6 +160,14 @@
 		14EB37531671326100B038B6 /* yellow.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14032D7A164A6F2200CD5796 /* yellow.tiff */; };
 		14EB375516713B3600B038B6 /* PGClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
 		14F94E0017A67C5C008212B0 /* PGSchemaProductOpTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 14F94DFF17A67C5C008212B0 /* PGSchemaProductOpTable.m */; };
+		6E002D3417BFA89A001FB183 /* ResizeControl.png in Resources */ = {isa = PBXBuildFile; fileRef = 148F88C7166D61060088D3DF /* ResizeControl.png */; };
+		6E002D3517BFA89D001FB183 /* Gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = 148F88C6166D61060088D3DF /* Gradient.png */; };
+		6E002D3D17BFC19A001FB183 /* SocketWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E002D3C17BFC19A001FB183 /* SocketWindow.xib */; };
+		6E002D4017BFC1F1001FB183 /* SocketWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E002D3F17BFC1F1001FB183 /* SocketWindowController.m */; };
+		6E002D4117BFC45D001FB183 /* elephant-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43E415F3A465001ED3BE /* elephant-32.png */; };
+		6E002D4417BFCE51001FB183 /* PGSidebarNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E002D4317BFCE51001FB183 /* PGSidebarNode.m */; };
+		6E002D4617BFDACE001FB183 /* red.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14032D79164A6F2200CD5796 /* red.tiff */; };
+		6E002D4917BFE349001FB183 /* PGSidebarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E002D4817BFE349001FB183 /* PGSidebarViewController.m */; };
 		6E031030162FE50B003225B1 /* PGStatement.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E03102E162FE50B003225B1 /* PGStatement.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E031031162FE50B003225B1 /* PGStatement.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E03102F162FE50B003225B1 /* PGStatement.m */; };
 		6E0773D9163744D90028783F /* PGResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0773D7163744D90028783F /* PGResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -169,7 +177,6 @@
 		6E222C5217B035F00087A483 /* LDAP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E222C5117B035F00087A483 /* LDAP.framework */; };
 		6E2A0EBF16374CAF00970FEF /* elephant-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43E615F3A465001ED3BE /* elephant-64.png */; };
 		6E2A0EC21637540400970FEF /* PGClientKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
-		6E2DFD2E163C54F400911094 /* TerminalView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2DFD2D163C54F400911094 /* TerminalView.m */; };
 		6E4DEC87162CC38D008B26BD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C168115F26BF20013A382 /* Foundation.framework */; };
 		6E4DEC94162CC3E1008B26BD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E4DEC80162CC307008B26BD /* main.m */; };
 		6E4DEC95162CC4AB008B26BD /* PGClientKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 6ED85B4916288D0200A6DC02 /* PGClientKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -179,7 +186,7 @@
 		6E5FCF9A17BEA3AD00483AF6 /* PGServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
 		6E68ADE71635DB4400436234 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C167C15F26BF20013A382 /* Cocoa.framework */; };
 		6E68AE011635DB6900436234 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB1E72D15F273350093F784 /* main.m */; };
-		6E68AE071635DD6E00436234 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E68AE041635DD6E00436234 /* AppDelegate.m */; };
+		6E68AE071635DD6E00436234 /* PGClientApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E68AE041635DD6E00436234 /* PGClientApplication.m */; };
 		6E68AE081635DD6E00436234 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E68AE051635DD6E00436234 /* MainMenu.xib */; };
 		6E68AE0A1635DDB500436234 /* elephant.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43E715F3A465001ED3BE /* elephant.icns */; };
 		6E68AE0B1635DDCE00436234 /* PGClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
@@ -199,8 +206,6 @@
 		6ECA7ADE15F3637600AF2B70 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C168115F26BF20013A382 /* Foundation.framework */; };
 		6ECA7AE915F3638500AF2B70 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ECA7AD715F3635A00AF2B70 /* main.m */; };
 		6ECA7AEA15F363C400AF2B70 /* PGServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
-		6ED7EA7C1637219B0040066F /* PGLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ED7EA7B1637219B0040066F /* PGLoginController.m */; };
-		6ED7EA7F1637249C0040066F /* PGLoginController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6ED7EA7E1637249C0040066F /* PGLoginController.xib */; };
 		6EDC4CCF17BC25FF009E040D /* NSURL_PGAdditions_tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EDC4CCE17BC24DA009E040D /* NSURL_PGAdditions_tests.m */; };
 		6EDC4CD217BC274B009E040D /* PGClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
 		6EDC4CD317BC274B009E040D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C168115F26BF20013A382 /* Foundation.framework */; };
@@ -209,7 +214,6 @@
 		6EE23F5E1631EF7500C99BA7 /* PGConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EE23F5B1631EF7500C99BA7 /* PGConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6EE23F5F1631EF7500C99BA7 /* PGConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE23F5C1631EF7500C99BA7 /* PGConnection.m */; };
 		6EE23F611632076800C99BA7 /* PGClientParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE23F601632076800C99BA7 /* PGClientParams.m */; };
-		6EF22D76163D533C00F28238 /* TerminalData.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF22D75163D533C00F28238 /* TerminalData.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -275,6 +279,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 6ED763FA15F2673600687079;
 			remoteInfo = PGServerKit_mac;
+		};
+		6E002D3117BFA5FA001FB183 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E256FDE15F252620079AD2D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6ED85B3516288C4800A6DC02;
+			remoteInfo = PGClientKit_mac;
 		};
 		6E14274C17B182700022238D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -475,6 +486,13 @@
 		14EE3C40166752F80083C735 /* postgresql-9.1.5.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = "postgresql-9.1.5.tar.gz"; sourceTree = "<group>"; };
 		14F94DFE17A67C5C008212B0 /* PGSchemaProductOpTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSchemaProductOpTable.h; sourceTree = "<group>"; };
 		14F94DFF17A67C5C008212B0 /* PGSchemaProductOpTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSchemaProductOpTable.m; sourceTree = "<group>"; };
+		6E002D3C17BFC19A001FB183 /* SocketWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SocketWindow.xib; sourceTree = "<group>"; };
+		6E002D3E17BFC1F1001FB183 /* SocketWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketWindowController.h; sourceTree = "<group>"; };
+		6E002D3F17BFC1F1001FB183 /* SocketWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocketWindowController.m; sourceTree = "<group>"; };
+		6E002D4217BFCE51001FB183 /* PGSidebarNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSidebarNode.h; sourceTree = "<group>"; };
+		6E002D4317BFCE51001FB183 /* PGSidebarNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSidebarNode.m; sourceTree = "<group>"; };
+		6E002D4717BFE349001FB183 /* PGSidebarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSidebarViewController.h; sourceTree = "<group>"; };
+		6E002D4817BFE349001FB183 /* PGSidebarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSidebarViewController.m; sourceTree = "<group>"; };
 		6E03102E162FE50B003225B1 /* PGStatement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGStatement.h; sourceTree = "<group>"; };
 		6E03102F162FE50B003225B1 /* PGStatement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGStatement.m; sourceTree = "<group>"; };
 		6E0773D7163744D90028783F /* PGResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGResult.h; sourceTree = "<group>"; };
@@ -486,13 +504,10 @@
 		6E1B43E615F3A465001ED3BE /* elephant-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "elephant-64.png"; sourceTree = "<group>"; };
 		6E1B43E715F3A465001ED3BE /* elephant.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = elephant.icns; sourceTree = "<group>"; };
 		6E1B43EA15F3A465001ED3BE /* gear-14x14.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gear-14x14.png"; sourceTree = "<group>"; };
-		6E1B43EB15F3A465001ED3BE /* gradient-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gradient-1.png"; sourceTree = "<group>"; };
 		6E1B43ED15F3A465001ED3BE /* logo_w_elephant.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = logo_w_elephant.pdf; sourceTree = "<group>"; };
 		6E1B43F915F3A465001ED3BE /* strapline-200x40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "strapline-200x40.png"; sourceTree = "<group>"; };
 		6E222C4F17B035E90087A483 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		6E222C5117B035F00087A483 /* LDAP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LDAP.framework; path = System/Library/Frameworks/LDAP.framework; sourceTree = SDKROOT; };
-		6E2DFD2C163C54F400911094 /* TerminalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TerminalView.h; sourceTree = "<group>"; };
-		6E2DFD2D163C54F400911094 /* TerminalView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TerminalView.m; sourceTree = "<group>"; };
 		6E48B370160604270044A6CB /* PGServer+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PGServer+Private.h"; sourceTree = "<group>"; };
 		6E4DEC80162CC307008B26BD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		6E4DEC85162CC38D008B26BD /* PGFoundationClient */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PGFoundationClient; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -501,8 +516,8 @@
 		6E5FCF9717BEA04100483AF6 /* PGFoundationServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGFoundationServer.h; sourceTree = "<group>"; };
 		6E5FCF9817BEA04100483AF6 /* PGFoundationServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGFoundationServer.m; sourceTree = "<group>"; };
 		6E68ADE51635DB4400436234 /* PGClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PGClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		6E68AE031635DD6E00436234 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		6E68AE041635DD6E00436234 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		6E68AE031635DD6E00436234 /* PGClientApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGClientApplication.h; sourceTree = "<group>"; };
+		6E68AE041635DD6E00436234 /* PGClientApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGClientApplication.m; sourceTree = "<group>"; };
 		6E68AE051635DD6E00436234 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		6E68AE061635DD6E00436234 /* PGClient.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PGClient.plist; sourceTree = "<group>"; };
 		6E6A7E3F17B0311D00032B48 /* postgresql-kit.wiki */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "postgresql-kit.wiki"; path = "../postgresql-kit.wiki"; sourceTree = "<group>"; };
@@ -529,9 +544,6 @@
 		6ECA7AD715F3635A00AF2B70 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		6ECA7ADC15F3637600AF2B70 /* PGFoundationServer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PGFoundationServer; sourceTree = BUILT_PRODUCTS_DIR; };
 		6ED763FB15F2673600687079 /* PGServerKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PGServerKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6ED7EA7A1637219B0040066F /* PGLoginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGLoginController.h; sourceTree = "<group>"; };
-		6ED7EA7B1637219B0040066F /* PGLoginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGLoginController.m; sourceTree = "<group>"; };
-		6ED7EA7E1637249C0040066F /* PGLoginController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PGLoginController.xib; sourceTree = "<group>"; };
 		6ED85B4616288C4800A6DC02 /* PGClientKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PGClientKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6ED85B4916288D0200A6DC02 /* PGClientKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGClientKit.h; sourceTree = "<group>"; };
 		6EDC4CB017BC2459009E040D /* PGClientKit_testcases.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PGClientKit_testcases.octest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -544,8 +556,6 @@
 		6EE23F5C1631EF7500C99BA7 /* PGConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGConnection.m; sourceTree = "<group>"; };
 		6EE23F601632076800C99BA7 /* PGClientParams.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGClientParams.m; sourceTree = "<group>"; };
 		6EE23F62163207DA00C99BA7 /* PGClientParams.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGClientParams.h; sourceTree = "<group>"; };
-		6EF22D74163D533C00F28238 /* TerminalData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TerminalData.h; sourceTree = "<group>"; };
-		6EF22D75163D533C00F28238 /* TerminalData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TerminalData.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -973,6 +983,27 @@
 			path = tar;
 			sourceTree = "<group>";
 		};
+		6E002D3B17BFC152001FB183 /* SocketWindow */ = {
+			isa = PBXGroup;
+			children = (
+				6E002D3C17BFC19A001FB183 /* SocketWindow.xib */,
+				6E002D3E17BFC1F1001FB183 /* SocketWindowController.h */,
+				6E002D3F17BFC1F1001FB183 /* SocketWindowController.m */,
+			);
+			name = SocketWindow;
+			sourceTree = "<group>";
+		};
+		6E002D4517BFD9F4001FB183 /* Sidebar */ = {
+			isa = PBXGroup;
+			children = (
+				6E002D4217BFCE51001FB183 /* PGSidebarNode.h */,
+				6E002D4317BFCE51001FB183 /* PGSidebarNode.m */,
+				6E002D4717BFE349001FB183 /* PGSidebarViewController.h */,
+				6E002D4817BFE349001FB183 /* PGSidebarViewController.m */,
+			);
+			name = Sidebar;
+			sourceTree = "<group>";
+		};
 		6E1B43DC15F3A465001ED3BE /* resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -986,7 +1017,6 @@
 				6E1B43E515F3A465001ED3BE /* elephant-512.png */,
 				6E1B43E715F3A465001ED3BE /* elephant.icns */,
 				6E1B43EA15F3A465001ED3BE /* gear-14x14.png */,
-				6E1B43EB15F3A465001ED3BE /* gradient-1.png */,
 				6E1B43ED15F3A465001ED3BE /* logo_w_elephant.pdf */,
 				6E1B43F915F3A465001ED3BE /* strapline-200x40.png */,
 			);
@@ -1008,27 +1038,6 @@
 			);
 			sourceTree = "<group>";
 		};
-		6E2DFD29163C546F00911094 /* PGLoginController */ = {
-			isa = PBXGroup;
-			children = (
-				6ED7EA7A1637219B0040066F /* PGLoginController.h */,
-				6ED7EA7B1637219B0040066F /* PGLoginController.m */,
-				6ED7EA7E1637249C0040066F /* PGLoginController.xib */,
-			);
-			name = PGLoginController;
-			sourceTree = "<group>";
-		};
-		6E2DFD2B163C548800911094 /* TerminalView */ = {
-			isa = PBXGroup;
-			children = (
-				6E2DFD2C163C54F400911094 /* TerminalView.h */,
-				6E2DFD2D163C54F400911094 /* TerminalView.m */,
-				6EF22D74163D533C00F28238 /* TerminalData.h */,
-				6EF22D75163D533C00F28238 /* TerminalData.m */,
-			);
-			name = TerminalView;
-			sourceTree = "<group>";
-		};
 		6E4DEC7F162CC2E7008B26BD /* PGFoundationClient */ = {
 			isa = PBXGroup;
 			children = (
@@ -1042,10 +1051,10 @@
 		6E68AE021635DD6E00436234 /* PGClient */ = {
 			isa = PBXGroup;
 			children = (
-				6E2DFD2B163C548800911094 /* TerminalView */,
-				6E2DFD29163C546F00911094 /* PGLoginController */,
-				6E68AE031635DD6E00436234 /* AppDelegate.h */,
-				6E68AE041635DD6E00436234 /* AppDelegate.m */,
+				6E002D3B17BFC152001FB183 /* SocketWindow */,
+				6E002D4517BFD9F4001FB183 /* Sidebar */,
+				6E68AE031635DD6E00436234 /* PGClientApplication.h */,
+				6E68AE041635DD6E00436234 /* PGClientApplication.m */,
 				6E68AE051635DD6E00436234 /* MainMenu.xib */,
 				6E68AE061635DD6E00436234 /* PGClient.plist */,
 			);
@@ -1383,6 +1392,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				6E002D3217BFA5FA001FB183 /* PBXTargetDependency */,
 			);
 			name = PGClient;
 			productName = PGClient;
@@ -1588,8 +1598,12 @@
 			files = (
 				6E68AE081635DD6E00436234 /* MainMenu.xib in Resources */,
 				6E68AE0A1635DDB500436234 /* elephant.icns in Resources */,
-				6ED7EA7F1637249C0040066F /* PGLoginController.xib in Resources */,
 				6E2A0EBF16374CAF00970FEF /* elephant-64.png in Resources */,
+				6E002D3417BFA89A001FB183 /* ResizeControl.png in Resources */,
+				6E002D3517BFA89D001FB183 /* Gradient.png in Resources */,
+				6E002D3D17BFC19A001FB183 /* SocketWindow.xib in Resources */,
+				6E002D4117BFC45D001FB183 /* elephant-32.png in Resources */,
+				6E002D4617BFDACE001FB183 /* red.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1832,10 +1846,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E68AE011635DB6900436234 /* main.m in Sources */,
-				6E68AE071635DD6E00436234 /* AppDelegate.m in Sources */,
-				6ED7EA7C1637219B0040066F /* PGLoginController.m in Sources */,
-				6E2DFD2E163C54F400911094 /* TerminalView.m in Sources */,
-				6EF22D76163D533C00F28238 /* TerminalData.m in Sources */,
+				6E68AE071635DD6E00436234 /* PGClientApplication.m in Sources */,
+				6E002D4017BFC1F1001FB183 /* SocketWindowController.m in Sources */,
+				6E002D4417BFCE51001FB183 /* PGSidebarNode.m in Sources */,
+				6E002D4917BFE349001FB183 /* PGSidebarViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1929,6 +1943,11 @@
 			isa = PBXTargetDependency;
 			target = 6ED763FA15F2673600687079 /* PGServerKit_mac */;
 			targetProxy = 6E002D2F17BF9774001FB183 /* PBXContainerItemProxy */;
+		};
+		6E002D3217BFA5FA001FB183 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6ED85B3516288C4800A6DC02 /* PGClientKit_mac */;
+			targetProxy = 6E002D3117BFA5FA001FB183 /* PBXContainerItemProxy */;
 		};
 		6E14274D17B182700022238D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -2541,7 +2560,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "$(SRCROOT)/src/Example/PGClient/PGClient.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/src/Apps/PGClient/PGClient.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2568,7 +2587,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "$(SRCROOT)/src/Example/PGClient/PGClient.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/src/Apps/PGClient/PGClient.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
