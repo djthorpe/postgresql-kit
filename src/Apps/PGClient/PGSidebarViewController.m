@@ -1,6 +1,7 @@
 
 #import "PGSidebarViewController.h"
 #import "PGSidebarNode.h"
+#import "PGClientApplication.h"
 
 @implementation PGSidebarViewController
 
@@ -20,13 +21,13 @@
 	[self willChangeValueForKey:@"nodes"];
 
 	// create headers in the sidebar
-	_servers = [[PGSidebarNode alloc] initWithName:@"SERVERS" isHeader:YES];
+	_servers = [[PGSidebarNode alloc] initWithHeader:@"SERVERS"];
 	[_nodes addObject:_servers];
-	[_nodes addObject:[[PGSidebarNode alloc] initWithName:@"DATABASES" isHeader:YES]];
-	[_nodes addObject:[[PGSidebarNode alloc] initWithName:@"QUERIES" isHeader:YES]];
+	[_nodes addObject:[[PGSidebarNode alloc] initWithHeader:@"DATABASES"]];
+	[_nodes addObject:[[PGSidebarNode alloc] initWithHeader:@"QUERIES"]];
 	
 	// add local database connection
-	[[_servers children] addObject:[[PGSidebarNode alloc] initWithName:@"Internal Server" isHeader:NO]];
+	[[_servers children] addObject:[[PGSidebarNode alloc] initWithInternalServer]];
 
 	[self didChangeValueForKey:@"nodes"];
 }
@@ -36,6 +37,7 @@
 
 @synthesize nodes = _nodes;
 @synthesize servers = _servers;
+@synthesize selectedNode = _selectedNode;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Notification
@@ -54,10 +56,51 @@
 ////////////////////////////////////////////////////////////////////////////////
 // NSOutlineView delegate
 
--(NSView *)outlineView:(NSOutlineView *)outlineView viewForTableColumn:(NSTableColumn *)column item:(id)treeNode {
+-(NSView* )outlineView:(NSOutlineView* )outlineView viewForTableColumn:(NSTableColumn* )column item:(id)treeNode {
     PGSidebarNode* item = [treeNode representedObject];
     BOOL isHeader = [item isHeader];
 	return [outlineView makeViewWithIdentifier:isHeader ? @"HeaderCell" : @"DataCell" owner:self];
+}
+
+-(BOOL)outlineView:(NSOutlineView *)outlineView shouldSelectItem:(id)treeNode {
+	PGSidebarNode* item = [treeNode representedObject];
+	if([item isHeader]) {
+		return NO;
+	}
+	return YES;
+}
+
+-(void)outlineViewSelectionDidChange:(NSNotification* )notification {
+	NSParameterAssert([[notification object] isKindOfClass:[NSOutlineView class]]);
+	NSOutlineView* view = (NSOutlineView* )[notification object];
+	NSIndexSet* selectedRows = [view selectedRowIndexes];
+	PGSidebarNode* selectedNode = nil;
+	if([selectedRows count]) {
+		// only select first item
+		id item = [view itemAtRow:[selectedRows firstIndex]];
+		NSParameterAssert(item);
+		PGSidebarNode* node = [item representedObject];
+		NSParameterAssert([node isKindOfClass:[PGSidebarNode class]]);
+		selectedNode = node;
+	}
+	_selectedNode = selectedNode;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// IBActions
+
+-(IBAction)doOpen:(id)sender {
+	PGSidebarNode* node = [self selectedNode];
+	if([node isServer]) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:PGClientNotificationOpenConnection object:node];
+	}
+}
+
+-(IBAction)doClose:(id)sender {
+	PGSidebarNode* node = [self selectedNode];
+	if([node isServer]) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:PGClientNotificationCloseConnection object:node];
+	}
 }
 
 @end

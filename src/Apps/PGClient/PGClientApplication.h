@@ -9,9 +9,11 @@
 
 // notifications
 extern NSString* PGClientAddConnectionURL;
+extern NSString* PGClientNotificationOpenConnection;
+extern NSString* PGClientNotificationCloseConnection;
 
-@interface PGClientApplication : NSObject <NSApplicationDelegate> {
-	NSMutableArray* _sidebarNodes;
+@interface PGClientApplication : NSObject <NSApplicationDelegate, PGServerDelegate> {
+	PGServer* _internalServer;
 }
 
 // properties
@@ -20,6 +22,7 @@ extern NSString* PGClientAddConnectionURL;
 @property IBOutlet LocalConnectionWindowController* ibLocalConnectionWindowController;
 @property IBOutlet RemoteConnectionWindowController* ibRemoteConnectionWindowController;
 @property IBOutlet PGSidebarViewController* ibSidebarViewController;
+@property (readonly) PGServer* internalServer;
 
 // IBActions
 -(IBAction)doAddLocalConnection:(id)sender;

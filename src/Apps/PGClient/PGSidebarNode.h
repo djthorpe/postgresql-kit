@@ -4,17 +4,25 @@
 @interface PGSidebarNode : NSObject {
 	NSString* _name;
 	NSMutableArray* _children;
+	NSURL* _url;
 	BOOL _isHeader;
+	BOOL _isServer;
+	BOOL _isInternalServer;
 }
 
 // constructor
--(id)initWithName:(NSString* )name isHeader:(BOOL)isHeader;
+-(id)initWithHeader:(NSString* )name;
+-(id)initWithInternalServer;
 -(id)initWithLocalServerURL:(NSURL* )url;
+-(id)initWithRemoteServerURL:(NSURL* )url;
 
 // properties
-@property NSMutableArray* children;
-@property BOOL isHeader;
+@property (readonly) NSMutableArray* children;
+@property (readonly) BOOL isHeader;
+@property (readonly) BOOL isServer;
+@property (readonly) BOOL isInternalServer;
 @property NSString* name;
+@property NSURL* url;
 @property NSImage* image;
 
 @end
