@@ -208,6 +208,9 @@
 		6ECA7ADE15F3637600AF2B70 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C168115F26BF20013A382 /* Foundation.framework */; };
 		6ECA7AE915F3638500AF2B70 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ECA7AD715F3635A00AF2B70 /* main.m */; };
 		6ECA7AEA15F363C400AF2B70 /* PGServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
+		6ED779EE17C11A0E00124DF1 /* PGServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
+		6ED779EF17C11A1B00124DF1 /* PGServerKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
+		6ED779F417C1267300124DF1 /* traffic-grey.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ED779F117C1266100124DF1 /* traffic-grey.png */; };
 		6EDC4CCF17BC25FF009E040D /* NSURL_PGAdditions_tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EDC4CCE17BC24DA009E040D /* NSURL_PGAdditions_tests.m */; };
 		6EDC4CD217BC274B009E040D /* PGClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
 		6EDC4CD317BC274B009E040D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C168115F26BF20013A382 /* Foundation.framework */; };
@@ -324,6 +327,13 @@
 			remoteGlobalIDString = 6E256FEE15F255780079AD2D;
 			remoteInfo = postgresql;
 		};
+		6ED779EC17C11A0900124DF1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E256FDE15F252620079AD2D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6ED763FA15F2673600687079;
+			remoteInfo = PGServerKit_mac;
+		};
 		6ED85B3716288C4800A6DC02 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6E256FDE15F252620079AD2D /* Project object */;
@@ -369,6 +379,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				6ED779EF17C11A1B00124DF1 /* PGServerKit.framework in CopyFiles */,
 				6E2A0EC21637540400970FEF /* PGClientKit.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -550,6 +561,10 @@
 		6ECA7AD715F3635A00AF2B70 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		6ECA7ADC15F3637600AF2B70 /* PGFoundationServer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PGFoundationServer; sourceTree = BUILT_PRODUCTS_DIR; };
 		6ED763FB15F2673600687079 /* PGServerKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PGServerKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6ED779F017C1266100124DF1 /* traffic-green.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "traffic-green.tiff"; sourceTree = "<group>"; };
+		6ED779F117C1266100124DF1 /* traffic-grey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "traffic-grey.png"; sourceTree = "<group>"; };
+		6ED779F217C1266100124DF1 /* traffic-red.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "traffic-red.tiff"; sourceTree = "<group>"; };
+		6ED779F317C1266100124DF1 /* traffic-yellow.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "traffic-yellow.tiff"; sourceTree = "<group>"; };
 		6ED85B4616288C4800A6DC02 /* PGClientKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PGClientKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6ED85B4916288D0200A6DC02 /* PGClientKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGClientKit.h; sourceTree = "<group>"; };
 		6EDC4CB017BC2459009E040D /* PGClientKit_testcases.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PGClientKit_testcases.octest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -633,6 +648,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6ED779EE17C11A0E00124DF1 /* PGServerKit.framework in Frameworks */,
 				6E68AE0B1635DDCE00436234 /* PGClientKit.framework in Frameworks */,
 				6E68ADE71635DB4400436234 /* Cocoa.framework in Frameworks */,
 			);
@@ -699,6 +715,10 @@
 		14032D77164A6F2200CD5796 /* traffic */ = {
 			isa = PBXGroup;
 			children = (
+				6ED779F017C1266100124DF1 /* traffic-green.tiff */,
+				6ED779F117C1266100124DF1 /* traffic-grey.png */,
+				6ED779F217C1266100124DF1 /* traffic-red.tiff */,
+				6ED779F317C1266100124DF1 /* traffic-yellow.tiff */,
 				14032D78164A6F2200CD5796 /* green.tiff */,
 				14032D79164A6F2200CD5796 /* red.tiff */,
 				14032D7A164A6F2200CD5796 /* yellow.tiff */,
@@ -1410,6 +1430,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				6ED779ED17C11A0900124DF1 /* PBXTargetDependency */,
 				6E002D3217BFA5FA001FB183 /* PBXTargetDependency */,
 			);
 			name = PGClient;
@@ -1623,6 +1644,7 @@
 				6E002D4117BFC45D001FB183 /* elephant-32.png in Resources */,
 				6E002D4617BFDACE001FB183 /* red.tiff in Resources */,
 				6E002D4D17BFED9B001FB183 /* RemoteConnectionWindow.xib in Resources */,
+				6ED779F417C1267300124DF1 /* traffic-grey.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1993,6 +2015,11 @@
 			isa = PBXTargetDependency;
 			target = 6E256FEE15F255780079AD2D /* postgresql_mac */;
 			targetProxy = 6ED7641215F2674E00687079 /* PBXContainerItemProxy */;
+		};
+		6ED779ED17C11A0900124DF1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6ED763FA15F2673600687079 /* PGServerKit_mac */;
+			targetProxy = 6ED779EC17C11A0900124DF1 /* PBXContainerItemProxy */;
 		};
 		6ED85B3616288C4800A6DC02 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

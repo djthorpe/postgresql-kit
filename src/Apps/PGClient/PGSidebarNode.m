@@ -18,6 +18,16 @@
 	return self;
 }
 
+-(id)initWithLocalServerURL:(NSURL* )url {
+	self = [super init];
+	if(self) {
+		_name = [url absoluteString];
+		_isHeader = NO;
+		_children = nil;
+	}
+	return self;		
+}
+
 // properties
 @synthesize name = _name;
 @synthesize isHeader = _isHeader;

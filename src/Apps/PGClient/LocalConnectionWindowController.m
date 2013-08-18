@@ -1,6 +1,11 @@
 
 #import "LocalConnectionWindowController.h"
+#import "PGClientApplication.h"
 #import <PGClientKit/PGClientKit.h>
+
+@interface LocalConnectionWindowController (Private)
+-(void)_setValidParameters;
+@end
 
 @implementation LocalConnectionWindowController
 
@@ -15,13 +20,13 @@
 		_database = @"";
 		_port = 0;
 		_defaultPort = YES;
+		_validParameters = NO;
     }
     return self;
 }
 
 -(void)windowDidLoad {
     [super windowDidLoad];
-	NSLog(@"windowDidLoad");
 }
 
 -(NSString* )windowNibName {
@@ -31,10 +36,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 // properties
 
-@synthesize port = _port;
 @synthesize path = _path;
-@synthesize username = _username;
 @synthesize database = _database;
+@synthesize validParameters = _validParameters;
+@dynamic username;
+@dynamic port;
 @dynamic displayedPath;
 @dynamic defaultPort;
 
@@ -46,11 +52,48 @@
 	return displayedPath;
 }
 
--(void)setDefaultPort:(BOOL)value {
-	if(value) {
-		[self setPort:5832];
+-(NSString* )username {
+	return _username;
+}
+
+-(void)setUsername:(NSString* )value {
+	[self willChangeValueForKey:@"username"];
+	_username = value;
+	[self didChangeValueForKey:@"username"];
+	[self _setValidParameters];
+}
+
+-(NSUInteger)port {
+	return _port;
+}
+
+-(void)setPort:(NSUInteger)port {
+	[self willChangeValueForKey:@"port"];
+	[self willChangeValueForKey:@"defaultPort"];
+	if(port==0 || port==PGClientDefaultPort) {
+		_port = PGClientDefaultPort;
+		_defaultPort = YES;
+	} else {
+		_port = port;
+		_defaultPort = NO;
 	}
-	_defaultPort = value;
+	[self didChangeValueForKey:@"port"];
+	[self didChangeValueForKey:@"defaultPort"];
+	[self _setValidParameters];
+}
+
+-(void)setDefaultPort:(BOOL)value {
+	[self willChangeValueForKey:@"defaultPort"];
+	[self willChangeValueForKey:@"port"];
+	if(value) {
+		_port = PGClientDefaultPort;
+		_defaultPort = YES;
+	} else {
+		_defaultPort = NO;
+	}
+	[self didChangeValueForKey:@"port"];
+	[self didChangeValueForKey:@"defaultPort"];
+	[self _setValidParameters];
 }
 
 -(BOOL)defaultPort {
@@ -61,11 +104,44 @@
 // private methods
 
 -(void)_chooseNewSocketPath:(NSString* )newPath {
-	NSLog(@"new path = %@",newPath);
 	[self willChangeValueForKey:@"displayedPath"];
 	[self setPath:newPath];
 	[self didChangeValueForKey:@"displayedPath"];
-	NSLog(@"new path = %@",[self displayedPath]);
+	[self _setValidParameters];
+}
+
+-(BOOL)_checkConnectionParameters {
+	// check input path
+	if([[self path] length]==0) {
+		return NO;
+	}
+	BOOL isDirectory;
+	if([[NSFileManager defaultManager] fileExistsAtPath:[self path] isDirectory:&isDirectory]==NO) {
+		return NO;
+	}
+	if([[NSFileManager defaultManager] isReadableFileAtPath:[self path]]==NO) {
+		return NO;
+	}
+	// check port
+	if([self port] < 1 || [self port] > PGClientMaximumPort) {
+		return NO;
+	}
+	// check username
+	if([[self username] length]==0) {
+		return NO;
+	}
+	NSCharacterSet* usernameChars = [NSCharacterSet characterSetWithCharactersInString:@"_0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"];
+	NSRange usernameTest = [[self username] rangeOfCharacterFromSet:[usernameChars invertedSet]];
+	if(usernameTest.location != NSNotFound) {
+		return NO;
+	}
+	return YES;
+}
+
+-(void)_setValidParameters {
+	[self willChangeValueForKey:@"validParameters"];
+	_validParameters = [self _checkConnectionParameters];
+	[self didChangeValueForKey:@"validParameters"];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -73,17 +149,21 @@
 
 -(void)beginSheetForParentWindow:(NSWindow* )parentWindow {
 	// set parameters
+	[self setPort:PGClientDefaultPort];
 	[self setDefaultPort:YES];
-	
+	[self _chooseNewSocketPath:@""];
+	[self setUsername:NSUserName()];
+	[self setDatabase:@""];
 	[NSApp beginSheet:[self window] modalForWindow:parentWindow modalDelegate:self didEndSelector:@selector(_endSheet:returnCode:contextInfo:) contextInfo:nil];
 }
 
 -(void)_endSheet:(NSWindow *)theSheet returnCode:(NSInteger)returnCode contextInfo:(void* )contextInfo {
 	[theSheet orderOut:self];
-	if(returnCode != NSOKButton) {
-		NSLog(@"Cancel pressed");
-	} else {
-		NSLog(@"OK pressed");
+	if(returnCode==NSOKButton) {
+		// add connection
+		NSURL* url = [NSURL URLWithSocketPath:[self path] port:[self port] database:[self database] username:[self username] params:nil];
+		// send notification for adding an item into the sidebar
+		[[NSNotificationCenter defaultCenter] postNotificationName:PGClientAddConnectionURL object:url];
 	}
 }
 

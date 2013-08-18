@@ -4,31 +4,52 @@
 
 @implementation PGSidebarViewController
 
+////////////////////////////////////////////////////////////////////////////////
 // initializers
+
 -(id)init {
     self = [super init];
     if (self) {
-        [self setNodes:[NSMutableArray array]];
+		_nodes = [NSMutableArray array];
+		_servers = nil;
     }
     return self;
 }
 
--(void)awakeFromNib {
-	NSLog(@"awakeFromNib");
-	if([[self nodes] count]==0) {
-		[self willChangeValueForKey:@"nodes"];
-		PGSidebarNode* connections = [[PGSidebarNode alloc] initWithName:@"CONNECTIONS" isHeader:YES];
-		[[self nodes] addObject:connections];
-		[[self nodes] addObject:[[PGSidebarNode alloc] initWithName:@"DATABASES" isHeader:YES]];
-		[[self nodes] addObject:[[PGSidebarNode alloc] initWithName:@"TABLES & VIEWS" isHeader:YES]];
-		[[connections children] addObject:[[PGSidebarNode alloc] initWithName:@"Localhost" isHeader:NO]];
-		[[connections children] addObject:[[PGSidebarNode alloc] initWithName:@"Second Localhost" isHeader:NO]];
-		[self didChangeValueForKey:@"nodes"];
-	}
+-(void)applicationDidFinishLaunching:(NSNotification* )aNotification {
+	[self willChangeValueForKey:@"nodes"];
+
+	// create headers in the sidebar
+	_servers = [[PGSidebarNode alloc] initWithName:@"SERVERS" isHeader:YES];
+	[_nodes addObject:_servers];
+	[_nodes addObject:[[PGSidebarNode alloc] initWithName:@"DATABASES" isHeader:YES]];
+	[_nodes addObject:[[PGSidebarNode alloc] initWithName:@"QUERIES" isHeader:YES]];
+	
+	// add local database connection
+	[[_servers children] addObject:[[PGSidebarNode alloc] initWithName:@"Internal Server" isHeader:NO]];
+
+	[self didChangeValueForKey:@"nodes"];
 }
 
+////////////////////////////////////////////////////////////////////////////////
 // properties
-@synthesize nodes;
+
+@synthesize nodes = _nodes;
+@synthesize servers = _servers;
+
+////////////////////////////////////////////////////////////////////////////////
+// Notification
+
+-(void)ibNotificationAddConnection:(NSNotification* )notification {
+	NSURL* url = [notification object];
+	NSParameterAssert([url isKindOfClass:[NSURL class]]);
+	PGSidebarNode* node = [[PGSidebarNode alloc] initWithLocalServerURL:url];
+	NSParameterAssert(node);
+
+	[self willChangeValueForKey:@"nodes"];
+	[[_servers children] addObject:node];
+	[self didChangeValueForKey:@"nodes"];
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // NSOutlineView delegate

@@ -1,14 +1,16 @@
 
 #import "PGClientKit.h"
 #import "PGClientKit+Private.h"
+#include <pg_config.h>
 
 NSString* PGConnectionSchemes = @"pgsql pgsqls postgresql postgresqls";
 NSString* PGConnectionDefaultEncoding = @"utf8";
 NSString* PGConnectionBonjourServiceType = @"_postgresql._tcp";
+NSString* PGClientErrorDomain = @"PGClientDomain";
+NSUInteger PGClientDefaultPort = DEF_PGPORT;
+NSUInteger PGClientMaximumPort = 65535;
 
 void PGConnectionNoticeProcessor(void* arg,const char* cString);
-
-NSString* PGClientErrorDomain = @"PGClientDomain";
 
 ////////////////////////////////////////////////////////////////////////////////
 

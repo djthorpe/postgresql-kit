@@ -1,10 +1,14 @@
 
 #import <Cocoa/Cocoa.h>
 #import <PGClientKit/PGClientKit.h>
-#import <PGClientKit/PGClientKit+Cocoa.h>
+#import <PGServerKit/PGServerKit.h>
 
 #import "LocalConnectionWindowController.h"
 #import "RemoteConnectionWindowController.h"
+#import "PGSidebarViewController.h"
+
+// notifications
+extern NSString* PGClientAddConnectionURL;
 
 @interface PGClientApplication : NSObject <NSApplicationDelegate> {
 	NSMutableArray* _sidebarNodes;
@@ -15,6 +19,7 @@
 @property IBOutlet NSView* ibGrabberView;
 @property IBOutlet LocalConnectionWindowController* ibLocalConnectionWindowController;
 @property IBOutlet RemoteConnectionWindowController* ibRemoteConnectionWindowController;
+@property IBOutlet PGSidebarViewController* ibSidebarViewController;
 
 // IBActions
 -(IBAction)doAddLocalConnection:(id)sender;

@@ -1,6 +1,11 @@
 
 #import <Foundation/Foundation.h>
 
+// externs
+extern NSUInteger PGClientDefaultPort;
+extern NSUInteger PGClientMaximumPort;
+extern NSString* PGClientErrorDomain;
+
 // forward declarations
 @protocol PGConnectionDelegate;
 

@@ -9,6 +9,7 @@
 
 // constructor
 -(id)initWithName:(NSString* )name isHeader:(BOOL)isHeader;
+-(id)initWithLocalServerURL:(NSURL* )url;
 
 // properties
 @property NSMutableArray* children;

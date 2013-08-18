@@ -1,9 +1,17 @@
 
 #import <Cocoa/Cocoa.h>
+#import "PGSidebarNode.h"
 
-@interface PGSidebarViewController : NSObject <NSOutlineViewDelegate>
+@interface PGSidebarViewController : NSObject <NSOutlineViewDelegate> {
+	NSMutableArray* _nodes;
+	PGSidebarNode* _servers;
+}
 
 // properties
-@property NSMutableArray* nodes;
+@property (readonly) NSMutableArray* nodes;
+@property (readonly) PGSidebarNode* servers;
+
+// methods
+-(void)applicationDidFinishLaunching:(NSNotification* )aNotification;
 
 @end

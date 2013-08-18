@@ -2,6 +2,11 @@
 #import "PGClientApplication.h"
 #import "PGSidebarNode.h"
 
+////////////////////////////////////////////////////////////////////////////////
+// constants
+
+NSString* PGClientAddConnectionURL = @"PGClientAddConnectionURL";
+
 @implementation PGClientApplication
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -16,7 +21,11 @@
 }
 
 -(void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-	// TODO
+	// populate sidebar
+	[[self ibSidebarViewController] applicationDidFinishLaunching:aNotification];
+	
+	// add observers for sidebar
+	[[NSNotificationCenter defaultCenter] addObserver:[self ibSidebarViewController] selector:@selector(ibNotificationAddConnection:) name:PGClientAddConnectionURL object:nil];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
