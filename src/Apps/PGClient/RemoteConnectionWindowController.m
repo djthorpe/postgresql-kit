@@ -1,12 +1,8 @@
 
-#import "SocketWindowController.h"
+#import "RemoteConnectionWindowController.h"
 #import <PGClientKit/PGClientKit.h>
 
-@interface SocketWindowController ()
-
-@end
-
-@implementation SocketWindowController
+@implementation RemoteConnectionWindowController
 
 ////////////////////////////////////////////////////////////////////////////////
 // initializers
@@ -14,41 +10,33 @@
 -(id)initWithWindow:(NSWindow* )window {
     self = [super initWithWindow:window];
     if (self) {
-		_path = @"";
+		_hostname = @"";
 		_username = @"";
 		_database = @"";
 		_port = 0;
 		_defaultPort = YES;
+		_requireEncryption = NO;
     }
     return self;
 }
 
 -(void)windowDidLoad {
     [super windowDidLoad];
-	NSLog(@"windowDidLoad");
 }
 
 -(NSString* )windowNibName {
-	return @"SocketConnectionWindow";
+	return @"RemoteConnectionWindow";
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // properties
 
 @synthesize port = _port;
-@synthesize path = _path;
+@synthesize hostname = _bostname;
 @synthesize username = _username;
 @synthesize database = _database;
-@dynamic displayedPath;
+@synthesize requireEncryption = _requireEncryption;
 @dynamic defaultPort;
-
--(NSString* )displayedPath {
-	if([_path length]==0) {
-		return @"";
-	}
-	NSString* displayedPath = [NSString stringWithFormat:@".../%@",[[self path] lastPathComponent]];
-	return displayedPath;
-}
 
 -(void)setDefaultPort:(BOOL)value {
 	if(value) {
@@ -63,14 +51,6 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 // private methods
-
--(void)_chooseNewSocketPath:(NSString* )newPath {
-	NSLog(@"new path = %@",newPath);
-	[self willChangeValueForKey:@"displayedPath"];
-	[self setPath:newPath];
-	[self didChangeValueForKey:@"displayedPath"];
-	NSLog(@"new path = %@",[self displayedPath]);
-}
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
@@ -103,22 +83,6 @@
 		// Do something here
 		[NSApp endSheet:[(NSButton* )sender window] returnCode:NSOKButton];
 	}
-}
-
--(IBAction)ibDoChooseFolder:(id)sender {
-	// show folder choosing option
-	NSOpenPanel* panel = [NSOpenPanel openPanel];
-	[panel setCanChooseDirectories:YES];
-	[panel setCanChooseFiles:NO];
-	[panel setAllowsMultipleSelection:NO];
-	[panel beginSheetModalForWindow:[self window] completionHandler:^(NSInteger returnCode) {
-		if(returnCode==NSOKButton) {
-			if([[panel URLs] count]==1) {
-				NSURL* url = [[panel URLs] objectAtIndex:0];
-				[self _chooseNewSocketPath:[url path]];
-			}
-		}
-	}];
 }
 
 @end

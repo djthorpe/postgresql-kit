@@ -27,8 +27,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 // IBActions
 
--(IBAction)doAddSocketConnection:(id)sender {
-	[[self ibSocketWindowController] beginSheetForParentWindow:[self window]];
+-(IBAction)doAddLocalConnection:(id)sender {
+	[[self ibLocalConnectionWindowController] beginSheetForParentWindow:[self window]];
+}
+
+-(IBAction)doAddRemoteConnection:(id)sender {
+	[[self ibRemoteConnectionWindowController] beginSheetForParentWindow:[self window]];
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -162,8 +162,8 @@
 		14F94E0017A67C5C008212B0 /* PGSchemaProductOpTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 14F94DFF17A67C5C008212B0 /* PGSchemaProductOpTable.m */; };
 		6E002D3417BFA89A001FB183 /* ResizeControl.png in Resources */ = {isa = PBXBuildFile; fileRef = 148F88C7166D61060088D3DF /* ResizeControl.png */; };
 		6E002D3517BFA89D001FB183 /* Gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = 148F88C6166D61060088D3DF /* Gradient.png */; };
-		6E002D3D17BFC19A001FB183 /* SocketConnectionWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E002D3C17BFC19A001FB183 /* SocketConnectionWindow.xib */; };
-		6E002D4017BFC1F1001FB183 /* SocketWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E002D3F17BFC1F1001FB183 /* SocketWindowController.m */; };
+		6E002D3D17BFC19A001FB183 /* LocalConnectionWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E002D3C17BFC19A001FB183 /* LocalConnectionWindow.xib */; };
+		6E002D4017BFC1F1001FB183 /* LocalConnectionWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E002D3F17BFC1F1001FB183 /* LocalConnectionWindowController.m */; };
 		6E002D4117BFC45D001FB183 /* elephant-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43E415F3A465001ED3BE /* elephant-32.png */; };
 		6E002D4417BFCE51001FB183 /* PGSidebarNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E002D4317BFCE51001FB183 /* PGSidebarNode.m */; };
 		6E002D4617BFDACE001FB183 /* red.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14032D79164A6F2200CD5796 /* red.tiff */; };
@@ -176,6 +176,7 @@
 		6E11AC0F162F4722009A077C /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E11AC0E162F4722009A077C /* Application.m */; };
 		6E222C5017B035E90087A483 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E222C4F17B035E90087A483 /* libz.dylib */; };
 		6E222C5217B035F00087A483 /* LDAP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E222C5117B035F00087A483 /* LDAP.framework */; };
+		6E29AC7617C0CC8600147679 /* RemoteConnectionWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E29AC7517C0CC8600147679 /* RemoteConnectionWindowController.m */; };
 		6E2A0EBF16374CAF00970FEF /* elephant-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43E615F3A465001ED3BE /* elephant-64.png */; };
 		6E2A0EC21637540400970FEF /* PGClientKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
 		6E4DEC87162CC38D008B26BD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C168115F26BF20013A382 /* Foundation.framework */; };
@@ -487,9 +488,9 @@
 		14EE3C40166752F80083C735 /* postgresql-9.1.5.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = "postgresql-9.1.5.tar.gz"; sourceTree = "<group>"; };
 		14F94DFE17A67C5C008212B0 /* PGSchemaProductOpTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSchemaProductOpTable.h; sourceTree = "<group>"; };
 		14F94DFF17A67C5C008212B0 /* PGSchemaProductOpTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSchemaProductOpTable.m; sourceTree = "<group>"; };
-		6E002D3C17BFC19A001FB183 /* SocketConnectionWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SocketConnectionWindow.xib; sourceTree = "<group>"; };
-		6E002D3E17BFC1F1001FB183 /* SocketWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketWindowController.h; sourceTree = "<group>"; };
-		6E002D3F17BFC1F1001FB183 /* SocketWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocketWindowController.m; sourceTree = "<group>"; };
+		6E002D3C17BFC19A001FB183 /* LocalConnectionWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LocalConnectionWindow.xib; sourceTree = "<group>"; };
+		6E002D3E17BFC1F1001FB183 /* LocalConnectionWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalConnectionWindowController.h; sourceTree = "<group>"; };
+		6E002D3F17BFC1F1001FB183 /* LocalConnectionWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalConnectionWindowController.m; sourceTree = "<group>"; };
 		6E002D4217BFCE51001FB183 /* PGSidebarNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSidebarNode.h; sourceTree = "<group>"; };
 		6E002D4317BFCE51001FB183 /* PGSidebarNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSidebarNode.m; sourceTree = "<group>"; };
 		6E002D4717BFE349001FB183 /* PGSidebarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSidebarViewController.h; sourceTree = "<group>"; };
@@ -511,6 +512,8 @@
 		6E1B43F915F3A465001ED3BE /* strapline-200x40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "strapline-200x40.png"; sourceTree = "<group>"; };
 		6E222C4F17B035E90087A483 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		6E222C5117B035F00087A483 /* LDAP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LDAP.framework; path = System/Library/Frameworks/LDAP.framework; sourceTree = SDKROOT; };
+		6E29AC7417C0CC8600147679 /* RemoteConnectionWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoteConnectionWindowController.h; sourceTree = "<group>"; };
+		6E29AC7517C0CC8600147679 /* RemoteConnectionWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemoteConnectionWindowController.m; sourceTree = "<group>"; };
 		6E48B370160604270044A6CB /* PGServer+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PGServer+Private.h"; sourceTree = "<group>"; };
 		6E4DEC80162CC307008B26BD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		6E4DEC85162CC38D008B26BD /* PGFoundationClient */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PGFoundationClient; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -987,14 +990,14 @@
 			path = tar;
 			sourceTree = "<group>";
 		};
-		6E002D3B17BFC152001FB183 /* SocketConnectionWindow */ = {
+		6E002D3B17BFC152001FB183 /* LocalConnectionWindow */ = {
 			isa = PBXGroup;
 			children = (
-				6E002D3C17BFC19A001FB183 /* SocketConnectionWindow.xib */,
-				6E002D3E17BFC1F1001FB183 /* SocketWindowController.h */,
-				6E002D3F17BFC1F1001FB183 /* SocketWindowController.m */,
+				6E002D3C17BFC19A001FB183 /* LocalConnectionWindow.xib */,
+				6E002D3E17BFC1F1001FB183 /* LocalConnectionWindowController.h */,
+				6E002D3F17BFC1F1001FB183 /* LocalConnectionWindowController.m */,
 			);
-			name = SocketConnectionWindow;
+			name = LocalConnectionWindow;
 			sourceTree = "<group>";
 		};
 		6E002D4517BFD9F4001FB183 /* Sidebar */ = {
@@ -1012,6 +1015,8 @@
 			isa = PBXGroup;
 			children = (
 				6E002D4C17BFED9B001FB183 /* RemoteConnectionWindow.xib */,
+				6E29AC7417C0CC8600147679 /* RemoteConnectionWindowController.h */,
+				6E29AC7517C0CC8600147679 /* RemoteConnectionWindowController.m */,
 			);
 			name = RemoteConnectionWindow;
 			sourceTree = "<group>";
@@ -1064,7 +1069,7 @@
 			isa = PBXGroup;
 			children = (
 				6E002D4B17BFED70001FB183 /* RemoteConnectionWindow */,
-				6E002D3B17BFC152001FB183 /* SocketConnectionWindow */,
+				6E002D3B17BFC152001FB183 /* LocalConnectionWindow */,
 				6E002D4517BFD9F4001FB183 /* Sidebar */,
 				6E68AE031635DD6E00436234 /* PGClientApplication.h */,
 				6E68AE041635DD6E00436234 /* PGClientApplication.m */,
@@ -1614,7 +1619,7 @@
 				6E2A0EBF16374CAF00970FEF /* elephant-64.png in Resources */,
 				6E002D3417BFA89A001FB183 /* ResizeControl.png in Resources */,
 				6E002D3517BFA89D001FB183 /* Gradient.png in Resources */,
-				6E002D3D17BFC19A001FB183 /* SocketConnectionWindow.xib in Resources */,
+				6E002D3D17BFC19A001FB183 /* LocalConnectionWindow.xib in Resources */,
 				6E002D4117BFC45D001FB183 /* elephant-32.png in Resources */,
 				6E002D4617BFDACE001FB183 /* red.tiff in Resources */,
 				6E002D4D17BFED9B001FB183 /* RemoteConnectionWindow.xib in Resources */,
@@ -1861,9 +1866,10 @@
 			files = (
 				6E68AE011635DB6900436234 /* main.m in Sources */,
 				6E68AE071635DD6E00436234 /* PGClientApplication.m in Sources */,
-				6E002D4017BFC1F1001FB183 /* SocketWindowController.m in Sources */,
+				6E002D4017BFC1F1001FB183 /* LocalConnectionWindowController.m in Sources */,
 				6E002D4417BFCE51001FB183 /* PGSidebarNode.m in Sources */,
 				6E002D4917BFE349001FB183 /* PGSidebarViewController.m in Sources */,
+				6E29AC7617C0CC8600147679 /* RemoteConnectionWindowController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

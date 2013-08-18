@@ -1,7 +1,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface SocketWindowController : NSWindowController {
+@interface LocalConnectionWindowController : NSWindowController {
 	NSUInteger _port;
 	BOOL _defaultPort;
 	NSString* _path;
