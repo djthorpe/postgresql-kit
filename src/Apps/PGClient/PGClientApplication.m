@@ -18,6 +18,7 @@ NSString* PGClientNotificationCloseConnection = @"PGClientNotificationCloseConne
     self = [super init];
     if (self) {
 		_internalServer = nil;
+		_terminationRequested = NO;
     }
     return self;
 }
@@ -43,6 +44,7 @@ NSString* PGClientNotificationCloseConnection = @"PGClientNotificationCloseConne
 
 @synthesize ibGrabberView;
 @synthesize internalServer = _internalServer;
+@synthesize terminationRequested = _terminationRequested;
 
 ////////////////////////////////////////////////////////////////////////////////
 // private methods
@@ -57,7 +59,6 @@ NSString* PGClientNotificationCloseConnection = @"PGClientNotificationCloseConne
 -(BOOL)_canOpenInternalServer {
 	PGServerState state = [[self internalServer] state];
 	if(state != PGServerStateStopped && state != PGServerStateUnknown) {
-		NSLog(@"cannot open, state = %@",[PGServer stateAsString:state]);
 		return NO;
 	}
 	return YES;
@@ -75,12 +76,7 @@ NSString* PGClientNotificationCloseConnection = @"PGClientNotificationCloseConne
 	if([self _canOpenInternalServer]==NO) {
 		return NO;
 	}
-	PGServerState state = [[self internalServer] state];
-	BOOL success = NO;
-	if(state==PGServerStateUnknown) {
-		success = [[self internalServer] start];
-	}
-	return success;
+	return [[self internalServer] start];
 }
 
 -(BOOL)_closeInternalServer {
@@ -111,9 +107,13 @@ NSString* PGClientNotificationCloseConnection = @"PGClientNotificationCloseConne
 	
 	// if internal connection
 	if([node isInternalServer]) {
+		[[self ibSidebarViewController] setStatus:PGSidebarNodeStatusOrange forNode:node];
 		BOOL isSuccess = [self _openInternalServer];
 		if(isSuccess==NO) {
 			NSLog(@"Cannot open internal server!");
+			[[self ibSidebarViewController] setStatus:PGSidebarNodeStatusRed forNode:node];
+		} else {
+			[[self ibSidebarViewController] setStatus:PGSidebarNodeStatusGreen forNode:node];
 		}
 	} else {
 		NSLog(@"open = %@",[node url]);
@@ -129,9 +129,28 @@ NSString* PGClientNotificationCloseConnection = @"PGClientNotificationCloseConne
 		BOOL isSuccess = [self _closeInternalServer];
 		if(isSuccess==NO) {
 			NSLog(@"Cannot close internal");
+			[[self ibSidebarViewController] setStatus:PGSidebarNodeStatusRed forNode:node];
+		} else {
+			[[self ibSidebarViewController] setStatus:PGSidebarNodeStatusGrey forNode:node];
 		}
 	} else {
-		NSLog(@"close = %@",[node url]);
+		// CLOSE SERVER CONNECTION
+	}
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// NSApplication delegate
+
+-(NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication* )sender {
+	if([[self internalServer] state]==PGServerStateRunning) {
+#ifdef DEBUG
+		NSLog(@"Terminating later, stopping the server");
+#endif
+		[[self internalServer] stop];
+		[self setTerminationRequested:YES];
+		return NSTerminateCancel;
+	} else {
+		return NSTerminateNow;
 	}
 }
 
@@ -159,15 +178,25 @@ NSString* PGClientNotificationCloseConnection = @"PGClientNotificationCloseConne
 	switch(state) {
 		case PGServerStateAlreadyRunning:
 		case PGServerStateRunning:
-			NSLog(@"STARTED - PID %d PORT %lu PATH %@",[server pid],[server port],[server socketPath]);
+			{
+				NSURL* url = [NSURL URLWithSocketPath:[server socketPath] port:[server port] database:nil username:PGServerSuperuser params:nil];
+				NSLog(@"STARTED - %@",[url absoluteString]);
+			}
 			break;
 		case PGServerStateError:
-			NSLog(@"ERROR");
+			// TODO: Error message and set status to red
 			break;
 		case PGServerStateStopped:
-			NSLog(@"SERVER STOPPED");
+			// TODO: Set bubble to grey
+			if([self terminationRequested]) {
+#ifdef DEBUG
+				NSLog(@"PGServerStateStopped state reached, quitting application");
+#endif
+				[[NSApplication sharedApplication] terminate:self];
+			}
 			break;
 		default:
+			// TODO: Set bubble to orange
 			break;
 	}
 }

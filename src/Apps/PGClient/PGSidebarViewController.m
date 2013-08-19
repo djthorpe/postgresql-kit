@@ -40,6 +40,16 @@
 @synthesize selectedNode = _selectedNode;
 
 ////////////////////////////////////////////////////////////////////////////////
+// methods
+
+-(void)setStatus:(PGSidebarNodeStatusType)status forNode:(PGSidebarNode* )node {
+	NSParameterAssert(node);
+	[self willChangeValueForKey:@"nodes"];
+	[node setStatus:status];
+	[self didChangeValueForKey:@"nodes"];
+}
+
+////////////////////////////////////////////////////////////////////////////////
 // Notification
 
 -(void)ibNotificationAddConnection:(NSNotification* )notification {

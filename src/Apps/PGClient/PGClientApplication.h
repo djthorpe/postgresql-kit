@@ -14,6 +14,7 @@ extern NSString* PGClientNotificationCloseConnection;
 
 @interface PGClientApplication : NSObject <NSApplicationDelegate, PGServerDelegate> {
 	PGServer* _internalServer;
+	BOOL _terminationRequested;
 }
 
 // properties
@@ -23,6 +24,7 @@ extern NSString* PGClientNotificationCloseConnection;
 @property IBOutlet RemoteConnectionWindowController* ibRemoteConnectionWindowController;
 @property IBOutlet PGSidebarViewController* ibSidebarViewController;
 @property (readonly) PGServer* internalServer;
+@property BOOL terminationRequested;
 
 // IBActions
 -(IBAction)doAddLocalConnection:(id)sender;

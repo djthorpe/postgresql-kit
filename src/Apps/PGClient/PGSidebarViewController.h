@@ -15,6 +15,7 @@
 
 // methods
 -(void)applicationDidFinishLaunching:(NSNotification* )aNotification;
+-(void)setStatus:(PGSidebarNodeStatusType)status forNode:(PGSidebarNode* )node;
 
 // ibactions
 -(IBAction)doOpen:(id)sender;

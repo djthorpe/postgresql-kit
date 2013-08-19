@@ -19,6 +19,7 @@
 		_isServer = NO;
 		_isInternalServer = NO;
 		_children = [NSMutableArray array];
+		_status = PGSidebarNodeStatusGrey;
 	}
 	return self;
 }
@@ -32,6 +33,7 @@
 		_isServer = YES;
 		_isInternalServer = NO;
 		_children = nil;
+		_status = PGSidebarNodeStatusGrey;
 	}
 	return self;		
 }
@@ -45,6 +47,7 @@
 		_isServer = YES;
 		_isInternalServer = NO;
 		_children = nil;
+		_status = PGSidebarNodeStatusGrey;
 	}
 	return self;
 }
@@ -58,6 +61,7 @@
 		_isServer = YES;
 		_isInternalServer = YES;
 		_children = nil;
+		_status = PGSidebarNodeStatusGrey;
 	}
 	return self;
 }
@@ -71,10 +75,21 @@
 @synthesize isInternalServer = _isInternalServer;
 @synthesize name = _name;
 @synthesize url = _url;
+@synthesize status = _status;
 @dynamic image;
 
 -(NSImage* )image {
-	return [NSImage imageNamed:@"red"];
+	switch([self status]) {
+		case PGSidebarNodeStatusGreen:
+			return [NSImage imageNamed:@"traffic-green"];
+		case PGSidebarNodeStatusOrange:
+			return [NSImage imageNamed:@"traffic-orange"];
+		case PGSidebarNodeStatusRed:
+			return [NSImage imageNamed:@"traffic-red"];
+		case PGSidebarNodeStatusGrey:
+		default:
+			return [NSImage imageNamed:@"traffic-grey"];
+	}
 }
 
 @end

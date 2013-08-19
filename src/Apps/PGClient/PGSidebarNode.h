@@ -1,6 +1,13 @@
 
 #import <Cocoa/Cocoa.h>
 
+typedef enum {
+	PGSidebarNodeStatusGrey,
+	PGSidebarNodeStatusGreen,
+	PGSidebarNodeStatusOrange,
+	PGSidebarNodeStatusRed
+} PGSidebarNodeStatusType;
+
 @interface PGSidebarNode : NSObject {
 	NSString* _name;
 	NSMutableArray* _children;
@@ -8,6 +15,7 @@
 	BOOL _isHeader;
 	BOOL _isServer;
 	BOOL _isInternalServer;
+	PGSidebarNodeStatusType _status;
 }
 
 // constructor
@@ -23,6 +31,7 @@
 @property (readonly) BOOL isInternalServer;
 @property NSString* name;
 @property NSURL* url;
+@property PGSidebarNodeStatusType status;
 @property NSImage* image;
 
 @end
