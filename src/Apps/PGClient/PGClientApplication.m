@@ -104,38 +104,40 @@ NSString* PGClientNotificationCloseConnection = @"PGClientNotificationCloseConne
 -(void)ibNotificationOpenConnection:(NSNotification* )notification {
 	PGSidebarNode* node = [notification object];
 	NSParameterAssert([node isKindOfClass:[PGSidebarNode class]]);
-	
-	// if internal connection
+	NSLog(@"open: %@",node);
+/*	// if internal connection
 	if([node isInternalServer]) {
-		[[self ibSidebarViewController] setStatus:PGSidebarNodeStatusOrange forNode:node];
+//		[[self ibSidebarViewController] setStatus:PGSidebarNodeStatusOrange forNode:node];
 		BOOL isSuccess = [self _openInternalServer];
 		if(isSuccess==NO) {
 			NSLog(@"Cannot open internal server!");
-			[[self ibSidebarViewController] setStatus:PGSidebarNodeStatusRed forNode:node];
+//			[[self ibSidebarViewController] setStatus:PGSidebarNodeStatusRed forNode:node];
 		} else {
-			[[self ibSidebarViewController] setStatus:PGSidebarNodeStatusGreen forNode:node];
+//			[[self ibSidebarViewController] setStatus:PGSidebarNodeStatusGreen forNode:node];
 		}
 	} else {
 		NSLog(@"open = %@",[node url]);
 	}
+ */
 }
 
 -(void)ibNotificationCloseConnection:(NSNotification* )notification {
 	PGSidebarNode* node = [notification object];
 	NSParameterAssert([node isKindOfClass:[PGSidebarNode class]]);
-	
+	NSLog(@"close: %@",node);
+/*
 	// if internal connection
 	if([node isInternalServer]) {
 		BOOL isSuccess = [self _closeInternalServer];
 		if(isSuccess==NO) {
 			NSLog(@"Cannot close internal");
-			[[self ibSidebarViewController] setStatus:PGSidebarNodeStatusRed forNode:node];
+//			[[self ibSidebarViewController] setStatus:PGSidebarNodeStatusRed forNode:node];
 		} else {
-			[[self ibSidebarViewController] setStatus:PGSidebarNodeStatusGrey forNode:node];
+//			[[self ibSidebarViewController] setStatus:PGSidebarNodeStatusGrey forNode:node];
 		}
 	} else {
 		// CLOSE SERVER CONNECTION
-	}
+	}*/
 }
 
 ////////////////////////////////////////////////////////////////////////////////

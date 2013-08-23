@@ -1,21 +1,17 @@
 
 #import <Cocoa/Cocoa.h>
-#import "PGSidebarNode.h"
+#import "PGSidebarDataSource.h"
 
-@interface PGSidebarViewController : NSObject <NSOutlineViewDelegate> {
-	NSMutableArray* _nodes;
-	PGSidebarNode* _servers;
-	PGSidebarNode* _selectedNode;
+@interface PGSidebarViewController : NSViewController <NSOutlineViewDelegate> {
+	PGSidebarDataSource* _datasource;
 }
 
 // properties
-@property (readonly) NSMutableArray* nodes;
-@property (readonly) PGSidebarNode* servers;
-@property (readonly) PGSidebarNode* selectedNode;
+@property (readonly) PGSidebarDataSource* datasource;
 
 // methods
 -(void)applicationDidFinishLaunching:(NSNotification* )aNotification;
--(void)setStatus:(PGSidebarNodeStatusType)status forNode:(PGSidebarNode* )node;
+//-(void)setStatus:(PGSidebarNodeStatusType)status forNode:(PGSidebarNode* )node;
 
 // ibactions
 -(IBAction)doOpen:(id)sender;

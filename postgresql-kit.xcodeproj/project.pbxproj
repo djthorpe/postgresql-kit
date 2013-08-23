@@ -177,6 +177,7 @@
 		6E222C5017B035E90087A483 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E222C4F17B035E90087A483 /* libz.dylib */; };
 		6E222C5217B035F00087A483 /* LDAP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E222C5117B035F00087A483 /* LDAP.framework */; };
 		6E29AC7617C0CC8600147679 /* RemoteConnectionWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E29AC7517C0CC8600147679 /* RemoteConnectionWindowController.m */; };
+		6E29B37E17C695E500551035 /* PGSidebarDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E29B37D17C695E500551035 /* PGSidebarDataSource.m */; };
 		6E2A0EBF16374CAF00970FEF /* elephant-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43E615F3A465001ED3BE /* elephant-64.png */; };
 		6E2A0EC21637540400970FEF /* PGClientKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
 		6E4DEC87162CC38D008B26BD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C168115F26BF20013A382 /* Foundation.framework */; };
@@ -528,6 +529,8 @@
 		6E222C5117B035F00087A483 /* LDAP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LDAP.framework; path = System/Library/Frameworks/LDAP.framework; sourceTree = SDKROOT; };
 		6E29AC7417C0CC8600147679 /* RemoteConnectionWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoteConnectionWindowController.h; sourceTree = "<group>"; };
 		6E29AC7517C0CC8600147679 /* RemoteConnectionWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemoteConnectionWindowController.m; sourceTree = "<group>"; };
+		6E29B37C17C695E500551035 /* PGSidebarDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSidebarDataSource.h; sourceTree = "<group>"; };
+		6E29B37D17C695E500551035 /* PGSidebarDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSidebarDataSource.m; sourceTree = "<group>"; };
 		6E48B370160604270044A6CB /* PGServer+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PGServer+Private.h"; sourceTree = "<group>"; };
 		6E4DEC80162CC307008B26BD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		6E4DEC85162CC38D008B26BD /* PGFoundationClient */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PGFoundationClient; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1032,6 +1035,8 @@
 			children = (
 				6E002D4217BFCE51001FB183 /* PGSidebarNode.h */,
 				6E002D4317BFCE51001FB183 /* PGSidebarNode.m */,
+				6E29B37C17C695E500551035 /* PGSidebarDataSource.h */,
+				6E29B37D17C695E500551035 /* PGSidebarDataSource.m */,
 				6E002D4717BFE349001FB183 /* PGSidebarViewController.h */,
 				6E002D4817BFE349001FB183 /* PGSidebarViewController.m */,
 			);
@@ -1902,6 +1907,7 @@
 				6E002D4417BFCE51001FB183 /* PGSidebarNode.m in Sources */,
 				6E002D4917BFE349001FB183 /* PGSidebarViewController.m in Sources */,
 				6E29AC7617C0CC8600147679 /* RemoteConnectionWindowController.m in Sources */,
+				6E29B37E17C695E500551035 /* PGSidebarDataSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,61 +7,46 @@
 // constructors
 
 -(id)init {
-	return nil;
-}
-
--(id)initWithHeader:(NSString* )name {
 	self = [super init];
 	if(self) {
-		_name = name;
-		_url = nil;
-		_isHeader = YES;
-		_isServer = NO;
-		_isInternalServer = NO;
+		_name = nil;
 		_children = [NSMutableArray array];
+		_properties = [NSMutableDictionary dictionary];
 		_status = PGSidebarNodeStatusGrey;
+		_type = PGSidebarNodeTypeGroup;
 	}
 	return self;
 }
 
--(id)initWithLocalServerURL:(NSURL* )url {
-	self = [super init];
+-(id)initAsGroup:(NSString* )name {
+	self = [self init];
 	if(self) {
-		_name = [url absoluteString];
-		_url = url;
-		_isHeader = NO;
-		_isServer = YES;
-		_isInternalServer = NO;
-		_children = nil;
-		_status = PGSidebarNodeStatusGrey;
-	}
-	return self;		
-}
-
--(id)initWithRemoteServerURL:(NSURL* )url {
-	self = [super init];
-	if(self) {
-		_name = [url absoluteString];
-		_url = url;
-		_isHeader = NO;
-		_isServer = YES;
-		_isInternalServer = NO;
-		_children = nil;
-		_status = PGSidebarNodeStatusGrey;
+		_type = PGSidebarNodeTypeGroup;
+		_name = name;
 	}
 	return self;
 }
-
--(id)initWithInternalServer {
-	self = [super init];
+-(id)initAsServer:(NSString* )name {
+	self = [self init];
 	if(self) {
-		_name = @"Internal Server";
-		_url = nil;
-		_isHeader = NO;
-		_isServer = YES;
-		_isInternalServer = YES;
-		_children = nil;
-		_status = PGSidebarNodeStatusGrey;
+		_type = PGSidebarNodeTypeServer;
+		_name = name;
+	}
+	return self;	
+}
+-(id)initAsDatabase:(NSString* )name {
+	self = [self init];
+	if(self) {
+		_type = PGSidebarNodeTypeDatabase;
+		_name = name;
+	}
+	return self;
+}
+-(id)initAsQuery:(NSString* )name {
+	self = [self init];
+	if(self) {
+		_type = PGSidebarNodeTypeQuery;
+		_name = name;
 	}
 	return self;
 }
@@ -69,27 +54,34 @@
 ////////////////////////////////////////////////////////////////////////////////
 // properties
 
+@synthesize properties = _properties;
 @synthesize children = _children;
-@synthesize isHeader = _isHeader;
-@synthesize isServer = _isServer;
-@synthesize isInternalServer = _isInternalServer;
 @synthesize name = _name;
-@synthesize url = _url;
 @synthesize status = _status;
-@dynamic image;
+@synthesize type = _type;
+@dynamic URL;
 
--(NSImage* )image {
-	switch([self status]) {
-		case PGSidebarNodeStatusGreen:
-			return [NSImage imageNamed:@"traffic-green"];
-		case PGSidebarNodeStatusOrange:
-			return [NSImage imageNamed:@"traffic-orange"];
-		case PGSidebarNodeStatusRed:
-			return [NSImage imageNamed:@"traffic-red"];
-		case PGSidebarNodeStatusGrey:
-		default:
-			return [NSImage imageNamed:@"traffic-grey"];
-	}
+-(NSURL* )URL {
+	return [_properties objectForKey:@"URL"];
+}
+
+-(void)setURL:(NSURL* )value {
+	return [_properties setObject:value forKey:@"URL"];
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// methods
+
+-(NSInteger)numberOfChildren {
+	return [[self children] count];
+}
+
+-(PGSidebarNode* )childAtIndex:(NSInteger)index {
+	return [[self children] objectAtIndex:index];
+}
+
+-(void)addChild:(PGSidebarNode* )child {
+	[[self children] addObject:child];
 }
 
 @end

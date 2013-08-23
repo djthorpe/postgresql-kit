@@ -8,30 +8,38 @@ typedef enum {
 	PGSidebarNodeStatusRed
 } PGSidebarNodeStatusType;
 
+typedef enum {
+	PGSidebarNodeTypeGroup,
+	PGSidebarNodeTypeServer,
+	PGSidebarNodeTypeDatabase,
+	PGSidebarNodeTypeQuery
+} PGSidebarNodeTypeType;
+
 @interface PGSidebarNode : NSObject {
 	NSString* _name;
-	NSMutableArray* _children;
-	NSURL* _url;
-	BOOL _isHeader;
-	BOOL _isServer;
-	BOOL _isInternalServer;
 	PGSidebarNodeStatusType _status;
+	PGSidebarNodeTypeType _type;
+	NSMutableArray* _children;
+	NSMutableDictionary* _properties;
 }
 
 // constructor
--(id)initWithHeader:(NSString* )name;
--(id)initWithInternalServer;
--(id)initWithLocalServerURL:(NSURL* )url;
--(id)initWithRemoteServerURL:(NSURL* )url;
+-(id)initAsGroup:(NSString* )name;
+-(id)initAsServer:(NSString* )name;
+-(id)initAsDatabase:(NSString* )name;
+-(id)initAsQuery:(NSString* )name;
 
 // properties
-@property (readonly) NSMutableArray* children;
-@property (readonly) BOOL isHeader;
-@property (readonly) BOOL isServer;
-@property (readonly) BOOL isInternalServer;
 @property NSString* name;
-@property NSURL* url;
 @property PGSidebarNodeStatusType status;
-@property NSImage* image;
+@property PGSidebarNodeTypeType type;
+@property (readonly) NSMutableArray* children;
+@property (readonly) NSMutableDictionary* properties;
+@property NSURL* URL;
+
+// methods
+-(NSInteger)numberOfChildren;
+-(PGSidebarNode* )childAtIndex:(NSInteger)index;
+-(void)addChild:(PGSidebarNode* )child;
 
 @end
