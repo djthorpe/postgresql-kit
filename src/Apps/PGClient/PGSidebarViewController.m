@@ -6,6 +6,9 @@
 #import "PGClientApplication.h"
 #import "PGSidebarNode.h"
 
+
+NSString* PGSidebarDragType = @"PGSidebarDragType";
+
 @implementation PGSidebarViewController
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -26,11 +29,14 @@
 	NSParameterAssert([[self view] isKindOfClass:[NSOutlineView class]]);
 	NSOutlineView* view = (NSOutlineView* )[self view];
 	[view setDataSource:[self datasource]];
+	// set row height
 	[view setRowHeight:20.0];
 	// expand all group
 	for(PGSidebarNode* group in [[self datasource] nodes]) {
 		[view expandItem:group];
 	}
+	// register for dragging
+	[view registerForDraggedTypes:[NSArray arrayWithObject:PGSidebarDragType]];
 }
 
 ////////////////////////////////////////////////////////////////////////////////

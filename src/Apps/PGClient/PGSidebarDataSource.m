@@ -15,6 +15,7 @@
 }
 
 -(void)awakeFromNib {
+	
 	PGSidebarNode* serverGroup = [[PGSidebarNode alloc] initAsGroup:@"SERVERS"];
 	PGSidebarNode* databaseGroup = [[PGSidebarNode alloc] initAsGroup:@"DATABASES"];
 	PGSidebarNode* queryGroup = [[PGSidebarNode alloc] initAsGroup:@"QUERIES"];
@@ -52,7 +53,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // NSOutlineViewDataSource
 
--(id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item {
+-(id)outlineView:(NSOutlineView* )outlineView child:(NSInteger)index ofItem:(id)item {
 	if(item==nil) {
 		return [[self nodes] objectAtIndex:index];
 	}
@@ -89,6 +90,44 @@
 	if([newValue length]) {
 		[node setName:newValue];
 	}
+}
+
+-(BOOL)outlineView:(NSOutlineView* )outlineView writeItems:(NSArray* )items toPasteboard:(NSPasteboard* )pboard {
+	NSParameterAssert([items count]==1);
+	PGSidebarNode* node = [items objectAtIndex:0];
+	// cannot move groups
+	if([node type]==PGSidebarNodeTypeGroup) {
+		return NO;
+	}
+	[pboard setPropertyList:[NSNumber numberWithBool:YES] forType:@"PGSidebarDragType"];
+	return YES;
+}
+
+-(NSDragOperation)outlineView:(NSOutlineView* )outlineView validateDrop:(id<NSDraggingInfo>)info proposedItem:(id)item proposedChildIndex:(NSInteger)index {
+	PGSidebarNode* node = (PGSidebarNode* )item;
+	if(node==nil) {
+		return NSDragOperationNone;
+	}
+	NSParameterAssert([item isKindOfClass:[PGSidebarNode class]]);
+	// can only move within groups
+	if([node type] != PGSidebarNodeTypeGroup) {
+		return NSDragOperationNone;
+	}
+	NSLog(@"Proposed move to %ld of %@",index,[node name]);
+	// TODO: Only allow it to be moved within the same group
+	// TODO: Read item from pasteboard
+	return NSDragOperationMove;
+}
+
+-(BOOL)outlineView:(NSOutlineView* )outlineView acceptDrop:(id<NSDraggingInfo>)info item:(id)item childIndex:(NSInteger)index {
+	PGSidebarNode* node = (PGSidebarNode* )item;
+	if(node==nil) {
+		return NO;
+	}
+	NSParameterAssert([item isKindOfClass:[PGSidebarNode class]]);
+	NSLog(@"Accepted move to %ld of %@",index,[node name]);
+	// TODO: Read item from pasteboard
+	return YES;
 }
 
 @end
