@@ -149,6 +149,10 @@ NSString* PGSidebarDragType = @"PGSidebarDragType";
 	if([node type]==PGSidebarNodeTypeGroup) {
 		return NO;
 	}
+	// cannot move internal server
+	if([node key]==PGSidebarNodeKeyInternalServer) {
+		return NO;
+	}
 	// use key object
 	[pboard setPropertyList:[node keyObject] forType:PGSidebarDragType];
 	return YES;
@@ -171,6 +175,14 @@ NSString* PGSidebarDragType = @"PGSidebarDragType";
 	// determine if the move can occur
 	if(![node canContainNode:draggedNode]) {
 		return NSDragOperationNone;
+	}
+
+	if([draggedNode type]==PGSidebarNodeTypeServer) {
+		// TODO: Some issue which means "1" moves to wrong location!
+		if(index <= 0) {
+			// Cannot move servers to the first positon (internal server)
+			return NSDragOperationNone;
+		}
 	}
 	
 	// allow moves to occur
