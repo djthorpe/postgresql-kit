@@ -10,6 +10,7 @@ NSString* PGClientAddConnectionURL = @"PGClientAddConnectionURL";
 NSString* PGClientNotificationOpenConnection = @"PGClientNotificationOpenConnection";
 NSString* PGClientNotificationCloseConnection = @"PGClientNotificationCloseConnection";
 NSString* PGClientNotificationDeleteConnection = @"PGClientNotificationDeleteConnection";
+NSString* PGClientNotificationServerStatusChange = @"PGClientNotificationServerStatusChange";
 
 @implementation PGClientApplication
 
@@ -35,6 +36,7 @@ NSString* PGClientNotificationDeleteConnection = @"PGClientNotificationDeleteCon
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ibNotificationOpenConnection:) name:PGClientNotificationOpenConnection object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ibNotificationCloseConnection:) name:PGClientNotificationCloseConnection object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ibNotificationDeleteConnection:) name:PGClientNotificationDeleteConnection object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ibNotificationServerStatusChange:) name:PGClientNotificationServerStatusChange object:nil];
 	
 	// internal server
 	if(_internalServer==nil) {
@@ -84,7 +86,56 @@ NSString* PGClientNotificationDeleteConnection = @"PGClientNotificationDeleteCon
 	return [[self internalServer] start];
 }
 
+-(BOOL)_openConnectionForNode:(PGSidebarNode* )node {
+	NSParameterAssert(node);
+	NSParameterAssert([node type]==PGSidebarNodeTypeServer);
+
+	// get existing connection object
+	PGConnection* connection = [[self connections] connectionForKey:[node key]];
+	if(connection==nil) {
+		connection = [[self connections] createConnectionWithURL:[node URL] forKey:[node key]];
+		NSParameterAssert(connection);
+	}
+
+	// make sure connection is not connected
+	if([connection status] != PGConnectionStatusDisconnected) {
+		return NO;
+	}
+
+	// ask connection controller to open connection in background,
+	// and return success condition
+	return [[self connections] openConnectionWithKey:[node key]];
+}
+
+-(BOOL)_closeConnectionForNode:(PGSidebarNode* )node {
+	NSParameterAssert(node);
+	NSParameterAssert([node type]==PGSidebarNodeTypeServer);
+	return [[self connections] closeConnectionForKey:[node key]];
+}
+
+-(BOOL)_openInternalServerConnectionWithURL:(NSURL* )url {
+	NSParameterAssert(url);
+	// get existing connection object
+	PGConnection* connection = [[self connections] connectionForKey:PGSidebarNodeKeyInternalServer];
+	if(connection==nil) {
+		connection = [[self connections] createConnectionWithURL:url forKey:PGSidebarNodeKeyInternalServer];
+		NSParameterAssert(connection);
+	}
+	// make sure connection is not connected
+	if([connection status] != PGConnectionStatusDisconnected) {
+		return NO;
+	}
+	
+	// ask connection controller to open connection in background,
+	// and return success condition
+	return [[self connections] openConnectionWithKey:PGSidebarNodeKeyInternalServer];	
+}
+
 -(BOOL)_closeInternalServer {
+	BOOL isSuccess = [[self connections] closeConnectionForKey:PGSidebarNodeKeyInternalServer];
+	if(isSuccess==NO) {
+		NSLog(@"WARNING: Internal server PGConnection could not be closed");
+	}
 	if([self _canCloseInternalServer]) {
 		return [_internalServer stop];
 	} else {
@@ -119,19 +170,7 @@ NSString* PGClientNotificationDeleteConnection = @"PGClientNotificationDeleteCon
 			NSLog(@"[self _openInternalServer] failed");
 		}
 	} else {
-		// get existing connection object
-		PGConnection* connection = [[self connections] connectionForKey:[node key]];
-		if(connection==nil) {
-			connection = [[self connections] createConnectionWithURL:[node URL] forKey:[node key]];
-			NSParameterAssert(connection);
-		}
-		// make sure connection is not connected
-		if([connection status] != PGConnectionStatusDisconnected) {
-			NSLog(@"Connection is not disconnected, so cannot open: %@",connection);
-			return;
-		}
-		// ask connection controller to open connection in background
-		[[self connections] openConnectionWithKey:[node key]];
+		[self _openConnectionForNode:node];
 	}
 }
 
@@ -148,7 +187,7 @@ NSString* PGClientNotificationDeleteConnection = @"PGClientNotificationDeleteCon
 			NSLog(@"[self _closeInternalServer] failed");
 		}
 	} else {
-		NSLog(@"close: %@",node);
+		[self _closeConnectionForNode:node];
 	}
 }
 
@@ -159,6 +198,10 @@ NSString* PGClientNotificationDeleteConnection = @"PGClientNotificationDeleteCon
 	// TODO: Add are you sure you want to delete? sheet confirmation
 	
 	[[self ibSidebarViewController] deleteNode:node];
+}
+
+-(void)ibNotificationServerStatusChange:(NSNotification* )notification {
+	NSLog(@"ibNotificationServerStatusChange: %@",notification);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -210,7 +253,7 @@ NSString* PGClientNotificationDeleteConnection = @"PGClientNotificationDeleteCon
 		case PGServerStateRunning:
 			{
 				NSURL* url = [NSURL URLWithSocketPath:[server socketPath] port:[server port] database:nil username:PGServerSuperuser params:nil];
-				NSLog(@"STARTED - %@",[url absoluteString]);
+				[self _openInternalServerConnectionWithURL:url];
 			}
 			break;
 		case PGServerStateError:

@@ -11,6 +11,7 @@
 -(PGConnection* )createConnectionWithURL:(NSURL* )url forKey:(NSUInteger)key;
 -(PGConnection* )connectionForKey:(NSUInteger)key;
 -(BOOL)openConnectionWithKey:(NSUInteger)key;
+-(BOOL)closeConnectionForKey:(NSUInteger)key;
 -(void)closeAllConnections;
 
 @end

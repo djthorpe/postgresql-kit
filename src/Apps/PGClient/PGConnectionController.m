@@ -1,5 +1,6 @@
 
 #import "PGConnectionController.h"
+#import "PGClientApplication.h"
 
 @implementation PGConnectionController
 
@@ -48,13 +49,26 @@
 	if(connection==nil || url==nil) {
 		return NO;
 	}
+	
+	// post notification that connection is opening
+	[[NSNotificationCenter defaultCenter] postNotificationName:PGClientNotificationServerStatusChange object:@"Connection is opening"];
+
 	[connection connectInBackgroundWithURL:url whenDone:^(PGConnectionStatus status,NSError* error) {
 		if(status==PGConnectionStatusConnected) {
-			NSLog(@"connection %lu OK",key);
+			[[NSNotificationCenter defaultCenter] postNotificationName:PGClientNotificationServerStatusChange object:@"Connection is opened"];
 		} else {
-			NSLog(@"connection %lu BAD",key);
+			[[NSNotificationCenter defaultCenter] postNotificationName:PGClientNotificationServerStatusChange object:@"Connection cannot be opened"];
 		}
 	}];
 	return YES;
 }
+
+-(BOOL)closeConnectionForKey:(NSUInteger)key {
+	NSNumber* keyObject = [NSNumber numberWithUnsignedInteger:key];
+	PGConnection* connection = [_connections objectForKey:keyObject];
+	NSParameterAssert(connection);
+	[[NSNotificationCenter defaultCenter] postNotificationName:PGClientNotificationServerStatusChange object:@"Connection is closing"];
+	return [connection disconnect];
+}
+
 @end
