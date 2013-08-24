@@ -198,7 +198,13 @@
 	NSParameterAssert([url isKindOfClass:[NSURL class]]);
 	
 	// create name for the server
-	NSString* name = [NSString stringWithFormat:@"%@@localhost",[url user]];
+	NSString* host = [url host];	
+	NSString* name = nil;
+	if([host hasPrefix:@"/"]) {
+		name = [NSString stringWithFormat:@"%@@[%@]",[url user],[host lastPathComponent]];
+	} else {
+		name = [NSString stringWithFormat:@"%@@%@",[url user],host];
+	}
 	PGSidebarNode* node = [[PGSidebarNode alloc] initAsServerWithKey:[[self datasource] nextKey] name:name];
 	NSParameterAssert(node);
 

@@ -219,6 +219,7 @@
 		6EDC4CD217BC274B009E040D /* PGClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
 		6EDC4CD317BC274B009E040D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C168115F26BF20013A382 /* Foundation.framework */; };
 		6EDC4CD517BC2755009E040D /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EDC4CD417BC2755009E040D /* SenTestingKit.framework */; };
+		6EDD90A917C8EA8D0016DABC /* PGConnectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EDD90A817C8EA8D0016DABC /* PGConnectionController.m */; };
 		6EE23F5D1631EF7500C99BA7 /* PGClientKit+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EE23F5A1631EF7500C99BA7 /* PGClientKit+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6EE23F5E1631EF7500C99BA7 /* PGConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EE23F5B1631EF7500C99BA7 /* PGConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6EE23F5F1631EF7500C99BA7 /* PGConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE23F5C1631EF7500C99BA7 /* PGConnection.m */; };
@@ -580,6 +581,8 @@
 		6EDC4CCD17BC24DA009E040D /* NSURL_PGAdditions_tests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSURL_PGAdditions_tests.h; sourceTree = "<group>"; };
 		6EDC4CCE17BC24DA009E040D /* NSURL_PGAdditions_tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSURL_PGAdditions_tests.m; sourceTree = "<group>"; };
 		6EDC4CD417BC2755009E040D /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		6EDD90A717C8EA8D0016DABC /* PGConnectionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGConnectionController.h; sourceTree = "<group>"; };
+		6EDD90A817C8EA8D0016DABC /* PGConnectionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGConnectionController.m; sourceTree = "<group>"; };
 		6EE23F5A1631EF7500C99BA7 /* PGClientKit+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PGClientKit+Private.h"; sourceTree = "<group>"; };
 		6EE23F5B1631EF7500C99BA7 /* PGConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGConnection.h; sourceTree = "<group>"; };
 		6EE23F5C1631EF7500C99BA7 /* PGConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGConnection.m; sourceTree = "<group>"; };
@@ -1100,6 +1103,7 @@
 		6E68AE021635DD6E00436234 /* PGClient */ = {
 			isa = PBXGroup;
 			children = (
+				6EDD90A617C8EA6A0016DABC /* Server Connections */,
 				6E002D4B17BFED70001FB183 /* RemoteConnectionWindow */,
 				6E002D3B17BFC152001FB183 /* LocalConnectionWindow */,
 				6E002D4517BFD9F4001FB183 /* Sidebar */,
@@ -1220,6 +1224,15 @@
 				6E5FCF9517BE9EFE00483AF6 /* PGConnection_tests.m */,
 			);
 			path = PGClientKit_testcases;
+			sourceTree = "<group>";
+		};
+		6EDD90A617C8EA6A0016DABC /* Server Connections */ = {
+			isa = PBXGroup;
+			children = (
+				6EDD90A717C8EA8D0016DABC /* PGConnectionController.h */,
+				6EDD90A817C8EA8D0016DABC /* PGConnectionController.m */,
+			);
+			name = "Server Connections";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1908,6 +1921,7 @@
 				6E002D4917BFE349001FB183 /* PGSidebarViewController.m in Sources */,
 				6E29AC7617C0CC8600147679 /* RemoteConnectionWindowController.m in Sources */,
 				6E29B37E17C695E500551035 /* PGSidebarDataSource.m in Sources */,
+				6EDD90A917C8EA8D0016DABC /* PGConnectionController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

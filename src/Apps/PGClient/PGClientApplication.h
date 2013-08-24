@@ -6,6 +6,7 @@
 #import "LocalConnectionWindowController.h"
 #import "RemoteConnectionWindowController.h"
 #import "PGSidebarViewController.h"
+#import "PGConnectionController.h"
 
 // notifications
 extern NSString* PGClientAddConnectionURL;
@@ -15,6 +16,7 @@ extern NSString* PGClientNotificationDeleteConnection;
 
 @interface PGClientApplication : NSObject <NSApplicationDelegate, PGServerDelegate> {
 	PGServer* _internalServer;
+	PGConnectionController* _connections;
 	BOOL _terminationRequested;
 }
 
@@ -24,6 +26,7 @@ extern NSString* PGClientNotificationDeleteConnection;
 @property IBOutlet LocalConnectionWindowController* ibLocalConnectionWindowController;
 @property IBOutlet RemoteConnectionWindowController* ibRemoteConnectionWindowController;
 @property IBOutlet PGSidebarViewController* ibSidebarViewController;
+@property (readonly) PGConnectionController* connections;
 @property (readonly) PGServer* internalServer;
 @property BOOL terminationRequested;
 

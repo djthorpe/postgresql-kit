@@ -1,6 +1,7 @@
 
 #import "PGClientApplication.h"
 #import "PGSidebarNode.h"
+#import "PGConnectionController.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // constants
@@ -19,6 +20,7 @@ NSString* PGClientNotificationDeleteConnection = @"PGClientNotificationDeleteCon
     self = [super init];
     if (self) {
 		_internalServer = nil;
+		_connections = [[PGConnectionController alloc] init];
 		_terminationRequested = NO;
     }
     return self;
@@ -47,6 +49,7 @@ NSString* PGClientNotificationDeleteConnection = @"PGClientNotificationDeleteCon
 @synthesize ibGrabberView;
 @synthesize internalServer = _internalServer;
 @synthesize terminationRequested = _terminationRequested;
+@synthesize connections = _connections;
 
 ////////////////////////////////////////////////////////////////////////////////
 // private methods
@@ -116,7 +119,19 @@ NSString* PGClientNotificationDeleteConnection = @"PGClientNotificationDeleteCon
 			NSLog(@"[self _openInternalServer] failed");
 		}
 	} else {
-		NSLog(@"open: %@",node);
+		// get existing connection object
+		PGConnection* connection = [[self connections] connectionForKey:[node key]];
+		if(connection==nil) {
+			connection = [[self connections] createConnectionWithURL:[node URL] forKey:[node key]];
+			NSParameterAssert(connection);
+		}
+		// make sure connection is not connected
+		if([connection status] != PGConnectionStatusDisconnected) {
+			NSLog(@"Connection is not disconnected, so cannot open: %@",connection);
+			return;
+		}
+		// ask connection controller to open connection in background
+		[[self connections] openConnectionWithKey:[node key]];
 	}
 }
 
@@ -153,6 +168,9 @@ NSString* PGClientNotificationDeleteConnection = @"PGClientNotificationDeleteCon
 
 	// send message to the sidebar controller
 	[[self ibSidebarViewController] applicationWillTerminate:self];
+	
+	// close all database connections
+	[[self connections] closeAllConnections];
 	
 	// terminate internal server if necessary
 	if([[self internalServer] state]==PGServerStateRunning) {
