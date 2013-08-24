@@ -20,20 +20,46 @@
 }
 
 -(void)applicationDidFinishLaunching:(NSNotification* )aNotification {
-	// call awakeFromNib - setup datasource
-	[[self datasource] awakeFromNib];
+
+	// Setup datasource
+	[[self datasource] addGroup:[[PGSidebarNode alloc] initAsGroupWithKey:PGSidebarNodeKeyServerGroup name:@"SERVERS"]];
+	[[self datasource] addGroup:[[PGSidebarNode alloc] initAsGroupWithKey:PGSidebarNodeKeyDatabaseGroup name:@"DATABASES"]];
+	[[self datasource] addGroup:[[PGSidebarNode alloc] initAsGroupWithKey:PGSidebarNodeKeyQueryGroup name:@"QUERIES"]];
+
+	// Add Internal Server database
+	PGSidebarNode* internalServer = [[PGSidebarNode alloc] initAsServerWithKey:PGSidebarNodeKeyInternalServer name:@"Internal Server"];
+	[[self datasource] addServer:internalServer];
+		
+	// Add in some dummies - HACK!
+	[[self datasource] addDatabase:[[PGSidebarNode alloc] initAsDatabaseWithKey:[[self datasource] nextKey] name:@"Database1"]];
+	[[self datasource] addDatabase:[[PGSidebarNode alloc] initAsDatabaseWithKey:[[self datasource] nextKey] name:@"Database2"]];
+	[[self datasource] addQuery:[[PGSidebarNode alloc] initAsQueryWithKey:[[self datasource] nextKey] name:@"Query1"]];
+	[[self datasource] addQuery:[[PGSidebarNode alloc] initAsQueryWithKey:[[self datasource] nextKey] name:@"Query2"]];
+	[[self datasource] addQuery:[[PGSidebarNode alloc] initAsQueryWithKey:[[self datasource] nextKey] name:@"Query3"]];
+	
+	// load user defaults
+	[self loadFromUserDefaults];	
+
 	// set view datasource
 	NSParameterAssert([[self view] isKindOfClass:[NSOutlineView class]]);
 	NSOutlineView* view = (NSOutlineView* )[self view];
 	[view setDataSource:[self datasource]];
+
 	// set row height
 	[view setRowHeight:20.0];
+
 	// expand all group
 	for(PGSidebarNode* group in [[self datasource] groups]) {
 		[view expandItem:group];
 	}
+
 	// register for dragging
 	[view registerForDraggedTypes:[NSArray arrayWithObject:PGSidebarDragType]];
+}
+
+-(void)applicationWillTerminate:(id)sender {
+	// save user defaults
+	[self saveToUserDefaults];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -113,6 +139,55 @@
 	[[self datasource] deleteNode:node];
 	[(NSOutlineView* )[self view] reloadData];
 	[self selectNode:nil];
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+// load and save from defaults
+
+-(BOOL)loadFromUserDefaults {
+	NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+	//	PGSidebarNode* serverGroup = [self nodeForKey:PGSidebarNodeKeyServerGroup];
+	NSDictionary* serverNodes = [defaults dictionaryForKey:@"server"];
+	if(serverNodes) {
+		NSArray* children = [serverNodes objectForKey:@"children"];
+		NSParameterAssert(children && [children isKindOfClass:[NSArray class]]);
+		for(NSDictionary* nodeDictionary in children) {
+			NSNumber* key = [nodeDictionary objectForKey:@"key"];
+			if([key unsignedIntegerValue]==PGSidebarNodeKeyInternalServer) {
+				// Ignore internal server key
+				continue;
+			}
+			PGSidebarNode* node = [[PGSidebarNode alloc] initWithUserDefaults:nodeDictionary];
+			if([node type]==PGSidebarNodeTypeServer) {
+				if([[self datasource] nodeForKey:[node key]]) {
+					NSLog(@"WARNING: Ignoring PGSidebarNode which has duplicate key: %@",node);
+				} else {
+					[[self datasource] addServer:node];
+				}
+			}
+		}
+	}
+	// TODO: load databases and queries
+	return YES;
+}
+
+-(BOOL)saveToUserDefaults {
+	NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+	// servers
+	PGSidebarNode* serverGroup = [[self datasource] nodeForKey:PGSidebarNodeKeyServerGroup];
+	NSParameterAssert(serverGroup);
+	[defaults setObject:[serverGroup userDefaults] forKey:@"server"];
+	// databases
+	PGSidebarNode* databaseGroup = [[self datasource] nodeForKey:PGSidebarNodeKeyDatabaseGroup];
+	NSParameterAssert(databaseGroup);
+	[defaults setObject:[databaseGroup userDefaults] forKey:@"database"];
+	// queries
+	PGSidebarNode* queryGroup = [[self datasource] nodeForKey:PGSidebarNodeKeyQueryGroup];
+	NSParameterAssert(queryGroup);
+	[defaults setObject:[queryGroup userDefaults] forKey:@"query"];
+	// synchronize to disk
+	return [defaults synchronize];
 }
 
 ////////////////////////////////////////////////////////////////////////////////

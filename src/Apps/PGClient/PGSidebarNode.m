@@ -1,6 +1,10 @@
 
 #import "PGSidebarNode.h"
 
+@interface PGSidebarNode (Private)
+-(BOOL)_initFromUserDefaults:(NSDictionary* )dictionary;
+@end
+
 @implementation PGSidebarNode
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -15,6 +19,16 @@
 		_properties = [NSMutableDictionary dictionary];
 		_status = PGSidebarNodeStatusGrey;
 		_type = PGSidebarNodeTypeGroup;
+	}
+	return self;
+}
+
+-(id)initWithUserDefaults:(NSDictionary* )dictionary {
+	self = [self init];
+	if(self) {
+		if(![self _initFromUserDefaults:dictionary]) {
+			return nil;
+		}
 	}
 	return self;
 }
@@ -72,11 +86,11 @@
 @dynamic keyObject;
 
 -(NSURL* )URL {
-	return [_properties objectForKey:@"URL"];
+	return [NSURL URLWithString:[_properties objectForKey:@"URL"]];
 }
 
 -(void)setURL:(NSURL* )value {
-	return [_properties setObject:value forKey:@"URL"];
+	return [_properties setObject:[value absoluteString] forKey:@"URL"];
 }
 
 -(NSNumber* )keyObject {
@@ -135,6 +149,61 @@
 
 -(NSString* )description {
 	return [NSString stringWithFormat:@"<%@ %lu %@>",NSStringFromClass([self class]),[self key],[self name]];
+}
+
+-(NSDictionary* )userDefaults {
+	NSMutableDictionary* defaults = [NSMutableDictionary dictionaryWithCapacity:5];
+	NSMutableArray* children = [NSMutableArray arrayWithCapacity:[[self children] count]];
+	[defaults setObject:[self keyObject] forKey:@"key"];
+	[defaults setObject:[NSNumber numberWithInt:[self type]] forKey:@"type"];
+	[defaults setObject:[self name] forKey:@"name"];
+	[defaults setObject:children forKey:@"children"];
+	[defaults setObject:[self properties] forKey:@"properties"];
+	for(PGSidebarNode* node in [self children]) {
+		[children addObject:[node userDefaults]];
+	}
+	return defaults;
+}
+
+-(BOOL)_initFromUserDefaults:(NSDictionary* )dictionary {
+	NSParameterAssert(dictionary);
+	NSNumber* keyObject = [dictionary objectForKey:@"key"];
+	if([keyObject isKindOfClass:[NSNumber class]]==NO) {
+		return NO;
+	} else {
+		_key = [keyObject unsignedIntegerValue];
+	}
+	NSString* name = [dictionary objectForKey:@"name"];
+	if([name isKindOfClass:[NSString class]]==NO) {
+		return NO;
+	} else {
+		_name = name;
+	}
+	NSNumber* typeObject = [dictionary objectForKey:@"type"];
+	if([typeObject isKindOfClass:[NSNumber class]]==NO) {
+		return NO;
+	} else {
+		_type = [typeObject intValue];
+	}
+	NSDictionary* dictObject = [dictionary objectForKey:@"properties"];
+	if([dictObject isKindOfClass:[NSDictionary class]]==NO) {
+		return NO;
+	} else {
+		[_properties addEntriesFromDictionary:dictObject];
+	}
+	NSArray* childrenObject = [dictionary objectForKey:@"children"];
+	if([childrenObject isKindOfClass:[NSArray class]]==NO) {
+		return NO;
+	}
+	for(NSUInteger i = 0; i < [childrenObject count]; i++) {
+		PGSidebarNode* node = [[PGSidebarNode alloc] initWithUserDefaults:[childrenObject objectAtIndex:i]];
+		if(node) {
+			[[self children] addObject:node];
+		} else {
+			return NO;
+		}
+	}
+	return YES;
 }
 
 @end

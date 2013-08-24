@@ -106,45 +106,43 @@ NSString* PGClientNotificationDeleteConnection = @"PGClientNotificationDeleteCon
 -(void)ibNotificationOpenConnection:(NSNotification* )notification {
 	PGSidebarNode* node = [notification object];
 	NSParameterAssert([node isKindOfClass:[PGSidebarNode class]]);
-	NSLog(@"open: %@",node);
-/*	// if internal connection
-	if([node isInternalServer]) {
-//		[[self ibSidebarViewController] setStatus:PGSidebarNodeStatusOrange forNode:node];
+	NSParameterAssert([node type]==PGSidebarNodeTypeServer);
+
+	// if this is the internal connection, then see if we need to start the
+	// server first
+	if([node key]==PGSidebarNodeKeyInternalServer) {
 		BOOL isSuccess = [self _openInternalServer];
 		if(isSuccess==NO) {
-			NSLog(@"Cannot open internal server!");
-//			[[self ibSidebarViewController] setStatus:PGSidebarNodeStatusRed forNode:node];
-		} else {
-//			[[self ibSidebarViewController] setStatus:PGSidebarNodeStatusGreen forNode:node];
+			NSLog(@"[self _openInternalServer] failed");
 		}
 	} else {
-		NSLog(@"open = %@",[node url]);
+		NSLog(@"open: %@",node);
 	}
- */
 }
 
 -(void)ibNotificationCloseConnection:(NSNotification* )notification {
 	PGSidebarNode* node = [notification object];
 	NSParameterAssert([node isKindOfClass:[PGSidebarNode class]]);
-	NSLog(@"close: %@",node);
-/*
-	// if internal connection
-	if([node isInternalServer]) {
+	NSParameterAssert([node type]==PGSidebarNodeTypeServer);
+	
+	// if this is the internal connection, then see if we need to start the
+	// server first
+	if([node key]==PGSidebarNodeKeyInternalServer) {
 		BOOL isSuccess = [self _closeInternalServer];
 		if(isSuccess==NO) {
-			NSLog(@"Cannot close internal");
-//			[[self ibSidebarViewController] setStatus:PGSidebarNodeStatusRed forNode:node];
-		} else {
-//			[[self ibSidebarViewController] setStatus:PGSidebarNodeStatusGrey forNode:node];
+			NSLog(@"[self _closeInternalServer] failed");
 		}
 	} else {
-		// CLOSE SERVER CONNECTION
-	}*/
+		NSLog(@"close: %@",node);
+	}
 }
 
 -(void)ibNotificationDeleteConnection:(NSNotification* )notification {
 	PGSidebarNode* node = [notification object];
-	NSParameterAssert([node isKindOfClass:[PGSidebarNode class]]);	
+	NSParameterAssert([node isKindOfClass:[PGSidebarNode class]]);
+
+	// TODO: Add are you sure you want to delete? sheet confirmation
+	
 	[[self ibSidebarViewController] deleteNode:node];
 }
 
@@ -152,6 +150,11 @@ NSString* PGClientNotificationDeleteConnection = @"PGClientNotificationDeleteCon
 // NSApplication delegate
 
 -(NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication* )sender {
+
+	// send message to the sidebar controller
+	[[self ibSidebarViewController] applicationWillTerminate:self];
+	
+	// terminate internal server if necessary
 	if([[self internalServer] state]==PGServerStateRunning) {
 #ifdef DEBUG
 		NSLog(@"Terminating later, stopping the server");
@@ -179,7 +182,6 @@ NSString* PGClientNotificationDeleteConnection = @"PGClientNotificationDeleteCon
 	}
 	return proposedPosition;
 }
-
 
 ////////////////////////////////////////////////////////////////////////////////
 // PGServer delegate

@@ -15,6 +15,7 @@ extern NSString* PGSidebarDragType;
 
 // methods
 -(NSUInteger)nextKey;
+-(PGSidebarNode* )nodeForKey:(NSUInteger)key;
 -(BOOL)addGroup:(PGSidebarNode* )node;
 -(BOOL)addServer:(PGSidebarNode* )node;
 -(BOOL)addDatabase:(PGSidebarNode* )node;

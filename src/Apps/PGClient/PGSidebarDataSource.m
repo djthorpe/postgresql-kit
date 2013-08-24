@@ -18,23 +18,6 @@ NSString* PGSidebarDragType = @"PGSidebarDragType";
     return self;
 }
 
--(void)awakeFromNib {
-	[self addGroup:[[PGSidebarNode alloc] initAsGroupWithKey:PGSidebarNodeKeyServerGroup name:@"SERVERS"]];
-	[self addGroup:[[PGSidebarNode alloc] initAsGroupWithKey:PGSidebarNodeKeyDatabaseGroup name:@"DATABASES"]];
-	[self addGroup:[[PGSidebarNode alloc] initAsGroupWithKey:PGSidebarNodeKeyQueryGroup name:@"QUERIES"]];
-	
-	// Add Internal Server database
-	PGSidebarNode* internalServer = [[PGSidebarNode alloc] initAsServerWithKey:PGSidebarNodeKeyInternalServer name:@"Internal Server"];
-	[self addServer:internalServer];
-	
-	// Add in some dummies
-	[self addDatabase:[[PGSidebarNode alloc] initAsDatabaseWithKey:[self nextKey] name:@"Database1"]];
-	[self addDatabase:[[PGSidebarNode alloc] initAsDatabaseWithKey:[self nextKey] name:@"Database2"]];
-	[self addQuery:[[PGSidebarNode alloc] initAsQueryWithKey:[self nextKey] name:@"Query1"]];
-	[self addQuery:[[PGSidebarNode alloc] initAsQueryWithKey:[self nextKey] name:@"Query2"]];
-	[self addQuery:[[PGSidebarNode alloc] initAsQueryWithKey:[self nextKey] name:@"Query3"]];
-}
-
 ////////////////////////////////////////////////////////////////////////////////
 // properties
 

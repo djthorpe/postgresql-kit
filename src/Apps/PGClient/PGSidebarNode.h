@@ -40,6 +40,7 @@ typedef enum {
 -(id)initAsServerWithKey:(NSUInteger)key name:(NSString* )name;
 -(id)initAsDatabaseWithKey:(NSUInteger)key name:(NSString* )name;
 -(id)initAsQueryWithKey:(NSUInteger)key name:(NSString* )name;
+-(id)initWithUserDefaults:(NSDictionary* )dictionary;
 
 // properties
 @property NSUInteger key;
@@ -58,5 +59,8 @@ typedef enum {
 -(void)insertChild:(PGSidebarNode* )child atIndex:(NSUInteger)index;
 -(BOOL)canContainNode:(PGSidebarNode* )node;
 -(BOOL)removeChild:(PGSidebarNode* )child;
+
+// user defaults
+-(NSDictionary* )userDefaults;
 
 @end

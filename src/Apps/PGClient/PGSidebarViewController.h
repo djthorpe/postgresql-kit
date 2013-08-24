@@ -14,8 +14,12 @@
 
 // methods
 -(void)applicationDidFinishLaunching:(NSNotification* )aNotification;
+-(void)applicationWillTerminate:(id)sender;
+
 //-(void)setStatus:(PGSidebarNodeStatusType)status forNode:(PGSidebarNode* )node;
 -(void)deleteNode:(PGSidebarNode* )node;
+-(BOOL)loadFromUserDefaults;
+-(BOOL)saveToUserDefaults;
 
 // ibactions
 -(IBAction)doOpen:(id)sender;
