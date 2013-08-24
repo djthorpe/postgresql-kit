@@ -6,9 +6,6 @@
 #import "PGClientApplication.h"
 #import "PGSidebarNode.h"
 
-
-NSString* PGSidebarDragType = @"PGSidebarDragType";
-
 @implementation PGSidebarViewController
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -32,7 +29,7 @@ NSString* PGSidebarDragType = @"PGSidebarDragType";
 	// set row height
 	[view setRowHeight:20.0];
 	// expand all group
-	for(PGSidebarNode* group in [[self datasource] nodes]) {
+	for(PGSidebarNode* group in [[self datasource] groups]) {
 		[view expandItem:group];
 	}
 	// register for dragging
@@ -75,7 +72,7 @@ NSString* PGSidebarDragType = @"PGSidebarDragType";
 	
 	// create name for the server
 	NSString* name = [NSString stringWithFormat:@"%@@localhost",[url user]];
-	PGSidebarNode* node = [[PGSidebarNode alloc] initAsServer:name];
+	PGSidebarNode* node = [[PGSidebarNode alloc] initAsServerWithKey:[[self datasource] nextKey] name:name];
 	NSParameterAssert(node);
 
 	// add URL to the node
@@ -103,6 +100,26 @@ NSString* PGSidebarDragType = @"PGSidebarDragType";
 	PGSidebarNode* node = (PGSidebarNode* )item;
 	NSParameterAssert([node isKindOfClass:[PGSidebarNode class]]);
 	return [node type]!=PGSidebarNodeTypeGroup;
+}
+
+-(NSString* )outlineView:(NSOutlineView *)outlineView toolTipForCell:(NSCell *)cell rect:(NSRectPointer)rect tableColumn:(NSTableColumn *)tc item:(id)item mouseLocation:(NSPoint)mouseLocation {
+	// show tooltip of the server URL for server items
+	PGSidebarNode* node = (PGSidebarNode* )item;
+	NSParameterAssert([node isKindOfClass:[PGSidebarNode class]]);
+	if([node type]==PGSidebarNodeTypeServer) {
+		return [[node URL] absoluteString];
+	}
+	return nil;
+}
+
+-(BOOL)outlineView:(NSOutlineView *)outlineView shouldEditTableColumn:(NSTableColumn *)tableColumn item:(id)item {
+	// prevent editing of the internal server name
+	PGSidebarNode* node = (PGSidebarNode* )item;
+	NSParameterAssert([node isKindOfClass:[PGSidebarNode class]]);
+	if([node key]==PGSidebarNodeKeyInternalServer) {
+		return NO;
+	}
+	return YES;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

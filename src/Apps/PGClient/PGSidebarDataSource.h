@@ -2,15 +2,23 @@
 #import <Cocoa/Cocoa.h>
 #import "PGSidebarNode.h"
 
+extern NSString* PGSidebarDragType;
+
 @interface PGSidebarDataSource : NSObject <NSOutlineViewDataSource> {
 	NSMutableArray* _nodes;
+	NSMutableDictionary* _keys;
+	NSUInteger _nextkey;
 }
 
 // properties
-@property (readonly) NSMutableArray* nodes;
+@property (readonly) NSArray* groups;
 
 // methods
--(void)addServer:(PGSidebarNode* )node;
+-(NSUInteger)nextKey;
+-(BOOL)addGroup:(PGSidebarNode* )node;
+-(BOOL)addServer:(PGSidebarNode* )node;
+-(BOOL)addDatabase:(PGSidebarNode* )node;
+-(BOOL)addQuery:(PGSidebarNode* )node;
 
 @end
 

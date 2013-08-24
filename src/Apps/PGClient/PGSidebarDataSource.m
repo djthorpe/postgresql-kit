@@ -1,6 +1,8 @@
 
 #import "PGSidebarDataSource.h"
 
+NSString* PGSidebarDragType = @"PGSidebarDragType";
+
 @implementation PGSidebarDataSource
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -10,44 +12,84 @@
     self = [super init];
     if (self) {
         _nodes = [NSMutableArray array];
+		_keys = [NSMutableDictionary dictionary];
+		_nextkey = PGSidebarNodeKeyMaximum;
     }
     return self;
 }
 
 -(void)awakeFromNib {
-	
-	PGSidebarNode* serverGroup = [[PGSidebarNode alloc] initAsGroup:@"SERVERS"];
-	PGSidebarNode* databaseGroup = [[PGSidebarNode alloc] initAsGroup:@"DATABASES"];
-	PGSidebarNode* queryGroup = [[PGSidebarNode alloc] initAsGroup:@"QUERIES"];
-	[[self nodes] addObject:serverGroup];
-	[[self nodes] addObject:databaseGroup];
-	[[self nodes] addObject:queryGroup];
+	[self addGroup:[[PGSidebarNode alloc] initAsGroupWithKey:PGSidebarNodeKeyServerGroup name:@"SERVERS"]];
+	[self addGroup:[[PGSidebarNode alloc] initAsGroupWithKey:PGSidebarNodeKeyDatabaseGroup name:@"DATABASES"]];
+	[self addGroup:[[PGSidebarNode alloc] initAsGroupWithKey:PGSidebarNodeKeyQueryGroup name:@"QUERIES"]];
 	
 	// Add Internal Server database
-	PGSidebarNode* internalServer = [[PGSidebarNode alloc] initAsServer:@"Internal Server"];
-	[serverGroup addChild:internalServer];
+	PGSidebarNode* internalServer = [[PGSidebarNode alloc] initAsServerWithKey:PGSidebarNodeKeyInternalServer name:@"Internal Server"];
+	[self addServer:internalServer];
 	
 	// Add in some dummies
-	[serverGroup addChild:[[PGSidebarNode alloc] initAsServer:@"A Server"]];
-	[databaseGroup addChild:[[PGSidebarNode alloc] initAsDatabase:@"Database1"]];
-	[databaseGroup addChild:[[PGSidebarNode alloc] initAsDatabase:@"Database1"]];
-	[queryGroup addChild:[[PGSidebarNode alloc] initAsQuery:@"Query1"]];
-	[queryGroup addChild:[[PGSidebarNode alloc] initAsQuery:@"Query2"]];
-	[queryGroup addChild:[[PGSidebarNode alloc] initAsQuery:@"Query3"]];	
+	[self addDatabase:[[PGSidebarNode alloc] initAsDatabaseWithKey:[self nextKey] name:@"Database1"]];
+	[self addDatabase:[[PGSidebarNode alloc] initAsDatabaseWithKey:[self nextKey] name:@"Database2"]];
+	[self addQuery:[[PGSidebarNode alloc] initAsQueryWithKey:[self nextKey] name:@"Query1"]];
+	[self addQuery:[[PGSidebarNode alloc] initAsQueryWithKey:[self nextKey] name:@"Query2"]];
+	[self addQuery:[[PGSidebarNode alloc] initAsQueryWithKey:[self nextKey] name:@"Query3"]];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // properties
 
-@synthesize nodes = _nodes;
+@synthesize groups = _nodes;
 
 ////////////////////////////////////////////////////////////////////////////////
 // methods
 
--(void)addServer:(PGSidebarNode* )node {
-	PGSidebarNode* serverGroup = [[self nodes] objectAtIndex:0];
+-(NSUInteger)nextKey {
+	while([self nodeForKey:_nextkey]) {
+		_nextkey++;
+	}
+	return _nextkey++;
+}
+
+-(PGSidebarNode* )nodeForKey:(NSUInteger)key {
+	return [_keys objectForKey:[NSNumber numberWithUnsignedInteger:key]];
+}
+
+-(BOOL)addGroup:(PGSidebarNode* )node {
+	NSParameterAssert([node type]==PGSidebarNodeTypeGroup);
+	NSParameterAssert([_keys objectForKey:[node keyObject]]==nil);
+	[_nodes addObject:node];
+	[_keys setObject:node forKey:[node keyObject]];
+	return YES;
+}
+
+-(BOOL)addServer:(PGSidebarNode* )node {
 	NSParameterAssert([node type]==PGSidebarNodeTypeServer);
-	[serverGroup addChild:node];
+	NSParameterAssert([_keys objectForKey:[node keyObject]]==nil);
+	PGSidebarNode* group = [self nodeForKey:PGSidebarNodeKeyServerGroup];
+	NSParameterAssert(group);
+	[group addChild:node];
+	[_keys setObject:node forKey:[node keyObject]];
+	return YES;
+}
+
+-(BOOL)addDatabase:(PGSidebarNode* )node {
+	NSParameterAssert([node type]==PGSidebarNodeTypeDatabase);
+	NSParameterAssert([_keys objectForKey:[node keyObject]]==nil);
+	PGSidebarNode* group = [self nodeForKey:PGSidebarNodeKeyDatabaseGroup];
+	NSParameterAssert(group);
+	[group addChild:node];
+	[_keys setObject:node forKey:[node keyObject]];
+	return YES;
+}
+
+-(BOOL)addQuery:(PGSidebarNode* )node {
+	NSParameterAssert([node type]==PGSidebarNodeTypeQuery);
+	NSParameterAssert([_keys objectForKey:[node keyObject]]==nil);
+	PGSidebarNode* group = [self nodeForKey:PGSidebarNodeKeyQueryGroup];
+	NSParameterAssert(group);
+	[group addChild:node];
+	[_keys setObject:node forKey:[node keyObject]];
+	return YES;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -55,7 +97,7 @@
 
 -(id)outlineView:(NSOutlineView* )outlineView child:(NSInteger)index ofItem:(id)item {
 	if(item==nil) {
-		return [[self nodes] objectAtIndex:index];
+		return [_nodes objectAtIndex:index];
 	}
 	PGSidebarNode* node = (PGSidebarNode* )item;
 	NSParameterAssert([node isKindOfClass:[PGSidebarNode class]]);	
@@ -64,7 +106,7 @@
 
 -(NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item {
 	if(item==nil) {
-		return [[self nodes] count];
+		return [_nodes count];
 	}
 	PGSidebarNode* node = (PGSidebarNode* )item;
 	NSParameterAssert([node isKindOfClass:[PGSidebarNode class]]);
@@ -99,7 +141,8 @@
 	if([node type]==PGSidebarNodeTypeGroup) {
 		return NO;
 	}
-	[pboard setPropertyList:[NSNumber numberWithBool:YES] forType:@"PGSidebarDragType"];
+	// use key object
+	[pboard setPropertyList:[node keyObject] forType:PGSidebarDragType];
 	return YES;
 }
 
@@ -109,13 +152,20 @@
 		return NSDragOperationNone;
 	}
 	NSParameterAssert([item isKindOfClass:[PGSidebarNode class]]);
-	// can only move within groups
-	if([node type] != PGSidebarNodeTypeGroup) {
+
+	// retrieve dragged node from pasteboard
+	NSPasteboard* pasteboard = [info draggingPasteboard];
+	NSNumber* nodeKey = [pasteboard propertyListForType:PGSidebarDragType];
+	NSParameterAssert([nodeKey isKindOfClass:[NSNumber class]]);
+	PGSidebarNode* draggedNode = [self nodeForKey:[nodeKey unsignedIntegerValue]];
+	NSParameterAssert(draggedNode);
+
+	// determine if the move can occur
+	if(![node canContainNode:draggedNode]) {
 		return NSDragOperationNone;
 	}
-	NSLog(@"Proposed move to %ld of %@",index,[node name]);
-	// TODO: Only allow it to be moved within the same group
-	// TODO: Read item from pasteboard
+	
+	// allow moves to occur
 	return NSDragOperationMove;
 }
 
@@ -125,8 +175,34 @@
 		return NO;
 	}
 	NSParameterAssert([item isKindOfClass:[PGSidebarNode class]]);
-	NSLog(@"Accepted move to %ld of %@",index,[node name]);
-	// TODO: Read item from pasteboard
+	
+	// retrieve dragged node from pasteboard
+	NSPasteboard* pasteboard = [info draggingPasteboard];
+	NSNumber* nodeKey = [pasteboard propertyListForType:PGSidebarDragType];
+	NSParameterAssert([nodeKey isKindOfClass:[NSNumber class]]);
+	PGSidebarNode* draggedNode = [self nodeForKey:[nodeKey unsignedIntegerValue]];
+	NSParameterAssert(draggedNode);
+	
+	// determine if the move can occur
+	if(![node canContainNode:draggedNode]) {
+		return NSDragOperationNone;
+	}
+	
+	if(index < 1) {
+		// drop onto the group header, thus move to index position 0
+		[node insertChild:draggedNode atIndex:0];
+	} else {
+		// drop underneath existing item
+		[node insertChild:draggedNode atIndex:(index-1)];
+	}
+	// reload data
+	[outlineView reloadData];
+
+	// select dragged object
+	NSInteger rowIndex = [outlineView rowForItem:draggedNode];
+	NSParameterAssert(rowIndex >= 0);
+	[outlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:rowIndex] byExtendingSelection:NO];
+
 	return YES;
 }
 
