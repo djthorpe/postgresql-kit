@@ -57,5 +57,6 @@ typedef enum {
 -(void)addChild:(PGSidebarNode* )child;
 -(void)insertChild:(PGSidebarNode* )child atIndex:(NSUInteger)index;
 -(BOOL)canContainNode:(PGSidebarNode* )node;
+-(BOOL)removeChild:(PGSidebarNode* )child;
 
 @end

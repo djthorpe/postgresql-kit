@@ -211,6 +211,15 @@
 									<reference key="NSOnImage" ref="35465992"/>
 									<reference key="NSMixedImage" ref="502551668"/>
 								</object>
+								<object class="NSMenuItem" id="104209717">
+									<reference key="NSMenu" ref="720053764"/>
+									<string key="NSTitle">Delete</string>
+									<string type="base64-UTF8" key="NSKeyEquiv">CA</string>
+									<int key="NSKeyEquivModMask">1048576</int>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="35465992"/>
+									<reference key="NSMixedImage" ref="502551668"/>
+								</object>
 								<object class="NSMenuItem" id="968395265">
 									<reference key="NSMenu" ref="720053764"/>
 									<bool key="NSIsDisabled">YES</bool>
@@ -1479,7 +1488,7 @@
 																	<bytes key="NSWhite">MC41AA</bytes>
 																</object>
 															</object>
-															<double key="NSRowHeight">24</double>
+															<double key="NSRowHeight">17</double>
 															<int key="NSTvFlags">304087040</int>
 															<reference key="NSDelegate"/>
 															<reference key="NSDataSource"/>
@@ -1544,7 +1553,7 @@
 											<reference key="NSVScroller" ref="632220219"/>
 											<reference key="NSHScroller" ref="648676902"/>
 											<reference key="NSContentView" ref="35436836"/>
-											<bytes key="NSScrollAmts">QSAAAEEgAABBwAAAQcAAAA</bytes>
+											<bytes key="NSScrollAmts">QSAAAEEgAABBiAAAQYgAAA</bytes>
 											<double key="NSMinMagnification">0.25</double>
 											<double key="NSMaxMagnification">4</double>
 											<double key="NSMagnification">1</double>
@@ -1599,43 +1608,6 @@
 			</object>
 			<object class="NSCustomObject" id="744249166">
 				<string key="NSClassName">PGSidebarViewController</string>
-			</object>
-			<object class="NSMenu" id="614260531">
-				<string key="NSTitle"/>
-				<array class="NSMutableArray" key="NSMenuItems">
-					<object class="NSMenuItem" id="680309882">
-						<reference key="NSMenu" ref="614260531"/>
-						<string key="NSTitle">Open</string>
-						<string key="NSKeyEquiv"/>
-						<int key="NSMnemonicLoc">2147483647</int>
-						<reference key="NSOnImage" ref="35465992"/>
-						<reference key="NSMixedImage" ref="502551668"/>
-					</object>
-					<object class="NSMenuItem" id="689679257">
-						<reference key="NSMenu" ref="614260531"/>
-						<string key="NSTitle">Close</string>
-						<string key="NSKeyEquiv"/>
-						<int key="NSMnemonicLoc">2147483647</int>
-						<reference key="NSOnImage" ref="35465992"/>
-						<reference key="NSMixedImage" ref="502551668"/>
-					</object>
-					<object class="NSMenuItem" id="938643858">
-						<reference key="NSMenu" ref="614260531"/>
-						<string key="NSTitle">Edit</string>
-						<string key="NSKeyEquiv"/>
-						<int key="NSMnemonicLoc">2147483647</int>
-						<reference key="NSOnImage" ref="35465992"/>
-						<reference key="NSMixedImage" ref="502551668"/>
-					</object>
-					<object class="NSMenuItem" id="982713065">
-						<reference key="NSMenu" ref="614260531"/>
-						<string key="NSTitle">Delete</string>
-						<string key="NSKeyEquiv"/>
-						<int key="NSMnemonicLoc">2147483647</int>
-						<reference key="NSOnImage" ref="35465992"/>
-						<reference key="NSMixedImage" ref="502551668"/>
-					</object>
-				</array>
 			</object>
 		</array>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
@@ -2273,6 +2245,38 @@
 					<int key="connectionID">938</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: canOpen</string>
+						<reference key="source" ref="738938259"/>
+						<reference key="destination" ref="744249166"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="738938259"/>
+							<reference key="NSDestination" ref="744249166"/>
+							<string key="NSLabel">enabled: canOpen</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">canOpen</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1735</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: canClose</string>
+						<reference key="source" ref="900187495"/>
+						<reference key="destination" ref="744249166"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="900187495"/>
+							<reference key="NSDestination" ref="744249166"/>
+							<string key="NSLabel">enabled: canClose</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">canClose</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1737</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">delegate</string>
 						<reference key="source" ref="23079969"/>
@@ -2297,28 +2301,36 @@
 					<int key="connectionID">1687</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">doOpen:</string>
-						<reference key="source" ref="744249166"/>
-						<reference key="destination" ref="680309882"/>
-					</object>
-					<int key="connectionID">1688</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">doClose:</string>
-						<reference key="source" ref="744249166"/>
-						<reference key="destination" ref="689679257"/>
-					</object>
-					<int key="connectionID">1689</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">view</string>
 						<reference key="source" ref="744249166"/>
 						<reference key="destination" ref="23079969"/>
 					</object>
 					<int key="connectionID">1696</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">doDelete:</string>
+						<reference key="source" ref="744249166"/>
+						<reference key="destination" ref="104209717"/>
+					</object>
+					<int key="connectionID">1704</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: canDelete</string>
+						<reference key="source" ref="104209717"/>
+						<reference key="destination" ref="744249166"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="104209717"/>
+							<reference key="NSDestination" ref="744249166"/>
+							<string key="NSLabel">enabled: canDelete</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">canDelete</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1739</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -2408,6 +2420,7 @@
 							<reference ref="1022460572"/>
 							<reference ref="98636577"/>
 							<reference ref="708822932"/>
+							<reference ref="104209717"/>
 						</array>
 						<reference key="parent" ref="379814623"/>
 					</object>
@@ -3698,37 +3711,6 @@
 						<reference key="parent" ref="361161112"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">1681</int>
-						<reference key="object" ref="614260531"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="680309882"/>
-							<reference ref="689679257"/>
-							<reference ref="938643858"/>
-							<reference ref="982713065"/>
-						</array>
-						<reference key="parent" ref="0"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1682</int>
-						<reference key="object" ref="680309882"/>
-						<reference key="parent" ref="614260531"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1683</int>
-						<reference key="object" ref="689679257"/>
-						<reference key="parent" ref="614260531"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1684</int>
-						<reference key="object" ref="938643858"/>
-						<reference key="parent" ref="614260531"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1685</int>
-						<reference key="object" ref="982713065"/>
-						<reference key="parent" ref="614260531"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">1698</int>
 						<reference key="object" ref="1014854782"/>
 						<reference key="parent" ref="611061401"/>
@@ -3742,6 +3724,11 @@
 						<int key="objectID">1566</int>
 						<reference key="object" ref="659058545"/>
 						<reference key="parent" ref="427734467"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1702</int>
+						<reference key="object" ref="104209717"/>
+						<reference key="parent" ref="720053764"/>
 					</object>
 				</array>
 			</object>
@@ -3794,12 +3781,8 @@
 				<string key="1638.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1639.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1640.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="1681.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="1682.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="1683.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="1684.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="1685.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1698.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1702.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="19.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="195.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="196.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -3962,7 +3945,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1701</int>
+			<int key="maxID">1739</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -4052,11 +4035,16 @@
 					<string key="superclassName">NSViewController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="doClose:">id</string>
+						<string key="doDelete:">id</string>
 						<string key="doOpen:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="doClose:">
 							<string key="name">doClose:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="doDelete:">
+							<string key="name">doDelete:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="doOpen:">

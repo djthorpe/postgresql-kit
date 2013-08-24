@@ -8,6 +8,7 @@
 NSString* PGClientAddConnectionURL = @"PGClientAddConnectionURL";
 NSString* PGClientNotificationOpenConnection = @"PGClientNotificationOpenConnection";
 NSString* PGClientNotificationCloseConnection = @"PGClientNotificationCloseConnection";
+NSString* PGClientNotificationDeleteConnection = @"PGClientNotificationDeleteConnection";
 
 @implementation PGClientApplication
 
@@ -31,6 +32,7 @@ NSString* PGClientNotificationCloseConnection = @"PGClientNotificationCloseConne
 	[[NSNotificationCenter defaultCenter] addObserver:[self ibSidebarViewController] selector:@selector(ibNotificationAddConnection:) name:PGClientAddConnectionURL object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ibNotificationOpenConnection:) name:PGClientNotificationOpenConnection object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ibNotificationCloseConnection:) name:PGClientNotificationCloseConnection object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ibNotificationDeleteConnection:) name:PGClientNotificationDeleteConnection object:nil];
 	
 	// internal server
 	if(_internalServer==nil) {
@@ -138,6 +140,12 @@ NSString* PGClientNotificationCloseConnection = @"PGClientNotificationCloseConne
 	} else {
 		// CLOSE SERVER CONNECTION
 	}*/
+}
+
+-(void)ibNotificationDeleteConnection:(NSNotification* )notification {
+	PGSidebarNode* node = [notification object];
+	NSParameterAssert([node isKindOfClass:[PGSidebarNode class]]);	
+	[[self ibSidebarViewController] deleteNode:node];
 }
 
 ////////////////////////////////////////////////////////////////////////////////

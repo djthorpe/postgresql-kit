@@ -40,6 +40,48 @@
 // properties
 
 @synthesize datasource = _datasource;
+@dynamic canOpen;
+@dynamic canClose;
+@dynamic canDelete;
+
+-(BOOL)canOpen {
+	PGSidebarNode* node = [self selectedNode];
+	if(node==nil) {
+		return NO;
+	}
+	if([node type]==PGSidebarNodeTypeServer) {
+		// TODO: Check to make sure not already opened
+		return YES;
+	}
+	return NO;
+}
+
+-(BOOL)canClose {
+	PGSidebarNode* node = [self selectedNode];
+	if(node==nil) {
+		return NO;
+	}
+	if([node type]==PGSidebarNodeTypeServer) {
+		// TODO: Check to make sure not already closed
+		return YES;
+	}
+	return NO;	
+}
+
+-(BOOL)canDelete {
+	PGSidebarNode* node = [self selectedNode];
+	if(node==nil) {
+		return NO;
+	}
+	if([node type]==PGSidebarNodeTypeServer && [node key]==PGSidebarNodeKeyInternalServer) {
+		return NO;
+	}
+	if([node type]==PGSidebarNodeTypeServer) {
+		// TODO: Can't delete if server is connected
+		return YES;
+	}
+	return NO;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // methods
@@ -57,10 +99,20 @@
 
 -(void)selectNode:(PGSidebarNode* )node {
 	NSOutlineView* view = (NSOutlineView* )[self view];
-	NSInteger rowIndex = [view rowForItem:node];
-	NSParameterAssert([node type] != PGSidebarNodeTypeGroup);
-	NSParameterAssert(rowIndex >= 0);
-	[view selectRowIndexes:[NSIndexSet indexSetWithIndex:rowIndex] byExtendingSelection:NO];
+	if(node==nil) {
+		[view deselectAll:self];
+	} else {
+		NSInteger rowIndex = [view rowForItem:node];
+		NSParameterAssert([node type] != PGSidebarNodeTypeGroup);
+		NSParameterAssert(rowIndex >= 0);
+		[view selectRowIndexes:[NSIndexSet indexSetWithIndex:rowIndex] byExtendingSelection:NO];
+	}
+}
+
+-(void)deleteNode:(PGSidebarNode* )node {
+	[[self datasource] deleteNode:node];
+	[(NSOutlineView* )[self view] reloadData];
+	[self selectNode:nil];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -127,15 +179,25 @@
 
 -(IBAction)doOpen:(id)sender {
 	PGSidebarNode* node = [self selectedNode];
-	if(node && [node type]==PGSidebarNodeTypeServer) {
+	NSParameterAssert(node);
+	if([self canOpen] && [node type]==PGSidebarNodeTypeServer) {
 		[[NSNotificationCenter defaultCenter] postNotificationName:PGClientNotificationOpenConnection object:node];
 	}
 }
 
 -(IBAction)doClose:(id)sender {
 	PGSidebarNode* node = [self selectedNode];
-	if(node && [node type]==PGSidebarNodeTypeServer) {
-		[[NSNotificationCenter defaultCenter] postNotificationName:PGClientNotificationOpenConnection object:node];
+	NSParameterAssert(node);
+	if([self canClose] && [node type]==PGSidebarNodeTypeServer) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:PGClientNotificationCloseConnection object:node];
+	}
+}
+
+-(IBAction)doDelete:(id)sender {
+	PGSidebarNode* node = [self selectedNode];
+	NSParameterAssert(node);
+	if([self canDelete] && [node type]==PGSidebarNodeTypeServer) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:PGClientNotificationDeleteConnection object:node];
 	}
 }
 

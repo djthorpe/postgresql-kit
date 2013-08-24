@@ -125,4 +125,16 @@
 	}
 }
 
+-(BOOL)removeChild:(PGSidebarNode *)child {
+	if([[self children] containsObject:child]==NO) {
+		return NO;
+	}
+	[[self children] removeObject:child];
+	return YES;
+}
+
+-(NSString* )description {
+	return [NSString stringWithFormat:@"<%@ %lu %@>",NSStringFromClass([self class]),[self key],[self name]];
+}
+
 @end

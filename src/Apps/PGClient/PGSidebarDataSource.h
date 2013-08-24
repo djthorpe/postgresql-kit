@@ -19,6 +19,7 @@ extern NSString* PGSidebarDragType;
 -(BOOL)addServer:(PGSidebarNode* )node;
 -(BOOL)addDatabase:(PGSidebarNode* )node;
 -(BOOL)addQuery:(PGSidebarNode* )node;
+-(BOOL)deleteNode:(PGSidebarNode* )node;
 
 @end
 

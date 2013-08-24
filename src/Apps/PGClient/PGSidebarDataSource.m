@@ -92,6 +92,31 @@ NSString* PGSidebarDragType = @"PGSidebarDragType";
 	return YES;
 }
 
+-(BOOL)deleteNode:(PGSidebarNode* )node {
+	NSParameterAssert(node);
+	PGSidebarNode* group = nil;
+	switch([node type]) {
+		case PGSidebarNodeTypeDatabase:
+			group = [self nodeForKey:PGSidebarNodeKeyDatabaseGroup];
+			break;
+		case PGSidebarNodeTypeServer:
+			group = [self nodeForKey:PGSidebarNodeKeyServerGroup];
+			break;
+		case PGSidebarNodeTypeQuery:
+			group = [self nodeForKey:PGSidebarNodeKeyQueryGroup];
+			break;
+		default:
+			return NO;
+	}
+	NSParameterAssert(group && [group type]==PGSidebarNodeTypeGroup);
+	// remove from group
+	BOOL success = [group removeChild:node];
+	if(success) {
+		[_keys removeObjectForKey:[node keyObject]];
+	}
+	return success;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // NSOutlineViewDataSource
 
@@ -207,3 +232,4 @@ NSString* PGSidebarDragType = @"PGSidebarDragType";
 }
 
 @end
+
