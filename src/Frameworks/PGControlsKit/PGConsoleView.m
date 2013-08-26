@@ -47,7 +47,7 @@
 
 -(CGFloat)defaultGutterWidth {
 	// gutter size is the size of the image
-	NSImage* image = [NSImage imageNamed:@"green"];
+	NSImage* image = [NSImage imageNamed:@"traffic-green"];
 	return [image size].width;	
 }
 
@@ -99,7 +99,7 @@
 }
 
 -(NSView* )_gutterView {
-	NSImage* image = [NSImage imageNamed:@"green"];
+	NSImage* image = [NSImage imageNamed:@"traffic-green"];
 	NSRect frame = NSMakeRect(0, 0, [image size].width,[image size].height);
 	NSImageView* imageView = [[NSImageView alloc] initWithFrame:frame];
 	[imageView setImage:image];
@@ -192,8 +192,8 @@
 	if(charCode == NSCarriageReturnCharacter || charCode == NSEnterCharacter) {
 		if([event modifierFlags] & NSCommandKeyMask) {
 			[[self editBuffer] appendString:@"\n"];
-		} else if([self delegate] && [[self delegate] respondsToSelector:@selector(appendString:)]) {
-			[[self delegate] appendString:[[self editBuffer] copy]];
+		} else if([self delegate] && [[self delegate] respondsToSelector:@selector(consoleView:appendString:)]) {
+			[[self delegate] consoleView:self appendString:[[self editBuffer] copy]];
 			[[self editBuffer] setString:@""];
 		}
 		return;

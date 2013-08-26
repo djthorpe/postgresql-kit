@@ -91,4 +91,9 @@
 	return [array objectAtIndex:row];
 }
 
+-(void)consoleView:(PGConsoleView* )view appendString:(NSString *)string {
+	NSUInteger key = [view tag];
+	NSLog(@"TODO: %lu append string %@",key,string);
+}
+
 @end
