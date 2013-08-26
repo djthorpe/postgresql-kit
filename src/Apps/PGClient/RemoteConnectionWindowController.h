@@ -8,6 +8,7 @@
 	NSString* _username;
 	NSString* _database;
 	BOOL _requireEncryption;
+	BOOL _showAdvancedOptions;
 }
 
 // properties
@@ -17,6 +18,7 @@
 @property NSString* database;
 @property BOOL defaultPort;
 @property BOOL requireEncryption;
+@property BOOL showAdvancedOptions;
 
 // methods
 -(void)beginSheetForParentWindow:(NSWindow* )parentWindow;

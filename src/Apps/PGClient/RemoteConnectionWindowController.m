@@ -16,6 +16,7 @@
 		_port = 0;
 		_defaultPort = YES;
 		_requireEncryption = NO;
+		_showAdvancedOptions = NO;
     }
     return self;
 }
@@ -36,6 +37,7 @@
 @synthesize username = _username;
 @synthesize database = _database;
 @synthesize requireEncryption = _requireEncryption;
+@synthesize showAdvancedOptions = _showAdvancedOptions;
 @dynamic defaultPort;
 
 -(void)setDefaultPort:(BOOL)value {
