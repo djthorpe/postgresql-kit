@@ -22,11 +22,12 @@ extern NSString* PGClientNotificationServerStatusChange;
 }
 
 // properties
-@property IBOutlet NSWindow* window;
-@property IBOutlet NSView* ibGrabberView;
-@property IBOutlet LocalConnectionWindowController* ibLocalConnectionWindowController;
-@property IBOutlet RemoteConnectionWindowController* ibRemoteConnectionWindowController;
-@property IBOutlet PGSidebarViewController* ibSidebarViewController;
+@property (assign) IBOutlet NSWindow* window;
+@property (assign) IBOutlet NSView* ibGrabberView;
+@property (assign) IBOutlet NSTabView* ibTabView;
+@property (assign) IBOutlet LocalConnectionWindowController* ibLocalConnectionWindowController;
+@property (assign) IBOutlet RemoteConnectionWindowController* ibRemoteConnectionWindowController;
+@property (assign) IBOutlet PGSidebarViewController* ibSidebarViewController;
 @property (readonly) PGConnectionController* connections;
 @property (readonly) PGServer* internalServer;
 @property BOOL terminationRequested;

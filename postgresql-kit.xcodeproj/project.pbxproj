@@ -1099,6 +1099,13 @@
 			name = PGConsoleView;
 			sourceTree = "<group>";
 		};
+		14F1E87617CB8F4600710D4A /* Tab Controller */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Tab Controller";
+			sourceTree = "<group>";
+		};
 		6E002D3B17BFC152001FB183 /* LocalConnectionWindow */ = {
 			isa = PBXGroup;
 			children = (
@@ -1183,6 +1190,7 @@
 				6E002D3B17BFC152001FB183 /* LocalConnectionWindow */,
 				6E002D4517BFD9F4001FB183 /* Sidebar */,
 				6EDD90A617C8EA6A0016DABC /* Server Connections */,
+				14F1E87617CB8F4600710D4A /* Tab Controller */,
 				6E68AE031635DD6E00436234 /* PGClientApplication.h */,
 				6E68AE041635DD6E00436234 /* PGClientApplication.m */,
 				6E68AE051635DD6E00436234 /* MainMenu.xib */,
@@ -2686,6 +2694,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = src/Frameworks/PGControlsKit/PGControlsKit.plist;
+				INSTALL_PATH = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = PGControlsKit;
@@ -2720,6 +2729,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = src/Frameworks/PGControlsKit/PGControlsKit.plist;
+				INSTALL_PATH = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = PGControlsKit;
 				WRAPPER_EXTENSION = framework;
@@ -3287,6 +3297,7 @@
 				14F1E85917CB83CD00710D4A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6E256FE115F252620079AD2D /* Build configuration list for PBXProject "postgresql-kit" */ = {
 			isa = XCConfigurationList;

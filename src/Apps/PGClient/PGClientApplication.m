@@ -2,6 +2,7 @@
 #import "PGClientApplication.h"
 #import "PGSidebarNode.h"
 #import "PGConnectionController.h"
+#import <PGControlsKit/PGControlsKit.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 // constants
@@ -49,6 +50,7 @@ NSString* PGClientNotificationServerStatusChange = @"PGClientNotificationServerS
 // properties
 
 @synthesize ibGrabberView;
+@synthesize ibTabView;
 @synthesize internalServer = _internalServer;
 @synthesize terminationRequested = _terminationRequested;
 @synthesize connections = _connections;
@@ -83,6 +85,15 @@ NSString* PGClientNotificationServerStatusChange = @"PGClientNotificationServerS
 	if([self _canOpenInternalServer]==NO) {
 		return NO;
 	}
+		
+	// get console for the connection
+	PGConsoleView* consoleView = [[self connections] consoleForKey:PGSidebarNodeKeyInternalServer];
+	// add console to the tab view, if not already added
+	NSTabViewItem* item = [[NSTabViewItem alloc] initWithIdentifier:[NSNumber numberWithUnsignedInteger:PGSidebarNodeKeyInternalServer]];
+	[item setView:[consoleView view]];
+	[ibTabView addTabViewItem:item];
+	[ibTabView selectTabViewItem:item];
+	
 	return [[self internalServer] start];
 }
 
@@ -121,6 +132,7 @@ NSString* PGClientNotificationServerStatusChange = @"PGClientNotificationServerS
 		connection = [[self connections] createConnectionWithURL:url forKey:PGSidebarNodeKeyInternalServer];
 		NSParameterAssert(connection);
 	}
+
 	// make sure connection is not connected
 	if([connection status] != PGConnectionStatusDisconnected) {
 		return NO;

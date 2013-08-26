@@ -4,7 +4,10 @@
 
 @implementation PGConsoleView
 
--(id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+-(id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle* )nibBundleOrNil {
+	if(nibBundleOrNil==nil) {
+		nibBundleOrNil = [NSBundle bundleForClass:[self class]];
+	}
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
 		_textFont = [NSFont fontWithName:@"Monaco" size:11];

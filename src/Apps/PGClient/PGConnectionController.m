@@ -9,6 +9,7 @@
     if(self) {
         _connections = [NSMutableDictionary dictionary];
         _urls = [NSMutableDictionary dictionary];
+		_consoles = [NSMutableDictionary dictionary];
     }
     return self;
 }
@@ -42,6 +43,19 @@
 	return [_connections objectForKey:keyObject];
 }
 
+-(PGConsoleView* )consoleForKey:(NSUInteger)key {
+	NSParameterAssert(key);
+	NSNumber* keyObject = [NSNumber numberWithUnsignedInteger:key];
+	PGConsoleView* console = [_consoles objectForKey:keyObject];
+	if(console==nil) {
+		console = [[PGConsoleView alloc] init];
+		// set console delegate
+		[console setDelegate:self];
+	}
+	NSParameterAssert([console isKindOfClass:[PGConsoleView class]]);
+	return console;
+}
+
 -(BOOL)openConnectionWithKey:(NSUInteger)key {
 	NSNumber* keyObject = [NSNumber numberWithUnsignedInteger:key];
 	PGConnection* connection = [_connections objectForKey:keyObject];
@@ -70,5 +84,19 @@
 	[[NSNotificationCenter defaultCenter] postNotificationName:PGClientNotificationServerStatusChange object:@"Connection is closing"];
 	return [connection disconnect];
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// PGConsoleView delegate
+
+-(NSUInteger)numberOfRowsInConsoleView:(PGConsoleView* )view {
+	return 10;
+}
+
+-(NSString* )consoleView:(PGConsoleView* )view stringForRow:(NSUInteger)row {
+	return @"XX";
+}
+
+
+
 
 @end
