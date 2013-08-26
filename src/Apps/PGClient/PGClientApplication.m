@@ -2,7 +2,6 @@
 #import "PGClientApplication.h"
 #import "PGSidebarNode.h"
 #import "PGConnectionController.h"
-#import <PGControlsKit/PGControlsKit.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 // constants
@@ -49,8 +48,6 @@ NSString* PGClientNotificationServerStatusChange = @"PGClientNotificationServerS
 ////////////////////////////////////////////////////////////////////////////////
 // properties
 
-@synthesize ibGrabberView;
-@synthesize ibTabView;
 @synthesize internalServer = _internalServer;
 @synthesize terminationRequested = _terminationRequested;
 @synthesize connections = _connections;
@@ -86,15 +83,12 @@ NSString* PGClientNotificationServerStatusChange = @"PGClientNotificationServerS
 		return NO;
 	}
 		
-	// get console for the connection
-	PGConsoleView* consoleView = [[self connections] consoleForKey:PGSidebarNodeKeyInternalServer];
 	// add console to the tab view, if not already added
-	NSTabViewItem* item = [[NSTabViewItem alloc] initWithIdentifier:[NSNumber numberWithUnsignedInteger:PGSidebarNodeKeyInternalServer]];
-	[item setView:[consoleView view]];
-	[ibTabView addTabViewItem:item];
-	[ibTabView selectTabViewItem:item];
-	
-	return [[self internalServer] start];
+	PGSidebarNode* node = [[self ibSidebarViewController] nodeForKey:PGSidebarNodeKeyInternalServer];
+	[[self ibTabViewController] openConsoleViewWithName:[node name] forKey:PGSidebarNodeKeyInternalServer];
+
+	// start internal server
+	return [[self internalServer] startWithPort:PGServerDefaultPort socketPath:[self _internalServerDataPath]];
 }
 
 -(BOOL)_openConnectionForNode:(PGSidebarNode* )node {
@@ -112,6 +106,9 @@ NSString* PGClientNotificationServerStatusChange = @"PGClientNotificationServerS
 	if([connection status] != PGConnectionStatusDisconnected) {
 		return NO;
 	}
+	
+	// add console to the tab view, if not already added
+	[[self ibTabViewController] openConsoleViewWithName:[node name] forKey:[node key]];
 
 	// ask connection controller to open connection in background,
 	// and return success condition
@@ -219,8 +216,7 @@ NSString* PGClientNotificationServerStatusChange = @"PGClientNotificationServerS
 ////////////////////////////////////////////////////////////////////////////////
 // NSApplication delegate
 
--(NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication* )sender {
-
+-(NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication* )sender {	
 	// send message to the sidebar controller
 	[[self ibSidebarViewController] applicationWillTerminate:self];
 	
@@ -287,7 +283,7 @@ NSString* PGClientNotificationServerStatusChange = @"PGClientNotificationServerS
 }
 
 -(void)pgserver:(PGServer* )server message:(NSString* )message {
-	NSLog(@"%@",message);
+	[[self ibTabViewController] appendConsoleMessage:message forKey:PGSidebarNodeKeyInternalServer];
 }
 
 @end

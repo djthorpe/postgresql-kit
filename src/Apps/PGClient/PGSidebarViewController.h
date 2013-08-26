@@ -12,12 +12,17 @@
 @property (readonly) BOOL canClose;
 @property (readonly) BOOL canDelete;
 
-// methods
+// application delegate methods
 -(void)applicationDidFinishLaunching:(NSNotification* )aNotification;
 -(void)applicationWillTerminate:(id)sender;
 
-//-(void)setStatus:(PGSidebarNodeStatusType)status forNode:(PGSidebarNode* )node;
+// methods
+-(PGSidebarNode* )nodeForKey:(NSUInteger)key;
+-(PGSidebarNode* )selectedNode;
+-(void)selectNode:(PGSidebarNode* )node;
 -(void)deleteNode:(PGSidebarNode* )node;
+
+// load and save to user defaults
 -(BOOL)loadFromUserDefaults;
 -(BOOL)saveToUserDefaults;
 

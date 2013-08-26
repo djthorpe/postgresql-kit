@@ -17,6 +17,7 @@
 }
 
 // properties
+@property NSUInteger tag;
 @property (assign) IBOutlet NSTableView* tableView;
 @property (weak,nonatomic) id<PGConsoleViewDelegate> delegate;
 @property NSFont* textFont;

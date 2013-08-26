@@ -2,11 +2,13 @@
 #import <Cocoa/Cocoa.h>
 #import <PGClientKit/PGClientKit.h>
 #import <PGServerKit/PGServerKit.h>
+#import <PGControlsKit/PGControlsKit.h>
 
 #import "LocalConnectionWindowController.h"
 #import "RemoteConnectionWindowController.h"
 #import "PGSidebarViewController.h"
 #import "PGConnectionController.h"
+#import "PGTabViewController.h"
 
 // notifications
 extern NSString* PGClientAddConnectionURL;
@@ -24,7 +26,7 @@ extern NSString* PGClientNotificationServerStatusChange;
 // properties
 @property (assign) IBOutlet NSWindow* window;
 @property (assign) IBOutlet NSView* ibGrabberView;
-@property (assign) IBOutlet NSTabView* ibTabView;
+@property (assign) IBOutlet PGTabViewController* ibTabViewController;
 @property (assign) IBOutlet LocalConnectionWindowController* ibLocalConnectionWindowController;
 @property (assign) IBOutlet RemoteConnectionWindowController* ibRemoteConnectionWindowController;
 @property (assign) IBOutlet PGSidebarViewController* ibSidebarViewController;

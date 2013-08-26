@@ -406,6 +406,10 @@ NSString* PGServerSuperuser = @"postgres";
 	} else {
 		_port = PGServerDefaultPort;
 	}
+	if(_socketPath) {
+		[theArguments addObject:@"-k"];
+		[theArguments addObject:_socketPath];
+	}
 #ifdef DEBUG
 	NSLog(@"Starting server with args: %@",[theArguments componentsJoinedByString:@" "]);
 #endif
@@ -513,6 +517,7 @@ NSString* PGServerSuperuser = @"postgres";
 			[self _setState:PGServerStateStopped];
 			break;
 		case PGServerStateStopped:
+		case PGServerStateError:
 			_hostname = nil;
 			_port = 0;
 			_pid = -1;
@@ -590,12 +595,37 @@ NSString* PGServerSuperuser = @"postgres";
 	return [self startWithNetworkBinding:nil port:port];
 }
 
+-(BOOL)startWithPort:(NSUInteger)port socketPath:(NSString* )socketPath {
+	return [self startWithNetworkBinding:nil port:port socketPath:socketPath];
+}
+
 -(BOOL)startWithNetworkBinding:(NSString* )hostname port:(NSUInteger)port {
+	return [self startWithNetworkBinding:hostname port:port socketPath:nil];
+}
+
+-(BOOL)startWithNetworkBinding:(NSString* )hostname port:(NSUInteger)port socketPath:(NSString* )socketPath {
 	NSParameterAssert([self dataPath]);
 
 	// check current state, needs to be unknown or stopped
 	if([self state] != PGServerStateUnknown && [self state] != PGServerStateStopped) {
 		return NO;
+	}
+	
+	// check for writable socket path
+	if([self socketPath]) {
+		BOOL isFolder = NO;
+		if([[NSFileManager defaultManager] fileExistsAtPath:socketPath isDirectory:&isFolder]==NO) {
+#ifdef DEBUG
+			NSLog(@"socketPath does not exist: %@",socketPath);
+#endif
+			return NO;
+		}
+		if(isFolder==NO || [[NSFileManager defaultManager] isWritableFileAtPath:socketPath]==NO) {
+#ifdef DEBUG
+			NSLog(@"socketPath not a folder or not writable: %@",socketPath);
+#endif
+			return NO;
+		}
 	}
 	
 	// if database process is already running, then set this as the state
@@ -607,6 +637,7 @@ NSString* PGServerSuperuser = @"postgres";
 		_pid = thePid;
 		_hostname = nil;
 		_port = 0;
+		_socketPath = nil;
 		[self _setState:PGServerStateAlreadyRunning0];
 #ifdef DEBUG
 		NSLog(@"Set state: PGServerStateAlreadyRunning0, pid = %d",thePid);
@@ -622,6 +653,7 @@ NSString* PGServerSuperuser = @"postgres";
 		_pid = 0;
 		_hostname = [hostname copy];
 		_port = port;
+		_socketPath = socketPath;
 		[self _setState:PGServerStateIgnition];
 	}
 	

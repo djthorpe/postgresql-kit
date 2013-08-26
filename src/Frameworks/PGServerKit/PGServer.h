@@ -34,6 +34,7 @@ extern NSString* PGServerSuperuser;
 // signal the server to do things
 -(BOOL)start; // uses default port, no network
 -(BOOL)startWithPort:(NSUInteger)port; // uses custom port, no network
+-(BOOL)startWithPort:(NSUInteger)port socketPath:(NSString* )socketPath; // uses custom port and socket path, no network
 -(BOOL)startWithNetworkBinding:(NSString* )hostname port:(NSUInteger)port;
 -(BOOL)stop;
 -(BOOL)restart;

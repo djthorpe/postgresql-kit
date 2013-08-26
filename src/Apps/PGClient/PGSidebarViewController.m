@@ -141,6 +141,9 @@
 	[self selectNode:nil];
 }
 
+-(PGSidebarNode* )nodeForKey:(NSUInteger)key {
+	return [[self datasource] nodeForKey:key];
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // load and save from defaults
