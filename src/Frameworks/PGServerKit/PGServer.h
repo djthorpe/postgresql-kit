@@ -17,7 +17,6 @@ extern NSString* PGServerSuperuser;
 	NSUInteger _startTime;
 }
 
-// properties
 @property (weak, nonatomic) id<PGServerDelegate> delegate;
 @property (readonly) NSString* version;
 @property (readonly) PGServerState state;
@@ -28,19 +27,122 @@ extern NSString* PGServerSuperuser;
 @property (readonly) int pid;
 @property (readonly) NSTimeInterval uptime;
 
-// return shared server object
+/**
+ *  Return a shared server object which will store data at the path provided by
+ *  the path argument. The path does not need to exist. The state of the server
+ *  will be set to PGServerStateUnknown.
+ *
+ *  @param thePath The path which will contain the PostgreSQL data and configuration files.
+ *
+ *  @return Returns a PGServer class instance, or nil if the instance could not be created.
+ */
 +(PGServer* )serverWithDataPath:(NSString* )thePath;
 
-// signal the server to do things
--(BOOL)start; // uses default port, no network
+/**
+ *  Start the shared server without any network interface binding, so that the 
+ *  server is only accessible through the default socket port. Uses the default
+ *  PostreSQL port in order to name the socket. If the server configuration and
+ *  data files do not yet exist, they are initialized. The method returns
+ *  immediately, and the current state of the server can be queried later to
+ *  determine if the start actually occurred.
+ *
+ *  @return returns YES if the initiation of the server starting could occur, NO
+ *    otherwise.
+ */
+-(BOOL)start;
+
+/**
+ *  Start the shared server without any network interface binding, so that the
+ *  server is only accessible through the default socket port. Uses the
+ *  port parameter provided in order to name the socket. If the 
+ *  server configuration and data files do not yet exist, they are initialized.
+ *  The method returns immediately, and the current state of the server can be 
+ *  queried later to determine if the start actually occurred.
+ *
+ *  @param port Port number to use to name the socket. Required to be 1 or greater.
+ *
+ *  @return returns YES if the initiation of the server starting could occur, NO
+ *    otherwise.
+ */
 -(BOOL)startWithPort:(NSUInteger)port; // uses custom port, no network
+
+/**
+ *  Start the shared server without any network interface binding, so that the
+ *  server is only accessible through a socket port. Uses the
+ *  port parameter provided in order to name the socket, and the
+ *  socketPath parameter to determine the location of the socket. If the
+ *  server configuration and data files do not yet exist, they are initialized.
+ *  The method returns immediately, and the current state of the server can be
+ *  queried later to determine if the start actually occurred.
+ *
+ *  @param port Port number to use to name the socket. Required to be 1 or greater.
+ *
+ *  @param socketPath Folder in which to place the socket, which must be writable.
+ *
+ *  @return returns YES if the initiation of the server starting could occur, NO
+ *    otherwise.
+ */
 -(BOOL)startWithPort:(NSUInteger)port socketPath:(NSString* )socketPath; // uses custom port and socket path, no network
+
+/**
+ *  Start the shared server with a network interface binding, so that the
+ *  server is accessible through the default socket port and through a network
+ *  interface. Uses the provided port parameter to both bind the interface and
+ *  in order to name the socket. If the hostname is set to @"*" then all network
+ *  interfaces are bound to. If the server configuration and data files do not 
+ *  yet exist, they are initialized. The method returns immediately, and the 
+ *  current state of the server can be queried later to determine if the start 
+ *  actually occurred.
+ *
+ *  @param hostname Network interface to bind to, or "*" for all interfaces.
+ *  @param port     Network port to bind to, or 0 for the default port.
+ *
+ *  @return returns YES if the initiation of the server starting could occur, NO
+ *    otherwise.
+ */
 -(BOOL)startWithNetworkBinding:(NSString* )hostname port:(NSUInteger)port;
+
+/**
+ *  Initiates a stop of the PostgreSQL server. Returns immediately, but the
+ *  progress in stopping the server can be monitored through the delegate. The
+ *  stopping mechanism tries to cleanly shutdown the server in the first instance,
+ *  but after some delay will force the termination whether or not any connections
+ *  exist. It is up to the software developer to ensure connections are terminated
+ *  cleanly to avoid data loss before calling this method.
+ *
+ *  @return Returns YES if the command could be initiated, else returns NO
+ */
 -(BOOL)stop;
+
+/**
+ *  Initiates a stop and start cycle of the server, in case of configuration
+ *  change, for example. Returns immediately, but the
+ *  progress in stopping the server can be monitored through the delegate. The
+ *  stopping mechanism tries to cleanly shutdown the server in the first instance,
+ *  but after some delay will force the termination whether or not any connections
+ *  exist. It is up to the software developer to ensure connections are terminated
+ *  cleanly to avoid data loss before calling this method.
+ *
+ *  @return Returns YES if the command could be initiated, else returns NO
+ */
 -(BOOL)restart;
+
+/**
+ *  Sends a SIGHUP (reload) signal to the server process, in case of configuration
+ *  change, for example. Returns immediately, and there is no status update of the
+ *  server in this case.
+ *
+ *  @return Returns YES if the command could be initiated, else returns NO
+ */
 -(BOOL)reload;
 
-// utility methods
+/**
+ *  Returns a string describing a particular server state.
+ *
+ *  @param theState The server state value
+ *
+ *  @return A string representing an English-language description of the state.
+ */
 +(NSString* )stateAsString:(PGServerState)theState;
 
 @end
