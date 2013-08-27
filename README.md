@@ -48,14 +48,14 @@ THE UNIVERSITY OF CALIFORNIA SPECIFICALLY DISCLAIMS ANY WARRANTIES, INCLUDING, B
 
 ## Repository organization
 
-  * `src` contains source code for `Frameworks`, `Apps` and `UnitTests` folders.
+  * `src` contains source code for `Frameworks`, `Apps`, `iApps` and `UnitTests` folders.
   
   * `tar` contains third party libraries and frameworks
 
   * `resources` contains icons and other images required
   
   * `doc` contains help files and other documentation. Please also see `NOTICE` file.
-    Any Derivative Works that You distribute must include a readable copy of the 
+    Any Derivative Works that you distribute must include a readable copy of the
     attribution notices contained within such NOTICE file.
 
   * `etc` contains other miscellaneous files required for the build of the frameworks and
