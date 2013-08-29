@@ -243,7 +243,16 @@
 								<object class="NSMenuItem" id="607235153">
 									<reference key="NSMenu" ref="720053764"/>
 									<string key="NSTitle">New Remote Connection...</string>
-									<string key="NSKeyEquiv">N</string>
+									<string key="NSKeyEquiv">n</string>
+									<int key="NSKeyEquivModMask">1048576</int>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="35465992"/>
+									<reference key="NSMixedImage" ref="502551668"/>
+								</object>
+								<object class="NSMenuItem" id="625140776">
+									<reference key="NSMenu" ref="720053764"/>
+									<string key="NSTitle">Add by URL...</string>
+									<string key="NSKeyEquiv">l</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="35465992"/>
@@ -262,7 +271,8 @@
 								<object class="NSMenuItem" id="628941930">
 									<reference key="NSMenu" ref="720053764"/>
 									<string key="NSTitle">Import Schema...</string>
-									<string key="NSKeyEquiv"/>
+									<string key="NSKeyEquiv">i</string>
+									<int key="NSKeyEquivModMask">1572864</int>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="35465992"/>
 									<reference key="NSMixedImage" ref="502551668"/>
@@ -270,7 +280,8 @@
 								<object class="NSMenuItem" id="807183081">
 									<reference key="NSMenu" ref="720053764"/>
 									<string key="NSTitle">Export Schema...</string>
-									<string key="NSKeyEquiv"/>
+									<string key="NSKeyEquiv">s</string>
+									<int key="NSKeyEquivModMask">1572864</int>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="35465992"/>
 									<reference key="NSMixedImage" ref="502551668"/>
@@ -287,16 +298,18 @@
 								</object>
 								<object class="NSMenuItem" id="1022460572">
 									<reference key="NSMenu" ref="720053764"/>
-									<string key="NSTitle">Import Table...</string>
-									<string key="NSKeyEquiv"/>
+									<string key="NSTitle">Import Table Data...</string>
+									<string key="NSKeyEquiv">i</string>
+									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="35465992"/>
 									<reference key="NSMixedImage" ref="502551668"/>
 								</object>
 								<object class="NSMenuItem" id="98636577">
 									<reference key="NSMenu" ref="720053764"/>
-									<string key="NSTitle">Export Table...</string>
-									<string key="NSKeyEquiv"/>
+									<string key="NSTitle">Export Table Data...</string>
+									<string key="NSKeyEquiv">s</string>
+									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="35465992"/>
 									<reference key="NSMixedImage" ref="502551668"/>
@@ -1612,7 +1625,7 @@
 					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="361161112"/>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1366, 746}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
 			</object>
@@ -2275,6 +2288,14 @@
 					<int key="connectionID">1760</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">doAddRemoteConnection:</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="625140776"/>
+					</object>
+					<int key="connectionID">1763</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">delegate</string>
 						<reference key="source" ref="361161112"/>
@@ -2467,6 +2488,7 @@
 							<reference ref="98636577"/>
 							<reference ref="708822932"/>
 							<reference ref="104209717"/>
+							<reference ref="625140776"/>
 						</array>
 						<reference key="parent" ref="379814623"/>
 					</object>
@@ -3874,6 +3896,12 @@
 						<reference key="object" ref="736841737"/>
 						<reference key="parent" ref="0"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1762</int>
+						<reference key="object" ref="625140776"/>
+						<reference key="parent" ref="720053764"/>
+						<string key="objectName">Menu Item - New Network Connection...</string>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -3934,6 +3962,7 @@
 				<string key="1755.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1757.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1759.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1762.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="19.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="195.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="196.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -4102,7 +4131,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1761</int>
+			<int key="maxID">1763</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">

@@ -226,19 +226,19 @@
 ////////////////////////////////////////////////////////////////////////////////
 // NSOutlineView delegate
 
--(BOOL)outlineView:(NSOutlineView*)outlineView isGroupItem:(id)item {
+-(BOOL)outlineView:(NSOutlineView* )outlineView isGroupItem:(id)item {
 	PGSidebarNode* node = (PGSidebarNode* )item;
 	NSParameterAssert([node isKindOfClass:[PGSidebarNode class]]);
 	return [node type]==PGSidebarNodeTypeGroup;
 }
 
--(BOOL)outlineView:(NSOutlineView*) outlineView shouldSelectItem:(id)item {
+-(BOOL)outlineView:(NSOutlineView* )outlineView shouldSelectItem:(id)item {
 	PGSidebarNode* node = (PGSidebarNode* )item;
 	NSParameterAssert([node isKindOfClass:[PGSidebarNode class]]);
 	return [node type]!=PGSidebarNodeTypeGroup;
 }
 
--(NSString* )outlineView:(NSOutlineView *)outlineView toolTipForCell:(NSCell *)cell rect:(NSRectPointer)rect tableColumn:(NSTableColumn *)tc item:(id)item mouseLocation:(NSPoint)mouseLocation {
+-(NSString* )outlineView:(NSOutlineView* )outlineView toolTipForCell:(NSCell *)cell rect:(NSRectPointer)rect tableColumn:(NSTableColumn *)tc item:(id)item mouseLocation:(NSPoint)mouseLocation {
 	// show tooltip of the server URL for server items
 	PGSidebarNode* node = (PGSidebarNode* )item;
 	NSParameterAssert([node isKindOfClass:[PGSidebarNode class]]);
@@ -248,7 +248,7 @@
 	return nil;
 }
 
--(BOOL)outlineView:(NSOutlineView *)outlineView shouldEditTableColumn:(NSTableColumn *)tableColumn item:(id)item {
+-(BOOL)outlineView:(NSOutlineView* )outlineView shouldEditTableColumn:(NSTableColumn *)tableColumn item:(id)item {
 	// prevent editing of the internal server name
 	PGSidebarNode* node = (PGSidebarNode* )item;
 	NSParameterAssert([node isKindOfClass:[PGSidebarNode class]]);
