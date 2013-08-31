@@ -36,13 +36,14 @@ NSTimeInterval PingTimerInterval = 2.0;
 @synthesize requireEncryption;
 @synthesize validParameters;
 @synthesize ibAdvancedOptionsBox;
-@synthesize port;
+@synthesize portString;
 @synthesize defaultPort;
 @synthesize timeout;
 @synthesize showAdvancedOptions;
 @synthesize pingTimer;
 
 @dynamic timeoutString;
+@dynamic port;
 @dynamic url;
 
 -(NSString* )timeoutString {
@@ -53,13 +54,17 @@ NSTimeInterval PingTimerInterval = 2.0;
 	}
 }
 
+-(NSUInteger)port {
+	return [self _portForString:[self portString]];
+}
+
 -(NSURL* )url {
 	// check hostname
 	if([[self hostname] length]==0) {
 		return nil;
 	}
 	// check port
-	if([self port] < 1 || [self port] > PGClientMaximumPort) {
+	if(![self port]) {
 		return nil;
 	}
 	// check username
@@ -86,6 +91,22 @@ NSTimeInterval PingTimerInterval = 2.0;
 
 ////////////////////////////////////////////////////////////////////////////////
 // private methods
+
+-(NSUInteger)_portForString:(NSString* )value {
+	if(value==nil || [value isKindOfClass:[NSNull class]]) {
+		return 0;
+	}
+	NSRange range = [value rangeOfCharacterFromSet:[[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet]];
+	if(range.location != NSNotFound) {
+		return 0;
+	}
+	NSInteger port = [value integerValue];
+	if(port > 0 && port <= PGClientMaximumPort) {
+		return (NSUInteger)port;
+	} else {
+		return 0;
+	}
+}
 
 -(void)_toggleWindowSize {
 	NSRect frameSize = [[self window] frame];
@@ -148,29 +169,31 @@ NSTimeInterval PingTimerInterval = 2.0;
 // private methods - key-value observing
 
 -(void)_registerAsObserver {
-	for(NSString* keyPath in @[ @"username",@"database",@"hostname",@"timeout",@"port",@"applicationName",@"defaultPort",@"requireEncryption",@"showAdvancedOptions" ]) {
+	for(NSString* keyPath in @[ @"username",@"database",@"hostname",@"timeout",@"portString",@"applicationName",@"defaultPort",@"requireEncryption",@"showAdvancedOptions" ]) {
 		[self addObserver:self forKeyPath:keyPath options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:NULL];
 	}
 }
 
 -(void)_deregisterAsObserver {
-	for(NSString* keyPath in @[ @"username",@"database",@"hostname",@"timeout",@"port",@"applicationName",@"defaultPort",@"requireEncryption",@"showAdvancedOptions" ]) {
+	for(NSString* keyPath in @[ @"username",@"database",@"hostname",@"timeout",@"portString",@"applicationName",@"defaultPort",@"requireEncryption",@"showAdvancedOptions" ]) {
 		[self removeObserver:self forKeyPath:keyPath];
 	}
 }
 
 -(void)observeValueForKeyPath:(NSString* )keyPath ofObject:(id)object change:(NSDictionary* )change context:(void* )context {
-	if([keyPath isEqual:@"port"]) {
-		NSUInteger newPort = [[change objectForKey:NSKeyValueChangeNewKey] unsignedIntegerValue];
-		if(newPort==PGServerDefaultPort) {
+	if([keyPath isEqual:@"portString"]) {
+		NSString* newPort = [change objectForKey:NSKeyValueChangeNewKey];
+		NSUInteger port = [self _portForString:newPort];
+		if(port==PGClientDefaultPort) {
 			[self setDefaultPort:YES];
 		} else {
 			[self setDefaultPort:NO];
 		}
+		NSLog(@"port = %lu",port);
 	} else if([keyPath isEqual:@"defaultPort"]) {
 		BOOL isDefaultPort = [[change objectForKey:NSKeyValueChangeNewKey] boolValue];
-		if(isDefaultPort) {
-			[self setPort:PGServerDefaultPort];
+		if(isDefaultPort && [self port] != PGClientDefaultPort) {
+			[self setPortString:[NSString stringWithFormat:@"%lu",PGClientDefaultPort]];
 		}
 	} else if([keyPath isEqual:@"timeout"]) {
 		[self willChangeValueForKey:@"timeoutString"];
@@ -196,7 +219,7 @@ NSTimeInterval PingTimerInterval = 2.0;
 
 -(void)beginSheetForParentWindow:(NSWindow* )parentWindow {
 	// set parameters
-	[self setValue:[NSNumber numberWithUnsignedInteger:PGServerDefaultPort] forKeyPath:@"port"];
+	[self setValue:[NSString stringWithFormat:@"%lu",PGClientDefaultPort] forKeyPath:@"portString"];
 	[self setValue:[NSNumber numberWithBool:NO] forKeyPath:@"showAdvancedOptions"];
 	[self setValue:[NSNumber numberWithBool:YES] forKeyPath:@"requireEncryption"];
 	[self setValue:NSUserName() forKeyPath:@"username"];

@@ -7,7 +7,8 @@
 }
 
 // properties
-@property NSUInteger port;
+@property (readonly) NSUInteger port;
+@property NSString* portString;
 @property NSString* hostname;
 @property NSString* username;
 @property NSString* database;
