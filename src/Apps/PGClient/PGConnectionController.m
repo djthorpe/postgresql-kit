@@ -21,8 +21,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // methods
 
-// TODO: Method for closing single connections
-
 -(void)closeAllConnections {
 	for(NSNumber* keyObject in _connections) {
 		PGConnection* connection = [_connections objectForKey:keyObject];
@@ -30,6 +28,22 @@
 			[connection disconnect];
 		}
 	}
+	[_connections removeAllObjects];
+	[_urls removeAllObjects];
+}
+
+-(void)closeConnectionForKey:(NSUInteger)key {
+	NSParameterAssert(key);
+	NSNumber* keyObject = [NSNumber numberWithUnsignedInteger:key];
+	PGConnection* connection = [_connections objectForKey:keyObject];
+	if(connection && [connection status]==PGConnectionStatusConnected) {
+		[connection disconnect];
+	}
+	if([[self delegate] respondsToSelector:@selector(connectionClosedWithKey:)]) {
+		[[self delegate] connectionClosedWithKey:key];
+	}
+	[_connections removeObjectForKey:keyObject];
+	[_urls removeObjectForKey:keyObject];
 }
 
 -(PGConnection* )createConnectionWithURL:(NSURL* )url forKey:(NSUInteger)key {
@@ -51,7 +65,7 @@
 	return [_connections objectForKey:keyObject];
 }
 
--(BOOL)openConnectionWithKey:(NSUInteger)key {
+-(BOOL)openConnectionForKey:(NSUInteger)key {
 	NSNumber* keyObject = [NSNumber numberWithUnsignedInteger:key];
 	PGConnection* connection = [_connections objectForKey:keyObject];
 	NSURL* url = [_urls objectForKey:keyObject];
@@ -59,36 +73,45 @@
 		return NO;
 	}
 	
-	// post notification that connection is opening
-	[[NSNotificationCenter defaultCenter] postNotificationName:PGClientNotificationServerStatusChange object:@"Connection is opening"];
+	// send status message to delegate
+	if([[self delegate] respondsToSelector:@selector(connectionOpeningWithKey:)]) {
+		[[self delegate] connectionOpeningWithKey:key];
+	}
 
 #ifdef CONNECT_IN_BACKGROUND
 	[connection connectInBackgroundWithURL:url whenDone:^(NSError* error) {
 		if([error code]==PGClientErrorNone) {
-			[[NSNotificationCenter defaultCenter] postNotificationName:PGClientNotificationServerStatusChange object:@"Connection is opened"];
+			if([[self delegate] respondsToSelector:@selector(connectionOpenWithKey:)]) {
+				[[self delegate] connectionOpenWithKey:key];
+			}
+		} else if([error code]==PGClientErrorNeedsPassword) {
+			if([[self delegate] respondsToSelector:@selector(connectionNeedsPasswordWithKey:)]) {
+				[[self delegate] connectionNeedsPasswordWithKey:key];
+			}
 		} else {
-			[[NSNotificationCenter defaultCenter] postNotificationName:PGClientNotificationServerStatusChange object:[error localizedDescription]];
+			if([[self delegate] respondsToSelector:@selector(connectionRejectedWithKey:error:)]) {
+				[[self delegate] connectionRejectedWithKey:key error:error];
+			}			
 		}
 	}];
 #else
 	NSError* error = nil;
 	[connection connectWithURL:url error:&error];
 	if([error code]==PGClientErrorNone) {
-		[[NSNotificationCenter defaultCenter] postNotificationName:PGClientNotificationServerStatusChange object:@"Connection is opened"];
+		if([[self delegate] respondsToSelector:@selector(connectionOpenWithKey:)]) {
+			[[self delegate] connectionOpenWithKey:key];
+		}
+	} else if([error code]==PGClientErrorNeedsPassword) {
+		if([[self delegate] respondsToSelector:@selector(connectionNeedsPasswordWithKey:)]) {
+			[[self delegate] connectionNeedsPasswordWithKey:key];
+		}
 	} else {
-		[[NSNotificationCenter defaultCenter] postNotificationName:PGClientNotificationServerStatusChange object:[error localizedDescription]];
+		if([[self delegate] respondsToSelector:@selector(connectionRejectedWithKey:error:)]) {
+			[[self delegate] connectionRejectedWithKey:key error:error];
+		}
 	}
 #endif
-	
 	return YES;
-}
-
--(BOOL)closeConnectionForKey:(NSUInteger)key {
-	NSNumber* keyObject = [NSNumber numberWithUnsignedInteger:key];
-	PGConnection* connection = [_connections objectForKey:keyObject];
-	NSParameterAssert(connection);
-	[[NSNotificationCenter defaultCenter] postNotificationName:PGClientNotificationServerStatusChange object:@"Connection is closing"];
-	return [connection disconnect];
 }
 
 @end

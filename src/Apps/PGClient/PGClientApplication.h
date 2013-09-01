@@ -15,9 +15,8 @@ extern NSString* PGClientAddConnectionURL;
 extern NSString* PGClientNotificationOpenConnection;
 extern NSString* PGClientNotificationCloseConnection;
 extern NSString* PGClientNotificationDeleteConnection;
-extern NSString* PGClientNotificationServerStatusChange;
 
-@interface PGClientApplication : NSObject <NSApplicationDelegate, PGServerDelegate> {
+@interface PGClientApplication : NSObject <NSApplicationDelegate, PGServerDelegate, PGConnectionControllerDelegate> {
 	PGServer* _internalServer;
 	PGConnectionController* _connections;
 	BOOL _terminationRequested;

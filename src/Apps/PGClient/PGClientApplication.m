@@ -10,7 +10,6 @@ NSString* PGClientAddConnectionURL = @"PGClientAddConnectionURL";
 NSString* PGClientNotificationOpenConnection = @"PGClientNotificationOpenConnection";
 NSString* PGClientNotificationCloseConnection = @"PGClientNotificationCloseConnection";
 NSString* PGClientNotificationDeleteConnection = @"PGClientNotificationDeleteConnection";
-NSString* PGClientNotificationServerStatusChange = @"PGClientNotificationServerStatusChange";
 
 @implementation PGClientApplication
 
@@ -36,7 +35,9 @@ NSString* PGClientNotificationServerStatusChange = @"PGClientNotificationServerS
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ibNotificationOpenConnection:) name:PGClientNotificationOpenConnection object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ibNotificationCloseConnection:) name:PGClientNotificationCloseConnection object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ibNotificationDeleteConnection:) name:PGClientNotificationDeleteConnection object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ibNotificationServerStatusChange:) name:PGClientNotificationServerStatusChange object:nil];
+	
+	// set delegate for connections controller
+	[[self connections] setDelegate:self];
 	
 	// internal server
 	if(_internalServer==nil) {
@@ -112,13 +113,13 @@ NSString* PGClientNotificationServerStatusChange = @"PGClientNotificationServerS
 
 	// ask connection controller to open connection in background,
 	// and return success condition
-	return [[self connections] openConnectionWithKey:[node key]];
+	return [[self connections] openConnectionForKey:[node key]];
 }
 
--(BOOL)_closeConnectionForNode:(PGSidebarNode* )node {
+-(void)_closeConnectionForNode:(PGSidebarNode* )node {
 	NSParameterAssert(node);
 	NSParameterAssert([node type]==PGSidebarNodeTypeServer);
-	return [[self connections] closeConnectionForKey:[node key]];
+	[[self connections] closeConnectionForKey:[node key]];
 }
 
 -(BOOL)_openInternalServerConnectionWithURL:(NSURL* )url {
@@ -137,14 +138,11 @@ NSString* PGClientNotificationServerStatusChange = @"PGClientNotificationServerS
 	
 	// ask connection controller to open connection in background,
 	// and return success condition
-	return [[self connections] openConnectionWithKey:PGSidebarNodeKeyInternalServer];	
+	return [[self connections] openConnectionForKey:PGSidebarNodeKeyInternalServer];
 }
 
 -(BOOL)_closeInternalServer {
-	BOOL isSuccess = [[self connections] closeConnectionForKey:PGSidebarNodeKeyInternalServer];
-	if(isSuccess==NO) {
-		NSLog(@"WARNING: Internal server PGConnection could not be closed");
-	}
+	[[self connections] closeConnectionForKey:PGSidebarNodeKeyInternalServer];
 	if([self _canCloseInternalServer]) {
 		return [_internalServer stop];
 	} else {
@@ -209,8 +207,37 @@ NSString* PGClientNotificationServerStatusChange = @"PGClientNotificationServerS
 	[[self ibSidebarViewController] deleteNode:node];
 }
 
--(void)ibNotificationServerStatusChange:(NSNotification* )notification {
-	NSLog(@"ibNotificationServerStatusChange: %@",notification);
+////////////////////////////////////////////////////////////////////////////////
+// PGConnectionController delegate
+
+-(void)connectionOpeningWithKey:(NSUInteger)key {
+	PGSidebarNode* node = [[self ibSidebarViewController] nodeForKey:key];
+	NSParameterAssert(node);
+	NSLog(@"%@ => Opening",node);
+}
+
+-(void)connectionOpenWithKey:(NSUInteger)key {
+	PGSidebarNode* node = [[self ibSidebarViewController] nodeForKey:key];
+	NSParameterAssert(node);
+	NSLog(@"%@ => Open",node);
+}
+
+-(void)connectionRejectedWithKey:(NSUInteger)key error:(NSError* )error {
+	PGSidebarNode* node = [[self ibSidebarViewController] nodeForKey:key];
+	NSParameterAssert(node);
+	NSLog(@"%@ => Rejected: %@",node,[error localizedDescription]);
+}
+
+-(void)connectionNeedsPasswordWithKey:(NSUInteger)key {
+	PGSidebarNode* node = [[self ibSidebarViewController] nodeForKey:key];
+	NSParameterAssert(node);
+	NSLog(@"%@ => Needs password",node);
+}
+
+-(void)connectionClosedWithKey:(NSUInteger)key {
+	PGSidebarNode* node = [[self ibSidebarViewController] nodeForKey:key];
+	NSParameterAssert(node);
+	NSLog(@"%@ => Closed",node);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
