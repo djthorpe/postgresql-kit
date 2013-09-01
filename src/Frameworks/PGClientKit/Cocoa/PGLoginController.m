@@ -70,8 +70,8 @@
 
 -(void)_doConnection {
 	NSParameterAssert([[self connection] status] != PGConnectionStatusConnected);
-	[[self connection] connectInBackgroundWithURL:[self url] timeout:[self timeout] whenDone:^(PGConnectionStatus status,NSError* error) {
-		if(status==PGConnectionStatusConnected) {
+	[[self connection] connectInBackgroundWithURL:[self url] whenDone:^(NSError* error) {
+		if([error code]==PGClientErrorNone) {
 			// end sheet
 			[NSApp endSheet:[self window] returnCode:NSOKButton];
 		} else {

@@ -11,6 +11,7 @@ extern NSString* PGClientErrorDomain;
 
 @interface PGConnection : NSObject {
 	void* _connection;
+	NSLock* _lock;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -31,7 +32,7 @@ extern NSString* PGClientErrorDomain;
  *  @param error  A pointer to an NSError object
  *
  *  @return Will return a PGConnection reference on successful connection, 
- *          or nil on failure, and return the error message via the argument.
+ *          or nil on failure, and return the error via the argument.
  */
 +(PGConnection* )connectionWithURL:(NSURL* )url error:(NSError** )error;
 
@@ -58,18 +59,24 @@ extern NSString* PGClientErrorDomain;
  */
 @property (readonly) PGConnectionStatus status;
 
-////////////////////////////////////////////////////////////////////////////////
-// connection and disconnection methods
+/**
+ *  The current server process ID
+ */
+@property (readonly) int serverProcessID;
 
--(BOOL)connectWithURL:(NSURL* )theURL error:(NSError** )error;
--(BOOL)connectWithURL:(NSURL* )theURL timeout:(NSUInteger)timeout error:(NSError** )error;
--(BOOL)connectInBackgroundWithURL:(NSURL* )theURL whenDone:(void(^)(PGConnectionStatus status,NSError* error)) callback;
--(BOOL)connectInBackgroundWithURL:(NSURL* )theURL timeout:(NSUInteger)timeout whenDone:(void(^)(PGConnectionStatus status,NSError* error)) callback;
--(BOOL)pingWithURL:(NSURL* )theURL error:(NSError** )error;
--(BOOL)pingWithURL:(NSURL* )theURL timeout:(NSUInteger)timeout error:(NSError** )error;
+////////////////////////////////////////////////////////////////////////////////
+// connection, ping and disconnection methods
+
+-(BOOL)connectWithURL:(NSURL* )url error:(NSError** )error;
+-(BOOL)connectInBackgroundWithURL:(NSURL* )url whenDone:(void(^)(NSError* error)) callback;
+-(BOOL)pingWithURL:(NSURL* )url error:(NSError** )error;
+-(BOOL)reset;
+-(BOOL)resetInBackgroundWhenDone:(void(^)(NSError* error)) callback;
 -(BOOL)disconnect;
 
+////////////////////////////////////////////////////////////////////////////////
 // execute statements
+
 -(PGResult* )execute:(NSString* )query format:(PGClientTupleFormat)format error:(NSError** )error;
 -(PGResult* )execute:(NSString* )query format:(PGClientTupleFormat)format values:(NSArray* )values error:(NSError** )error;
 -(PGResult* )execute:(NSString* )query format:(PGClientTupleFormat)format value:(id)value error:(NSError** )error;
@@ -81,10 +88,11 @@ extern NSString* PGClientErrorDomain;
 
 // delegate for PGConnection
 @protocol PGConnectionDelegate <NSObject>
+
 @optional
--(NSString* )connectionPasswordForParameters:(NSDictionary* )theParameters;
+-(void)connectionWillOpenWithParameters:(NSMutableDictionary* )dictionary;
 -(void)connectionWillExecute:(NSString* )theQuery values:(NSArray* )values;
 -(void)connectionError:(NSError* )theError;
--(void)connectionNotice:(NSString* )theMessage;
+
 @end
 

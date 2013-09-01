@@ -2,6 +2,8 @@
 #import "PGConnectionController.h"
 #import "PGClientApplication.h"
 
+#define CONNECT_IN_BACKGROUND 1             // 0 for foreground, else background
+
 @implementation PGConnectionController
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -60,13 +62,24 @@
 	// post notification that connection is opening
 	[[NSNotificationCenter defaultCenter] postNotificationName:PGClientNotificationServerStatusChange object:@"Connection is opening"];
 
-	[connection connectInBackgroundWithURL:url whenDone:^(PGConnectionStatus status,NSError* error) {
-		if(status==PGConnectionStatusConnected) {
+#ifdef CONNECT_IN_BACKGROUND
+	[connection connectInBackgroundWithURL:url whenDone:^(NSError* error) {
+		if([error code]==PGClientErrorNone) {
 			[[NSNotificationCenter defaultCenter] postNotificationName:PGClientNotificationServerStatusChange object:@"Connection is opened"];
 		} else {
-			[[NSNotificationCenter defaultCenter] postNotificationName:PGClientNotificationServerStatusChange object:@"Connection cannot be opened"];
+			[[NSNotificationCenter defaultCenter] postNotificationName:PGClientNotificationServerStatusChange object:[error localizedDescription]];
 		}
 	}];
+#else
+	NSError* error = nil;
+	[connection connectWithURL:url error:&error];
+	if([error code]==PGClientErrorNone) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:PGClientNotificationServerStatusChange object:@"Connection is opened"];
+	} else {
+		[[NSNotificationCenter defaultCenter] postNotificationName:PGClientNotificationServerStatusChange object:[error localizedDescription]];
+	}
+#endif
+	
 	return YES;
 }
 
