@@ -16,7 +16,7 @@ extern NSString* PGClientNotificationOpenConnection;
 extern NSString* PGClientNotificationCloseConnection;
 extern NSString* PGClientNotificationDeleteConnection;
 
-@interface PGClientApplication : NSObject <NSApplicationDelegate, PGServerDelegate, PGConnectionControllerDelegate> {
+@interface PGClientApplication : NSObject <NSApplicationDelegate, PGServerDelegate, PGConnectionControllerDelegate, PGPasswordWindowDelegate> {
 	PGServer* _internalServer;
 	PGConnectionController* _connections;
 	BOOL _terminationRequested;
@@ -26,6 +26,7 @@ extern NSString* PGClientNotificationDeleteConnection;
 @property (assign) IBOutlet NSWindow* window;
 @property (assign) IBOutlet NSView* ibGrabberView;
 @property (assign) IBOutlet PGTabViewController* ibTabViewController;
+@property (assign) IBOutlet PGPasswordWindow* ibPasswordWindow;
 @property (assign) IBOutlet LocalConnectionWindowController* ibLocalConnectionWindowController;
 @property (assign) IBOutlet RemoteConnectionWindowController* ibRemoteConnectionWindowController;
 @property (assign) IBOutlet PGSidebarViewController* ibSidebarViewController;

@@ -1644,6 +1644,9 @@
 			<object class="NSCustomObject" id="744249166">
 				<string key="NSClassName">PGSidebarViewController</string>
 			</object>
+			<object class="NSCustomObject" id="57565963">
+				<string key="NSClassName">PGPasswordWindow</string>
+			</object>
 		</array>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
 			<array class="NSMutableArray" key="connectionRecords">
@@ -2294,6 +2297,14 @@
 						<reference key="destination" ref="625140776"/>
 					</object>
 					<int key="connectionID">1763</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">ibPasswordWindow</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="57565963"/>
+					</object>
+					<int key="connectionID">1792</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -3902,6 +3913,11 @@
 						<reference key="parent" ref="720053764"/>
 						<string key="objectName">Menu Item - New Network Connection...</string>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1791</int>
+						<reference key="object" ref="57565963"/>
+						<reference key="parent" ref="0"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -3963,6 +3979,7 @@
 				<string key="1757.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1759.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1762.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1791.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="19.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="195.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="196.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -4131,7 +4148,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1763</int>
+			<int key="maxID">1792</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -4185,6 +4202,7 @@
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="ibGrabberView">NSView</string>
 						<string key="ibLocalConnectionWindowController">LocalConnectionWindowController</string>
+						<string key="ibPasswordWindow">PGPasswordWindow</string>
 						<string key="ibRemoteConnectionWindowController">RemoteConnectionWindowController</string>
 						<string key="ibSidebarViewController">PGSidebarViewController</string>
 						<string key="ibTabViewController">PGTabViewController</string>
@@ -4198,6 +4216,10 @@
 						<object class="IBToOneOutletInfo" key="ibLocalConnectionWindowController">
 							<string key="name">ibLocalConnectionWindowController</string>
 							<string key="candidateClassName">LocalConnectionWindowController</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="ibPasswordWindow">
+							<string key="name">ibPasswordWindow</string>
+							<string key="candidateClassName">PGPasswordWindow</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="ibRemoteConnectionWindowController">
 							<string key="name">ibRemoteConnectionWindowController</string>
@@ -4219,6 +4241,25 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/PGClientApplication.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">PGPasswordWindow</string>
+					<string key="superclassName">NSWindowController</string>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">ibEndSheetForButton:</string>
+						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">ibEndSheetForButton:</string>
+						<object class="IBActionInfo" key="NS.object.0">
+							<string key="name">ibEndSheetForButton:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/PGPasswordWindow.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -4279,6 +4320,17 @@
 						<object class="IBActionInfo" key="NS.object.0">
 							<string key="name">ibEndSheetForButton:</string>
 							<string key="candidateClassName">id</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="outlets">
+						<string key="NS.key.0">ibAdvancedOptionsBox</string>
+						<string key="NS.object.0">NSBox</string>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<string key="NS.key.0">ibAdvancedOptionsBox</string>
+						<object class="IBToOneOutletInfo" key="NS.object.0">
+							<string key="name">ibAdvancedOptionsBox</string>
+							<string key="candidateClassName">NSBox</string>
 						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">

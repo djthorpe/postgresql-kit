@@ -1,5 +1,6 @@
 
 #import "PGTabViewController.h"
+#import <PGControlsKit/PGControlsKit.h>
 
 @implementation PGTabViewController
 

@@ -1,6 +1,7 @@
 
 #import "PGConnectionController.h"
 #import "PGClientApplication.h"
+#import "SSKeychain.h"
 
 #define CONNECT_IN_BACKGROUND 1             // 0 for foreground, else background
 
@@ -114,4 +115,30 @@
 	return YES;
 }
 
+-(NSString* )passwordForKey:(NSUInteger)key {
+	NSParameterAssert(key);
+	NSNumber* keyObject = [NSNumber numberWithUnsignedInteger:key];
+	NSURL* url = [_urls objectForKey:keyObject];
+	NSParameterAssert(url && [url isKindOfClass:[NSURL class]]);
+	NSString* password = [url password];
+	if(password==nil) {
+		NSError* error = nil;
+#ifdef DEBUG
+		NSLog(@"Getting password, service=%@ account=%@",[url scheme],[url absoluteString]);
+#endif
+		password = [SSKeychain passwordForService:[url scheme] account:[url absoluteString] error:&error];
+		if(error) {
+			NSLog(@"Error getting password, %@",error);
+		}
+	}
+	return password;
+}
+
+-(BOOL)setPassword:(NSString* )password forKey:(NSUInteger)key {
+	NSParameterAssert(key);
+	NSNumber* keyObject = [NSNumber numberWithUnsignedInteger:key];
+	NSURL* url = [_urls objectForKey:keyObject];
+	NSParameterAssert(url && [url isKindOfClass:[NSURL class]]);
+	return [SSKeychain setPassword:password forService:[url scheme] account:[url absoluteString]];
+}
 @end

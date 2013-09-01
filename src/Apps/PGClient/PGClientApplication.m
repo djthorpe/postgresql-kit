@@ -2,6 +2,7 @@
 #import "PGClientApplication.h"
 #import "PGSidebarNode.h"
 #import "PGConnectionController.h"
+#import <PGControlsKit/PGControlsKit.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 // constants
@@ -35,15 +36,15 @@ NSString* PGClientNotificationDeleteConnection = @"PGClientNotificationDeleteCon
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ibNotificationOpenConnection:) name:PGClientNotificationOpenConnection object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ibNotificationCloseConnection:) name:PGClientNotificationCloseConnection object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ibNotificationDeleteConnection:) name:PGClientNotificationDeleteConnection object:nil];
-	
-	// set delegate for connections controller
-	[[self connections] setDelegate:self];
-	
+
 	// internal server
-	if(_internalServer==nil) {
-		_internalServer = [PGServer serverWithDataPath:[self _internalServerDataPath]];
-		[_internalServer setDelegate:self];
-	}
+	_internalServer = [PGServer serverWithDataPath:[self _internalServerDataPath]];
+	
+	// set delegates
+	[[self connections] setDelegate:self];
+	[[self ibPasswordWindow] setDelegate:self];
+	[_internalServer setDelegate:self];
+	 
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -231,13 +232,40 @@ NSString* PGClientNotificationDeleteConnection = @"PGClientNotificationDeleteCon
 -(void)connectionNeedsPasswordWithKey:(NSUInteger)key {
 	PGSidebarNode* node = [[self ibSidebarViewController] nodeForKey:key];
 	NSParameterAssert(node);
-	NSLog(@"%@ => Needs password",node);
+	NSString* password = [[self connections] passwordForKey:key];
+	if(password==nil) {
+		[[self ibPasswordWindow] beginSheetForParentWindow:[self window] contextInfo:(void* )key];
+	} else {
+		NSLog(@"%@ => Needs password = %@",node,password);
+	}
 }
 
 -(void)connectionClosedWithKey:(NSUInteger)key {
 	PGSidebarNode* node = [[self ibSidebarViewController] nodeForKey:key];
 	NSParameterAssert(node);
 	NSLog(@"%@ => Closed",node);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// PGPasswordWindowDelegate implementation
+
+-(void)passwordWindow:(PGPasswordWindow* )windowController endedWithStatus:(NSInteger)status contextInfo:(void *)contextInfo {
+	NSParameterAssert(windowController);
+	NSParameterAssert(status==NSOKButton || status==NSCancelButton);
+	NSParameterAssert(contextInfo);
+	if(status==NSCancelButton) {
+		NSLog(@"CANCELLED");
+		return;
+	}
+	NSString* password = [windowController passwordField];
+	NSUInteger key = (NSUInteger)contextInfo;
+	if([windowController saveToKeychain]) {
+		[[self connections] setPassword:password forKey:key];
+	}
+	// attempt to re-open the connection
+	PGSidebarNode* node = [[self ibSidebarViewController] nodeForKey:key];
+	NSParameterAssert(node);
+	[[NSNotificationCenter defaultCenter] postNotificationName:PGClientNotificationOpenConnection object:node];
 }
 
 ////////////////////////////////////////////////////////////////////////////////

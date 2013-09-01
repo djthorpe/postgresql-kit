@@ -14,12 +14,16 @@
 // properties
 @property (weak, nonatomic) id<PGConnectionControllerDelegate> delegate;
 
-// methods
+// methods for connections
 -(PGConnection* )createConnectionWithURL:(NSURL* )url forKey:(NSUInteger)key;
 -(PGConnection* )connectionForKey:(NSUInteger)key;
 -(BOOL)openConnectionForKey:(NSUInteger)key;
 -(void)closeConnectionForKey:(NSUInteger)key;
 -(void)closeAllConnections;
+
+// methods for passwords
+-(NSString* )passwordForKey:(NSUInteger)key;
+-(BOOL)setPassword:(NSString* )password forKey:(NSUInteger)key;
 
 @end
 
