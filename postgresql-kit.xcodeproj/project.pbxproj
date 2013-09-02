@@ -190,10 +190,6 @@
 		6E29B37E17C695E500551035 /* PGSidebarDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E29B37D17C695E500551035 /* PGSidebarDataSource.m */; };
 		6E2A0EBF16374CAF00970FEF /* elephant-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43E615F3A465001ED3BE /* elephant-64.png */; };
 		6E2A0EC21637540400970FEF /* PGClientKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
-		6E4907C817D3AF1C00BEE2A9 /* SSKeychainQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E4907B817D3AEB100BEE2A9 /* SSKeychainQuery.m */; };
-		6E4907C917D3AF2000BEE2A9 /* SSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E4907B617D3AEB100BEE2A9 /* SSKeychain.m */; };
-		6E4907CA17D3AF2500BEE2A9 /* SSKeychain.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6E4907B317D3AEB100BEE2A9 /* SSKeychain.strings */; };
-		6E4907CC17D3AF4D00BEE2A9 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E4907CB17D3AF4D00BEE2A9 /* Security.framework */; };
 		6E4907CF17D3B3F600BEE2A9 /* PGPasswordWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E4907CD17D3B3F600BEE2A9 /* PGPasswordWindow.h */; };
 		6E4907D017D3B3F600BEE2A9 /* PGPasswordWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E4907CE17D3B3F600BEE2A9 /* PGPasswordWindow.m */; };
 		6E4907D317D3B49200BEE2A9 /* PGPasswordWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E4907D217D3B49200BEE2A9 /* PGPasswordWindow.xib */; };
@@ -214,8 +210,8 @@
 		6E725FE417AEC3A0002EEF67 /* PGClientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E725FE317AEC3A0002EEF67 /* PGClientView.m */; };
 		6EA41EF01610E7DB00E81046 /* PGServer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EA41EEE1610E7DB00E81046 /* PGServer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6EA41EF11610E7DB00E81046 /* PGServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EA41EEF1610E7DB00E81046 /* PGServer.m */; };
-		6EAA40EB17BC150E0078EB32 /* NSURL+PGAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EAA40E917BC150E0078EB32 /* NSURL+PGAdditions.h */; };
-		6EAA40EC17BC150E0078EB32 /* NSURL+PGAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EAA40E917BC150E0078EB32 /* NSURL+PGAdditions.h */; };
+		6EAA40EB17BC150E0078EB32 /* NSURL+PGAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EAA40E917BC150E0078EB32 /* NSURL+PGAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6EAA40EC17BC150E0078EB32 /* NSURL+PGAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EAA40E917BC150E0078EB32 /* NSURL+PGAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6EAA40ED17BC150E0078EB32 /* NSURL+PGAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EAA40EA17BC150E0078EB32 /* NSURL+PGAdditions.m */; };
 		6EAA40EE17BC150E0078EB32 /* NSURL+PGAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EAA40EA17BC150E0078EB32 /* NSURL+PGAdditions.m */; };
 		6EB1E79615F282910093F784 /* PGServerKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EB1E74015F273350093F784 /* PGServerKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -237,6 +233,18 @@
 		6EDC4CD317BC274B009E040D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C168115F26BF20013A382 /* Foundation.framework */; };
 		6EDC4CD517BC2755009E040D /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EDC4CD417BC2755009E040D /* SenTestingKit.framework */; };
 		6EDD90A917C8EA8D0016DABC /* PGConnectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EDD90A817C8EA8D0016DABC /* PGConnectionController.m */; };
+		6EE12E1A17D51CD70034B9E1 /* SSKeychain.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6EE12E1017D51CD70034B9E1 /* SSKeychain.strings */; };
+		6EE12E1B17D51CD70034B9E1 /* SSKeychain.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6EE12E1017D51CD70034B9E1 /* SSKeychain.strings */; };
+		6EE12E1E17D51CD70034B9E1 /* SSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE12E1317D51CD70034B9E1 /* SSKeychain.m */; };
+		6EE12E1F17D51CD70034B9E1 /* SSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE12E1317D51CD70034B9E1 /* SSKeychain.m */; };
+		6EE12E2217D51CD70034B9E1 /* SSKeychainQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE12E1517D51CD70034B9E1 /* SSKeychainQuery.m */; };
+		6EE12E2317D51CD70034B9E1 /* SSKeychainQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE12E1517D51CD70034B9E1 /* SSKeychainQuery.m */; };
+		6EE12E2617D51D620034B9E1 /* PGPasswordStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EE12E2417D51D620034B9E1 /* PGPasswordStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6EE12E2717D51D620034B9E1 /* PGPasswordStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EE12E2417D51D620034B9E1 /* PGPasswordStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6EE12E2817D51D620034B9E1 /* PGPasswordStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE12E2517D51D620034B9E1 /* PGPasswordStore.m */; };
+		6EE12E2917D51D620034B9E1 /* PGPasswordStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE12E2517D51D620034B9E1 /* PGPasswordStore.m */; };
+		6EE12E2A17D51DAF0034B9E1 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E4907CB17D3AF4D00BEE2A9 /* Security.framework */; };
+		6EE12E2C17D51DC50034B9E1 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EE12E2B17D51DC50034B9E1 /* Security.framework */; };
 		6EE23F5D1631EF7500C99BA7 /* PGClientKit+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EE23F5A1631EF7500C99BA7 /* PGClientKit+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6EE23F5E1631EF7500C99BA7 /* PGConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EE23F5B1631EF7500C99BA7 /* PGConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6EE23F5F1631EF7500C99BA7 /* PGConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE23F5C1631EF7500C99BA7 /* PGConnection.m */; };
@@ -574,13 +582,6 @@
 		6E29B37C17C695E500551035 /* PGSidebarDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSidebarDataSource.h; sourceTree = "<group>"; };
 		6E29B37D17C695E500551035 /* PGSidebarDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSidebarDataSource.m; sourceTree = "<group>"; };
 		6E48B370160604270044A6CB /* PGServer+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PGServer+Private.h"; sourceTree = "<group>"; };
-		6E4907AF17D3AEB100BEE2A9 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		6E4907B117D3AEB100BEE2A9 /* Readme.markdown */ = {isa = PBXFileReference; lastKnownFileType = text; path = Readme.markdown; sourceTree = "<group>"; };
-		6E4907B417D3AEB100BEE2A9 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/SSKeychain.strings; sourceTree = "<group>"; };
-		6E4907B517D3AEB100BEE2A9 /* SSKeychain.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SSKeychain.h; sourceTree = "<group>"; };
-		6E4907B617D3AEB100BEE2A9 /* SSKeychain.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SSKeychain.m; sourceTree = "<group>"; };
-		6E4907B717D3AEB100BEE2A9 /* SSKeychainQuery.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SSKeychainQuery.h; sourceTree = "<group>"; };
-		6E4907B817D3AEB100BEE2A9 /* SSKeychainQuery.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SSKeychainQuery.m; sourceTree = "<group>"; };
 		6E4907CB17D3AF4D00BEE2A9 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		6E4907CD17D3B3F600BEE2A9 /* PGPasswordWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGPasswordWindow.h; sourceTree = "<group>"; };
 		6E4907CE17D3B3F600BEE2A9 /* PGPasswordWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGPasswordWindow.m; sourceTree = "<group>"; };
@@ -635,6 +636,16 @@
 		6EDC4CD417BC2755009E040D /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		6EDD90A717C8EA8D0016DABC /* PGConnectionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGConnectionController.h; sourceTree = "<group>"; };
 		6EDD90A817C8EA8D0016DABC /* PGConnectionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGConnectionController.m; sourceTree = "<group>"; };
+		6EE12E0D17D51CD70034B9E1 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		6EE12E0E17D51CD70034B9E1 /* Readme.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Readme.markdown; sourceTree = "<group>"; };
+		6EE12E1117D51CD70034B9E1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/SSKeychain.strings; sourceTree = "<group>"; };
+		6EE12E1217D51CD70034B9E1 /* SSKeychain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSKeychain.h; sourceTree = "<group>"; };
+		6EE12E1317D51CD70034B9E1 /* SSKeychain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSKeychain.m; sourceTree = "<group>"; };
+		6EE12E1417D51CD70034B9E1 /* SSKeychainQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSKeychainQuery.h; sourceTree = "<group>"; };
+		6EE12E1517D51CD70034B9E1 /* SSKeychainQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSKeychainQuery.m; sourceTree = "<group>"; };
+		6EE12E2417D51D620034B9E1 /* PGPasswordStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGPasswordStore.h; sourceTree = "<group>"; };
+		6EE12E2517D51D620034B9E1 /* PGPasswordStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGPasswordStore.m; sourceTree = "<group>"; };
+		6EE12E2B17D51DC50034B9E1 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.1.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
 		6EE23F5A1631EF7500C99BA7 /* PGClientKit+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PGClientKit+Private.h"; sourceTree = "<group>"; };
 		6EE23F5B1631EF7500C99BA7 /* PGConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGConnection.h; sourceTree = "<group>"; };
 		6EE23F5C1631EF7500C99BA7 /* PGConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGConnection.m; sourceTree = "<group>"; };
@@ -647,6 +658,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6EE12E2C17D51DC50034B9E1 /* Security.framework in Frameworks */,
 				1413DF0217AD77A0009615E5 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -719,7 +731,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E4907CC17D3AF4D00BEE2A9 /* Security.framework in Frameworks */,
 				14F1E87417CB869900710D4A /* PGControlsKit.framework in Frameworks */,
 				6ED779EE17C11A0E00124DF1 /* PGServerKit.framework in Frameworks */,
 				6E68AE0B1635DDCE00436234 /* PGClientKit.framework in Frameworks */,
@@ -747,6 +758,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6EE12E2A17D51DAF0034B9E1 /* Security.framework in Frameworks */,
 				6E222C5217B035F00087A483 /* LDAP.framework in Frameworks */,
 				6E222C5017B035E90087A483 /* libz.dylib in Frameworks */,
 				14D7C3E617AD721D00479231 /* Foundation.framework in Frameworks */,
@@ -833,6 +845,7 @@
 			isa = PBXGroup;
 			children = (
 				1413DF5B17AEB0B8009615E5 /* libz.dylib */,
+				6EE12E2B17D51DC50034B9E1 /* Security.framework */,
 				1413DF5A17AEB0B8009615E5 /* Foundation.framework */,
 				1413DF5317AEAFEB009615E5 /* CoreFoundation.framework */,
 				1413DF5517AEB028009615E5 /* UIKit.framework */,
@@ -1010,6 +1023,8 @@
 			children = (
 				6EAA40E917BC150E0078EB32 /* NSURL+PGAdditions.h */,
 				6EAA40EA17BC150E0078EB32 /* NSURL+PGAdditions.m */,
+				6EE12E2417D51D620034B9E1 /* PGPasswordStore.h */,
+				6EE12E2517D51D620034B9E1 /* PGPasswordStore.m */,
 				6EE23F5B1631EF7500C99BA7 /* PGConnection.h */,
 				6EE23F5C1631EF7500C99BA7 /* PGConnection.m */,
 				6EE23F62163207DA00C99BA7 /* PGClientParams.h */,
@@ -1079,7 +1094,7 @@
 		14EE3C3E166752F80083C735 /* tar */ = {
 			isa = PBXGroup;
 			children = (
-				6E4907AA17D3AEB100BEE2A9 /* sskeychain-1.2.0 */,
+				6EE12E0C17D51CD70034B9E1 /* sskeychain-1.2.0 */,
 				6E83260917AD09C2002AFCBC /* openssl-1.0.1e.tar.gz */,
 				6EA5EA8017AAE136005A3343 /* postgresql-9.2.4.tar.gz */,
 				142804551668114400A61BF6 /* openssl-1.0.1c.tar.gz */,
@@ -1198,29 +1213,6 @@
 				6ED763FC15F2673600687079 /* Products */,
 				6E6A7E3F17B0311D00032B48 /* postgresql-kit.wiki */,
 			);
-			sourceTree = "<group>";
-		};
-		6E4907AA17D3AEB100BEE2A9 /* sskeychain-1.2.0 */ = {
-			isa = PBXGroup;
-			children = (
-				6E4907AF17D3AEB100BEE2A9 /* LICENSE */,
-				6E4907B117D3AEB100BEE2A9 /* Readme.markdown */,
-				6E4907B217D3AEB100BEE2A9 /* SSKeychain */,
-			);
-			name = "sskeychain-1.2.0";
-			path = "../../../../../Scratch/Downloads/sskeychain-1.2.0";
-			sourceTree = "<group>";
-		};
-		6E4907B217D3AEB100BEE2A9 /* SSKeychain */ = {
-			isa = PBXGroup;
-			children = (
-				6E4907B317D3AEB100BEE2A9 /* SSKeychain.strings */,
-				6E4907B517D3AEB100BEE2A9 /* SSKeychain.h */,
-				6E4907B617D3AEB100BEE2A9 /* SSKeychain.m */,
-				6E4907B717D3AEB100BEE2A9 /* SSKeychainQuery.h */,
-				6E4907B817D3AEB100BEE2A9 /* SSKeychainQuery.m */,
-			);
-			path = SSKeychain;
 			sourceTree = "<group>";
 		};
 		6E4907D117D3B3FA00BEE2A9 /* PGPasswordWindow */ = {
@@ -1381,6 +1373,28 @@
 			name = "Server Connections";
 			sourceTree = "<group>";
 		};
+		6EE12E0C17D51CD70034B9E1 /* sskeychain-1.2.0 */ = {
+			isa = PBXGroup;
+			children = (
+				6EE12E0D17D51CD70034B9E1 /* LICENSE */,
+				6EE12E0E17D51CD70034B9E1 /* Readme.markdown */,
+				6EE12E0F17D51CD70034B9E1 /* SSKeychain */,
+			);
+			path = "sskeychain-1.2.0";
+			sourceTree = "<group>";
+		};
+		6EE12E0F17D51CD70034B9E1 /* SSKeychain */ = {
+			isa = PBXGroup;
+			children = (
+				6EE12E1017D51CD70034B9E1 /* SSKeychain.strings */,
+				6EE12E1217D51CD70034B9E1 /* SSKeychain.h */,
+				6EE12E1317D51CD70034B9E1 /* SSKeychain.m */,
+				6EE12E1417D51CD70034B9E1 /* SSKeychainQuery.h */,
+				6EE12E1517D51CD70034B9E1 /* SSKeychainQuery.m */,
+			);
+			path = SSKeychain;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -1391,13 +1405,14 @@
 				1413DF0D17AD7811009615E5 /* PGClientKit.h in Headers */,
 				1413DF0E17AD782D009615E5 /* PGClientKit+Private.h in Headers */,
 				1413DF0F17AD7835009615E5 /* PGConnection.h in Headers */,
+				6EE12E2717D51D620034B9E1 /* PGPasswordStore.h in Headers */,
 				1413DF1117AD783E009615E5 /* PGClientParams.h in Headers */,
+				6EAA40EC17BC150E0078EB32 /* NSURL+PGAdditions.h in Headers */,
 				1413DF1317AD7849009615E5 /* PGStatement.h in Headers */,
 				1413DF1517AD7854009615E5 /* PGConverters.h in Headers */,
 				1413DF1617AD785A009615E5 /* PGConverters+Private.h in Headers */,
 				1413DF1917AD7868009615E5 /* PGResult.h in Headers */,
 				1413DF1B17AD7872009615E5 /* PGResult+TextTable.h in Headers */,
-				6EAA40EC17BC150E0078EB32 /* NSURL+PGAdditions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1450,13 +1465,14 @@
 				6E0773D9163744D90028783F /* PGResult.h in Headers */,
 				6EE23F5D1631EF7500C99BA7 /* PGClientKit+Private.h in Headers */,
 				6EE23F5E1631EF7500C99BA7 /* PGConnection.h in Headers */,
+				6EE12E2617D51D620034B9E1 /* PGPasswordStore.h in Headers */,
 				14DECDA116B56D7300178235 /* PGConverters.h in Headers */,
+				6EAA40EB17BC150E0078EB32 /* NSURL+PGAdditions.h in Headers */,
 				1489AEC716669A6B00C3B67D /* PGResult+TextTable.h in Headers */,
 				14DECDA816B57EC400178235 /* PGConverters+Private.h in Headers */,
 				148D2EFE179555AD0005DB1B /* PGLoginController.h in Headers */,
 				148D2F02179555E60005DB1B /* PGClientKit+Cocoa.h in Headers */,
 				14D7C3E717AD729000479231 /* PGClientParams.h in Headers */,
-				6EAA40EB17BC150E0078EB32 /* NSURL+PGAdditions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1760,6 +1776,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6EE12E1B17D51CD70034B9E1 /* SSKeychain.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1858,7 +1875,6 @@
 				6EDB9D6917C20F3E00B9BC89 /* traffic-orange.tiff in Resources */,
 				6EDB9D6A17C20F4100B9BC89 /* traffic-red.tiff in Resources */,
 				6EDB9D6B17C20F4600B9BC89 /* traffic-green.tiff in Resources */,
-				6E4907CA17D3AF2500BEE2A9 /* SSKeychain.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1874,6 +1890,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				148D2F00179555AD0005DB1B /* PGLoginController.xib in Resources */,
+				6EE12E1A17D51CD70034B9E1 /* SSKeychain.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2027,6 +2044,9 @@
 				1413DF1A17AD786E009615E5 /* PGResult.m in Sources */,
 				1413DF1C17AD7878009615E5 /* PGResult+TextTable.m in Sources */,
 				6EAA40EE17BC150E0078EB32 /* NSURL+PGAdditions.m in Sources */,
+				6EE12E1F17D51CD70034B9E1 /* SSKeychain.m in Sources */,
+				6EE12E2317D51CD70034B9E1 /* SSKeychainQuery.m in Sources */,
+				6EE12E2917D51D620034B9E1 /* PGPasswordStore.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2120,8 +2140,6 @@
 				6E29B37E17C695E500551035 /* PGSidebarDataSource.m in Sources */,
 				6EDD90A917C8EA8D0016DABC /* PGConnectionController.m in Sources */,
 				14F1E87917CB8FEC00710D4A /* PGTabViewController.m in Sources */,
-				6E4907C817D3AF1C00BEE2A9 /* SSKeychainQuery.m in Sources */,
-				6E4907C917D3AF2000BEE2A9 /* SSKeychain.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2155,6 +2173,9 @@
 				14DECDA616B56DF300178235 /* PGConverters+Data2Object.m in Sources */,
 				148D2EFF179555AD0005DB1B /* PGLoginController.m in Sources */,
 				6EAA40ED17BC150E0078EB32 /* NSURL+PGAdditions.m in Sources */,
+				6EE12E1E17D51CD70034B9E1 /* SSKeychain.m in Sources */,
+				6EE12E2217D51CD70034B9E1 /* SSKeychainQuery.m in Sources */,
+				6EE12E2817D51D620034B9E1 /* PGPasswordStore.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2269,10 +2290,10 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		6E4907B317D3AEB100BEE2A9 /* SSKeychain.strings */ = {
+		6EE12E1017D51CD70034B9E1 /* SSKeychain.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				6E4907B417D3AEB100BEE2A9 /* en */,
+				6EE12E1117D51CD70034B9E1 /* en */,
 			);
 			name = SSKeychain.strings;
 			sourceTree = "<group>";

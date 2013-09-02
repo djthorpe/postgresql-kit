@@ -7,6 +7,7 @@
 
 // PGConnectionController
 @interface PGConnectionController : NSObject {
+	PGPasswordStore* _passwords;
 	NSMutableDictionary* _connections;
 	NSMutableDictionary* _urls;
 }

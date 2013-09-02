@@ -1,7 +1,6 @@
 
 #import "PGConnectionController.h"
 #import "PGClientApplication.h"
-#import "SSKeychain.h"
 
 #define CONNECT_IN_BACKGROUND 1             // 0 for foreground, else background
 
@@ -13,6 +12,7 @@
 -(id)init {
     self = [super init];
     if(self) {
+		_passwords = [[PGPasswordStore alloc] init];
         _connections = [NSMutableDictionary dictionary];
         _urls = [NSMutableDictionary dictionary];
     }
@@ -123,11 +123,9 @@
 	NSString* password = [url password];
 	if(password==nil) {
 		NSError* error = nil;
-#ifdef DEBUG
-		NSLog(@"Getting password, service=%@ account=%@",[url scheme],[url absoluteString]);
-#endif
-		password = [SSKeychain passwordForService:[url scheme] account:[url absoluteString] error:&error];
+		password = [_passwords passwordForURL:url error:&error];
 		if(error) {
+			// TODO: Handle errors due to keychain access
 			NSLog(@"Error getting password, %@",error);
 		}
 	}
@@ -139,6 +137,7 @@
 	NSNumber* keyObject = [NSNumber numberWithUnsignedInteger:key];
 	NSURL* url = [_urls objectForKey:keyObject];
 	NSParameterAssert(url && [url isKindOfClass:[NSURL class]]);
-	return [SSKeychain setPassword:password forService:[url scheme] account:[url absoluteString]];
+	return [_passwords setPassword:password forURL:url saveToKeychain:NO];
 }
+
 @end

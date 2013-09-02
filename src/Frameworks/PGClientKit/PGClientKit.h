@@ -31,6 +31,7 @@ extern NSString* PGClientErrorDomain;
 @class PGConnection;
 @class PGResult;
 @class PGStatement;
+@class PGPasswordStore;
 
 // header includes
 #import "PGConnection.h"
@@ -39,6 +40,7 @@ extern NSString* PGClientErrorDomain;
 
 // helpers
 #import "NSURL+PGAdditions.h"
+#import "PGPasswordStore.h"
 
 #if TARGET_OS_IPHONE
 // Do not import additional header files
