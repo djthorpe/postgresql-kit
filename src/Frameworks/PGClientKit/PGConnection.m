@@ -60,10 +60,12 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 ////////////////////////////////////////////////////////////////////////////////
 // static methods
 
++(NSArray* )allURLSchemes {
+	return [PGConnectionSchemes componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+}
+
 +(NSString* )defaultURLScheme {
-	NSArray* allSchemes = [PGConnectionSchemes componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-	NSParameterAssert([allSchemes count]);
-	return [allSchemes objectAtIndex:0];
+	return [[self allURLSchemes] objectAtIndex:0];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -155,6 +157,31 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 	}
 }
 
++(NSError* )createError:(NSError** )error code:(PGClientErrorDomainCode)code url:(NSURL* )url reason:(NSString* )format,... {
+	// format the reason
+	NSString* reason = nil;
+	if(format) {
+		va_list args;
+		va_start(args,format);
+		reason = [[NSString alloc] initWithFormat:format arguments:args];
+		va_end(args);
+	}
+	NSMutableDictionary* userInfo = [NSMutableDictionary dictionaryWithCapacity:2];
+	if(reason) {
+		[userInfo setObject:reason forKey:NSLocalizedDescriptionKey];
+	} else {
+		[userInfo setObject:[PGConnection _stringForErrorCode:code] forKey:NSLocalizedDescriptionKey];
+	}
+	if(url) {
+		[userInfo setObject:url forKey:PGClientErrorURLKey];
+	}
+	NSError* theError = [NSError errorWithDomain:PGClientErrorDomain code:code userInfo:userInfo];
+	if(error) {
+		(*error) = theError;
+	}
+	return theError;
+}
+
 -(NSError* )_raiseError:(NSError** )error code:(PGClientErrorDomainCode)code url:(NSURL* )url formattedReason:(NSString* )reason {
 	NSMutableDictionary* userInfo = [NSMutableDictionary dictionaryWithCapacity:2];
 	if(reason) {
@@ -206,7 +233,7 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 ////////////////////////////////////////////////////////////////////////////////
 // private methods
 
-+(NSMutableDictionary* )_extractParametersFromURL:(NSURL* )theURL {
++(NSMutableDictionary* )extractParametersFromURL:(NSURL* )theURL {
 	// extract parameters
 	// see here for format of URI
 	// http://www.postgresql.org/docs/9.2/static/libpq-connect.html#LIBPQ-CONNSTRING
@@ -282,7 +309,7 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 
 -(NSDictionary* )_connectionParametersForURL:(NSURL* )theURL timeout:(NSUInteger)timeout {
 	// make parameters from the URL
-	NSMutableDictionary* theParameters = [[PGConnection _extractParametersFromURL:theURL] mutableCopy];
+	NSMutableDictionary* theParameters = [[PGConnection extractParametersFromURL:theURL] mutableCopy];
 	if(theParameters==nil) {
 		return nil;
 	}

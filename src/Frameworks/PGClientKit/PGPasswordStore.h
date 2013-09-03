@@ -1,11 +1,15 @@
 
-#import <Foundation/Foundation.h>
+@interface PGPasswordStore : NSObject {
+	NSMutableDictionary* _store;
+}
 
-@interface PGPasswordStore : NSObject
+// properties
+@property (readonly) NSString* serviceName;
 
+// methods
 -(NSString* )passwordForURL:(NSURL* )url;
 -(NSString* )passwordForURL:(NSURL* )url error:(NSError** )error;
 -(BOOL)setPassword:(NSString* )password forURL:(NSURL* )url saveToKeychain:(BOOL)saveToKeychain;
--(BOOL)setPassword:(NSString* )password forURL:(NSURL* )url saveToKeychain:(BOOL)saveToKeychain error:(NSError* )error;
+-(BOOL)setPassword:(NSString* )password forURL:(NSURL* )url saveToKeychain:(BOOL)saveToKeychain error:(NSError** )error;
 
 @end

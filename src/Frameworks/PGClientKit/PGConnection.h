@@ -1,6 +1,4 @@
 
-#import <Foundation/Foundation.h>
-
 // externs
 extern NSUInteger PGClientDefaultPort;
 extern NSUInteger PGClientMaximumPort;
@@ -17,6 +15,20 @@ extern NSString* PGClientErrorDomain;
 ////////////////////////////////////////////////////////////////////////////////
 // static methods
 
+/**
+ *  Returns an array of URL schemes that can be used to connect to the remote
+ *  server
+ *
+ *  @return An array of valid URL schemes
+ */
++(NSArray* )allURLSchemes;
+
+/**
+ *  Returns the default URL scheme which can be used to connect to the remote
+ *  server
+ *
+ *  @return The name of the default URL scheme
+ */
 +(NSString* )defaultURLScheme;
 
 ////////////////////////////////////////////////////////////////////////////////

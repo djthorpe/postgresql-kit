@@ -1,6 +1,4 @@
 
-#import <Foundation/Foundation.h>
-
 @interface NSURL (PGAdditions)
 
 /**
