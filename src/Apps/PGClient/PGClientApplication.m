@@ -223,6 +223,18 @@ NSString* PGClientNotificationDeleteConnection = @"PGClientNotificationDeleteCon
 	NSParameterAssert(node);
 	[[self ibSidebarViewController] setNode:node status:PGSidebarNodeStatusGreen];
 	NSLog(@"%@ => Open",node);
+	
+	// Select database on sidebar
+	NSString* database = [[self connections] databaseSelectedForConnectionWithKey:key];
+	if(database) {
+		PGSidebarNode* databaseNode = [[self ibSidebarViewController] selectDatabaseNodeWithName:database serverWithKey:key];
+		// expand database group
+		[[self ibSidebarViewController] expandNodeWithKey:PGSidebarNodeKeyDatabaseGroup];
+		// show database
+		[[self ibSidebarViewController] selectNode:databaseNode];
+	} else {
+		[[self ibSidebarViewController] selectNode:node];		
+	}
 }
 
 -(void)connectionRejectedWithKey:(NSUInteger)key error:(NSError* )error {

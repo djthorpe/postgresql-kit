@@ -31,8 +31,6 @@
 	[[self datasource] addServer:internalServer];
 		
 	// Add in some dummies - HACK!
-	[[self datasource] addDatabase:[[PGSidebarNode alloc] initAsDatabaseWithKey:[[self datasource] nextKey] name:@"Database1"]];
-	[[self datasource] addDatabase:[[PGSidebarNode alloc] initAsDatabaseWithKey:[[self datasource] nextKey] name:@"Database2"]];
 	[[self datasource] addQuery:[[PGSidebarNode alloc] initAsQueryWithKey:[[self datasource] nextKey] name:@"Query1"]];
 	[[self datasource] addQuery:[[PGSidebarNode alloc] initAsQueryWithKey:[[self datasource] nextKey] name:@"Query2"]];
 	[[self datasource] addQuery:[[PGSidebarNode alloc] initAsQueryWithKey:[[self datasource] nextKey] name:@"Query3"]];
@@ -157,12 +155,19 @@
 	}
 }
 
+-(void)expandNodeWithKey:(NSUInteger)key {
+	NSParameterAssert(key);
+	PGSidebarNode* node = [self nodeForKey:key];
+	NSParameterAssert(node);
+	[(NSOutlineView* )[self view] expandItem:node];
+}
+
+
 ////////////////////////////////////////////////////////////////////////////////
 // load and save from defaults
 
 -(BOOL)loadFromUserDefaults {
 	NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
-	//	PGSidebarNode* serverGroup = [self nodeForKey:PGSidebarNodeKeyServerGroup];
 	NSDictionary* serverNodes = [defaults dictionaryForKey:@"server"];
 	if(serverNodes) {
 		NSArray* children = [serverNodes objectForKey:@"children"];
@@ -177,13 +182,37 @@
 			if([node type]==PGSidebarNodeTypeServer) {
 				if([[self datasource] nodeForKey:[node key]]) {
 					NSLog(@"WARNING: Ignoring PGSidebarNode which has duplicate key: %@",node);
-				} else {
-					[[self datasource] addServer:node];
+					continue;
 				}
+				[[self datasource] addServer:node];
 			}
 		}
 	}
-	// TODO: load databases and queries
+	NSDictionary* databaseNodes = [defaults dictionaryForKey:@"database"];
+	if(databaseNodes) {
+		NSArray* children = [databaseNodes objectForKey:@"children"];
+		
+		NSLog(@"children = %@",children);
+		
+		NSParameterAssert(children && [children isKindOfClass:[NSArray class]]);
+		for(NSDictionary* nodeDictionary in children) {
+			NSNumber* parentKey = [nodeDictionary objectForKey:@"parentKey"];
+			PGSidebarNode* serverNode = [[self datasource] nodeForKey:[parentKey unsignedIntegerValue]];
+			PGSidebarNode* node = [[PGSidebarNode alloc] initWithUserDefaults:nodeDictionary];
+			if(serverNode==nil || [serverNode type] != PGSidebarNodeTypeServer) {
+				NSLog(@"WARNING: Ignoring PGSidebarNode which has missing server: %@",node);
+				continue;
+			}
+			if([[self datasource] nodeForKey:[node key]]) {
+				NSLog(@"WARNING: Ignoring PGSidebarNode which has duplicate key: %@",node);
+				continue;
+			}
+			if([node type]==PGSidebarNodeTypeDatabase) {
+				[[self datasource] addDatabase:node];
+			}
+		}
+	}
+	// TODO: load queries
 	return YES;
 }
 
@@ -203,6 +232,33 @@
 	[defaults setObject:[queryGroup userDefaults] forKey:@"query"];
 	// synchronize to disk
 	return [defaults synchronize];
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// database methods
+
+-(PGSidebarNode* )selectDatabaseNodeWithName:(NSString* )name serverWithKey:(NSUInteger)key {
+	// find existing database node
+	PGSidebarNode* databaseGroup = [[self datasource] nodeForKey:PGSidebarNodeKeyDatabaseGroup];
+	NSParameterAssert(databaseGroup);
+	for(PGSidebarNode* node in [databaseGroup children]) {
+		NSParameterAssert([node type]==PGSidebarNodeTypeDatabase);
+		if([[node name] isEqual:name] && [node parentKey]==key) {
+			return node;
+		}
+	}
+
+	// no database node at this point, so create one
+	PGSidebarNode* newDatabaseNode = [[PGSidebarNode alloc] initAsDatabaseWithKey:[[self datasource] nextKey] serverKey:key name:name];
+	NSParameterAssert(newDatabaseNode);
+	[[self datasource] addDatabase:newDatabaseNode];
+	
+	NSLog(@"New node => %@",newDatabaseNode);
+	
+	NSOutlineView* view = (NSOutlineView* )[self view];
+	[view reloadData];
+	
+	return newDatabaseNode;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

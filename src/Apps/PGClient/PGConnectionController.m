@@ -128,6 +128,15 @@
 	return YES;
 }
 
+-(NSString* )databaseSelectedForConnectionWithKey:(NSUInteger)key {
+	NSParameterAssert(key);
+	PGConnection* connection = [self connectionForKey:key];
+	if([connection status] != PGConnectionStatusConnected) {
+		return nil;
+	}
+	return [connection database];
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // password methods
 

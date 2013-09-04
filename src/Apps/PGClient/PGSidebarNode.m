@@ -13,8 +13,9 @@
 -(id)init {
 	self = [super init];
 	if(self) {
-		_key = 0;
-		_name = nil;
+		[self setKey:0];
+		[self setParentKey:0];
+		[self setName:nil];
 		_children = [NSMutableArray array];
 		_properties = [NSMutableDictionary dictionary];
 		_status = PGSidebarNodeStatusGrey;
@@ -24,6 +25,7 @@
 }
 
 -(id)initWithUserDefaults:(NSDictionary* )dictionary {
+	NSParameterAssert(dictionary);
 	self = [self init];
 	if(self) {
 		if(![self _initFromUserDefaults:dictionary]) {
@@ -33,42 +35,50 @@
 	return self;
 }
 
--(id)initAsGroupWithKey:(NSUInteger)key name:(NSString* )name {
+-(id)initAsGroupWithKey:(NSUInteger)theKey name:(NSString* )theName {
+	NSParameterAssert(theKey);
+	NSParameterAssert(theName);
 	self = [self init];
 	if(self) {
 		_type = PGSidebarNodeTypeGroup;
-		_name = name;
-		_key = key;
+		[self setName:theName];
+		[self setKey:theKey];
 	}
 	return self;
 }
 
--(id)initAsServerWithKey:(NSUInteger)key name:(NSString* )name {
+-(id)initAsServerWithKey:(NSUInteger)theKey name:(NSString* )theName {
+	NSParameterAssert(theKey);
+	NSParameterAssert(theName);
 	self = [self init];
 	if(self) {
 		_type = PGSidebarNodeTypeServer;
-		_name = name;
-		_key = key;
+		[self setName:theName];
+		[self setKey:theKey];
 	}
 	return self;	
 }
 
--(id)initAsDatabaseWithKey:(NSUInteger)key name:(NSString* )name {
+-(id)initAsDatabaseWithKey:(NSUInteger)theKey serverKey:(NSUInteger)theServerKey name:(NSString* )theName {
+	NSParameterAssert(theKey);
+	NSParameterAssert(theServerKey);
+	NSParameterAssert(theName);
 	self = [self init];
 	if(self) {
 		_type = PGSidebarNodeTypeDatabase;
-		_name = name;
-		_key = key;
+		[self setName:theName];
+		[self setKey:theKey];
+		[self setParentKey:theServerKey];
 	}
 	return self;
 }
 
--(id)initAsQueryWithKey:(NSUInteger)key name:(NSString* )name {
+-(id)initAsQueryWithKey:(NSUInteger)theKey name:(NSString* )theName {
 	self = [self init];
 	if(self) {
 		_type = PGSidebarNodeTypeQuery;
-		_name = name;
-		_key = key;
+		[self setName:theName];
+		[self setKey:theKey];
 	}
 	return self;
 }
@@ -76,14 +86,16 @@
 ////////////////////////////////////////////////////////////////////////////////
 // properties
 
-@synthesize key = _key;
+@synthesize key;
+@synthesize parentKey;
+@synthesize name;
 @synthesize properties = _properties;
 @synthesize children = _children;
-@synthesize name = _name;
 @synthesize status = _status;
 @synthesize type = _type;
-@dynamic URL;
 @dynamic keyObject;
+@dynamic parentKeyObject;
+@dynamic URL;
 
 -(NSURL* )URL {
 	return [NSURL URLWithString:[_properties objectForKey:@"URL"]];
@@ -95,6 +107,10 @@
 
 -(NSNumber* )keyObject {
 	return [NSNumber numberWithUnsignedInteger:[self key]];
+}
+
+-(NSNumber* )parentKeyObject {
+	return [NSNumber numberWithUnsignedInteger:[self parentKey]];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -155,6 +171,7 @@
 	NSMutableDictionary* defaults = [NSMutableDictionary dictionaryWithCapacity:5];
 	NSMutableArray* children = [NSMutableArray arrayWithCapacity:[[self children] count]];
 	[defaults setObject:[self keyObject] forKey:@"key"];
+	[defaults setObject:[self parentKeyObject] forKey:@"parentKey"];
 	[defaults setObject:[NSNumber numberWithInt:[self type]] forKey:@"type"];
 	[defaults setObject:[self name] forKey:@"name"];
 	[defaults setObject:children forKey:@"children"];
@@ -171,13 +188,19 @@
 	if([keyObject isKindOfClass:[NSNumber class]]==NO) {
 		return NO;
 	} else {
-		_key = [keyObject unsignedIntegerValue];
+		[self setKey:[keyObject unsignedIntegerValue]];
 	}
-	NSString* name = [dictionary objectForKey:@"name"];
-	if([name isKindOfClass:[NSString class]]==NO) {
+	NSNumber* parentKeyObject = [dictionary objectForKey:@"parentKey"];
+	if([parentKeyObject isKindOfClass:[NSNumber class]]==NO) {
 		return NO;
 	} else {
-		_name = name;
+		[self setParentKey:[parentKeyObject unsignedIntegerValue]];
+	}
+	NSString* theName = [dictionary objectForKey:@"name"];
+	if([theName isKindOfClass:[NSString class]]==NO) {
+		return NO;
+	} else {
+		[self setName:theName];
 	}
 	NSNumber* typeObject = [dictionary objectForKey:@"type"];
 	if([typeObject isKindOfClass:[NSNumber class]]==NO) {

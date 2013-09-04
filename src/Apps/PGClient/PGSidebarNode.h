@@ -19,16 +19,14 @@ typedef enum {
 
 // Enum for the key of the node
 typedef enum {
-	PGSidebarNodeKeyServerGroup = 0,
-	PGSidebarNodeKeyDatabaseGroup = 1,
-	PGSidebarNodeKeyQueryGroup = 2,
-	PGSidebarNodeKeyInternalServer = 3,
-	PGSidebarNodeKeyMaximum = 4
+	PGSidebarNodeKeyServerGroup = 1,
+	PGSidebarNodeKeyDatabaseGroup = 2,
+	PGSidebarNodeKeyQueryGroup = 3,
+	PGSidebarNodeKeyInternalServer = 4,
+	PGSidebarNodeKeyMaximum = 5
 } PGSidebarNodeKeyType;
 
 @interface PGSidebarNode : NSObject {
-	NSUInteger _key;
-	NSString* _name;
 	PGSidebarNodeStatusType _status;
 	PGSidebarNodeTypeType _type;
 	NSMutableArray* _children;
@@ -38,14 +36,16 @@ typedef enum {
 // constructor
 -(id)initAsGroupWithKey:(NSUInteger)key name:(NSString* )name;
 -(id)initAsServerWithKey:(NSUInteger)key name:(NSString* )name;
--(id)initAsDatabaseWithKey:(NSUInteger)key name:(NSString* )name;
+-(id)initAsDatabaseWithKey:(NSUInteger)theKey serverKey:(NSUInteger)theServerKey name:(NSString* )name;
 -(id)initAsQueryWithKey:(NSUInteger)key name:(NSString* )name;
 -(id)initWithUserDefaults:(NSDictionary* )dictionary;
 
 // properties
 @property NSUInteger key;
-@property (readonly) NSNumber* keyObject;
+@property NSUInteger parentKey;
 @property NSString* name;
+@property (readonly) NSNumber* keyObject;
+@property (readonly) NSNumber* parentKeyObject;
 @property PGSidebarNodeStatusType status;
 @property PGSidebarNodeTypeType type;
 @property (readonly) NSMutableArray* children;

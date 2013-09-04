@@ -21,10 +21,12 @@
 -(BOOL)openConnectionForKey:(NSUInteger)key;
 -(void)closeConnectionForKey:(NSUInteger)key;
 -(void)closeAllConnections;
+-(NSString* )databaseSelectedForConnectionWithKey:(NSUInteger)key;
 
 // methods for passwords
 -(NSString* )passwordForKey:(NSUInteger)key;
 -(BOOL)setPassword:(NSString* )password forKey:(NSUInteger)key saveToKeychain:(BOOL)saveToKeychain;
+
 
 @end
 
