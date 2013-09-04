@@ -126,11 +126,13 @@ NSString* PGSidebarDragType = @"PGSidebarDragType";
 	return count ? YES : NO;
 }
 
+/*
 -(id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item {
 	PGSidebarNode* node = (PGSidebarNode* )item;
 	NSParameterAssert([node isKindOfClass:[PGSidebarNode class]]);
 	return [node name];
 }
+*/
 
 -(void)outlineView:(NSOutlineView* )outlineView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn byItem:(id)item {
 	NSParameterAssert([object isKindOfClass:[NSString class]]);

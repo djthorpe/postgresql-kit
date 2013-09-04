@@ -21,6 +21,7 @@
 -(PGSidebarNode* )selectedNode;
 -(void)selectNode:(PGSidebarNode* )node;
 -(void)deleteNode:(PGSidebarNode* )node;
+-(void)setNode:(PGSidebarNode* )node status:(PGSidebarNodeStatusType)status;
 
 // load and save to user defaults
 -(BOOL)loadFromUserDefaults;

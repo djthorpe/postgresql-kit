@@ -124,6 +124,7 @@
 }
 
 -(void)selectNode:(PGSidebarNode* )node {
+	NSParameterAssert([node isKindOfClass:[PGSidebarNode class]]);
 	NSOutlineView* view = (NSOutlineView* )[self view];
 	if(node==nil) {
 		[view deselectAll:self];
@@ -136,6 +137,7 @@
 }
 
 -(void)deleteNode:(PGSidebarNode* )node {
+	NSParameterAssert([node isKindOfClass:[PGSidebarNode class]]);
 	[[self datasource] deleteNode:node];
 	[(NSOutlineView* )[self view] reloadData];
 	[self selectNode:nil];
@@ -143,6 +145,16 @@
 
 -(PGSidebarNode* )nodeForKey:(NSUInteger)key {
 	return [[self datasource] nodeForKey:key];
+}
+
+-(void)setNode:(PGSidebarNode* )node status:(PGSidebarNodeStatusType)status {
+	NSParameterAssert([node isKindOfClass:[PGSidebarNode class]]);
+	if([node status] != status) {
+		[node setStatus:status];
+		PGSidebarNode* selectedNode = [self selectedNode];
+		[(NSOutlineView* )[self view] reloadData];
+		[self selectNode:selectedNode];
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -228,6 +240,7 @@
 
 -(BOOL)outlineView:(NSOutlineView* )outlineView isGroupItem:(id)item {
 	PGSidebarNode* node = (PGSidebarNode* )item;
+	if(item==nil) return NO;
 	NSParameterAssert([node isKindOfClass:[PGSidebarNode class]]);
 	return [node type]==PGSidebarNodeTypeGroup;
 }
@@ -256,6 +269,38 @@
 		return NO;
 	}
 	return YES;
+}
+
+
+-(NSView* )outlineView:(NSOutlineView *)outlineView viewForTableColumn:(NSTableColumn* )tableColumn item:(id)item {
+	NSParameterAssert([item isKindOfClass:[PGSidebarNode class]]);
+	
+	NSTableCellView* result = nil;
+	PGSidebarNode* node = (PGSidebarNode* )item;
+	
+    if([node type]==PGSidebarNodeTypeGroup) {
+		result = [outlineView makeViewWithIdentifier:@"HeaderCell" owner:self];
+		[[result textField] setStringValue:[node name]];
+	} else {
+        result = [outlineView makeViewWithIdentifier:@"DataCell" owner:self];
+		[[result textField] setStringValue:[node name]];
+		switch([node status]) {
+			case PGSidebarNodeStatusGreen:
+				[[result imageView] setImage:[NSImage imageNamed:@"traffic-green"]];
+				break;
+			case PGSidebarNodeStatusRed:
+				[[result imageView] setImage:[NSImage imageNamed:@"traffic-red"]];
+				break;
+			case PGSidebarNodeStatusOrange:
+				[[result imageView] setImage:[NSImage imageNamed:@"traffic-orange"]];
+				break;
+			case PGSidebarNodeStatusGrey:
+			default:
+				[[result imageView] setImage:[NSImage imageNamed:@"traffic-grey"]];
+				break;
+		}
+    }
+    return result;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

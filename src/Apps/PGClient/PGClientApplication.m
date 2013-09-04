@@ -214,12 +214,14 @@ NSString* PGClientNotificationDeleteConnection = @"PGClientNotificationDeleteCon
 -(void)connectionOpeningWithKey:(NSUInteger)key {
 	PGSidebarNode* node = [[self ibSidebarViewController] nodeForKey:key];
 	NSParameterAssert(node);
+	[[self ibSidebarViewController] setNode:node status:PGSidebarNodeStatusOrange];
 	NSLog(@"%@ => Opening",node);
 }
 
 -(void)connectionOpenWithKey:(NSUInteger)key {
 	PGSidebarNode* node = [[self ibSidebarViewController] nodeForKey:key];
 	NSParameterAssert(node);
+	[[self ibSidebarViewController] setNode:node status:PGSidebarNodeStatusGreen];
 	NSLog(@"%@ => Open",node);
 }
 
@@ -227,11 +229,13 @@ NSString* PGClientNotificationDeleteConnection = @"PGClientNotificationDeleteCon
 	PGSidebarNode* node = [[self ibSidebarViewController] nodeForKey:key];
 	NSParameterAssert(node);
 	NSLog(@"%@ => Rejected: %@",node,[error localizedDescription]);
+	[[self ibSidebarViewController] setNode:node status:PGSidebarNodeStatusRed];
 }
 
 -(void)connectionNeedsPasswordWithKey:(NSUInteger)key {
 	PGSidebarNode* node = [[self ibSidebarViewController] nodeForKey:key];
 	NSParameterAssert(node);
+	[[self ibSidebarViewController] setNode:node status:PGSidebarNodeStatusOrange];
 	NSString* password = [[self connections] passwordForKey:key];
 	if(password==nil) {
 		NSLog(@"%@ => No password stored, asking for the password",node);
@@ -244,6 +248,7 @@ NSString* PGClientNotificationDeleteConnection = @"PGClientNotificationDeleteCon
 -(void)connectionInvalidPasswordWithKey:(NSUInteger)key {
 	PGSidebarNode* node = [[self ibSidebarViewController] nodeForKey:key];
 	NSParameterAssert(node);
+	[[self ibSidebarViewController] setNode:node status:PGSidebarNodeStatusOrange];
 	// bring up password dialog
 	NSLog(@"%@ => Invalid password, asking for the password again",node);
 	[[self ibPasswordWindow] beginSheetForParentWindow:[self window] contextInfo:(void* )key];
@@ -253,6 +258,7 @@ NSString* PGClientNotificationDeleteConnection = @"PGClientNotificationDeleteCon
 	PGSidebarNode* node = [[self ibSidebarViewController] nodeForKey:key];
 	NSParameterAssert(node);
 	NSLog(@"%@ => Closed",node);
+	[[self ibSidebarViewController] setNode:node status:PGSidebarNodeStatusGrey];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
