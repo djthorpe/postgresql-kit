@@ -18,6 +18,7 @@ typedef enum {
 	PGClientErrorState = 100,       // state is wrong for this call
 	PGClientErrorParameters,        // invalid parameters
 	PGClientErrorNeedsPassword,     // password required
+	PGClientErrorInvalidPassword,   // password failure
 	PGClientErrorRejected,          // rejected from operation
 	PGClientErrorExecute,           // execution error
 	PGClientErrorUnknown,           // unknown error

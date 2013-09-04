@@ -35,6 +35,7 @@
 -(void)connectionOpenWithKey:(NSUInteger)key;
 -(void)connectionRejectedWithKey:(NSUInteger)key error:(NSError* )error;
 -(void)connectionNeedsPasswordWithKey:(NSUInteger)key;
+-(void)connectionInvalidPasswordWithKey:(NSUInteger)key;
 -(void)connectionClosedWithKey:(NSUInteger)key;
 @end
 

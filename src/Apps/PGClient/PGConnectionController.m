@@ -94,6 +94,10 @@
 			if([[self delegate] respondsToSelector:@selector(connectionNeedsPasswordWithKey:)]) {
 				[[self delegate] connectionNeedsPasswordWithKey:key];
 			}
+		} else if([error code]==PGClientErrorInvalidPassword) {
+			if([[self delegate] respondsToSelector:@selector(connectionInvalidPasswordWithKey:)]) {
+				[[self delegate] connectionInvalidPasswordWithKey:key];
+			}
 		} else {
 			if([[self delegate] respondsToSelector:@selector(connectionRejectedWithKey:error:)]) {
 				[[self delegate] connectionRejectedWithKey:key error:error];
@@ -108,6 +112,10 @@
 			[[self delegate] connectionOpenWithKey:key];
 		}
 	} else if([error code]==PGClientErrorNeedsPassword) {
+		if([[self delegate] respondsToSelector:@selector(connectionInvalidPasswordWithKey:)]) {
+			[[self delegate] connectionInvalidPasswordWithKey:key];
+		}
+	} else if([error code]==PGClientErrorInvalidPassword) {
 		if([[self delegate] respondsToSelector:@selector(connectionNeedsPasswordWithKey:)]) {
 			[[self delegate] connectionNeedsPasswordWithKey:key];
 		}

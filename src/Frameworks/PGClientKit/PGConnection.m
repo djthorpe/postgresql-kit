@@ -146,6 +146,8 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 			return @"Invalid parameters";
 		case PGClientErrorNeedsPassword:
 			return @"Connection requires authentication";
+		case PGClientErrorInvalidPassword:
+			return @"Password authentication failed";
 		case PGClientErrorRejected:
 			return @"Connection was rejected";
 		case PGClientErrorExecute:
@@ -407,6 +409,8 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 		} else {
 			if(PQconnectionNeedsPassword(connection)) {
 				error = [self raiseError:nil code:PGClientErrorNeedsPassword reason:nil];
+			} else if(PQconnectionUsedPassword(connection)) {
+				error = [self raiseError:nil code:PGClientErrorInvalidPassword reason:nil];
 			} else {
 				error = [self raiseError:nil code:PGClientErrorRejected reason:@"%s",PQerrorMessage(connection)];
 			}
@@ -485,6 +489,8 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 			error = [self raiseError:nil code:PGClientErrorNone reason:nil];
 		} else if(PQconnectionNeedsPassword(_connection)) {
 			error = [self raiseError:nil code:PGClientErrorNeedsPassword reason:nil];
+		} else if(PQconnectionUsedPassword(_connection)) {
+			error = [self raiseError:nil code:PGClientErrorInvalidPassword reason:nil];
 		} else {
 			error = [self raiseError:nil code:PGClientErrorRejected reason:@"%s",PQerrorMessage(_connection)];
 		}
@@ -532,6 +538,8 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 	} else {
 		if(PQconnectionNeedsPassword(connection)) {
 			[self raiseError:error code:PGClientErrorNeedsPassword url:url reason:nil];
+		} else if(PQconnectionUsedPassword(connection)) {
+			[self raiseError:error code:PGClientErrorInvalidPassword url:url reason:nil];
 		} else {
 			[self raiseError:error code:PGClientErrorRejected url:url reason:@"%s",PQerrorMessage(connection)];
 		}

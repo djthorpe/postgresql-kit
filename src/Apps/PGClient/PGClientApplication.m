@@ -234,10 +234,19 @@ NSString* PGClientNotificationDeleteConnection = @"PGClientNotificationDeleteCon
 	NSParameterAssert(node);
 	NSString* password = [[self connections] passwordForKey:key];
 	if(password==nil) {
+		NSLog(@"%@ => No password stored, asking for the password",node);
 		[[self ibPasswordWindow] beginSheetForParentWindow:[self window] contextInfo:(void* )key];
 	} else {
-		NSLog(@"%@ => Needs password = %@",node,password);
+		NSLog(@"%@ => We have a password stored, doing nothing",node);
 	}
+}
+
+-(void)connectionInvalidPasswordWithKey:(NSUInteger)key {
+	PGSidebarNode* node = [[self ibSidebarViewController] nodeForKey:key];
+	NSParameterAssert(node);
+	// bring up password dialog
+	NSLog(@"%@ => Invalid password, asking for the password again",node);
+	[[self ibPasswordWindow] beginSheetForParentWindow:[self window] contextInfo:(void* )key];
 }
 
 -(void)connectionClosedWithKey:(NSUInteger)key {
