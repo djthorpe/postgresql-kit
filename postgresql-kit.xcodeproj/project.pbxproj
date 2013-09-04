@@ -536,9 +536,6 @@
 		14EE3C3C166752F80083C735 /* make-postgresql.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "make-postgresql.sh"; sourceTree = "<group>"; };
 		14EE3C40166752F80083C735 /* postgresql-9.1.5.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = "postgresql-9.1.5.tar.gz"; sourceTree = "<group>"; };
 		14F1E84717CB83CD00710D4A /* PGControlsKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PGControlsKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		14F1E84B17CB83CD00710D4A /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
-		14F1E84C17CB83CD00710D4A /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		14F1E84D17CB83CD00710D4A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		14F1E85E17CB840400710D4A /* PGControlsKit.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PGControlsKit.plist; sourceTree = "<group>"; };
 		14F1E86017CB840400710D4A /* PGControlsKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGControlsKit.h; sourceTree = "<group>"; };
 		14F1E86317CB84FB00710D4A /* PGGutterView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PGGutterView.m; sourceTree = "<group>"; };
@@ -1103,16 +1100,6 @@
 			path = tar;
 			sourceTree = "<group>";
 		};
-		14F1E84A17CB83CD00710D4A /* Other Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				14F1E84B17CB83CD00710D4A /* AppKit.framework */,
-				14F1E84C17CB83CD00710D4A /* CoreData.framework */,
-				14F1E84D17CB83CD00710D4A /* Foundation.framework */,
-			);
-			name = "Other Frameworks";
-			sourceTree = "<group>";
-		};
 		14F1E85B17CB840400710D4A /* PGControlsKit */ = {
 			isa = PBXGroup;
 			children = (
@@ -1331,7 +1318,6 @@
 				6EDC4CD417BC2755009E040D /* SenTestingKit.framework */,
 				1413DF5817AEB041009615E5 /* mac */,
 				1413DF5717AEB03B009615E5 /* ios */,
-				14F1E84A17CB83CD00710D4A /* Other Frameworks */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
