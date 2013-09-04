@@ -87,7 +87,6 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 		// call the destroyer
 		pgdata2obj_destroy();
 	}
-	[_lock unlock];
 	[self disconnect];
 }
 
@@ -197,8 +196,8 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 		(*error) = theError;
 	}
 	// perform selector
-	if([[self delegate] respondsToSelector:@selector(connectionError:)]) {
-		[[self delegate] connectionError:theError];
+	if([[self delegate] respondsToSelector:@selector(connection:error:)]) {
+		[[self delegate] connection:self error:theError];
 	}
 	// return the error
 	return theError;
@@ -324,8 +323,8 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 		[theParameters setValue:[[NSProcessInfo processInfo] processName] forKey:@"application_name"];
 	}
 	// Allow delegate to deal with parameters
-	if([[self delegate] respondsToSelector:@selector(connectionWillOpenWithParameters:)]) {
-		[[self delegate] connectionWillOpenWithParameters:theParameters];
+	if([[self delegate] respondsToSelector:@selector(connection:willOpenWithParameters:)]) {
+		[[self delegate] connection:self willOpenWithParameters:theParameters];
 	}
 	return theParameters;
 }
@@ -560,7 +559,6 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 	}
 	// make the connection
 	PGKVPairs* pairs = makeKVPairs(parameters);
-	BOOL returnValue = NO;
 	PGconn* connection = nil;
 	if(pairs != nil) {
 		connection = PQconnectStartParams(pairs->keywords,pairs->values,0);
@@ -569,11 +567,10 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 	if(connection==nil) {
 		[_lock unlock];
 		callback([self raiseError:nil code:PGClientErrorParameters url:url reason:nil]);
-	} else {
-		[NSThread detachNewThreadSelector:@selector(_connectPollWithParametersThread:) toTarget:self withObject:@[ [NSThread currentThread],[NSValue valueWithPointer:connection],callback ]];
-		returnValue = YES;
+		return NO;
 	}
-	return returnValue;
+	[NSThread detachNewThreadSelector:@selector(_connectPollWithParametersThread:) toTarget:self withObject:@[ [NSThread currentThread],[NSValue valueWithPointer:connection],callback ]];
+	return YES;
 }
 
 -(BOOL)pingWithURL:(NSURL* )url error:(NSError** )error {
@@ -635,7 +632,6 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 }
 
 -(BOOL)resetInBackgroundWhenDone:(void(^)(NSError* error)) callback {
-	BOOL returnValue = NO;
 	if([_lock tryLock]==NO) {
 		[self raiseError:nil code:PGClientErrorState reason:nil];
 		return NO;
@@ -643,14 +639,15 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 	if(_connection == nil) {
 		callback([self raiseError:nil code:PGClientErrorState reason:nil]);
 		[_lock unlock];
-	} else if(PQresetStart(_connection) != 1) {
+		return NO;
+	}
+	if(PQresetStart(_connection) != 1) {
 		callback([self raiseError:nil code:PGClientErrorUnknown reason:nil]);
 		[_lock unlock];
-	} else {
-		[NSThread detachNewThreadSelector:@selector(_resetPollWithParametersThread:) toTarget:self withObject:@[ [NSThread currentThread],callback ]];
-		returnValue = YES;
+		return NO;
 	}
-	return returnValue;
+	[NSThread detachNewThreadSelector:@selector(_resetPollWithParametersThread:) toTarget:self withObject:@[ [NSThread currentThread],callback ]];
+	return YES;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -669,8 +666,8 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 		return nil;
 	}
 	// call delegate
-	if([[self delegate] respondsToSelector:@selector(connectionWillExecute:values:)]) {
-		[[self delegate] connectionWillExecute:query values:values];
+	if([[self delegate] respondsToSelector:@selector(connection:willExecute:values:)]) {
+		[[self delegate] connection:self willExecute:query values:values];
 	}
 	// create parameters
 	PGClientParams* params = _paramAllocForValues(values);

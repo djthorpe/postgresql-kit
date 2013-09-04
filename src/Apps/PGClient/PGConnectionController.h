@@ -6,7 +6,7 @@
 @protocol PGConnectionControllerDelegate;
 
 // PGConnectionController
-@interface PGConnectionController : NSObject {
+@interface PGConnectionController : NSObject <PGConnectionDelegate> {
 	PGPasswordStore* _passwords;
 	NSMutableDictionary* _connections;
 	NSMutableDictionary* _urls;
@@ -24,7 +24,7 @@
 
 // methods for passwords
 -(NSString* )passwordForKey:(NSUInteger)key;
--(BOOL)setPassword:(NSString* )password forKey:(NSUInteger)key;
+-(BOOL)setPassword:(NSString* )password forKey:(NSUInteger)key saveToKeychain:(BOOL)saveToKeychain;
 
 @end
 

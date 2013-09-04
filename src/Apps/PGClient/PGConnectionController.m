@@ -20,7 +20,7 @@
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// methods
+// connection methods
 
 -(void)closeAllConnections {
 	for(NSNumber* keyObject in _connections) {
@@ -57,6 +57,11 @@
 	NSParameterAssert([_urls objectForKey:keyObject]==nil);
 	[_connections setObject:connection forKey:keyObject];
 	[_urls setObject:url forKey:keyObject];
+	
+	// set delegate method and tag
+	[connection setDelegate:self];
+	[connection setTag:key];
+	
 	return connection;
 }
 
@@ -115,6 +120,9 @@
 	return YES;
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// password methods
+
 -(NSString* )passwordForKey:(NSUInteger)key {
 	NSParameterAssert(key);
 	NSNumber* keyObject = [NSNumber numberWithUnsignedInteger:key];
@@ -132,12 +140,36 @@
 	return password;
 }
 
--(BOOL)setPassword:(NSString* )password forKey:(NSUInteger)key {
+-(BOOL)setPassword:(NSString* )password forKey:(NSUInteger)key saveToKeychain:(BOOL)saveToKeychain {
 	NSParameterAssert(key);
 	NSNumber* keyObject = [NSNumber numberWithUnsignedInteger:key];
 	NSURL* url = [_urls objectForKey:keyObject];
 	NSParameterAssert(url && [url isKindOfClass:[NSURL class]]);
-	return [_passwords setPassword:password forURL:url saveToKeychain:NO];
+	return [_passwords setPassword:password forURL:url saveToKeychain:saveToKeychain];
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// PGConnectionDelegate methods
+
+-(void)connection:(PGConnection* )connection willOpenWithParameters:(NSMutableDictionary* )dictionary {
+	NSNumber* keyObject = [NSNumber numberWithUnsignedInteger:[connection tag]];
+	NSParameterAssert(keyObject);
+	NSURL* url = [_urls objectForKey:keyObject];
+	NSParameterAssert(url);
+	if([dictionary objectForKey:@"password"]==nil) {
+		NSString* password = [_passwords passwordForURL:url];
+		if(password) {
+			[dictionary setObject:password forKey:@"password"];
+		}
+	}
+#ifdef DEBUG
+	if([dictionary objectForKey:@"password"]==nil) {
+		NSLog(@"No password could be used to connect to %@",url);
+	} else {
+		NSLog(@"Password could be used to connect to %@",url);
+	}
+#endif	
+}
+
 
 @end

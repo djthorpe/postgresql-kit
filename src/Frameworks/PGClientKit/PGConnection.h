@@ -57,6 +57,11 @@ extern NSString* PGClientErrorDomain;
 @property (weak, nonatomic) id<PGConnectionDelegate> delegate;
 
 /**
+ *  Tag for the connection object
+ */
+@property NSUInteger tag;
+
+/**
  *  The currently connected user, or nil if a connection has not yet been made
  */
 @property (readonly) NSString* user;
@@ -100,11 +105,9 @@ extern NSString* PGClientErrorDomain;
 
 // delegate for PGConnection
 @protocol PGConnectionDelegate <NSObject>
-
 @optional
--(void)connectionWillOpenWithParameters:(NSMutableDictionary* )dictionary;
--(void)connectionWillExecute:(NSString* )theQuery values:(NSArray* )values;
--(void)connectionError:(NSError* )theError;
-
+-(void)connection:(PGConnection* )connection willOpenWithParameters:(NSMutableDictionary* )dictionary;
+-(void)connection:(PGConnection* )connection willExecute:(NSString* )theQuery values:(NSArray* )values;
+-(void)connection:(PGConnection* )connection error:(NSError* )theError;
 @end
 

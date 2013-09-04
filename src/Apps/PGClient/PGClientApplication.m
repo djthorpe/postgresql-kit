@@ -257,11 +257,10 @@ NSString* PGClientNotificationDeleteConnection = @"PGClientNotificationDeleteCon
 		NSLog(@"CANCELLED");
 		return;
 	}
-	NSString* password = [windowController passwordField];
+	
 	NSUInteger key = (NSUInteger)contextInfo;
-	if([windowController saveToKeychain]) {
-		[[self connections] setPassword:password forKey:key];
-	}
+	[[self connections] setPassword:[windowController passwordField] forKey:key saveToKeychain:[windowController saveToKeychain]];
+
 	// attempt to re-open the connection
 	PGSidebarNode* node = [[self ibSidebarViewController] nodeForKey:key];
 	NSParameterAssert(node);
