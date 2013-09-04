@@ -137,6 +137,14 @@
 -(void)deleteNode:(PGSidebarNode* )node {
 	NSParameterAssert([node isKindOfClass:[PGSidebarNode class]]);
 	[[self datasource] deleteNode:node];
+	if([node type]==PGSidebarNodeTypeServer) {
+		// TODO: Also delete all databases
+		NSLog(@"TODO: Delete databases");
+	} else if([node type]==PGSidebarNodeTypeDatabase) {
+		// TODO: Also delete all queries
+		NSLog(@"TODO: Delete queries");
+	}
+	// TODO: only do this on all deletes having been done
 	[(NSOutlineView* )[self view] reloadData];
 	[self selectNode:nil];
 }
