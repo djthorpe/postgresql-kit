@@ -11,6 +11,7 @@ NSString* PGClientAddConnectionURL = @"PGClientAddConnectionURL";
 NSString* PGClientNotificationOpenConnection = @"PGClientNotificationOpenConnection";
 NSString* PGClientNotificationCloseConnection = @"PGClientNotificationCloseConnection";
 NSString* PGClientNotificationDeleteConnection = @"PGClientNotificationDeleteConnection";
+NSString* PGClientNotificationEditConnection = @"PGClientNotificationEditConnection";
 
 @implementation PGClientApplication
 
@@ -36,6 +37,7 @@ NSString* PGClientNotificationDeleteConnection = @"PGClientNotificationDeleteCon
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ibNotificationOpenConnection:) name:PGClientNotificationOpenConnection object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ibNotificationCloseConnection:) name:PGClientNotificationCloseConnection object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ibNotificationDeleteConnection:) name:PGClientNotificationDeleteConnection object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ibNotificationEditConnection:) name:PGClientNotificationEditConnection object:nil];
 
 	// internal server
 	_internalServer = [PGServer serverWithDataPath:[self _internalServerDataPath]];
@@ -206,6 +208,19 @@ NSString* PGClientNotificationDeleteConnection = @"PGClientNotificationDeleteCon
 	// TODO: Add are you sure you want to delete? sheet confirmation
 	
 	[[self ibSidebarViewController] deleteNode:node];
+}
+
+-(void)ibNotificationEditConnection:(NSNotification* )notification {
+	PGSidebarNode* node = [notification object];
+	NSParameterAssert([node isKindOfClass:[PGSidebarNode class]]);
+	NSParameterAssert([node type]==PGSidebarNodeTypeServer);
+	
+	NSLog(@"EDIT: %@",node);
+
+	NSURL* url = [node URL];
+	if(url) {
+		[[self ibRemoteConnectionWindowController] beginSheetForParentWindow:[self window] url:url];
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////

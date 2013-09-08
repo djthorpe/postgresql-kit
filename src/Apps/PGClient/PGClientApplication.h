@@ -15,6 +15,7 @@ extern NSString* PGClientAddConnectionURL;
 extern NSString* PGClientNotificationOpenConnection;
 extern NSString* PGClientNotificationCloseConnection;
 extern NSString* PGClientNotificationDeleteConnection;
+extern NSString* PGClientNotificationEditConnection;
 
 @interface PGClientApplication : NSObject <NSApplicationDelegate, PGServerDelegate, PGConnectionControllerDelegate, PGPasswordWindowDelegate> {
 	PGServer* _internalServer;

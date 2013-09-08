@@ -10,19 +10,9 @@
 // properties
 @property (readonly) NSMutableDictionary* parameters;
 
-@property NSString* portString;
-@property NSString* hostname;
-@property NSString* username;
-@property NSString* database;
-@property NSUInteger timeout;
-@property NSString* applicationName;
-@property BOOL defaultPort;
-@property BOOL requireEncryption;
-@property BOOL showAdvancedOptions;
 @property BOOL validParameters;
 @property (readonly) NSString* timeoutString;
 @property NSImage* statusImage;
-@property (readonly) NSUInteger port;
 @property (readonly) NSURL* url;
 @property (assign) IBOutlet NSBox* ibAdvancedOptionsBox;
 @property NSTimer* pingTimer;

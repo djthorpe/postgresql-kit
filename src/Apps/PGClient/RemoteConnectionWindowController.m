@@ -31,16 +31,20 @@ NSTimeInterval PingTimerInterval = 2.0;
 // properties
 
 @synthesize parameters = _parameters;
-// parameters are user, port, dbname, host/hostaddr, sslmode (require/prefer)
-// application_name connect_timeout application_name client_encoding
-
 @synthesize validParameters;
 @synthesize ibAdvancedOptionsBox;
-@synthesize defaultPort;
-@synthesize showAdvancedOptions;
 @synthesize pingTimer;
 @dynamic timeoutString;
 @dynamic url;
+
+-(NSUInteger)timeout {
+	NSNumber* timeout = self.parameters[@"connect_timeout"];
+	if([timeout isKindOfClass:[NSNumber class]]==NO) {
+		return 0;
+	} else {
+		return [timeout unsignedIntegerValue];
+	}
+}
 
 -(NSString* )timeoutString {
 	if([self timeout]==0) {
@@ -57,19 +61,16 @@ NSTimeInterval PingTimerInterval = 2.0;
 ////////////////////////////////////////////////////////////////////////////////
 // private methods
 
--(void)_toggleWindowSize {
+-(void)_toggleWindowSize:(BOOL)toggle {
 	NSRect frameSize = [[self window] frame];
-	if(frameSize.size.height==[[self window] maxSize].height) {
+	if(toggle==NO) {
         frameSize.size = [[self window] minSize];
         frameSize.origin.y += [[self window] maxSize].height - [[self window] minSize].height;
+		[[[self ibAdvancedOptionsBox] animator] setAlphaValue:0.0];
 	} else {
         frameSize.size = [[self window] maxSize];
         frameSize.origin.y -= [[self window] maxSize].height - [[self window] minSize].height;
-	}
-	if([self showAdvancedOptions]) {
 		[[[self ibAdvancedOptionsBox] animator] setAlphaValue:1.0];
-	} else {
-		[[[self ibAdvancedOptionsBox] animator] setAlphaValue:0.0];
 	}
 	[[self window] setFrame:frameSize display:YES animate:YES];
 }
@@ -118,85 +119,64 @@ NSTimeInterval PingTimerInterval = 2.0;
 // private methods - key-value observing
 
 -(void)_registerAsObserver {
-	for(NSString* keyPath in @[ @"parameters" ]) {
+	for(NSString* keyPath in @[ @"parameters.host", @"parameters.ssl", @"parameters.user", @"parameters.dbname", @"parameters.port", @"parameters.defaultPort", @"parameters.connect_timeout", @"parameters.application_name", @"parameters.advanced" ]) {
 		[self addObserver:self forKeyPath:keyPath options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:NULL];
 	}
 }
 
 -(void)_deregisterAsObserver {
-	for(NSString* keyPath in @[ @"parameters" ]) {
+	for(NSString* keyPath in @[ @"parameters.host", @"parameters.ssl", @"parameters.user", @"parameters.dbname", @"parameters.port", @"parameters.defaultPort", @"parameters.connect_timeout", @"parameters.application_name", @"parameters.advanced" ]) {
 		[self removeObserver:self forKeyPath:keyPath];
 	}
 }
 
 -(void)observeValueForKeyPath:(NSString* )keyPath ofObject:(id)object change:(NSDictionary* )change context:(void* )context {
-	NSLog(@"Changed %@",keyPath);
-/*	if([keyPath isEqual:@"portString"]) {
-		NSString* newPort = [change objectForKey:NSKeyValueChangeNewKey];
-		NSUInteger port = [self _portForString:newPort];
-		if(port==PGClientDefaultPort) {
-			[self setDefaultPort:YES];
-		} else {
-			[self setDefaultPort:NO];
-		}
-	} else if([keyPath isEqual:@"defaultPort"]) {
+	// toggle advanced option
+	if([keyPath isEqual:@"parameters.advanced"]) {
+		NSNumber* advancedToggle = [change objectForKey:NSKeyValueChangeNewKey];
+		[self _toggleWindowSize:[advancedToggle boolValue]];
+	} else if([keyPath isEqual:@"parameters.port"]) {
+		// do nothing
+	} else if([keyPath isEqual:@"parameters.defaultPort"]) {
 		BOOL isDefaultPort = [[change objectForKey:NSKeyValueChangeNewKey] boolValue];
-		if(isDefaultPort && [self port] != PGClientDefaultPort) {
-			[self setPortString:[NSString stringWithFormat:@"%lu",PGClientDefaultPort]];
+		if(isDefaultPort) {
+			[[self parameters] setValue:[NSNumber numberWithUnsignedInteger:PGClientDefaultPort] forKey:@"port"];
 		}
-	} else if([keyPath isEqual:@"timeout"]) {
+	} else if([keyPath isEqual:@"parameters.connect_timeout"]) {
 		[self willChangeValueForKey:@"timeoutString"];
 		[self didChangeValueForKey:@"timeoutString"];
-	} else if([keyPath isEqual:@"showAdvancedOptions"]) {
-		[self _toggleWindowSize];
-		// nothing changed, so return directly without validation
-		return;
+	} else if([keyPath isEqual:@"parameters.ssl"]) {
+		BOOL isSSL = [[change objectForKey:NSKeyValueChangeNewKey] boolValue];
+		[[self parameters] setObject:(isSSL ? @"require" : @"prefer") forKey:@"sslmode"];
 	}
 
-	[self _setValidParameters];
-	
-	// if we have valid parameters
-	if([self validParameters]) {
+	if([self url]) {
 		[self _schedulePingTimer];
 	} else {
 		[self _unschedulePingTimer];
-	}*/
+	}
+	NSLog(@"%@ => %@",[self parameters],[self url]);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
 
 -(void)beginSheetForParentWindow:(NSWindow* )parentWindow url:(NSURL* )url {
-	// set parameters
-	if(url==nil) {
-		/*
-		// reset to defaults
-		[self setPortString:[NSString stringWithFormat:@"%lu",PGClientDefaultPort]];
-		[self setDefaultPort:YES];
-		[self setUsername:NSUserName()];
-		[self setDatabase:@""];
-		[self setHostname:@""];
-		[self setTimeout:0];
-		[self setRequireEncryption:YES];
-		[self setApplicationName:@""];
-		 */
-	} else {
-		/*
-		// extract parameters
-		NSDictionary* parameters = [PGConnection extractParametersFromURL:url];
-		[self setPortString:[parameters objectForKey:@"port"]];
-		[self setUsername:[parameters objectForKey:@"user"]];
-		 */
-	}
-/*
-	[self setValue:[NSNumber numberWithBool:NO] forKeyPath:@"showAdvancedOptions"];
-	[self setValue:[NSNumber numberWithBool:YES] forKeyPath:@"requireEncryption"];
-*/
-	// set state
-	[self _toggleWindowSize];
-	[self _setValidParameters];
+
 	// set KVO
 	[self _registerAsObserver];
+
+	// set parameters
+	if(url==nil) {
+		[[self parameters] removeAllObjects];
+		[[self parameters] setValue:[NSNumber numberWithBool:YES] forKey:@"defaultPort"];
+		[[self parameters] setValue:[NSNumber numberWithBool:YES] forKey:@"ssl"];
+	} else {
+		[[self parameters] setDictionary:[url postgresqlParameters]];
+	}
+	// set state
+	[self _toggleWindowSize:NO];
+	[self _setValidParameters];
 	// set ping timer
 	[self _schedulePingTimer];
 	// start sheet

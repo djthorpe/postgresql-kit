@@ -38,11 +38,13 @@
 	// load user defaults
 	[self loadFromUserDefaults];	
 
-	// set view datasource
+	// set view datasource and doubleclick action
 	NSParameterAssert([[self view] isKindOfClass:[NSOutlineView class]]);
 	NSOutlineView* view = (NSOutlineView* )[self view];
 	[view setDataSource:[self datasource]];
-
+	[view setTarget:self];
+	[view setDoubleAction:@selector(doDoubleClick:)];
+	
 	// set row height
 	[view setRowHeight:20.0];
 
@@ -113,6 +115,17 @@
 -(PGSidebarNode* )selectedNode {
 	NSOutlineView* view = (NSOutlineView* )[self view];
 	NSInteger row = [view selectedRow];
+	if(row < 0) {
+		return nil;
+	}
+	PGSidebarNode* node = [view itemAtRow:row];
+	NSParameterAssert([node isKindOfClass:[PGSidebarNode class]]);
+	return node;
+}
+
+-(PGSidebarNode* )clickedNode {
+	NSOutlineView* view = (NSOutlineView* )[self view];
+	NSInteger row = [view clickedRow];
 	if(row < 0) {
 		return nil;
 	}
@@ -332,7 +345,6 @@
 	return YES;
 }
 
-
 -(NSView* )outlineView:(NSOutlineView *)outlineView viewForTableColumn:(NSTableColumn* )tableColumn item:(id)item {
 	NSParameterAssert([item isKindOfClass:[PGSidebarNode class]]);
 	
@@ -388,6 +400,14 @@
 	NSParameterAssert(node);
 	if([self canDelete] && [node type]==PGSidebarNodeTypeServer) {
 		[[NSNotificationCenter defaultCenter] postNotificationName:PGClientNotificationDeleteConnection object:node];
+	}
+}
+
+-(IBAction)doDoubleClick:(id)sender {
+	PGSidebarNode* node = [self clickedNode];
+	NSParameterAssert(node);
+	if([node type]==PGSidebarNodeTypeServer) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:PGClientNotificationEditConnection object:node];
 	}
 }
 

@@ -89,7 +89,7 @@
 		return nil;
 	}
 	NSInteger portSigned = [string integerValue];
-	if(portSigned < 1) {
+	if(portSigned < 1 || portSigned > PGClientMaximumPort) {
 		return nil;
 	}
 	return [NSNumber numberWithInteger:portSigned];
@@ -151,12 +151,12 @@
 
 -(id)initWithPostgresqlParams:(NSDictionary* )params {
 	NSMutableDictionary* params2 = [params mutableCopy];
-	NSString* sslmode = [[params2 objectForKey:@"sslmode"] description];
+	NSString* sslmode = [[[params2 objectForKey:@"sslmode"] description] lowercaseString];
 	BOOL ssl = NO;
 	if([sslmode isEqual:@"require"] || [sslmode isEqual:@"verify-ca"] || [sslmode isEqual:@"verify-full"]) {
 		ssl = YES;
 	}
-	// host or local socket
+	// host, hostaddr or local socket
 	NSString* host = [[params2 objectForKey:@"host"] description];
 	NSString* socket = nil;
 	if([host rangeOfString:@"/"].location != NSNotFound) {
@@ -166,13 +166,21 @@
 	if(hostaddr) {
 		host = [NSString stringWithFormat:@"[%@]",hostaddr];
 	}
-	// user & dbname
+	// user
 	NSString* user = [[params2 objectForKey:@"user"] description];
+	if(user==nil) {
+		return nil;
+	}
+	// dbname
 	NSString* dbname = [[params2 objectForKey:@"dbname"] description];
 	// port
-	NSNumber* port = [NSURL _pg_port_fromstring:[[params2 objectForKey:@"port"] description]];
-	if(port==nil) {
-		return nil;
+	NSString* portString = [params2 objectForKey:@"port"];
+	NSNumber* port = nil;
+	if(portString) {
+		port = [NSURL _pg_port_fromstring:[portString description]];
+		if(port==nil) {
+			return nil;
+		}
 	}
 
 	// remove parameters
@@ -184,9 +192,9 @@
 
 	// return string
 	if(socket) {
-		return [self initWithSocketPath:socket port:[port unsignedIntegerValue] database:dbname username:user params:params];
+		return [self initWithSocketPath:socket port:[port unsignedIntegerValue] database:dbname username:user params:params2];
 	} else {
-		return [self initWithHost:host port:[port unsignedIntegerValue] ssl:ssl username:user database:dbname params:params];
+		return [self initWithHost:host port:[port unsignedIntegerValue] ssl:ssl username:user database:dbname params:params2];
 	}
 }
 

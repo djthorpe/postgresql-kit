@@ -35,5 +35,6 @@
 -(IBAction)doOpen:(id)sender;
 -(IBAction)doClose:(id)sender;
 -(IBAction)doDelete:(id)sender;
+-(IBAction)doDoubleClick:(id)sender;
 
 @end
