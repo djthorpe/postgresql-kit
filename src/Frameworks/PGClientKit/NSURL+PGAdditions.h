@@ -61,6 +61,20 @@
 +(id)URLWithHost:(NSString* )host port:(NSUInteger)port ssl:(BOOL)ssl username:(NSString* )username database:(NSString* )database params:(NSDictionary* )params;
 
 /**
+ *  NSURL helper function to generate a URL from a dictionary of postgresql
+ *  parameters. The parameters that can be provided are described in the
+ *  postgresql manual, but the following are used: user, host, hostaddr, dbname
+ *  sslmode, port, password. Any remaining parameters (for example,
+ *  connect_timeout, application_name, client_encoding) are provided as a query
+ *  for the URL. On invalid parameters, nil is returned.
+ *
+ *  @param params The dictionary of parameters
+ *
+ *  @return An NSURL object
+ */
++(id)URLWithPostgresqlParams:(NSDictionary* )params;
+
+/**
  *  NSURL helper function to generate PostgreSQL connection URL's. The URL
  *  which is generated will allow connection to a PostgeSQL instance on a
  *  local socket, and use a particular port.
@@ -118,5 +132,27 @@
  *  @return An NSURL object
  */
 -(id)initWithHost:(NSString* )host port:(NSUInteger)port ssl:(BOOL)ssl username:(NSString* )username  database:(NSString* )database params:(NSDictionary* )params;
+
+/**
+ *  NSURL helper function to generate a URL from a dictionary of postgresql
+ *  parameters. The parameters that can be provided are described in the
+ *  postgresql manual, but the following are used: user, host, hostaddr, dbname
+ *  sslmode, port, password. Any remaining parameters (for example,
+ *  connect_timeout, application_name, client_encoding) are provided as a query
+ *  for the URL. On invalid parameters, nil is returned.
+ *
+ *  @param params The dictionary of parameters
+ *
+ *  @return An NSURL object
+ */
+-(id)initWithPostgresqlParams:(NSDictionary* )params;
+
+/**
+ *  Returns a dictionary of parameters from the NSURL object
+ *
+ *  @return An immutable dictionary of parameters, as described in the 
+ *    postgresql manual. On invalid URL, nil is returned.
+ */
+-(NSDictionary* )postgresqlParameters;
 
 @end

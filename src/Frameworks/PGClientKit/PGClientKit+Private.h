@@ -4,7 +4,6 @@
 #import "PGConverters.h"
 
 @interface PGConnection (Private)
-+(NSMutableDictionary* )extractParametersFromURL:(NSURL* )theURL;
 +(NSError* )createError:(NSError** )error code:(PGClientErrorDomainCode)code url:(NSURL* )url reason:(NSString* )format,...;
 @end
 

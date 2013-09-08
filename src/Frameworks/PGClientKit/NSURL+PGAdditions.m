@@ -53,8 +53,8 @@
 	if(host==nil || [host length]==0) {
 		return @"localhost";
 	}
-	NSCharacterSet* addressChars = [NSCharacterSet characterSetWithCharactersInString:@"0123456789abcdefABCDEF.:"];
-	NSRange foundNonAddress = [host rangeOfCharacterFromSet:[addressChars invertedSet]];
+	NSCharacterSet* _addressChars = [NSCharacterSet characterSetWithCharactersInString:@"0123456789abcdefABCDEF.:"];
+	NSRange foundNonAddress = [host rangeOfCharacterFromSet:[_addressChars invertedSet]];
 	if(foundNonAddress.location==NSNotFound) {
 		// is likely an address
 		return [NSString stringWithFormat:@"[%@]",host];
@@ -79,6 +79,22 @@
 	}
 }
 
++(NSNumber* )_pg_port_fromstring:(NSString* )string {
+	if(string==nil) {
+		return nil;
+	}
+	NSCharacterSet* notNumericCharacters = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet];
+	NSRange foundDigits = [string rangeOfCharacterFromSet:notNumericCharacters];
+	if(foundDigits.location != NSNotFound) {
+		return nil;
+	}
+	NSInteger portSigned = [string integerValue];
+	if(portSigned < 1) {
+		return nil;
+	}
+	return [NSNumber numberWithInteger:portSigned];
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // CONSTRUCTORS
 
@@ -98,6 +114,10 @@
 	return [[NSURL alloc] initWithHost:host port:port ssl:ssl username:username database:database params:params];
 }
 
++(id)URLWithPostgresqlParams:(NSDictionary* )params {
+	return [[NSURL alloc] initWithPostgresqlParams:params];
+}
+
 -(id)initWithSocketPath:(NSString* )path port:(NSUInteger)port database:(NSString* )database username:(NSString* )username params:(NSDictionary* )params {
 	NSString* method = [PGConnection defaultURLScheme];
 	NSString* pathenc = [NSURL _pg_urlencode_path:[path stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
@@ -106,7 +126,7 @@
 	NSString* queryenc = [NSURL _pg_urlencode_params:params];
 	NSString* userenc = [NSURL _pg_urlencode_user:[username stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
 	NSParameterAssert(method && dbenc && queryenc && userenc);
-	return [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@://%@%@%@/%@%@",method,userenc,pathenc,portenc,dbenc,queryenc]];
+	return [self initWithString:[NSString stringWithFormat:@"%@://%@%@%@/%@%@",method,userenc,pathenc,portenc,dbenc,queryenc]];
 }
 
 -(id)initWithLocalDatabase:(NSString* )database username:(NSString* )username params:(NSDictionary* )params {
@@ -122,11 +142,144 @@
 	NSString* queryenc = [NSURL _pg_urlencode_params:params];
 	NSString* userenc = [NSURL _pg_urlencode_user:[username stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
 	NSParameterAssert(method && dbenc && queryenc && sslenc && hostenc && portenc && userenc);
-	return [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@%@://%@%@%@/%@%@",method,sslenc,userenc,hostenc,portenc,dbenc,queryenc]];
+	return [self initWithString:[NSString stringWithFormat:@"%@%@://%@%@%@/%@%@",method,sslenc,userenc,hostenc,portenc,dbenc,queryenc]];
 }
 
 -(id)initWithHost:(NSString* )host ssl:(BOOL)ssl username:(NSString* )username database:(NSString* )database params:(NSDictionary* )params {
 	return [self initWithHost:host port:0 ssl:ssl username:username database:database params:params];
+}
+
+-(id)initWithPostgresqlParams:(NSDictionary* )params {
+	NSMutableDictionary* params2 = [params mutableCopy];
+	NSString* sslmode = [[params2 objectForKey:@"sslmode"] description];
+	BOOL ssl = NO;
+	if([sslmode isEqual:@"require"] || [sslmode isEqual:@"verify-ca"] || [sslmode isEqual:@"verify-full"]) {
+		ssl = YES;
+	}
+	// host or local socket
+	NSString* host = [[params2 objectForKey:@"host"] description];
+	NSString* socket = nil;
+	if([host rangeOfString:@"/"].location != NSNotFound) {
+		socket = host;
+	}
+	NSString* hostaddr = [[params2 objectForKey:@"hostaddr"] description];
+	if(hostaddr) {
+		host = [NSString stringWithFormat:@"[%@]",hostaddr];
+	}
+	// user & dbname
+	NSString* user = [[params2 objectForKey:@"user"] description];
+	NSString* dbname = [[params2 objectForKey:@"dbname"] description];
+	// port
+	NSNumber* port = [NSURL _pg_port_fromstring:[[params2 objectForKey:@"port"] description]];
+	if(port==nil) {
+		return nil;
+	}
+
+	// remove parameters
+	[params2 removeObjectForKey:@"host"];
+	[params2 removeObjectForKey:@"hostaddr"];
+	[params2 removeObjectForKey:@"user"];
+	[params2 removeObjectForKey:@"dbname"];
+	[params2 removeObjectForKey:@"port"];
+
+	// return string
+	if(socket) {
+		return [self initWithSocketPath:socket port:[port unsignedIntegerValue] database:dbname username:user params:params];
+	} else {
+		return [self initWithHost:host port:[port unsignedIntegerValue] ssl:ssl username:user database:dbname params:params];
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// Methods
+
+-(NSDictionary* )postgresqlParameters {
+	// extract parameters
+	// see here for format of URI
+	// http://www.postgresql.org/docs/9.2/static/libpq-connect.html#LIBPQ-CONNSTRING
+
+	// create a mutable dictionary
+	NSMutableDictionary* theParameters = [[NSMutableDictionary alloc] init];
+
+	// check possible schemes. if ends in an 's' then require SSL mode
+	if([[PGConnection allURLSchemes] containsObject:[self scheme]] != YES) {
+		return nil;
+	}
+	if([[self scheme] hasSuffix:@"s"]) {
+		[theParameters setValue:@"require" forKey:@"sslmode"];
+	} else {
+		[theParameters setValue:@"prefer" forKey:@"sslmode"];
+	}
+	
+	// set username
+	if([self user]) {
+		[theParameters setValue:[self user] forKey:@"user"];
+	} else {
+		return nil;
+	}
+
+	// set password
+	if([self password]) {
+		[theParameters setValue:[self password] forKey:@"password"];
+	}
+	
+	// set host or hostaddr
+	if([self host]) {
+		// if host contains only digits, period or colon, then it's likely to be a hostaddr
+		if([[self host] hasPrefix:@"["] && [[self host] hasSuffix:@"]"]) {
+			NSString* theAddress = [[self host] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"[]"]];
+			[theParameters setValue:theAddress forKey:@"hostaddr"];
+		} else {
+			NSCharacterSet* _addressChars = [NSCharacterSet characterSetWithCharactersInString:@"0123456789abcdefABCDEF.:"];
+			NSRange foundHostAddress = [[self host] rangeOfCharacterFromSet:[_addressChars invertedSet]];
+			if(foundHostAddress.location != NSNotFound) {
+				[theParameters setValue:[self host] forKey:@"host"];
+			} else {
+				[theParameters setValue:[self host] forKey:@"hostaddr"];
+			}
+		}
+	} else {
+		[theParameters setValue:@"localhost" forKey:@"host"];
+	}
+	
+	// set port
+	if([self port]) {
+		NSUInteger port = [[self port] unsignedIntegerValue];
+		if(port < 1 || port > PGClientMaximumPort) {
+			return nil;
+		}
+		[theParameters setValue:[self port] forKey:@"port"];
+	}
+	
+	// set database name
+	if([self path]) {
+		NSString* thePath = [[self path] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"/"]];
+		if([thePath length]) {
+			[theParameters setValue:thePath forKey:@"dbname"];
+		}
+	}
+	
+	// extract other parameters from URI
+	NSArray* additionalParameters = [[self query] componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"&;"]];
+	for(NSString* additionalParameter in additionalParameters) {
+		NSArray* theKeyValue = [additionalParameter componentsSeparatedByString:@"="];
+		if([theKeyValue count] != 2) {
+			// we require a key/value pair for any additional parameter
+			return nil;
+		}
+		NSString* theKey = [[theKeyValue objectAtIndex:0] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+		NSString* theValue = [[theKeyValue objectAtIndex:1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+		
+		// insert into theParameters, allow override of sslmode
+		if([theParameters objectForKey:theKey]==nil || [theKey isEqual:@"sslmode"]) {
+			[theParameters setValue:theValue forKey:theKey];
+		} else {
+			// key already exists or not modifiable, return error
+			return nil;
+		}
+	}
+	// return the parameters
+	return theParameters;
 }
 
 @end

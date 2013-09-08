@@ -4,10 +4,12 @@
 
 @interface RemoteConnectionWindowController : NSWindowController {
 	PGConnection* _connection;
+	NSMutableDictionary* _parameters;
 }
 
 // properties
-@property (readonly) NSUInteger port;
+@property (readonly) NSMutableDictionary* parameters;
+
 @property NSString* portString;
 @property NSString* hostname;
 @property NSString* username;
@@ -18,14 +20,15 @@
 @property BOOL requireEncryption;
 @property BOOL showAdvancedOptions;
 @property BOOL validParameters;
-@property NSString* timeoutString;
+@property (readonly) NSString* timeoutString;
 @property NSImage* statusImage;
-@property (assign) IBOutlet NSBox* ibAdvancedOptionsBox;
+@property (readonly) NSUInteger port;
 @property (readonly) NSURL* url;
+@property (assign) IBOutlet NSBox* ibAdvancedOptionsBox;
 @property NSTimer* pingTimer;
 
 // methods
--(void)beginSheetForParentWindow:(NSWindow* )parentWindow;
+-(void)beginSheetForParentWindow:(NSWindow* )parentWindow url:(NSURL* )url;
 
 // ibactions
 -(IBAction)ibEndSheetForButton:(id)sender;

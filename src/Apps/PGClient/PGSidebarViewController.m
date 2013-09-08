@@ -141,7 +141,7 @@
 		// TODO: Also delete all databases
 		NSLog(@"TODO: Delete databases");
 	} else if([node type]==PGSidebarNodeTypeDatabase) {
-		// TODO: Also delete all queries
+		// TODO: Also delete all queries??
 		NSLog(@"TODO: Delete queries");
 	}
 	// TODO: only do this on all deletes having been done
@@ -199,9 +199,6 @@
 	NSDictionary* databaseNodes = [defaults dictionaryForKey:@"database"];
 	if(databaseNodes) {
 		NSArray* children = [databaseNodes objectForKey:@"children"];
-		
-		NSLog(@"children = %@",children);
-		
 		NSParameterAssert(children && [children isKindOfClass:[NSArray class]]);
 		for(NSDictionary* nodeDictionary in children) {
 			NSNumber* parentKey = [nodeDictionary objectForKey:@"parentKey"];

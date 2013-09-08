@@ -159,7 +159,7 @@ NSString* PGClientNotificationDeleteConnection = @"PGClientNotificationDeleteCon
 }
 
 -(IBAction)doAddRemoteConnection:(id)sender {
-	[[self ibRemoteConnectionWindowController] beginSheetForParentWindow:[self window]];
+	[[self ibRemoteConnectionWindowController] beginSheetForParentWindow:[self window] url:nil];
 }
 
 ////////////////////////////////////////////////////////////////////////////////

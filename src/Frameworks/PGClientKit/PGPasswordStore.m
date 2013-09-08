@@ -35,7 +35,7 @@
 		return nil;
 	}
 	// extract parameters
-	NSDictionary* parameters = [PGConnection extractParametersFromURL:url];
+	NSDictionary* parameters = [url postgresqlParameters];
 	if(parameters==nil) {
 		return nil;
 	}

@@ -764,7 +764,7 @@
 					<reference key="NSNextKeyView" ref="558473513"/>
 					<string key="NSReuseIdentifierKey">_NS:20</string>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1366, 746}}</string>
 				<string key="NSMinSize">{466, 277}</string>
 				<string key="NSMaxSize">{466, 382}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
@@ -830,15 +830,15 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: username</string>
+						<string key="label">value: parameters.username</string>
 						<reference key="source" ref="317917349"/>
 						<reference key="destination" ref="1021"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="317917349"/>
 							<reference key="NSDestination" ref="1021"/>
-							<string key="NSLabel">value: username</string>
+							<string key="NSLabel">value: parameters.username</string>
 							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">username</string>
+							<string key="NSKeyPath">parameters.username</string>
 							<object class="NSDictionary" key="NSOptions">
 								<string key="NS.key.0">NSContinuouslyUpdatesValue</string>
 								<boolean value="YES" key="NS.object.0"/>
@@ -846,19 +846,19 @@
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">1932</int>
+					<int key="connectionID">1954</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: database</string>
+						<string key="label">value: parameters.dbname</string>
 						<reference key="source" ref="18696492"/>
 						<reference key="destination" ref="1021"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="18696492"/>
 							<reference key="NSDestination" ref="1021"/>
-							<string key="NSLabel">value: database</string>
+							<string key="NSLabel">value: parameters.dbname</string>
 							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">database</string>
+							<string key="NSKeyPath">parameters.dbname</string>
 							<object class="NSDictionary" key="NSOptions">
 								<string key="NS.key.0">NSContinuouslyUpdatesValue</string>
 								<boolean value="YES" key="NS.object.0"/>
@@ -866,7 +866,7 @@
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">1934</int>
+					<int key="connectionID">1955</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -906,15 +906,15 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: portString</string>
+						<string key="label">value: parameters.port</string>
 						<reference key="source" ref="156524185"/>
 						<reference key="destination" ref="1021"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="156524185"/>
 							<reference key="NSDestination" ref="1021"/>
-							<string key="NSLabel">value: portString</string>
+							<string key="NSLabel">value: parameters.port</string>
 							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">portString</string>
+							<string key="NSKeyPath">parameters.port</string>
 							<object class="NSDictionary" key="NSOptions">
 								<string key="NS.key.0">NSContinuouslyUpdatesValue</string>
 								<boolean value="YES" key="NS.object.0"/>
@@ -922,19 +922,19 @@
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">1952</int>
+					<int key="connectionID">1956</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: hostname</string>
+						<string key="label">value: parameters.hostname</string>
 						<reference key="source" ref="1009656564"/>
 						<reference key="destination" ref="1021"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="1009656564"/>
 							<reference key="NSDestination" ref="1021"/>
-							<string key="NSLabel">value: hostname</string>
+							<string key="NSLabel">value: parameters.hostname</string>
 							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">hostname</string>
+							<string key="NSKeyPath">parameters.hostname</string>
 							<dictionary key="NSOptions">
 								<boolean value="YES" key="NSContinuouslyUpdatesValue"/>
 								<string key="NSNullPlaceholder">Hostname or IP Address</string>
@@ -942,7 +942,7 @@
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">1939</int>
+					<int key="connectionID">1953</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -986,15 +986,15 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: timeout</string>
+						<string key="label">value: parameters.connect_timeout</string>
 						<reference key="source" ref="770148326"/>
 						<reference key="destination" ref="1021"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="770148326"/>
 							<reference key="NSDestination" ref="1021"/>
-							<string key="NSLabel">value: timeout</string>
+							<string key="NSLabel">value: parameters.connect_timeout</string>
 							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">timeout</string>
+							<string key="NSKeyPath">parameters.connect_timeout</string>
 							<object class="NSDictionary" key="NSOptions">
 								<string key="NS.key.0">NSValidatesImmediately</string>
 								<boolean value="YES" key="NS.object.0"/>
@@ -1002,7 +1002,7 @@
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">1923</int>
+					<int key="connectionID">1958</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -1026,15 +1026,15 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: applicationName</string>
+						<string key="label">value: parameters.application_name</string>
 						<reference key="source" ref="823870162"/>
 						<reference key="destination" ref="1021"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="823870162"/>
 							<reference key="NSDestination" ref="1021"/>
-							<string key="NSLabel">value: applicationName</string>
+							<string key="NSLabel">value: parameters.application_name</string>
 							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">applicationName</string>
+							<string key="NSKeyPath">parameters.application_name</string>
 							<object class="NSDictionary" key="NSOptions">
 								<string key="NS.key.0">NSContinuouslyUpdatesValue</string>
 								<boolean value="YES" key="NS.object.0"/>
@@ -1042,7 +1042,7 @@
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">1928</int>
+					<int key="connectionID">1957</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -3186,7 +3186,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1952</int>
+			<int key="maxID">1958</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
