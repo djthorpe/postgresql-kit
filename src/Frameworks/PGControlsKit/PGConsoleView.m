@@ -28,6 +28,16 @@
 	[column setWidth:[self defaultGutterWidth]];
 }
 
+-(NSBundle* )bundle {
+	return [NSBundle bundleForClass:[self class]];
+}
+
+-(NSImage* )image {
+	NSString* path = [[self bundle] pathForImageResource:@"traffic-green"];
+	NSParameterAssert(path);
+	return [[NSImage alloc] initWithContentsOfFile:path];
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // properties
 
@@ -47,8 +57,7 @@
 
 -(CGFloat)defaultGutterWidth {
 	// gutter size is the size of the image
-	NSImage* image = [NSImage imageNamed:@"traffic-green"];
-	return [image size].width;	
+	return [[self image] size].width;
 }
 
 -(NSString *)nibName {
@@ -99,7 +108,7 @@
 }
 
 -(NSView* )_gutterView {
-	NSImage* image = [NSImage imageNamed:@"traffic-green"];
+	NSImage* image = [self image];
 	NSRect frame = NSMakeRect(0, 0, [image size].width,[image size].height);
 	NSImageView* imageView = [[NSImageView alloc] initWithFrame:frame];
 	[imageView setImage:image];

@@ -4,11 +4,16 @@
 @implementation PGCmdApplication
 
 -(void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-	[self setView:[[PGConsoleView alloc] init]];
-	[[self view] setDelegate:self];
-	[[self window] setContentView:[[self view] view]];
-	[[self view] setShowGutter:YES];
-	[[self view] setEditable:YES];
+	[self setConsole:[[PGConsoleView alloc] init]];
+	// set up the console
+	[[self console] setDelegate:self];
+	[[self console] setEditable:YES];
+	
+	// set the content view of the window
+	[[self window] setContentView:[[self console] view]];
+	
+	// set focus
+	[[self window] makeFirstResponder:[[self console] view]];
 }
 
 -(NSUInteger)numberOfRowsInConsoleView:(PGConsoleView* )view {

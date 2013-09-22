@@ -207,6 +207,12 @@
 		6E676D4317EF394600028BE2 /* PGClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
 		6E676D4417EF394B00028BE2 /* PGControlsKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14F1E84717CB83CD00710D4A /* PGControlsKit.framework */; };
 		6E676D4517EF399800028BE2 /* elephant.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43E715F3A465001ED3BE /* elephant.icns */; };
+		6E676D4817EF3E0B00028BE2 /* PGClientKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
+		6E676D4917EF3E0B00028BE2 /* PGControlsKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 14F1E84717CB83CD00710D4A /* PGControlsKit.framework */; };
+		6E676D4A17EF442B00028BE2 /* traffic-green.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6ED779F017C1266100124DF1 /* traffic-green.tiff */; };
+		6E676D4B17EF447100028BE2 /* traffic-grey.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ED779F117C1266100124DF1 /* traffic-grey.png */; };
+		6E676D4C17EF447400028BE2 /* traffic-red.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6ED779F217C1266100124DF1 /* traffic-red.tiff */; };
+		6E676D4D17EF447700028BE2 /* traffic-orange.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6ED779F317C1266100124DF1 /* traffic-orange.tiff */; };
 		6E68ADE71635DB4400436234 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C167C15F26BF20013A382 /* Cocoa.framework */; };
 		6E68AE011635DB6900436234 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB1E72D15F273350093F784 /* main.m */; };
 		6E68AE071635DD6E00436234 /* PGClientApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E68AE041635DD6E00436234 /* PGClientApplication.m */; };
@@ -437,6 +443,17 @@
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 1;
+		};
+		6E676D4717EF3DFA00028BE2 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				6E676D4817EF3E0B00028BE2 /* PGClientKit.framework in CopyFiles */,
+				6E676D4917EF3E0B00028BE2 /* PGControlsKit.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -1677,6 +1694,7 @@
 				6E676D1017EF374A00028BE2 /* Sources */,
 				6E676D1117EF374A00028BE2 /* Frameworks */,
 				6E676D1217EF374A00028BE2 /* Resources */,
+				6E676D4717EF3DFA00028BE2 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -1910,6 +1928,10 @@
 			files = (
 				14F1E87117CB865F00710D4A /* PGConsoleView.xib in Resources */,
 				6E4907D317D3B49200BEE2A9 /* PGPasswordWindow.xib in Resources */,
+				6E676D4A17EF442B00028BE2 /* traffic-green.tiff in Resources */,
+				6E676D4B17EF447100028BE2 /* traffic-grey.png in Resources */,
+				6E676D4C17EF447400028BE2 /* traffic-red.tiff in Resources */,
+				6E676D4D17EF447700028BE2 /* traffic-orange.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
