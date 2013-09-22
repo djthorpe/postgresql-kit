@@ -4,7 +4,7 @@
 	-(NSUInteger)numberOfRowsInConsoleView:(PGConsoleView* )view;
 	-(NSString* )consoleView:(PGConsoleView* )view stringForRow:(NSUInteger)row;
 @optional
-	-(void)consoleView:(PGConsoleView* )view appendString:(NSString *)string;
+	-(void)consoleView:(PGConsoleView* )view appendString:(NSString* )string;
 @end
 
 @interface PGConsoleView : NSViewController <NSTableViewDataSource, NSTableViewDelegate> {
