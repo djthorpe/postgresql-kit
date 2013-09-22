@@ -8,7 +8,7 @@
 // PRIVATE METHODS
 
 +(NSString* )_pg_urlencode:(NSString* )string {
-	return (NSString* )CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,(CFStringRef)string,NULL,(CFStringRef)@"!*'();:@&=+$,/?%#[]",kCFStringEncodingUTF8));
+	return (NSString* )CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,(__bridge CFStringRef)string,NULL,(__bridge CFStringRef)@"!*'();:@&=+$,/?%#[]",kCFStringEncodingUTF8));
 }
 
 +(NSString* )_pg_urlencode_params:(NSDictionary* )params {

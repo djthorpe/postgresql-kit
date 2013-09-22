@@ -72,7 +72,7 @@
     status = SecItemDelete((__bridge CFDictionaryRef)query);
 #else
     CFTypeRef result = NULL;
-    [query setObject:@YES forKey:(__bridge id)kSecReturnRef];
+    [query setObject:[NSNumber numberWithBool:YES] forKey:(__bridge id)kSecReturnRef];
     status = SecItemCopyMatching((__bridge CFDictionaryRef)query, &result);
     if (status == errSecSuccess) {
         status = SecKeychainItemDelete((SecKeychainItemRef)result);
@@ -91,7 +91,7 @@
 - (NSArray *)fetchAll:(NSError *__autoreleasing *)error {
     OSStatus status = SSKeychainErrorBadArguments;
     NSMutableDictionary *query = [self query];
-    [query setObject:@YES forKey:(__bridge id)kSecReturnAttributes];
+    [query setObject:[NSNumber numberWithBool:YES] forKey:(__bridge id)kSecReturnAttributes];
     [query setObject:(__bridge id)kSecMatchLimitAll forKey:(__bridge id)kSecMatchLimit];
 
 	CFTypeRef result = NULL;
@@ -116,7 +116,7 @@
 
 	CFTypeRef result = NULL;
 	NSMutableDictionary *query = [self query];
-    [query setObject:@YES forKey:(__bridge_transfer id)kSecReturnData];
+    [query setObject:[NSNumber numberWithBool:YES] forKey:(__bridge_transfer id)kSecReturnData];
     [query setObject:(__bridge id)kSecMatchLimitOne forKey:(__bridge id)kSecMatchLimit];
     status = SecItemCopyMatching((__bridge CFDictionaryRef)query, &result);
 
