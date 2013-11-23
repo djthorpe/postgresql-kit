@@ -95,10 +95,8 @@ case ${PLATFORM} in
     exit 1
 esac
 
-#CC="${DEVROOT}/usr/bin/gcc -arch ${ARCH}"
-CC="/usr/bin/gcc -arch ${ARCH}"
-#CPPFLAGS="-I${SDKROOT}/usr/lib/gcc/arm-apple-darwin9/4.0.1/include/ -I${SDKROOT}/usr/include/"
-CPPFLAGS="-I$/usr/lib/gcc/arm-apple-darwin9/4.0.1/include/ -I$/usr/include/"
+CC="${DEVROOT}/usr/bin/gcc -arch ${ARCH}"
+CPPFLAGS="-I${SDKROOT}/usr/lib/gcc/arm-apple-darwin9/4.0.1/include/ -I${SDKROOT}/usr/include/"
 CFLAGS="-isysroot ${SDKROOT} ${CPPFLAGS}"
 LDFLAGS="-Wl,-syslibroot,${SDKROOT} -lz"
 CONFIGURE_FLAGS="--host=arm-apple-darwin --enable-thread-safety --without-readline"
@@ -162,11 +160,6 @@ popd
 # Copy postgres-ext.h
 
 cp "${UNARCHIVE}/${VERSION}/src/include/postgres_ext.h" "${PREFIX}/include"
-
-##############################################################
-# Copy pg_config.h
-
-cp "${UNARCHIVE}/${VERSION}/src/include/pg_config.h" "${PREFIX}/include"
 
 ##############################################################
 # Make symbolic links

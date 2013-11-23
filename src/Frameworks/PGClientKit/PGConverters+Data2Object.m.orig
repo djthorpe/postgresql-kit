@@ -125,16 +125,14 @@ PGResultConverterType* _pgdata2obj_cache_fetch(NSUInteger oid) {
 }
 
 id pgdata_bin2obj(NSUInteger oid,const void* bytes,NSUInteger size,NSStringEncoding encoding) {
-//	assert(oid && bytes && size);
-	assert(oid && bytes);
+	assert(oid && bytes && size);
 	PGResultConverterType* t = _pgdata2obj_cache_fetch(oid);
 	assert(t && t->bin2obj);
 	return (t->bin2obj)(oid,bytes,size,encoding);
 }
 
 id pgdata_text2obj(NSUInteger oid,const void* bytes,NSUInteger size,NSStringEncoding encoding) {
-//	assert(oid && bytes && size);
-	assert(oid && bytes);
+	assert(oid && bytes && size);
 	PGResultConverterType* t = _pgdata2obj_cache_fetch(oid);
 	assert(t && t->text2obj);
 	return (t->text2obj)(oid,bytes,size,encoding);

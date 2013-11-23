@@ -80,24 +80,21 @@ case ${PLATFORM} in
     ARCH="armv7"
     export CROSS_TOP="${DEVELOPER_PATH}/Platforms/iPhoneOS.platform/Developer"
     export CROSS_SDK="iPhoneOS${IPHONE_DEPLOYMENT_TARGET}.sdk"
-#    export CC="${CROSS_TOP}/usr/bin/gcc -arch ${ARCH}"
-    export CC="/usr/bin/gcc -arch ${ARCH}"
+    export CC="${CROSS_TOP}/usr/bin/gcc -arch ${ARCH}"
     CONFIGURE_FLAGS="iphoneos-cross no-gost zlib"
     ;;
   ios_armv7s )
     ARCH="armv7s"
     export CROSS_TOP="${DEVELOPER_PATH}/Platforms/iPhoneOS.platform/Developer"
     export CROSS_SDK="iPhoneOS${IPHONE_DEPLOYMENT_TARGET}.sdk"
-#    export CC="${CROSS_TOP}/usr/bin/gcc -arch ${ARCH}"
-    export CC="/usr/bin/gcc -arch ${ARCH}"
+    export CC="${CROSS_TOP}/usr/bin/gcc -arch ${ARCH}"
     CONFIGURE_FLAGS="iphoneos-cross no-gost zlib"
     ;;
   ios_simulator )
     ARCH="i386"
     export CROSS_TOP="${DEVELOPER_PATH}/Platforms/iPhoneSimulator.platform/Developer"
     export CROSS_SDK="iPhoneSimulator${IPHONE_DEPLOYMENT_TARGET}.sdk"
-#    export CC="${CROSS_TOP}/usr/bin/gcc -arch ${ARCH}"
-    export CC="/usr/bin/gcc -arch ${ARCH}"
+	export CC="${CROSS_TOP}/usr/bin/gcc -arch ${ARCH}"
     CONFIGURE_FLAGS="iphoneos-cross no-gost zlib"
 	;;
   * )
