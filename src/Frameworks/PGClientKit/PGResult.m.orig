@@ -99,7 +99,7 @@
 	const void* bytes = PQgetvalue(_result,(int)r,(int)c);
 	NSUInteger size = PQgetlength(_result,(int)r,(int)c);
 	NSParameterAssert(bytes);
-//	NSParameterAssert(size);
+	NSParameterAssert(size);
 
 	switch(_format) {
 		case PGClientTupleFormatText:
