@@ -44,7 +44,7 @@
 		NSString* value = [parameters objectForKey:key];
 		// special case for port
 		if([key isEqualToString:@"port"] && value==nil) {
-			value = [NSString stringWithFormat:@"%lu",PGClientDefaultPort];
+			value = [NSString stringWithFormat:@"%lu",(unsigned long)PGClientDefaultPort];
 		}
 		if(value) {
 			[parts addObject:[NSString stringWithFormat:@"%@=%@",key,[[value description] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];

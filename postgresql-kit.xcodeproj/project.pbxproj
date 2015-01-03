@@ -1764,8 +1764,8 @@
 				14280457166811D700A61BF6 /* openssl_mac */,
 				6E256FEE15F255780079AD2D /* postgresql_mac */,
 				6ED85B3516288C4800A6DC02 /* PGClientKit_mac */,
-				1433614A179173BB000A79D5 /* PGSchemaKit_mac */,
 				6ED763FA15F2673600687079 /* PGServerKit_mac */,
+				1433614A179173BB000A79D5 /* PGSchemaKit_mac */,
 				14F1E84617CB83CD00710D4A /* PGControlsKit_mac */,
 				1418234D166128C000765768 /* PGDataKit_mac */,
 				6E83260A17AD15C9002AFCBC /* openssl_ios */,
@@ -3056,8 +3056,6 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
@@ -3076,12 +3074,15 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"${BUILT_PRODUCTS_DIR}/postgresql-current-mac_x86_64/include",
+				);
 				INFOPLIST_FILE = src/Frameworks/PGServerKit/PGServerKit.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.01;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = PGServerKit;
-				SKIP_INSTALL = NO;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Debug;
@@ -3093,9 +3094,6 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
@@ -3107,12 +3105,15 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"${BUILT_PRODUCTS_DIR}/postgresql-current-mac_x86_64/include",
+				);
 				INFOPLIST_FILE = src/Frameworks/PGServerKit/PGServerKit.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.01;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = PGServerKit;
-				SKIP_INSTALL = NO;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Release;
@@ -3124,8 +3125,6 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
@@ -3152,10 +3151,8 @@
 					"$(inherited)",
 					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/LDAP.framework/Versions/A\"",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRELINK_LIBS = "${BUILT_PRODUCTS_DIR}/postgresql-current-mac_x86_64/lib/libpq.a ${BUILT_PRODUCTS_DIR}/openssl-current-mac_x86_64/lib/libcrypto.a ${BUILT_PRODUCTS_DIR}/openssl-current-mac_x86_64/lib/libssl.a";
 				PRODUCT_NAME = PGClientKit;
-				SKIP_INSTALL = NO;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Debug;
@@ -3167,9 +3164,6 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
@@ -3189,10 +3183,8 @@
 					"$(inherited)",
 					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/LDAP.framework/Versions/A\"",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRELINK_LIBS = "${BUILT_PRODUCTS_DIR}/postgresql-current-mac_x86_64/lib/libpq.a ${BUILT_PRODUCTS_DIR}/openssl-current-mac_x86_64/lib/libcrypto.a ${BUILT_PRODUCTS_DIR}/openssl-current-mac_x86_64/lib/libssl.a";
 				PRODUCT_NAME = PGClientKit;
-				SKIP_INSTALL = NO;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Release;
@@ -3340,6 +3332,7 @@
 				6E15483E1A5816E600556573 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6E256FE115F252620079AD2D /* Build configuration list for PBXProject "postgresql-kit" */ = {
 			isa = XCConfigurationList;

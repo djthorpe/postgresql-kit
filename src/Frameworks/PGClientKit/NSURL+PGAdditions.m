@@ -75,7 +75,7 @@
 	if(port==0) {
 		return @"";
 	} else {
-		return [NSString stringWithFormat:@":%ld",port];
+		return [NSString stringWithFormat:@":%ld",(unsigned long)port];
 	}
 }
 
