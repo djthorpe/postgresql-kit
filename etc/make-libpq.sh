@@ -71,34 +71,44 @@ if [ ! -d "$DEVELOPER_PATH" ]; then
   exit -1
 fi
 
-MACOSX_DEPLOYMENT_TARGET=10.8
-IPHONE_DEPLOYMENT_TARGET=6.1
+if [ "${MACOSX_DEPLOYMENT_TARGET}XX" == "XX" ]
+then
+	MACOSX_DEPLOYMENT_TARGET=10.10
+fi
+
+if [ "${IPHONEOS_DEPLOYMENT_TARGET}XX" == "XX" ]
+then
+	IPHONEOS_DEPLOYMENT_TARGET=8.1
+fi
 
 case ${PLATFORM} in
   ios_armv7 )
     ARCH="armv7"
     DEVROOT="${DEVELOPER_PATH}/Platforms/iPhoneOS.platform/Developer"
-    SDKROOT="${DEVROOT}/SDKs/iPhoneOS${IPHONE_DEPLOYMENT_TARGET}.sdk"
+    SDKROOT="${DEVROOT}/SDKs/iPhoneOS${IPHONEOS_DEPLOYMENT_TARGET}.sdk"
+	unset MACOSX_DEPLOYMENT_TARGET
     ;;
   ios_armv7s )
     ARCH="armv7s"
     DEVROOT="${DEVELOPER_PATH}/Platforms/iPhoneOS.platform/Developer"
-    SDKROOT="${DEVROOT}/SDKs/iPhoneOS${IPHONE_DEPLOYMENT_TARGET}.sdk"
+    SDKROOT="${DEVROOT}/SDKs/iPhoneOS${IPHONEOS_DEPLOYMENT_TARGET}.sdk"
+	unset MACOSX_DEPLOYMENT_TARGET
     ;;
   ios_simulator )
     ARCH="i386"
     DEVROOT="${DEVELOPER_PATH}/Platforms/iPhoneSimulator.platform/Developer"
-    SDKROOT="${DEVROOT}/SDKs/iPhoneSimulator${IPHONE_DEPLOYMENT_TARGET}.sdk"
+    SDKROOT="${DEVROOT}/SDKs/iPhoneSimulator${IPHONEOS_DEPLOYMENT_TARGET}.sdk"
+	unset MACOSX_DEPLOYMENT_TARGET
     ;;
   * )
     echo "Unknown build platform: ${PLATFORM}"
     exit 1
 esac
 
-#CC="${DEVROOT}/usr/bin/gcc -arch ${ARCH}"
+#CC="${DEVELOPER_PATH}/usr/bin/gcc -arch ${ARCH}"
 CC="/usr/bin/gcc -arch ${ARCH}"
-#CPPFLAGS="-I${SDKROOT}/usr/lib/gcc/arm-apple-darwin9/4.0.1/include/ -I${SDKROOT}/usr/include/"
-CPPFLAGS="-I$/usr/lib/gcc/arm-apple-darwin9/4.0.1/include/ -I$/usr/include/"
+CPPFLAGS="-I${SDKROOT}/usr/lib/gcc/arm-apple-darwin9/4.0.1/include/ -I${SDKROOT}/usr/include/"
+#CPPFLAGS="-I$/usr/lib/gcc/arm-apple-darwin9/4.0.1/include/ -I$/usr/include/"
 CFLAGS="-isysroot ${SDKROOT} ${CPPFLAGS}"
 LDFLAGS="-Wl,-syslibroot,${SDKROOT} -lz"
 CONFIGURE_FLAGS="--host=arm-apple-darwin --enable-thread-safety --without-readline"
@@ -120,8 +130,6 @@ then
   echo "Assuming already exists: ${PREFIX}"
   exit 0
 fi
-
-
 
 ##############################################################
 # remove existing build directory, unarchive
@@ -150,6 +158,7 @@ pushd "${UNARCHIVE}/${VERSION}"
 echo "Derived data: ${UNARCHIVE}"
 echo "    Build to: ${PREFIX}"
 echo "Architecture: ${ARCH}"
+echo "         SDK: ${MACOSX_DEPLOYMENT_TARGET}${IPHONEOS_DEPLOYMENT_TARGET}"
 echo "       Flags: ${CONFIGURE_FLAGS}"
 
 ./configure CC="${CC}" CFLAGS="${CFLAGS}" LDFLAGS="${LDFLAGS}" CPPFLAGS="${CPPFLAGS}" --prefix="${PREFIX}" ${CONFIGURE_FLAGS}

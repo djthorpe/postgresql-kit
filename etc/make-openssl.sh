@@ -65,8 +65,15 @@ if [ ! -d "$DEVELOPER_PATH" ]; then
   exit -1
 fi
 
-MACOSX_DEPLOYMENT_TARGET=10.8
-IPHONE_DEPLOYMENT_TARGET=6.1
+if [ "${MACOSX_DEPLOYMENT_TARGET}XX" == "XX" ]
+then
+	MACOSX_DEPLOYMENT_TARGET=10.10
+fi
+
+if [ "${IPHONEOS_DEPLOYMENT_TARGET}XX" == "XX" ]
+then
+	IPHONEOS_DEPLOYMENT_TARGET=8.1
+fi
 
 case ${PLATFORM} in
   mac_x86_64 )
@@ -75,30 +82,34 @@ case ${PLATFORM} in
     export CROSS_SDK="MacOSX${MACOSX_DEPLOYMENT_TARGET}.sdk"
     export CC="/usr/bin/gcc -arch ${ARCH}"
 	CONFIGURE_FLAGS="darwin64-x86_64-cc no-gost zlib"
+	unset IPHONEOS_DEPLOYMENT_TARGET
 	;;
   ios_armv7 )
     ARCH="armv7"
     export CROSS_TOP="${DEVELOPER_PATH}/Platforms/iPhoneOS.platform/Developer"
-    export CROSS_SDK="iPhoneOS${IPHONE_DEPLOYMENT_TARGET}.sdk"
+    export CROSS_SDK="iPhoneOS${IPHONEOS_DEPLOYMENT_TARGET}.sdk"
 #    export CC="${CROSS_TOP}/usr/bin/gcc -arch ${ARCH}"
     export CC="/usr/bin/gcc -arch ${ARCH}"
     CONFIGURE_FLAGS="iphoneos-cross no-gost zlib"
+	unset MACOSX_DEPLOYMENT_TARGET
     ;;
   ios_armv7s )
     ARCH="armv7s"
     export CROSS_TOP="${DEVELOPER_PATH}/Platforms/iPhoneOS.platform/Developer"
-    export CROSS_SDK="iPhoneOS${IPHONE_DEPLOYMENT_TARGET}.sdk"
+    export CROSS_SDK="iPhoneOS${IPHONEOS_DEPLOYMENT_TARGET}.sdk"
 #    export CC="${CROSS_TOP}/usr/bin/gcc -arch ${ARCH}"
     export CC="/usr/bin/gcc -arch ${ARCH}"
     CONFIGURE_FLAGS="iphoneos-cross no-gost zlib"
+	unset MACOSX_DEPLOYMENT_TARGET
     ;;
   ios_simulator )
     ARCH="i386"
     export CROSS_TOP="${DEVELOPER_PATH}/Platforms/iPhoneSimulator.platform/Developer"
-    export CROSS_SDK="iPhoneSimulator${IPHONE_DEPLOYMENT_TARGET}.sdk"
+    export CROSS_SDK="iPhoneSimulator${IPHONEOS_DEPLOYMENT_TARGET}.sdk"
 #    export CC="${CROSS_TOP}/usr/bin/gcc -arch ${ARCH}"
     export CC="/usr/bin/gcc -arch ${ARCH}"
     CONFIGURE_FLAGS="iphoneos-cross no-gost zlib"
+	unset MACOSX_DEPLOYMENT_TARGET
 	;;
   * )
     echo "Unknown build platform: ${PLATFORM}"
@@ -144,6 +155,7 @@ pushd "${UNARCHIVE}/${VERSION}"
 echo "Derived data: ${UNARCHIVE}"
 echo "    Build to: ${PREFIX}"
 echo "Architecture: ${ARCH}"
+echo "         SDK: ${MACOSX_DEPLOYMENT_TARGET}${IPHONEOS_DEPLOYMENT_TARGET}"
 echo "       Flags: ${CONFIGURE_FLAGS}"
 
 ./Configure ${CONFIGURE_FLAGS} --openssldir="${PREFIX}"
