@@ -12,12 +12,12 @@ Please see https://github.com/djthorpe/postgresql-kit/wiki for the documentation
 including a changelog of recent changes.
 
 This software is in alpha development state and as such there are plenty of limitations
-and issues. Hoping to get a beta version completed later in 2013. If you know of any 
+and issues. Hoping to get a beta version completed later in 2015. If you know of any 
 issues or feature requests, please file an issue and I may be able to help out.
 
 ## License
 
-Copyright 2009-2013 David Thorpe
+Copyright 2009-2015 David Thorpe
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this 
 file except in compliance with the License. You may obtain a copy of the License at
