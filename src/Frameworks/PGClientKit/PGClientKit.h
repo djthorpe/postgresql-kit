@@ -1,6 +1,16 @@
 
 #import <Foundation/Foundation.h>
 
+////////////////////////////////////////////////////////////////////////////////
+
+//! Project version number for PGClientKit_ios.
+FOUNDATION_EXPORT double PGClientKit_iosVersionNumber;
+
+//! Project version string for PGClientKit_ios.
+FOUNDATION_EXPORT const unsigned char PGClientKit_iosVersionString[];
+
+////////////////////////////////////////////////////////////////////////////////
+
 // typedefs
 typedef enum {
 	PGConnectionStatusDisconnected = 0,

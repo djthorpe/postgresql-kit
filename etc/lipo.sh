@@ -51,6 +51,11 @@ do
       LIB_PATH="${INPUT_DIR}/${PACKAGE}-${PLATFORM}/${LIBRARY}"
       LIPO_ARGS="${LIPO_ARGS} -arch ${ARCH} ${LIB_PATH}"
       ;;
+    ios_arm64)
+      ARCH="arm64"
+      LIB_PATH="${INPUT_DIR}/${PACKAGE}-${PLATFORM}/${LIBRARY}"
+      LIPO_ARGS="${LIPO_ARGS} -arch ${ARCH} ${LIB_PATH}"
+      ;;
     ios_simulator )
       ARCH="i386"
       LIB_PATH="${INPUT_DIR}/${PACKAGE}-${PLATFORM}/${LIBRARY}"

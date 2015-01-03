@@ -10,7 +10,7 @@
 #   --clean will always rebuild from clean sources
 #   --platform=<platform> will built for one of these
 #      architectures:
-#         mac_x86_64 ios_armv7 ios_armv7s ios_simulator
+#         mac_x86_64 ios_armv7 ios_armv7s ios_arm64 ios_simulator
 #   --openssl=<openssl> will use external version of
 #      openssl, previously built
 
@@ -22,7 +22,7 @@ UNARCHIVE="${DERIVED_SOURCES_DIR}"
 TARZ=${1}
 BUILD=${2}
 CLEAN=0
-PLATFORM=mac_x86_64
+PLATFORM=ios_armv7
 OPENSSL=
 
 for ARG in "$@"
@@ -46,7 +46,7 @@ done
 # Check for the TAR file to make sure it exists
 if [ "${#}" == "0" ] || [ "${TARZ}" == "" ] || [ ! -e "${TARZ}" ]
 then
-  echo "Syntax error: make-libpq.sh {INPUT_TAR_GZ} {OUTPUT_FOLDER} (--clean) (--platform=mac_x86_64|ios_armv7|ios_armv7s|ios_simulator)"
+  echo "Syntax error: make-libpq.sh {INPUT_TAR_GZ} {OUTPUT_FOLDER} (--clean) (--platform=mac_x86_64|ios_armv7|ios_armv7s|ios_arm64|ios_simulator)"
   exit 1
 fi
 
@@ -58,7 +58,7 @@ VERSION=`basename ${TARZ} | sed 's/\.tar\.gz//'`
 # Check for the BUILD directory
 if [ "${BUILD}XX" == "XX" ] || [ ! -d ${BUILD} ]
 then
-  echo "Syntax error: make-libpq.sh {INPUT_TAR_GZ} {OUTPUT_FOLDER} (--clean) (--platform=mac_x86_64|ios_armv7|ios_armv7s|ios_simulator)"
+  echo "Syntax error: make-libpq.sh {INPUT_TAR_GZ} {OUTPUT_FOLDER} (--clean) (--platform=mac_x86_64|ios_armv7|ios_armv7s|ios_arm64|ios_simulator)"
   exit 1
 fi
 
@@ -90,6 +90,12 @@ case ${PLATFORM} in
     ;;
   ios_armv7s )
     ARCH="armv7s"
+    DEVROOT="${DEVELOPER_PATH}/Platforms/iPhoneOS.platform/Developer"
+    SDKROOT="${DEVROOT}/SDKs/iPhoneOS${IPHONEOS_DEPLOYMENT_TARGET}.sdk"
+	unset MACOSX_DEPLOYMENT_TARGET
+    ;;
+  ios_arm64 )
+    ARCH="arm64"
     DEVROOT="${DEVELOPER_PATH}/Platforms/iPhoneOS.platform/Developer"
     SDKROOT="${DEVROOT}/SDKs/iPhoneOS${IPHONEOS_DEPLOYMENT_TARGET}.sdk"
 	unset MACOSX_DEPLOYMENT_TARGET
@@ -175,6 +181,7 @@ cp "${UNARCHIVE}/${VERSION}/src/include/postgres_ext.h" "${PREFIX}/include"
 ##############################################################
 # Copy pg_config.h
 
+cp "${UNARCHIVE}/${VERSION}/src/include/pg_config_ext.h" "${PREFIX}/include"
 cp "${UNARCHIVE}/${VERSION}/src/include/pg_config.h" "${PREFIX}/include"
 
 ##############################################################

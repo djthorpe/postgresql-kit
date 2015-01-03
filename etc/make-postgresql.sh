@@ -48,14 +48,14 @@ done
 # Check for the TAR file to make sure it exists
 if [ "${#}" == "0" ] || [ "${TARZ}" == "" ] || [ ! -e "${TARZ}" ]
 then
-  echo "Syntax error: make-postgresql.sh {INPUT_TAR_GZ} {OUTPUT_FOLDER} (--clean) (--openssl={OPENSSL}) (--platform=mac_x86_64|ios_armv7|ios_armv7s|ios_simulator)"
+  echo "Syntax error: make-postgresql.sh {INPUT_TAR_GZ} {OUTPUT_FOLDER} (--clean) (--openssl={OPENSSL}) (--platform=mac_x86_64)"
   exit 1
 fi
 
 # Check for the BUILD directory
 if [ "${BUILD}XX" == "XX" ] || [ ! -d ${BUILD} ]
 then
-  echo "Syntax error: make-postgresql.sh {INPUT_TAR_GZ} {OUTPUT_FOLDER} (--clean) (--openssl={OPENSSL}) (--platform=mac_x86_64|ios_armv7|ios_armv7s|ios_simulator)"
+  echo "Syntax error: make-postgresql.sh {INPUT_TAR_GZ} {OUTPUT_FOLDER} (--clean) (--openssl={OPENSSL}) (--platform=mac_x86_64)"
   exit 1
 fi
 
@@ -84,13 +84,23 @@ if [ ! -d "$DEVELOPER_PATH" ]; then
   exit -1
 fi
 
-MACOSX_DEPLOYMENT_TARGET=10.8
+
+if [ "${MACOSX_DEPLOYMENT_TARGET}XX" == "XX" ]
+then
+	MACOSX_DEPLOYMENT_TARGET=10.10
+fi
+
+if [ "${IPHONEOS_DEPLOYMENT_TARGET}XX" == "XX" ]
+then
+	IPHONEOS_DEPLOYMENT_TARGET=8.1
+fi
 
 case ${PLATFORM} in
   mac_x86_64 )
     ARCH="x86_64"
     DEVROOT="${DEVELOPER_PATH}/Platforms/MacOSX.platform/Developer"
     SDKROOT="${DEVROOT}/SDKs/MacOSX${MACOSX_DEPLOYMENT_TARGET}.sdk"
+	unset IPHONEOS_DEPLOYMENT_TARGET
     ;;
   * )
     echo "Unknown build platform: ${PLATFORM}"
