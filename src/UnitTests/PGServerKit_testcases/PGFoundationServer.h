@@ -8,7 +8,7 @@
 }
 
 // static methods
-+(NSString* )dataPath;
++(NSString* )defaultDataPath;
 
 // constructor
 -(id)init;
@@ -24,5 +24,6 @@
 -(BOOL)start;
 -(BOOL)startWithPort:(NSUInteger)port;
 -(BOOL)stop;
+-(BOOL)deleteData;
 
 @end

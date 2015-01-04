@@ -38,7 +38,7 @@ NSString* dataPath = nil;
 }
 
 -(void)test_002 {
-	dataPath = [PGFoundationServer dataPath];
+	dataPath = [PGFoundationServer defaultDataPath];
 	server = [PGServer serverWithDataPath:dataPath];
     XCTAssert(server!=nil,@"Test 002");
 }
@@ -92,11 +92,35 @@ NSString* dataPath = nil;
 }
 
 -(void)test_014 {
-	if([app isStarted]) {
-		[self test_999];
-	}
-	BOOL isSuccess = [app start];
+	BOOL isSuccess;
+	
+	// stop the server
+	[self test_999];
+
+	// remove the data directory
+	NSLog(@"Deleting data at %@",[app dataPath]);
+	isSuccess = [app deleteData];
 	XCTAssert(isSuccess,@"Test 014A");
+
+	// start the server
+	isSuccess = [app start];
+	XCTAssert(isSuccess,@"Test 014B");
+}
+
+-(void)test_015 {
+	BOOL isSuccess;
+	
+	// stop the server
+	[self test_999];
+
+	// start the server
+	isSuccess = [app start];
+	XCTAssert(isSuccess,@"Test 015B");
+	
+	// check the properties
+	XCTAssert([server pid],@"Test 015C");
+	XCTAssert([server port]==PGServerDefaultPort,@"Test 015D");
+	// TODO
 }
 
 -(void)test_999 {
@@ -109,6 +133,12 @@ NSString* dataPath = nil;
 		[NSThread sleepForTimeInterval:0.5];
 		XCTAssert(counter < 10,@"Test 999B");
 		counter++;
+	}
+	// remove the data directory
+	if([app dataPath]) {
+		NSLog(@"Deleting data at %@",[app dataPath]);
+		BOOL isSuccess = [app deleteData];
+		XCTAssert(isSuccess,@"Test 015A");
 	}
 }
 

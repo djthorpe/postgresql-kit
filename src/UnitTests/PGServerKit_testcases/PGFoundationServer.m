@@ -19,7 +19,7 @@
 -(id)init {
 	self = [super init];
 	if(self) {
-		_server = [PGServer serverWithDataPath:[PGFoundationServer dataPath]];
+		_server = [PGServer serverWithDataPath:[PGFoundationServer defaultDataPath]];
 		_stop = NO;
 	}
 	return self;
@@ -41,23 +41,28 @@
 @dynamic isStarted;
 @dynamic isStopped;
 @dynamic isError;
+@dynamic dataPath;
 
 -(BOOL)isStarted {
-	return ([_server state]==PGServerStateRunning || [_server state]==PGServerStateAlreadyRunning || [_server state]==PGServerStateAlreadyRunning0);
+	return ([_server state]==PGServerStateRunning || [_server state]==PGServerStateAlreadyRunning);
 }
 
 -(BOOL)isStopped {
-	return ([_server state]==PGServerStateStopped);
+	return ([_server state]==PGServerStateStopped || [_server state]==PGServerStateUnknown);
 }
 
 -(BOOL)isError {
 	return ([_server state]==PGServerStateError);
 }
 
+-(NSString* )dataPath {
+	return [_server dataPath];
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // class methods
 
-+(NSString* )dataPath {
++(NSString* )defaultDataPath {
 	NSString* theIdent = @"PGFoundationServer";
 	NSArray* theAppFolder = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory,NSUserDomainMask,YES);
 	NSParameterAssert([theAppFolder count]);
@@ -66,6 +71,31 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 // object methods
+
+-(BOOL)deleteData {
+	if([self isStopped]==NO) {
+		NSLog(@"ERROR: stopped");
+		return NO;
+	}
+	NSError* error = nil;
+	BOOL isDir;
+	NSParameterAssert([self dataPath]);
+	if([[NSFileManager defaultManager] fileExistsAtPath:[self dataPath] isDirectory:&isDir]==NO) {
+		// nothing exists at this path
+		return YES;
+	}
+	if(isDir==NO) {
+		// not a folder
+		NSLog(@"ERROR: not a folder");
+		return NO;
+	}
+	BOOL isSuccess = [[NSFileManager defaultManager] removeItemAtPath:[self dataPath] error:&error];
+	if(isSuccess==NO) {
+		[self pgserver:_server message:[error localizedDescription]];
+		return NO;
+	}
+	return YES;
+}
 
 -(BOOL)start {
 	return [self startWithPort:PGServerDefaultPort];
@@ -81,7 +111,7 @@
 		[NSThread sleepForTimeInterval:0.1];
 		// check for error condition
 		if([self isError]) {
-			NSLog(@"Server start returned error");
+			[self pgserver:_server message:@"Server start returned error"];
 			return NO;
 		}
 	}
@@ -126,13 +156,13 @@
 			isRunning = [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:theNextDate];
 		} while(isRunning==YES);
 	}
-	NSLog(@"Terminated background run loop");
+	[self pgserver:_server message:@"Terminated background run loop"];
 }
 
 -(void)_timerFired:(id)sender {
 	// check for server stop signal
 	if([self stopFlag]==YES) {
-		NSLog(@"Terminating server....");
+		[self pgserver:_server message:@"Terminating server...."];
 		[_server stop];
 	}
 }
