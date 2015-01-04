@@ -12,6 +12,11 @@ NSString* PGServerSuperuser = @"postgres";
 ////////////////////////////////////////////////////////////////////////////////
 // initialization methods
 
+-(id)init {
+	// dont allow init method
+	return nil;
+}
+
 -(id)initWithDataPath:(NSString* )thePath {
 	self = [super init];
 	if(self) {
@@ -612,7 +617,7 @@ NSString* PGServerSuperuser = @"postgres";
 	}
 	
 	// check for writable socket path
-	if([self socketPath]) {
+	if(socketPath) {
 		BOOL isFolder = NO;
 		if([[NSFileManager defaultManager] fileExistsAtPath:socketPath isDirectory:&isFolder]==NO) {
 #ifdef DEBUG

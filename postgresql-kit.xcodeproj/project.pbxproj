@@ -195,6 +195,7 @@
 		6E2A0EC21637540400970FEF /* PGClientKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
 		6E2A14FB1A59488700F12954 /* PGServerKit_testcases.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2A14FA1A59488700F12954 /* PGServerKit_testcases.m */; };
 		6E2A14FC1A59488700F12954 /* PGServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
+		6E2A15031A594D7100F12954 /* PGFoundationServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2A15021A594D7100F12954 /* PGFoundationServer.m */; };
 		6E4907CF17D3B3F600BEE2A9 /* PGPasswordWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E4907CD17D3B3F600BEE2A9 /* PGPasswordWindow.h */; };
 		6E4907D017D3B3F600BEE2A9 /* PGPasswordWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E4907CE17D3B3F600BEE2A9 /* PGPasswordWindow.m */; };
 		6E4907D317D3B49200BEE2A9 /* PGPasswordWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E4907D217D3B49200BEE2A9 /* PGPasswordWindow.xib */; };
@@ -592,6 +593,8 @@
 		6E2A14F61A59488700F12954 /* PGServerKit_testcases.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PGServerKit_testcases.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E2A14F91A59488700F12954 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6E2A14FA1A59488700F12954 /* PGServerKit_testcases.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PGServerKit_testcases.m; sourceTree = "<group>"; };
+		6E2A15021A594D7100F12954 /* PGFoundationServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGFoundationServer.m; sourceTree = "<group>"; };
+		6E2A15041A59508500F12954 /* PGFoundationServer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGFoundationServer.h; sourceTree = "<group>"; };
 		6E48B370160604270044A6CB /* PGServer+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PGServer+Private.h"; sourceTree = "<group>"; };
 		6E4907CB17D3AF4D00BEE2A9 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		6E4907CD17D3B3F600BEE2A9 /* PGPasswordWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGPasswordWindow.h; sourceTree = "<group>"; };
@@ -1237,7 +1240,6 @@
 				14EE3C35166752F80083C735 /* doc */,
 				14EE3C3A166752F80083C735 /* etc */,
 				14EE3C3E166752F80083C735 /* tar */,
-				6E2A14F71A59488700F12954 /* PGServerKit_testcases */,
 				6ED763FD15F2673600687079 /* Frameworks */,
 				6ED763FC15F2673600687079 /* Products */,
 				6E1548621A582BD900556573 /* postgresql-kit.wiki */,
@@ -1247,20 +1249,14 @@
 		6E2A14F71A59488700F12954 /* PGServerKit_testcases */ = {
 			isa = PBXGroup;
 			children = (
+				6E2A14F91A59488700F12954 /* Info.plist */,
 				6E2A14FA1A59488700F12954 /* PGServerKit_testcases.m */,
-				6E2A14F81A59488700F12954 /* Supporting Files */,
+				6E2A15021A594D7100F12954 /* PGFoundationServer.m */,
+				6E2A15041A59508500F12954 /* PGFoundationServer.h */,
 			);
 			name = PGServerKit_testcases;
-			path = "/Users/djt/Projects/postgresql-kit/PGServerKit_testcases";
+			path = "/Volumes/Users/djt/Projects/postgresql-kit/src/UnitTests/PGServerKit_testcases";
 			sourceTree = "<absolute>";
-		};
-		6E2A14F81A59488700F12954 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				6E2A14F91A59488700F12954 /* Info.plist */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
 		};
 		6E4907D117D3B3FA00BEE2A9 /* PGPasswordWindow */ = {
 			isa = PBXGroup;
@@ -1337,6 +1333,7 @@
 		6EB1E78C15F273350093F784 /* UnitTests */ = {
 			isa = PBXGroup;
 			children = (
+				6E2A14F71A59488700F12954 /* PGServerKit_testcases */,
 				6EDC4CC817BC24DA009E040D /* PGClientKit_testcases */,
 			);
 			path = UnitTests;
@@ -2162,6 +2159,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6E2A15031A594D7100F12954 /* PGFoundationServer.m in Sources */,
 				6E2A14FB1A59488700F12954 /* PGServerKit_testcases.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2958,7 +2956,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = PGServerKit_testcases/Info.plist;
+				INFOPLIST_FILE = src/UnitTests/PGServerKit_testcases/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -3001,7 +2999,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = PGServerKit_testcases/Info.plist;
+				INFOPLIST_FILE = src/UnitTests/PGServerKit_testcases/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
