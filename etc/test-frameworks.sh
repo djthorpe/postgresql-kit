@@ -9,7 +9,7 @@ CONFIGURATION=Debug
 PROJECT=${CURRENT_PATH}/../postgresql-kit.xcodeproj
 
 # Test Frameworks
-#xcodebuild -project ${PROJECT} -target "PGServerKit_testcases" -configuration ${CONFIGURATION} || exit -1
-xcodebuild -project ${PROJECT} -target "PGClientKit_testcases" -configuration ${CONFIGURATION} || exit -1
+xcodebuild test -project ${PROJECT} -scheme "PGServerKit_testcases" -configuration ${CONFIGURATION}  || exit -1
+xcodebuild test -project ${PROJECT} -scheme "PGClientKit_testcases" -configuration ${CONFIGURATION}  || exit -1
 #xcodebuild -project ${PROJECT} -target "PGSchemaKit_testcases" -configuration ${CONFIGURATION} || exit -1
 

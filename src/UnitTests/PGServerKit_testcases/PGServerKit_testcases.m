@@ -92,13 +92,11 @@ NSString* dataPath = nil;
 }
 
 -(void)test_014 {
-	[self measureBlock:^{
-		if([app isStarted]) {
-			[self test_999];
-		}
-		BOOL isSuccess = [app start];
-		XCTAssert(isSuccess,@"Test 014A");
-    }];
+	if([app isStarted]) {
+		[self test_999];
+	}
+	BOOL isSuccess = [app start];
+	XCTAssert(isSuccess,@"Test 014A");
 }
 
 -(void)test_999 {
