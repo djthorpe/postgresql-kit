@@ -1,10 +1,8 @@
 
 There are a few scripts in this folder for building and testing.
 
-  * `build-frameworks.sh` will build all iOS and Mac frameworks. You'll need
-    to also clone the `iOS-Universal-Framework` from Github 
-	(https://github.com/kstenerud/iOS-Universal-Framework) in order to actually
-    perform the build for iOS. This will build for Release, not Debug.
+  * `build-frameworks.sh` will build all iOS and Mac frameworks.
+	This will build for Release, not Debug.
   * `test-frameworks.sh` will run the unit tests for the frameworks. This will
     build for Debug, not Release.
   * `build-macapps.sh` will build the Mac OSX applications for Release.

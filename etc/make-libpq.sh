@@ -10,7 +10,7 @@
 #   --clean will always rebuild from clean sources
 #   --platform=<platform> will built for one of these
 #      architectures:
-#         mac_x86_64 ios_armv7 ios_armv7s ios_arm64 ios_simulator
+#         mac_x86_64 ios_armv7 ios_armv7s ios_arm64 ios_simulator32 ios_simulator64
 #   --openssl=<openssl> will use external version of
 #      openssl, previously built
 
@@ -46,7 +46,7 @@ done
 # Check for the TAR file to make sure it exists
 if [ "${#}" == "0" ] || [ "${TARZ}" == "" ] || [ ! -e "${TARZ}" ]
 then
-  echo "Syntax error: make-libpq.sh {INPUT_TAR_GZ} {OUTPUT_FOLDER} (--clean) (--platform=mac_x86_64|ios_armv7|ios_armv7s|ios_arm64|ios_simulator)"
+  echo "Syntax error: make-libpq.sh {INPUT_TAR_GZ} {OUTPUT_FOLDER} (--clean) (--platform=mac_x86_64|ios_armv7|ios_armv7s|ios_arm64|ios_simulator32|ios_simulator64)"
   exit 1
 fi
 
@@ -58,7 +58,7 @@ VERSION=`basename ${TARZ} | sed 's/\.tar\.gz//'`
 # Check for the BUILD directory
 if [ "${BUILD}XX" == "XX" ] || [ ! -d ${BUILD} ]
 then
-  echo "Syntax error: make-libpq.sh {INPUT_TAR_GZ} {OUTPUT_FOLDER} (--clean) (--platform=mac_x86_64|ios_armv7|ios_armv7s|ios_arm64|ios_simulator)"
+  echo "Syntax error: make-libpq.sh {INPUT_TAR_GZ} {OUTPUT_FOLDER} (--clean) (--platform=mac_x86_64|ios_armv7|ios_armv7s|ios_arm64|ios_simulator32|ios_simulator64)"
   exit 1
 fi
 
@@ -100,8 +100,14 @@ case ${PLATFORM} in
     SDKROOT="${DEVROOT}/SDKs/iPhoneOS${IPHONEOS_DEPLOYMENT_TARGET}.sdk"
 	unset MACOSX_DEPLOYMENT_TARGET
     ;;
-  ios_simulator )
+  ios_simulator32 )
     ARCH="i386"
+    DEVROOT="${DEVELOPER_PATH}/Platforms/iPhoneSimulator.platform/Developer"
+    SDKROOT="${DEVROOT}/SDKs/iPhoneSimulator${IPHONEOS_DEPLOYMENT_TARGET}.sdk"
+	unset MACOSX_DEPLOYMENT_TARGET
+    ;;
+  ios_simulator64 )
+    ARCH="x86_64"
     DEVROOT="${DEVELOPER_PATH}/Platforms/iPhoneSimulator.platform/Developer"
     SDKROOT="${DEVROOT}/SDKs/iPhoneSimulator${IPHONEOS_DEPLOYMENT_TARGET}.sdk"
 	unset MACOSX_DEPLOYMENT_TARGET

@@ -12,7 +12,7 @@
 #   --clean will always rebuild from clean sources
 #   --platform=<platform> will built for one of these
 #      architectures:
-#         mac_x86_64 ios_armv7 ios_armv7s ios_simulator
+#         mac_x86_64
 #   --openssl=<openssl> will use external version of
 #      openssl, previously built
 

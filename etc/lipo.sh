@@ -56,8 +56,13 @@ do
       LIB_PATH="${INPUT_DIR}/${PACKAGE}-${PLATFORM}/${LIBRARY}"
       LIPO_ARGS="${LIPO_ARGS} -arch ${ARCH} ${LIB_PATH}"
       ;;
-    ios_simulator )
+    ios_simulator32 )
       ARCH="i386"
+      LIB_PATH="${INPUT_DIR}/${PACKAGE}-${PLATFORM}/${LIBRARY}"
+      LIPO_ARGS="${LIPO_ARGS} -arch ${ARCH} ${LIB_PATH}"
+      ;;
+    ios_simulator64 )
+      ARCH="x86_64"
       LIB_PATH="${INPUT_DIR}/${PACKAGE}-${PLATFORM}/${LIBRARY}"
       LIPO_ARGS="${LIPO_ARGS} -arch ${ARCH} ${LIB_PATH}"
       ;;

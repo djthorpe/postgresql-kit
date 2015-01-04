@@ -10,7 +10,7 @@
 #   --clean will always rebuild from clean sources
 #   --platform=<platform> will built for one of these
 #      architectures:
-#         mac_x86_64 ios_armv7 ios_armv7s ios_arm64 ios_simulator
+#         mac_x86_64 ios_armv7 ios_armv7s ios_arm64 ios_simulator32 ios_simulator64
 
 ##############################################################
 # Process command line arguments
@@ -40,7 +40,7 @@ done
 # Check for the TAR file to make sure it exists
 if [ "${#}" == "0" ] || [ "${TARZ}" == "" ] || [ ! -e "${TARZ}" ]
 then
-  echo "Syntax error: make-openssl.sh {INPUT_TAR_GZ} {OUTPUT_FOLDER} (--clean) (--platform=mac_x86_64|ios_armv7|ios_armv7s|ios_arm64|ios_simulator)"
+  echo "Syntax error: make-openssl.sh {INPUT_TAR_GZ} {OUTPUT_FOLDER} (--clean) (--platform=mac_x86_64|ios_armv7|ios_armv7s|ios_arm64|ios_simulator32|ios_simulator64)"
   exit 1
 fi
 
@@ -88,7 +88,6 @@ case ${PLATFORM} in
     ARCH="armv7"
     export CROSS_TOP="${DEVELOPER_PATH}/Platforms/iPhoneOS.platform/Developer"
     export CROSS_SDK="iPhoneOS${IPHONEOS_DEPLOYMENT_TARGET}.sdk"
-#    export CC="${CROSS_TOP}/usr/bin/gcc -arch ${ARCH}"
     export CC="/usr/bin/gcc -arch ${ARCH}"
     CONFIGURE_FLAGS="iphoneos-cross no-gost zlib"
 	unset MACOSX_DEPLOYMENT_TARGET
@@ -97,7 +96,6 @@ case ${PLATFORM} in
     ARCH="armv7s"
     export CROSS_TOP="${DEVELOPER_PATH}/Platforms/iPhoneOS.platform/Developer"
     export CROSS_SDK="iPhoneOS${IPHONEOS_DEPLOYMENT_TARGET}.sdk"
-#    export CC="${CROSS_TOP}/usr/bin/gcc -arch ${ARCH}"
     export CC="/usr/bin/gcc -arch ${ARCH}"
     CONFIGURE_FLAGS="iphoneos-cross no-gost zlib"
 	unset MACOSX_DEPLOYMENT_TARGET
@@ -106,24 +104,31 @@ case ${PLATFORM} in
     ARCH="arm64"
     export CROSS_TOP="${DEVELOPER_PATH}/Platforms/iPhoneOS.platform/Developer"
     export CROSS_SDK="iPhoneOS${IPHONEOS_DEPLOYMENT_TARGET}.sdk"
-#    export CC="${CROSS_TOP}/usr/bin/gcc -arch ${ARCH}"
     export CC="/usr/bin/gcc -arch ${ARCH}"
     CONFIGURE_FLAGS="iphoneos-cross no-gost zlib"
 	unset MACOSX_DEPLOYMENT_TARGET
     ;;
-  ios_simulator )
+  ios_simulator32 )
     ARCH="i386"
     export CROSS_TOP="${DEVELOPER_PATH}/Platforms/iPhoneSimulator.platform/Developer"
     export CROSS_SDK="iPhoneSimulator${IPHONEOS_DEPLOYMENT_TARGET}.sdk"
-#    export CC="${CROSS_TOP}/usr/bin/gcc -arch ${ARCH}"
     export CC="/usr/bin/gcc -arch ${ARCH}"
     CONFIGURE_FLAGS="iphoneos-cross no-gost zlib"
+	unset MACOSX_DEPLOYMENT_TARGET
+	;;
+  ios_simulator64 )
+    ARCH="x86_64"
+    export CROSS_TOP="${DEVELOPER_PATH}/Platforms/iPhoneSimulator.platform/Developer"
+    export CROSS_SDK="iPhoneSimulator${IPHONEOS_DEPLOYMENT_TARGET}.sdk"
+    export CC="/usr/bin/gcc -arch ${ARCH}"
+    CONFIGURE_FLAGS="iphoneos-cross no-gost no-asm zlib"
 	unset MACOSX_DEPLOYMENT_TARGET
 	;;
   * )
     echo "Unknown build platform: ${PLATFORM}"
 	exit -1
 esac
+
 
 
 ##############################################################
