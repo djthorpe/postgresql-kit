@@ -193,6 +193,8 @@
 		6E29B37E17C695E500551035 /* PGSidebarDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E29B37D17C695E500551035 /* PGSidebarDataSource.m */; };
 		6E2A0EBF16374CAF00970FEF /* elephant-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43E615F3A465001ED3BE /* elephant-64.png */; };
 		6E2A0EC21637540400970FEF /* PGClientKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
+		6E2A14FB1A59488700F12954 /* PGServerKit_testcases.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2A14FA1A59488700F12954 /* PGServerKit_testcases.m */; };
+		6E2A14FC1A59488700F12954 /* PGServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
 		6E4907CF17D3B3F600BEE2A9 /* PGPasswordWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E4907CD17D3B3F600BEE2A9 /* PGPasswordWindow.h */; };
 		6E4907D017D3B3F600BEE2A9 /* PGPasswordWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E4907CE17D3B3F600BEE2A9 /* PGPasswordWindow.m */; };
 		6E4907D317D3B49200BEE2A9 /* PGPasswordWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E4907D217D3B49200BEE2A9 /* PGPasswordWindow.xib */; };
@@ -330,6 +332,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 6E83260F17AD15F3002AFCBC;
 			remoteInfo = libpq_ios;
+		};
+		6E2A14FD1A59488700F12954 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E256FDE15F252620079AD2D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6ED763FA15F2673600687079;
+			remoteInfo = PGServerKit_mac;
 		};
 		6E4DEC92162CC3A7008B26BD /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -580,6 +589,9 @@
 		6E29AC7517C0CC8600147679 /* RemoteConnectionWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemoteConnectionWindowController.m; sourceTree = "<group>"; };
 		6E29B37C17C695E500551035 /* PGSidebarDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSidebarDataSource.h; sourceTree = "<group>"; };
 		6E29B37D17C695E500551035 /* PGSidebarDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSidebarDataSource.m; sourceTree = "<group>"; };
+		6E2A14F61A59488700F12954 /* PGServerKit_testcases.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PGServerKit_testcases.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6E2A14F91A59488700F12954 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6E2A14FA1A59488700F12954 /* PGServerKit_testcases.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PGServerKit_testcases.m; sourceTree = "<group>"; };
 		6E48B370160604270044A6CB /* PGServer+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PGServer+Private.h"; sourceTree = "<group>"; };
 		6E4907CB17D3AF4D00BEE2A9 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		6E4907CD17D3B3F600BEE2A9 /* PGPasswordWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGPasswordWindow.h; sourceTree = "<group>"; };
@@ -706,6 +718,14 @@
 				6E15485F1A5820F800556573 /* Foundation.framework in Frameworks */,
 				6E15485D1A5820EE00556573 /* Security.framework in Frameworks */,
 				6E15485B1A5820BE00556573 /* libz.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6E2A14F31A59488700F12954 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6E2A14FC1A59488700F12954 /* PGServerKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1217,10 +1237,29 @@
 				14EE3C35166752F80083C735 /* doc */,
 				14EE3C3A166752F80083C735 /* etc */,
 				14EE3C3E166752F80083C735 /* tar */,
+				6E2A14F71A59488700F12954 /* PGServerKit_testcases */,
 				6ED763FD15F2673600687079 /* Frameworks */,
 				6ED763FC15F2673600687079 /* Products */,
 				6E1548621A582BD900556573 /* postgresql-kit.wiki */,
 			);
+			sourceTree = "<group>";
+		};
+		6E2A14F71A59488700F12954 /* PGServerKit_testcases */ = {
+			isa = PBXGroup;
+			children = (
+				6E2A14FA1A59488700F12954 /* PGServerKit_testcases.m */,
+				6E2A14F81A59488700F12954 /* Supporting Files */,
+			);
+			name = PGServerKit_testcases;
+			path = "/Users/djt/Projects/postgresql-kit/PGServerKit_testcases";
+			sourceTree = "<absolute>";
+		};
+		6E2A14F81A59488700F12954 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				6E2A14F91A59488700F12954 /* Info.plist */,
+			);
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		6E4907D117D3B3FA00BEE2A9 /* PGPasswordWindow */ = {
@@ -1329,6 +1368,7 @@
 				6EDC4CB017BC2459009E040D /* PGClientKit_testcases.octest */,
 				14F1E84717CB83CD00710D4A /* PGControlsKit.framework */,
 				6E1548291A5816E600556573 /* PGClientKit_ios.framework */,
+				6E2A14F61A59488700F12954 /* PGServerKit_testcases.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1617,6 +1657,24 @@
 			productReference = 6E1548291A5816E600556573 /* PGClientKit_ios.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		6E2A14F51A59488700F12954 /* PGServerKit_testcases */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6E2A14FF1A59488700F12954 /* Build configuration list for PBXNativeTarget "PGServerKit_testcases" */;
+			buildPhases = (
+				6E2A14F21A59488700F12954 /* Sources */,
+				6E2A14F31A59488700F12954 /* Frameworks */,
+				6E2A14F41A59488700F12954 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6E2A14FE1A59488700F12954 /* PBXTargetDependency */,
+			);
+			name = PGServerKit_testcases;
+			productName = PGServerKit_testcases;
+			productReference = 6E2A14F61A59488700F12954 /* PGServerKit_testcases.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		6E4DEC84162CC38D008B26BD /* PGFoundationClient */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6E4DEC8F162CC38D008B26BD /* Build configuration list for PBXNativeTarget "PGFoundationClient" */;
@@ -1747,6 +1805,9 @@
 					6E1548281A5816E600556573 = {
 						CreatedOnToolsVersion = 6.1.1;
 					};
+					6E2A14F51A59488700F12954 = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
 				};
 			};
 			buildConfigurationList = 6E256FE115F252620079AD2D /* Build configuration list for PBXProject "postgresql-kit" */;
@@ -1778,6 +1839,7 @@
 				145D3E1E166A1AF1002FEA91 /* PGServer */,
 				1433617117917F47000A79D5 /* PGSchemaManager */,
 				6EDC4CAF17BC2459009E040D /* PGClientKit_testcases */,
+				6E2A14F51A59488700F12954 /* PGServerKit_testcases */,
 			);
 		};
 /* End PBXProject section */
@@ -1866,6 +1928,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E1548571A581F2300556573 /* SSKeychain.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6E2A14F41A59488700F12954 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2089,6 +2158,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6E2A14F21A59488700F12954 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6E2A14FB1A59488700F12954 /* PGServerKit_testcases.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6E4DEC81162CC38D008B26BD /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2222,6 +2299,11 @@
 			isa = PBXTargetDependency;
 			target = 6E83260F17AD15F3002AFCBC /* libpq_ios */;
 			targetProxy = 6E1548421A5818CA00556573 /* PBXContainerItemProxy */;
+		};
+		6E2A14FE1A59488700F12954 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6ED763FA15F2673600687079 /* PGServerKit_mac */;
+			targetProxy = 6E2A14FD1A59488700F12954 /* PBXContainerItemProxy */;
 		};
 		6E4DEC93162CC3A7008B26BD /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -2838,6 +2920,96 @@
 			};
 			name = Release;
 		};
+		6E2A15001A59488700F12954 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = PGServerKit_testcases/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		6E2A15011A59488700F12954 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = PGServerKit_testcases/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
 		6E4DEC90162CC38D008B26BD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3348,6 +3520,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		6E2A14FF1A59488700F12954 /* Build configuration list for PBXNativeTarget "PGServerKit_testcases" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6E2A15001A59488700F12954 /* Debug */,
+				6E2A15011A59488700F12954 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		6E4DEC8F162CC38D008B26BD /* Build configuration list for PBXNativeTarget "PGFoundationClient" */ = {
 			isa = XCConfigurationList;
