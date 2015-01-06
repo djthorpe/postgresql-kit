@@ -1,12 +1,19 @@
 
 #import <Foundation/Foundation.h>
 #import <PGClientKit/PGClientKit.h>
+#import "Terminal.h"
 
-@interface Application : NSObject <PGConnectionDelegate>
+@interface Application : NSObject <PGConnectionDelegate> {
+	PGConnection* _db;
+	Terminal* _term;
+}
 
-@property int signal;
-@property PGConnection* db;
+// properties
+@property (assign) int signal;
+@property (retain) PGConnection* db;
+@property (retain) Terminal* term;
 
+// methods
 -(int)run;
 
 @end

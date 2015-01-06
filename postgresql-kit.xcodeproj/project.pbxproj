@@ -56,7 +56,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		1403E2DF1A5C5E4600A51C71 /* Readline.m in Sources */ = {isa = PBXBuildFile; fileRef = 1403E2DE1A5C5E4600A51C71 /* Readline.m */; };
+		1403E2DF1A5C5E4600A51C71 /* Terminal.m in Sources */ = {isa = PBXBuildFile; fileRef = 1403E2DE1A5C5E4600A51C71 /* Terminal.m */; };
 		1409E6F51691FCDB00702777 /* elephant-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43E615F3A465001ED3BE /* elephant-64.png */; };
 		1412A7AE17998BF4005A217D /* PGSchemaKitSQL.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1412A7AD17998BF4005A217D /* PGSchemaKitSQL.strings */; };
 		1413DF5117AEAD6F009615E5 /* PGApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 1413DF4A17AEAD65009615E5 /* PGApplication.m */; };
@@ -163,6 +163,7 @@
 		6E0773D9163744D90028783F /* PGResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0773D7163744D90028783F /* PGResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E0773DA163744D90028783F /* PGResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0773D8163744D90028783F /* PGResult.m */; };
 		6E11AC0F162F4722009A077C /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E11AC0E162F4722009A077C /* Application.m */; };
+		6E1544321A5C72D600270F85 /* libedit.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E1544311A5C72D600270F85 /* libedit.3.dylib */; };
 		6E1548441A5819AC00556573 /* PGClientKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 6ED85B4916288D0200A6DC02 /* PGClientKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E1548451A5819BD00556573 /* NSURL+PGAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EAA40E917BC150E0078EB32 /* NSURL+PGAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E1548461A5819C600556573 /* NSURL+PGAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EAA40EA17BC150E0078EB32 /* NSURL+PGAdditions.m */; };
@@ -446,8 +447,8 @@
 		14032DCE164A726400CD5796 /* preferences.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = preferences.tiff; sourceTree = "<group>"; };
 		14032DD3164AB35100CD5796 /* info.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = info.tiff; sourceTree = "<group>"; };
 		14032DD4164AB35100CD5796 /* user.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = user.tiff; sourceTree = "<group>"; };
-		1403E2DE1A5C5E4600A51C71 /* Readline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Readline.m; sourceTree = "<group>"; };
-		1403E2E01A5C5E8500A51C71 /* Readline.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Readline.h; sourceTree = "<group>"; };
+		1403E2DE1A5C5E4600A51C71 /* Terminal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Terminal.m; sourceTree = "<group>"; };
+		1403E2E01A5C5E8500A51C71 /* Terminal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Terminal.h; sourceTree = "<group>"; };
 		1412A7AD17998BF4005A217D /* PGSchemaKitSQL.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = PGSchemaKitSQL.strings; sourceTree = "<group>"; };
 		1413DF1D17AD79AC009615E5 /* PGClientKit_ios.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PGClientKit_ios.plist; sourceTree = "<group>"; };
 		1413DF1E17AD79AC009615E5 /* PGClientKit_mac.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PGClientKit_mac.plist; sourceTree = "<group>"; };
@@ -559,6 +560,7 @@
 		6E0773D8163744D90028783F /* PGResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGResult.m; sourceTree = "<group>"; };
 		6E11AC0D162F4722009A077C /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
 		6E11AC0E162F4722009A077C /* Application.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Application.m; sourceTree = "<group>"; };
+		6E1544311A5C72D600270F85 /* libedit.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libedit.3.dylib; path = ../../../../../usr/lib/libedit.3.dylib; sourceTree = "<group>"; };
 		6E1548221A57FBA000556573 /* openssl-1.0.1j.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = "openssl-1.0.1j.tar.gz"; sourceTree = "<group>"; };
 		6E1548231A57FBA000556573 /* postgresql-9.4.0.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = "postgresql-9.4.0.tar.gz"; sourceTree = "<group>"; };
 		6E1548291A5816E600556573 /* PGClientKit_ios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PGClientKit_ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -741,6 +743,7 @@
 			files = (
 				6E4DEC96162CC5E6008B26BD /* PGClientKit.framework in Frameworks */,
 				6E4DEC87162CC38D008B26BD /* Foundation.framework in Frameworks */,
+				6E1544321A5C72D600270F85 /* libedit.3.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -871,6 +874,7 @@
 		1413DF5817AEB041009615E5 /* mac */ = {
 			isa = PBXGroup;
 			children = (
+				6E1544311A5C72D600270F85 /* libedit.3.dylib */,
 				6E222C4F17B035E90087A483 /* libz.dylib */,
 				6E222C5117B035F00087A483 /* LDAP.framework */,
 				6E8C167F15F26BF20013A382 /* AppKit.framework */,
@@ -1277,8 +1281,8 @@
 				6E4DEC80162CC307008B26BD /* main.m */,
 				6E11AC0D162F4722009A077C /* Application.h */,
 				6E11AC0E162F4722009A077C /* Application.m */,
-				1403E2DE1A5C5E4600A51C71 /* Readline.m */,
-				1403E2E01A5C5E8500A51C71 /* Readline.h */,
+				1403E2DE1A5C5E4600A51C71 /* Terminal.m */,
+				1403E2E01A5C5E8500A51C71 /* Terminal.h */,
 			);
 			path = PGFoundationClient;
 			sourceTree = "<group>";
@@ -2174,7 +2178,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E4DEC94162CC3E1008B26BD /* main.m in Sources */,
-				1403E2DF1A5C5E4600A51C71 /* Readline.m in Sources */,
+				1403E2DF1A5C5E4600A51C71 /* Terminal.m in Sources */,
 				6E11AC0F162F4722009A077C /* Application.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3025,11 +3029,9 @@
 		6E4DEC90162CC38D008B26BD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -3044,7 +3046,6 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -3052,12 +3053,9 @@
 		6E4DEC91162CC38D008B26BD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -3065,7 +3063,6 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
