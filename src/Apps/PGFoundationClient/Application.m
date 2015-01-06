@@ -20,12 +20,23 @@
 	[self setDb:[[PGConnection alloc] init]];
 	[[self db] setDelegate:self];
 
-	NSURL* url = [NSURL URLWithString:@"pgsql://postgres@/"];
-	NSError* error;
+	NSProcessInfo* process = [NSProcessInfo processInfo];
+	NSArray* arguments = [process arguments];
+	NSParameterAssert([arguments count]);
+	
+	if([arguments count] < 2) {
+		NSLog(@"Error: missing URL");
+		return -1;
+	}
 	
 	// connect to database
+	NSURL* url = [NSURL URLWithString:[arguments objectAtIndex:1]];
+	NSError* error = nil;
 	[[self db] connectWithURL:url error:&error];
-	if(error) return -1;
+	if(error) {
+		NSLog(@"Error: %@",error);
+		return -1;
+	}
 
 	// create database
 	PGResult* r = [[self db] execute:@"SELECT $1::int" value:@"1000" error:&error];

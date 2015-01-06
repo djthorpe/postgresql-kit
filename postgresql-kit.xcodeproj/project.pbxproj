@@ -56,6 +56,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		1403E2DF1A5C5E4600A51C71 /* Readline.m in Sources */ = {isa = PBXBuildFile; fileRef = 1403E2DE1A5C5E4600A51C71 /* Readline.m */; };
 		1409E6F51691FCDB00702777 /* elephant-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43E615F3A465001ED3BE /* elephant-64.png */; };
 		1412A7AE17998BF4005A217D /* PGSchemaKitSQL.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1412A7AD17998BF4005A217D /* PGSchemaKitSQL.strings */; };
 		1413DF5117AEAD6F009615E5 /* PGApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 1413DF4A17AEAD65009615E5 /* PGApplication.m */; };
@@ -445,6 +446,8 @@
 		14032DCE164A726400CD5796 /* preferences.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = preferences.tiff; sourceTree = "<group>"; };
 		14032DD3164AB35100CD5796 /* info.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = info.tiff; sourceTree = "<group>"; };
 		14032DD4164AB35100CD5796 /* user.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = user.tiff; sourceTree = "<group>"; };
+		1403E2DE1A5C5E4600A51C71 /* Readline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Readline.m; sourceTree = "<group>"; };
+		1403E2E01A5C5E8500A51C71 /* Readline.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Readline.h; sourceTree = "<group>"; };
 		1412A7AD17998BF4005A217D /* PGSchemaKitSQL.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = PGSchemaKitSQL.strings; sourceTree = "<group>"; };
 		1413DF1D17AD79AC009615E5 /* PGClientKit_ios.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PGClientKit_ios.plist; sourceTree = "<group>"; };
 		1413DF1E17AD79AC009615E5 /* PGClientKit_mac.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PGClientKit_mac.plist; sourceTree = "<group>"; };
@@ -1274,6 +1277,8 @@
 				6E4DEC80162CC307008B26BD /* main.m */,
 				6E11AC0D162F4722009A077C /* Application.h */,
 				6E11AC0E162F4722009A077C /* Application.m */,
+				1403E2DE1A5C5E4600A51C71 /* Readline.m */,
+				1403E2E01A5C5E8500A51C71 /* Readline.h */,
 			);
 			path = PGFoundationClient;
 			sourceTree = "<group>";
@@ -2169,6 +2174,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E4DEC94162CC3E1008B26BD /* main.m in Sources */,
+				1403E2DF1A5C5E4600A51C71 /* Readline.m in Sources */,
 				6E11AC0F162F4722009A077C /* Application.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2787,7 +2793,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: David Thorpe (J3B7M5TZ99)";
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)-ios";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
@@ -2818,10 +2824,12 @@
 				);
 				INFOPLIST_FILE = src/Frameworks/PGClientKit/PGClientKit_ios.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRELINK_LIBS = "${BUILT_PRODUCTS_DIR}/openssl-current/lib/libcrypto.a ${BUILT_PRODUCTS_DIR}/openssl-current/lib/libssl.a ${BUILT_PRODUCTS_DIR}/libpq-current/lib/libpq.a";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2849,7 +2857,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: David Thorpe (J3B7M5TZ99)";
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)-ios";
 				COPY_PHASE_STRIP = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -2874,10 +2882,12 @@
 				);
 				INFOPLIST_FILE = src/Frameworks/PGClientKit/PGClientKit_ios.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRELINK_LIBS = "${BUILT_PRODUCTS_DIR}/openssl-current/lib/libcrypto.a ${BUILT_PRODUCTS_DIR}/openssl-current/lib/libssl.a ${BUILT_PRODUCTS_DIR}/libpq-current/lib/libpq.a";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";

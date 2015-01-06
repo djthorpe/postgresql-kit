@@ -3,7 +3,7 @@
 #import "PGClientKit+Private.h"
 #include <pg_config.h>
 
-NSString* PGConnectionSchemes = @"pgsql pgsqls postgresql postgresqls";
+NSString* PGConnectionSchemes = @"pgsql pgsqls postgresql postgres postgresqls";
 NSString* PGConnectionDefaultEncoding = @"utf8";
 NSString* PGConnectionBonjourServiceType = @"_postgresql._tcp";
 NSString* PGClientErrorDomain = @"PGClient";
