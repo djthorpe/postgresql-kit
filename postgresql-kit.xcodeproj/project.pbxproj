@@ -2022,7 +2022,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "\nif [ \"${SCRIPT_INPUT_FILE_COUNT}\" != \"1\" ] ; then\n  echo \"Invalid number of input files\"\n  exit 1\nfi\n\nif [ ! -f ${SCRIPT_INPUT_FILE_0} ] ; then\n  echo \"Missing input file\"\n  exit 1\nfi\n\necho \"Making ${SCRIPT_INPUT_FILE_0}\"\n\nif [ ! -d ${BUILT_PRODUCTS_DIR} ]\nthen\n  mkdir -pv ${BUILT_PRODUCTS_DIR}\nfi\n  \n/bin/bash ${SRCROOT}/etc/make-openssl.sh ${SCRIPT_INPUT_FILE_0} ${BUILT_PRODUCTS_DIR} --platform=ios_armv7 || exit -1\n\n/bin/bash ${SRCROOT}/etc/make-openssl.sh ${SCRIPT_INPUT_FILE_0} ${BUILT_PRODUCTS_DIR} --platform=ios_armv7s || exit -1\n\n/bin/bash ${SRCROOT}/etc/make-openssl.sh ${SCRIPT_INPUT_FILE_0} ${BUILT_PRODUCTS_DIR} --platform=ios_arm64 || exit -1\n\n/bin/bash ${SRCROOT}/etc/make-openssl.sh ${SCRIPT_INPUT_FILE_0} ${BUILT_PRODUCTS_DIR} --platform=ios_simulator32 || exit -1\n\n/bin/bash ${SRCROOT}/etc/make-openssl.sh ${SCRIPT_INPUT_FILE_0} ${BUILT_PRODUCTS_DIR} --platform=ios_simulator64 || exit -1\n\n/bin/bash ${SRCROOT}/etc/lipo.sh ${BUILT_PRODUCTS_DIR} openssl-current lib/libcrypto.a --platform=ios_armv7 --platform=ios_armv7s --platform=ios_arm64 --platform=ios_simulator32 --platform=ios_simulator64  || exit -1\n\n/bin/bash ${SRCROOT}/etc/lipo.sh ${BUILT_PRODUCTS_DIR} openssl-current lib/libssl.a --platform=ios_armv7 --platform=ios_armv7s --platform=ios_arm64 --platform=ios_simulator32 --platform=ios_simulator64 || exit -1\n\nmkdir -pv ${BUILT_PRODUCTS_DIR}/openssl-current/include\ncp -R ${BUILT_PRODUCTS_DIR}/openssl-current-ios_simulator/include/openssl ${BUILT_PRODUCTS_DIR}/openssl-current/include\n\necho\necho\necho \"OpenSSL installed: ${BUILT_PRODUCTS_DIR}/openssl-current\"\necho\n\n\n\n\n";
+			shellScript = "\nif [ \"${SCRIPT_INPUT_FILE_COUNT}\" != \"1\" ] ; then\n  echo \"Invalid number of input files\"\n  exit 1\nfi\n\nif [ ! -f ${SCRIPT_INPUT_FILE_0} ] ; then\n  echo \"Missing input file\"\n  exit 1\nfi\n\necho \"Making ${SCRIPT_INPUT_FILE_0}\"\n\nif [ ! -d ${BUILT_PRODUCTS_DIR} ]\nthen\n  mkdir -pv ${BUILT_PRODUCTS_DIR}\nfi\n  \n/bin/bash ${SRCROOT}/etc/make-openssl.sh ${SCRIPT_INPUT_FILE_0} ${BUILT_PRODUCTS_DIR} --platform=ios_armv7 || exit -1\n\n/bin/bash ${SRCROOT}/etc/make-openssl.sh ${SCRIPT_INPUT_FILE_0} ${BUILT_PRODUCTS_DIR} --platform=ios_armv7s || exit -1\n\n/bin/bash ${SRCROOT}/etc/make-openssl.sh ${SCRIPT_INPUT_FILE_0} ${BUILT_PRODUCTS_DIR} --platform=ios_arm64 || exit -1\n\n/bin/bash ${SRCROOT}/etc/make-openssl.sh ${SCRIPT_INPUT_FILE_0} ${BUILT_PRODUCTS_DIR} --platform=ios_simulator32 || exit -1\n\n/bin/bash ${SRCROOT}/etc/make-openssl.sh ${SCRIPT_INPUT_FILE_0} ${BUILT_PRODUCTS_DIR} --platform=ios_simulator64 || exit -1\n\n/bin/bash ${SRCROOT}/etc/lipo.sh ${BUILT_PRODUCTS_DIR} openssl-current lib/libcrypto.a --platform=ios_armv7 --platform=ios_armv7s --platform=ios_arm64 --platform=ios_simulator32 --platform=ios_simulator64  || exit -1\n\n/bin/bash ${SRCROOT}/etc/lipo.sh ${BUILT_PRODUCTS_DIR} openssl-current lib/libssl.a --platform=ios_armv7 --platform=ios_armv7s --platform=ios_arm64 --platform=ios_simulator32 --platform=ios_simulator64 || exit -1\n\nmkdir -pv ${BUILT_PRODUCTS_DIR}/openssl-current/include\ncp -R ${BUILT_PRODUCTS_DIR}/openssl-current-ios_simulator64/include/openssl ${BUILT_PRODUCTS_DIR}/openssl-current/include\n\necho\necho\necho \"OpenSSL installed: ${BUILT_PRODUCTS_DIR}/openssl-current\"\necho\n\n\n\n\n";
 			showEnvVarsInLog = 0;
 		};
 		6E83261217AD15F3002AFCBC /* ShellScript */ = {
@@ -2037,7 +2037,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "\nif [ \"${SCRIPT_INPUT_FILE_COUNT}\" != \"1\" ] ; then\n  echo \"Invalid number of input files\"\n  exit 1\nfi\n\nif [ ! -f ${SCRIPT_INPUT_FILE_0} ] ; then\n  echo \"Missing input file\"\n  exit 1\nfi\n\necho \"Making ${SCRIPT_INPUT_FILE_0}\"\necho \"Output to ${BUILT_PRODUCTS_DIR}\"\n\nif [ ! -d \"${BUILT_PRODUCTS_DIR}\" ]\nthen\n  mkdir -pv \"${BUILT_PRODUCTS_DIR}\"\nfi\n\nOPENSSL=\"${BUILT_PRODUCTS_DIR}/openssl-current\"\nif [ ! -d ${OPENSSL} ]\nthen\n  echo \"Missing: ${OPENSSL}\"\n  exit 1\nfi\n\n/bin/bash ${SRCROOT}/etc/make-libpq.sh ${SCRIPT_INPUT_FILE_0} ${BUILT_PRODUCTS_DIR} --platform=ios_armv7 --openssl=${OPENSSL} || exit -1\n\n/bin/bash ${SRCROOT}/etc/make-libpq.sh ${SCRIPT_INPUT_FILE_0} ${BUILT_PRODUCTS_DIR} --platform=ios_armv7s --openssl=${OPENSSL} || exit -1\n\n/bin/bash ${SRCROOT}/etc/make-libpq.sh ${SCRIPT_INPUT_FILE_0} ${BUILT_PRODUCTS_DIR} --platform=ios_arm64 --openssl=${OPENSSL} || exit -1\n\n/bin/bash ${SRCROOT}/etc/make-libpq.sh ${SCRIPT_INPUT_FILE_0} ${BUILT_PRODUCTS_DIR} --platform=ios_simulator32 --openssl=${OPENSSL} || exit -1\n\n/bin/bash ${SRCROOT}/etc/make-libpq.sh ${SCRIPT_INPUT_FILE_0} ${BUILT_PRODUCTS_DIR} --platform=ios_simulator64 --openssl=${OPENSSL} || exit -1\n\n/bin/bash ${SRCROOT}/etc/lipo.sh ${BUILT_PRODUCTS_DIR} libpq-current lib/libpq.a --platform=ios_armv7 --platform=ios_armv7s --platform=ios_arm64 --platform=ios_simulator32 --platform=ios_simulator64 || exit -1\n\nmkdir -pv ${BUILT_PRODUCTS_DIR}/libpq-current/include\nmkdir -pv ${BUILT_PRODUCTS_DIR}/libpq-current/share\n\ncp -R ${BUILT_PRODUCTS_DIR}/libpq-current-ios_simulator/include ${BUILT_PRODUCTS_DIR}/libpq-current\ncp -R ${BUILT_PRODUCTS_DIR}/libpq-current-ios_simulator/share ${BUILT_PRODUCTS_DIR}/libpq-current\n\necho\necho\necho \"libpq installed: ${BUILT_PRODUCTS_DIR}/libpq-current\"\necho\n\n\n";
+			shellScript = "\nif [ \"${SCRIPT_INPUT_FILE_COUNT}\" != \"1\" ] ; then\n  echo \"Invalid number of input files\"\n  exit 1\nfi\n\nif [ ! -f ${SCRIPT_INPUT_FILE_0} ] ; then\n  echo \"Missing input file\"\n  exit 1\nfi\n\necho \"Making ${SCRIPT_INPUT_FILE_0}\"\necho \"Output to ${BUILT_PRODUCTS_DIR}\"\n\nif [ ! -d \"${BUILT_PRODUCTS_DIR}\" ]\nthen\n  mkdir -pv \"${BUILT_PRODUCTS_DIR}\"\nfi\n\nOPENSSL=\"${BUILT_PRODUCTS_DIR}/openssl-current\"\nif [ ! -d ${OPENSSL} ]\nthen\n  echo \"Missing: ${OPENSSL}\"\n  exit 1\nfi\n\n/bin/bash ${SRCROOT}/etc/make-libpq.sh ${SCRIPT_INPUT_FILE_0} ${BUILT_PRODUCTS_DIR} --platform=ios_armv7 --openssl=${OPENSSL} || exit -1\n\n/bin/bash ${SRCROOT}/etc/make-libpq.sh ${SCRIPT_INPUT_FILE_0} ${BUILT_PRODUCTS_DIR} --platform=ios_armv7s --openssl=${OPENSSL} || exit -1\n\n/bin/bash ${SRCROOT}/etc/make-libpq.sh ${SCRIPT_INPUT_FILE_0} ${BUILT_PRODUCTS_DIR} --platform=ios_arm64 --openssl=${OPENSSL} || exit -1\n\n/bin/bash ${SRCROOT}/etc/make-libpq.sh ${SCRIPT_INPUT_FILE_0} ${BUILT_PRODUCTS_DIR} --platform=ios_simulator32 --openssl=${OPENSSL} || exit -1\n\n/bin/bash ${SRCROOT}/etc/make-libpq.sh ${SCRIPT_INPUT_FILE_0} ${BUILT_PRODUCTS_DIR} --platform=ios_simulator64 --openssl=${OPENSSL} || exit -1\n\n/bin/bash ${SRCROOT}/etc/lipo.sh ${BUILT_PRODUCTS_DIR} libpq-current lib/libpq.a --platform=ios_armv7 --platform=ios_armv7s --platform=ios_arm64 --platform=ios_simulator32 --platform=ios_simulator64 || exit -1\n\nmkdir -pv ${BUILT_PRODUCTS_DIR}/libpq-current/include\nmkdir -pv ${BUILT_PRODUCTS_DIR}/libpq-current/share\n\ncp -R ${BUILT_PRODUCTS_DIR}/libpq-current-ios_simulator64/include ${BUILT_PRODUCTS_DIR}/libpq-current\ncp -R ${BUILT_PRODUCTS_DIR}/libpq-current-ios_simulator64/share ${BUILT_PRODUCTS_DIR}/libpq-current\n\necho\necho\necho \"libpq installed: ${BUILT_PRODUCTS_DIR}/libpq-current\"\necho\n\n\n";
 			showEnvVarsInLog = 0;
 		};
 		6EB1E79715F282A10093F784 /* ShellScript */ = {
@@ -2891,6 +2891,8 @@
 		6E256FE315F252620079AD2D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				SDKROOT = macosx10.9;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -2898,6 +2900,8 @@
 		6E256FE415F252620079AD2D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				SDKROOT = macosx10.9;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -3526,6 +3530,7 @@
 				6E2A15011A59488700F12954 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6E4DEC8F162CC38D008B26BD /* Build configuration list for PBXNativeTarget "PGFoundationClient" */ = {
 			isa = XCConfigurationList;

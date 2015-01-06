@@ -148,9 +148,9 @@
 	@autoreleasepool {
 		[_server setDelegate:self];
 		[_server startWithPort:[port unsignedIntegerValue]];
-		[NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(_timerFired:) userInfo:nil repeats:YES];
+		[NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(_timerFired:) userInfo:nil repeats:YES];
 		BOOL isRunning = YES;
-		NSTimeInterval resolution = 5.0;
+		NSTimeInterval resolution = 60.0;
 		do {
 			NSDate* theNextDate = [NSDate dateWithTimeIntervalSinceNow:resolution];
 			isRunning = [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:theNextDate];
