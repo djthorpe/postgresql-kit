@@ -6,16 +6,6 @@
 @implementation Terminal
 @synthesize prompt;
 
-// constructor
--(id)init {
-	self = [super init];
-	if(self) {
-		// disable auto-complete
-		//rl_bind_key('\t',rl_abort);
-	}
-	return self;
-}
-
 // methods
 -(NSString* )readline {
 	const char* p = [[self prompt] UTF8String];

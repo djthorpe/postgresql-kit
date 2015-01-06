@@ -591,12 +591,12 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 	NSParameterAssert(query && [query isKindOfClass:[NSString class]]);
 	NSParameterAssert(format==PGClientTupleFormatBinary || format==PGClientTupleFormatText);
 	if(_connection==nil) {
-		[self raiseError:error code:PGClientErrorState reason:nil];
+		[self raiseError:error code:PGClientErrorState reason:@"No connection"];
 		return nil;
 	}
 	// try to obtain lock
 	if([_lock tryLock]==NO) {
-		[self raiseError:error code:PGClientErrorState reason:nil];
+		[self raiseError:error code:PGClientErrorState reason:@"Cannot obtain lock"];
 		return nil;
 	}
 	// call delegate
@@ -655,7 +655,9 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 		return nil;
 	}
 	// return resultset
-	return [[PGResult alloc] initWithResult:theResult format:format];
+	PGResult* r = [[PGResult alloc] initWithResult:theResult format:format];
+	[_lock unlock];
+	return r;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

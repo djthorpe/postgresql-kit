@@ -34,12 +34,21 @@
 
 -(NSString* )execute:(NSString* )statement {
 	NSError* error = nil;
+	// trim
+	statement = [statement stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+	if(![statement length]) {
+		return nil;
+	}
+	// execute
 	PGResult* r = [[self db] execute:statement error:&error];
-	if(r) {
-		return [r tableWithWidth:80];
-	} else {
+	if(!r) {
 		[self connectionError:error];
 		return nil;
+	}
+	if([r dataReturned]==NO) {
+		return [NSString stringWithFormat:@"Affected Rows: %ld",[r affectedRows]];
+	} else {
+		return [r tableWithWidth:80];
 	}
 }
 
@@ -70,8 +79,10 @@
 		if(line) {
 			NSString* result = [self execute:line];
 			if(result) {
-				[[self term] printf:result];
+				// add statement to history
 				[[self term] addHistory:line];
+				// display result
+				[[self term] printf:result];
 			}
 		} else {
 			[self setSignal:-1];

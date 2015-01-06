@@ -35,7 +35,5 @@ int main (int argc, const char* argv[]) {
 		app = [[Application alloc] init];
 		returnValue = [app run];
 	}
-	
-	NSLog(@"Application is terminated, returnValue = %d",returnValue);	
     return returnValue;
 }
