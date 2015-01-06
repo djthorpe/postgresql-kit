@@ -86,6 +86,7 @@
 			}
 		} else {
 			[self setSignal:-1];
+			[[self term] printf:@""];
 		}
 	}
 	
