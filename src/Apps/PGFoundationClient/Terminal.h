@@ -4,7 +4,8 @@
 @interface Terminal : NSObject
 
 // properties
-@property NSString* prompt;
+@property (retain) NSString* prompt;
+@property (readonly) NSInteger columns;
 
 // methods
 -(NSString* )readline;

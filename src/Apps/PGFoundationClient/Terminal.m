@@ -3,10 +3,29 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-@implementation Terminal
-@synthesize prompt;
+NSInteger DEFAULT_COLUMNS = 180;
 
+@implementation Terminal
+
+////////////////////////////////////////////////////////////////////////////////
+// properties
+
+@synthesize prompt;
+@dynamic columns;
+
+-(NSInteger)columns {
+	return DEFAULT_COLUMNS;
+/*	NSString* columns = [[[NSProcessInfo processInfo] environment] objectForKey:@"COLUMNS"];
+	NSLog(@"cols = %@",[[NSProcessInfo processInfo] environment]);
+	if(columns==nil) {
+	}
+	return [columns integerValue];
+*/
+}
+
+////////////////////////////////////////////////////////////////////////////////
 // methods
+
 -(NSString* )readline {
 	const char* p = [[self prompt] UTF8String];
 	char* line = readline(p);
