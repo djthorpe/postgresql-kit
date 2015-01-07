@@ -39,16 +39,20 @@
 ////////////////////////////////////////////////////////////////////////////////
 // PGConnectionDelegate delegate implementation
 
--(NSString* )connectionPasswordForParameters:(NSDictionary* )theParameters{
-	[[self term] printf:@"returning nil for password, parameters = %@",[theParameters description]];
-	return nil;
+-(void)connection:(PGConnection* )connection willOpenWithParameters:(NSMutableDictionary* )dictionary {
+	for(NSString* key in dictionary) {
+		if([key isEqualToString:@"password"]) {
+			continue;
+		}
+		[[self term] printf:@"%@: %@",key,[dictionary objectForKey:key]];
+	}
 }
 
--(void)connectionNotice:(NSString* )theMessage {
-	[[self term] printf:@"Notice: %@",theMessage];
+-(void)connection:(PGConnection* )connection willExecute:(NSString* )theQuery values:(NSArray* )values {
+	// TODO
 }
 
--(void)connectionError:(NSError *)theError {
+-(void)connection:(PGConnection* )connection error:(NSError* )theError {
 	[[self term] printf:@"Error: %@ (%@/%d)",[theError localizedDescription],[theError domain],[theError code]];
 }
 
@@ -89,7 +93,6 @@
 	// execute
 	PGResult* r = [[self db] execute:statement error:&error];
 	if(!r) {
-		[self connectionError:error];
 		return nil;
 	}
 	if([r dataReturned]==NO) {
@@ -112,14 +115,16 @@
 		return -1;
 	}
 	
-	// connect to database
+	// initiate connection to database in background
 	NSURL* url = [NSURL URLWithString:[arguments objectAtIndex:1]];
-	NSError* error = nil;
-	[[self db] connectWithURL:url error:&error];
-	if(error) {
-		[self connectionError:error];
-		return -1;
-	}
+	[[self db] connectInBackgroundWithURL:url whenDone:^(NSError* error) {
+		if([error code]==PGClientErrorNeedsPassword) {
+			[[self term] printf:@"TODO: Ask for password"];
+		} else if([error code]) {
+			[self connection:[self db] error:error];
+			[self setSignal:-1];
+		}
+	}];
 
 	while(![self signal]) {
 		// set prompt, read command
@@ -145,8 +150,10 @@
 		}
 	}
 	
-	// disconnect from database 
-	[[self db] disconnect];
+	// disconnect from database
+	if([[self db] status]==PGConnectionStatusConnected) {
+		[[self db] disconnect];
+	}
 	
 	return 0;
 }
