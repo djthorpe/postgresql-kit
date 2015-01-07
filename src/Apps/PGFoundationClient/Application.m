@@ -3,6 +3,9 @@
 
 @implementation Application
 
+////////////////////////////////////////////////////////////////////////////////
+// constructor
+
 -(id)init {
 	self = [super init];
 	if(self) {
@@ -15,10 +18,27 @@
 	return self;
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// properties
+
 @synthesize db = _db;
 @synthesize term = _term;
+@dynamic prompt;
 
-// methods
+-(NSString* )prompt {
+	// set prompt
+	NSString* databaseName = [[self db] database];
+	if(databaseName) {
+		return [NSString stringWithFormat:@"%@> ",databaseName];
+	} else {
+		NSProcessInfo* process = [NSProcessInfo processInfo];
+		return [NSString stringWithFormat:@"%@> ",[process processName]];
+	}
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// PGConnectionDelegate delegate implementation
+
 -(NSString* )connectionPasswordForParameters:(NSDictionary* )theParameters{
 	[[self term] printf:@"returning nil for password, parameters = %@",[theParameters description]];
 	return nil;
@@ -32,6 +52,19 @@
 	[[self term] printf:@"Error: %@ (%@/%d)",[theError localizedDescription],[theError domain],[theError code]];
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// private methods
+
+-(NSString* )translate:(NSString* )statement {
+	if([statement isEqualToString:@"\\dd"]) {
+		return @"SELECT datname AS Database FROM pg_database WHERE datistemplate = false;";
+	}
+	if([statement isEqualToString:@"\\dt"]) {
+		return @"SELECT table_name AS Table FROM information_schema.tables WHERE table_schema = 'public';";
+	}
+	return nil;
+}
+
 -(NSString* )execute:(NSString* )statement {
 	NSError* error = nil;
 	// trim
@@ -39,6 +72,17 @@
 	if(![statement length]) {
 		return nil;
 	}
+	
+	// check for "special commands"
+	if([statement hasPrefix:@"\\"]) {
+		NSString* statement2 = [self translate:statement];
+		if(!statement2) {
+			[[self term] printf:@"Error: Unknown command, %@",statement];
+			return nil;
+		}
+		statement = statement2;
+	}
+	
 	// execute
 	PGResult* r = [[self db] execute:statement error:&error];
 	if(!r) {
@@ -52,6 +96,9 @@
 	}
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// public methods
+
 -(int)run {
 	NSProcessInfo* process = [NSProcessInfo processInfo];
 	NSArray* arguments = [process arguments];
@@ -61,9 +108,6 @@
 		[[self term] printf:@"Error: missing URL argument"];
 		return -1;
 	}
-	
-	// set prompt
-	[[self term] setPrompt:[NSString stringWithFormat:@"%@> ",[process processName]]];
 	
 	// connect to database
 	NSURL* url = [NSURL URLWithString:[arguments objectAtIndex:1]];
@@ -75,18 +119,26 @@
 	}
 
 	while(![self signal]) {
+		// set prompt, read command
+		[[self term] setPrompt:[self prompt]];
 		NSString* line = [[self term] readline];
-		if(line) {
-			NSString* result = [self execute:line];
-			if(result) {
-				// add statement to history
-				[[self term] addHistory:line];
-				// display result
-				[[self term] printf:result];
-			}
-		} else {
+
+		// deal with the CTRL+D case
+		if(!line) {
 			[self setSignal:-1];
 			[[self term] printf:@""];
+			continue;
+		}
+		
+		// execute a statement
+		NSString* result = [self execute:line];
+
+		// display result
+		if(result) {
+			// add statement to history
+			[[self term] addHistory:line];
+			// display result
+			[[self term] printf:result];
 		}
 	}
 	

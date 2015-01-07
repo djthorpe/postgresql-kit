@@ -12,6 +12,7 @@
 @property (assign) int signal;
 @property (retain) PGConnection* db;
 @property (retain) Terminal* term;
+@property (readonly) NSString* prompt;
 
 // methods
 -(int)run;
