@@ -11,9 +11,9 @@
 }
 
 // properties
-@property (assign) int signal;
+@property (readonly) NSURL* url;
+@property (readonly) NSString* prompt;
 @property (retain) PGConnection* db;
 @property (retain) Terminal* term;
-@property (readonly) NSString* prompt;
 
 @end

@@ -483,7 +483,7 @@ NSString* PGServerSuperuser = @"postgres";
 			if(_currentTask==nil || [_currentTask isRunning]==NO) {
 				// Error occured during startup
 				[self _delegateMessage:[NSString stringWithFormat:@"Task ended with status %d",[_currentTask terminationStatus]]];
-				[self _setState:PGServerStateStopped];
+				[self _setState:PGServerStateError];
 			}
 			break;
 		case PGServerStateRunning0:
@@ -636,9 +636,6 @@ NSString* PGServerSuperuser = @"postgres";
 	
 	// if database process is already running, then set this as the state
 	int thePid = [self _pidFromPath:[self dataPath]];
-#ifdef DEBUG
-	NSLog(@"_pidFromPath returns %d",thePid);
-#endif
 	if(thePid > 0 && [self _doesProcessExist:thePid]) {
 		_pid = thePid;
 		_hostname = nil;

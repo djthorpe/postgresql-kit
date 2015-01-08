@@ -12,10 +12,10 @@ void handleSIGTERM(int signal) {
 
 void setHandleSignal() {
 	// handle TERM and INT signals 
-	signal(SIGTERM,handleSIGTERM);
+//	signal(SIGTERM,handleSIGTERM);
 	signal(SIGINT,handleSIGTERM);	  
-	signal(SIGKILL,handleSIGTERM);	  
-	signal(SIGQUIT,handleSIGTERM);	  
+//	signal(SIGKILL,handleSIGTERM);
+//	signal(SIGQUIT,handleSIGTERM);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -33,6 +33,7 @@ void setHandleSignal() {
 -(id)init {
 	self = [super init];
 	if(self) {
+		_stop = NO;
 		_returnValue = 0;
 		setHandleSignal();
 	}
@@ -51,15 +52,19 @@ void setHandleSignal() {
 // public methods
 
 -(void)stop {
-	// stop
-	_returnValue = 0;
-	// end run loop
+	// do nothing - needs override
+}
+
+-(void)stoppedWithReturnValue:(int)returnValue {
+	_stop = YES;
+	_returnValue = returnValue;
 	CFRunLoopStop([[NSRunLoop currentRunLoop] getCFRunLoop]);
 }
 
 -(int)run {
 	// set return value to be positive number
-	_returnValue = 1;
+	_stop = NO;
+	_returnValue = 0;
 	
 	// schedule
 	[NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(timerFired:) userInfo:nil repeats:NO];
@@ -70,7 +75,11 @@ void setHandleSignal() {
 	do {
 		NSDate* theNextDate = [NSDate dateWithTimeIntervalSinceNow:resolution];
 		isRunning = [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:theNextDate];
-	} while(isRunning==YES && _returnValue > 0);
+	} while(isRunning==YES && _stop==NO);
+
+#ifdef DEBUG
+	printf("returnValue=%d\n",_returnValue);
+#endif
 
 	// return the code
 	return _returnValue;

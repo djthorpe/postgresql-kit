@@ -24,6 +24,7 @@
 @synthesize db = _db;
 @synthesize term = _term;
 @dynamic prompt;
+@dynamic url;
 
 -(NSString* )prompt {
 	// set prompt
@@ -34,6 +35,15 @@
 		NSProcessInfo* process = [NSProcessInfo processInfo];
 		return [NSString stringWithFormat:@"%@> ",[process processName]];
 	}
+}
+
+-(NSURL* )url {
+	NSProcessInfo* process = [NSProcessInfo processInfo];
+	NSArray* arguments = [process arguments];
+	if([arguments count] < 2) {
+		return nil;
+	}
+	return [NSURL URLWithString:[arguments objectAtIndex:1]];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -103,87 +113,103 @@
 }
 
 -(BOOL)connect:(NSURL* )url inBackground:(BOOL)inBackground error:(NSError** )error {
-
 	// in the case of connecting in the foreground...
 	if(inBackground==NO) {
 		return [[self db] connectWithURL:url error:error];
 	}
-	
 	// if we are in the process of connecting, wait a while
 	if([[self db] status]==PGConnectionStatusConnecting) {
 		[NSThread sleepForTimeInterval:0.5];
 		return YES;
 	}
-
-	NSLog(@"status = %d",[[self db] status]);
-
 	// connect in background
 	return [[self db] connectInBackgroundWithURL:url whenDone:^(NSError* error) {
-		NSLog(@"Got error, code=%ld",[error code]);
 		if([error code]==PGClientErrorNeedsPassword) {
 			[[self term] printf:@"TODO: Ask for password"];
 		} else if([error code]) {
 			[self connection:[self db] error:error];
-			[self setSignal:-1];
+			[self stopWithReturnValue:-1];
 		}
 	}];
+}
 
+////////////////////////////////////////////////////////////////////////////////
+// background thread to read commands
+
+-(void)readlineThread:(id)anObject {
+	@autoreleasepool {
+		BOOL isRunning = YES;
+		while(isRunning) {
+			if([[self db] status] != PGConnectionStatusConnected) {
+				[[self term] printf:@"Connecting..."];
+				[NSThread sleepForTimeInterval:0.1];
+				continue;
+			}
+			// set prompt, read command
+			[[self term] setPrompt:[self prompt]];
+			NSString* line = [[self term] readline];
+			
+			// deal with CTRL+D
+			if(line==nil) {
+				isRunning = NO;
+				continue;
+			}
+			
+			// execute a statement
+			NSString* result = [self execute:line];
+
+			// display result
+			if(result) {
+				// add statement to history
+				[[self term] addHistory:line];
+				// display result
+				[[self term] printf:result];
+			}
+		}
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
 
--(int)run {
-	NSProcessInfo* process = [NSProcessInfo processInfo];
-	NSArray* arguments = [process arguments];
-	NSParameterAssert([arguments count]);
-	
-	if([arguments count] < 2) {
-		[[self term] printf:@"Error: missing URL argument"];
-		return -1;
-	}
-	
-	// connection URL
-	NSURL* url = [NSURL URLWithString:[arguments objectAtIndex:1]];
+-(void)setup {
 	NSError* error = nil;
-	
-	while(![self signal]) {
-		// if we are not connected yet, then continue to connect
-		if([[self db] status] != PGConnectionStatusConnected) {
-			[[self term] printf:@"Connecting..."];
-			[self connect:url inBackground:YES error:&error];
-			continue;
-		}
-		
-		// set prompt, read command
-		[[self term] setPrompt:[self prompt]];
-		NSString* line = [[self term] readline];
-
-		// deal with the CTRL+D case
-		if(!line) {
-			[self setSignal:-1];
-			[[self term] printf:@""];
-			continue;
-		}
-		
-		// execute a statement
-		NSString* result = [self execute:line];
-
-		// display result
-		if(result) {
-			// add statement to history
-			[[self term] addHistory:line];
-			// display result
-			[[self term] printf:result];
-		}
+	if([self url]==nil) {
+		[[self term] printf:@"Error: missing URL argument"];
+		[self stopWithReturnValue:-1];
+	}
+	BOOL isSuccess = [self connect:[self url] inBackground:YES error:&error];
+	if(isSuccess==NO) {
+		[self stopWithReturnValue:-1];
 	}
 	
-	// disconnect from database
+	// set up a separate thread to deal with input
+	[NSThread detachNewThreadSelector:@selector(readlineThread:) toTarget:self withObject:nil];
+}
+
+-(void)stop {
 	if([[self db] status]==PGConnectionStatusConnected) {
 		[[self db] disconnect];
 	}
-	
-	return 0;
+	[super stop];
+}
+
+-(void)stopWithReturnValue:(int)returnValue {
+	[self stop];
+	[self stoppedWithReturnValue:returnValue];
 }
 
 @end
+
+////////////////////////////////////////////////////////////////////////////////
+// main()
+
+int main (int argc, const char* argv[]) {
+	int returnValue = 0;
+	@autoreleasepool {
+		returnValue = [(PGFoundationApp* )[PGFoundationClient sharedApp] run];
+	}
+    return returnValue;
+}
+
+

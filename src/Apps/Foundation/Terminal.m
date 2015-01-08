@@ -3,7 +3,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-NSInteger DEFAULT_COLUMNS = 180;
+NSInteger DEFAULT_COLUMNS = 120;
 
 @implementation Terminal
 

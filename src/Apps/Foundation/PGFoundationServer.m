@@ -58,10 +58,12 @@
 		case PGServerStateError:
 			// error occured, so program should quit with -1 return value
 			printf("Server error, quitting\n");
+			[super stoppedWithReturnValue:-1];
 			break;
 		case PGServerStateStopped:
 			// quit the application
 			printf("Server stopped, ending application\n");
+			[super stoppedWithReturnValue:0];
 			break;
 		default:
 			printf("Server state: %s\n",[[PGServer stateAsString:state] UTF8String]);
