@@ -15,7 +15,8 @@ FOUNDATION_EXPORT const unsigned char PGClientKit_iosVersionString[];
 typedef enum {
 	PGConnectionStatusDisconnected = 0,
 	PGConnectionStatusConnected = 1,
-	PGConnectionStatusRejected = 2
+	PGConnectionStatusRejected = 2,
+	PGConnectionStatusConnecting = 3	
 } PGConnectionStatus;
 
 typedef enum {

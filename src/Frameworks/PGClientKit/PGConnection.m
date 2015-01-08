@@ -108,10 +108,19 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 	if(_connection==nil) {
 		return PGConnectionStatusDisconnected;
 	}
-	if(PQstatus(_connection) != CONNECTION_OK) {
-		return PGConnectionStatusRejected;
+	switch(PQstatus(_connection)) {
+		case CONNECTION_OK:
+			return PGConnectionStatusConnected;
+		case CONNECTION_STARTED:
+		case CONNECTION_MADE:
+		case CONNECTION_AWAITING_RESPONSE:
+		case CONNECTION_AUTH_OK:
+		case CONNECTION_SSL_STARTUP:
+		case CONNECTION_SETENV:
+			return PGConnectionStatusConnecting;
+		default:
+			return PGConnectionStatusRejected;
 	}
-	return PGConnectionStatusConnected;
 }
 
 -(NSString* )user {

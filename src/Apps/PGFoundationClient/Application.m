@@ -102,6 +102,31 @@
 	}
 }
 
+-(BOOL)connect:(NSURL* )url inBackground:(BOOL)inBackground error:(NSError** )error {
+
+	// in the case of connecting in the foreground...
+	if(inBackground==NO) {
+		return [[self db] connectWithURL:url error:error];
+	}
+	
+	// if we are in the process of connecting, wait a while
+	if([[self db] status]==PGConnectionStatusConnecting) {
+		[NSThread sleepForTimeInterval:0.5];
+		return YES;
+	}
+
+	// connect in background
+	return [[self db] connectInBackgroundWithURL:url whenDone:^(NSError* error) {
+		if([error code]==PGClientErrorNeedsPassword) {
+			[[self term] printf:@"TODO: Ask for password"];
+		} else if([error code]) {
+			[self connection:[self db] error:error];
+			[self setSignal:-1];
+		}
+	}];
+
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
 
@@ -115,18 +140,18 @@
 		return -1;
 	}
 	
-	// initiate connection to database in background
+	// connection URL
 	NSURL* url = [NSURL URLWithString:[arguments objectAtIndex:1]];
-	[[self db] connectInBackgroundWithURL:url whenDone:^(NSError* error) {
-		if([error code]==PGClientErrorNeedsPassword) {
-			[[self term] printf:@"TODO: Ask for password"];
-		} else if([error code]) {
-			[self connection:[self db] error:error];
-			[self setSignal:-1];
-		}
-	}];
-
+	NSError* error = nil;
+	
 	while(![self signal]) {
+		// if we are not connected yet, then continue to connect
+		if([[self db] status] != PGConnectionStatusConnected) {
+			[[self term] printf:@"Connecting..."];
+			[self connect:url inBackground:YES error:&error];
+			continue;
+		}
+		
 		// set prompt, read command
 		[[self term] setPrompt:[self prompt]];
 		NSString* line = [[self term] readline];
