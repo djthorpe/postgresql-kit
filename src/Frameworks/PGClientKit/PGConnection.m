@@ -76,6 +76,7 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 	if(self) {
 		_connection = nil;
 		_lock = [[NSLock alloc] init];
+		_bgflag = NO;
 		pgdata2obj_init();
 	}
 	
@@ -272,6 +273,7 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 	NSError* error = [parameters objectAtIndex:1];
 	NSLog(@"unlocking");
 	[_lock unlock];
+	_bgflag = NO;
 	callback(error);
 }
 
@@ -513,6 +515,8 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 		callback([self raiseError:nil code:PGClientErrorParameters url:url reason:nil]);
 		return NO;
 	}
+	// set fake status
+	_bgflag = YES;
 	[NSThread detachNewThreadSelector:@selector(_connectPollWithParametersThread:) toTarget:self withObject:@[ [NSThread currentThread],[NSValue valueWithPointer:connection],callback ]];
 	return YES;
 }
