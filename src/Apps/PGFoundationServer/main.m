@@ -9,28 +9,10 @@
 #import "PGFoundationApp.h"
 #import "PGFoundationServer.h"
 
-////////////////////////////////////////////////////////////////////////////////
-
-static PGFoundationApp* app = nil;
-
-void handleSIGTERM(int signal) {
-	printf("Caught signal: %d\n",signal);
-	[app stop];
-}
-
-void setHandleSignal() {
-	// handle TERM and INT signals 
-	signal(SIGTERM,handleSIGTERM);
-	signal(SIGINT,handleSIGTERM);	  
-	signal(SIGKILL,handleSIGTERM);	  
-	signal(SIGQUIT,handleSIGTERM);	  
-}
-
 int main (int argc, const char* argv[]) {
 	int returnValue = 0;
 	@autoreleasepool {
-		app = [[PGFoundationServer alloc] init];
-		returnValue = [app run];
+		returnValue = [(PGFoundationApp* )[PGFoundationServer sharedApp] run];
 	}
     return returnValue;
 }

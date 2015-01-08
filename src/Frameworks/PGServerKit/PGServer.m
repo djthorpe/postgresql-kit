@@ -574,7 +574,8 @@ NSString* PGServerSuperuser = @"postgres";
 	[theTask waitUntilExit];
 	int theReturnCode = [theTask terminationStatus];
 	if(theReturnCode==0 && [theVersion length]) {
-		return [[NSString alloc] initWithData:theVersion encoding:NSUTF8StringEncoding];
+		NSString* version = [[NSString alloc] initWithData:theVersion encoding:NSUTF8StringEncoding];
+		return [version stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 	} else {
 		return nil;
 	}
