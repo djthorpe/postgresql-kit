@@ -37,13 +37,11 @@
 		case PGServerStateError:
 			// error occured, so program should quit with -1 return value
 			printf("Server error, quitting\n");
-			_returnValue = -1;
 			CFRunLoopStop([[NSRunLoop currentRunLoop] getCFRunLoop]);
 			break;
 		case PGServerStateStopped:
 			// quit the application
 			printf("Server stopped, ending application\n");
-			_returnValue = 0;
 			CFRunLoopStop([[NSRunLoop currentRunLoop] getCFRunLoop]);
 			break;
 		default:
