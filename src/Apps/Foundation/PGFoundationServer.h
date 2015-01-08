@@ -7,7 +7,7 @@
 // properties
 @property PGServer* server;
 @property (readonly) NSString* dataPath;
-//@property NSUInteger port;
-//@property NSString* hostname;
+@property (readonly) NSUInteger port;
+@property (readonly) NSString* hostname;
 
 @end

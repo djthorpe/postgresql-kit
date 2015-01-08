@@ -11,12 +11,28 @@
 // properties
 
 @dynamic dataPath;
+@dynamic port;
+@dynamic hostname;
 
 -(NSString* )dataPath {
 	NSString* theIdent = [[NSProcessInfo processInfo] processName];
 	NSArray* theAppFolder = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory,NSUserDomainMask, YES);
 	NSParameterAssert([theAppFolder count]);
 	return [[theAppFolder objectAtIndex:0] stringByAppendingPathComponent:theIdent];
+}
+
+-(NSUInteger)port {
+	// retrieve port from NSUserDefaults
+	if([[NSUserDefaults standardUserDefaults] objectForKey:@"port"]) {
+		return [[NSUserDefaults standardUserDefaults] integerForKey:@"port"];
+	} else {
+		return PGServerDefaultPort;
+	}
+}
+
+-(NSString* )hostname {
+	// retrieve hostname from NSUserDefaults
+	return [[NSUserDefaults standardUserDefaults] stringForKey:@"hostname"];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -42,12 +58,10 @@
 		case PGServerStateError:
 			// error occured, so program should quit with -1 return value
 			printf("Server error, quitting\n");
-			CFRunLoopStop([[NSRunLoop currentRunLoop] getCFRunLoop]);
 			break;
 		case PGServerStateStopped:
 			// quit the application
 			printf("Server stopped, ending application\n");
-			CFRunLoopStop([[NSRunLoop currentRunLoop] getCFRunLoop]);
 			break;
 		default:
 			printf("Server state: %s\n",[[PGServer stateAsString:state] UTF8String]);
@@ -64,8 +78,7 @@
 	[self setServer:server];
 	[[self server] setDelegate:self];
 	// start server
-	[[self server] start];
-	//[[self server] startWithNetworkBinding:[self hostname] port:[self port]];
+	[[self server] startWithNetworkBinding:[self hostname] port:[self port]];
 }
 
 -(void)stop {
@@ -85,43 +98,3 @@ int main (int argc, const char* argv[]) {
 	}
     return returnValue;
 }
-
-/*
-
-@dynamic port;
-@dynamic hostname;
-
--(NSUInteger)port {
-	PGServerPreferences* configuration = [[self server] configuration];
-	NSUInteger port = 0;
-	
-	// retrieve port from NSUserDefaults
-	if([[NSUserDefaults standardUserDefaults] objectForKey:@"port"]) {
-		port = [[NSUserDefaults standardUserDefaults] integerForKey:@"port"];
-
-		// save port in configuration file
-		[configuration setPort:port];
-		if([configuration modified]) {
-			[configuration save];
-		}
-	}
-	
-	// return saved port
-	return [configuration port];
-}
-
--(NSString* )hostname {
-	PGServerPreferences* configuration = [[self server] configuration];
-	NSString* hostname = [[NSUserDefaults standardUserDefaults] stringForKey:@"hostname"];
-	
-	if(hostname) {
-		[configuration setListenAddresses:hostname];
-		if([configuration modified]) {
-			[configuration save];
-		}
-	}
-
-	return [configuration listenAddresses];
-}
-*/
-

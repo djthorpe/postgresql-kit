@@ -1,9 +1,11 @@
 
 #import <Foundation/Foundation.h>
 #import <PGClientKit/PGClientKit.h>
+
+#import "PGFoundationApp.h"
 #import "Terminal.h"
 
-@interface Application : NSObject <PGConnectionDelegate> {
+@interface PGFoundationClient : PGFoundationApp <PGConnectionDelegate> {
 	PGConnection* _db;
 	Terminal* _term;
 }
@@ -13,8 +15,5 @@
 @property (retain) PGConnection* db;
 @property (retain) Terminal* term;
 @property (readonly) NSString* prompt;
-
-// methods
--(int)run;
 
 @end

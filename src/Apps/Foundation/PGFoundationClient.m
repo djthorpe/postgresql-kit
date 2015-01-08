@@ -1,7 +1,7 @@
 
-#import "Application.h"
+#import "PGFoundationClient.h"
 
-@implementation Application
+@implementation PGFoundationClient
 
 ////////////////////////////////////////////////////////////////////////////////
 // constructor

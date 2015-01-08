@@ -53,6 +53,8 @@ void setHandleSignal() {
 -(void)stop {
 	// stop
 	_returnValue = 0;
+	// end run loop
+	CFRunLoopStop([[NSRunLoop currentRunLoop] getCFRunLoop]);
 }
 
 -(int)run {
