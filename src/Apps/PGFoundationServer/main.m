@@ -6,15 +6,16 @@
 */
 
 #import <Foundation/Foundation.h>
+#import "PGFoundationApp.h"
 #import "PGFoundationServer.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 
-static PGFoundationServer* controller = nil;
+static PGFoundationApp* app = nil;
 
 void handleSIGTERM(int signal) {
 	printf("Caught signal: %d\n",signal);
-	[controller stop];
+	[app stop];
 }
 
 void setHandleSignal() {
@@ -28,12 +29,8 @@ void setHandleSignal() {
 int main (int argc, const char* argv[]) {
 	int returnValue = 0;
 	@autoreleasepool {
-		// handle signals
-		setHandleSignal();
-		// delegate object
-		controller = [[PGFoundationServer alloc] init];
-		// run loop
-		returnValue = [controller start];
+		app = [[PGFoundationServer alloc] init];
+		returnValue = [app run];
 	}
     return returnValue;
 }

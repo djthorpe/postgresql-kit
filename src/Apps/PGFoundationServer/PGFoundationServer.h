@@ -1,18 +1,13 @@
-#import <Foundation/Foundation.h>
+
+#import "PGFoundationApp.h"
 #import <PGServerKit/PGServerKit.h>
 
-@interface PGFoundationServer : NSObject <PGServerDelegate> {
-	int _returnValue;
-}
+@interface PGFoundationServer : PGFoundationApp <PGServerDelegate>
 
 // properties
-@property (readonly) NSString* dataPath;
 @property PGServer* server;
-@property NSUInteger port;
-@property NSString* hostname;
-
-// methods
--(int)start; // start run loop and exit when done
--(void)stop; // signal application to stop
+@property (readonly) NSString* dataPath;
+//@property NSUInteger port;
+//@property NSString* hostname;
 
 @end

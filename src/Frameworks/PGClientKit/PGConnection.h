@@ -10,7 +10,7 @@ extern NSString* PGClientErrorDomain;
 @interface PGConnection : NSObject {
 	void* _connection;
 	NSLock* _lock;
-	BOOL _bgflag;
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////

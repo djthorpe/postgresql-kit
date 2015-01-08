@@ -6,8 +6,6 @@
 // properties
 
 @dynamic dataPath;
-@dynamic port;
-@dynamic hostname;
 
 -(NSString* )dataPath {
 	NSString* theIdent = @"PostgreSQL";
@@ -15,6 +13,11 @@
 	NSParameterAssert([theAppFolder count]);
 	return [[theAppFolder objectAtIndex:0] stringByAppendingPathComponent:theIdent];
 }
+
+/*
+
+@dynamic port;
+@dynamic hostname;
 
 -(NSUInteger)port {
 	PGServerPreferences* configuration = [[self server] configuration];
@@ -48,6 +51,7 @@
 
 	return [configuration listenAddresses];
 }
+*/
 
 ////////////////////////////////////////////////////////////////////////////////
 // delegate methods
@@ -86,6 +90,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 // start/stop methods
+/*
 
 -(int)start {
 	// create a server
@@ -115,10 +120,6 @@
 	return _returnValue;
 }
 
--(void)stop {
-	[[self server] stop];
-}
-
 ////////////////////////////////////////////////////////////////////////////////
 // we need to fire the timer once to actually start the server up, once the
 // run loop is looping around.
@@ -128,6 +129,25 @@
 	if(state==PGServerStateUnknown) {
 		[[self server] startWithNetworkBinding:[self hostname] port:[self port]];
 	}
+}
+*/
+
+////////////////////////////////////////////////////////////////////////////////
+// methods
+
+-(void)setup {
+	// create a server
+	PGServer* server = [PGServer serverWithDataPath:[self dataPath]];
+	// bind to server
+	[self setServer:server];
+	[[self server] setDelegate:self];
+	// start server
+	[[self server] start];
+}
+
+-(void)stop {
+	[[self server] stop];
+	[super stop];
 }
 
 @end
