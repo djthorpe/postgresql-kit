@@ -270,6 +270,7 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 	NSParameterAssert(parameters && [parameters isKindOfClass:[NSArray class]] && [parameters count]==2);
 	void(^callback)(NSError* error) = [parameters objectAtIndex:0];
 	NSError* error = [parameters objectAtIndex:1];
+	NSLog(@"unlocking");
 	[_lock unlock];
 	callback(error);
 }
@@ -439,12 +440,12 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 
 -(BOOL)connectWithURL:(NSURL* )url error:(NSError** )error {
 	if([_lock tryLock]==NO) {
-		[self raiseError:error code:PGClientErrorState url:url reason:nil];
+		[self raiseError:error code:PGClientErrorState url:url reason:@"Cannot obtain lock"];
 		return NO;
 	}
 	if(_connection != nil) {
 		[_lock unlock];
-		[self raiseError:error code:PGClientErrorState url:url reason:nil];
+		[self raiseError:error code:PGClientErrorState url:url reason:@"Connection already established"];
 		return NO;
 	}
 	// extract parameters
@@ -485,12 +486,12 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 
 -(BOOL)connectInBackgroundWithURL:(NSURL* )url whenDone:(void(^)(NSError* error)) callback {
 	if([_lock tryLock]==NO) {
-		callback([self raiseError:nil code:PGClientErrorState url:url reason:nil]);
+		callback([self raiseError:nil code:PGClientErrorState url:url reason:@"Cannot obtain lock"]);
 		return NO;
 	}
 	if(_connection != nil) {
 		[_lock unlock];
-		callback([self raiseError:nil code:PGClientErrorState url:url reason:nil]);
+		callback([self raiseError:nil code:PGClientErrorState url:url reason:@"Connection already established"]);
 		return NO;
 	}
 	// extract parameters

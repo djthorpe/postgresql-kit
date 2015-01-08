@@ -116,7 +116,9 @@
 	}
 
 	// connect in background
+	[NSThread sleepForTimeInterval:0.5];
 	return [[self db] connectInBackgroundWithURL:url whenDone:^(NSError* error) {
+		NSLog(@"Got error, code=%ld",[error code]);
 		if([error code]==PGClientErrorNeedsPassword) {
 			[[self term] printf:@"TODO: Ask for password"];
 		} else if([error code]) {
