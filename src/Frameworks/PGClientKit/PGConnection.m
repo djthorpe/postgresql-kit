@@ -11,8 +11,6 @@ NSString* PGClientErrorURLKey = @"PGClientErrorURL";
 NSUInteger PGClientDefaultPort = DEF_PGPORT;
 NSUInteger PGClientMaximumPort = 65535;
 
-void PGConnectionNoticeProcessor(void* arg,const char* cString);
-
 ////////////////////////////////////////////////////////////////////////////////
 
 typedef struct {
@@ -55,6 +53,10 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 	return pairs;
 }
 
+void PGConnectionNoticeProcessor(void* arg,const char* cString) {
+	NSLog(@"TODO: PGConnectionNoticeProcessor: %s",cString);
+}
+
 @implementation PGConnection
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -76,6 +78,7 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 	if(self) {
 		_connection = nil;
 		_lock = [[NSLock alloc] init];
+		_status = PGConnectionStatusDisconnected;
 		pgdata2obj_init();
 	}
 	
@@ -334,7 +337,10 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 					break;
 			}
 #endif
-		} while(status != PGRES_POLLING_OK && status != PGRES_POLLING_FAILED);		
+		} while(status != PGRES_POLLING_OK && status != PGRES_POLLING_FAILED);
+
+		// check for changed status
+		[self _checkStatusChange];
 
 		NSError* error = nil;
 		if(status==PGRES_POLLING_OK) {
@@ -351,6 +357,10 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 			}
 			PQfinish(connection);
 			_connection = nil;
+	
+			// check for changed status
+			[self _checkStatusChange];
+
 		}
 		// unlock and callback on the main thread
 		[self performSelector:@selector(_pollUnlock:) onThread:mainThread withObject:@[ callback, error ] waitUntilDone:NO];
@@ -420,7 +430,7 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 		
 		NSError* error = nil;
 		if(status==PGRES_POLLING_OK) {
-			// TODO PQsetNoticeProcessor(_connection,PGConnectionNoticeProcessor,_connection);
+			PQsetNoticeProcessor(_connection,PGConnectionNoticeProcessor,_connection);
 			error = [self raiseError:nil code:PGClientErrorNone reason:nil];
 		} else if(PQconnectionNeedsPassword(_connection)) {
 			error = [self raiseError:nil code:PGClientErrorNeedsPassword reason:nil];
@@ -432,6 +442,16 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 		// unlock and callback on the main thread
 		[self performSelector:@selector(_pollUnlock:) onThread:mainThread withObject:@[ callback, error ] waitUntilDone:NO];
 	}
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Private methods - status change
+
+-(void)_checkStatusChange {
+	if(_status != [self status] && [[self delegate] respondsToSelector:@selector(connection:statusChange:)]) {
+		[[self delegate] connection:self statusChange:[self status]];
+	}
+	_status = [self status];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -462,6 +482,10 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 		connection = PQconnectdbParams(pairs->keywords,pairs->values,0);
 		freeKVPairs(pairs);
 	}
+	
+	// check for changed status
+	[self _checkStatusChange];
+	
 	if(connection==nil) {
 		[self raiseError:error code:PGClientErrorParameters url:url reason:nil];
 	} else if(PQstatus(connection) == CONNECTION_OK) {
@@ -554,6 +578,10 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 	if(_connection != nil) {
 		PQfinish(_connection);
 		_connection = nil;
+		
+		// check for changed status
+		[self _checkStatusChange];
+
 	}
 	[_lock unlock];
 	return YES;
@@ -571,6 +599,10 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 	} else {
 		PQreset(_connection);
 		[_lock unlock];
+
+		// check for changed status
+		[self _checkStatusChange];
+
 		return YES;
 	}
 }

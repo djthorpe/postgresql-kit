@@ -10,7 +10,7 @@ extern NSString* PGClientErrorDomain;
 @interface PGConnection : NSObject {
 	void* _connection;
 	NSLock* _lock;
-
+	PGConnectionStatus _status;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -110,5 +110,7 @@ extern NSString* PGClientErrorDomain;
 -(void)connection:(PGConnection* )connection willOpenWithParameters:(NSMutableDictionary* )dictionary;
 -(void)connection:(PGConnection* )connection willExecute:(NSString* )theQuery values:(NSArray* )values;
 -(void)connection:(PGConnection* )connection error:(NSError* )theError;
+-(void)connection:(PGConnection* )connection statusChange:(PGConnectionStatus)status;
+
 @end
 

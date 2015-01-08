@@ -58,8 +58,8 @@
 	}
 }
 
--(void)connection:(PGConnection* )connection willExecute:(NSString* )theQuery values:(NSArray* )values {
-	// TODO
+-(void)connection:(PGConnection* )connection statusChange:(PGConnectionStatus)status {
+	[[self term] printf:@"Status Change: %d",status];
 }
 
 -(void)connection:(PGConnection* )connection error:(NSError* )theError {
@@ -141,7 +141,6 @@
 		BOOL isRunning = YES;
 		while(isRunning) {
 			if([[self db] status] != PGConnectionStatusConnected) {
-				[[self term] printf:@"Connecting..."];
 				[NSThread sleepForTimeInterval:0.1];
 				continue;
 			}
