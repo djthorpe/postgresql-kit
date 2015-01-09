@@ -41,6 +41,11 @@ void setHandleSignal() {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+// properties
+
+@synthesize stopping = _stop;
+
+////////////////////////////////////////////////////////////////////////////////
 // private methods
 
 -(void)timerFired:(id)theTimer {
@@ -52,11 +57,11 @@ void setHandleSignal() {
 // public methods
 
 -(void)stop {
-	// do nothing - needs override
+	_stop = YES;
 }
 
 -(void)stoppedWithReturnValue:(int)returnValue {
-	_stop = YES;
+	NSParameterAssert(_stop==YES);
 	_returnValue = returnValue;
 	CFRunLoopStop([[NSRunLoop currentRunLoop] getCFRunLoop]);
 }

@@ -8,6 +8,11 @@
 // constructor
 +(id)sharedApp;
 
+// properties
+@property (readonly) BOOL stopping;
+
+// methods
+
 // run is called to start the application and will block. will return 0 on
 // successful completion, or error code otherwise
 -(int)run;

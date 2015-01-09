@@ -59,7 +59,9 @@
 }
 
 -(void)connection:(PGConnection* )connection statusChange:(PGConnectionStatus)status {
-	[[self term] printf:@"Status Change: %d",status];
+	if([self stopping] && status==PGConnectionStatusDisconnected) {
+		[self stoppedWithReturnValue:0];
+	}
 }
 
 -(void)connection:(PGConnection* )connection error:(NSError* )theError {
@@ -128,7 +130,7 @@
 			[[self term] printf:@"TODO: Ask for password"];
 		} else if([error code]) {
 			[self connection:[self db] error:error];
-			[self stopWithReturnValue:-1];
+			[self stop];
 		}
 	}];
 }
@@ -166,6 +168,14 @@
 			}
 		}
 	}
+	[self performSelectorOnMainThread:@selector(readlineThreadEnded:) withObject:nil waitUntilDone:YES];
+#ifdef DEBUG
+	NSLog(@"Background thread ended");
+#endif
+}
+
+-(void)readlineThreadEnded:(id)sender {
+	[self stop];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -175,11 +185,11 @@
 	NSError* error = nil;
 	if([self url]==nil) {
 		[[self term] printf:@"Error: missing URL argument"];
-		[self stopWithReturnValue:-1];
+		[self stop];
 	}
 	BOOL isSuccess = [self connect:[self url] inBackground:YES error:&error];
 	if(isSuccess==NO) {
-		[self stopWithReturnValue:-1];
+		[self stop];
 	}
 	
 	// set up a separate thread to deal with input
@@ -187,15 +197,15 @@
 }
 
 -(void)stop {
-	if([[self db] status]==PGConnectionStatusConnected) {
-		[[self db] disconnect];
-	}
 	[super stop];
-}
 
--(void)stopWithReturnValue:(int)returnValue {
-	[self stop];
-	[self stoppedWithReturnValue:returnValue];
+	if([[self db] status]==PGConnectionStatusConnected) {
+		[[self term] printf:@"Disconnecting"];
+		[[self db] disconnect];
+	} else {
+		// no tear-down to be performed, so indicate stopped
+		[self stoppedWithReturnValue:0];
+	}
 }
 
 @end

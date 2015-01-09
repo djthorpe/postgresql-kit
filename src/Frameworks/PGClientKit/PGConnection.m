@@ -337,16 +337,17 @@ void PGConnectionNoticeProcessor(void* arg,const char* cString) {
 					break;
 			}
 #endif
+			[self _setStatus:PGConnectionStatusConnecting];
 		} while(status != PGRES_POLLING_OK && status != PGRES_POLLING_FAILED);
 
-		// check for changed status
-		[self _checkStatusChange];
+		[self _setStatus:[self status]];
 
 		NSError* error = nil;
 		if(status==PGRES_POLLING_OK) {
 			// TODO PQsetNoticeProcessor(_connection,PGConnectionNoticeProcessor,_connection);
 			_connection = connection;
 			error = [self raiseError:nil code:PGClientErrorNone reason:nil];
+			[self _setStatus:PGConnectionStatusConnected];
 		} else {
 			if(PQconnectionNeedsPassword(connection)) {
 				error = [self raiseError:nil code:PGClientErrorNeedsPassword reason:nil];
@@ -357,10 +358,7 @@ void PGConnectionNoticeProcessor(void* arg,const char* cString) {
 			}
 			PQfinish(connection);
 			_connection = nil;
-	
-			// check for changed status
-			[self _checkStatusChange];
-
+			[self _setStatus:PGConnectionStatusRejected];
 		}
 		// unlock and callback on the main thread
 		[self performSelector:@selector(_pollUnlock:) onThread:mainThread withObject:@[ callback, error ] waitUntilDone:NO];
@@ -447,11 +445,14 @@ void PGConnectionNoticeProcessor(void* arg,const char* cString) {
 ////////////////////////////////////////////////////////////////////////////////
 // Private methods - status change
 
--(void)_checkStatusChange {
-	if(_status != [self status] && [[self delegate] respondsToSelector:@selector(connection:statusChange:)]) {
-		[[self delegate] connection:self statusChange:[self status]];
+-(void)_setStatus:(PGConnectionStatus)status {
+	if(_status==status) {
+		return;
 	}
-	_status = [self status];
+	if([[self delegate] respondsToSelector:@selector(connection:statusChange:)]) {
+		[[self delegate] connection:self statusChange:status];
+	}
+	_status = status;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -474,6 +475,10 @@ void PGConnectionNoticeProcessor(void* arg,const char* cString) {
 		[self raiseError:error code:PGClientErrorParameters url:url reason:nil];
 		return NO;
 	}
+
+	// set connecting status
+	[self _setStatus:PGConnectionStatusConnecting];
+
 	// make the connection
 	PGKVPairs* pairs = makeKVPairs(parameters);
 	BOOL returnValue = NO;
@@ -483,17 +488,16 @@ void PGConnectionNoticeProcessor(void* arg,const char* cString) {
 		freeKVPairs(pairs);
 	}
 	
-	// check for changed status
-	[self _checkStatusChange];
-	
 	if(connection==nil) {
 		[self raiseError:error code:PGClientErrorParameters url:url reason:nil];
+		[self _setStatus:PGConnectionStatusRejected];
 	} else if(PQstatus(connection) == CONNECTION_OK) {
 		// set up the connection
 		// TODO PQsetNoticeProcessor(connection,PGConnectionNoticeProcessor,connection);
 		// return success
 		_connection = connection;
 		returnValue = YES;
+		[self _setStatus:PGConnectionStatusConnected];
 	} else {
 		if(PQconnectionNeedsPassword(connection)) {
 			[self raiseError:error code:PGClientErrorNeedsPassword url:url reason:nil];
@@ -502,12 +506,16 @@ void PGConnectionNoticeProcessor(void* arg,const char* cString) {
 		} else {
 			[self raiseError:error code:PGClientErrorRejected url:url reason:@"%s",PQerrorMessage(connection)];
 		}
+		[self _setStatus:PGConnectionStatusRejected];
 	}
 	[_lock unlock];
 	return returnValue;
 }
 
 -(BOOL)connectInBackgroundWithURL:(NSURL* )url whenDone:(void(^)(NSError* error)) callback {
+
+	[self _setStatus:PGConnectionStatusConnecting];
+
 	if([_lock tryLock]==NO) {
 		callback([self raiseError:nil code:PGClientErrorState url:url reason:@"Cannot obtain lock"]);
 		return NO;
@@ -580,7 +588,7 @@ void PGConnectionNoticeProcessor(void* arg,const char* cString) {
 		_connection = nil;
 		
 		// check for changed status
-		[self _checkStatusChange];
+		[self _setStatus:PGConnectionStatusDisconnected];
 
 	}
 	[_lock unlock];
@@ -601,7 +609,7 @@ void PGConnectionNoticeProcessor(void* arg,const char* cString) {
 		[_lock unlock];
 
 		// check for changed status
-		[self _checkStatusChange];
+		[self _setStatus:[self status]];
 
 		return YES;
 	}
