@@ -11,6 +11,7 @@
 	if(self) {
 		_db = [[PGConnection alloc] init];
 		_term = [[Terminal alloc] init];
+		_password = nil;
 		NSParameterAssert(_db);
 		NSParameterAssert(_term);
 		[_db setDelegate:self];
@@ -23,8 +24,10 @@
 
 @synthesize db = _db;
 @synthesize term = _term;
+@synthesize password = _password;
 @dynamic prompt;
 @dynamic url;
+@dynamic useKeychain;
 
 -(NSString* )prompt {
 	// set prompt
@@ -46,6 +49,10 @@
 	return [NSURL URLWithString:[arguments objectAtIndex:1]];
 }
 
+-(BOOL)useKeychain {
+	return YES;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // PGConnectionDelegate delegate implementation
 
@@ -55,6 +62,24 @@
 	if(![user length]) {
 		[dictionary setObject:NSUserName() forKey:@"user"];
 	}
+
+	// store and retrieve password
+	if([self password]) {
+		NSError* error = nil;
+		if([dictionary objectForKey:@"password"]) {
+			NSError* error = nil;
+			[[self password] setPassword:[dictionary objectForKey:@"password"] forURL:[self url] saveToKeychain:YES error:&error];
+		} else {
+			NSString* password = [[self password] passwordForURL:[self url] error:&error];
+			if(password) {
+				[dictionary setObject:password forKey:@"password"];
+			}
+		}
+		if(error) {
+			[[self term] printf:@"Keychain error: %@",[error localizedDescription]];
+		}
+	}
+	
 	// display parameters
 	for(NSString* key in dictionary) {
 		if([key isEqualToString:@"password"]) {
@@ -65,10 +90,20 @@
 }
 
 -(void)connection:(PGConnection* )connection statusChange:(PGConnectionStatus)status {
+
+	// disconnected
 	if([self stopping] && status==PGConnectionStatusDisconnected) {
 		// indicate server connection has been shutdown
 		[self stoppedWithReturnValue:0];
+		return;
 	}
+	
+	// connected
+	//if(status==PGConnectionStatusConnected && [self shouldStorePassword] && [self temporaryPassword]) {
+	//	PGPasswordStore* store = [PGPasswordStore new];
+	//	NSLog(@"TODO: Store password: %@",[self temporaryPassword]);
+	//}
+	
 }
 
 -(void)connection:(PGConnection* )connection error:(NSError* )theError {
@@ -149,6 +184,7 @@
 				[NSThread sleepForTimeInterval:0.1];
 				continue;
 			}
+			
 			// set prompt, read command
 			[[self term] setPrompt:[self prompt]];
 			NSString* line = [[self term] readline];
@@ -185,11 +221,18 @@
 // public methods
 
 -(void)setup {
+	// check for URL argument
 	NSError* error = nil;
 	if([self url]==nil) {
 		[[self term] printf:@"Error: missing URL argument"];
 		[self stop];
 	}
+	
+	// create password store if we can use the keychain
+	if([self useKeychain]) {
+		[self setPassword:[PGPasswordStore new]];
+	}
+	
 	BOOL isSuccess = [self connect:[self url] inBackground:NO error:&error];
 	if(isSuccess==NO) {
 		[self stop];
