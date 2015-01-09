@@ -2,6 +2,7 @@
 #import "Terminal.h"
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <sys/ioctl.h>
 
 NSInteger DEFAULT_COLUMNS = 120;
 
@@ -14,13 +15,13 @@ NSInteger DEFAULT_COLUMNS = 120;
 @dynamic columns;
 
 -(NSInteger)columns {
-	return DEFAULT_COLUMNS;
-/*	NSString* columns = [[[NSProcessInfo processInfo] environment] objectForKey:@"COLUMNS"];
-	NSLog(@"cols = %@",[[NSProcessInfo processInfo] environment]);
-	if(columns==nil) {
+	struct winsize w;
+	ioctl(STDOUT_FILENO,TIOCGWINSZ, &w);
+	if(w.ws_col < 10 || w.ws_col > 200) {
+		return DEFAULT_COLUMNS;
+	} else {
+		return w.ws_col;
 	}
-	return [columns integerValue];
-*/
 }
 
 ////////////////////////////////////////////////////////////////////////////////
