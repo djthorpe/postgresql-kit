@@ -34,19 +34,21 @@
 		maxWidth[i] = 0;
 	}
 	// work out maximum width of each column
-	[self setRowNumber:0];
-	NSArray* row = nil;
-	while((row = [self fetchRowAsArray])) {
-		for(NSUInteger i = 0; i < [self numberOfColumns]; i++) {
-			NSString* value = nil;
-			if([row count] > i) {
-				value = [[row objectAtIndex:i] description];
-			} else {
-				value = @"";
-			}
-			NSUInteger cellWidth = [value length];
-			if(cellWidth > maxWidth[i]) {
-				maxWidth[i] = cellWidth;
+	if([self size]) {
+		[self setRowNumber:0];
+		NSArray* row = nil;
+		while((row = [self fetchRowAsArray])) {
+			for(NSUInteger i = 0; i < [self numberOfColumns]; i++) {
+				NSString* value = nil;
+				if([row count] > i) {
+					value = [[row objectAtIndex:i] description];
+				} else {
+					value = @"";
+				}
+				NSUInteger cellWidth = [value length];
+				if(cellWidth > maxWidth[i]) {
+					maxWidth[i] = cellWidth;
+				}
 			}
 		}
 	}
@@ -93,17 +95,21 @@
 	[table addObject:[self _rowAsString:[NSArray array] columnWidth:columnWidth delimiter:'+' padding:'-']];
 
 	// add in rows
-	[self setRowNumber:0];
-	NSArray* row = nil;
-	while((row = [self fetchRowAsArray])) {
-		[table addObject:[self _rowAsString:row columnWidth:columnWidth delimiter:'|' padding:' ']];
+	if([self size]) {
+		[self setRowNumber:0];
+		NSArray* row = nil;
+		while((row = [self fetchRowAsArray])) {
+			[table addObject:[self _rowAsString:row columnWidth:columnWidth delimiter:'|' padding:' ']];
+		}
 	}
 
 	// add footer
 	[table addObject:[self _rowAsString:[NSArray array] columnWidth:columnWidth delimiter:'+' padding:'-']];
 
 	// return ascii table
-	[self setRowNumber:oldCurrentRow];
+	if([self size]) {
+		[self setRowNumber:oldCurrentRow];
+	}
 	return [table componentsJoinedByString:@"\n"];
 }
 @end

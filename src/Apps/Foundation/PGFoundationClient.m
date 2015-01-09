@@ -50,6 +50,12 @@
 // PGConnectionDelegate delegate implementation
 
 -(void)connection:(PGConnection* )connection willOpenWithParameters:(NSMutableDictionary* )dictionary {
+	// add username if that's not in the dictionary
+	NSString* user = [dictionary objectForKey:@"user"];
+	if(![user length]) {
+		[dictionary setObject:NSUserName() forKey:@"user"];
+	}
+	// display parameters
 	for(NSString* key in dictionary) {
 		if([key isEqualToString:@"password"]) {
 			continue;
