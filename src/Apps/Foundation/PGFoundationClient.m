@@ -127,11 +127,6 @@
 	if(inBackground==NO) {
 		return [[self db] connectWithURL:url error:error];
 	}
-	// if we are in the process of connecting, wait a while
-	if([[self db] status]==PGConnectionStatusConnecting) {
-		[NSThread sleepForTimeInterval:0.5];
-		return YES;
-	}
 	// connect in background
 	return [[self db] connectInBackgroundWithURL:url whenDone:^(NSError* error) {
 		if([error code]==PGClientErrorNeedsPassword) {
