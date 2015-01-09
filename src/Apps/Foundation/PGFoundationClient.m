@@ -9,11 +9,10 @@
 -(id)init {
 	self = [super init];
 	if(self) {
-		_db = [[PGConnection alloc] init];
-		_term = [[Terminal alloc] init];
-		_password = nil;
-		NSParameterAssert(_db);
-		NSParameterAssert(_term);
+		_db = [PGConnection new];
+		_term = [Terminal new];
+		_password = [PGPasswordStore new];
+		NSParameterAssert(_db && _term && _password);
 		[_db setDelegate:self];
 	}
 	return self;
@@ -57,6 +56,7 @@
 // PGConnectionDelegate delegate implementation
 
 -(void)connection:(PGConnection* )connection willOpenWithParameters:(NSMutableDictionary* )dictionary {
+
 	// add username if that's not in the dictionary
 	NSString* user = [dictionary objectForKey:@"user"];
 	if(![user length]) {
@@ -68,7 +68,7 @@
 		NSError* error = nil;
 		if([dictionary objectForKey:@"password"]) {
 			NSError* error = nil;
-			[[self password] setPassword:[dictionary objectForKey:@"password"] forURL:[self url] saveToKeychain:YES error:&error];
+			[[self password] setPassword:[dictionary objectForKey:@"password"] forURL:[self url] saveToKeychain:[self useKeychain] error:&error];
 		} else {
 			NSString* password = [[self password] passwordForURL:[self url] error:&error];
 			if(password) {
@@ -180,6 +180,12 @@
 	@autoreleasepool {
 		BOOL isRunning = YES;
 		while(isRunning) {
+			if([[self db] status] == PGConnectionStatusRejected) {
+				[[self term] setPrompt:@"Password: "];
+				NSString* line = [[self term] readline];
+				continue;
+			}
+		
 			if([[self db] status] != PGConnectionStatusConnected) {
 				[NSThread sleepForTimeInterval:0.1];
 				continue;
@@ -228,12 +234,7 @@
 		[self stop];
 	}
 	
-	// create password store if we can use the keychain
-	if([self useKeychain]) {
-		[self setPassword:[PGPasswordStore new]];
-	}
-	
-	BOOL isSuccess = [self connect:[self url] inBackground:NO error:&error];
+	BOOL isSuccess = [self connect:[self url] inBackground:YES error:&error];
 	if(isSuccess==NO) {
 		[self stop];
 	}

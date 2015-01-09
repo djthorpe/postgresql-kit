@@ -210,7 +210,7 @@ void PGConnectionNoticeProcessor(void* arg,const char* cString) {
 		(*error) = theError;
 	}
 	// perform selector
-	if([[self delegate] respondsToSelector:@selector(connection:error:)]) {
+	if([[self delegate] respondsToSelector:@selector(connection:error:)] && code != PGClientErrorNone) {
 		[[self delegate] connection:self error:theError];
 	}
 	// return the error
@@ -274,7 +274,11 @@ void PGConnectionNoticeProcessor(void* arg,const char* cString) {
 	void(^callback)(NSError* error) = [parameters objectAtIndex:0];
 	NSError* error = [parameters objectAtIndex:1];
 	[_lock unlock];
-	callback(error);
+	if([error code]==PGClientErrorNone) {
+		callback(nil);
+	} else {
+		callback(error);
+	}
 }
 
 -(void)_connectPollWithParametersThread:(NSArray* )parameters {
