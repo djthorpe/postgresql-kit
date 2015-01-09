@@ -60,6 +60,7 @@
 
 -(void)connection:(PGConnection* )connection statusChange:(PGConnectionStatus)status {
 	if([self stopping] && status==PGConnectionStatusDisconnected) {
+		// indicate server connection has been shutdown
 		[self stoppedWithReturnValue:0];
 	}
 }
@@ -86,6 +87,7 @@
 
 -(NSString* )execute:(NSString* )statement {
 	NSError* error = nil;
+
 	// trim
 	statement = [statement stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 	if(![statement length]) {
@@ -187,7 +189,7 @@
 		[[self term] printf:@"Error: missing URL argument"];
 		[self stop];
 	}
-	BOOL isSuccess = [self connect:[self url] inBackground:YES error:&error];
+	BOOL isSuccess = [self connect:[self url] inBackground:NO error:&error];
 	if(isSuccess==NO) {
 		[self stop];
 	}
