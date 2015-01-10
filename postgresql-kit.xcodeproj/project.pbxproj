@@ -161,7 +161,9 @@
 		6E0773D9163744D90028783F /* PGResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0773D7163744D90028783F /* PGResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E0773DA163744D90028783F /* PGResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0773D8163744D90028783F /* PGResult.m */; };
 		6E0C815D1A618E350032AE32 /* PGClientKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		6E0C81621A618E6E0032AE32 /* PGControlsKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 14F1E84717CB83CD00710D4A /* PGControlsKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6E0C81651A618EDC0032AE32 /* Connection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0C81641A618EDC0032AE32 /* Connection.m */; };
+		6E0C81661A6190BC0032AE32 /* PGClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
+		6E0C81671A6190D90032AE32 /* PGControlsKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14F1E84717CB83CD00710D4A /* PGControlsKit.framework */; };
 		6E1544321A5C72D600270F85 /* libedit.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E1544311A5C72D600270F85 /* libedit.3.dylib */; };
 		6E1548441A5819AC00556573 /* PGClientKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 6ED85B4916288D0200A6DC02 /* PGClientKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E1548451A5819BD00556573 /* NSURL+PGAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EAA40E917BC150E0078EB32 /* NSURL+PGAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -436,7 +438,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				6E0C81621A618E6E0032AE32 /* PGControlsKit.framework in CopyFiles */,
 				6E0C815D1A618E350032AE32 /* PGClientKit.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -585,6 +586,8 @@
 		6E03102F162FE50B003225B1 /* PGStatement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGStatement.m; sourceTree = "<group>"; };
 		6E0773D7163744D90028783F /* PGResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGResult.h; sourceTree = "<group>"; };
 		6E0773D8163744D90028783F /* PGResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGResult.m; sourceTree = "<group>"; };
+		6E0C81631A618EDC0032AE32 /* Connection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Connection.h; sourceTree = "<group>"; };
+		6E0C81641A618EDC0032AE32 /* Connection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Connection.m; sourceTree = "<group>"; };
 		6E1544311A5C72D600270F85 /* libedit.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libedit.3.dylib; path = ../../../../../usr/lib/libedit.3.dylib; sourceTree = "<group>"; };
 		6E1548221A57FBA000556573 /* openssl-1.0.1j.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = "openssl-1.0.1j.tar.gz"; sourceTree = "<group>"; };
 		6E1548231A57FBA000556573 /* postgresql-9.4.0.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = "postgresql-9.4.0.tar.gz"; sourceTree = "<group>"; };
@@ -786,6 +789,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6E0C81671A6190D90032AE32 /* PGControlsKit.framework in Frameworks */,
+				6E0C81661A6190BC0032AE32 /* PGClientKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1327,6 +1332,8 @@
 			children = (
 				6E55A2291A618B8300CD2B60 /* Application.h */,
 				6E55A22A1A618B8300CD2B60 /* Application.m */,
+				6E0C81631A618EDC0032AE32 /* Connection.h */,
+				6E0C81641A618EDC0032AE32 /* Connection.m */,
 				6E55A22B1A618B8300CD2B60 /* Base.lproj */,
 				6E55A22E1A618B8300CD2B60 /* Images.xcassets */,
 				6E55A22F1A618B8300CD2B60 /* Info.plist */,
@@ -2284,6 +2291,7 @@
 			files = (
 				6E55A2341A618CD300CD2B60 /* Application.m in Sources */,
 				6E55A2321A618C6B00CD2B60 /* main.m in Sources */,
+				6E0C81651A618EDC0032AE32 /* Connection.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

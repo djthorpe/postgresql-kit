@@ -7,12 +7,34 @@
 
 @implementation Application
 
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-	// Insert code here to initialize your application
+////////////////////////////////////////////////////////////////////////////////
+// constructor
+
+-(id)init {
+	self = [super init];
+	if(self) {
+		_connection = [Connection new];
+	}
+	NSParameterAssert(_connection);
+	return self;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// properties
+
+@synthesize connection = _connection;
+
+////////////////////////////////////////////////////////////////////////////////
+// NSApplicationDelegate implementation
+
+-(void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+	// connect to remote server
+	[[self connection] login];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
-	// Insert code here to tear down your application
+	// disconnect from remote server
+	[[self connection] disconnect];
 }
 
 @end
