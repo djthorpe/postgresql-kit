@@ -201,10 +201,6 @@
 		6E4DEC87162CC38D008B26BD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C168115F26BF20013A382 /* Foundation.framework */; };
 		6E4DEC95162CC4AB008B26BD /* PGClientKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 6ED85B4916288D0200A6DC02 /* PGClientKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E4DEC96162CC5E6008B26BD /* PGClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
-		6E55A20F1A618B0000CD2B60 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E55A20E1A618B0000CD2B60 /* AppDelegate.m */; };
-		6E55A2111A618B0000CD2B60 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E55A2101A618B0000CD2B60 /* main.m */; };
-		6E55A2131A618B0000CD2B60 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E55A2121A618B0000CD2B60 /* Images.xcassets */; };
-		6E55A2161A618B0000CD2B60 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E55A2141A618B0000CD2B60 /* MainMenu.xib */; };
 		6E5FCF9617BE9EFE00483AF6 /* PGConnection_tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E5FCF9517BE9EFE00483AF6 /* PGConnection_tests.m */; };
 		6E5FCF9917BEA04100483AF6 /* PGFoundationServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E5FCF9817BEA04100483AF6 /* PGFoundationServer.m */; };
 		6E5FCF9A17BEA3AD00483AF6 /* PGServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
@@ -603,14 +599,6 @@
 		6E4DEC85162CC38D008B26BD /* PGFoundationClient */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PGFoundationClient; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E55A2041A618AC100CD2B60 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		6E55A2091A618B0000CD2B60 /* PGCocoaClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PGCocoaClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		6E55A20C1A618B0000CD2B60 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6E55A20D1A618B0000CD2B60 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		6E55A20E1A618B0000CD2B60 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		6E55A2101A618B0000CD2B60 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		6E55A2121A618B0000CD2B60 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		6E55A2151A618B0000CD2B60 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		6E55A2201A618B0000CD2B60 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6E55A2211A618B0000CD2B60 /* PGCocoaClientTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PGCocoaClientTests.m; sourceTree = "<group>"; };
 		6E55A2291A618B8300CD2B60 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		6E55A22A1A618B8300CD2B60 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		6E55A22D1A618B8300CD2B60 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = MainMenu.xib; sourceTree = "<group>"; };
@@ -1267,8 +1255,6 @@
 				14EE3C35166752F80083C735 /* doc */,
 				14EE3C3A166752F80083C735 /* etc */,
 				14EE3C3E166752F80083C735 /* tar */,
-				6E55A20A1A618B0000CD2B60 /* PGCocoaClient */,
-				6E55A21E1A618B0000CD2B60 /* PGCocoaClientTests */,
 				6ED763FD15F2673600687079 /* Frameworks */,
 				6ED763FC15F2673600687079 /* Products */,
 				6E1548621A582BD900556573 /* postgresql-kit.wiki */,
@@ -1315,46 +1301,6 @@
 				6E55A2041A618AC100CD2B60 /* main.m */,
 			);
 			path = PGClient;
-			sourceTree = "<group>";
-		};
-		6E55A20A1A618B0000CD2B60 /* PGCocoaClient */ = {
-			isa = PBXGroup;
-			children = (
-				6E55A20D1A618B0000CD2B60 /* AppDelegate.h */,
-				6E55A20E1A618B0000CD2B60 /* AppDelegate.m */,
-				6E55A2121A618B0000CD2B60 /* Images.xcassets */,
-				6E55A2141A618B0000CD2B60 /* MainMenu.xib */,
-				6E55A20B1A618B0000CD2B60 /* Supporting Files */,
-			);
-			name = PGCocoaClient;
-			path = "/Users/djt/Projects/postgresql-kit/PGCocoaClient";
-			sourceTree = "<absolute>";
-		};
-		6E55A20B1A618B0000CD2B60 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				6E55A20C1A618B0000CD2B60 /* Info.plist */,
-				6E55A2101A618B0000CD2B60 /* main.m */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		6E55A21E1A618B0000CD2B60 /* PGCocoaClientTests */ = {
-			isa = PBXGroup;
-			children = (
-				6E55A2211A618B0000CD2B60 /* PGCocoaClientTests.m */,
-				6E55A21F1A618B0000CD2B60 /* Supporting Files */,
-			);
-			name = PGCocoaClientTests;
-			path = "/Users/djt/Projects/postgresql-kit/PGCocoaClientTests";
-			sourceTree = "<absolute>";
-		};
-		6E55A21F1A618B0000CD2B60 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				6E55A2201A618B0000CD2B60 /* Info.plist */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		6E55A22B1A618B8300CD2B60 /* Base.lproj */ = {
@@ -2054,8 +2000,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E55A2131A618B0000CD2B60 /* Images.xcassets in Resources */,
-				6E55A2161A618B0000CD2B60 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2302,8 +2246,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E55A2111A618B0000CD2B60 /* main.m in Sources */,
-				6E55A20F1A618B0000CD2B60 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2470,14 +2412,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		6E55A2141A618B0000CD2B60 /* MainMenu.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6E55A2151A618B0000CD2B60 /* Base */,
-			);
-			name = MainMenu.xib;
-			sourceTree = "<group>";
-		};
 		6E55A22C1A618B8300CD2B60 /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (

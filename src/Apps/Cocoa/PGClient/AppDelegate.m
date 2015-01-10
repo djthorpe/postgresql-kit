@@ -1,10 +1,3 @@
-//
-//  AppDelegate.m
-//  PGCocoaClient
-//
-//  Created by David Thorpe on 10/01/2015.
-//
-//
 
 #import "AppDelegate.h"
 
