@@ -117,7 +117,6 @@
 		148D2F03179557330005DB1B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C167C15F26BF20013A382 /* Cocoa.framework */; };
 		148D2F04179558D40005DB1B /* elephant-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43E615F3A465001ED3BE /* elephant-64.png */; };
 		148F88C9166D63AC0088D3DF /* ResizeControl.png in Resources */ = {isa = PBXBuildFile; fileRef = 148F88C7166D61060088D3DF /* ResizeControl.png */; };
-		148F88CA166D63AE0088D3DF /* Gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = 148F88C6166D61060088D3DF /* Gradient.png */; };
 		14A053EA1677F35A004C086A /* halt.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14032DC9164A718C00CD5796 /* halt.tiff */; };
 		14A228D01672389D007B16A2 /* ConnectionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14A228CE1672389D007B16A2 /* ConnectionsViewController.m */; };
 		14A228D11672389D007B16A2 /* ConnectionsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14A228CF1672389D007B16A2 /* ConnectionsView.xib */; };
@@ -136,19 +135,13 @@
 		14EB37521671325E00B038B6 /* red.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14032D79164A6F2200CD5796 /* red.tiff */; };
 		14EB37531671326100B038B6 /* yellow.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14032D7A164A6F2200CD5796 /* yellow.tiff */; };
 		14EB375516713B3600B038B6 /* PGClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
-		14F1E86B17CB850200710D4A /* PGGutterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14F1E86317CB84FB00710D4A /* PGGutterView.m */; };
-		14F1E86C17CB850600710D4A /* PGConsoleViewImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 14F1E86517CB84FB00710D4A /* PGConsoleViewImpl.m */; };
-		14F1E86D17CB850A00710D4A /* PGConsoleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14F1E86617CB84FB00710D4A /* PGConsoleView.m */; };
-		14F1E86E17CB857300710D4A /* PGConsoleView.h in Headers */ = {isa = PBXBuildFile; fileRef = 14F1E86717CB84FB00710D4A /* PGConsoleView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		14F1E86F17CB857A00710D4A /* PGControlsKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 14F1E86017CB840400710D4A /* PGControlsKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		14F1E87017CB864C00710D4A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C167C15F26BF20013A382 /* Cocoa.framework */; };
-		14F1E87117CB865F00710D4A /* PGConsoleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14F1E86917CB84FB00710D4A /* PGConsoleView.xib */; };
 		14F1E87417CB869900710D4A /* PGControlsKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14F1E84717CB83CD00710D4A /* PGControlsKit.framework */; };
 		14F1E87517CB86D600710D4A /* PGControlsKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 14F1E84717CB83CD00710D4A /* PGControlsKit.framework */; };
 		14F1E87917CB8FEC00710D4A /* PGTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14F1E87817CB8FEC00710D4A /* PGTabViewController.m */; };
 		14F94E0017A67C5C008212B0 /* PGSchemaProductOpTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 14F94DFF17A67C5C008212B0 /* PGSchemaProductOpTable.m */; };
 		6E002D3417BFA89A001FB183 /* ResizeControl.png in Resources */ = {isa = PBXBuildFile; fileRef = 148F88C7166D61060088D3DF /* ResizeControl.png */; };
-		6E002D3517BFA89D001FB183 /* Gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = 148F88C6166D61060088D3DF /* Gradient.png */; };
 		6E002D3D17BFC19A001FB183 /* LocalConnectionWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E002D3C17BFC19A001FB183 /* LocalConnectionWindow.xib */; };
 		6E002D4017BFC1F1001FB183 /* LocalConnectionWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E002D3F17BFC1F1001FB183 /* LocalConnectionWindowController.m */; };
 		6E002D4117BFC45D001FB183 /* elephant-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43E415F3A465001ED3BE /* elephant-32.png */; };
@@ -164,6 +157,9 @@
 		6E0C81651A618EDC0032AE32 /* Connection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0C81641A618EDC0032AE32 /* Connection.m */; };
 		6E0C81661A6190BC0032AE32 /* PGClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
 		6E0C81671A6190D90032AE32 /* PGControlsKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14F1E84717CB83CD00710D4A /* PGControlsKit.framework */; };
+		6E0C81701A619E2E0032AE32 /* PGSplitViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0C816D1A619E2E0032AE32 /* PGSplitViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6E0C81711A619E2E0032AE32 /* PGSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0C816E1A619E2E0032AE32 /* PGSplitViewController.m */; };
+		6E0C81721A619E2E0032AE32 /* PGSplitView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E0C816F1A619E2E0032AE32 /* PGSplitView.xib */; };
 		6E1544321A5C72D600270F85 /* libedit.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E1544311A5C72D600270F85 /* libedit.3.dylib */; };
 		6E1548441A5819AC00556573 /* PGClientKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 6ED85B4916288D0200A6DC02 /* PGClientKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E1548451A5819BD00556573 /* NSURL+PGAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EAA40E917BC150E0078EB32 /* NSURL+PGAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -199,9 +195,6 @@
 		6E2A14FB1A59488700F12954 /* PGServerKit_testcases.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2A14FA1A59488700F12954 /* PGServerKit_testcases.m */; };
 		6E2A14FC1A59488700F12954 /* PGServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
 		6E2A15031A594D7100F12954 /* PGFoundationServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2A15021A594D7100F12954 /* PGFoundationServer.m */; };
-		6E4907CF17D3B3F600BEE2A9 /* PGPasswordWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E4907CD17D3B3F600BEE2A9 /* PGPasswordWindow.h */; };
-		6E4907D017D3B3F600BEE2A9 /* PGPasswordWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E4907CE17D3B3F600BEE2A9 /* PGPasswordWindow.m */; };
-		6E4907D317D3B49200BEE2A9 /* PGPasswordWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E4907D217D3B49200BEE2A9 /* PGPasswordWindow.xib */; };
 		6E4DEC87162CC38D008B26BD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C168115F26BF20013A382 /* Foundation.framework */; };
 		6E4DEC95162CC4AB008B26BD /* PGClientKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 6ED85B4916288D0200A6DC02 /* PGClientKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E4DEC96162CC5E6008B26BD /* PGClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
@@ -252,6 +245,10 @@
 		6EE23F5E1631EF7500C99BA7 /* PGConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EE23F5B1631EF7500C99BA7 /* PGConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6EE23F5F1631EF7500C99BA7 /* PGConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE23F5C1631EF7500C99BA7 /* PGConnection.m */; };
 		6EE23F611632076800C99BA7 /* PGClientParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE23F601632076800C99BA7 /* PGClientParams.m */; };
+		6EE4E2071A61A22B00BEC4AD /* Gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = 148F88C6166D61060088D3DF /* Gradient.png */; };
+		6EE4E2081A61A22D00BEC4AD /* ResizeControl.png in Resources */ = {isa = PBXBuildFile; fileRef = 148F88C7166D61060088D3DF /* ResizeControl.png */; };
+		6EE4E2091A61A86300BEC4AD /* PGControlsKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14F1E84717CB83CD00710D4A /* PGControlsKit.framework */; };
+		6EE4E20A1A61A86300BEC4AD /* PGControlsKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 14F1E84717CB83CD00710D4A /* PGControlsKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6EFFF2341A5F04C500CAA6E7 /* PGFoundationServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EFFF2331A5F044E00CAA6E7 /* PGFoundationServer.m */; };
 		6EFFF2351A5F04C800CAA6E7 /* PGFoundationApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EFFF2311A5F044E00CAA6E7 /* PGFoundationApp.m */; };
 		6EFFF23A1A5F052A00CAA6E7 /* PGFoundationApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EFFF2311A5F044E00CAA6E7 /* PGFoundationApp.m */; };
@@ -438,6 +435,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				6EE4E20A1A61A86300BEC4AD /* PGControlsKit.framework in CopyFiles */,
 				6E0C815D1A618E350032AE32 /* PGClientKit.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -566,7 +564,6 @@
 		14F1E86517CB84FB00710D4A /* PGConsoleViewImpl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PGConsoleViewImpl.m; sourceTree = "<group>"; };
 		14F1E86617CB84FB00710D4A /* PGConsoleView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PGConsoleView.m; sourceTree = "<group>"; };
 		14F1E86717CB84FB00710D4A /* PGConsoleView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGConsoleView.h; sourceTree = "<group>"; };
-		14F1E86817CB84FB00710D4A /* PGControlsKit+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PGControlsKit+Private.h"; sourceTree = "<group>"; };
 		14F1E86917CB84FB00710D4A /* PGConsoleView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PGConsoleView.xib; sourceTree = "<group>"; };
 		14F1E86A17CB84FB00710D4A /* PGConsoleViewImpl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGConsoleViewImpl.h; sourceTree = "<group>"; };
 		14F1E87717CB8FEC00710D4A /* PGTabViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGTabViewController.h; sourceTree = "<group>"; };
@@ -588,6 +585,9 @@
 		6E0773D8163744D90028783F /* PGResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGResult.m; sourceTree = "<group>"; };
 		6E0C81631A618EDC0032AE32 /* Connection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Connection.h; sourceTree = "<group>"; };
 		6E0C81641A618EDC0032AE32 /* Connection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Connection.m; sourceTree = "<group>"; };
+		6E0C816D1A619E2E0032AE32 /* PGSplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSplitViewController.h; sourceTree = "<group>"; };
+		6E0C816E1A619E2E0032AE32 /* PGSplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSplitViewController.m; sourceTree = "<group>"; };
+		6E0C816F1A619E2E0032AE32 /* PGSplitView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PGSplitView.xib; sourceTree = "<group>"; };
 		6E1544311A5C72D600270F85 /* libedit.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libedit.3.dylib; path = ../../../../../usr/lib/libedit.3.dylib; sourceTree = "<group>"; };
 		6E1548221A57FBA000556573 /* openssl-1.0.1j.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = "openssl-1.0.1j.tar.gz"; sourceTree = "<group>"; };
 		6E1548231A57FBA000556573 /* postgresql-9.4.0.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = "postgresql-9.4.0.tar.gz"; sourceTree = "<group>"; };
@@ -790,6 +790,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E0C81671A6190D90032AE32 /* PGControlsKit.framework in Frameworks */,
+				6EE4E2091A61A86300BEC4AD /* PGControlsKit.framework in Frameworks */,
 				6E0C81661A6190BC0032AE32 /* PGClientKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1172,9 +1173,9 @@
 			children = (
 				14F1E85E17CB840400710D4A /* PGControlsKit.plist */,
 				14F1E86017CB840400710D4A /* PGControlsKit.h */,
-				14F1E86817CB84FB00710D4A /* PGControlsKit+Private.h */,
 				14F1E86217CB84A400710D4A /* PGConsoleView */,
 				6E4907D117D3B3FA00BEE2A9 /* PGPasswordWindow */,
+				6E0C81681A61956B0032AE32 /* PGSplitView */,
 			);
 			path = PGControlsKit;
 			sourceTree = "<group>";
@@ -1233,6 +1234,16 @@
 				6E29AC7517C0CC8600147679 /* RemoteConnectionWindowController.m */,
 			);
 			name = RemoteConnectionWindow;
+			sourceTree = "<group>";
+		};
+		6E0C81681A61956B0032AE32 /* PGSplitView */ = {
+			isa = PBXGroup;
+			children = (
+				6E0C816D1A619E2E0032AE32 /* PGSplitViewController.h */,
+				6E0C816E1A619E2E0032AE32 /* PGSplitViewController.m */,
+				6E0C816F1A619E2E0032AE32 /* PGSplitView.xib */,
+			);
+			name = PGSplitView;
 			sourceTree = "<group>";
 		};
 		6E1548621A582BD900556573 /* postgresql-kit.wiki */ = {
@@ -1544,9 +1555,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				14F1E86E17CB857300710D4A /* PGConsoleView.h in Headers */,
+				6E0C81701A619E2E0032AE32 /* PGSplitViewController.h in Headers */,
 				14F1E86F17CB857A00710D4A /* PGControlsKit.h in Headers */,
-				6E4907CF17D3B3F600BEE2A9 /* PGPasswordWindow.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1991,7 +2001,6 @@
 			files = (
 				145D3E3A166A1C3A002FEA91 /* elephant.icns in Resources */,
 				148F88C9166D63AC0088D3DF /* ResizeControl.png in Resources */,
-				148F88CA166D63AE0088D3DF /* Gradient.png in Resources */,
 				14237AEF166E734A000DBCE1 /* MainWindow.xib in Resources */,
 				14EB37501671325500B038B6 /* elephant-32.png in Resources */,
 				14EB37511671325900B038B6 /* green.tiff in Resources */,
@@ -2017,8 +2026,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				14F1E87117CB865F00710D4A /* PGConsoleView.xib in Resources */,
-				6E4907D317D3B49200BEE2A9 /* PGPasswordWindow.xib in Resources */,
+				6EE4E2081A61A22D00BEC4AD /* ResizeControl.png in Resources */,
+				6E0C81721A619E2E0032AE32 /* PGSplitView.xib in Resources */,
+				6EE4E2071A61A22B00BEC4AD /* Gradient.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2054,7 +2064,6 @@
 				6E68AE0A1635DDB500436234 /* elephant.icns in Resources */,
 				6E2A0EBF16374CAF00970FEF /* elephant-64.png in Resources */,
 				6E002D3417BFA89A001FB183 /* ResizeControl.png in Resources */,
-				6E002D3517BFA89D001FB183 /* Gradient.png in Resources */,
 				6E002D3D17BFC19A001FB183 /* LocalConnectionWindow.xib in Resources */,
 				6E002D4117BFC45D001FB183 /* elephant-32.png in Resources */,
 				6E002D4617BFDACE001FB183 /* red.tiff in Resources */,
@@ -2241,10 +2250,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				14F1E86B17CB850200710D4A /* PGGutterView.m in Sources */,
-				14F1E86C17CB850600710D4A /* PGConsoleViewImpl.m in Sources */,
-				14F1E86D17CB850A00710D4A /* PGConsoleView.m in Sources */,
-				6E4907D017D3B3F600BEE2A9 /* PGPasswordWindow.m in Sources */,
+				6E0C81711A619E2E0032AE32 /* PGSplitViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2847,6 +2853,7 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -2887,6 +2894,7 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";

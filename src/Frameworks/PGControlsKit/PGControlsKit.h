@@ -2,13 +2,8 @@
 #import <Cocoa/Cocoa.h>
 
 // Forward class delarations
-@class PGConsoleView;
-@class PGPasswordWindow;
-@class PGTabView;
+@class PGSplitViewController;
 
 // Header file imports
-#import "PGConsoleView.h"
-#import "PGPasswordWindow.h"
-
-
+#import "PGSplitViewController.h"
 

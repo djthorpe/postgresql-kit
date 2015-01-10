@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6254"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="PGSplitViewController">
+            <connections>
+                <outlet property="ibGrabberView" destination="rbE-lf-4Al" id="kJ0-tq-MyV"/>
+                <outlet property="view" destination="Beb-BK-O7u" id="KeR-8E-Wb0"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <splitView focusRingType="none" dividerStyle="thin" vertical="YES" id="Beb-BK-O7u">
+            <rect key="frame" x="0.0" y="0.0" width="488" height="357"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <customView id="pDZ-0Y-QZA" userLabel="Left View">
+                    <rect key="frame" x="0.0" y="0.0" width="246" height="357"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                    <subviews>
+                        <imageView translatesAutoresizingMaskIntoConstraints="NO" id="ZAy-oH-ik1">
+                            <rect key="frame" x="0.0" y="0.0" width="246" height="23"/>
+                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="axesIndependently" image="Gradient" id="IpY-Cu-P0s"/>
+                        </imageView>
+                        <imageView translatesAutoresizingMaskIntoConstraints="NO" id="rbE-lf-4Al">
+                            <rect key="frame" x="231" y="0.0" width="15" height="23"/>
+                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="ResizeControl" id="av8-Ab-M6V"/>
+                        </imageView>
+                    </subviews>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="ZAy-oH-ik1" secondAttribute="bottom" id="2pY-wC-yn7"/>
+                        <constraint firstItem="ZAy-oH-ik1" firstAttribute="leading" secondItem="pDZ-0Y-QZA" secondAttribute="leading" id="AC3-lh-UaR"/>
+                        <constraint firstAttribute="trailing" secondItem="ZAy-oH-ik1" secondAttribute="trailing" id="I6Q-6U-ToV"/>
+                        <constraint firstAttribute="bottom" secondItem="rbE-lf-4Al" secondAttribute="bottom" id="OgW-lt-0gk"/>
+                        <constraint firstAttribute="trailing" secondItem="rbE-lf-4Al" secondAttribute="trailing" id="lUg-Xr-2p0"/>
+                    </constraints>
+                </customView>
+                <customView fixedFrame="YES" id="tia-BU-Xk5" userLabel="Right View">
+                    <rect key="frame" x="247" y="0.0" width="241" height="357"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                </customView>
+            </subviews>
+            <holdingPriorities>
+                <real value="250"/>
+                <real value="250"/>
+            </holdingPriorities>
+            <point key="canvasLocation" x="344" y="215.5"/>
+        </splitView>
+    </objects>
+    <resources>
+        <image name="Gradient" width="1" height="23"/>
+        <image name="ResizeControl" width="15" height="23"/>
+    </resources>
+</document>

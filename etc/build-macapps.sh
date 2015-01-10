@@ -13,6 +13,6 @@ xcodebuild -project ${PROJECT} -target "PGFoundationClient" -configuration ${CON
 xcodebuild -project ${PROJECT} -target "PGFoundationServer" -configuration ${CONFIGURATION} || exit -1
 
 # Build Cocoa Apps
-xcodebuild -project ${PROJECT} -target "PGClient" -configuration ${CONFIGURATION} || exit -1
+xcodebuild -project ${PROJECT} -target "PGCocoaClient" -configuration ${CONFIGURATION} || exit -1
 xcodebuild -project ${PROJECT} -target "PGServer" -configuration ${CONFIGURATION} || exit -1
 
