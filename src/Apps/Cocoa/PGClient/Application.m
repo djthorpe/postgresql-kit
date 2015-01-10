@@ -1,12 +1,11 @@
 
-#import "AppDelegate.h"
+#import "Application.h"
 
-@interface AppDelegate ()
-
-@property (weak) IBOutlet NSWindow *window;
+@interface Application ()
+@property (weak) IBOutlet NSWindow* window;
 @end
 
-@implementation AppDelegate
+@implementation Application
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 	// Insert code here to initialize your application
