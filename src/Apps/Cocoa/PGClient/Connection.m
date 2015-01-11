@@ -9,8 +9,7 @@
 -(id)init {
 	self = [super init];
 	if(self) {
-		_connection = [PGConnection new];
-		_password = [PGPasswordStore new];
+		_connection = [PGConnectionWindowController new];
 		NSParameterAssert(_connection);
 		// set delegate
 		[_connection setDelegate:self];
@@ -21,9 +20,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // properties
 
-@synthesize connection = _connection;
-@synthesize password = _password;
-@synthesize useKeychain;
 @dynamic url;
 
 -(NSURL* )url {
@@ -33,55 +29,32 @@
 ////////////////////////////////////////////////////////////////////////////////
 // methods
 
--(void)login {
-	if([[self connection] status] != PGConnectionStatusConnected) {
-		[[self connection] connectInBackgroundWithURL:[self url] whenDone:^(NSError* error) {
-			if(error) {
-				NSLog(@"Connected, error = %@",error);
-			}
-		}];
-	}
+-(void)loginWithWindow:(NSWindow* )window {
+	NSParameterAssert(window);
+
+	// set default URL
+	[[self connection] setUrl:[self url]];
+	// begin sheet
+	[[self connection] beginSheetForParentWindow:window contextInfo:nil];
 }
 
 -(void)disconnect {
-	if([[self connection] status] == PGConnectionStatusConnected) {
-		[[self connection] disconnect];
-	}	
+	[[self connection] disconnect];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// PGConnectionDelegate implementation
+// PGConnectionWindowDelegate
 
--(void)connection:(PGConnection* )connection willOpenWithParameters:(NSMutableDictionary* )dictionary {
-	// add username if that's not in the dictionary
-	NSString* user = [dictionary objectForKey:@"user"];
-	if(![user length]) {
-		[dictionary setObject:NSUserName() forKey:@"user"];
-	}
-
-	// store and retrieve password
-	if([self password]) {
-		NSError* error = nil;
-		if([dictionary objectForKey:@"password"]) {
-			NSError* error = nil;
-			[[self password] setPassword:[dictionary objectForKey:@"password"] forURL:[self url] saveToKeychain:[self useKeychain] error:&error];
-		} else {
-			NSString* password = [[self password] passwordForURL:[self url] error:&error];
-			if(password) {
-				[dictionary setObject:password forKey:@"password"];
-			}
-		}
-		if(error) {
-			NSLog(@"Keychain error: %@",[error localizedDescription]);
-		}
+-(void)connectionWindow:(PGConnectionWindowController* )windowController endedWithStatus:(NSInteger)status contextInfo:(void* )contextInfo {
+	NSLog(@"window did end, returnCode=%ld",status);
+	BOOL returnValue = NO;
+	if(status==NSModalResponseOK && [windowController url]) {
+		NSLog(@"CONNECT url=%@",[windowController url]);
+		returnValue = [windowController connect];
 	}
 	
-	// display parameters
-	for(NSString* key in dictionary) {
-		if([key isEqualToString:@"password"]) {
-			continue;
-		}
-		NSLog(@"%@: %@",key,[dictionary objectForKey:key]);
+	if(returnValue==NO) {
+		NSLog(@"DISPLAY ERROR MESSAGE");
 	}
 }
 

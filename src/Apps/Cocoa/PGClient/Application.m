@@ -51,7 +51,7 @@
 	[self addSplitView];
 	
 	// connect to remote server
-	[[self connection] login];
+	[[self connection] loginWithWindow:[self window]];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {

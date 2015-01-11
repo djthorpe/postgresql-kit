@@ -57,7 +57,6 @@
 
 /* Begin PBXBuildFile section */
 		1409E6F51691FCDB00702777 /* elephant-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43E615F3A465001ED3BE /* elephant-64.png */; };
-		1412A7AE17998BF4005A217D /* PGSchemaKitSQL.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1412A7AD17998BF4005A217D /* PGSchemaKitSQL.strings */; };
 		1413DF5117AEAD6F009615E5 /* PGApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 1413DF4A17AEAD65009615E5 /* PGApplication.m */; };
 		1413DF5217AEAD73009615E5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1413DF4B17AEAD65009615E5 /* main.m */; };
 		141C52CF16714F9D00648E67 /* LogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 141C52CD16714F9D00648E67 /* LogViewController.m */; };
@@ -70,20 +69,14 @@
 		14284F521677D94800B805C9 /* DatabaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14284F501677D94800B805C9 /* DatabaseViewController.m */; };
 		14284F531677D94800B805C9 /* DatabaseView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14284F511677D94800B805C9 /* DatabaseView.xib */; };
 		14284F541677DA5200B805C9 /* database.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14032D72164A6F2200CD5796 /* database.tiff */; };
-		1433616C179175C7000A79D5 /* PGSchemaProduct.h in Headers */ = {isa = PBXBuildFile; fileRef = 1433616A179175C7000A79D5 /* PGSchemaProduct.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1433616D179175C7000A79D5 /* PGSchemaProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = 1433616B179175C7000A79D5 /* PGSchemaProduct.m */; };
-		1433616F17917650000A79D5 /* PGSchemaKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 1433616E17917650000A79D5 /* PGSchemaKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1433617317917F47000A79D5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB1E72D15F273350093F784 /* main.m */; };
 		1433617917917F47000A79D5 /* PGClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
 		1433617A17917F47000A79D5 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C167C15F26BF20013A382 /* Cocoa.framework */; };
 		1433618117917F47000A79D5 /* PGClientKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
-		1433618A17917F6C000A79D5 /* PGSchemaKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14336165179173BB000A79D5 /* PGSchemaKit.framework */; };
-		1433618B17917F86000A79D5 /* PGSchemaKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 14336165179173BB000A79D5 /* PGSchemaKit.framework */; };
 		1433618D1791809B000A79D5 /* elephant.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43E715F3A465001ED3BE /* elephant.icns */; };
 		1433618F179180C4000A79D5 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1433618E179180C4000A79D5 /* MainMenu.xib */; };
 		14336192179181A2000A79D5 /* PGSchemaManagerApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 14336191179181A2000A79D5 /* PGSchemaManagerApp.m */; };
 		14336197179184F1000A79D5 /* tree.schema.xml in Resources */ = {isa = PBXBuildFile; fileRef = 14336196179184F1000A79D5 /* tree.schema.xml */; };
-		1433619917919033000A79D5 /* pgschema.dtd in Resources */ = {isa = PBXBuildFile; fileRef = 1433619817919033000A79D5 /* pgschema.dtd */; };
 		1433619A17919033000A79D5 /* pgschema.dtd in Resources */ = {isa = PBXBuildFile; fileRef = 1433619817919033000A79D5 /* pgschema.dtd */; };
 		145538CE1690CC96005630A0 /* AppAbout.m in Sources */ = {isa = PBXBuildFile; fileRef = 145538CD1690CC96005630A0 /* AppAbout.m */; };
 		145695F416718D39004471F9 /* ConnectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 145695F216718D39004471F9 /* ConnectionViewController.m */; };
@@ -97,19 +90,8 @@
 		145D3E39166A1C1E002FEA91 /* PGServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
 		145D3E3A166A1C3A002FEA91 /* elephant.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43E715F3A465001ED3BE /* elephant.icns */; };
 		147D65D1168CC2F20034C7EC /* gear-14x14.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43EA15F3A465001ED3BE /* gear-14x14.png */; };
-		14805A1716622F9000A4019F /* PGStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 14805A1516622F9000A4019F /* PGStore.h */; };
-		14805A1816622F9000A4019F /* PGStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 14805A1616622F9000A4019F /* PGStore.m */; };
-		14805A191662300700A4019F /* PGClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
 		1489AEC716669A6B00C3B67D /* PGResult+TextTable.h in Headers */ = {isa = PBXBuildFile; fileRef = 1489AEC516669A6B00C3B67D /* PGResult+TextTable.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1489AEC816669A6B00C3B67D /* PGResult+TextTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 1489AEC616669A6B00C3B67D /* PGResult+TextTable.m */; };
-		148D2EED179420980005DB1B /* PGSchemaProductNV.h in Headers */ = {isa = PBXBuildFile; fileRef = 148D2EEB179420980005DB1B /* PGSchemaProductNV.h */; };
-		148D2EEE179420980005DB1B /* PGSchemaProductNV.m in Sources */ = {isa = PBXBuildFile; fileRef = 148D2EEC179420980005DB1B /* PGSchemaProductNV.m */; };
-		148D2EF1179432CB0005DB1B /* PGSchemaProductOp.h in Headers */ = {isa = PBXBuildFile; fileRef = 148D2EEF179432CB0005DB1B /* PGSchemaProductOp.h */; };
-		148D2EF2179432CB0005DB1B /* PGSchemaProductOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 148D2EF0179432CB0005DB1B /* PGSchemaProductOp.m */; };
-		148D2EF517943BC80005DB1B /* PGSchemaManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 148D2EF317943BC80005DB1B /* PGSchemaManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		148D2EF617943BC80005DB1B /* PGSchemaManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 148D2EF417943BC80005DB1B /* PGSchemaManager.m */; };
-		148D2EF81794550A0005DB1B /* pgschema.base.schema.xml in Resources */ = {isa = PBXBuildFile; fileRef = 148D2EF71794550A0005DB1B /* pgschema.base.schema.xml */; };
-		148D2EFA1795518E0005DB1B /* PGSchemaKit+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 148D2EF91795518E0005DB1B /* PGSchemaKit+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		148D2EFE179555AD0005DB1B /* PGLoginController.h in Headers */ = {isa = PBXBuildFile; fileRef = 148D2EFB179555AD0005DB1B /* PGLoginController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		148D2EFF179555AD0005DB1B /* PGLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 148D2EFC179555AD0005DB1B /* PGLoginController.m */; };
 		148D2F00179555AD0005DB1B /* PGLoginController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 148D2EFD179555AD0005DB1B /* PGLoginController.xib */; };
@@ -205,6 +187,10 @@
 		6E5FCF9617BE9EFE00483AF6 /* PGConnection_tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E5FCF9517BE9EFE00483AF6 /* PGConnection_tests.m */; };
 		6E5FCF9917BEA04100483AF6 /* PGFoundationServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E5FCF9817BEA04100483AF6 /* PGFoundationServer.m */; };
 		6E5FCF9A17BEA3AD00483AF6 /* PGServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
+		6E60B5B91A628028005B0633 /* PGConnectionWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E60B5B71A628028005B0633 /* PGConnectionWindowController.h */; };
+		6E60B5BA1A628028005B0633 /* PGConnectionWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E60B5B81A628028005B0633 /* PGConnectionWindowController.m */; };
+		6E60B5BC1A6280AF005B0633 /* PGConnectionWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E60B5BB1A6280AF005B0633 /* PGConnectionWindow.xib */; };
+		6E60B5BD1A6285DB005B0633 /* PGClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
 		6E68ADE71635DB4400436234 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C167C15F26BF20013A382 /* Cocoa.framework */; };
 		6E68AE011635DB6900436234 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB1E72D15F273350093F784 /* main.m */; };
 		6E68AE071635DD6E00436234 /* PGClientApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E68AE041635DD6E00436234 /* PGClientApplication.m */; };
@@ -264,33 +250,12 @@
 			remoteGlobalIDString = 6E83260A17AD15C9002AFCBC;
 			remoteInfo = openssl_ios;
 		};
-		14182366166128DA00765768 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6E256FDE15F252620079AD2D /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 6ED85B3516288C4800A6DC02;
-			remoteInfo = PGClientKit;
-		};
-		14336167179173D3000A79D5 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6E256FDE15F252620079AD2D /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 6ED85B3516288C4800A6DC02;
-			remoteInfo = PGClientKit;
-		};
 		1433618617917F5B000A79D5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6E256FDE15F252620079AD2D /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 6ED85B3516288C4800A6DC02;
 			remoteInfo = PGClientKit;
-		};
-		1433618817917F5B000A79D5 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6E256FDE15F252620079AD2D /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 1433614A179173BB000A79D5;
-			remoteInfo = PGSchemaKit;
 		};
 		143398D4168F4F1A00234FBF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -413,7 +378,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				1433618B17917F86000A79D5 /* PGSchemaKit.framework in CopyFiles */,
 				1433618117917F47000A79D5 /* PGClientKit.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -485,7 +449,6 @@
 		1413DF4A17AEAD65009615E5 /* PGApplication.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PGApplication.m; sourceTree = "<group>"; };
 		1413DF4B17AEAD65009615E5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		1413DF4C17AEAD65009615E5 /* PGClient_ios.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PGClient_ios.plist; sourceTree = "<group>"; };
-		14182364166128C000765768 /* PGDataKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PGDataKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		14182368166129D300765768 /* PGDataKit.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PGDataKit.plist; sourceTree = "<group>"; };
 		141C52CC16714F9D00648E67 /* LogViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogViewController.h; sourceTree = "<group>"; };
 		141C52CD16714F9D00648E67 /* LogViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogViewController.m; sourceTree = "<group>"; };
@@ -501,7 +464,6 @@
 		14284F4F1677D94800B805C9 /* DatabaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatabaseViewController.h; sourceTree = "<group>"; };
 		14284F501677D94800B805C9 /* DatabaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatabaseViewController.m; sourceTree = "<group>"; };
 		14284F511677D94800B805C9 /* DatabaseView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DatabaseView.xib; sourceTree = "<group>"; };
-		14336165179173BB000A79D5 /* PGSchemaKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PGSchemaKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		14336169179174C0000A79D5 /* PGSchemaKit.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PGSchemaKit.plist; sourceTree = "<group>"; };
 		1433616A179175C7000A79D5 /* PGSchemaProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSchemaProduct.h; sourceTree = "<group>"; };
 		1433616B179175C7000A79D5 /* PGSchemaProduct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSchemaProduct.m; sourceTree = "<group>"; };
@@ -642,6 +604,9 @@
 		6E5FCF9517BE9EFE00483AF6 /* PGConnection_tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGConnection_tests.m; sourceTree = "<group>"; };
 		6E5FCF9717BEA04100483AF6 /* PGFoundationServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGFoundationServer.h; sourceTree = "<group>"; };
 		6E5FCF9817BEA04100483AF6 /* PGFoundationServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGFoundationServer.m; sourceTree = "<group>"; };
+		6E60B5B71A628028005B0633 /* PGConnectionWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGConnectionWindowController.h; sourceTree = "<group>"; };
+		6E60B5B81A628028005B0633 /* PGConnectionWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGConnectionWindowController.m; sourceTree = "<group>"; };
+		6E60B5BB1A6280AF005B0633 /* PGConnectionWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PGConnectionWindow.xib; sourceTree = "<group>"; };
 		6E68ADE51635DB4400436234 /* PGClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PGClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E68AE031635DD6E00436234 /* PGClientApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGClientApplication.h; sourceTree = "<group>"; };
 		6E68AE041635DD6E00436234 /* PGClientApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGClientApplication.m; sourceTree = "<group>"; };
@@ -714,26 +679,10 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		14182356166128C000765768 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				14805A191662300700A4019F /* PGClientKit.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		14336155179173BB000A79D5 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		1433617817917F47000A79D5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1433618A17917F6C000A79D5 /* PGSchemaKit.framework in Frameworks */,
 				1433617917917F47000A79D5 /* PGClientKit.framework in Frameworks */,
 				1433617A17917F47000A79D5 /* Cocoa.framework in Frameworks */,
 			);
@@ -754,6 +703,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				14F1E87017CB864C00710D4A /* Cocoa.framework in Frameworks */,
+				6E60B5BD1A6285DB005B0633 /* PGClientKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1175,6 +1125,7 @@
 				14F1E86017CB840400710D4A /* PGControlsKit.h */,
 				14F1E86217CB84A400710D4A /* PGConsoleView */,
 				6E4907D117D3B3FA00BEE2A9 /* PGPasswordWindow */,
+				6E60B5B61A627FDA005B0633 /* PGConnectionWindow */,
 				6E0C81681A61956B0032AE32 /* PGSplitView */,
 			);
 			path = PGControlsKit;
@@ -1360,6 +1311,16 @@
 			path = Base.lproj;
 			sourceTree = "<group>";
 		};
+		6E60B5B61A627FDA005B0633 /* PGConnectionWindow */ = {
+			isa = PBXGroup;
+			children = (
+				6E60B5B71A628028005B0633 /* PGConnectionWindowController.h */,
+				6E60B5B81A628028005B0633 /* PGConnectionWindowController.m */,
+				6E60B5BB1A6280AF005B0633 /* PGConnectionWindow.xib */,
+			);
+			name = PGConnectionWindow;
+			sourceTree = "<group>";
+		};
 		6E68AE021635DD6E00436234 /* PGClient */ = {
 			isa = PBXGroup;
 			children = (
@@ -1429,9 +1390,7 @@
 				6ED85B4616288C4800A6DC02 /* PGClientKit.framework */,
 				6E4DEC85162CC38D008B26BD /* PGFoundationClient */,
 				6E68ADE51635DB4400436234 /* PGClient.app */,
-				14182364166128C000765768 /* PGDataKit.framework */,
 				145D3E1F166A1AF1002FEA91 /* PGServer.app */,
-				14336165179173BB000A79D5 /* PGSchemaKit.framework */,
 				1433618517917F47000A79D5 /* PGSchemaManager.app */,
 				1413DF2917AEABF6009615E5 /* PGClient_ios.app */,
 				6EDC4CB017BC2459009E040D /* PGClientKit_testcases.octest */,
@@ -1530,33 +1489,13 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		14182359166128C000765768 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				14805A1716622F9000A4019F /* PGStore.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		14336158179173BB000A79D5 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				1433616F17917650000A79D5 /* PGSchemaKit.h in Headers */,
-				1433616C179175C7000A79D5 /* PGSchemaProduct.h in Headers */,
-				148D2EED179420980005DB1B /* PGSchemaProductNV.h in Headers */,
-				148D2EFA1795518E0005DB1B /* PGSchemaKit+Private.h in Headers */,
-				148D2EF1179432CB0005DB1B /* PGSchemaProductOp.h in Headers */,
-				148D2EF517943BC80005DB1B /* PGSchemaManager.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		14F1E84417CB83CD00710D4A /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				6E0C81701A619E2E0032AE32 /* PGSplitViewController.h in Headers */,
 				14F1E86F17CB857A00710D4A /* PGControlsKit.h in Headers */,
+				6E60B5B91A628028005B0633 /* PGConnectionWindowController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1626,44 +1565,6 @@
 			productReference = 1413DF2917AEABF6009615E5 /* PGClient_ios.app */;
 			productType = "com.apple.product-type.application";
 		};
-		1418234D166128C000765768 /* PGDataKit_mac */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 14182361166128C000765768 /* Build configuration list for PBXNativeTarget "PGDataKit_mac" */;
-			buildPhases = (
-				14182350166128C000765768 /* Sources */,
-				14182356166128C000765768 /* Frameworks */,
-				14182359166128C000765768 /* Headers */,
-				14182360166128C000765768 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				14182367166128DA00765768 /* PBXTargetDependency */,
-			);
-			name = PGDataKit_mac;
-			productName = PGServerKit;
-			productReference = 14182364166128C000765768 /* PGDataKit.framework */;
-			productType = "com.apple.product-type.framework";
-		};
-		1433614A179173BB000A79D5 /* PGSchemaKit_mac */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 14336162179173BB000A79D5 /* Build configuration list for PBXNativeTarget "PGSchemaKit_mac" */;
-			buildPhases = (
-				1433614D179173BB000A79D5 /* Sources */,
-				14336155179173BB000A79D5 /* Frameworks */,
-				14336158179173BB000A79D5 /* Headers */,
-				14336161179173BB000A79D5 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				14336168179173D3000A79D5 /* PBXTargetDependency */,
-			);
-			name = PGSchemaKit_mac;
-			productName = PGServerKit;
-			productReference = 14336165179173BB000A79D5 /* PGSchemaKit.framework */;
-			productType = "com.apple.product-type.framework";
-		};
 		1433617117917F47000A79D5 /* PGSchemaManager */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1433618217917F47000A79D5 /* Build configuration list for PBXNativeTarget "PGSchemaManager" */;
@@ -1677,7 +1578,6 @@
 			);
 			dependencies = (
 				1433618717917F5B000A79D5 /* PBXTargetDependency */,
-				1433618917917F5B000A79D5 /* PBXTargetDependency */,
 			);
 			name = PGSchemaManager;
 			productName = PGClient;
@@ -1934,9 +1834,7 @@
 				6E256FEE15F255780079AD2D /* postgresql_mac */,
 				6ED85B3516288C4800A6DC02 /* PGClientKit_mac */,
 				6ED763FA15F2673600687079 /* PGServerKit_mac */,
-				1433614A179173BB000A79D5 /* PGSchemaKit_mac */,
 				14F1E84617CB83CD00710D4A /* PGControlsKit_mac */,
-				1418234D166128C000765768 /* PGDataKit_mac */,
 				6E83260A17AD15C9002AFCBC /* openssl_ios */,
 				6E83260F17AD15F3002AFCBC /* libpq_ios */,
 				6E1548281A5816E600556573 /* PGClientKit_ios */,
@@ -1963,23 +1861,6 @@
 				6EB5485117AEC8FD000F4AA2 /* elephant.icns in Resources */,
 				6EB5485817AECA2A000F4AA2 /* elephant-72.png in Resources */,
 				6EB5485B17AECD2A000F4AA2 /* elephant-144.png in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		14182360166128C000765768 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		14336161179173BB000A79D5 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				1433619917919033000A79D5 /* pgschema.dtd in Resources */,
-				148D2EF81794550A0005DB1B /* pgschema.base.schema.xml in Resources */,
-				1412A7AE17998BF4005A217D /* PGSchemaKitSQL.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2028,6 +1909,7 @@
 			files = (
 				6EE4E2081A61A22D00BEC4AD /* ResizeControl.png in Resources */,
 				6E0C81721A619E2E0032AE32 /* PGSplitView.xib in Resources */,
+				6E60B5BC1A6280AF005B0633 /* PGConnectionWindow.xib in Resources */,
 				6EE4E2071A61A22B00BEC4AD /* Gradient.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2199,25 +2081,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		14182350166128C000765768 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				14805A1816622F9000A4019F /* PGStore.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		1433614D179173BB000A79D5 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				1433616D179175C7000A79D5 /* PGSchemaProduct.m in Sources */,
-				148D2EEE179420980005DB1B /* PGSchemaProductNV.m in Sources */,
-				148D2EF2179432CB0005DB1B /* PGSchemaProductOp.m in Sources */,
-				148D2EF617943BC80005DB1B /* PGSchemaManager.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		1433617217917F47000A79D5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2250,6 +2113,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6E60B5BA1A628028005B0633 /* PGConnectionWindowController.m in Sources */,
 				6E0C81711A619E2E0032AE32 /* PGSplitViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2371,25 +2235,10 @@
 			target = 6E83260A17AD15C9002AFCBC /* openssl_ios */;
 			targetProxy = 1413DF2117AD7C0E009615E5 /* PBXContainerItemProxy */;
 		};
-		14182367166128DA00765768 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 6ED85B3516288C4800A6DC02 /* PGClientKit_mac */;
-			targetProxy = 14182366166128DA00765768 /* PBXContainerItemProxy */;
-		};
-		14336168179173D3000A79D5 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 6ED85B3516288C4800A6DC02 /* PGClientKit_mac */;
-			targetProxy = 14336167179173D3000A79D5 /* PBXContainerItemProxy */;
-		};
 		1433618717917F5B000A79D5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 6ED85B3516288C4800A6DC02 /* PGClientKit_mac */;
 			targetProxy = 1433618617917F5B000A79D5 /* PBXContainerItemProxy */;
-		};
-		1433618917917F5B000A79D5 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 1433614A179173BB000A79D5 /* PGSchemaKit_mac */;
-			targetProxy = 1433618817917F5B000A79D5 /* PBXContainerItemProxy */;
 		};
 		143398D5168F4F1A00234FBF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -2574,73 +2423,6 @@
 			};
 			name = Release;
 		};
-		14182362166128C000765768 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = NO;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_VERSION = A;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				GENERATE_MASTER_OBJECT_FILE = YES;
-				HEADER_SEARCH_PATHS = "";
-				INFOPLIST_FILE = src/PGDataKit/PGDataKit.plist;
-				INSTALL_PATH = "@executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				PRODUCT_NAME = PGDataKit;
-				WRAPPER_EXTENSION = framework;
-			};
-			name = Debug;
-		};
-		14182363166128C000765768 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_VERSION = A;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "";
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				GENERATE_MASTER_OBJECT_FILE = YES;
-				INFOPLIST_FILE = src/PGDataKit/PGDataKit.plist;
-				INSTALL_PATH = "@executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				PRODUCT_NAME = PGDataKit;
-				WRAPPER_EXTENSION = framework;
-			};
-			name = Release;
-		};
 		1428045A166811D700A61BF6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2656,74 +2438,6 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				PRODUCT_NAME = openssl_mac;
-			};
-			name = Release;
-		};
-		14336163179173BB000A79D5 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = NO;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_VERSION = A;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				GENERATE_MASTER_OBJECT_FILE = YES;
-				INFOPLIST_FILE = src/Frameworks/PGSchemaKit/PGSchemaKit.plist;
-				INSTALL_PATH = "@executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				PRODUCT_NAME = PGSchemaKit;
-				SKIP_INSTALL = NO;
-				WRAPPER_EXTENSION = framework;
-			};
-			name = Debug;
-		};
-		14336164179173BB000A79D5 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_VERSION = A;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "";
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				GENERATE_MASTER_OBJECT_FILE = YES;
-				INFOPLIST_FILE = src/Frameworks/PGSchemaKit/PGSchemaKit.plist;
-				INSTALL_PATH = "@executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				PRODUCT_NAME = PGSchemaKit;
-				SKIP_INSTALL = NO;
-				WRAPPER_EXTENSION = framework;
 			};
 			name = Release;
 		};
@@ -2844,7 +2558,6 @@
 		14F1E85817CB83CD00710D4A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -2853,9 +2566,6 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "-";
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
@@ -2876,7 +2586,6 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = src/Frameworks/PGControlsKit/PGControlsKit.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = PGControlsKit;
 				WRAPPER_EXTENSION = framework;
 			};
@@ -2885,7 +2594,6 @@
 		14F1E85917CB83CD00710D4A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -2894,10 +2602,6 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "-";
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
@@ -2911,7 +2615,6 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = src/Frameworks/PGControlsKit/PGControlsKit.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = PGControlsKit;
 				WRAPPER_EXTENSION = framework;
 			};
@@ -3673,29 +3376,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		14182361166128C000765768 /* Build configuration list for PBXNativeTarget "PGDataKit_mac" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				14182362166128C000765768 /* Debug */,
-				14182363166128C000765768 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		14280459166811D700A61BF6 /* Build configuration list for PBXAggregateTarget "openssl_mac" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1428045A166811D700A61BF6 /* Debug */,
 				1428045B166811D700A61BF6 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		14336162179173BB000A79D5 /* Build configuration list for PBXNativeTarget "PGSchemaKit_mac" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				14336163179173BB000A79D5 /* Debug */,
-				14336164179173BB000A79D5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

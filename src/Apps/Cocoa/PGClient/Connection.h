@@ -1,20 +1,17 @@
 
 #import <Foundation/Foundation.h>
-#import <PGClientKit/PGClientKit.h>
+#import <PGControlsKit/PGControlsKit.h>
 
-@interface Connection : NSObject <PGConnectionDelegate> {
-	PGConnection* _connection;
-	PGPasswordStore* _password;
+@interface Connection : NSObject <PGConnectionWindowDelegate> {
+	PGConnectionWindowController* _connection;
 }
 
 // properties
-@property (readonly) PGConnection* connection;
-@property (readonly) PGPasswordStore* password;
-@property BOOL useKeychain;
+@property (readonly) PGConnectionWindowController* connection;
 @property (readonly) NSURL* url;
 
 // methods
--(void)login;
+-(void)loginWithWindow:(NSWindow* )window;
 -(void)disconnect;
 
 @end

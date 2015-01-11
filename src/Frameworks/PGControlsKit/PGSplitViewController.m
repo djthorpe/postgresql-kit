@@ -1,7 +1,10 @@
 
-#import "PGSplitViewController.h"
+
+#import "PGControlsKit.h"
 
 @interface PGSplitViewController ()
+
+@property (assign) IBOutlet NSView* ibGrabberView;
 
 @end
 
@@ -36,7 +39,5 @@
 	}
 	return proposedPosition;
 }
-
-
 
 @end
