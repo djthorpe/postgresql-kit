@@ -34,6 +34,7 @@
 
 	// set default URL
 	[[self connection] setUrl:[self url]];
+
 	// begin sheet
 	[[self connection] beginSheetForParentWindow:window contextInfo:nil];
 }
@@ -46,10 +47,8 @@
 // PGConnectionWindowDelegate
 
 -(void)connectionWindow:(PGConnectionWindowController* )windowController endedWithStatus:(NSInteger)status contextInfo:(void* )contextInfo {
-	NSLog(@"window did end, returnCode=%ld",status);
 	BOOL returnValue = NO;
 	if(status==NSModalResponseOK && [windowController url]) {
-		NSLog(@"CONNECT url=%@",[windowController url]);
 		returnValue = [windowController connect];
 	}
 	

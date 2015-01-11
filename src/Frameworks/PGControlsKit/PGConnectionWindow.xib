@@ -7,6 +7,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PGConnectionWindowController">
             <connections>
+                <outlet property="ibPasswordWindow" destination="ViW-cY-oM7" id="7Xr-aI-ikC"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="l1P-NB-k1w"/>
             </connections>
         </customObject>
@@ -184,6 +185,87 @@ Gw
                 </constraints>
             </view>
             <point key="canvasLocation" x="59" y="45"/>
+        </window>
+        <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="ViW-cY-oM7">
+            <windowStyleMask key="styleMask" titled="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="196" y="240" width="360" height="150"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1177"/>
+            <value key="minSize" type="size" width="360" height="150"/>
+            <value key="maxSize" type="size" width="480" height="150"/>
+            <view key="contentView" id="8DJ-zJ-lYY">
+                <rect key="frame" x="0.0" y="0.0" width="360" height="150"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Z5s-Mh-pMb">
+                        <rect key="frame" x="18" y="113" width="92" height="17"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Password" id="LS2-QE-13L">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <secureTextField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bbq-iZ-gH8">
+                        <rect key="frame" x="116" y="110" width="224" height="22"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="224" id="FTg-A2-A5F"/>
+                        </constraints>
+                        <secureTextFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" usesSingleLineMode="YES" id="UB8-K1-6KM">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                            <allowedInputSourceLocales>
+                                <string>NSAllRomanInputSourcesLocaleIdentifier</string>
+                            </allowedInputSourceLocales>
+                        </secureTextFieldCell>
+                    </secureTextField>
+                    <button translatesAutoresizingMaskIntoConstraints="NO" id="xgc-UI-jvj">
+                        <rect key="frame" x="114" y="86" width="228" height="18"/>
+                        <buttonCell key="cell" type="check" title="Save password in Keychain" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="qfv-S1-hg6">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <binding destination="-2" name="value" keyPath="isUseKeychain" id="MV1-kQ-vlm"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yUW-hL-oAj">
+                        <rect key="frame" x="14" y="13" width="83" height="32"/>
+                        <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="5W4-lp-fja">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                            <string key="keyEquivalent" base64-UTF8="YES">
+Gw
+</string>
+                        </buttonCell>
+                    </button>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Nzt-ga-bPh">
+                        <rect key="frame" x="286" y="13" width="60" height="32"/>
+                        <buttonCell key="cell" type="push" title="OK" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="tph-0e-Re4">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                            <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                        </buttonCell>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="yUW-hL-oAj" firstAttribute="leading" secondItem="8DJ-zJ-lYY" secondAttribute="leading" constant="20" symbolic="YES" id="2dy-2C-pyU"/>
+                    <constraint firstAttribute="bottom" secondItem="yUW-hL-oAj" secondAttribute="bottom" constant="20" symbolic="YES" id="6KC-8s-rUG"/>
+                    <constraint firstItem="xgc-UI-jvj" firstAttribute="top" secondItem="bbq-iZ-gH8" secondAttribute="bottom" constant="8" symbolic="YES" id="A4v-pX-YDN"/>
+                    <constraint firstItem="Z5s-Mh-pMb" firstAttribute="leading" secondItem="8DJ-zJ-lYY" secondAttribute="leading" constant="20" symbolic="YES" id="HcJ-6n-rSV"/>
+                    <constraint firstItem="bbq-iZ-gH8" firstAttribute="centerY" secondItem="Z5s-Mh-pMb" secondAttribute="centerY" id="KVk-ho-jxm"/>
+                    <constraint firstAttribute="bottom" secondItem="Nzt-ga-bPh" secondAttribute="bottom" constant="20" symbolic="YES" id="TGi-7s-SYw"/>
+                    <constraint firstItem="Z5s-Mh-pMb" firstAttribute="top" secondItem="8DJ-zJ-lYY" secondAttribute="top" constant="20" symbolic="YES" id="WSV-Ug-xcx"/>
+                    <constraint firstItem="bbq-iZ-gH8" firstAttribute="trailing" secondItem="xgc-UI-jvj" secondAttribute="trailing" id="WvI-0d-FCw"/>
+                    <constraint firstAttribute="trailing" secondItem="Nzt-ga-bPh" secondAttribute="trailing" constant="20" symbolic="YES" id="ZNB-Tx-C64"/>
+                    <constraint firstItem="bbq-iZ-gH8" firstAttribute="leading" secondItem="Z5s-Mh-pMb" secondAttribute="trailing" constant="8" symbolic="YES" id="bLD-l5-BdC"/>
+                    <constraint firstItem="bbq-iZ-gH8" firstAttribute="leading" secondItem="xgc-UI-jvj" secondAttribute="leading" id="eRq-jg-3Ym"/>
+                    <constraint firstItem="bbq-iZ-gH8" firstAttribute="trailing" secondItem="Nzt-ga-bPh" secondAttribute="trailing" id="paF-4O-8VO"/>
+                </constraints>
+            </view>
+            <point key="canvasLocation" x="65" y="321"/>
         </window>
     </objects>
 </document>

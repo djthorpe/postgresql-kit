@@ -7,9 +7,10 @@
 @interface PGConnectionWindowController ()
 
 // properties
+@property (weak,nonatomic) IBOutlet NSWindow* ibPasswordWindow;
+@property (assign,nonatomic) BOOL isUseKeychain;
 @property (readonly) NSMutableDictionary* params;
 @property (readonly) NSString* username;
-@property (readonly) BOOL isUseKeychain;
 
 // ibactions
 -(IBAction)ibButtonClicked:(id)sender;
@@ -44,15 +45,12 @@
 @synthesize connection = _connection;
 @synthesize password = _password;
 @synthesize params = _params;
+@synthesize ibPasswordWindow;
+@synthesize isUseKeychain;
 @dynamic url;
-@dynamic isUseKeychain;
 
 -(NSURL* )url {
 	return [NSURL URLWithPostgresqlParams:[self params]];
-}
-
--(BOOL)isUseKeychain {
-	return YES;
 }
 
 -(void)setUrl:(NSURL* )url {
@@ -103,9 +101,15 @@
 	[NSApp beginSheet:[self window] modalForWindow:parentWindow modalDelegate:self didEndSelector:@selector(endSheet:returnCode:contextInfo:) contextInfo:contextInfo];
 }
 
--(void)endSheet:(NSWindow *)theSheet returnCode:(NSInteger)returnCode contextInfo:(void* )contextInfo {
+-(void)beginPasswordSheetForParentWindow:(NSWindow* )parentWindow contextInfo:(void* )contextInfo {
+	// start sheet
+	[NSApp beginSheet:[self ibPasswordWindow] modalForWindow:parentWindow modalDelegate:self didEndSelector:@selector(endSheet:returnCode:contextInfo:) contextInfo:contextInfo];
+}
+
+-(void)endSheet:(NSWindow* )theSheet returnCode:(NSInteger)returnCode contextInfo:(void* )contextInfo {
 	// remove sheet
 	[theSheet orderOut:self];
+
 	// send message to delegate
 	if([[self delegate] respondsToSelector:@selector(connectionWindow:endedWithStatus:contextInfo:)]) {
 		[[self delegate] connectionWindow:self endedWithStatus:returnCode contextInfo:contextInfo];
@@ -131,7 +135,8 @@
 
 -(void)windowDidLoad {
     [super windowDidLoad];
-    // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
+	// set some defaults
+	[self setIsUseKeychain:YES];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -169,9 +174,11 @@
 	}
 }
 
-/*
 -(void)connection:(PGConnection* )connection statusChange:(PGConnectionStatus)status {
+	NSLog(@"status change=%d",status);
+}
 
+/*
 	// disconnected
 	if([self stopping] && status==PGConnectionStatusDisconnected) {
 		// indicate server connection has been shutdown
