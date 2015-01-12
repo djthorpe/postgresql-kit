@@ -54,7 +54,7 @@
 	[[self connection] loginWithWindow:[self window]];
 }
 
-- (void)applicationWillTerminate:(NSNotification *)aNotification {
+-(void)applicationWillTerminate:(NSNotification *)aNotification {
 	// disconnect from remote server
 	[[self connection] disconnect];
 }
