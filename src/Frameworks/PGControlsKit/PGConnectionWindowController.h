@@ -6,10 +6,12 @@
 
 typedef enum  {
 	PGConnectionWindowStatusOK = 100,
-	PGConnectionWindowStatusBadParameters,
 	PGConnectionWindowStatusCancel,
+	PGConnectionWindowStatusBadParameters,
 	PGConnectionWindowStatusNeedsPassword,
-	PGConnectionWindowStatusConnectionError
+	PGConnectionWindowStatusConnecting,
+	PGConnectionWindowStatusConnected,
+	PGConnectionWindowStatusRejected
 } PGConnectionWindowStatus;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -37,7 +39,8 @@ typedef enum  {
 
 // methods
 -(void)beginSheetForParentWindow:(NSWindow* )parentWindow contextInfo:(void* )contextInfo;
--(BOOL)connect;
+-(void)beginPasswordSheetForParentWindow:(NSWindow* )parentWindow contextInfo:(void* )contextInfo;
+-(void)connect;
 -(void)disconnect;
 
 @end
