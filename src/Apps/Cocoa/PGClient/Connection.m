@@ -46,9 +46,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 // PGConnectionWindowDelegate
 
--(void)connectionWindow:(PGConnectionWindowController* )windowController endedWithStatus:(NSInteger)status contextInfo:(void* )contextInfo {
+-(void)connectionWindow:(PGConnectionWindowController* )windowController status:(PGConnectionWindowStatus)status contextInfo:(void* )contextInfo {
 	BOOL returnValue = NO;
-	if(status==NSModalResponseOK && [windowController url]) {
+	if(status==PGConnectionWindowStatusOK && [windowController url]) {
 		returnValue = [windowController connect];
 	}
 	

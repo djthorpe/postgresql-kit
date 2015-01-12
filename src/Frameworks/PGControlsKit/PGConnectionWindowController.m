@@ -110,9 +110,21 @@
 	// remove sheet
 	[theSheet orderOut:self];
 
+	// determine return status
+	PGConnectionWindowStatus status = PGConnectionWindowStatusOK;
+	
+	// if cancel button is pressed
+	if(returnCode==NSModalResponseCancel) {
+		status = PGConnectionWindowStatusCancel;
+	} else if (returnCode==NSModalResponseOK && [self url]==nil) {
+		status = PGConnectionWindowStatusBadParameters;
+	} else {
+		status = PGConnectionWindowStatusOK;
+	}
+
 	// send message to delegate
 	if([[self delegate] respondsToSelector:@selector(connectionWindow:endedWithStatus:contextInfo:)]) {
-		[[self delegate] connectionWindow:self endedWithStatus:returnCode contextInfo:contextInfo];
+		[[self delegate] connectionWindow:self status:status contextInfo:contextInfo];
 	}
 }
 

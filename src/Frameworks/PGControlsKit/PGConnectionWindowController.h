@@ -4,9 +4,19 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
+typedef enum  {
+	PGConnectionWindowStatusOK = 100,
+	PGConnectionWindowStatusBadParameters,
+	PGConnectionWindowStatusCancel,
+	PGConnectionWindowStatusNeedsPassword,
+	PGConnectionWindowStatusConnectionError
+} PGConnectionWindowStatus;
+
+////////////////////////////////////////////////////////////////////////////////
+
 @protocol PGConnectionWindowDelegate <NSObject>
 @required
-	-(void)connectionWindow:(PGConnectionWindowController* )windowController endedWithStatus:(NSInteger)status contextInfo:(void* )contextInfo;
+	-(void)connectionWindow:(PGConnectionWindowController* )windowController status:(PGConnectionWindowStatus)status contextInfo:(void* )contextInfo;
 @optional
 	-(void)connectionWindow:(PGConnectionWindowController* )windowController error:(NSError* )error;
 @end
