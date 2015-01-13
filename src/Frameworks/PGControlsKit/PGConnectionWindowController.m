@@ -117,7 +117,7 @@
 	[NSApp beginSheet:[self ibPasswordWindow] modalForWindow:parentWindow modalDelegate:self didEndSelector:@selector(endSheet:returnCode:contextInfo:) contextInfo:nil];
 }
 
--(void)endSheet:(NSWindow* )theSheet returnCode:(NSInteger)returnCode {
+-(void)endSheet:(NSWindow* )theSheet returnCode:(NSInteger)returnCode contextInfo:(void* )contextInfo {
 	// remove sheet
 	[theSheet orderOut:self];
 
