@@ -18,7 +18,7 @@ typedef enum  {
 
 @protocol PGConnectionWindowDelegate <NSObject>
 @required
-	-(void)connectionWindow:(PGConnectionWindowController* )windowController status:(PGConnectionWindowStatus)status contextInfo:(void* )contextInfo;
+	-(void)connectionWindow:(PGConnectionWindowController* )windowController status:(PGConnectionWindowStatus)status;
 @optional
 	-(void)connectionWindow:(PGConnectionWindowController* )windowController error:(NSError* )error;
 @end
@@ -29,6 +29,7 @@ typedef enum  {
 	PGConnection* _connection;
 	NSMutableDictionary* _params;
 	PGPasswordStore* _password;
+	void* _contextInfo;
 }
 
 // properties
@@ -38,8 +39,8 @@ typedef enum  {
 @property NSURL* url;
 
 // methods
--(void)beginSheetForParentWindow:(NSWindow* )parentWindow contextInfo:(void* )contextInfo;
--(void)beginPasswordSheetForParentWindow:(NSWindow* )parentWindow contextInfo:(void* )contextInfo;
+-(void)beginSheetForParentWindow:(NSWindow* )parentWindow;
+-(void)beginPasswordSheetForParentWindow:(NSWindow* )parentWindow;
 -(void)connect;
 -(void)disconnect;
 

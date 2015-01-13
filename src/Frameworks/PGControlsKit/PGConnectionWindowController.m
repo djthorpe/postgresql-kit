@@ -65,7 +65,13 @@
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// methods
+// private methods
+
+-(void)windowDidLoad {
+    [super windowDidLoad];
+	// set some defaults
+	[self setIsUseKeychain:YES];
+}
 
 -(void)setDefaultValues {
 	// set user
@@ -93,20 +99,25 @@
 	
 }
 
--(void)beginSheetForParentWindow:(NSWindow* )parentWindow contextInfo:(void* )contextInfo {
+////////////////////////////////////////////////////////////////////////////////
+// methods
+
+-(void)beginSheetForParentWindow:(NSWindow* )parentWindow {
 	// set parameters
 	[self setDefaultValues];
 
 	// start sheet
-	[NSApp beginSheet:[self window] modalForWindow:parentWindow modalDelegate:self didEndSelector:@selector(endSheet:returnCode:contextInfo:) contextInfo:contextInfo];
+	[NSApp beginSheet:[self window] modalForWindow:parentWindow modalDelegate:self didEndSelector:@selector(endSheet:returnCode:contextInfo:) contextInfo:nil];
 }
 
--(void)beginPasswordSheetForParentWindow:(NSWindow* )parentWindow contextInfo:(void* )contextInfo {
+-(void)beginPasswordSheetForParentWindow:(NSWindow* )parentWindow {
+	// TODO: set password
+
 	// start sheet
-	[NSApp beginSheet:[self ibPasswordWindow] modalForWindow:parentWindow modalDelegate:self didEndSelector:@selector(endSheet:returnCode:contextInfo:) contextInfo:contextInfo];
+	[NSApp beginSheet:[self ibPasswordWindow] modalForWindow:parentWindow modalDelegate:self didEndSelector:@selector(endSheet:returnCode:contextInfo:) contextInfo:nil];
 }
 
--(void)endSheet:(NSWindow* )theSheet returnCode:(NSInteger)returnCode contextInfo:(void* )contextInfo {
+-(void)endSheet:(NSWindow* )theSheet returnCode:(NSInteger)returnCode {
 	// remove sheet
 	[theSheet orderOut:self];
 
@@ -123,18 +134,17 @@
 	}
 
 	// send message to delegate
-	if([[self delegate] respondsToSelector:@selector(connectionWindow:endedWithStatus:contextInfo:)]) {
-		[[self delegate] connectionWindow:self status:status contextInfo:contextInfo];
-	}
+	[[self delegate] connectionWindow:self status:status];
 }
 
--(BOOL)connect {
+-(void)connect {
 	if([self url]==nil) {
-		return NO;
+		[[self delegate] connectionWindow:self status:PGConnectionWindowStatusBadParameters];
+		return;
 	}
-	return [[self connection] connectInBackgroundWithURL:[self url] whenDone:^(NSError* error){
+	[[self connection] connectInBackgroundWithURL:[self url] whenDone:^(NSError* error){
 		if([error code]==PGClientErrorNeedsPassword) {
-			NSLog(@"NEEDS PASSWORD TO BE ENTERED");
+			[[self delegate] connectionWindow:self status:PGConnectionWindowStatusNeedsPassword];
 		}
 	}];
 }
@@ -143,12 +153,6 @@
 	if([[self connection] status]==PGConnectionStatusConnected) {
 		[[self connection] disconnect];
 	}
-}
-
--(void)windowDidLoad {
-    [super windowDidLoad];
-	// set some defaults
-	[self setIsUseKeychain:YES];
 }
 
 ////////////////////////////////////////////////////////////////////////////////

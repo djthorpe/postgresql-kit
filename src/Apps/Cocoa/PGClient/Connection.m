@@ -36,7 +36,7 @@
 	[[self connection] setUrl:[self url]];
 
 	// begin sheet
-	[[self connection] beginSheetForParentWindow:window contextInfo:nil];
+	[[self connection] beginSheetForParentWindow:window];
 }
 
 -(void)disconnect {
@@ -46,14 +46,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 // PGConnectionWindowDelegate
 
--(void)connectionWindow:(PGConnectionWindowController* )windowController status:(PGConnectionWindowStatus)status contextInfo:(void* )contextInfo {
-	BOOL returnValue = NO;
+-(void)connectionWindow:(PGConnectionWindowController* )windowController status:(PGConnectionWindowStatus)status {
 	if(status==PGConnectionWindowStatusOK && [windowController url]) {
-		returnValue = [windowController connect];
-	}
-	
-	if(returnValue==NO) {
-		NSLog(@"DISPLAY ERROR MESSAGE");
+		[windowController connect];
 	}
 }
 
