@@ -241,7 +241,7 @@
 }
 
 -(void)connection:(PGConnection* )connection statusChange:(PGConnectionStatus)status {
-	NSLog(@"status change=%d",status);
+	NSLog(@"status change=%d",status);	
 }
 
 /*
