@@ -332,13 +332,18 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 		case PGConnectionStatusConnecting:
 			[[self delegate] connectionWindow:self status:PGConnectionWindowStatusConnecting];
 			break;
-		case PGConnectionStatusConnected:
-			// Store Password
-			if(status==PGConnectionStatusConnected && [self isUseKeychain]) {
-			//	PGPasswordStore* store = [PGPasswordStore new];
-				NSLog(@"TODO: Store password: %@",[[self params] objectForKey:@"password"]);
+		case PGConnectionStatusConnected: {
+				// Store Password
+				NSString* password = [[self params] objectForKey:@"password"];
+				NSError* error = nil;
+				if([password length]) {
+					[[self password] setPassword:password forURL:[self url] saveToKeychain:[self isUseKeychain] error:&error];
+				}
+				if(error) {
+					[self connection:[self connection] error:error];
+				}
+				[[self delegate] connectionWindow:self status:PGConnectionWindowStatusConnected];
 			}
-			[[self delegate] connectionWindow:self status:PGConnectionWindowStatusConnected];
 			break;
 		case PGConnectionStatusRejected:
 			[[self delegate] connectionWindow:self status:PGConnectionWindowStatusRejected];
