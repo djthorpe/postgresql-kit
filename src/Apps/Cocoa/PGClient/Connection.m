@@ -47,8 +47,28 @@
 // PGConnectionWindowDelegate
 
 -(void)connectionWindow:(PGConnectionWindowController* )windowController status:(PGConnectionWindowStatus)status {
-	if(status==PGConnectionWindowStatusOK && [windowController url]) {
-		[windowController connect];
+	switch(status) {
+		case PGConnectionWindowStatusOK:
+			[windowController connect];
+			break;
+		case PGConnectionWindowStatusNeedsPassword:
+			[[self connection] beginPasswordSheetForParentWindow:nil];
+			break;
+		case PGConnectionWindowStatusCancel:
+			NSLog(@"PGConnectionWindow sent status CANCEL PRESSED");
+			break;
+		case PGConnectionWindowStatusConnecting:
+			NSLog(@"PGConnectionWindow sent status CONNECTING");
+			break;
+		case PGConnectionWindowStatusBadParameters:
+			NSLog(@"PGConnectionWindow sent status BAD PARAMETERS");
+			break;
+		case PGConnectionWindowStatusRejected:
+			NSLog(@"PGConnectionWindow sent status REJECTED CONNECTION");
+			break;
+		case PGConnectionWindowStatusConnected:
+			NSLog(@"PGConnectionWindow sent status CONNECTED");
+			break;
 	}
 }
 

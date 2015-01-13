@@ -4,15 +4,24 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
+NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
+
+////////////////////////////////////////////////////////////////////////////////
+
 @interface PGConnectionWindowController ()
 
-// properties
+// IB Properties
 @property (weak,nonatomic) IBOutlet NSWindow* ibPasswordWindow;
+@property (weak,nonatomic) IBOutlet NSWindow* ibURLWindow;
+
+// Other Properties
 @property BOOL isDefaultPort;
 @property BOOL isUseKeychain;
 @property BOOL isRequireSSL;
 @property (readonly) NSMutableDictionary* params;
 @property (readonly) NSString* username;
+@property (retain) NSTimer* pingTimer;
+@property (retain) NSImage* pingImage;
 
 // ibactions
 -(IBAction)ibButtonClicked:(id)sender;
@@ -47,11 +56,15 @@
 @synthesize connection = _connection;
 @synthesize password = _password;
 @synthesize params = _params;
+
 @synthesize ibPasswordWindow;
+@synthesize ibURLWindow;
+
 @synthesize isDefaultPort;
 @synthesize isUseKeychain;
 @synthesize isRequireSSL;
-
+@synthesize pingTimer;
+@synthesize pingImage;
 @dynamic url;
 
 -(NSURL* )url {
@@ -61,16 +74,19 @@
 -(void)setUrl:(NSURL* )url {
 	NSParameterAssert(url);
 	NSDictionary* params = [url postgresqlParameters];
+	[_params removeAllObjects];
 	if(params) {
-		[_params removeAllObjects];
 		[_params setDictionary:params];
-	} else {
-		NSLog(@"Error: setUrl: Unable to set parameters from URL: %@",url);
 	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // private methods
+
++(NSImage* )resourceImageNamed:(NSString* )name {
+	NSBundle* bundle = [NSBundle bundleForClass:self];
+	return [bundle imageForResource:name];
+}
 
 -(void)windowDidLoad {
     [super windowDidLoad];
@@ -122,6 +138,48 @@
 		[[self params] setObject:@"prefer" forKey:@"sslmode"];
 		[self setIsRequireSSL:NO];
 	}
+	
+	// set ping image
+	[self setPingImage:[[self class] resourceImageNamed:@"traffic-grey"]];
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// private methods - ping timer
+
+-(void)_schedulePingTimer {
+	if([self pingTimer]==nil) {
+		[self setPingTimer:[NSTimer scheduledTimerWithTimeInterval:PingTimerInterval target:self selector:@selector(_doPingTimer:) userInfo:nil repeats:NO]];
+		[self setPingImage:[[self class] resourceImageNamed:@"traffic-orange"]];
+	}
+}
+
+-(void)_unschedulePingTimer {
+	if([self pingTimer]) {
+		[[self pingTimer] invalidate];
+	}
+	[self setPingTimer:nil];
+	[self setPingImage:[[self class] resourceImageNamed:@"traffic-grey"]];
+}
+
+-(void)_doPingTimer:(id)sender {
+	[self _unschedulePingTimer];
+	NSURL* url = [self url];
+	if(url) {
+		[self setPingImage:[[self class] resourceImageNamed:@"traffic-orange"]];
+		
+		// TODO: Do ping in background, with a timeout
+		NSError* error = nil;
+		if([_connection pingWithURL:url error:&error]==NO) {
+			[self setPingImage:[[self class] resourceImageNamed:@"traffic-red"]];
+		} else {
+			[self setPingImage:[[self class] resourceImageNamed:@"traffic-green"]];
+		}
+		if(error && [[self delegate] respondsToSelector:@selector(connectionWindow:error:)]) {
+			[[self delegate] connectionWindow:self error:error];
+		}
+	} else {
+		[self setPingImage:[[self class] resourceImageNamed:@"traffic-grey"]];
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -141,6 +199,32 @@
 
 -(void)observeValueForKeyPath:(NSString* )keyPath ofObject:(id)object change:(NSDictionary* )change context:(void* )context {
 	NSLog(@"%@ => %@",keyPath,change);
+	
+	// check for isDefaultPort
+	if([keyPath isEqualToString:@"isDefaultPort"]) {
+		[self willChangeValueForKey:@"params.port"];
+		[[self params] setObject:[NSNumber numberWithUnsignedInteger:PGClientDefaultPort] forKey:@"port"];
+		[self didChangeValueForKey:@"params.port"];
+	}
+
+	// check for isRequireSSL
+	if([keyPath isEqualToString:@"isRequireSSL"]) {
+		[self willChangeValueForKey:@"params.sslmode"];
+		BOOL newValue = [[change objectForKey:NSKeyValueChangeNewKey] boolValue];
+		if(newValue==YES) {
+			[[self params] setObject:@"require" forKey:@"sslmode"];
+		} else {
+			[[self params] setObject:@"prefer" forKey:@"sslmode"];
+		}
+		[self didChangeValueForKey:@"params.sslmode"];
+	}
+	
+	// schedule timer to check for value values
+	if([self url]) {
+		[self _schedulePingTimer];
+	} else {
+		[self _unschedulePingTimer];
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -171,6 +255,9 @@
 	// remove observer
 	[self _deregisterAsObserver];
 	
+	// stop ping timer
+	[self _unschedulePingTimer];
+	
 	// determine return status
 	PGConnectionWindowStatus status = PGConnectionWindowStatusOK;
 	
@@ -179,8 +266,6 @@
 		status = PGConnectionWindowStatusCancel;
 	} else if (returnCode==NSModalResponseOK && [self url]==nil) {
 		status = PGConnectionWindowStatusBadParameters;
-	} else {
-		status = PGConnectionWindowStatusOK;
 	}
 
 	// send message to delegate
@@ -210,12 +295,14 @@
 
 -(IBAction)ibButtonClicked:(id)sender {
 	NSParameterAssert([sender isKindOfClass:[NSButton class]]);
+	NSWindow* theWindow = [(NSButton* )sender window];
+
 	if([[(NSButton* )sender title] isEqualToString:@"Cancel"]) {
 		// Cancel button pressed, immediately quit
-		[NSApp endSheet:[(NSButton* )sender window] returnCode:NSModalResponseCancel];
+		[NSApp endSheet:theWindow returnCode:NSModalResponseCancel];
 	} else {
 		// Do something here
-		[NSApp endSheet:[(NSButton* )sender window] returnCode:NSModalResponseOK];
+		[NSApp endSheet:theWindow returnCode:NSModalResponseOK];
 	}
 }
 
@@ -241,31 +328,31 @@
 }
 
 -(void)connection:(PGConnection* )connection statusChange:(PGConnectionStatus)status {
-	NSLog(@"status change=%d",status);	
-}
-
-/*
-	// disconnected
-	if([self stopping] && status==PGConnectionStatusDisconnected) {
-		// indicate server connection has been shutdown
-		[self stoppedWithReturnValue:0];
-		return;
+	switch(status) {
+		case PGConnectionStatusConnecting:
+			[[self delegate] connectionWindow:self status:PGConnectionWindowStatusConnecting];
+			break;
+		case PGConnectionStatusConnected:
+			// Store Password
+			if(status==PGConnectionStatusConnected && [self isUseKeychain]) {
+			//	PGPasswordStore* store = [PGPasswordStore new];
+				NSLog(@"TODO: Store password: %@",[[self params] objectForKey:@"password"]);
+			}
+			[[self delegate] connectionWindow:self status:PGConnectionWindowStatusConnected];
+			break;
+		case PGConnectionStatusRejected:
+			[[self delegate] connectionWindow:self status:PGConnectionWindowStatusRejected];
+			break;
+		default:
+			NSLog(@"PGConnection sent status %d",status);
 	}
-	
-	// connected
-	//if(status==PGConnectionStatusConnected && [self shouldStorePassword] && [self temporaryPassword]) {
-	//	PGPasswordStore* store = [PGPasswordStore new];
-	//	NSLog(@"TODO: Store password: %@",[self temporaryPassword]);
-	//}
-	
 }
-*/
 
 -(void)connection:(PGConnection* )connection error:(NSError* )theError {
 	if([[self delegate] respondsToSelector:@selector(connectionWindow:error:)]) {
 		[[self delegate] connectionWindow:self error:theError];
 	} else {
-		NSLog(@"Connection Error: %@",theError);
+		NSLog(@"Connection Error: %@",[theError localizedDescription]);
 	}
 }
 

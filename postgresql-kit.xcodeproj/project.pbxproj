@@ -113,9 +113,6 @@
 		14EB374C1671204A00B038B6 /* NSWindow+ResizeAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 14EB374B1671204A00B038B6 /* NSWindow+ResizeAdditions.m */; };
 		14EB374F16712BC000B038B6 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14EB374E16712BC000B038B6 /* ViewController.m */; };
 		14EB37501671325500B038B6 /* elephant-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43E415F3A465001ED3BE /* elephant-32.png */; };
-		14EB37511671325900B038B6 /* green.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14032D78164A6F2200CD5796 /* green.tiff */; };
-		14EB37521671325E00B038B6 /* red.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14032D79164A6F2200CD5796 /* red.tiff */; };
-		14EB37531671326100B038B6 /* yellow.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14032D7A164A6F2200CD5796 /* yellow.tiff */; };
 		14EB375516713B3600B038B6 /* PGClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
 		14F1E86F17CB857A00710D4A /* PGControlsKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 14F1E86017CB840400710D4A /* PGControlsKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		14F1E87017CB864C00710D4A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C167C15F26BF20013A382 /* Cocoa.framework */; };
@@ -128,7 +125,6 @@
 		6E002D4017BFC1F1001FB183 /* LocalConnectionWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E002D3F17BFC1F1001FB183 /* LocalConnectionWindowController.m */; };
 		6E002D4117BFC45D001FB183 /* elephant-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43E415F3A465001ED3BE /* elephant-32.png */; };
 		6E002D4417BFCE51001FB183 /* PGSidebarNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E002D4317BFCE51001FB183 /* PGSidebarNode.m */; };
-		6E002D4617BFDACE001FB183 /* red.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14032D79164A6F2200CD5796 /* red.tiff */; };
 		6E002D4917BFE349001FB183 /* PGSidebarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E002D4817BFE349001FB183 /* PGSidebarViewController.m */; };
 		6E002D4D17BFED9B001FB183 /* RemoteConnectionWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E002D4C17BFED9B001FB183 /* RemoteConnectionWindow.xib */; };
 		6E031030162FE50B003225B1 /* PGStatement.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E03102E162FE50B003225B1 /* PGStatement.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -199,6 +195,10 @@
 		6E68AE0B1635DDCE00436234 /* PGClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
 		6E725FE117AEC11A002EEF67 /* PGClientView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E725FE017AEC11A002EEF67 /* PGClientView.xib */; };
 		6E725FE417AEC3A0002EEF67 /* PGClientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E725FE317AEC3A0002EEF67 /* PGClientView.m */; };
+		6E92F5691A65B0D8003C0727 /* traffic-green.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6ED779F017C1266100124DF1 /* traffic-green.tiff */; };
+		6E92F56A1A65B0DB003C0727 /* traffic-grey.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ED779F117C1266100124DF1 /* traffic-grey.png */; };
+		6E92F56B1A65B0E1003C0727 /* traffic-red.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6ED779F217C1266100124DF1 /* traffic-red.tiff */; };
+		6E92F56C1A65B26F003C0727 /* traffic-orange.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6ED779F317C1266100124DF1 /* traffic-orange.tiff */; };
 		6EA41EF01610E7DB00E81046 /* PGServer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EA41EEE1610E7DB00E81046 /* PGServer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6EA41EF11610E7DB00E81046 /* PGServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EA41EEF1610E7DB00E81046 /* PGServer.m */; };
 		6EAA40EB17BC150E0078EB32 /* NSURL+PGAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EAA40E917BC150E0078EB32 /* NSURL+PGAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -433,9 +433,6 @@
 		14032D74164A6F2200CD5796 /* start.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = start.tiff; sourceTree = "<group>"; };
 		14032D75164A6F2200CD5796 /* stop.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = stop.tiff; sourceTree = "<group>"; };
 		14032D76164A6F2200CD5796 /* terminal.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = terminal.tiff; sourceTree = "<group>"; };
-		14032D78164A6F2200CD5796 /* green.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = green.tiff; sourceTree = "<group>"; };
-		14032D79164A6F2200CD5796 /* red.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = red.tiff; sourceTree = "<group>"; };
-		14032D7A164A6F2200CD5796 /* yellow.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = yellow.tiff; sourceTree = "<group>"; };
 		14032DC9164A718C00CD5796 /* halt.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = halt.tiff; sourceTree = "<group>"; };
 		14032DCD164A726400CD5796 /* network.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = network.tiff; sourceTree = "<group>"; };
 		14032DCE164A726400CD5796 /* preferences.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = preferences.tiff; sourceTree = "<group>"; };
@@ -824,9 +821,6 @@
 				6ED779F117C1266100124DF1 /* traffic-grey.png */,
 				6ED779F217C1266100124DF1 /* traffic-red.tiff */,
 				6ED779F317C1266100124DF1 /* traffic-orange.tiff */,
-				14032D78164A6F2200CD5796 /* green.tiff */,
-				14032D79164A6F2200CD5796 /* red.tiff */,
-				14032D7A164A6F2200CD5796 /* yellow.tiff */,
 			);
 			path = traffic;
 			sourceTree = "<group>";
@@ -1888,9 +1882,6 @@
 				148F88C9166D63AC0088D3DF /* ResizeControl.png in Resources */,
 				14237AEF166E734A000DBCE1 /* MainWindow.xib in Resources */,
 				14EB37501671325500B038B6 /* elephant-32.png in Resources */,
-				14EB37511671325900B038B6 /* green.tiff in Resources */,
-				14EB37521671325E00B038B6 /* red.tiff in Resources */,
-				14EB37531671326100B038B6 /* yellow.tiff in Resources */,
 				141C52D016714F9D00648E67 /* LogView.xib in Resources */,
 				141C52D1167150E100648E67 /* terminal.tiff in Resources */,
 				145695F516718D39004471F9 /* ConnectionView.xib in Resources */,
@@ -1911,7 +1902,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6E92F56A1A65B0DB003C0727 /* traffic-grey.png in Resources */,
+				6E92F5691A65B0D8003C0727 /* traffic-green.tiff in Resources */,
+				6E92F56C1A65B26F003C0727 /* traffic-orange.tiff in Resources */,
 				6EE4E2081A61A22D00BEC4AD /* ResizeControl.png in Resources */,
+				6E92F56B1A65B0E1003C0727 /* traffic-red.tiff in Resources */,
 				6E0C81721A619E2E0032AE32 /* PGSplitView.xib in Resources */,
 				6E60B5BC1A6280AF005B0633 /* PGConnectionWindow.xib in Resources */,
 				6EE4E2071A61A22B00BEC4AD /* Gradient.png in Resources */,
@@ -1952,7 +1947,6 @@
 				6E002D3417BFA89A001FB183 /* ResizeControl.png in Resources */,
 				6E002D3D17BFC19A001FB183 /* LocalConnectionWindow.xib in Resources */,
 				6E002D4117BFC45D001FB183 /* elephant-32.png in Resources */,
-				6E002D4617BFDACE001FB183 /* red.tiff in Resources */,
 				6E002D4D17BFED9B001FB183 /* RemoteConnectionWindow.xib in Resources */,
 				6ED779F417C1267300124DF1 /* traffic-grey.png in Resources */,
 				6EDB9D6917C20F3E00B9BC89 /* traffic-orange.tiff in Resources */,
