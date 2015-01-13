@@ -8,7 +8,8 @@
 
 // properties
 @property (weak,nonatomic) IBOutlet NSWindow* ibPasswordWindow;
-@property (assign,nonatomic) BOOL isUseKeychain;
+@property BOOL isDefaultPort;
+@property BOOL isUseKeychain;
 @property (readonly) NSMutableDictionary* params;
 @property (readonly) NSString* username;
 
@@ -46,6 +47,7 @@
 @synthesize password = _password;
 @synthesize params = _params;
 @synthesize ibPasswordWindow;
+@synthesize isDefaultPort;
 @synthesize isUseKeychain;
 @dynamic url;
 
@@ -70,15 +72,17 @@
 -(void)windowDidLoad {
     [super windowDidLoad];
 	// set some defaults
-	[self setIsUseKeychain:YES];
+	[self setIsDefaultPort:YES];
 }
 
--(void)setDefaultValues {
+-(void)_setDefaultValues {
 	// set user
 	NSString* user = [[self params] objectForKey:@"user"];
 	if([user length]==0) {
 		user = NSUserName();
+		[self willChangeValueForKey:@"params.user"];
 		[[self params] setObject:user forKey:@"user"];
+		[self didChangeValueForKey:@"params.user"];
 	}
 	NSParameterAssert([user isKindOfClass:[NSString class]]);
 
@@ -86,7 +90,9 @@
 	NSString* dbname = [[self params] objectForKey:@"dbname"];
 	if([dbname length]==0) {
 		dbname = user;
+		[self willChangeValueForKey:@"params.dname"];
 		[[self params] setObject:dbname forKey:@"dbname"];
+		[self didChangeValueForKey:@"params.dbname"];
 	}
 	NSParameterAssert([dbname isKindOfClass:[NSString class]]);
 
@@ -94,18 +100,50 @@
 	NSString* host = [[self params] objectForKey:@"host"];
 	if([host length]==0) {
 		host = @"localhost";
+		[self willChangeValueForKey:@"params.host"];
 		[[self params] setObject:host forKey:@"host"];
+		[self didChangeValueForKey:@"params.host"];
 	}
 	
+	// set port
+	NSNumber* defaultPort = [NSNumber numberWithInteger:PGClientDefaultPort];
+	if([self isDefaultPort] && [[[self params] objectForKey:@"port"] isNotEqualTo:defaultPort]) {
+		[self willChangeValueForKey:@"params.port"];
+		[[self params] setObject:defaultPort forKey:@"port"];
+		[self didChangeValueForKey:@"params.port"];
+	}
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// private methods - key-value observing
+
+-(void)_registerAsObserver {
+	for(NSString* keyPath in @[ @"isDefaultPort",@"params.host", @"params.ssl", @"params.user", @"params.dbname", @"params.port" ]) {
+		[self addObserver:self forKeyPath:keyPath options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:NULL];
+	}
+}
+
+-(void)_deregisterAsObserver {
+	for(NSString* keyPath in @[ @"params.host", @"params.ssl", @"params.user", @"params.dbname", @"params.port" ]) {
+		[self removeObserver:self forKeyPath:keyPath];
+	}
+}
+
+-(void)observeValueForKeyPath:(NSString* )keyPath ofObject:(id)object change:(NSDictionary* )change context:(void* )context {
+	NSLog(@"%@ => %@",keyPath,change);
+	[self _setDefaultValues];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // methods
 
 -(void)beginSheetForParentWindow:(NSWindow* )parentWindow {
-	// set parameters
-	[self setDefaultValues];
+	// register as observer
+	[self _registerAsObserver];
 
+	// set parameters
+	[self _setDefaultValues];
+	
 	// start sheet
 	[NSApp beginSheet:[self window] modalForWindow:parentWindow modalDelegate:self didEndSelector:@selector(endSheet:returnCode:contextInfo:) contextInfo:nil];
 }
@@ -121,6 +159,9 @@
 	// remove sheet
 	[theSheet orderOut:self];
 
+	// remove observer
+	[self _deregisterAsObserver];
+	
 	// determine return status
 	PGConnectionWindowStatus status = PGConnectionWindowStatusOK;
 	
