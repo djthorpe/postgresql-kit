@@ -10,6 +10,7 @@
 @property (weak,nonatomic) IBOutlet NSWindow* ibPasswordWindow;
 @property BOOL isDefaultPort;
 @property BOOL isUseKeychain;
+@property BOOL isRequireSSL;
 @property (readonly) NSMutableDictionary* params;
 @property (readonly) NSString* username;
 
@@ -49,6 +50,8 @@
 @synthesize ibPasswordWindow;
 @synthesize isDefaultPort;
 @synthesize isUseKeychain;
+@synthesize isRequireSSL;
+
 @dynamic url;
 
 -(NSURL* )url {
@@ -73,6 +76,7 @@
     [super windowDidLoad];
 	// set some defaults
 	[self setIsDefaultPort:YES];
+	[self setIsRequireSSL:YES];
 }
 
 -(void)_setDefaultValues {
@@ -80,9 +84,7 @@
 	NSString* user = [[self params] objectForKey:@"user"];
 	if([user length]==0) {
 		user = NSUserName();
-		[self willChangeValueForKey:@"params.user"];
 		[[self params] setObject:user forKey:@"user"];
-		[self didChangeValueForKey:@"params.user"];
 	}
 	NSParameterAssert([user isKindOfClass:[NSString class]]);
 
@@ -90,9 +92,7 @@
 	NSString* dbname = [[self params] objectForKey:@"dbname"];
 	if([dbname length]==0) {
 		dbname = user;
-		[self willChangeValueForKey:@"params.dname"];
 		[[self params] setObject:dbname forKey:@"dbname"];
-		[self didChangeValueForKey:@"params.dbname"];
 	}
 	NSParameterAssert([dbname isKindOfClass:[NSString class]]);
 
@@ -100,17 +100,27 @@
 	NSString* host = [[self params] objectForKey:@"host"];
 	if([host length]==0) {
 		host = @"localhost";
-		[self willChangeValueForKey:@"params.host"];
 		[[self params] setObject:host forKey:@"host"];
-		[self didChangeValueForKey:@"params.host"];
 	}
 	
 	// set port
-	NSNumber* defaultPort = [NSNumber numberWithInteger:PGClientDefaultPort];
-	if([self isDefaultPort] && [[[self params] objectForKey:@"port"] isNotEqualTo:defaultPort]) {
-		[self willChangeValueForKey:@"params.port"];
-		[[self params] setObject:defaultPort forKey:@"port"];
-		[self didChangeValueForKey:@"params.port"];
+	NSNumber* port = [[self params] objectForKey:@"port"];
+	if([port isKindOfClass:[NSNumber class]]) {
+		if([port unsignedIntegerValue]==PGClientDefaultPort) {
+			[self setIsDefaultPort:YES];
+		}
+	} else {
+		[self setIsDefaultPort:YES];
+		[[self params] setObject:[NSNumber numberWithUnsignedInteger:PGClientDefaultPort] forKey:@"port"];
+	}
+	
+	// set SSL
+	NSString* sslmode = [[self params] objectForKey:@"sslmode"];
+	if([sslmode isEqualToString:@"require"]) {
+		[self setIsRequireSSL:YES];
+	} else {
+		[[self params] setObject:@"prefer" forKey:@"sslmode"];
+		[self setIsRequireSSL:NO];
 	}
 }
 
@@ -118,20 +128,19 @@
 // private methods - key-value observing
 
 -(void)_registerAsObserver {
-	for(NSString* keyPath in @[ @"isDefaultPort",@"params.host", @"params.ssl", @"params.user", @"params.dbname", @"params.port" ]) {
+	for(NSString* keyPath in @[ @"isDefaultPort",@"isRequireSSL",@"params.host", @"params.ssl", @"params.user", @"params.dbname", @"params.port" ]) {
 		[self addObserver:self forKeyPath:keyPath options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:NULL];
 	}
 }
 
 -(void)_deregisterAsObserver {
-	for(NSString* keyPath in @[ @"params.host", @"params.ssl", @"params.user", @"params.dbname", @"params.port" ]) {
+	for(NSString* keyPath in @[ @"isDefaultPort",@"isRequireSSL",@"params.host", @"params.ssl", @"params.user", @"params.dbname", @"params.port" ]) {
 		[self removeObserver:self forKeyPath:keyPath];
 	}
 }
 
 -(void)observeValueForKeyPath:(NSString* )keyPath ofObject:(id)object change:(NSDictionary* )change context:(void* )context {
 	NSLog(@"%@ => %@",keyPath,change);
-	[self _setDefaultValues];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
