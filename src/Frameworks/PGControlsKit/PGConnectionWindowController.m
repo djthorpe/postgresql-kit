@@ -158,7 +158,7 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 		[[self pingTimer] invalidate];
 	}
 	[self setPingTimer:nil];
-	[self setPingImage:[[self class] resourceImageNamed:@"traffic-grey"]];
+	[self setPingImage:[[self class] resourceImageNamed:@"traffic-red"]];
 }
 
 -(void)_doPingTimer:(id)sender {
@@ -178,7 +178,7 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 			[[self delegate] connectionWindow:self error:error];
 		}
 	} else {
-		[self setPingImage:[[self class] resourceImageNamed:@"traffic-grey"]];
+		[self setPingImage:[[self class] resourceImageNamed:@"traffic-red"]];
 	}
 }
 
