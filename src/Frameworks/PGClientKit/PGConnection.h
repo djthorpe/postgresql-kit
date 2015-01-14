@@ -91,6 +91,7 @@ extern NSString* PGClientErrorDomain;
 -(BOOL)reset;
 -(BOOL)resetInBackgroundWhenDone:(void(^)(NSError* error)) callback;
 -(BOOL)disconnect;
+-(BOOL)connectionUsedPassword;
 
 ////////////////////////////////////////////////////////////////////////////////
 // execute statements

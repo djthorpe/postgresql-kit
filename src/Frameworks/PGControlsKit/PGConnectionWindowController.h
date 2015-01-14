@@ -42,6 +42,7 @@ typedef enum  {
 // methods
 -(void)beginSheetForParentWindow:(NSWindow* )parentWindow;
 -(void)beginPasswordSheetForParentWindow:(NSWindow* )parentWindow;
+-(void)beginErrorSheetForParentWindow:(NSWindow* )parentWindow;
 -(void)connect;
 -(void)disconnect;
 

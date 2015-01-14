@@ -638,6 +638,10 @@ void PGConnectionNoticeProcessor(void* arg,const char* cString) {
 	return YES;
 }
 
+-(BOOL)connectionUsedPassword {
+	return PQconnectionUsedPassword(_connection) ? YES : NO;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // underlying execute method with parameters
 

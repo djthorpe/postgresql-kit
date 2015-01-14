@@ -13,6 +13,7 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 // IB Properties
 @property (weak,nonatomic) IBOutlet NSWindow* ibPasswordWindow;
 @property (weak,nonatomic) IBOutlet NSWindow* ibURLWindow;
+@property (weak,nonatomic) IBOutlet NSWindow* ibErrorWindow;
 
 // Other Properties
 @property BOOL isDefaultPort;
@@ -182,8 +183,8 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 			[self setPingImage:[[self class] resourceImageNamed:@"traffic-green"]];
 			[self setIsValidConnection:YES];
 		}
-		if(error && [[self delegate] respondsToSelector:@selector(connectionWindow:error:)]) {
-			[[self delegate] connectionWindow:self error:error];
+		if(error) {
+			[self connection:[self connection] error:error];
 		}
 	} else {
 		[self setPingImage:[[self class] resourceImageNamed:@"traffic-red"]];
@@ -194,15 +195,19 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 ////////////////////////////////////////////////////////////////////////////////
 // private methods - key-value observing
 
--(void)_registerAsObserver {
-	for(NSString* keyPath in @[ @"isDefaultPort",@"isRequireSSL",@"params.host", @"params.ssl", @"params.user", @"params.dbname", @"params.port" ]) {
-		[self addObserver:self forKeyPath:keyPath options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:NULL];
+-(void)_registerAsObserver:(NSWindow* )window {
+	if(window==[self window]) {
+		for(NSString* keyPath in @[ @"isDefaultPort",@"isRequireSSL",@"params.host", @"params.ssl", @"params.user", @"params.dbname", @"params.port" ]) {
+			[self addObserver:self forKeyPath:keyPath options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:NULL];
+		}
 	}
 }
 
--(void)_deregisterAsObserver {
-	for(NSString* keyPath in @[ @"isDefaultPort",@"isRequireSSL",@"params.host", @"params.ssl", @"params.user", @"params.dbname", @"params.port" ]) {
-		[self removeObserver:self forKeyPath:keyPath];
+-(void)_deregisterAsObserver:(NSWindow* )window {
+	if(window==[self window]) {
+		for(NSString* keyPath in @[ @"isDefaultPort",@"isRequireSSL",@"params.host", @"params.ssl", @"params.user", @"params.dbname", @"params.port" ]) {
+			[self removeObserver:self forKeyPath:keyPath];
+		}
 	}
 }
 
@@ -240,7 +245,7 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 
 -(void)beginSheetForParentWindow:(NSWindow* )parentWindow {
 	// register as observer
-	[self _registerAsObserver];
+	[self _registerAsObserver:[self window]];
 
 	// set parameters
 	[self _setDefaultValues];
@@ -252,8 +257,17 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 -(void)beginPasswordSheetForParentWindow:(NSWindow* )parentWindow {
 	// TODO: set password
 
+	[self _registerAsObserver:[self ibPasswordWindow]];
+
 	// start sheet
 	[NSApp beginSheet:[self ibPasswordWindow] modalForWindow:parentWindow modalDelegate:self didEndSelector:@selector(endSheet:returnCode:contextInfo:) contextInfo:nil];
+}
+
+-(void)beginErrorSheetForParentWindow:(NSWindow* )parentWindow {
+	[self _registerAsObserver:[self ibErrorWindow]];
+
+	// start sheet
+	[NSApp beginSheet:[self ibErrorWindow] modalForWindow:parentWindow modalDelegate:self didEndSelector:@selector(endSheet:returnCode:contextInfo:) contextInfo:nil];
 }
 
 -(void)endSheet:(NSWindow* )theSheet returnCode:(NSInteger)returnCode contextInfo:(void* )contextInfo {
@@ -261,10 +275,12 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 	[theSheet orderOut:self];
 
 	// remove observer
-	[self _deregisterAsObserver];
+	[self _deregisterAsObserver:theSheet];
 	
 	// stop ping timer
-	[self _unschedulePingTimer];
+	if(theSheet==[self window]) {
+		[self _unschedulePingTimer];
+	}
 	
 	// determine return status
 	PGConnectionWindowStatus status = PGConnectionWindowStatusOK;
@@ -277,7 +293,9 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 	}
 
 	// send message to delegate
-	[[self delegate] connectionWindow:self status:status];
+	if([[self delegate] respondsToSelector:@selector(connectionWindow:status:)]) {
+		[[self delegate] connectionWindow:self status:status];
+	}
 }
 
 -(void)connect {
@@ -335,26 +353,33 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 	}
 }
 
+-(void)_sendStatusChange:(NSNumber* )object {
+	NSParameterAssert(object && [object isKindOfClass:[NSNumber class]]);
+	if([[self delegate] respondsToSelector:@selector(connectionWindow:status:)]) {
+		[[self delegate] connectionWindow:self status:[object intValue]];
+	}
+}
+
 -(void)connection:(PGConnection* )connection statusChange:(PGConnectionStatus)status {
 	switch(status) {
 		case PGConnectionStatusConnecting:
-			[[self delegate] connectionWindow:self status:PGConnectionWindowStatusConnecting];
+			[self performSelectorOnMainThread:@selector(_sendStatusChange:) withObject:[NSNumber numberWithInt:PGConnectionWindowStatusConnecting] waitUntilDone:YES];
 			break;
 		case PGConnectionStatusConnected: {
-				// Store Password
 				NSString* password = [[self params] objectForKey:@"password"];
 				NSError* error = nil;
-				if([password length]) {
+				// Store Password if the password was used during connection
+				if([connection connectionUsedPassword] && [password length]) {
 					[[self password] setPassword:password forURL:[self url] saveToKeychain:[self isUseKeychain] error:&error];
 				}
 				if(error) {
 					[self connection:[self connection] error:error];
 				}
-				[[self delegate] connectionWindow:self status:PGConnectionWindowStatusConnected];
+				[self performSelectorOnMainThread:@selector(_sendStatusChange:) withObject:[NSNumber numberWithInt:PGConnectionWindowStatusConnected] waitUntilDone:YES];
 			}
 			break;
 		case PGConnectionStatusRejected:
-			[[self delegate] connectionWindow:self status:PGConnectionWindowStatusRejected];
+			[self performSelectorOnMainThread:@selector(_sendStatusChange:) withObject:[NSNumber numberWithInt:PGConnectionWindowStatusRejected] waitUntilDone:YES];
 			break;
 		default:
 			NSLog(@"PGConnection sent status %d",status);
@@ -362,6 +387,11 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 }
 
 -(void)connection:(PGConnection* )connection error:(NSError* )theError {
+	// ignore "item cannot be found in the keychain" errors
+	if([[theError domain] isEqual:@"com.samsoffes.sskeychain"] && [theError code]==-25300) {
+		return;
+	}
+	// TODO: make sure this happens in the main thread
 	if([[self delegate] respondsToSelector:@selector(connectionWindow:error:)]) {
 		[[self delegate] connectionWindow:self error:theError];
 	} else {

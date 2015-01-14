@@ -9,9 +9,10 @@
 // properties
 @property (readonly) PGConnectionWindowController* connection;
 @property (readonly) NSURL* url;
+@property (weak) NSWindow* parentWindow;
 
 // methods
--(void)loginWithWindow:(NSWindow* )window;
+-(void)loginSheetWithWindow:(NSWindow* )window;
 -(void)disconnect;
 
 @end

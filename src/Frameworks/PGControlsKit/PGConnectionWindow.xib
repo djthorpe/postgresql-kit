@@ -7,7 +7,9 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PGConnectionWindowController">
             <connections>
+                <outlet property="ibErrorWindow" destination="tpz-r7-naX" id="khz-pv-zzm"/>
                 <outlet property="ibPasswordWindow" destination="ViW-cY-oM7" id="7Xr-aI-ikC"/>
+                <outlet property="ibURLWindow" destination="xyQ-iv-b9z" id="FCP-Ne-7h9"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="l1P-NB-k1w"/>
             </connections>
         </customObject>
@@ -383,8 +385,89 @@ Gw
             </view>
             <point key="canvasLocation" x="59" y="544"/>
         </window>
+        <window title="Window - Error" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="tpz-r7-naX">
+            <windowStyleMask key="styleMask" titled="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="196" y="240" width="360" height="150"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1177"/>
+            <value key="minSize" type="size" width="360" height="150"/>
+            <value key="maxSize" type="size" width="480" height="150"/>
+            <view key="contentView" id="1FD-VU-shD">
+                <rect key="frame" x="0.0" y="0.0" width="360" height="150"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ztf-vO-zek">
+                        <rect key="frame" x="237" y="13" width="109" height="32"/>
+                        <buttonCell key="cell" type="push" title="Try Again..." bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="pNm-Yr-ib0">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                            <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                        </buttonCell>
+                        <connections>
+                            <action selector="ibButtonClicked:" target="-2" id="jNV-Zu-6RH"/>
+                        </connections>
+                    </button>
+                    <imageView translatesAutoresizingMaskIntoConstraints="NO" id="WZ2-zl-aQ4">
+                        <rect key="frame" x="27" y="66" width="64" height="64"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="64" id="oZM-YY-VeD"/>
+                        </constraints>
+                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="elephant-64" id="nLl-vg-cDI"/>
+                    </imageView>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DNP-BD-Qlf">
+                        <rect key="frame" x="99" y="113" width="243" height="17"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Error" id="cMy-2K-0rt">
+                            <font key="font" metaFont="systemBold"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qaq-Wu-V9h">
+                        <rect key="frame" x="99" y="49" width="243" height="56"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="56" id="kub-fL-7BR"/>
+                        </constraints>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Error Message Error Message Error Message Error Message Error Message Error Message Error Message Error Message Error " id="wwl-7n-iXs">
+                            <font key="font" metaFont="smallSystem"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="NHM-Jz-UWn">
+                        <rect key="frame" x="14" y="13" width="83" height="32"/>
+                        <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ULv-EI-0bn">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                            <string key="keyEquivalent" base64-UTF8="YES">
+Gw
+</string>
+                        </buttonCell>
+                        <connections>
+                            <action selector="ibButtonClicked:" target="-2" id="bP3-Yy-v5n"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="Ztf-vO-zek" firstAttribute="baseline" secondItem="NHM-Jz-UWn" secondAttribute="baseline" id="6Of-Rw-OIa"/>
+                    <constraint firstAttribute="trailing" secondItem="DNP-BD-Qlf" secondAttribute="trailing" constant="20" symbolic="YES" id="7vE-Wk-auA"/>
+                    <constraint firstItem="Ztf-vO-zek" firstAttribute="top" secondItem="qaq-Wu-V9h" secondAttribute="bottom" constant="8" symbolic="YES" id="9dw-y7-1QO"/>
+                    <constraint firstItem="DNP-BD-Qlf" firstAttribute="leading" secondItem="WZ2-zl-aQ4" secondAttribute="trailing" constant="10" id="FSq-Mt-R0l"/>
+                    <constraint firstItem="NHM-Jz-UWn" firstAttribute="trailing" secondItem="WZ2-zl-aQ4" secondAttribute="trailing" id="UhE-nz-h9U"/>
+                    <constraint firstItem="qaq-Wu-V9h" firstAttribute="trailing" secondItem="Ztf-vO-zek" secondAttribute="trailing" id="Uu9-Nh-pYI"/>
+                    <constraint firstItem="qaq-Wu-V9h" firstAttribute="leading" secondItem="DNP-BD-Qlf" secondAttribute="leading" id="V1Q-xW-Jbi"/>
+                    <constraint firstItem="qaq-Wu-V9h" firstAttribute="top" secondItem="DNP-BD-Qlf" secondAttribute="bottom" constant="8" symbolic="YES" id="aMZ-3S-stu"/>
+                    <constraint firstItem="DNP-BD-Qlf" firstAttribute="top" secondItem="WZ2-zl-aQ4" secondAttribute="top" id="daW-2q-cPi"/>
+                    <constraint firstItem="WZ2-zl-aQ4" firstAttribute="leading" secondItem="1FD-VU-shD" secondAttribute="leading" constant="27" id="pxY-v8-UrR"/>
+                    <constraint firstItem="WZ2-zl-aQ4" firstAttribute="top" secondItem="1FD-VU-shD" secondAttribute="top" constant="20" symbolic="YES" id="zKL-Uv-F1q"/>
+                </constraints>
+            </view>
+            <point key="canvasLocation" x="59" y="774"/>
+        </window>
     </objects>
     <resources>
+        <image name="elephant-64" width="64" height="64"/>
         <image name="traffic-green" width="16" height="16"/>
     </resources>
 </document>
