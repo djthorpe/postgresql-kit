@@ -34,6 +34,7 @@ typedef enum  {
 
 // properties
 @property (weak,nonatomic) id<PGConnectionWindowDelegate> delegate;
+@property BOOL useKeychain;
 @property (readonly) PGPasswordStore* password;
 @property (readonly) PGConnection* connection;
 @property NSURL* url;

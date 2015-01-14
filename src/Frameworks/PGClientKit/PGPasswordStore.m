@@ -56,7 +56,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // retrieve password
 
--(NSString* )passwordForURL:(NSURL* )url error:(NSError** )error {
+-(NSString* )passwordForURL:(NSURL* )url readFromKeychain:(BOOL)readFromKeychain error:(NSError** )error {
 	// get password from the URL
 	NSString* password = [url password];
 	if(password && [password length]) {
@@ -72,12 +72,18 @@
 	if(password && [password length]) {
 		return password;
 	}
-	// get password from the keychain
-	password = [SSKeychain passwordForService:[self serviceName] account:account error:error];
-	if(password && [password length]) {
-		return password;
+	if(readFromKeychain) {
+		// get password from the keychain
+		password = [SSKeychain passwordForService:[self serviceName] account:account error:error];
+		if(password && [password length]) {
+			return password;
+		}
 	}
 	return nil;
+}
+
+-(NSString* )passwordForURL:(NSURL* )url error:(NSError** )error {
+	return [self passwordForURL:url readFromKeychain:YES error:error];
 }
 
 -(NSString* )passwordForURL:(NSURL* )url {

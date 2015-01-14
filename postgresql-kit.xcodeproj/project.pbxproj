@@ -180,6 +180,8 @@
 		6E55A2331A618CC600CD2B60 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E55A22C1A618B8300CD2B60 /* MainMenu.xib */; };
 		6E55A2341A618CD300CD2B60 /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E55A22A1A618B8300CD2B60 /* Application.m */; };
 		6E55A2351A618D0D00CD2B60 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E55A22E1A618B8300CD2B60 /* Images.xcassets */; };
+		6E5D8BD51A66EE9000C54D42 /* PGConnectionWindowFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E5D8BD31A66EE9000C54D42 /* PGConnectionWindowFormatter.h */; };
+		6E5D8BD61A66EE9000C54D42 /* PGConnectionWindowFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E5D8BD41A66EE9000C54D42 /* PGConnectionWindowFormatter.m */; };
 		6E5FCF9617BE9EFE00483AF6 /* PGConnection_tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E5FCF9517BE9EFE00483AF6 /* PGConnection_tests.m */; };
 		6E5FCF9917BEA04100483AF6 /* PGFoundationServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E5FCF9817BEA04100483AF6 /* PGFoundationServer.m */; };
 		6E5FCF9A17BEA3AD00483AF6 /* PGServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
@@ -599,6 +601,8 @@
 		6E55A22E1A618B8300CD2B60 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		6E55A22F1A618B8300CD2B60 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6E55A2311A618C6B00CD2B60 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		6E5D8BD31A66EE9000C54D42 /* PGConnectionWindowFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGConnectionWindowFormatter.h; sourceTree = "<group>"; };
+		6E5D8BD41A66EE9000C54D42 /* PGConnectionWindowFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGConnectionWindowFormatter.m; sourceTree = "<group>"; };
 		6E5FCF9417BE9EFE00483AF6 /* PGConnection_tests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGConnection_tests.h; sourceTree = "<group>"; };
 		6E5FCF9517BE9EFE00483AF6 /* PGConnection_tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGConnection_tests.m; sourceTree = "<group>"; };
 		6E5FCF9717BEA04100483AF6 /* PGFoundationServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGFoundationServer.h; sourceTree = "<group>"; };
@@ -1314,6 +1318,8 @@
 			children = (
 				6E60B5B71A628028005B0633 /* PGConnectionWindowController.h */,
 				6E60B5B81A628028005B0633 /* PGConnectionWindowController.m */,
+				6E5D8BD31A66EE9000C54D42 /* PGConnectionWindowFormatter.h */,
+				6E5D8BD41A66EE9000C54D42 /* PGConnectionWindowFormatter.m */,
 				6E60B5BB1A6280AF005B0633 /* PGConnectionWindow.xib */,
 			);
 			name = PGConnectionWindow;
@@ -1493,6 +1499,7 @@
 			files = (
 				6E0C81701A619E2E0032AE32 /* PGSplitViewController.h in Headers */,
 				14F1E86F17CB857A00710D4A /* PGControlsKit.h in Headers */,
+				6E5D8BD51A66EE9000C54D42 /* PGConnectionWindowFormatter.h in Headers */,
 				6E60B5B91A628028005B0633 /* PGConnectionWindowController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2113,6 +2120,7 @@
 			files = (
 				6E60B5BA1A628028005B0633 /* PGConnectionWindowController.m in Sources */,
 				6E0C81711A619E2E0032AE32 /* PGSplitViewController.m in Sources */,
+				6E5D8BD61A66EE9000C54D42 /* PGConnectionWindowFormatter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

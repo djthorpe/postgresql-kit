@@ -61,7 +61,7 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 
 @synthesize ibPasswordWindow;
 @synthesize ibURLWindow;
-
+@synthesize useKeychain;
 @synthesize isDefaultPort;
 @synthesize isUseKeychain;
 @synthesize isRequireSSL;
@@ -97,6 +97,7 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 	[self setIsDefaultPort:YES];
 	[self setIsRequireSSL:YES];
 	[self setIsValidConnection:NO];
+	[self setUseKeychain:YES];
 }
 
 -(void)_setDefaultValues {
@@ -206,7 +207,6 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 }
 
 -(void)observeValueForKeyPath:(NSString* )keyPath ofObject:(id)object change:(NSDictionary* )change context:(void* )context {
-	NSLog(@"%@ => %@",keyPath,change);
 	
 	// check for isDefaultPort
 	if([keyPath isEqualToString:@"isDefaultPort"]) {
@@ -323,9 +323,9 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 	NSError* error = nil;
 	if([dictionary objectForKey:@"password"]) {
 		NSError* error = nil;
-		[[self password] setPassword:[dictionary objectForKey:@"password"] forURL:[self url] saveToKeychain:YES error:&error];
+		[[self password] setPassword:[dictionary objectForKey:@"password"] forURL:[self url] saveToKeychain:[self useKeychain] error:&error];
 	} else {
-		NSString* password = [[self password] passwordForURL:[self url] error:&error];
+		NSString* password = [[self password] passwordForURL:[self url] readFromKeychain:[self useKeychain] error:&error];
 		if(password) {
 			[dictionary setObject:password forKey:@"password"];
 		}
