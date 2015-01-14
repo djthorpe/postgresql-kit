@@ -18,6 +18,8 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 @property BOOL isDefaultPort;
 @property BOOL isUseKeychain;
 @property BOOL isRequireSSL;
+@property BOOL isValidConnection;
+
 @property (readonly) NSMutableDictionary* params;
 @property (readonly) NSString* username;
 @property (retain) NSTimer* pingTimer;
@@ -65,6 +67,7 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 @synthesize isRequireSSL;
 @synthesize pingTimer;
 @synthesize pingImage;
+@synthesize isValidConnection;
 @dynamic url;
 
 -(NSURL* )url {
@@ -93,6 +96,7 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 	// set some defaults
 	[self setIsDefaultPort:YES];
 	[self setIsRequireSSL:YES];
+	[self setIsValidConnection:NO];
 }
 
 -(void)_setDefaultValues {
@@ -166,19 +170,23 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 	NSURL* url = [self url];
 	if(url) {
 		[self setPingImage:[[self class] resourceImageNamed:@"traffic-orange"]];
+		[self setIsValidConnection:NO];
 		
 		// TODO: Do ping in background, with a timeout
 		NSError* error = nil;
 		if([_connection pingWithURL:url error:&error]==NO) {
 			[self setPingImage:[[self class] resourceImageNamed:@"traffic-red"]];
+			[self setIsValidConnection:NO];
 		} else {
 			[self setPingImage:[[self class] resourceImageNamed:@"traffic-green"]];
+			[self setIsValidConnection:YES];
 		}
 		if(error && [[self delegate] respondsToSelector:@selector(connectionWindow:error:)]) {
 			[[self delegate] connectionWindow:self error:error];
 		}
 	} else {
 		[self setPingImage:[[self class] resourceImageNamed:@"traffic-red"]];
+		[self setIsValidConnection:NO];
 	}
 }
 
