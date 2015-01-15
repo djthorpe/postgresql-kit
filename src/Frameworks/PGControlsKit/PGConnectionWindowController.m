@@ -1,6 +1,6 @@
 
 #import <PGClientKit/PGClientKit.h>
-#import "PGControlsKit.h"
+#import <PGControlsKit/PGControlsKit.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 

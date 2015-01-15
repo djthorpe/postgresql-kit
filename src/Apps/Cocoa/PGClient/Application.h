@@ -6,12 +6,14 @@
 
 @interface Application : NSObject <NSApplicationDelegate> {
 	Connection* _connection;
-	PGSplitViewController* _splitview;
+	PGSplitViewController* _splitView;
+	PGSourceViewController* _sourceView;
 }
 
 // properties
 @property (readonly) Connection* connection;
 @property (readonly) PGSplitViewController* splitView;
+@property (readonly) PGSourceViewController* sourceView;
 
 @end
 

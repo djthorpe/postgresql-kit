@@ -196,6 +196,11 @@
 		6E68AE081635DD6E00436234 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E68AE051635DD6E00436234 /* MainMenu.xib */; };
 		6E68AE0A1635DDB500436234 /* elephant.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43E715F3A465001ED3BE /* elephant.icns */; };
 		6E68AE0B1635DDCE00436234 /* PGClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
+		6E69F6AB1A67AD340014EC1F /* PGSourceViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E69F6A81A67AD340014EC1F /* PGSourceViewController.h */; };
+		6E69F6AC1A67AD340014EC1F /* PGSourceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E69F6A91A67AD340014EC1F /* PGSourceViewController.m */; };
+		6E69F6AD1A67AD340014EC1F /* PGSourceView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E69F6AA1A67AD340014EC1F /* PGSourceView.xib */; };
+		6E69F6B01A67BABF0014EC1F /* PGSourceViewNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E69F6AE1A67BABF0014EC1F /* PGSourceViewNode.h */; };
+		6E69F6B11A67BABF0014EC1F /* PGSourceViewNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E69F6AF1A67BABF0014EC1F /* PGSourceViewNode.m */; };
 		6E725FE117AEC11A002EEF67 /* PGClientView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E725FE017AEC11A002EEF67 /* PGClientView.xib */; };
 		6E725FE417AEC3A0002EEF67 /* PGClientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E725FE317AEC3A0002EEF67 /* PGClientView.m */; };
 		6E92F5691A65B0D8003C0727 /* traffic-green.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6ED779F017C1266100124DF1 /* traffic-green.tiff */; };
@@ -591,9 +596,6 @@
 		6E2A15041A59508500F12954 /* PGFoundationServer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGFoundationServer.h; sourceTree = "<group>"; };
 		6E48B370160604270044A6CB /* PGServer+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PGServer+Private.h"; sourceTree = "<group>"; };
 		6E4907CB17D3AF4D00BEE2A9 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		6E4907CD17D3B3F600BEE2A9 /* PGPasswordWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGPasswordWindow.h; sourceTree = "<group>"; };
-		6E4907CE17D3B3F600BEE2A9 /* PGPasswordWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGPasswordWindow.m; sourceTree = "<group>"; };
-		6E4907D217D3B49200BEE2A9 /* PGPasswordWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PGPasswordWindow.xib; sourceTree = "<group>"; };
 		6E4DEC85162CC38D008B26BD /* PGFoundationClient */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PGFoundationClient; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E55A2091A618B0000CD2B60 /* PGCocoaClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PGCocoaClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E55A2291A618B8300CD2B60 /* Application.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
@@ -617,6 +619,11 @@
 		6E68AE041635DD6E00436234 /* PGClientApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGClientApplication.m; sourceTree = "<group>"; };
 		6E68AE051635DD6E00436234 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		6E68AE061635DD6E00436234 /* PGClient.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PGClient.plist; sourceTree = "<group>"; };
+		6E69F6A81A67AD340014EC1F /* PGSourceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSourceViewController.h; sourceTree = "<group>"; };
+		6E69F6A91A67AD340014EC1F /* PGSourceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSourceViewController.m; sourceTree = "<group>"; };
+		6E69F6AA1A67AD340014EC1F /* PGSourceView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PGSourceView.xib; sourceTree = "<group>"; };
+		6E69F6AE1A67BABF0014EC1F /* PGSourceViewNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSourceViewNode.h; sourceTree = "<group>"; };
+		6E69F6AF1A67BABF0014EC1F /* PGSourceViewNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSourceViewNode.m; sourceTree = "<group>"; };
 		6E725FE017AEC11A002EEF67 /* PGClientView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PGClientView.xib; sourceTree = "<group>"; };
 		6E725FE217AEC3A0002EEF67 /* PGClientView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGClientView.h; sourceTree = "<group>"; };
 		6E725FE317AEC3A0002EEF67 /* PGClientView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGClientView.m; sourceTree = "<group>"; };
@@ -1127,9 +1134,9 @@
 				14F1E85E17CB840400710D4A /* PGControlsKit.plist */,
 				14F1E86017CB840400710D4A /* PGControlsKit.h */,
 				14F1E86217CB84A400710D4A /* PGConsoleView */,
-				6E4907D117D3B3FA00BEE2A9 /* PGPasswordWindow */,
 				6E60B5B61A627FDA005B0633 /* PGConnectionWindow */,
 				6E0C81681A61956B0032AE32 /* PGSplitView */,
+				6E69F6A71A67ACFD0014EC1F /* PGSourceView */,
 			);
 			path = PGControlsKit;
 			sourceTree = "<group>";
@@ -1275,16 +1282,6 @@
 			path = PGServerKit_testcases;
 			sourceTree = "<group>";
 		};
-		6E4907D117D3B3FA00BEE2A9 /* PGPasswordWindow */ = {
-			isa = PBXGroup;
-			children = (
-				6E4907CD17D3B3F600BEE2A9 /* PGPasswordWindow.h */,
-				6E4907CE17D3B3F600BEE2A9 /* PGPasswordWindow.m */,
-				6E4907D217D3B49200BEE2A9 /* PGPasswordWindow.xib */,
-			);
-			name = PGPasswordWindow;
-			sourceTree = "<group>";
-		};
 		6E55A2021A618A4E00CD2B60 /* Cocoa */ = {
 			isa = PBXGroup;
 			children = (
@@ -1342,6 +1339,18 @@
 				6E68AE061635DD6E00436234 /* PGClient.plist */,
 			);
 			path = PGClient;
+			sourceTree = "<group>";
+		};
+		6E69F6A71A67ACFD0014EC1F /* PGSourceView */ = {
+			isa = PBXGroup;
+			children = (
+				6E69F6A81A67AD340014EC1F /* PGSourceViewController.h */,
+				6E69F6A91A67AD340014EC1F /* PGSourceViewController.m */,
+				6E69F6AE1A67BABF0014EC1F /* PGSourceViewNode.h */,
+				6E69F6AF1A67BABF0014EC1F /* PGSourceViewNode.m */,
+				6E69F6AA1A67AD340014EC1F /* PGSourceView.xib */,
+			);
+			name = PGSourceView;
 			sourceTree = "<group>";
 		};
 		6EB1E70A15F273350093F784 /* src */ = {
@@ -1501,9 +1510,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E0C81701A619E2E0032AE32 /* PGSplitViewController.h in Headers */,
+				6E69F6B01A67BABF0014EC1F /* PGSourceViewNode.h in Headers */,
 				14F1E86F17CB857A00710D4A /* PGControlsKit.h in Headers */,
 				6E5D8BD51A66EE9000C54D42 /* PGConnectionWindowFormatter.h in Headers */,
 				6E60B5B91A628028005B0633 /* PGConnectionWindowController.h in Headers */,
+				6E69F6AB1A67AD340014EC1F /* PGSourceViewController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1916,6 +1927,7 @@
 				6E92F5691A65B0D8003C0727 /* traffic-green.tiff in Resources */,
 				6E92F56C1A65B26F003C0727 /* traffic-orange.tiff in Resources */,
 				6EE4E2081A61A22D00BEC4AD /* ResizeControl.png in Resources */,
+				6E69F6AD1A67AD340014EC1F /* PGSourceView.xib in Resources */,
 				6E5D8BD71A67056500C54D42 /* elephant-64.png in Resources */,
 				6E92F56B1A65B0E1003C0727 /* traffic-red.tiff in Resources */,
 				6E0C81721A619E2E0032AE32 /* PGSplitView.xib in Resources */,
@@ -2124,6 +2136,8 @@
 			files = (
 				6E60B5BA1A628028005B0633 /* PGConnectionWindowController.m in Sources */,
 				6E0C81711A619E2E0032AE32 /* PGSplitViewController.m in Sources */,
+				6E69F6AC1A67AD340014EC1F /* PGSourceViewController.m in Sources */,
+				6E69F6B11A67BABF0014EC1F /* PGSourceViewNode.m in Sources */,
 				6E5D8BD61A66EE9000C54D42 /* PGConnectionWindowFormatter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

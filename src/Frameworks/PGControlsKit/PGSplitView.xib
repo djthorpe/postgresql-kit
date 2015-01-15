@@ -8,6 +8,8 @@
         <customObject id="-2" userLabel="File's Owner" customClass="PGSplitViewController">
             <connections>
                 <outlet property="ibGrabberView" destination="rbE-lf-4Al" id="kJ0-tq-MyV"/>
+                <outlet property="ibLeftView" destination="3NP-fk-b6y" id="xgy-Gt-E62"/>
+                <outlet property="ibRightView" destination="tia-BU-Xk5" id="ReJ-xT-Kyn"/>
                 <outlet property="view" destination="Beb-BK-O7u" id="KeR-8E-Wb0"/>
             </connections>
         </customObject>
@@ -21,6 +23,9 @@
                     <rect key="frame" x="0.0" y="0.0" width="246" height="357"/>
                     <autoresizingMask key="autoresizingMask"/>
                     <subviews>
+                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="3NP-fk-b6y">
+                            <rect key="frame" x="0.0" y="20" width="246" height="337"/>
+                        </customView>
                         <imageView translatesAutoresizingMaskIntoConstraints="NO" id="ZAy-oH-ik1">
                             <rect key="frame" x="0.0" y="0.0" width="246" height="23"/>
                             <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="axesIndependently" image="Gradient" id="IpY-Cu-P0s"/>
@@ -34,8 +39,12 @@
                         <constraint firstAttribute="bottom" secondItem="ZAy-oH-ik1" secondAttribute="bottom" id="2pY-wC-yn7"/>
                         <constraint firstItem="ZAy-oH-ik1" firstAttribute="leading" secondItem="pDZ-0Y-QZA" secondAttribute="leading" id="AC3-lh-UaR"/>
                         <constraint firstAttribute="trailing" secondItem="ZAy-oH-ik1" secondAttribute="trailing" id="I6Q-6U-ToV"/>
+                        <constraint firstAttribute="bottom" secondItem="3NP-fk-b6y" secondAttribute="bottom" constant="20" symbolic="YES" id="L3b-xd-iBe"/>
                         <constraint firstAttribute="bottom" secondItem="rbE-lf-4Al" secondAttribute="bottom" id="OgW-lt-0gk"/>
+                        <constraint firstItem="3NP-fk-b6y" firstAttribute="leading" secondItem="ZAy-oH-ik1" secondAttribute="leading" id="QR7-Oa-8lZ"/>
+                        <constraint firstItem="3NP-fk-b6y" firstAttribute="top" secondItem="pDZ-0Y-QZA" secondAttribute="top" id="QiP-Ik-auH"/>
                         <constraint firstAttribute="trailing" secondItem="rbE-lf-4Al" secondAttribute="trailing" id="lUg-Xr-2p0"/>
+                        <constraint firstItem="3NP-fk-b6y" firstAttribute="trailing" secondItem="ZAy-oH-ik1" secondAttribute="trailing" id="oj0-q7-yl1"/>
                     </constraints>
                 </customView>
                 <customView fixedFrame="YES" id="tia-BU-Xk5" userLabel="Right View">

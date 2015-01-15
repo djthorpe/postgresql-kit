@@ -20,8 +20,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 // properties
 
-@dynamic url;
 @synthesize parentWindow;
+@synthesize connection = _connection;
+@dynamic url;
 
 -(NSURL* )url {
 	return [NSURL URLWithString:@"postgres://pttnkktdoyjfyc@ec2-54-227-255-156.compute-1.amazonaws.com:5432/dej7aj0jp668p5"];

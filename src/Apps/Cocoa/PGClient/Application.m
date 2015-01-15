@@ -15,8 +15,9 @@
 	if(self) {
 		_connection = [Connection new];
 		_splitView = [PGSplitViewController new];
+		_sourceView = [PGSourceViewController new];
+		NSParameterAssert(_connection && _splitView && _sourceView);
 	}
-	NSParameterAssert(_connection && _splitView);
 	return self;
 }
 
@@ -25,6 +26,7 @@
 
 @synthesize connection = _connection;
 @synthesize splitView = _splitView;
+@synthesize sourceView = _sourceView;
 
 ////////////////////////////////////////////////////////////////////////////////
 // private methods
@@ -41,6 +43,13 @@
 	NSDictionary *views = NSDictionaryOfVariableBindings(splitView);
 	[contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[splitView]|" options:0 metrics:nil views:views]];
 	[contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[splitView]|" options:0 metrics:nil views:views]];
+	
+	// add left and right views
+	[[self splitView] setLeftView:[self sourceView]];
+	
+	// add headings
+	[[self sourceView] addHeadingWithTitle:@"CONNECTIONS"];
+	[[self sourceView] addHeadingWithTitle:@"QUERIES"];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
