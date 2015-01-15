@@ -53,7 +53,6 @@
 
 -(id)outlineView:(NSOutlineView* )outlineView child:(NSInteger)index ofItem:(id)item {
 	if(item==nil) {
-		NSLog(@"returning %@",[[self headings] objectAtIndex:index]);
 		return [[self headings] objectAtIndex:index];
 	}
 	return nil;
@@ -68,9 +67,6 @@
 
 -(BOOL)outlineView:(NSOutlineView* )outlineView isItemExpandable:(id)item {
 	NSInteger count = [self outlineView:outlineView numberOfChildrenOfItem:item];
-
-	NSLog(@"is item expandable %@ => %ld",item,count);
-	
 	return count ? YES : NO;
 }
 
@@ -88,7 +84,7 @@
 	return [item shouldSelectItem];
 }
 
--(NSString* )outlineView:(NSOutlineView* )outlineView toolTipForCell:(NSCell *)cell rect:(NSRectPointer)rect tableColumn:(NSTableColumn *)tc item:(id)item mouseLocation:(NSPoint)mouseLocation {
+-(NSString* )outlineView:(NSOutlineView* )outlineView toolTipForCell:(NSCell* )cell rect:(NSRectPointer)rect tableColumn:(NSTableColumn *)tc item:(id)item mouseLocation:(NSPoint)mouseLocation {
 	NSParameterAssert([item isKindOfClass:[PGSourceViewNode class]]);
 	return nil;
 }
