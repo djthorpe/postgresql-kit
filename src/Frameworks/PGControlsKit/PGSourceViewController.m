@@ -16,6 +16,7 @@
 
 @interface PGSourceViewController ()
 @property (readonly) NSMutableArray* headings;
+@property (weak) IBOutlet NSOutlineView* ibOutlineView;
 @end
 
 @implementation PGSourceViewController
@@ -36,6 +37,7 @@
 // properties
 
 @synthesize headings = _headings;
+@synthesize ibOutlineView;
 
 ////////////////////////////////////////////////////////////////////////////////
 // methods
@@ -43,7 +45,7 @@
 -(void)addHeadingWithTitle:(NSString* )title {
 	PGSourceViewNode* node = [[PGSourceViewNode alloc] initWithName:title];
 	[[self headings] addObject:node];
-	[(NSOutlineView* )[self view] reloadData];
+	[[self ibOutlineView] reloadData];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
