@@ -29,12 +29,13 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 @property (weak,nonatomic) IBOutlet NSWindow* ibErrorWindow;
 
 // Other Properties
+@property (readonly) NSMutableDictionary* params;
 @property BOOL isDefaultPort;
 @property BOOL isUseKeychain;
 @property BOOL isRequireSSL;
 @property BOOL isValidConnection;
-
-@property (readonly) NSMutableDictionary* params;
+@property NSString* errorTitle;
+@property NSString* errorDescription;
 @property (readonly) NSString* username;
 @property (retain) NSTimer* pingTimer;
 @property (retain) NSImage* pingImage;
@@ -56,6 +57,7 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 		_password = [PGPasswordStore new];
 		_connection = [PGConnection new];
 		_params = [NSMutableDictionary new];
+		_lastError = nil;
 		NSParameterAssert(_password && _connection && _params);
 		[_connection setDelegate:self];
 	}
@@ -72,6 +74,7 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 @synthesize connection = _connection;
 @synthesize password = _password;
 @synthesize params = _params;
+@synthesize lastError = _lastError;
 
 @synthesize ibPasswordWindow;
 @synthesize ibURLWindow;
@@ -82,6 +85,8 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 @synthesize pingTimer;
 @synthesize pingImage;
 @synthesize isValidConnection;
+@synthesize errorTitle;
+@synthesize errorDescription;
 @dynamic url;
 
 -(NSURL* )url {
@@ -160,6 +165,18 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 	
 	// set ping image
 	[self setPingImage:[[self class] resourceImageNamed:@"traffic-grey"]];
+}
+
+-(void)_setErrorValues {
+	if([self lastError]==nil) {
+		[self setErrorTitle:@"Unknown Error"];
+		[self setErrorDescription:@"An unknown error occurred."];
+		return;
+	}
+	
+	[self setErrorTitle:@"Connection Error"];
+	[self setErrorDescription:[[self lastError] localizedDescription]];
+	
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -278,6 +295,9 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 
 -(void)beginErrorSheetForParentWindow:(NSWindow* )parentWindow {
 	[self _registerAsObserver:[self ibErrorWindow]];
+
+	// set parameters
+	[self _setErrorValues];
 
 	// start sheet
 	[NSApp beginSheet:[self ibErrorWindow] modalForWindow:parentWindow modalDelegate:self didEndSelector:@selector(endSheet:returnCode:contextInfo:) contextInfo:nil];
@@ -404,11 +424,13 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 	if([[theError domain] isEqual:@"com.samsoffes.sskeychain"] && [theError code]==-25300) {
 		return;
 	}
+	
+	// set last error
+	_lastError = theError;
+	
 	// TODO: make sure this happens in the main thread
 	if([[self delegate] respondsToSelector:@selector(connectionWindow:error:)]) {
 		[[self delegate] connectionWindow:self error:theError];
-	} else {
-		NSLog(@"Connection Error: %@",[theError localizedDescription]);
 	}
 }
 

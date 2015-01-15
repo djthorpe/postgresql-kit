@@ -42,15 +42,16 @@ typedef enum  {
 	PGConnection* _connection;
 	NSMutableDictionary* _params;
 	PGPasswordStore* _password;
-	void* _contextInfo;
+	NSError* _lastError;
 }
 
 // properties
 @property (weak,nonatomic) id<PGConnectionWindowDelegate> delegate;
 @property BOOL useKeychain;
+@property NSURL* url;
 @property (readonly) PGPasswordStore* password;
 @property (readonly) PGConnection* connection;
-@property NSURL* url;
+@property (readonly) NSError* lastError;
 
 // methods
 -(void)beginSheetForParentWindow:(NSWindow* )parentWindow;
