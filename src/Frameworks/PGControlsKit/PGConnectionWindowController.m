@@ -336,9 +336,22 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 		[[self delegate] connectionWindow:self status:PGConnectionWindowStatusBadParameters];
 		return;
 	}
+	
+	[[self delegate] connectionWindow:self status:PGConnectionWindowStatusConnecting];
 	[[self connection] connectInBackgroundWithURL:[self url] whenDone:^(NSError* error){
 		if([error code]==PGClientErrorNeedsPassword) {
 			[[self delegate] connectionWindow:self status:PGConnectionWindowStatusNeedsPassword];
+		} else if(error==nil) {
+			NSString* password = [[self params] objectForKey:@"password"];
+			NSError* error = nil;
+			// Store Password if the password was used during connection
+			if([[self connection] connectionUsedPassword] && [password length]) {
+				[[self password] setPassword:password forURL:[self url] saveToKeychain:[self isUseKeychain] error:&error];
+			}
+			[self connection:[self connection] error:error];
+			[[self delegate] connectionWindow:self status:PGConnectionWindowStatusConnected];
+		} else {
+			[[self delegate] connectionWindow:self status:PGConnectionWindowStatusRejected];
 		}
 	}];
 }
@@ -386,40 +399,12 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 	}
 }
 
--(void)_sendStatusChange:(NSNumber* )object {
-	NSParameterAssert(object && [object isKindOfClass:[NSNumber class]]);
-	if([[self delegate] respondsToSelector:@selector(connectionWindow:status:)]) {
-		[[self delegate] connectionWindow:self status:[object intValue]];
-	}
-}
-
--(void)connection:(PGConnection* )connection statusChange:(PGConnectionStatus)status {
-	switch(status) {
-		case PGConnectionStatusConnecting:
-			[self performSelectorOnMainThread:@selector(_sendStatusChange:) withObject:[NSNumber numberWithInt:PGConnectionWindowStatusConnecting] waitUntilDone:YES];
-			break;
-		case PGConnectionStatusConnected: {
-				NSString* password = [[self params] objectForKey:@"password"];
-				NSError* error = nil;
-				// Store Password if the password was used during connection
-				if([connection connectionUsedPassword] && [password length]) {
-					[[self password] setPassword:password forURL:[self url] saveToKeychain:[self isUseKeychain] error:&error];
-				}
-				if(error) {
-					[self connection:[self connection] error:error];
-				}
-				[self performSelectorOnMainThread:@selector(_sendStatusChange:) withObject:[NSNumber numberWithInt:PGConnectionWindowStatusConnected] waitUntilDone:YES];
-			}
-			break;
-		case PGConnectionStatusRejected:
-			[self performSelectorOnMainThread:@selector(_sendStatusChange:) withObject:[NSNumber numberWithInt:PGConnectionWindowStatusRejected] waitUntilDone:YES];
-			break;
-		default:
-			NSLog(@"PGConnection sent status %d",status);
-	}
-}
-
 -(void)connection:(PGConnection* )connection error:(NSError* )theError {
+	// ignore nil
+	if(theError==nil) {
+		return;
+	}
+	
 	// ignore "item cannot be found in the keychain" errors
 	if([[theError domain] isEqual:@"com.samsoffes.sskeychain"] && [theError code]==-25300) {
 		return;
