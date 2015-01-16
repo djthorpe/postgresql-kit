@@ -173,6 +173,11 @@
 		6E2A14FB1A59488700F12954 /* PGServerKit_testcases.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2A14FA1A59488700F12954 /* PGServerKit_testcases.m */; };
 		6E2A14FC1A59488700F12954 /* PGServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
 		6E2A15031A594D7100F12954 /* PGFoundationServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2A15021A594D7100F12954 /* PGFoundationServer.m */; };
+		6E37869D1A69783D0018BEA0 /* Version.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6E37869C1A69783D0018BEA0 /* Version.plist */; };
+		6E37869E1A69783D0018BEA0 /* Version.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6E37869C1A69783D0018BEA0 /* Version.plist */; };
+		6E37869F1A69783D0018BEA0 /* Version.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6E37869C1A69783D0018BEA0 /* Version.plist */; };
+		6E3786A01A69783D0018BEA0 /* Version.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6E37869C1A69783D0018BEA0 /* Version.plist */; };
+		6E3786A11A69783D0018BEA0 /* Version.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6E37869C1A69783D0018BEA0 /* Version.plist */; };
 		6E4DEC87162CC38D008B26BD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C168115F26BF20013A382 /* Foundation.framework */; };
 		6E4DEC95162CC4AB008B26BD /* PGClientKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 6ED85B4916288D0200A6DC02 /* PGClientKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E4DEC96162CC5E6008B26BD /* PGClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
@@ -603,6 +608,7 @@
 		6E2A15021A594D7100F12954 /* PGFoundationServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGFoundationServer.m; sourceTree = "<group>"; };
 		6E2A15041A59508500F12954 /* PGFoundationServer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGFoundationServer.h; sourceTree = "<group>"; };
 		6E37869B1A6976FA0018BEA0 /* reversion.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = reversion.sh; sourceTree = "<group>"; };
+		6E37869C1A69783D0018BEA0 /* Version.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Version.plist; sourceTree = "<group>"; };
 		6E48B370160604270044A6CB /* PGServer+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PGServer+Private.h"; sourceTree = "<group>"; };
 		6E4907CB17D3AF4D00BEE2A9 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		6E4DEC85162CC38D008B26BD /* PGFoundationClient */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PGFoundationClient; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1105,6 +1111,7 @@
 		14EE3C35166752F80083C735 /* doc */ = {
 			isa = PBXGroup;
 			children = (
+				6E37869C1A69783D0018BEA0 /* Version.plist */,
 				14EE3C36166752F80083C735 /* NOTICE.md */,
 			);
 			path = doc;
@@ -1936,6 +1943,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E92F56A1A65B0DB003C0727 /* traffic-grey.png in Resources */,
+				6E37869F1A69783D0018BEA0 /* Version.plist in Resources */,
 				6E92F5691A65B0D8003C0727 /* traffic-green.tiff in Resources */,
 				6E92F56C1A65B26F003C0727 /* traffic-orange.tiff in Resources */,
 				6EE4E2081A61A22D00BEC4AD /* ResizeControl.png in Resources */,
@@ -1954,6 +1962,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E69F6B61A67C0020014EC1F /* NOTICE.md in Resources */,
+				6E3786A01A69783D0018BEA0 /* Version.plist in Resources */,
 				6E1548571A581F2300556573 /* SSKeychain.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1970,6 +1979,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E55A2331A618CC600CD2B60 /* MainMenu.xib in Resources */,
+				6E3786A11A69783D0018BEA0 /* Version.plist in Resources */,
 				6E55A2351A618D0D00CD2B60 /* Images.xcassets in Resources */,
 				6E69F6B41A67C0000014EC1F /* NOTICE.md in Resources */,
 			);
@@ -1999,6 +2009,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E69F6B81A67C0040014EC1F /* NOTICE.md in Resources */,
+				6E37869E1A69783D0018BEA0 /* Version.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2007,6 +2018,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				148D2F00179555AD0005DB1B /* PGLoginController.xib in Resources */,
+				6E37869D1A69783D0018BEA0 /* Version.plist in Resources */,
 				6EE12E1A17D51CD70034B9E1 /* SSKeychain.strings in Resources */,
 				6E69F6B91A67C0040014EC1F /* NOTICE.md in Resources */,
 			);
