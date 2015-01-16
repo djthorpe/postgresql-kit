@@ -384,8 +384,8 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 		// OK
 		[NSApp endSheet:theWindow returnCode:NSModalResponseOK];
 	} else {
-		// Unknown button
-		NSLog(@"Button clicked but unknown response: %@",sender);
+		// Unknown button clicked
+		NSLog(@"Button clicked, ignoring: %@",sender);
 	}
 }
 

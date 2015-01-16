@@ -19,8 +19,13 @@
 @property (assign) IBOutlet NSView* ibGrabberView;
 @property (weak) IBOutlet NSView* ibLeftView;
 @property (weak) IBOutlet NSView* ibRightView;
+@property (weak) IBOutlet NSView* ibActionButton;
 
 @end
+
+enum {
+	PGSplitViewTagLeftStausView = 1000
+};
 
 @implementation PGSplitViewController
 
@@ -37,6 +42,12 @@
 	[super loadView];
 	// set delegate
 	[(NSSplitView* )[self view] setDelegate:self];
+	
+	// insert action button
+	NSView* leftStatusView = [[self view] viewWithTag:PGSplitViewTagLeftStausView];
+	NSParameterAssert([self ibActionButton]);
+	NSParameterAssert(leftStatusView);
+	[leftStatusView addSubview:[self ibActionButton]];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -80,6 +91,18 @@
 	} else {
 		return NO;
 	}
+}
+
+-(void)addMenuItem:(NSMenuItem* )menuItem {
+	NSMenu* menu = [[self ibActionButton] menu];
+	NSParameterAssert(menu);
+	[menu addItem:menuItem];
+}
+
+-(void)removeAllMenuItems {
+	NSMenu* menu = [[self ibActionButton] menu];
+	NSParameterAssert(menu);
+	[menu removeAllItems];
 }
 
 ////////////////////////////////////////////////////////////////////////////////

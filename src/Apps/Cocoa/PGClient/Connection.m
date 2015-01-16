@@ -63,7 +63,6 @@
 // PGConnectionWindowDelegate
 
 -(void)connectionWindow:(PGConnectionWindowController* )windowController status:(PGConnectionWindowStatus)status {
-	NSLog(@"status = %d",status);
 	switch(status) {
 		case PGConnectionWindowStatusOK:
 			[windowController connect];
@@ -74,19 +73,15 @@
 		case PGConnectionWindowStatusRetry:
 			[[self connection] beginSheetForParentWindow:[self parentWindow]];
 			break;
+		case PGConnectionWindowStatusRejected:
+		case PGConnectionWindowStatusBadParameters:
+			[[self connection] beginErrorSheetForParentWindow:[self parentWindow]];
+			break;
 		case PGConnectionWindowStatusCancel:
 			NSLog(@"PGConnectionWindow sent status CANCEL PRESSED");
 			break;
 		case PGConnectionWindowStatusConnecting:
 			NSLog(@"PGConnectionWindow sent status CONNECTING");
-			break;
-		case PGConnectionWindowStatusBadParameters:
-			NSLog(@"PGConnectionWindow sent status BAD PARAMETERS");
-			//[[self connection] beginErrorSheetForParentWindow:[self parentWindow]];
-			break;
-		case PGConnectionWindowStatusRejected:
-			NSLog(@"PGConnectionWindow sent status REJECTED CONNECTION");
-			[[self connection] beginErrorSheetForParentWindow:[self parentWindow]];
 			break;
 		case PGConnectionWindowStatusConnected:
 			NSLog(@"PGConnectionWindow sent status CONNECTED");

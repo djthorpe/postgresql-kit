@@ -19,5 +19,7 @@
 // methods
 -(BOOL)setLeftView:(id)viewOrController;
 -(BOOL)setRightView:(id)viewOrController;
+-(void)addMenuItem:(NSMenuItem* )menuItem;
+-(void)removeAllMenuItems;
 
 @end

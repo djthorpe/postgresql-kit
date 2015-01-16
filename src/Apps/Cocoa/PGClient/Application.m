@@ -63,6 +63,18 @@
 	// add headings
 	[[self sourceView] addHeadingWithTitle:@"CONNECTIONS"];
 	[[self sourceView] addHeadingWithTitle:@"QUERIES"];
+	
+	// add menu items
+	NSMenuItem* menuItem = [[NSMenuItem alloc] initWithTitle:@"New Connection..." action:@selector(doNewConnection:) keyEquivalent:@""];
+	[[self splitView] addMenuItem:menuItem];
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// IBActions
+
+-(void)doNewConnection:(id)sender {
+	// connect to remote server
+	[[self connection] loginSheetWithWindow:[self window]];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -71,9 +83,7 @@
 -(void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 	// add PGSplitView to the content view
 	[self addSplitView];
-	
-	// connect to remote server
-	[[self connection] loginSheetWithWindow:[self window]];
+
 }
 
 -(void)applicationWillTerminate:(NSNotification *)aNotification {
