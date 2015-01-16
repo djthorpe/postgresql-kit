@@ -63,12 +63,16 @@
 // PGConnectionWindowDelegate
 
 -(void)connectionWindow:(PGConnectionWindowController* )windowController status:(PGConnectionWindowStatus)status {
+	NSLog(@"status = %d",status);
 	switch(status) {
 		case PGConnectionWindowStatusOK:
 			[windowController connect];
 			break;
 		case PGConnectionWindowStatusNeedsPassword:
 			[[self connection] beginPasswordSheetForParentWindow:[self parentWindow]];
+			break;
+		case PGConnectionWindowStatusRetry:
+			[[self connection] beginSheetForParentWindow:[self parentWindow]];
 			break;
 		case PGConnectionWindowStatusCancel:
 			NSLog(@"PGConnectionWindow sent status CANCEL PRESSED");

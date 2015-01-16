@@ -183,16 +183,13 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 // private methods - ping timer
 
 -(void)_schedulePingTimer {
-	if([self pingTimer]==nil) {
-		[self setPingTimer:[NSTimer scheduledTimerWithTimeInterval:PingTimerInterval target:self selector:@selector(_doPingTimer:) userInfo:nil repeats:NO]];
-		[self setPingImage:[[self class] resourceImageNamed:@"traffic-orange"]];
-	}
+	[[self pingTimer] invalidate];
+	[self setPingTimer:[NSTimer scheduledTimerWithTimeInterval:PingTimerInterval target:self selector:@selector(_doPingTimer:) userInfo:nil repeats:NO]];
+	[self setPingImage:[[self class] resourceImageNamed:@"traffic-orange"]];
 }
 
 -(void)_unschedulePingTimer {
-	if([self pingTimer]) {
-		[[self pingTimer] invalidate];
-	}
+	[[self pingTimer] invalidate];
 	[self setPingTimer:nil];
 	[self setPingImage:[[self class] resourceImageNamed:@"traffic-red"]];
 }
@@ -318,11 +315,19 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 	// determine return status
 	PGConnectionWindowStatus status = PGConnectionWindowStatusOK;
 	
-	// if cancel button is pressed
 	if(returnCode==NSModalResponseCancel) {
+		// if cancel button is pressed
 		status = PGConnectionWindowStatusCancel;
-	} else if (returnCode==NSModalResponseOK && [self url]==nil) {
-		status = PGConnectionWindowStatusBadParameters;
+	} else if (returnCode==NSModalResponseOK) {
+		// OK button pressed
+		if([self url]==nil) {
+			status = PGConnectionWindowStatusBadParameters;
+		} else {
+			status = PGConnectionWindowStatusOK;
+		}
+	} else {
+		// Retry....
+		status = PGConnectionWindowStatusRetry;
 	}
 
 	// send message to delegate
@@ -370,11 +375,17 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 	NSWindow* theWindow = [(NSButton* )sender window];
 
 	if([[(NSButton* )sender title] isEqualToString:@"Cancel"]) {
-		// Cancel button pressed, immediately quit
+		// Cancel
 		[NSApp endSheet:theWindow returnCode:NSModalResponseCancel];
-	} else {
-		// Do something here
+	} else if([[(NSButton* )sender title] hasPrefix:@"Try"]) {
+		// Try again...
+		[NSApp endSheet:theWindow returnCode:NSModalResponseContinue];
+	} else if([[(NSButton* )sender title] isEqualToString:@"OK"]) {
+		// OK
 		[NSApp endSheet:theWindow returnCode:NSModalResponseOK];
+	} else {
+		// Unknown button
+		NSLog(@"Button clicked but unknown response: %@",sender);
 	}
 }
 

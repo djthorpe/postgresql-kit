@@ -24,6 +24,7 @@ typedef enum  {
 	PGConnectionWindowStatusNeedsPassword,
 	PGConnectionWindowStatusConnecting,
 	PGConnectionWindowStatusConnected,
+	PGConnectionWindowStatusRetry,
 	PGConnectionWindowStatusRejected
 } PGConnectionWindowStatus;
 
