@@ -15,11 +15,33 @@
 #import <Foundation/Foundation.h>
 #import <PGControlsKit/PGControlsKit.h>
 
+////////////////////////////////////////////////////////////////////////////////
+
+enum {
+	ConnectionStatusConnecting = 100,
+	ConnectionStatusConnected,
+	ConnectionStatusCancelled,
+	ConnectionStatusDisconnected
+};
+
+////////////////////////////////////////////////////////////////////////////////
+
+// forward class declaration
+@class Connection;
+
+@protocol ConnectionDelegate <NSObject>
+-(void)connection:(Connection* )connection status:(int)theStatus url:(NSURL* )url;
+-(void)connection:(Connection* )connection error:(NSError* )error;
+@end
+
+////////////////////////////////////////////////////////////////////////////////
+
 @interface Connection : NSObject <PGConnectionWindowDelegate> {
 	PGConnectionWindowController* _connection;
 }
 
 // properties
+@property (weak,nonatomic) id<ConnectionDelegate> delegate;
 @property (readonly) PGConnectionWindowController* connection;
 @property (readonly) NSURL* url;
 @property (weak) NSWindow* parentWindow;

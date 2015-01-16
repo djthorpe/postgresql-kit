@@ -30,6 +30,7 @@
 		_splitView = [PGSplitViewController new];
 		_sourceView = [PGSourceViewController new];
 		NSParameterAssert(_connection && _splitView && _sourceView);
+		[_connection setDelegate:self];
 	}
 	return self;
 }
@@ -89,6 +90,30 @@
 -(void)applicationWillTerminate:(NSNotification *)aNotification {
 	// disconnect from remote server
 	[[self connection] disconnect];
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// ConnectionDelegate implementation
+
+-(void)connection:(Connection* )connection status:(int)status url:(NSURL* )url {
+	switch(status) {
+		case ConnectionStatusCancelled:
+			NSLog(@"PGClient cancelled %@",url);
+			break;
+		case ConnectionStatusConnecting:
+			NSLog(@"PGClient connecting %@",url);
+			break;
+		case ConnectionStatusConnected:
+			NSLog(@"PGClient connected %@",url);
+			break;
+		case ConnectionStatusDisconnected:
+			NSLog(@"PGClient disconnected %@",url);
+			break;
+	}
+}
+
+-(void)connection:(Connection* )connection error:(NSError* )error {
+	NSLog(@"PGClient error %@",[error localizedDescription]);
 }
 
 @end

@@ -17,7 +17,7 @@
 
 #import "Connection.h"
 
-@interface Application : NSObject <NSApplicationDelegate> {
+@interface Application : NSObject <NSApplicationDelegate,ConnectionDelegate> {
 	Connection* _connection;
 	PGSplitViewController* _splitView;
 	PGSourceViewController* _sourceView;

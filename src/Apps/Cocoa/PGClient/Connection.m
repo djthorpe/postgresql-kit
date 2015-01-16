@@ -42,10 +42,17 @@
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// methods
+// private methods
+
+
+////////////////////////////////////////////////////////////////////////////////
+// public methods
 
 -(void)loginSheetWithWindow:(NSWindow* )window {
 	NSParameterAssert(window);
+
+	// disconnect
+	[self disconnect];
 
 	// set default URL
 	[[self connection] setUrl:[self url]];
@@ -78,19 +85,27 @@
 			[[self connection] beginErrorSheetForParentWindow:[self parentWindow]];
 			break;
 		case PGConnectionWindowStatusCancel:
-			NSLog(@"PGConnectionWindow sent status CANCEL PRESSED");
+			if([[self delegate] respondsToSelector:@selector(connection:status:url:)]) {
+				[[self delegate] connection:self status:ConnectionStatusCancelled url:[[self connection] url]];
+			}
 			break;
 		case PGConnectionWindowStatusConnecting:
-			NSLog(@"PGConnectionWindow sent status CONNECTING");
+			if([[self delegate] respondsToSelector:@selector(connection:status:url:)]) {
+				[[self delegate] connection:self status:ConnectionStatusConnecting url:[[self connection] url]];
+			}
 			break;
 		case PGConnectionWindowStatusConnected:
-			NSLog(@"PGConnectionWindow sent status CONNECTED");
+			if([[self delegate] respondsToSelector:@selector(connection:status:url:)]) {
+				[[self delegate] connection:self status:ConnectionStatusConnected url:[[self connection] url]];
+			}
 			break;
 	}
 }
 
 -(void)connectionWindow:(PGConnectionWindowController *)windowController error:(NSError* )error {
-	NSLog(@"error = %@",error);
+	if([[self delegate] respondsToSelector:@selector(connection:error:)]) {
+		[[self delegate] connection:self error:error];
+	}
 }
 
 @end
