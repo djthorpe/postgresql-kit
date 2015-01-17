@@ -43,6 +43,10 @@ RELEASE_VERSION=$( echo "${TAG}" | cut -d "-" -f 2 )
 RELEASE_COUNTER=$( echo "${TAG}" | cut -d "-" -f 3 )
 RELEASE_HASH=$( echo "${TAG}" | cut -d "-" -f 4 )
 
+if [ "${RELEASE_COUNTER}XX" = "XX" ] ; then
+	RELEASE_COUNTER="0"
+fi
+
 # the tag format should be as follows, where {version} is a three digit number:
 #  alpha-{version} => 0.1{version}.{counter}
 #  beta-{version} => 0.2{version}.{counter}
