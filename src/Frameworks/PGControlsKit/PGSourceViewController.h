@@ -15,10 +15,13 @@
 #import <Cocoa/Cocoa.h>
 
 @interface PGSourceViewController : NSViewController <NSOutlineViewDelegate,NSOutlineViewDataSource> {
-	NSMutableArray* _headings;
+	NSMutableDictionary* _nodes; // tag -> node
+	NSMutableDictionary* _children; // tag -> [ child tag, child tag, ... ]
 }
 
 // methods
+-(void)addNode:(PGSourceViewNode* )node parent:(PGSourceViewNode* )parent;
+-(void)addRootNode:(PGSourceViewNode* )node;
 -(void)addHeadingWithTitle:(NSString* )title;
 
 @end
