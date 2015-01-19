@@ -69,6 +69,8 @@
 		14DECDA216B56D7300178235 /* PGConverters+Object2Data.m in Sources */ = {isa = PBXBuildFile; fileRef = 14DECDA016B56D7300178235 /* PGConverters+Object2Data.m */; };
 		14DECDA616B56DF300178235 /* PGConverters+Data2Object.m in Sources */ = {isa = PBXBuildFile; fileRef = 14DECDA516B56DF300178235 /* PGConverters+Data2Object.m */; };
 		14DECDA816B57EC400178235 /* PGConverters+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 14DECDA716B57EC400178235 /* PGConverters+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		14E1323A1A6D6F7800451602 /* PGSourceViewTree.h in Headers */ = {isa = PBXBuildFile; fileRef = 14E132381A6D6F7800451602 /* PGSourceViewTree.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		14E1323B1A6D6F7800451602 /* PGSourceViewTree.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E132391A6D6F7800451602 /* PGSourceViewTree.m */; };
 		14F1E86F17CB857A00710D4A /* PGControlsKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 14F1E86017CB840400710D4A /* PGControlsKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		14F1E87017CB864C00710D4A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C167C15F26BF20013A382 /* Cocoa.framework */; };
 		6E031030162FE50B003225B1 /* PGStatement.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E03102E162FE50B003225B1 /* PGStatement.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -384,6 +386,8 @@
 		14DECDA016B56D7300178235 /* PGConverters+Object2Data.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PGConverters+Object2Data.m"; sourceTree = "<group>"; };
 		14DECDA516B56DF300178235 /* PGConverters+Data2Object.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PGConverters+Data2Object.m"; sourceTree = "<group>"; };
 		14DECDA716B57EC400178235 /* PGConverters+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PGConverters+Private.h"; sourceTree = "<group>"; };
+		14E132381A6D6F7800451602 /* PGSourceViewTree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSourceViewTree.h; sourceTree = "<group>"; };
+		14E132391A6D6F7800451602 /* PGSourceViewTree.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSourceViewTree.m; sourceTree = "<group>"; };
 		14EE3C36166752F80083C735 /* NOTICE.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = NOTICE.md; sourceTree = "<group>"; };
 		14EE3C3C166752F80083C735 /* make-postgresql.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "make-postgresql.sh"; sourceTree = "<group>"; };
 		14F1E84717CB83CD00710D4A /* PGControlsKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PGControlsKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1051,6 +1055,8 @@
 			children = (
 				6E69F6A81A67AD340014EC1F /* PGSourceViewController.h */,
 				6E69F6A91A67AD340014EC1F /* PGSourceViewController.m */,
+				14E132381A6D6F7800451602 /* PGSourceViewTree.h */,
+				14E132391A6D6F7800451602 /* PGSourceViewTree.m */,
 				6E69F6AE1A67BABF0014EC1F /* PGSourceViewNode.h */,
 				6E69F6AF1A67BABF0014EC1F /* PGSourceViewNode.m */,
 				6E69F6AA1A67AD340014EC1F /* PGSourceView.xib */,
@@ -1198,6 +1204,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				14E1323A1A6D6F7800451602 /* PGSourceViewTree.h in Headers */,
 				6E0C81701A619E2E0032AE32 /* PGSplitViewController.h in Headers */,
 				6E69F6B01A67BABF0014EC1F /* PGSourceViewNode.h in Headers */,
 				14F1E86F17CB857A00710D4A /* PGControlsKit.h in Headers */,
@@ -1685,6 +1692,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				14E1323B1A6D6F7800451602 /* PGSourceViewTree.m in Sources */,
 				6E60B5BA1A628028005B0633 /* PGConnectionWindowController.m in Sources */,
 				6E0C81711A619E2E0032AE32 /* PGSplitViewController.m in Sources */,
 				6E69F6AC1A67AD340014EC1F /* PGSourceViewController.m in Sources */,

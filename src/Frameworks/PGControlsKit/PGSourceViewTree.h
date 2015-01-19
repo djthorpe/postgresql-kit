@@ -12,11 +12,18 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
+#import <PGControlsKit/PGControlsKit.h>
 
-@interface PGSourceViewController : NSViewController <NSOutlineViewDelegate,NSOutlineViewDataSource>
+@interface PGSourceViewTree : NSObject {
+	NSMutableDictionary* _tags;
+	NSMutableDictionary* _children;
+	NSInteger _counter;
+}
 
 // methods
--(void)addHeadingWithTitle:(NSString* )title;
+-(void)addNode:(PGSourceViewNode* )node parent:(PGSourceViewNode* )parent;
+-(PGSourceViewNode* )nodeAtIndex:(NSInteger)index parent:(PGSourceViewNode* )parent;
+-(NSInteger)numberOfChildrenOfParent:(PGSourceViewNode* )parent;
 
 @end
