@@ -12,57 +12,49 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-#import <PGControlsKit/PGControlsKit.h>
+#import <Foundation/Foundation.h>
+#import <XCTest/XCTest.h>
+#import <PGControlsKit/PGSourceViewTree.h>
 
-@interface PGSourceViewNode ()
-// private definitions here
+////////////////////////////////////////////////////////////////////////////////
+
+@interface PGControlsKit_testcases : XCTestCase
+
 @end
 
-@implementation PGSourceViewNode
-
 ////////////////////////////////////////////////////////////////////////////////
-// constructor
 
--(id)init {
-	return nil;
+@implementation PGControlsKit_testcases
+
+-(void)setUp {
+    [super setUp];
+    // TODO
 }
 
--(id)initWithName:(NSString* )name {
-	self = [super init];
-	if(self) {
-		_name = name;
-	}
-	return self;
+- (void)tearDown {
+    // TODO
+    [super tearDown];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// properties
 
-@synthesize name = _name;
-@dynamic isGroupItem;
-@dynamic shouldSelectItem;
-
--(BOOL)isGroupItem {
-	return YES;
+-(void)test_001 {
+	NSString* name = @"TEST";
+	PGSourceViewNode* node = [[PGSourceViewNode alloc] initWithName:name];
+	XCTAssert(node);
+	XCTAssert([[node name] isEqual:name]);
 }
 
--(BOOL)shouldSelectItem {
-	return YES;
+-(void)test_002 {
+	NSString* name = @"HEADER NODE";
+	PGSourceViewNode* node = [[PGSourceViewNode alloc] initWithName:name];
+	XCTAssert(node);
+	PGSourceViewTree* tree = [PGSourceViewTree new];
+	XCTAssert(tree);
+	[tree addNode:node parent:nil];
+	NSLog(@"tree=%@",[tree dictionary]);
 }
 
-////////////////////////////////////////////////////////////////////////////////
-// methods
-
--(NSString* )description {
-	return [NSString stringWithFormat:@"<%@ %@>",NSStringFromClass([self class]),[self name]];
-}
-
--(NSDictionary* )dictionaryWithKey:(id)key {
-	NSMutableDictionary* defaults = [NSMutableDictionary new];
-	[defaults setObject:key forKey:@"key"];
-	[defaults setObject:[self name] forKey:@"name"];
-	return defaults;
-}
 
 
 @end

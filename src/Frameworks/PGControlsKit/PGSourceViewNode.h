@@ -21,8 +21,12 @@
 // constructors
 -(id)initWithName:(NSString* )name;
 
+// properties
+@property NSString* name;
+@property (readonly) BOOL isGroupItem;
+@property (readonly) BOOL shouldSelectItem;
+
 // methods
--(BOOL)isGroupItem;
--(BOOL)shouldSelectItem;
+-(NSDictionary* )dictionaryWithKey:(id)key;
 
 @end

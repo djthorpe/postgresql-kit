@@ -113,4 +113,18 @@
 	// TODO
 }
 
+-(NSDictionary* )dictionary {
+	NSMutableArray* nodes = [NSMutableArray arrayWithCapacity:[_tags count]];
+	for(id key in _tags) {
+		PGSourceViewNode* node = [self nodeForTagKey:key];
+		NSParameterAssert(node);
+		[nodes addObject:[node dictionaryWithKey:key]];
+	}
+	
+	return @{
+		@"nodes": nodes,
+		@"children": _children
+	};
+}
+
 @end
