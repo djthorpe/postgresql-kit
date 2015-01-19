@@ -106,6 +106,19 @@ PGSourceViewTree* tree = nil;
 	[tree addNode:node006 parent:node001];
 	XCTAssert([tree count]==6);
 
+	// check subnodes
+	XCTAssert([tree nodeAtIndex:0 parent:node001]==node004);
+	XCTAssert([tree nodeAtIndex:1 parent:node001]==node005);
+	XCTAssert([tree nodeAtIndex:2 parent:node001]==node006);
+	
+	// check subnode counts
+	XCTAssert([tree numberOfChildrenOfParent:node001]==3);
+	XCTAssert([tree numberOfChildrenOfParent:node002]==0);
+	XCTAssert([tree numberOfChildrenOfParent:node003]==0);
+	XCTAssert([tree numberOfChildrenOfParent:node004]==0);
+	XCTAssert([tree numberOfChildrenOfParent:node005]==0);
+	XCTAssert([tree numberOfChildrenOfParent:node006]==0);
+
 	NSLog(@"tree=%@",[tree dictionary]);
 }
 

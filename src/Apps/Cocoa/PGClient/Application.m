@@ -70,10 +70,16 @@
 	[[self splitView] addMenuItem:menuItem];
 }
 
+-(void)addConnectionWithURL:(NSURL* )url {
+	// create connection
+	PGSourceViewNode* node = [[PGSourceViewNode alloc] initWithName:[url user]];
+	NSLog(@"TODO: add node %@",node);
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // IBActions
 
--(void)doNewConnection:(id)sender {
+-(IBAction)doNewConnection:(id)sender {
 	// connect to remote server
 	[[self connection] loginSheetWithWindow:[self window]];
 }
@@ -102,6 +108,7 @@
 			break;
 		case ConnectionStatusConnecting:
 			NSLog(@"PGClient connecting %@",url);
+			[self addConnectionWithURL:url];
 			break;
 		case ConnectionStatusConnected:
 			NSLog(@"PGClient connected %@",url);

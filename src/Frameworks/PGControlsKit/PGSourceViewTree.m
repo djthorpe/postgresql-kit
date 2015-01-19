@@ -138,8 +138,7 @@
 		// parent not found, return nil
 		return NSNotFound;
 	}
-	NSArray* children = [self _childrenForKey:key];
-	return [children count];
+	return [[self _childrenForKey:key] count];
 }
 
 -(NSDictionary* )dictionary {
