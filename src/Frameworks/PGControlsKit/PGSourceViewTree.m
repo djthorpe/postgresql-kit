@@ -31,22 +31,31 @@
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+// properties
+
+@dynamic count;
+
+-(NSUInteger)count {
+	return [_tags count];
+}
+
+////////////////////////////////////////////////////////////////////////////////
 // private methods
 
--(id)keyForTag:(NSInteger)tag {
+-(id)_keyForTag:(NSInteger)tag {
 	return [NSNumber numberWithInteger:tag];
 }
 
--(id)rootKey {
+-(id)_rootKey {
 	return @0;
 }
 
--(PGSourceViewNode* )nodeForTagKey:(id)key {
+-(PGSourceViewNode* )_nodeForTagKey:(id)key {
 	NSParameterAssert(key);
 	return [_tags objectForKey:key];
 }
 
--(id)tagKeyForNode:(PGSourceViewNode* )node {
+-(id)_tagKeyForNode:(PGSourceViewNode* )node {
 	NSArray* keys = [_tags allKeysForObject:node];
 	if([keys count]) {
 		NSParameterAssert([keys count]==1);
@@ -58,9 +67,9 @@
 
 -(id)_getNewTagKey {
 	do {
-		NSInteger tag = _counter++;
-		id key = [self keyForTag:tag];
-		if([self nodeForTagKey:key]==nil) {
+		NSInteger tag = ++_counter;
+		id key = [self _keyForTag:tag];
+		if([self _nodeForTagKey:key]==nil) {
 			// no existing tag
 			return key;
 		}
@@ -73,15 +82,23 @@
 	id key = [self _getNewTagKey];
 	if(key) {
 		[_tags setObject:node forKey:key];
-		[_children setObject:[NSMutableArray new] forKey:key];
 	}
 	return key;
 }
 
+-(NSMutableArray* )_childrenForKey:(id)key {
+	return [_children objectForKey:((key==nil) ? [self _rootKey] : key)];
+}
+
 -(void)_addChildKey:(id)key parentKey:(id)parentKey {
-	NSMutableArray* array = [_children objectForKey:(parentKey ? parentKey : [self rootKey])];
-	NSParameterAssert(array);
-	[array addObject:key];
+	// TODO: check key is not there yet
+	NSMutableArray* children = [self _childrenForKey:parentKey];
+	if(children==nil) {
+		children = [NSMutableArray new];
+		NSParameterAssert(children);
+		[_children setObject:children forKey:(parentKey ? parentKey : [self _rootKey])];
+	}
+	[children addObject:key];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -89,12 +106,12 @@
 
 -(void)addNode:(PGSourceViewNode* )node parent:(PGSourceViewNode* )parent {
 	// ensure parent is in the tree, and node isn't
-	NSParameterAssert(parent==nil || [self tagKeyForNode:parent]);
-	NSParameterAssert(node && [self tagKeyForNode:node]==nil);
+	NSParameterAssert(parent==nil || [self _tagKeyForNode:parent]);
+	NSParameterAssert(node && [self _tagKeyForNode:node]==nil);
 	// if parent==nil, than use tag 0 or else determine tag for this node
 	id key = [self _addNode:node];
 	NSParameterAssert(key);
-	[self _addChildKey:key parentKey:[self tagKeyForNode:parent]];
+	[self _addChildKey:key parentKey:[self _tagKeyForNode:parent]];
 }
 
 // TODO -(void)removeNode:(PGSourceViewNode* )parent {
@@ -102,21 +119,33 @@
 //}
 
 -(PGSourceViewNode* )nodeAtIndex:(NSInteger)index parent:(PGSourceViewNode* )parent {
-	// if parent==nil, than use tag 0 or else determine tag for this node
-	// get tag for this node
-	// TODO
+	id key = parent ? [self _tagKeyForNode:parent] : [self _rootKey];
+	if(key==nil) {
+		// parent not found, return nil
+		return nil;
+	}
+	NSArray* children = [self _childrenForKey:key];
+	NSParameterAssert(children);
+	NSParameterAssert(index >= 0 && index < [children count]);
+	PGSourceViewNode* node = [self _nodeForTagKey:[children objectAtIndex:index]];
+	NSParameterAssert(node);
+	return node;
 }
 
 -(NSInteger)numberOfChildrenOfParent:(PGSourceViewNode* )parent {
-	// if parent==nil, than use tag 0 or else determine tag for this node
-	// get tag for this node
-	// TODO
+	id key = parent ? [self _tagKeyForNode:parent] : [self _rootKey];
+	if(key==nil) {
+		// parent not found, return nil
+		return NSNotFound;
+	}
+	NSArray* children = [self _childrenForKey:key];
+	return [children count];
 }
 
 -(NSDictionary* )dictionary {
 	NSMutableArray* nodes = [NSMutableArray arrayWithCapacity:[_tags count]];
 	for(id key in _tags) {
-		PGSourceViewNode* node = [self nodeForTagKey:key];
+		PGSourceViewNode* node = [self _nodeForTagKey:key];
 		NSParameterAssert(node);
 		[nodes addObject:[node dictionaryWithKey:key]];
 	}

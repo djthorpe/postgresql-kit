@@ -16,6 +16,8 @@
 #import <XCTest/XCTest.h>
 #import <PGControlsKit/PGSourceViewTree.h>
 
+PGSourceViewTree* tree = nil;
+
 ////////////////////////////////////////////////////////////////////////////////
 
 @interface PGControlsKit_testcases : XCTestCase
@@ -28,10 +30,10 @@
 
 -(void)setUp {
     [super setUp];
-    // TODO
+	tree = [PGSourceViewTree new];
 }
 
-- (void)tearDown {
+-(void)tearDown {
     // TODO
     [super tearDown];
 }
@@ -46,15 +48,65 @@
 }
 
 -(void)test_002 {
-	NSString* name = @"HEADER NODE";
-	PGSourceViewNode* node = [[PGSourceViewNode alloc] initWithName:name];
-	XCTAssert(node);
 	PGSourceViewTree* tree = [PGSourceViewTree new];
 	XCTAssert(tree);
-	[tree addNode:node parent:nil];
+
+	// add a single node
+	PGSourceViewNode* node001 = [[PGSourceViewNode alloc] initWithName:@"HEADER_001"];
+	XCTAssert(node001);
+	[tree addNode:node001 parent:nil];
+	XCTAssert([tree count]==1);
+
+	PGSourceViewNode* node002 = [[PGSourceViewNode alloc] initWithName:@"HEADER_002"];
+	XCTAssert(node002);
+	[tree addNode:node002 parent:nil];
+	XCTAssert([tree count]==2);
+
+	PGSourceViewNode* node003 = [[PGSourceViewNode alloc] initWithName:@"HEADER_003"];
+	XCTAssert(node003);
+	[tree addNode:node003 parent:nil];
+	XCTAssert([tree count]==3);
+	
 	NSLog(@"tree=%@",[tree dictionary]);
 }
 
+-(void)test_003 {
+	PGSourceViewTree* tree = [PGSourceViewTree new];
+	XCTAssert(tree);
 
+	// add a single node
+	PGSourceViewNode* node001 = [[PGSourceViewNode alloc] initWithName:@"HEADER_001"];
+	XCTAssert(node001);
+	[tree addNode:node001 parent:nil];
+	XCTAssert([tree count]==1);
+
+	PGSourceViewNode* node002 = [[PGSourceViewNode alloc] initWithName:@"HEADER_002"];
+	XCTAssert(node002);
+	[tree addNode:node002 parent:nil];
+	XCTAssert([tree count]==2);
+
+	PGSourceViewNode* node003 = [[PGSourceViewNode alloc] initWithName:@"HEADER_003"];
+	XCTAssert(node003);
+	[tree addNode:node003 parent:nil];
+	XCTAssert([tree count]==3);
+	
+	// add subnodes
+	PGSourceViewNode* node004 = [[PGSourceViewNode alloc] initWithName:@"SUBNODE_004"];
+	XCTAssert(node004);
+	[tree addNode:node004 parent:node001];
+	XCTAssert([tree count]==4);
+
+	PGSourceViewNode* node005 = [[PGSourceViewNode alloc] initWithName:@"SUBNODE_005"];
+	XCTAssert(node005);
+	[tree addNode:node005 parent:node001];
+	XCTAssert([tree count]==5);
+
+	PGSourceViewNode* node006 = [[PGSourceViewNode alloc] initWithName:@"SUBNODE_006"];
+	XCTAssert(node006);
+	[tree addNode:node006 parent:node001];
+	XCTAssert([tree count]==6);
+
+	NSLog(@"tree=%@",[tree dictionary]);
+}
 
 @end

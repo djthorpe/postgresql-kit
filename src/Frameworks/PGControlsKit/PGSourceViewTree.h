@@ -21,6 +21,9 @@
 	NSInteger _counter;
 }
 
+// properties
+@property (readonly) NSUInteger count;
+
 // methods
 -(void)addNode:(PGSourceViewNode* )node parent:(PGSourceViewNode* )parent;
 -(PGSourceViewNode* )nodeAtIndex:(NSInteger)index parent:(PGSourceViewNode* )parent;
