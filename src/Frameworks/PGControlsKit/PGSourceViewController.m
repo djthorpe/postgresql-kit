@@ -43,9 +43,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 // methods
 
--(void)addHeadingWithTitle:(NSString* )title {
-	PGSourceViewNode* node = [[PGSourceViewNode alloc] initWithName:title];
-	[[self model] addNode:node parent:nil];	
+-(void)addNode:(PGSourceViewNode* )node parent:(PGSourceViewNode* )parent {
+	[[self model] addNode:node parent:parent];
 	[[self ibOutlineView] reloadData];
 }
 

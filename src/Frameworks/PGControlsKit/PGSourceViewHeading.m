@@ -12,22 +12,17 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-#import <Foundation/Foundation.h>
+#import <PGControlsKit/PGControlsKit.h>
+#import "PGSourceViewHeading.h"
 
-@interface PGSourceViewNode : NSObject {
-	NSString* _name;
+@implementation PGSourceViewHeading
+
+-(BOOL)isGroupItem {
+	return YES;
 }
 
-// constructors
-+(PGSourceViewNode* )headingWithName:(NSString* )name;
-+(PGSourceViewNode* )connectionWithURL:(NSURL* )url;
-
-// properties
-@property NSString* name;
-@property (readonly) BOOL isGroupItem;
-@property (readonly) BOOL shouldSelectItem;
-
-// methods
--(NSDictionary* )dictionaryWithKey:(id)key;
+-(BOOL)shouldSelectItem {
+	return NO;
+}
 
 @end

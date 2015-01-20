@@ -16,6 +16,8 @@
 
 @interface Application ()
 @property (weak) IBOutlet NSWindow* window;
+@property (retain) PGSourceViewNode* connections;
+@property (retain) PGSourceViewNode* queries;
 @end
 
 @implementation Application
@@ -61,19 +63,21 @@
 	// add left and right views
 	[[self splitView] setLeftView:[self sourceView]];
 	
-	// add headings
-	[[self sourceView] addHeadingWithTitle:@"CONNECTIONS"];
-	[[self sourceView] addHeadingWithTitle:@"QUERIES"];
+	// TODO: read the nodes from disk or create new ones
+	[self setConnections:[PGSourceViewNode headingWithName:@"CONNECTIONS"]];
+	[self setQueries:[PGSourceViewNode headingWithName:@"QUERIES"]];
+	NSParameterAssert([self connections] && [self queries]);
+	[[self sourceView] addNode:[self connections] parent:nil];
+	[[self sourceView] addNode:[self queries] parent:nil];
 	
 	// add menu items
 	NSMenuItem* menuItem = [[NSMenuItem alloc] initWithTitle:@"New Connection..." action:@selector(doNewConnection:) keyEquivalent:@""];
 	[[self splitView] addMenuItem:menuItem];
 }
 
--(void)addConnectionWithURL:(NSURL* )url {
-	// create connection
-	PGSourceViewNode* node = [[PGSourceViewNode alloc] initWithName:[url user]];
-	NSLog(@"TODO: add node %@",node);
+-(void)_selectConnectionWithURL:(NSURL* )url {
+	NSLog(@"selecting: %@",url);
+	[[self sourceView] addNode:[PGSourceViewNode connectionWithURL:url] parent:[self connections]];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -108,7 +112,7 @@
 			break;
 		case ConnectionStatusConnecting:
 			NSLog(@"PGClient connecting %@",url);
-			[self addConnectionWithURL:url];
+			[self _selectConnectionWithURL:url];
 			break;
 		case ConnectionStatusConnected:
 			NSLog(@"PGClient connected %@",url);

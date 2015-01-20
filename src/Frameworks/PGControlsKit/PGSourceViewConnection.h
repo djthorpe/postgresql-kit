@@ -14,20 +14,6 @@
 
 #import <Foundation/Foundation.h>
 
-@interface PGSourceViewNode : NSObject {
-	NSString* _name;
-}
-
-// constructors
-+(PGSourceViewNode* )headingWithName:(NSString* )name;
-+(PGSourceViewNode* )connectionWithURL:(NSURL* )url;
-
-// properties
-@property NSString* name;
-@property (readonly) BOOL isGroupItem;
-@property (readonly) BOOL shouldSelectItem;
-
-// methods
--(NSDictionary* )dictionaryWithKey:(id)key;
+@interface PGSourceViewConnection : PGSourceViewNode
 
 @end

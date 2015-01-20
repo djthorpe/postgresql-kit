@@ -13,6 +13,8 @@
 // under the License.
 
 #import <PGControlsKit/PGControlsKit.h>
+#import "PGSourceViewHeading.h"
+#import "PGSourceViewConnection.h"
 
 @interface PGSourceViewNode ()
 // private definitions here
@@ -33,6 +35,15 @@
 		_name = name;
 	}
 	return self;
+}
+
++(PGSourceViewNode* )headingWithName:(NSString* )name {
+	return [[PGSourceViewHeading alloc] initWithName:name];
+}
+
++(PGSourceViewNode* )connectionWithURL:(NSURL* )url {
+	NSString* name = [NSString stringWithFormat:@"%@@%@",[url user],[url path]];
+	return [[PGSourceViewConnection alloc] initWithName:name];
 }
 
 ////////////////////////////////////////////////////////////////////////////////

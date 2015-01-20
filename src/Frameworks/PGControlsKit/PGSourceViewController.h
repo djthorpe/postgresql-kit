@@ -17,6 +17,6 @@
 @interface PGSourceViewController : NSViewController <NSOutlineViewDelegate,NSOutlineViewDataSource>
 
 // methods
--(void)addHeadingWithTitle:(NSString* )title;
+-(void)addNode:(PGSourceViewNode* )node parent:(PGSourceViewNode* )parent;
 
 @end
