@@ -46,6 +46,21 @@
 	return [[PGSourceViewConnection alloc] initWithName:name];
 }
 
++(PGSourceViewNode* )nodeFromDictionary:(NSDictionary* )dictionary {
+	NSString* className = [dictionary objectForKey:@"class"];
+	NSString* name = [dictionary objectForKey:@"name"];
+	if(className==nil || name==nil) {
+		return nil;
+	}
+	Class c = NSClassFromString(className);
+	if(c==nil || [c isSubclassOfClass:[PGSourceViewNode class]]==NO) {
+		return nil;
+	}
+	PGSourceViewNode* node = (PGSourceViewNode* )[[c alloc] initWithName:name];
+	// set other properties for node
+	return node;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // properties
 

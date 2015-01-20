@@ -170,9 +170,18 @@
 		if([tag isKindOfClass:[NSNumber class]]==NO) {
 			continue;
 		}
-		NSLog(@"TODO: %@ => %@",tag,node);
+		[_tags setObject:node forKey:tag];
 	}
-	NSLog(@"TODO: recreate children %@",children);
+	
+	// add the children
+	for(NSString* key in children) {
+		NSInteger tag = [key integerValue];
+		if(tag < 0) {
+			continue;
+		}
+		NSMutableArray* array = [NSMutableArray arrayWithArray:[children objectForKey:key]];
+		[_children setObject:array forKey:[self _keyForTag:tag]];
+	}
 	return YES;
 }
 
