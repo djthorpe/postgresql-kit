@@ -151,7 +151,27 @@
 	if(nodes==nil || children==nil) {
 		return NO;
 	}
-	NSLog(@"TODO: recreate nodes %@",nodes);
+	
+	// remove existing data
+	[_tags removeAllObjects];
+	[_children removeAllObjects];
+	_counter = 0;
+	
+	// add in the nodes
+	for(NSDictionary* data in nodes) {
+		if([data isKindOfClass:[NSDictionary class]]==NO) {
+			continue;
+		}
+		PGSourceViewNode* node = [PGSourceViewNode nodeFromDictionary:data];
+		if(node==nil) {
+			continue;
+		}
+		NSNumber* tag = [data objectForKey:@"key"];
+		if([tag isKindOfClass:[NSNumber class]]==NO) {
+			continue;
+		}
+		NSLog(@"TODO: %@ => %@",tag,node);
+	}
 	NSLog(@"TODO: recreate children %@",children);
 	return YES;
 }
@@ -161,15 +181,23 @@
 	
 	// get nodes
 	NSMutableArray* nodes = [NSMutableArray arrayWithCapacity:[_tags count]];
+	NSParameterAssert(nodes);
 	for(id key in _tags) {
 		PGSourceViewNode* node = [self _nodeForTagKey:key];
 		NSParameterAssert(node);
 		[nodes addObject:[node dictionaryWithKey:key]];
 	}
+
+	NSMutableDictionary* children = [NSMutableDictionary dictionaryWithCapacity:[_children count]];
+	NSParameterAssert(children);
+	for(NSNumber* key in _children) {
+		NSParameterAssert([key isKindOfClass:[NSNumber class]]);
+		[children setObject:[_children objectForKey:key] forKey:[key description]];
+	}
 	
 	// save nodes and children in defaults
 	[defaults setObject:nodes forKey:@"nodes"];
-	[defaults setObject:_children forKey:@"children"];
+	[defaults setObject:children forKey:@"children"];
 
 	// synchronize to disk
 	return [defaults synchronize];

@@ -21,6 +21,7 @@
 // constructors
 +(PGSourceViewNode* )headingWithName:(NSString* )name;
 +(PGSourceViewNode* )connectionWithURL:(NSURL* )url;
++(PGSourceViewNode* )nodeFromDictionary:(NSDictionary* )dictionary;
 
 // properties
 @property NSString* name;

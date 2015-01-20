@@ -72,6 +72,7 @@
 	NSMutableDictionary* defaults = [NSMutableDictionary new];
 	[defaults setObject:key forKey:@"key"];
 	[defaults setObject:[self name] forKey:@"name"];
+	[defaults setObject:NSStringFromClass([self class]) forKey:@"class"];
 	return defaults;
 }
 
