@@ -18,5 +18,10 @@
 
 // methods
 -(void)addNode:(PGSourceViewNode* )node parent:(PGSourceViewNode* )parent;
+-(BOOL)selectNode:(PGSourceViewNode* )node;
+
+// methods - NSUserDefaults
+-(BOOL)loadFromUserDefaults;
+-(BOOL)saveToUserDefaults;
 
 @end

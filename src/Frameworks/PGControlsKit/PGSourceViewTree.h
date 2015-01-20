@@ -28,6 +28,9 @@
 -(void)addNode:(PGSourceViewNode* )node parent:(PGSourceViewNode* )parent;
 -(PGSourceViewNode* )nodeAtIndex:(NSInteger)index parent:(PGSourceViewNode* )parent;
 -(NSInteger)numberOfChildrenOfParent:(PGSourceViewNode* )parent;
--(NSDictionary* )dictionary;
+
+// methods - NSUserDefaults
+-(BOOL)loadFromUserDefaults;
+-(BOOL)saveToUserDefaults;
 
 @end

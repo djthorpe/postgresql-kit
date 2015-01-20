@@ -141,7 +141,25 @@
 	return [[self _childrenForKey:key] count];
 }
 
--(NSDictionary* )dictionary {
+////////////////////////////////////////////////////////////////////////////////
+// public methods - NSUserDefaults
+
+-(BOOL)loadFromUserDefaults {
+	NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+	NSArray* nodes = [defaults arrayForKey:@"nodes"];
+	NSDictionary* children = [defaults dictionaryForKey:@"children"];
+	if(nodes==nil || children==nil) {
+		return NO;
+	}
+	NSLog(@"TODO: recreate nodes %@",nodes);
+	NSLog(@"TODO: recreate children %@",children);
+	return YES;
+}
+
+-(BOOL)saveToUserDefaults {
+	NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+	
+	// get nodes
 	NSMutableArray* nodes = [NSMutableArray arrayWithCapacity:[_tags count]];
 	for(id key in _tags) {
 		PGSourceViewNode* node = [self _nodeForTagKey:key];
@@ -149,10 +167,12 @@
 		[nodes addObject:[node dictionaryWithKey:key]];
 	}
 	
-	return @{
-		@"nodes": nodes,
-		@"children": _children
-	};
+	// save nodes and children in defaults
+	[defaults setObject:nodes forKey:@"nodes"];
+	[defaults setObject:_children forKey:@"children"];
+
+	// synchronize to disk
+	return [defaults synchronize];
 }
 
 @end

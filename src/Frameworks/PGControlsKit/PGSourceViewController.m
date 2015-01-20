@@ -48,6 +48,38 @@
 	[[self ibOutlineView] reloadData];
 }
 
+
+-(BOOL)selectNode:(PGSourceViewNode* )node {
+	NSParameterAssert(node);
+	if(node==nil) {
+		// deselect all nodes
+		[[self ibOutlineView] deselectAll:self];
+		return NO;
+	}
+	NSInteger rowIndex = [[self ibOutlineView] rowForItem:node];
+	if(rowIndex >= 0) {
+		[[self ibOutlineView] selectRowIndexes:[NSIndexSet indexSetWithIndex:rowIndex] byExtendingSelection:NO];
+		return YES;
+	}
+	// cannot select a node
+	return NO;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// methods - NSUserDefaults
+
+-(BOOL)loadFromUserDefaults {
+	BOOL isSuccess = [[self model] loadFromUserDefaults];
+	if(isSuccess) {
+		[[self ibOutlineView] reloadData];
+	}
+	return isSuccess;
+}
+
+-(BOOL)saveToUserDefaults {
+	return [[self model] saveToUserDefaults];
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // NSOutlineViewDataSource
 
@@ -93,7 +125,12 @@
 
 -(NSView* )outlineView:(NSOutlineView *)outlineView viewForTableColumn:(NSTableColumn* )tableColumn item:(id)item {
 	NSParameterAssert([item isKindOfClass:[PGSourceViewNode class]]);
-	NSTableCellView* result = [outlineView makeViewWithIdentifier:@"HeaderCell" owner:self];
+	NSTableCellView* result = nil;
+	if([item isGroupItem]) {
+		result = [outlineView makeViewWithIdentifier:@"HeaderCell" owner:self];
+	} else {
+		result = [outlineView makeViewWithIdentifier:@"DataCell" owner:self];
+	}	
 	[[result textField] setStringValue:[item name]];
     return result;
 }

@@ -77,8 +77,12 @@
 
 -(void)_selectConnectionWithURL:(NSURL* )url {
 	NSLog(@"selecting: %@",url);
-	[[self sourceView] addNode:[PGSourceViewNode connectionWithURL:url] parent:[self connections]];
+	PGSourceViewNode* node = [PGSourceViewNode connectionWithURL:url];
+	[[self sourceView] addNode:node parent:[self connections]];
+	[[self sourceView] selectNode:node];
 }
+
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // IBActions
@@ -92,6 +96,8 @@
 // NSApplicationDelegate implementation
 
 -(void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+	// load connections from user defaults
+	[[self sourceView] loadFromUserDefaults];
 	// add PGSplitView to the content view
 	[self addSplitView];
 
@@ -100,6 +106,8 @@
 -(void)applicationWillTerminate:(NSNotification *)aNotification {
 	// disconnect from remote server
 	[[self connection] disconnect];
+	// save user defaults
+	[[self sourceView] saveToUserDefaults];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
