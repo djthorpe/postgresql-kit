@@ -14,9 +14,16 @@
 
 #import "Application.h"
 
+////////////////////////////////////////////////////////////////////////////////
+
+NSInteger PGDatabasesTag = -100;
+NSInteger PGQueriesTag = -200;
+
+////////////////////////////////////////////////////////////////////////////////
+
 @interface Application ()
 @property (weak) IBOutlet NSWindow* window;
-@property (retain) PGSourceViewNode* connections;
+@property (retain) PGSourceViewNode* databases;
 @property (retain) PGSourceViewNode* queries;
 @end
 
@@ -43,18 +50,18 @@
 @synthesize connection = _connection;
 @synthesize splitView = _splitView;
 @synthesize sourceView = _sourceView;
-@synthesize connections;
+@synthesize databases;
 @synthesize queries;
 
 ////////////////////////////////////////////////////////////////////////////////
 // private methods
 
 -(void)resetSourceView {
-	[self setConnections:[PGSourceViewNode headingWithName:@"DATABASES"]];
-	[self setQueries:[PGSourceViewNode headingWithName:@"QUERIES"]];
-	NSParameterAssert([self connections] && [self queries]);
+	[self setDatabases:[PGSourceViewNode headingWithName:@"DATABASES" tag:PGDatabasesTag]];
+	[self setQueries:[PGSourceViewNode headingWithName:@"QUERIES" tag:PGQueriesTag]];
+	NSParameterAssert([self databases] && [self queries]);
 	[[self sourceView] removeAllNodes];
-	[[self sourceView] addNode:[self connections] parent:nil];
+	[[self sourceView] addNode:[self databases] parent:nil];
 	[[self sourceView] addNode:[self queries] parent:nil];
 	NSParameterAssert([[self sourceView] count]==2);
 	[[self sourceView] saveToUserDefaults];
@@ -64,6 +71,8 @@
 	[[self sourceView] loadFromUserDefaults];
 	if([[self sourceView] count]==0) {
 		[self resetSourceView];
+	} else {
+		// TODO: set databases & queries nodes
 	}
 	if([[self sourceView] count]==2) {
 		// the two headings are CONNECTIONS and QUERIES
@@ -106,7 +115,8 @@
 -(void)_selectConnectionWithURL:(NSURL* )url {
 	NSLog(@"selecting: %@",url);
 	PGSourceViewNode* node = [PGSourceViewNode connectionWithURL:url];
-	[[self sourceView] addNode:node parent:[self connections]];
+	[[self sourceView] addNode:node parent:[self databases]];
+	[[self sourceView] expandNode:[self databases]];
 	[[self sourceView] selectNode:node];
 }
 

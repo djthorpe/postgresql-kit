@@ -23,6 +23,7 @@
 -(void)addNode:(PGSourceViewNode* )node parent:(PGSourceViewNode* )parent;
 -(BOOL)selectNode:(PGSourceViewNode* )node;
 -(void)removeAllNodes;
+-(void)expandNode:(PGSourceViewNode* )node;
 
 // methods - NSUserDefaults
 -(BOOL)loadFromUserDefaults;

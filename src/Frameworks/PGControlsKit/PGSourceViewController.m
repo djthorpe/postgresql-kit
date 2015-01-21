@@ -70,6 +70,11 @@
 	return NO;
 }
 
+-(void)expandNode:(PGSourceViewNode* )node {
+	NSParameterAssert(node);
+	[[self ibOutlineView] expandItem:node];
+}
+
 -(void)removeAllNodes {
 	[[self model] removeAllNodes];
 	[[self ibOutlineView] reloadData];
@@ -143,6 +148,19 @@
 	}	
 	[[result textField] setStringValue:[item name]];
     return result;
+}
+
+-(void)outlineViewSelectionDidChange:(NSNotification* )notification {
+	NSInteger selectedRow = [[self ibOutlineView] selectedRow];
+	PGSourceViewNode* node = nil;
+	if(selectedRow >= 0) {
+		node = [[self ibOutlineView] itemAtRow:selectedRow];
+		if([node isKindOfClass:[PGSourceViewNode class]]==NO) {
+			node = nil;
+		}
+	}
+	NSLog(@"selected node = %@",node);
+	// TODO: message the delegate
 }
 
 @end
