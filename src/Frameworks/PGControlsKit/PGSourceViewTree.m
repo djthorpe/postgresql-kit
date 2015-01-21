@@ -77,10 +77,15 @@
 	return nil;
 }
 
--(id)_addNode:(PGSourceViewNode* )node {
+-(id)_addNode:(PGSourceViewNode* )node tag:(NSInteger)tag {
 	NSParameterAssert(node);
-	id key = [self _getNewTagKey];
+	id key = tag ? [self _keyForTag:tag] : [self _getNewTagKey];
+	if(key && [self _nodeForTagKey:key]) {
+		// object already exists with this tag key
+		return nil;
+	}
 	if(key) {
+		// add object
 		[_tags setObject:node forKey:key];
 	}
 	return key;
@@ -111,14 +116,20 @@
 }
 
 -(void)addNode:(PGSourceViewNode* )node parent:(PGSourceViewNode* )parent {
+	[self addNode:node parent:parent tag:0];
+}
+
+-(void)addNode:(PGSourceViewNode* )node parent:(PGSourceViewNode* )parent tag:(NSInteger)tag {
 	// ensure parent is in the tree, and node isn't
 	NSParameterAssert(parent==nil || [self _tagKeyForNode:parent]);
 	NSParameterAssert(node && [self _tagKeyForNode:node]==nil);
-	// if parent==nil, than use tag 0 or else determine tag for this node
-	id key = [self _addNode:node];
+	// if parent is nil, tag must be zero
+	//NSParameterAssert(parent==nil || tag != 0);
+	id key = [self _addNode:node tag:tag];
 	NSParameterAssert(key);
 	[self _addChildKey:key parentKey:[self _tagKeyForNode:parent]];
 }
+
 
 // TODO -(void)removeNode:(PGSourceViewNode* )parent {
 //
@@ -145,6 +156,11 @@
 		return NSNotFound;
 	}
 	return [[self _childrenForKey:key] count];
+}
+
+-(PGSourceViewNode* )nodeForTag:(NSInteger)tag {
+	NSParameterAssert(tag);
+	return [self _nodeForTagKey:[self _keyForTag:tag]];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -211,6 +227,9 @@
 	// save nodes and children in defaults
 	[defaults setObject:nodes forKey:@"nodes"];
 	[defaults setObject:children forKey:@"children"];
+	
+	NSLog(@"nodes = %@",nodes);
+	NSLog(@"children = %@",children);
 
 	// synchronize to disk
 	return [defaults synchronize];

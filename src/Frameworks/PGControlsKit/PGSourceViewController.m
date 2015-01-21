@@ -53,6 +53,14 @@
 	[[self ibOutlineView] reloadData];
 }
 
+-(void)addNode:(PGSourceViewNode* )node parent:(PGSourceViewNode* )parent tag:(NSInteger)tag {
+	[[self model] addNode:node parent:parent tag:tag];
+	[[self ibOutlineView] reloadData];
+}
+
+-(PGSourceViewNode* )nodeForTag:(NSInteger)tag {
+	return [[self model] nodeForTag:tag];
+}
 
 -(BOOL)selectNode:(PGSourceViewNode* )node {
 	NSParameterAssert(node);

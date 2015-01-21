@@ -21,7 +21,9 @@
 
 // methods
 -(void)addNode:(PGSourceViewNode* )node parent:(PGSourceViewNode* )parent;
+-(void)addNode:(PGSourceViewNode* )node parent:(PGSourceViewNode* )parent tag:(NSInteger)tag;
 -(BOOL)selectNode:(PGSourceViewNode* )node;
+-(PGSourceViewNode* )nodeForTag:(NSInteger)tag;
 -(void)removeAllNodes;
 -(void)expandNode:(PGSourceViewNode* )node;
 

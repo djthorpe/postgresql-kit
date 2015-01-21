@@ -57,25 +57,28 @@ NSInteger PGQueriesTag = -200;
 // private methods
 
 -(void)resetSourceView {
-	[self setDatabases:[PGSourceViewNode headingWithName:@"DATABASES" tag:PGDatabasesTag]];
-	[self setQueries:[PGSourceViewNode headingWithName:@"QUERIES" tag:PGQueriesTag]];
+	[self setDatabases:[PGSourceViewNode headingWithName:@"DATABASES"]];
+	[self setQueries:[PGSourceViewNode headingWithName:@"QUERIES"]];
 	NSParameterAssert([self databases] && [self queries]);
 	[[self sourceView] removeAllNodes];
-	[[self sourceView] addNode:[self databases] parent:nil];
-	[[self sourceView] addNode:[self queries] parent:nil];
+	[[self sourceView] addNode:[self databases] parent:nil tag:PGDatabasesTag];
+	[[self sourceView] addNode:[self queries] parent:nil tag:PGQueriesTag];
 	NSParameterAssert([[self sourceView] count]==2);
 	[[self sourceView] saveToUserDefaults];
 }
 
 -(BOOL)loadSourceView {
 	[[self sourceView] loadFromUserDefaults];
-	if([[self sourceView] count]==0) {
+	PGSourceViewNode* d = [[self sourceView] nodeForTag:PGDatabasesTag];
+	PGSourceViewNode* q = [[self sourceView] nodeForTag:PGQueriesTag];
+	if(d==nil || q==nil) {
 		[self resetSourceView];
 	} else {
-		// TODO: set databases & queries nodes
+		[self setDatabases:d];
+		[self setQueries:q];
 	}
 	if([[self sourceView] count]==2) {
-		// the two headings are CONNECTIONS and QUERIES
+		// empty source view...only the headings
 		return NO;
 	}
 	return YES;
