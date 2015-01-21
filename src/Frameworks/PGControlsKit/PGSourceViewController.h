@@ -16,9 +16,13 @@
 
 @interface PGSourceViewController : NSViewController <NSOutlineViewDelegate,NSOutlineViewDataSource>
 
+// properties
+@property (readonly) NSUInteger count;
+
 // methods
 -(void)addNode:(PGSourceViewNode* )node parent:(PGSourceViewNode* )parent;
 -(BOOL)selectNode:(PGSourceViewNode* )node;
+-(void)removeAllNodes;
 
 // methods - NSUserDefaults
 -(BOOL)loadFromUserDefaults;

@@ -39,6 +39,11 @@
 
 @synthesize model = _model;
 @synthesize ibOutlineView;
+@dynamic count;
+
+-(NSUInteger)count {
+	return [[self model] count];
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // methods
@@ -63,6 +68,11 @@
 	}
 	// cannot select a node
 	return NO;
+}
+
+-(void)removeAllNodes {
+	[[self model] removeAllNodes];
+	[[self ibOutlineView] reloadData];
 }
 
 ////////////////////////////////////////////////////////////////////////////////

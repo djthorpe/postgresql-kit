@@ -43,9 +43,34 @@
 @synthesize connection = _connection;
 @synthesize splitView = _splitView;
 @synthesize sourceView = _sourceView;
+@synthesize connections;
+@synthesize queries;
 
 ////////////////////////////////////////////////////////////////////////////////
 // private methods
+
+-(void)resetSourceView {
+	[self setConnections:[PGSourceViewNode headingWithName:@"DATABASES"]];
+	[self setQueries:[PGSourceViewNode headingWithName:@"QUERIES"]];
+	NSParameterAssert([self connections] && [self queries]);
+	[[self sourceView] removeAllNodes];
+	[[self sourceView] addNode:[self connections] parent:nil];
+	[[self sourceView] addNode:[self queries] parent:nil];
+	NSParameterAssert([[self sourceView] count]==2);
+	[[self sourceView] saveToUserDefaults];
+}
+
+-(BOOL)loadSourceView {
+	[[self sourceView] loadFromUserDefaults];
+	if([[self sourceView] count]==0) {
+		[self resetSourceView];
+	}
+	if([[self sourceView] count]==2) {
+		// the two headings are CONNECTIONS and QUERIES
+		return NO;
+	}
+	return YES;
+}
 
 -(void)addSplitView {
 	NSView* contentView = [[self window] contentView];
@@ -62,17 +87,20 @@
 	
 	// add left and right views
 	[[self splitView] setLeftView:[self sourceView]];
-	
-	// TODO: read the nodes from disk or create new ones
-	[self setConnections:[PGSourceViewNode headingWithName:@"CONNECTIONS"]];
-	[self setQueries:[PGSourceViewNode headingWithName:@"QUERIES"]];
-	NSParameterAssert([self connections] && [self queries]);
-	[[self sourceView] addNode:[self connections] parent:nil];
-	[[self sourceView] addNode:[self queries] parent:nil];
-	
+
 	// add menu items
-	NSMenuItem* menuItem = [[NSMenuItem alloc] initWithTitle:@"New Connection..." action:@selector(doNewConnection:) keyEquivalent:@""];
-	[[self splitView] addMenuItem:menuItem];
+	NSMenuItem* menuItem1 = [[NSMenuItem alloc] initWithTitle:@"New Connection..." action:@selector(doNewConnection:) keyEquivalent:@""];
+	[[self splitView] addMenuItem:menuItem1];
+
+	NSMenuItem* menuItem2 = [[NSMenuItem alloc] initWithTitle:@"Connect" action:@selector(doConnect:) keyEquivalent:@""];
+	[[self splitView] addMenuItem:menuItem2];
+
+	NSMenuItem* menuItem3 = [[NSMenuItem alloc] initWithTitle:@"Disconnect" action:@selector(doDisconnect:) keyEquivalent:@""];
+	[[self splitView] addMenuItem:menuItem3];
+
+	NSMenuItem* menuItem4 = [[NSMenuItem alloc] initWithTitle:@"Reset Source View" action:@selector(doResetSourceView:) keyEquivalent:@""];
+	[[self splitView] addMenuItem:menuItem4];
+
 }
 
 -(void)_selectConnectionWithURL:(NSURL* )url {
@@ -82,8 +110,6 @@
 	[[self sourceView] selectNode:node];
 }
 
-
-
 ////////////////////////////////////////////////////////////////////////////////
 // IBActions
 
@@ -92,15 +118,32 @@
 	[[self connection] loginSheetWithWindow:[self window]];
 }
 
+-(IBAction)doResetSourceView:(id)sender {
+	// disconnect any existing connection
+	[[self connection] disconnect];
+	
+	// connect to remote server
+	[self resetSourceView];
+}
+
+-(IBAction)doConnect:(id)sender {
+	NSLog(@"connect");
+}
+
+-(IBAction)doDisconnect:(id)sender {
+	NSLog(@"disconnect");
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // NSApplicationDelegate implementation
 
 -(void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-	// load connections from user defaults
-	[[self sourceView] loadFromUserDefaults];
 	// add PGSplitView to the content view
 	[self addSplitView];
-
+	// load connections from user defaults
+	if([self loadSourceView]==NO) {
+		[self doNewConnection:nil];
+	}
 }
 
 -(void)applicationWillTerminate:(NSNotification *)aNotification {

@@ -104,6 +104,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
 
+-(void)removeAllNodes {
+	[_tags removeAllObjects];
+	[_children removeAllObjects];
+	_counter = 0;
+}
+
 -(void)addNode:(PGSourceViewNode* )node parent:(PGSourceViewNode* )parent {
 	// ensure parent is in the tree, and node isn't
 	NSParameterAssert(parent==nil || [self _tagKeyForNode:parent]);
@@ -153,9 +159,7 @@
 	}
 	
 	// remove existing data
-	[_tags removeAllObjects];
-	[_children removeAllObjects];
-	_counter = 0;
+	[self removeAllNodes];
 	
 	// add in the nodes
 	for(NSDictionary* data in nodes) {
