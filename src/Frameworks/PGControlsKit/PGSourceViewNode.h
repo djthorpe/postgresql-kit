@@ -30,5 +30,6 @@
 
 // methods
 -(NSDictionary* )dictionaryWithKey:(id)key;
+-(NSTableCellView* )cellViewForOutlineView:(NSOutlineView* )outlineView tableColumn:(NSTableColumn* )tableColumn owner:(id)owner;
 
 @end

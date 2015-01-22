@@ -170,7 +170,7 @@
 	NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
 	NSArray* nodes = [defaults arrayForKey:@"nodes"];
 	NSDictionary* children = [defaults dictionaryForKey:@"children"];
-	if(nodes==nil || children==nil) {
+	if([nodes count]==0 || [children count]==0) {
 		return NO;
 	}
 	
@@ -194,13 +194,31 @@
 	}
 	
 	// add the children
-	for(NSString* key in children) {
-		NSInteger tag = [key integerValue];
-		if(tag < 0) {
-			continue;
+	for(NSString* keystring in children) {
+		NSInteger tag = [keystring integerValue];
+		id key = [self _keyForTag:tag];
+		if(tag) {
+			if([self _nodeForTagKey:key]==nil) {
+#ifdef DEBUG
+				NSLog(@"loadFromUserDefaults: warning: ignoring key %@ from nodes %@",key,_tags);
+#endif
+				continue;
+			}
 		}
-		NSMutableArray* array = [NSMutableArray arrayWithArray:[children objectForKey:key]];
-		[_children setObject:array forKey:[self _keyForTag:tag]];
+		
+		NSArray* childkeys = [children objectForKey:keystring];
+		NSParameterAssert(childkeys);
+		NSMutableArray* childkeyscopy = [NSMutableArray arrayWithCapacity:[childkeys count]];
+		for(NSNumber* childkey in childkeys) {
+			if([self _nodeForTagKey:childkey]==nil) {
+#ifdef DEBUG
+				NSLog(@"loadFromUserDefaults: warning: ignoring child key %@ of parent %@",childkey,key);
+#endif
+				continue;
+			}
+			[childkeyscopy addObject:childkey];
+		}
+		[_children setObject:childkeyscopy forKey:key];
 	}
 	return YES;
 }
@@ -227,9 +245,6 @@
 	// save nodes and children in defaults
 	[defaults setObject:nodes forKey:@"nodes"];
 	[defaults setObject:children forKey:@"children"];
-	
-	NSLog(@"nodes = %@",nodes);
-	NSLog(@"children = %@",children);
 
 	// synchronize to disk
 	return [defaults synchronize];

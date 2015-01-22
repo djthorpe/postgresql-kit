@@ -14,6 +14,16 @@
 
 #import <Foundation/Foundation.h>
 
+typedef enum  {
+	PGSourceViewConnectionIconDisconnected = 100,
+	PGSourceViewConnectionIconConnecting,
+	PGSourceViewConnectionIconConnected,
+	PGSourceViewConnectionIconRejected
+} PGSourceViewConnectionIcon;
+
 @interface PGSourceViewConnection : PGSourceViewNode
+
+// properties
+@property PGSourceViewConnectionIcon iconStatus;
 
 @end

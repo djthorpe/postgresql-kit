@@ -81,6 +81,10 @@ NSInteger PGQueriesTag = -200;
 		// empty source view...only the headings
 		return NO;
 	}
+	
+	// show database view
+	[[self sourceView] expandNode:[self databases]];
+	
 	return YES;
 }
 

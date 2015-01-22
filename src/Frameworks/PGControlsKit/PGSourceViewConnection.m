@@ -17,6 +17,31 @@
 
 @implementation PGSourceViewConnection
 
+////////////////////////////////////////////////////////////////////////////////
+// properties
+
+@synthesize iconStatus;
+
+////////////////////////////////////////////////////////////////////////////////
+// private methods
+
+-(NSImage* )imageForStatus:(PGSourceViewConnectionIcon)status {
+	NSBundle* thisBundle = [NSBundle bundleForClass:[self class]];
+	NSParameterAssert(thisBundle);
+	switch(status) {
+	case PGSourceViewConnectionIconDisconnected:
+		return [thisBundle imageForResource:@"traffic-grey"];
+	case PGSourceViewConnectionIconConnecting:
+		return [thisBundle imageForResource:@"traffic-orange"];
+	case PGSourceViewConnectionIconConnected:
+		return [thisBundle imageForResource:@"traffic-green"];
+	case PGSourceViewConnectionIconRejected:
+		return [thisBundle imageForResource:@"traffic-red"];
+	}
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// overrides
 
 -(BOOL)isGroupItem {
 	return NO;
@@ -24,6 +49,16 @@
 
 -(BOOL)shouldSelectItem {
 	return YES;
+}
+
+-(NSTableCellView* )cellViewForOutlineView:(NSOutlineView* )outlineView tableColumn:(NSTableColumn* )tableColumn owner:(id)owner {
+	NSTableCellView* cellView = [super cellViewForOutlineView:outlineView tableColumn:tableColumn owner:owner];
+	NSParameterAssert(cellView);
+	
+	NSImage* trafficIcon = [self imageForStatus:PGSourceViewConnectionIconDisconnected];
+	[[cellView imageView] setImage:trafficIcon];
+	
+	return cellView;
 }
 
 @end

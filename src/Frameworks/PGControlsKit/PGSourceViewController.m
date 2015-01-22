@@ -148,14 +148,7 @@
 
 -(NSView* )outlineView:(NSOutlineView *)outlineView viewForTableColumn:(NSTableColumn* )tableColumn item:(id)item {
 	NSParameterAssert([item isKindOfClass:[PGSourceViewNode class]]);
-	NSTableCellView* result = nil;
-	if([item isGroupItem]) {
-		result = [outlineView makeViewWithIdentifier:@"HeaderCell" owner:self];
-	} else {
-		result = [outlineView makeViewWithIdentifier:@"DataCell" owner:self];
-	}	
-	[[result textField] setStringValue:[item name]];
-    return result;
+	return [item cellViewForOutlineView:outlineView tableColumn:tableColumn owner:self];
 }
 
 -(void)outlineViewSelectionDidChange:(NSNotification* )notification {

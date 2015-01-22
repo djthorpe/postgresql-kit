@@ -91,5 +91,18 @@
 	return defaults;
 }
 
+-(NSTableCellView* )cellViewForOutlineView:(NSOutlineView* )outlineView tableColumn:(NSTableColumn* )tableColumn owner:(id)owner {
+	NSTableCellView* cellView = nil;
+	if([self isGroupItem]) {
+		cellView = [outlineView makeViewWithIdentifier:@"HeaderCell" owner:owner];
+	} else {
+		cellView = [outlineView makeViewWithIdentifier:@"DataCell" owner:owner];
+	}	
+	[[cellView textField] setStringValue:[self name]];
+	return cellView;
+}
+
+
+
 
 @end
