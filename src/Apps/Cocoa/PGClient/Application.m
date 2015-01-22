@@ -114,8 +114,12 @@ NSInteger PGQueriesTag = -200;
 	NSMenuItem* menuItem3 = [[NSMenuItem alloc] initWithTitle:@"Disconnect" action:@selector(doDisconnect:) keyEquivalent:@""];
 	[[self splitView] addMenuItem:menuItem3];
 
-	NSMenuItem* menuItem4 = [[NSMenuItem alloc] initWithTitle:@"Reset Source View" action:@selector(doResetSourceView:) keyEquivalent:@""];
+	NSMenuItem* menuItem4 = [[NSMenuItem alloc] initWithTitle:@"New Query..." action:@selector(doNewQuery:) keyEquivalent:@""];
 	[[self splitView] addMenuItem:menuItem4];
+
+
+	NSMenuItem* menuItem5 = [[NSMenuItem alloc] initWithTitle:@"Reset Source View" action:@selector(doResetSourceView:) keyEquivalent:@""];
+	[[self splitView] addMenuItem:menuItem5];
 
 }
 
@@ -133,6 +137,10 @@ NSInteger PGQueriesTag = -200;
 -(IBAction)doNewConnection:(id)sender {
 	// connect to remote server
 	[[self connection] loginSheetWithWindow:[self window]];
+}
+
+-(IBAction)doNewQuery:(id)sender {
+	// add new query...
 }
 
 -(IBAction)doResetSourceView:(id)sender {
