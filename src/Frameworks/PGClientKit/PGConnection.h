@@ -73,7 +73,7 @@ extern NSString* PGClientErrorDomain;
 /**
  *  Tag for the connection object
  */
-@property NSUInteger tag;
+@property NSInteger tag;
 
 /**
  *  The currently connected user, or nil if a connection has not yet been made

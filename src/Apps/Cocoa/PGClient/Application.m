@@ -40,6 +40,7 @@ NSInteger PGQueriesTag = -200;
 		_sourceView = [PGSourceViewController new];
 		NSParameterAssert(_connection && _splitView && _sourceView);
 		[_connection setDelegate:self];
+		[_sourceView setDelegate:self];
 	}
 	return self;
 }
@@ -124,9 +125,16 @@ NSInteger PGQueriesTag = -200;
 }
 
 -(void)_selectConnectionWithURL:(NSURL* )url {
-	NSLog(@"selecting: %@",url);
+
+	// create a node
 	PGSourceViewNode* node = [PGSourceViewNode connectionWithURL:url];
-	[[self sourceView] addNode:node parent:[self databases]];
+	
+	// set the tag
+	NSInteger tag = [[self sourceView] addNode:node parent:[self databases]];
+	[[self connection] setTag:tag];
+	
+	NSLog(@"creating: %@ => tag %ld",url,tag);
+	
 	[[self sourceView] expandNode:[self databases]];
 	[[self sourceView] selectNode:node];
 }
@@ -160,6 +168,20 @@ NSInteger PGQueriesTag = -200;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+// methods - PGSourceView delegate
+
+-(void)sourceView:(PGSourceViewController* )sourceView selectedNode:(PGSourceViewNode* )node {
+//	NSLog(@"selected node = %@",node);
+}
+
+-(void)sourceView:(PGSourceViewController* )sourceView doubleClickedNode:(PGSourceViewNode* )node {
+	// if node is a connection node, then connect
+	if([node isKindOfClass:[PGSourceViewConnection class]]) {
+		NSLog(@"double clicked node = %@",node);
+	}
+}
+
+////////////////////////////////////////////////////////////////////////////////
 // NSApplicationDelegate implementation
 
 -(void)applicationDidFinishLaunching:(NSNotification *)aNotification {
@@ -184,17 +206,17 @@ NSInteger PGQueriesTag = -200;
 -(void)connection:(Connection* )connection status:(int)status url:(NSURL* )url {
 	switch(status) {
 		case ConnectionStatusCancelled:
-			NSLog(@"PGClient cancelled %@",url);
+			NSLog(@"PGClient cancelled %ld %@",[connection tag],url);
 			break;
 		case ConnectionStatusConnecting:
-			NSLog(@"PGClient connecting %@",url);
+			NSLog(@"PGClient connecting %ld %@",[connection tag],url);
 			[self _selectConnectionWithURL:url];
 			break;
 		case ConnectionStatusConnected:
-			NSLog(@"PGClient connected %@",url);
+			NSLog(@"PGClient connected %ld %@",[connection tag],url);
 			break;
 		case ConnectionStatusDisconnected:
-			NSLog(@"PGClient disconnected %@",url);
+			NSLog(@"PGClient disconnected %ld %@",[connection tag],url);
 			break;
 	}
 }

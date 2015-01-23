@@ -16,14 +16,20 @@
 
 // Forward class delarations
 @class PGSplitViewController;
+
 @class PGConnectionWindowController;
+
 @class PGSourceViewController;
 @class PGSourceViewNode;
+  @class PGSourceViewHeading;
+  @class PGSourceViewConnection;
 
 // Header file imports
 #import "PGSplitViewController.h"
 #import "PGConnectionWindowController.h"
 #import "PGSourceViewController.h"
 #import "PGSourceViewNode.h"
+#import "PGSourceViewHeading.h"
+#import "PGSourceViewConnection.h"
 
 

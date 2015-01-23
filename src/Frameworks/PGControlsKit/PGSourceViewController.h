@@ -14,18 +14,30 @@
 
 #import <Cocoa/Cocoa.h>
 
+////////////////////////////////////////////////////////////////////////////////
+
+@protocol PGSourceViewDelegate <NSObject>
+@optional
+	-(void)sourceView:(PGSourceViewController* )sourceView selectedNode:(PGSourceViewNode* )node;
+	-(void)sourceView:(PGSourceViewController* )sourceView doubleClickedNode:(PGSourceViewNode* )node;
+@end
+
+////////////////////////////////////////////////////////////////////////////////
+
 @interface PGSourceViewController : NSViewController <NSOutlineViewDelegate,NSOutlineViewDataSource>
 
 // properties
 @property (readonly) NSUInteger count;
+@property (weak,nonatomic) id<PGSourceViewDelegate> delegate;
 
 // methods
--(void)addNode:(PGSourceViewNode* )node parent:(PGSourceViewNode* )parent;
--(void)addNode:(PGSourceViewNode* )node parent:(PGSourceViewNode* )parent tag:(NSInteger)tag;
+-(NSInteger)addNode:(PGSourceViewNode* )node parent:(PGSourceViewNode* )parent;
+-(NSInteger)addNode:(PGSourceViewNode* )node parent:(PGSourceViewNode* )parent tag:(NSInteger)tag;
 -(BOOL)selectNode:(PGSourceViewNode* )node;
 -(PGSourceViewNode* )nodeForTag:(NSInteger)tag;
 -(void)removeAllNodes;
 -(void)expandNode:(PGSourceViewNode* )node;
+-(PGSourceViewNode* )clickedNode;
 
 // methods - NSUserDefaults
 -(BOOL)loadFromUserDefaults;

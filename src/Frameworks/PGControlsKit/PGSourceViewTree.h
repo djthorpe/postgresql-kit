@@ -26,8 +26,8 @@
 
 // methods
 -(void)removeAllNodes;
--(void)addNode:(PGSourceViewNode* )node parent:(PGSourceViewNode* )parent;
--(void)addNode:(PGSourceViewNode* )node parent:(PGSourceViewNode* )parent tag:(NSInteger)tag;
+-(NSInteger)addNode:(PGSourceViewNode* )node parent:(PGSourceViewNode* )parent;
+-(NSInteger)addNode:(PGSourceViewNode* )node parent:(PGSourceViewNode* )parent tag:(NSInteger)tag;
 -(PGSourceViewNode* )nodeAtIndex:(NSInteger)index parent:(PGSourceViewNode* )parent;
 -(NSInteger)numberOfChildrenOfParent:(PGSourceViewNode* )parent;
 -(PGSourceViewNode* )nodeForTag:(NSInteger)tag;

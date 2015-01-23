@@ -50,6 +50,7 @@ typedef enum  {
 @property (weak,nonatomic) id<PGConnectionWindowDelegate> delegate;
 @property BOOL useKeychain;
 @property NSURL* url;
+@property NSInteger tag;
 @property (readonly) PGPasswordStore* password;
 @property (readonly) PGConnection* connection;
 @property (readonly) NSError* lastError;

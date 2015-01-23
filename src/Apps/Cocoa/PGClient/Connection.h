@@ -44,6 +44,7 @@ enum {
 @property (weak,nonatomic) id<ConnectionDelegate> delegate;
 @property (readonly) PGConnectionWindowController* connection;
 @property (readonly) NSURL* url;
+@property NSInteger tag;
 @property (weak) NSWindow* parentWindow;
 
 // methods

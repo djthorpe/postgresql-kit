@@ -106,6 +106,16 @@
 	[children addObject:key];
 }
 
+-(NSInteger)_tagForKey:(id)key {
+	if(key==nil) {
+		return 0;
+	}
+	if([key isKindOfClass:[NSNumber class]]==NO) {
+		return 0;
+	}
+	return [(NSNumber* )key integerValue];
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
 
@@ -115,19 +125,21 @@
 	_counter = 0;
 }
 
--(void)addNode:(PGSourceViewNode* )node parent:(PGSourceViewNode* )parent {
-	[self addNode:node parent:parent tag:0];
+-(NSInteger)addNode:(PGSourceViewNode* )node parent:(PGSourceViewNode* )parent {
+	return [self addNode:node parent:parent tag:0];
 }
 
--(void)addNode:(PGSourceViewNode* )node parent:(PGSourceViewNode* )parent tag:(NSInteger)tag {
+-(NSInteger)addNode:(PGSourceViewNode* )node parent:(PGSourceViewNode* )parent tag:(NSInteger)tag {
 	// ensure parent is in the tree, and node isn't
 	NSParameterAssert(parent==nil || [self _tagKeyForNode:parent]);
 	NSParameterAssert(node && [self _tagKeyForNode:node]==nil);
 	// if parent is nil, tag must be zero
 	//NSParameterAssert(parent==nil || tag != 0);
 	id key = [self _addNode:node tag:tag];
-	NSParameterAssert(key);
-	[self _addChildKey:key parentKey:[self _tagKeyForNode:parent]];
+	if(key) {
+		[self _addChildKey:key parentKey:[self _tagKeyForNode:parent]];
+	}
+	return [self _tagForKey:key];
 }
 
 

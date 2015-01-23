@@ -34,6 +34,11 @@
 	return self;
 }
 
+-(void)awakeFromNib {
+	[[self ibOutlineView] setTarget:self];
+	[[self ibOutlineView] setDoubleAction:@selector(doDoubleClick:)];
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // properties
 
@@ -48,14 +53,19 @@
 ////////////////////////////////////////////////////////////////////////////////
 // methods
 
--(void)addNode:(PGSourceViewNode* )node parent:(PGSourceViewNode* )parent {
-	[[self model] addNode:node parent:parent];
-	[[self ibOutlineView] reloadData];
+-(NSInteger)addNode:(PGSourceViewNode* )node parent:(PGSourceViewNode* )parent {
+	NSInteger tag = [[self model] addNode:node parent:parent];
+	if(tag) {
+		[[self ibOutlineView] reloadData];
+	}
+	return tag;
 }
 
--(void)addNode:(PGSourceViewNode* )node parent:(PGSourceViewNode* )parent tag:(NSInteger)tag {
-	[[self model] addNode:node parent:parent tag:tag];
-	[[self ibOutlineView] reloadData];
+-(NSInteger)addNode:(PGSourceViewNode* )node parent:(PGSourceViewNode* )parent tag:(NSInteger)tag {
+	if([[self model] addNode:node parent:parent tag:tag]) {
+		[[self ibOutlineView] reloadData];
+	}
+	return tag;
 }
 
 -(PGSourceViewNode* )nodeForTag:(NSInteger)tag {
@@ -86,6 +96,27 @@
 -(void)removeAllNodes {
 	[[self model] removeAllNodes];
 	[[self ibOutlineView] reloadData];
+}
+
+-(PGSourceViewNode* )clickedNode {
+	NSInteger row = [[self ibOutlineView] clickedRow];
+	if(row < 0) {
+		return nil;
+	}
+	PGSourceViewNode* node = [[self ibOutlineView] itemAtRow:row];
+	NSParameterAssert([node isKindOfClass:[PGSourceViewNode class]]);
+	return node;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// methods - IBActions
+
+-(IBAction)doDoubleClick:(id)sender {
+	PGSourceViewNode* node = [self clickedNode];
+	NSParameterAssert(node);
+	if([[self delegate] respondsToSelector:@selector(sourceView:doubleClickedNode:)]) {
+		[[self delegate] sourceView:self doubleClickedNode:node];
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -160,8 +191,11 @@
 			node = nil;
 		}
 	}
-	NSLog(@"selected node = %@",node);
-	// TODO: message the delegate
+	
+	if([[self delegate] respondsToSelector:@selector(sourceView:selectedNode:)]) {
+		[[self delegate] sourceView:self selectedNode:node];
+	}
 }
+
 
 @end

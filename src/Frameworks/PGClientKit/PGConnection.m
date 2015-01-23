@@ -119,6 +119,7 @@ void PGConnectionNoticeProcessor(void* arg,const char* cString) {
 // properties
 
 @dynamic user, database, status, serverProcessID;
+@synthesize tag;
 
 -(PGConnectionStatus)status {
 	if(_connection==nil) {

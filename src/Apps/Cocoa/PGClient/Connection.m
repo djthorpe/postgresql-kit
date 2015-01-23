@@ -36,9 +36,18 @@
 @synthesize parentWindow;
 @synthesize connection = _connection;
 @dynamic url;
+@dynamic tag;
 
 -(NSURL* )url {
 	return [NSURL URLWithString:@"postgres://pttnkktdoyjfyc@ec2-54-227-255-156.compute-1.amazonaws.com:5432/dej7aj0jp668p5"];
+}
+
+-(NSInteger)tag {
+	return [[self connection] tag];
+}
+
+-(void)setTag:(NSInteger)value {
+	[[self connection] setTag:value];
 }
 
 ////////////////////////////////////////////////////////////////////////////////

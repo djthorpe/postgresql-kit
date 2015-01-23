@@ -88,6 +88,7 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 @synthesize errorTitle;
 @synthesize errorDescription;
 @dynamic url;
+@dynamic tag;
 
 -(NSURL* )url {
 	return [NSURL URLWithPostgresqlParams:[self params]];
@@ -100,6 +101,14 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 	if(params) {
 		[_params setDictionary:params];
 	}
+}
+
+-(NSInteger)tag {
+	return [[self connection] tag];
+}
+
+-(void)setTag:(NSInteger)value {
+	[[self connection] setTag:value];
 }
 
 ////////////////////////////////////////////////////////////////////////////////

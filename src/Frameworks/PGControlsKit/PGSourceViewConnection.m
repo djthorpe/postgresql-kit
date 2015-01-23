@@ -29,14 +29,14 @@
 	NSBundle* thisBundle = [NSBundle bundleForClass:[self class]];
 	NSParameterAssert(thisBundle);
 	switch(status) {
-	case PGSourceViewConnectionIconDisconnected:
-		return [thisBundle imageForResource:@"traffic-grey"];
 	case PGSourceViewConnectionIconConnecting:
 		return [thisBundle imageForResource:@"traffic-orange"];
 	case PGSourceViewConnectionIconConnected:
 		return [thisBundle imageForResource:@"traffic-green"];
 	case PGSourceViewConnectionIconRejected:
 		return [thisBundle imageForResource:@"traffic-red"];
+	default:
+		return [thisBundle imageForResource:@"traffic-grey"];
 	}
 }
 
