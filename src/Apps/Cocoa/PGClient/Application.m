@@ -38,7 +38,8 @@ NSInteger PGQueriesTag = -200;
 		_connection = [Connection new];
 		_splitView = [PGSplitViewController new];
 		_sourceView = [PGSourceViewController new];
-		NSParameterAssert(_connection && _splitView && _sourceView);
+		_helpWindow = [PGHelpWindowController new];
+		NSParameterAssert(_connection && _splitView && _sourceView && _helpWindow);
 		[_connection setDelegate:self];
 		[_sourceView setDelegate:self];
 	}
@@ -51,6 +52,7 @@ NSInteger PGQueriesTag = -200;
 @synthesize connection = _connection;
 @synthesize splitView = _splitView;
 @synthesize sourceView = _sourceView;
+@synthesize helpWindow = _helpWindow;
 @synthesize databases;
 @synthesize queries;
 
@@ -165,6 +167,14 @@ NSInteger PGQueriesTag = -200;
 
 -(IBAction)doDisconnect:(id)sender {
 	NSLog(@"disconnect");
+}
+
+-(IBAction)doHelp:(id)sender {
+	// display the help window
+	NSError* error = nil;
+	if([[self helpWindow] displayHelpFromMarkdownResource:@"NOTICE" bundle:[NSBundle mainBundle] error:&error]==NO) {
+		NSLog(@"error: %@",error);
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////

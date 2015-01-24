@@ -14,27 +14,13 @@
 
 #import <Cocoa/Cocoa.h>
 
-// Forward class delarations
-@class PGSplitViewController;
+@interface PGHelpWindowController : NSWindowController <NSTableViewDataSource,NSTableViewDelegate> {
+	NSMutableAttributedString* _text;
+}
 
-@class PGConnectionWindowController;
+// methods
+-(void)setVisible:(BOOL)isVisible;
+-(BOOL)displayHelpFromMarkdownFile:(NSString* )fileName error:(NSError** )error;
+-(BOOL)displayHelpFromMarkdownResource:(NSString* )resourceName bundle:(NSBundle* )bundle error:(NSError** )error;
 
-@class PGSourceViewController;
-@class PGSourceViewNode;
-  @class PGSourceViewHeading;
-  @class PGSourceViewConnection;
-
-@class PGHelpWindowController;
-
-// Windows
-#import "PGConnectionWindowController.h"
-#import "PGHelpWindowController.h"
-
-// Views
-#import "PGSplitViewController.h"
-#import "PGSourceViewController.h"
-#import "PGSourceViewNode.h"
-#import "PGSourceViewHeading.h"
-#import "PGSourceViewConnection.h"
-
-
+@end
