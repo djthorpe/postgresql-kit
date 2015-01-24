@@ -17,6 +17,7 @@
 @implementation PGHelpTextView
 
 -(void)awakeFromNib {
+	// add margins to left/right/top/bottom
     [super setTextContainerInset:NSMakeSize(15.0f, 5.0f)];
 }
 

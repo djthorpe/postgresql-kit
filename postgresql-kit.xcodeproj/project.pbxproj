@@ -142,6 +142,8 @@
 		6E489C321A6D8F8B008E3068 /* PGControlsKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14F1E84717CB83CD00710D4A /* PGControlsKit.framework */; };
 		6E48CD781A73F3360060B429 /* PGHelpTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E48CD761A73F3360060B429 /* PGHelpTextView.h */; };
 		6E48CD791A73F3360060B429 /* PGHelpTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E48CD771A73F3360060B429 /* PGHelpTextView.m */; };
+		6E48CD7C1A73FC330060B429 /* Databases.md in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6E48CD7A1A73FC2B0060B429 /* Databases.md */; };
+		6E48CD7D1A73FC350060B429 /* Queries.md in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6E48CD7B1A73FC2B0060B429 /* Queries.md */; };
 		6E4DEC87162CC38D008B26BD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C168115F26BF20013A382 /* Foundation.framework */; };
 		6E4DEC95162CC4AB008B26BD /* PGClientKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 6ED85B4916288D0200A6DC02 /* PGClientKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E4DEC96162CC5E6008B26BD /* PGClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
@@ -316,6 +318,8 @@
 			dstSubfolderSpec = 7;
 			files = (
 				6E45A41B1A73DBF600E20B36 /* Introduction.md in CopyFiles */,
+				6E48CD7C1A73FC330060B429 /* Databases.md in CopyFiles */,
+				6E48CD7D1A73FC350060B429 /* Queries.md in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -514,6 +518,8 @@
 		6E48B370160604270044A6CB /* PGServer+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PGServer+Private.h"; sourceTree = "<group>"; };
 		6E48CD761A73F3360060B429 /* PGHelpTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGHelpTextView.h; sourceTree = "<group>"; };
 		6E48CD771A73F3360060B429 /* PGHelpTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGHelpTextView.m; sourceTree = "<group>"; };
+		6E48CD7A1A73FC2B0060B429 /* Databases.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Databases.md; sourceTree = "<group>"; };
+		6E48CD7B1A73FC2B0060B429 /* Queries.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Queries.md; sourceTree = "<group>"; };
 		6E4907CB17D3AF4D00BEE2A9 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		6E4DEC85162CC38D008B26BD /* PGFoundationClient */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PGFoundationClient; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E55A2091A618B0000CD2B60 /* PGClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PGClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1124,6 +1130,8 @@
 		6E45A4151A73BE4E00E20B36 /* PGClient Help */ = {
 			isa = PBXGroup;
 			children = (
+				6E48CD7A1A73FC2B0060B429 /* Databases.md */,
+				6E48CD7B1A73FC2B0060B429 /* Queries.md */,
 				6E45A4161A73BE4E00E20B36 /* Introduction.md */,
 			);
 			path = "PGClient Help";

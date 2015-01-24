@@ -6,3 +6,5 @@ This framework is used to start, stop and restart a PostgresSQL server programat
 have a feature-rich data storage engine in your application (you could also use CoreData or SQLite, of course). You should check out [PGServer](pgserver.md) or 
 [PGFoundationServer](pgfoundationserver.md) example source code to see how you can use this framework in your own applications.
 
+ * [Adding and Removing Databases](Databases.md)
+ * [Running Queries](Queries.md)

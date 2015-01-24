@@ -23,7 +23,7 @@
 @property (readonly) NSAttributedString* text;
 @property (readonly) NSMutableArray* files;
 @property (readonly) NSString* windowTitle;
-
+@property (retain) NSString* selectedPath;
 @end
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -77,7 +77,7 @@ NSString* PGHelpWindowResourceType = @"md";
 @dynamic windowTitle;
 
 -(NSString* )headerString {
-	return @"<html><head><style>body { font-family: Arial; font-size: 14px; } code { background-color: #eee; } </style></head><body><br>";
+	return @"<html><head><style>body { font-family: Helvetica; font-size: 14px; } code { background-color: #eee; }</style></head><body><br>";
 }
 
 -(NSString* )footerString {
@@ -124,6 +124,7 @@ NSString* PGHelpWindowResourceType = @"md";
 	} else {
 		[[self ibTableView] deselectAll:self];
 	}
+	[self setSelectedPath:[fileName stringByDeletingLastPathComponent]];
 }
 
 -(void)setVisible:(BOOL)isVisible {
@@ -220,8 +221,6 @@ NSString* PGHelpWindowResourceType = @"md";
     if(selectedRow >= 0 && selectedRow < [[self files] count]) {
 		NSString* selectedFile = [[self files] objectAtIndex:selectedRow];
 		[self displayHelpFromMarkdownFile:selectedFile error:nil];
-	} else {
-		NSLog(@"TODO: nothing selected");
 	}
 }
 
@@ -229,7 +228,39 @@ NSString* PGHelpWindowResourceType = @"md";
 // NSTextViewDelegate
 
 -(BOOL)textView:(NSTextView* )aTextView clickedOnLink:(id)link atIndex:(NSUInteger)charIndex {
-	NSLog(@"click = %@",link);
+	if([link isKindOfClass:[NSURL class]]==NO) {
+		// can't handle non-NSURL, allow NSTextView to handle
+		return NO;
+	}
+	NSString* scheme = [(NSURL* )link scheme];
+	if([scheme isEqualTo:@"applewebdata"]==NO) {
+		// can't handle non-applewebdata, allow NSTextView to handle
+		return NO;
+	}
+	
+	// use selected path in order to determine which file we should click on
+	if([self selectedPath]==nil) {
+		// ignore click
+		return YES;
+	}
+	
+	NSString* absoluteFile = [[self selectedPath] stringByAppendingPathComponent:[link path]];
+	NSError* error = nil;
+	if(absoluteFile==nil) {
+		// ignore click
+		return YES;
+	}
+	if([[NSFileManager defaultManager] fileExistsAtPath:absoluteFile]==NO) {
+		// ignore click
+		return YES;
+	}
+	if([self displayHelpFromMarkdownFile:absoluteFile error:&error]==NO) {
+		NSAlert* alertWindow = [NSAlert alertWithError:error];
+		[alertWindow beginSheetModalForWindow:[self window] completionHandler:^(NSModalResponse returnCode) {
+			// ignore return code
+		}];
+		return YES;
+	}
 	return YES;
 }
 
