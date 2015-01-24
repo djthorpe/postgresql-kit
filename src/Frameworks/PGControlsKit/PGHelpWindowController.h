@@ -14,10 +14,15 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface PGHelpWindowController : NSWindowController <NSTableViewDataSource,NSTableViewDelegate> {
+@interface PGHelpWindowController : NSWindowController <NSTableViewDataSource,NSTableViewDelegate,NSTextViewDelegate> {
 	NSAttributedString* _text;
 	NSMutableArray* _files;
 }
+
+// properties
+@property (retain) NSString* applicationName;
+@property (retain) NSString* versionNumber;
+@property (retain) NSString* copyrightNotice;
 
 // methods
 -(BOOL)addPath:(NSString* )path bundle:(NSBundle* )bundle error:(NSError** )error;

@@ -132,8 +132,9 @@
 		6E45A4121A73AB0000E20B36 /* MMParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E45A39E1A73AA7E00E20B36 /* MMParser.m */; };
 		6E45A4131A73AB0000E20B36 /* MMScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E45A3A01A73AA7E00E20B36 /* MMScanner.m */; };
 		6E45A4141A73AB0000E20B36 /* MMSpanParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E45A3A21A73AA7E00E20B36 /* MMSpanParser.m */; };
-		6E45A4171A73BE4E00E20B36 /* PGClient.md in Sources */ = {isa = PBXBuildFile; fileRef = 6E45A4161A73BE4E00E20B36 /* PGClient.md */; };
-		6E45A41A1A73C36C00E20B36 /* PGClient.md in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6E45A4161A73BE4E00E20B36 /* PGClient.md */; };
+		6E45A4171A73BE4E00E20B36 /* Introduction.md in Sources */ = {isa = PBXBuildFile; fileRef = 6E45A4161A73BE4E00E20B36 /* Introduction.md */; };
+		6E45A41B1A73DBF600E20B36 /* Introduction.md in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6E45A4161A73BE4E00E20B36 /* Introduction.md */; };
+		6E45A41C1A73DCDE00E20B36 /* elephant-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EB5485417AEC9CA000F4AA2 /* elephant-72.png */; };
 		6E47EDBE1A6EE96D00352939 /* PGSourceViewHeading.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E47EDBC1A6EE96D00352939 /* PGSourceViewHeading.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E47EDBF1A6EE96D00352939 /* PGSourceViewHeading.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E47EDBD1A6EE96D00352939 /* PGSourceViewHeading.m */; };
 		6E47EDC31A6EEA6800352939 /* PGSourceViewConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E47EDC11A6EEA6800352939 /* PGSourceViewConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -313,7 +314,7 @@
 			dstPath = help;
 			dstSubfolderSpec = 7;
 			files = (
-				6E45A41A1A73C36C00E20B36 /* PGClient.md in CopyFiles */,
+				6E45A41B1A73DBF600E20B36 /* Introduction.md in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -500,7 +501,7 @@
 		6E45A3A01A73AA7E00E20B36 /* MMScanner.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MMScanner.m; sourceTree = "<group>"; };
 		6E45A3A11A73AA7E00E20B36 /* MMSpanParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MMSpanParser.h; sourceTree = "<group>"; };
 		6E45A3A21A73AA7E00E20B36 /* MMSpanParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MMSpanParser.m; sourceTree = "<group>"; };
-		6E45A4161A73BE4E00E20B36 /* PGClient.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = PGClient.md; sourceTree = "<group>"; };
+		6E45A4161A73BE4E00E20B36 /* Introduction.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = Introduction.md; sourceTree = "<group>"; wrapsLines = 1; };
 		6E47EDBA1A6D9E9E00352939 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		6E47EDBC1A6EE96D00352939 /* PGSourceViewHeading.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSourceViewHeading.h; sourceTree = "<group>"; };
 		6E47EDBD1A6EE96D00352939 /* PGSourceViewHeading.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSourceViewHeading.m; sourceTree = "<group>"; };
@@ -1118,7 +1119,7 @@
 		6E45A4151A73BE4E00E20B36 /* PGClient Help */ = {
 			isa = PBXGroup;
 			children = (
-				6E45A4161A73BE4E00E20B36 /* PGClient.md */,
+				6E45A4161A73BE4E00E20B36 /* Introduction.md */,
 			);
 			path = "PGClient Help";
 			sourceTree = "<group>";
@@ -1647,6 +1648,7 @@
 				6E0C81721A619E2E0032AE32 /* PGSplitView.xib in Resources */,
 				6E60B5BC1A6280AF005B0633 /* PGConnectionWindow.xib in Resources */,
 				6E45A3841A73A2BD00E20B36 /* PGHelpWindow.xib in Resources */,
+				6E45A41C1A73DCDE00E20B36 /* elephant-72.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1876,7 +1878,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E45A4171A73BE4E00E20B36 /* PGClient.md in Sources */,
+				6E45A4171A73BE4E00E20B36 /* Introduction.md in Sources */,
 				6E55A2341A618CD300CD2B60 /* Application.m in Sources */,
 				6E55A2321A618C6B00CD2B60 /* main.m in Sources */,
 				6E0C81651A618EDC0032AE32 /* Connection.m in Sources */,

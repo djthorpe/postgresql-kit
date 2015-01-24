@@ -22,6 +22,7 @@
 @property (assign,nonatomic) IBOutlet NSTextView* ibTextView;
 @property (readonly) NSAttributedString* text;
 @property (readonly) NSMutableArray* files;
+@property (readonly) NSString* windowTitle;
 
 @end
 
@@ -56,6 +57,15 @@ NSString* PGHelpWindowResourceType = @"md";
 	NSParameterAssert([self ibTableView] && [self ibTextView]);
 	[[self ibTableView] setDelegate:self];
 	[[self ibTableView] setDataSource:self];
+	[[self ibTextView] setDelegate:self];
+	
+	// set version properties
+	NSBundle* mainBundle = [NSBundle mainBundle];
+	[self willChangeValueForKey:@"windowTitle"];
+	[self setApplicationName:[[NSProcessInfo processInfo] processName]];
+	[self setVersionNumber:[mainBundle objectForInfoDictionaryKey:@"CFBundleVersion"]];
+	[self setCopyrightNotice:[mainBundle objectForInfoDictionaryKey:@"NSHumanReadableCopyright"]];
+	[self didChangeValueForKey:@"windowTitle"];
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -64,23 +74,22 @@ NSString* PGHelpWindowResourceType = @"md";
 @synthesize ibTableView;
 @synthesize ibTextView;
 @synthesize text = _text;
-
--(NSFont* )font {
-	return [NSFont fontWithName:@"Helvetica" size:24];
-}
-
--(NSDictionary* )documentAttributes {
-	return @{
-		NSFontAttributeName: [self font],
-	};
-}
+@dynamic windowTitle;
 
 -(NSString* )headerString {
-	return @"<html><head><style>body { font-family: Arial; font-size: 14px; } code { background-color: #eee; } </style></head><body>";
+	return @"<html><head><style>body { font-family: Arial; font-size: 14px; } code { background-color: #eee; } </style></head><body><br>";
 }
 
 -(NSString* )footerString {
-	return @"</body></html>";
+	return @"<br></body></html>";
+}
+
+-(NSString* )windowTitle {
+	if([self applicationName]) {
+		return [NSString stringWithFormat:@"%@ help",[self applicationName]];
+	} else {
+		return [NSString stringWithFormat:@"Help"];
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -108,12 +117,20 @@ NSString* PGHelpWindowResourceType = @"md";
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
 
+-(void)setSelectedFile:(NSString* )fileName {
+	NSInteger rowIndex = [[self files] indexOfObject:fileName];
+	if(rowIndex >=0 && rowIndex < [[self files] count]) {
+		[[self ibTableView] selectRowIndexes:[NSIndexSet indexSetWithIndex:rowIndex] byExtendingSelection:NO];
+	} else {
+		[[self ibTableView] deselectAll:self];
+	}
+}
+
 -(void)setVisible:(BOOL)isVisible {
 	if(isVisible) {
 		[[self window] orderFront:self];
 		if([[self window] isKeyWindow]==NO) {
 			[[self window] makeKeyWindow];
-			NSLog(@"TODO: load the current selection");
 		}
 	} else {
 		[[self window] orderOut:self];
@@ -121,17 +138,19 @@ NSString* PGHelpWindowResourceType = @"md";
 }
 
 -(BOOL)displayHelpFromMarkdownFile:(NSString* )fileName error:(NSError** )error {
-	NSLog(@"loading = %@",fileName);
 	NSData* data = [self htmlDataFromFile:fileName error:error];
-	if(data==nil) {
-		return NO;
-	}
+	BOOL returnValue = NO;
 	[self willChangeValueForKey:@"text"];
-	NSDictionary* attributes = [self documentAttributes];
-	_text = [[NSAttributedString alloc] initWithHTML:data documentAttributes:&attributes];
+	if(data==nil) {
+		_text = [[NSAttributedString alloc] initWithString:@""];
+	} else {
+		_text = [[NSAttributedString alloc] initWithHTML:data documentAttributes:nil];
+		[self setVisible:YES];
+		returnValue = YES;
+	}
 	[self didChangeValueForKey:@"text"];
-	[self setVisible:YES];
-	return YES;
+	[self setSelectedFile:fileName];
+	return returnValue;
 }
 
 -(void)addMarkdownFile:(NSString* )fileName {
@@ -202,8 +221,17 @@ NSString* PGHelpWindowResourceType = @"md";
 		NSString* selectedFile = [[self files] objectAtIndex:selectedRow];
 		[self displayHelpFromMarkdownFile:selectedFile error:nil];
 	} else {
-		NSLog(@"nothing selected");
+		NSLog(@"TODO: nothing selected");
 	}
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// NSTextViewDelegate
+
+-(BOOL)textView:(NSTextView* )aTextView clickedOnLink:(id)link atIndex:(NSUInteger)charIndex {
+	NSLog(@"click = %@",link);
+	return YES;
+}
+
 
 @end

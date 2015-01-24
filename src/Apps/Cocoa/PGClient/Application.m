@@ -177,6 +177,14 @@ NSInteger PGQueriesTag = -200;
 	}
 }
 
+-(IBAction)doAboutPanel:(id)sender {
+	// display the help window
+	NSError* error = nil;
+	if([[self helpWindow] displayHelpFromMarkdownResource:@"NOTICE" bundle:[NSBundle mainBundle] error:&error]==NO) {
+		NSLog(@"error: %@",error);
+	}
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // methods - PGSourceView delegate
 
