@@ -20,7 +20,8 @@
 // private properties
 @property (weak,nonatomic) IBOutlet NSTableView* ibTableView;
 @property (assign,nonatomic) IBOutlet NSTextView* ibTextView;
-@property (readonly) NSMutableAttributedString* text;
+@property (readonly) NSAttributedString* text;
+@property (readonly) NSMutableArray* files;
 
 @end
 
@@ -38,8 +39,9 @@ NSString* PGHelpWindowResourceType = @"md";
 -(id)init {
 	self = [super init];
 	if(self) {
-		_text = [NSMutableAttributedString new];
-		NSParameterAssert(_text);
+		_text = [NSAttributedString new];
+		_files = [NSMutableArray new];
+		NSParameterAssert(_text && _files);
 	}
 	return self;
 }
@@ -73,6 +75,13 @@ NSString* PGHelpWindowResourceType = @"md";
 	};
 }
 
+-(NSString* )headerString {
+	return @"<html><head><style>body { font-family: Arial; font-size: 14px; } code { background-color: #eee; } </style></head><body>";
+}
+
+-(NSString* )footerString {
+	return @"</body></html>";
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // private methods
@@ -82,10 +91,13 @@ NSString* PGHelpWindowResourceType = @"md";
 	if(string==nil) {
 		return nil;
 	}
-	NSString* htmlString = [MMMarkdown HTMLStringWithMarkdown:string extensions:MMMarkdownExtensionsGitHubFlavored error:error];
+	NSMutableString* htmlString = [NSMutableString stringWithString:[MMMarkdown HTMLStringWithMarkdown:string extensions:MMMarkdownExtensionsGitHubFlavored error:error]];
 	if(htmlString==nil) {
 		return nil;
 	}
+	// append header and footer onto the string
+	[htmlString insertString:[self headerString] atIndex:0];
+	[htmlString appendString:[self footerString]];	
 	return [htmlString dataUsingEncoding:NSUTF8StringEncoding];
 }
 
@@ -99,41 +111,99 @@ NSString* PGHelpWindowResourceType = @"md";
 -(void)setVisible:(BOOL)isVisible {
 	if(isVisible) {
 		[[self window] orderFront:self];
-		[[self window] makeKeyWindow];
+		if([[self window] isKeyWindow]==NO) {
+			[[self window] makeKeyWindow];
+			NSLog(@"TODO: load the current selection");
+		}
 	} else {
 		[[self window] orderOut:self];
 	}
 }
 
 -(BOOL)displayHelpFromMarkdownFile:(NSString* )fileName error:(NSError** )error {
+	NSLog(@"loading = %@",fileName);
 	NSData* data = [self htmlDataFromFile:fileName error:error];
 	if(data==nil) {
 		return NO;
 	}
+	[self willChangeValueForKey:@"text"];
 	NSDictionary* attributes = [self documentAttributes];
-	NSAttributedString* htmlAttributedString = [[NSAttributedString alloc] initWithHTML:data documentAttributes:&attributes];
-	[[self text] appendAttributedString:htmlAttributedString];
+	_text = [[NSAttributedString alloc] initWithHTML:data documentAttributes:&attributes];
+	[self didChangeValueForKey:@"text"];
 	[self setVisible:YES];
 	return YES;
+}
+
+-(void)addMarkdownFile:(NSString* )fileName {
+	[[self files] addObject:fileName];
 }
 
 -(BOOL)displayHelpFromMarkdownResource:(NSString* )resourceName bundle:(NSBundle* )bundle error:(NSError** )error {
 	NSParameterAssert(resourceName);
 	NSParameterAssert(bundle);
 	NSString* fileName = [bundle pathForResource:resourceName ofType:PGHelpWindowResourceType];
-	NSParameterAssert(fileName);
+	if(fileName==nil) {
+		// TODO set error condition
+		return NO;
+	}
 	return [self displayHelpFromMarkdownFile:fileName error:error];
+}
+
+-(BOOL)addResource:(NSString* )resourceName bundle:(NSBundle* )bundle error:(NSError** )error {
+	NSParameterAssert(resourceName);
+	NSParameterAssert(bundle);
+	NSString* fileName = [bundle pathForResource:resourceName ofType:PGHelpWindowResourceType];
+	if(fileName==nil) {
+		// TODO set error condition
+		return NO;
+	}
+	[self addMarkdownFile:fileName];
+
+	// reload the data
+	[[self ibTableView] reloadData];
+
+	return YES;
+}
+
+-(BOOL)addPath:(NSString* )path bundle:(NSBundle* )bundle error:(NSError** )error {
+	NSParameterAssert(path);
+	NSParameterAssert(bundle);
+	NSString* pathName = [[bundle resourcePath] stringByAppendingPathComponent:path];
+	NSDirectoryEnumerator* enumerator = [[NSFileManager defaultManager] enumeratorAtPath:pathName];
+	NSString* fileName = nil;
+	while(fileName = [enumerator nextObject]) {
+		if([[fileName pathExtension] isEqualToString:PGHelpWindowResourceType]) {
+			[self addMarkdownFile:[pathName stringByAppendingPathComponent:fileName]];
+		}
+    }
+	
+	// reload the data
+	[[self ibTableView] reloadData];
+	
+	return YES;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // NSTableViewDataSource
 
 -(NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView {
-	return 1;
+	return [[self files] count];
 }
 
 -(id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
-	return @"About";
+	// display only the name of the file
+	NSString* fileName = [[self files] objectAtIndex:rowIndex];
+	return [[fileName lastPathComponent] stringByDeletingPathExtension];
+}
+
+-(void)tableViewSelectionDidChange:(NSNotification* )notification {
+    NSInteger selectedRow = [[self ibTableView] selectedRow];
+    if(selectedRow >= 0 && selectedRow < [[self files] count]) {
+		NSString* selectedFile = [[self files] objectAtIndex:selectedRow];
+		[self displayHelpFromMarkdownFile:selectedFile error:nil];
+	} else {
+		NSLog(@"nothing selected");
+	}
 }
 
 @end

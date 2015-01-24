@@ -172,7 +172,7 @@ NSInteger PGQueriesTag = -200;
 -(IBAction)doHelp:(id)sender {
 	// display the help window
 	NSError* error = nil;
-	if([[self helpWindow] displayHelpFromMarkdownResource:@"NOTICE" bundle:[NSBundle mainBundle] error:&error]==NO) {
+	if([[self helpWindow] displayHelpFromMarkdownResource:@"help/PGClient" bundle:[NSBundle mainBundle] error:&error]==NO) {
 		NSLog(@"error: %@",error);
 	}
 }
@@ -195,8 +195,15 @@ NSInteger PGQueriesTag = -200;
 // NSApplicationDelegate implementation
 
 -(void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+
 	// add PGSplitView to the content view
 	[self addSplitView];
+
+	// load help from resource folder
+	NSError* error = nil;
+	[[self helpWindow] addPath:@"help" bundle:[NSBundle mainBundle] error:&error];
+	[[self helpWindow] addResource:@"NOTICE" bundle:[NSBundle mainBundle] error:&error];
+	
 	// load connections from user defaults
 	if([self loadSourceView]==NO) {
 		[self doNewConnection:nil];

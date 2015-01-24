@@ -15,11 +15,15 @@
 #import <Cocoa/Cocoa.h>
 
 @interface PGHelpWindowController : NSWindowController <NSTableViewDataSource,NSTableViewDelegate> {
-	NSMutableAttributedString* _text;
+	NSAttributedString* _text;
+	NSMutableArray* _files;
 }
 
 // methods
+-(BOOL)addPath:(NSString* )path bundle:(NSBundle* )bundle error:(NSError** )error;
+-(BOOL)addResource:(NSString* )resourceName bundle:(NSBundle* )bundle error:(NSError** )error;
 -(void)setVisible:(BOOL)isVisible;
+
 -(BOOL)displayHelpFromMarkdownFile:(NSString* )fileName error:(NSError** )error;
 -(BOOL)displayHelpFromMarkdownResource:(NSString* )resourceName bundle:(NSBundle* )bundle error:(NSError** )error;
 
