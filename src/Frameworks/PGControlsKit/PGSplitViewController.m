@@ -40,6 +40,7 @@ enum {
 
 -(void)loadView {
 	[super loadView];
+
 	// set delegate
 	[(NSSplitView* )[self view] setDelegate:self];
 	
@@ -48,6 +49,19 @@ enum {
 	NSParameterAssert([self ibActionButton]);
 	NSParameterAssert(leftStatusView);
 	[leftStatusView addSubview:[self ibActionButton]];
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// properties
+
+@dynamic autosaveName;
+
+-(NSString* )autosaveName {
+	return [(NSSplitView* )[self view] autosaveName];
+}
+
+-(void)setAutosaveName:(NSString* )value {
+	[(NSSplitView* )[self view] setAutosaveName:value];
 }
 
 ////////////////////////////////////////////////////////////////////////////////

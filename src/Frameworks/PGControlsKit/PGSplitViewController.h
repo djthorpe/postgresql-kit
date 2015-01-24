@@ -16,6 +16,9 @@
 
 @interface PGSplitViewController : NSViewController <NSSplitViewDelegate>
 
+// properties
+@property NSString* autosaveName;
+
 // methods
 -(BOOL)setLeftView:(id)viewOrController;
 -(BOOL)setRightView:(id)viewOrController;
