@@ -172,7 +172,7 @@ NSInteger PGQueriesTag = -200;
 -(IBAction)doHelp:(id)sender {
 	// display the help window
 	NSError* error = nil;
-	if([[self helpWindow] displayHelpFromMarkdownResource:@"help/PGClient" bundle:[NSBundle mainBundle] error:&error]==NO) {
+	if([[self helpWindow] displayHelpFromMarkdownResource:@"help/Introduction" bundle:[NSBundle mainBundle] error:&error]==NO) {
 		NSLog(@"error: %@",error);
 	}
 }
