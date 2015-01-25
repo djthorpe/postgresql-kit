@@ -75,6 +75,17 @@
 	[[self connection] disconnect];
 }
 
+-(void)doubleClickedNode:(PGSourceViewConnection* )node {
+	NSParameterAssert([node isKindOfClass:[PGSourceViewConnection class]]);
+	
+	if([node URL]) {
+		NSLog(@"double clicked node %@",[node URL]);
+		[[self connection] setUrl:[node URL]];
+		[[self connection] connect];
+	}
+	
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // PGConnectionWindowDelegate
 

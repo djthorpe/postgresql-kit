@@ -288,7 +288,7 @@ NSString* PGSourceViewDragType = @"PGSourceViewDragType";
 	if([item canAcceptDrop:draggedNode]==NO) {
 		return NSDragOperationNone;
 	}
-	NSLog(@"dragging %@ => %@ to %ld (number of children of item is %ld)",draggedNode,item,index,[[self model] numberOfChildrenOfParent:item]);
+//	NSLog(@"dragging %@ => %@ to %ld (number of children of item is %ld)",draggedNode,item,index,[[self model] numberOfChildrenOfParent:item]);
 	return NSDragOperationMove;
 }
 

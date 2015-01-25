@@ -21,6 +21,15 @@
 // properties
 
 @synthesize iconStatus;
+@dynamic URL;
+
+-(void)setURL:(NSURL* )url {
+	[_dictionary setObject:[url absoluteString] forKey:@"URL"];
+}
+
+-(NSURL* )URL {
+	return [NSURL URLWithString:[[self dictionary] objectForKey:@"URL"]];
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // private methods

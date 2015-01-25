@@ -48,6 +48,7 @@ enum {
 @property (weak) NSWindow* parentWindow;
 
 // methods
+-(void)doubleClickedNode:(PGSourceViewNode* )node;
 -(void)loginSheetWithWindow:(NSWindow* )window;
 -(void)disconnect;
 

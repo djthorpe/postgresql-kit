@@ -16,6 +16,7 @@
 
 @interface PGSourceViewNode : NSObject {
 	NSString* _name;
+	NSMutableDictionary* _dictionary;
 }
 
 // constructors
@@ -31,6 +32,7 @@
 @property (readonly) BOOL isDraggable;
 @property (readonly) BOOL isDeletable;
 @property (retain) NSArray* childClasses;
+@property (readonly) NSDictionary* dictionary;
 
 // methods
 -(NSDictionary* )dictionaryWithKey:(id)key;

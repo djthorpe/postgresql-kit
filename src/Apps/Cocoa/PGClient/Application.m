@@ -223,7 +223,7 @@ NSInteger PGQueriesTag = -200;
 -(void)sourceView:(PGSourceViewController* )sourceView doubleClickedNode:(PGSourceViewNode* )node {
 	// if node is a connection node, then connect
 	if([node isKindOfClass:[PGSourceViewConnection class]]) {
-		NSLog(@"double clicked node = %@",node);
+		[[self connection] doubleClickedNode:node];
 	}
 }
 

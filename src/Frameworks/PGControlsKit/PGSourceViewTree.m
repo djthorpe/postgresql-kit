@@ -95,7 +95,7 @@
 	return [_children objectForKey:((key==nil) ? [self _rootKey] : key)];
 }
 
--(void)_addChildKey:(id)key parentKey:(id)parentKey {
+-(void)_addChildKey:(id)key parentKey:(id)parentKey index:(NSInteger)index {
 	// TODO: check key is not there yet
 	NSMutableArray* children = [self _childrenForKey:parentKey];
 	if(children==nil) {
@@ -103,7 +103,12 @@
 		NSParameterAssert(children);
 		[_children setObject:children forKey:(parentKey ? parentKey : [self _rootKey])];
 	}
-	[children addObject:key];
+	if(index==-1) {
+		// add at the end
+		[children addObject:key];
+	} else {
+		[children insertObject:key atIndex:index];
+	}
 }
 
 -(NSInteger)_tagForKey:(id)key {
@@ -145,9 +150,29 @@
 	//NSParameterAssert(parent==nil || tag != 0);
 	id key = [self _addNode:node tag:tag];
 	if(key) {
-		[self _addChildKey:key parentKey:[self _tagKeyForNode:parent]];
+		[self _addChildKey:key parentKey:[self _tagKeyForNode:parent] index:-1];
 	}
 	return [self _tagForKey:key];
+}
+
+
+-(BOOL)moveNode:(PGSourceViewNode* )node parent:(PGSourceViewNode* )parent index:(NSInteger)index {
+	NSParameterAssert(node);
+	id key = [self _tagKeyForNode:node];
+	if(key==nil) {
+		// return NO if node is not already in the tree or is the root tag
+		return NO;
+	}
+	// remove node from all children
+	for(id parentKey in _children) {
+		NSMutableArray* children = [self _childrenForKey:parentKey];
+		[children removeObject:key];
+	}
+	// get children of parent
+	id newParentKey = parent ? [self _tagKeyForNode:parent] : [self _rootKey];
+	NSParameterAssert(newParentKey);
+	[self _addChildKey:key parentKey:newParentKey index:index];
+	return YES;
 }
 
 -(NSInteger)tagForNode:(PGSourceViewNode* )node {
@@ -198,17 +223,6 @@
 -(PGSourceViewNode* )nodeForTag:(NSInteger)tag {
 	NSParameterAssert(tag);
 	return [self _nodeForTagKey:[self _keyForTag:tag]];
-}
-
--(BOOL)moveNode:(PGSourceViewNode* )node parent:(PGSourceViewNode* )parent index:(NSInteger)index {
-	NSParameterAssert(node);
-	NSParameterAssert(parent);
-	// ensure parent can accept the node
-	if([parent canAcceptDrop:node]==NO) {
-		return NO;
-	}
-	NSLog(@"parent %@ node %@ index %ld",parent,node,index);
-	return YES;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

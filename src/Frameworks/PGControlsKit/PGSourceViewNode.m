@@ -33,6 +33,7 @@
 	self = [super init];
 	if(self) {
 		_name = name;
+		_dictionary = [NSMutableDictionary new];
 	}
 	return self;
 }
@@ -42,8 +43,10 @@
 }
 
 +(PGSourceViewNode* )connectionWithURL:(NSURL* )url {
-	NSString* name = [NSString stringWithFormat:@"%@@%@",[url user],[url path]];
-	return [[PGSourceViewConnection alloc] initWithName:name];
+	NSString* name = [NSString stringWithFormat:@"%@@%@",[url user],[[url path] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"/"]]];
+	PGSourceViewConnection* node = [[PGSourceViewConnection alloc] initWithName:name];
+	[node setURL:url];
+	return node;
 }
 
 +(PGSourceViewNode* )nodeFromDictionary:(NSDictionary* )dictionary {
@@ -57,8 +60,17 @@
 		return nil;
 	}
 	PGSourceViewNode* node = (PGSourceViewNode* )[[c alloc] initWithName:name];
+	for(NSString* key in dictionary) {
+		NSParameterAssert([key isKindOfClass:[NSString class]] && [key length]);
+		[node _setObject:[dictionary objectForKey:key] forKey:key];
+	}
+	
 	// set other properties for node
 	return node;
+}
+
+-(void)_setObject:(id)object forKey:(NSString* )key {
+	[_dictionary setObject:object forKey:key];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -104,6 +116,9 @@
 	[defaults setObject:key forKey:@"key"];
 	[defaults setObject:[self name] forKey:@"name"];
 	[defaults setObject:NSStringFromClass([self class]) forKey:@"class"];
+	for(NSString* key in _dictionary) {
+		[defaults setObject:[_dictionary objectForKey:key] forKey:key];
+	}
 	return defaults;
 }
 
