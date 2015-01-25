@@ -18,6 +18,7 @@
 
 // properties
 @property NSString* autosaveName;
+@property CGFloat minimumSize;
 
 // methods
 -(BOOL)setLeftView:(id)viewOrController;

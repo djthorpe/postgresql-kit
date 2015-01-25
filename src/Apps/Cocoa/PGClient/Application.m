@@ -133,8 +133,9 @@ NSInteger PGQueriesTag = -200;
 	NSMenuItem* menuItem5 = [[NSMenuItem alloc] initWithTitle:@"Reset Source View" action:@selector(doResetSourceView:) keyEquivalent:@""];
 	[[self splitView] addMenuItem:menuItem5];
 	
-	// set autosave name
+	// set autosave name and minimum width
 	[[self splitView] setAutosaveName:@"PGSplitView"];
+	[[self splitView] setMinimumSize:75.0];
 
 }
 
