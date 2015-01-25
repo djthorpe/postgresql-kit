@@ -14,32 +14,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-// Forward class delarations
-@class PGSplitViewController;
+@interface PGTabViewController : NSViewController <NSTabViewDelegate>
 
-@class PGConnectionWindowController;
-
-@class PGSourceViewController;
-@class PGSourceViewNode;
-  @class PGSourceViewHeading;
-  @class PGSourceViewConnection;
-
-@class PGTabViewController;
-
-@class PGHelpWindowController;
-
-// Windows
-#import "PGConnectionWindowController.h"
-#import "PGHelpWindowController.h"
-
-// Views
-#import "PGSplitViewController.h"
-#import "PGSourceViewController.h"
-#import "PGTabViewController.h"
-
-// Nodes for Source View
-#import "PGSourceViewNode.h"
-#import "PGSourceViewHeading.h"
-#import "PGSourceViewConnection.h"
-
-
+@end

@@ -21,12 +21,14 @@
 	Connection* _connection;
 	PGSplitViewController* _splitView;
 	PGSourceViewController* _sourceView;
+	PGTabViewController* _tabView;
 	PGHelpWindowController* _helpWindow;
 }
 
 // properties
 @property (readonly) Connection* connection;
 @property (readonly) PGSplitViewController* splitView;
+@property (readonly) PGTabViewController* tabView;
 @property (readonly) PGSourceViewController* sourceView;
 @property (readonly) PGHelpWindowController* helpWindow;
 

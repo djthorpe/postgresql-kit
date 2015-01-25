@@ -26,10 +26,14 @@
 // properties
 @property NSString* name;
 @property (readonly) BOOL isGroupItem;
-@property (readonly) BOOL shouldSelectItem;
+@property (readonly) BOOL isSelectable;
+@property (readonly) BOOL isNameEditable;
+@property (readonly) BOOL isDraggable;
+@property (retain) NSArray* childClasses;
 
 // methods
 -(NSDictionary* )dictionaryWithKey:(id)key;
--(NSTableCellView* )cellViewForOutlineView:(NSOutlineView* )outlineView tableColumn:(NSTableColumn* )tableColumn owner:(id)owner;
+-(NSTableCellView* )cellViewForOutlineView:(NSOutlineView* )outlineView tableColumn:(NSTableColumn* )tableColumn owner:(id)owner tag:(NSInteger)tag;
+-(BOOL)canAcceptDrop:(PGSourceViewNode* )node;
 
 @end

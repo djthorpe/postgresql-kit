@@ -142,6 +142,14 @@
 	return [self _tagForKey:key];
 }
 
+-(NSInteger)tagForNode:(PGSourceViewNode* )node {
+	NSParameterAssert(node);
+	id key = [self _tagKeyForNode:node];
+	if(key) {
+		return [self _tagForKey:key];
+	}
+	return 0;
+}
 
 // TODO -(void)removeNode:(PGSourceViewNode* )parent {
 //

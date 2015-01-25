@@ -12,34 +12,28 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-#import <Cocoa/Cocoa.h>
+#import <PGControlsKit/PGControlsKit.h>
 
-// Forward class delarations
-@class PGSplitViewController;
+@interface PGTabViewController ()
 
-@class PGConnectionWindowController;
+@end
 
-@class PGSourceViewController;
-@class PGSourceViewNode;
-  @class PGSourceViewHeading;
-  @class PGSourceViewConnection;
-
-@class PGTabViewController;
-
-@class PGHelpWindowController;
-
-// Windows
-#import "PGConnectionWindowController.h"
-#import "PGHelpWindowController.h"
-
-// Views
-#import "PGSplitViewController.h"
-#import "PGSourceViewController.h"
-#import "PGTabViewController.h"
-
-// Nodes for Source View
-#import "PGSourceViewNode.h"
-#import "PGSourceViewHeading.h"
-#import "PGSourceViewConnection.h"
+@implementation PGTabViewController
 
 
+////////////////////////////////////////////////////////////////////////////////
+// constructors
+
+-(id)init {
+    self = [super initWithNibName:@"PGTabView" bundle:[NSBundle bundleForClass:[self class]]];
+	if(self) {
+		// TODO
+	}
+	return self;
+}
+
+-(void)awakeFromNib {
+	// do things here
+}
+
+@end

@@ -114,6 +114,9 @@
 		6E2A14FB1A59488700F12954 /* PGServerKit_testcases.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2A14FA1A59488700F12954 /* PGServerKit_testcases.m */; };
 		6E2A14FC1A59488700F12954 /* PGServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
 		6E2A15031A594D7100F12954 /* PGFoundationServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2A15021A594D7100F12954 /* PGFoundationServer.m */; };
+		6E322F0C1A75122C00096520 /* PGTabViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E322F0A1A75122C00096520 /* PGTabViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6E322F0D1A75122C00096520 /* PGTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E322F0B1A75122C00096520 /* PGTabViewController.m */; };
+		6E322F0F1A7512D800096520 /* PGTabView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E322F0E1A7512D800096520 /* PGTabView.xib */; };
 		6E37869D1A69783D0018BEA0 /* Version.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6E37869C1A69783D0018BEA0 /* Version.plist */; };
 		6E37869E1A69783D0018BEA0 /* Version.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6E37869C1A69783D0018BEA0 /* Version.plist */; };
 		6E37869F1A69783D0018BEA0 /* Version.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6E37869C1A69783D0018BEA0 /* Version.plist */; };
@@ -481,6 +484,9 @@
 		6E2A14FA1A59488700F12954 /* PGServerKit_testcases.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PGServerKit_testcases.m; sourceTree = "<group>"; };
 		6E2A15021A594D7100F12954 /* PGFoundationServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGFoundationServer.m; sourceTree = "<group>"; };
 		6E2A15041A59508500F12954 /* PGFoundationServer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGFoundationServer.h; sourceTree = "<group>"; };
+		6E322F0A1A75122C00096520 /* PGTabViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGTabViewController.h; sourceTree = "<group>"; };
+		6E322F0B1A75122C00096520 /* PGTabViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGTabViewController.m; sourceTree = "<group>"; };
+		6E322F0E1A7512D800096520 /* PGTabView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PGTabView.xib; sourceTree = "<group>"; };
 		6E37869B1A6976FA0018BEA0 /* reversion.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = reversion.sh; sourceTree = "<group>"; };
 		6E37869C1A69783D0018BEA0 /* Version.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Version.plist; sourceTree = "<group>"; };
 		6E45A37F1A73A28100E20B36 /* PGHelpWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGHelpWindowController.h; sourceTree = "<group>"; };
@@ -976,6 +982,7 @@
 				6E60B5B61A627FDA005B0633 /* PGConnectionWindow */,
 				6E0C81681A61956B0032AE32 /* PGSplitView */,
 				6E69F6A71A67ACFD0014EC1F /* PGSourceView */,
+				6E322F091A75120400096520 /* PGTabView */,
 				6E45A37E1A73A23E00E20B36 /* PGHelpWindow */,
 			);
 			path = PGControlsKit;
@@ -1078,6 +1085,16 @@
 				6E2A15041A59508500F12954 /* PGFoundationServer.h */,
 			);
 			path = PGServerKit_testcases;
+			sourceTree = "<group>";
+		};
+		6E322F091A75120400096520 /* PGTabView */ = {
+			isa = PBXGroup;
+			children = (
+				6E322F0A1A75122C00096520 /* PGTabViewController.h */,
+				6E322F0B1A75122C00096520 /* PGTabViewController.m */,
+				6E322F0E1A7512D800096520 /* PGTabView.xib */,
+			);
+			name = PGTabView;
 			sourceTree = "<group>";
 		};
 		6E45A37E1A73A23E00E20B36 /* PGHelpWindow */ = {
@@ -1342,6 +1359,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6E322F0C1A75122C00096520 /* PGTabViewController.h in Headers */,
 				14E1323A1A6D6F7800451602 /* PGSourceViewTree.h in Headers */,
 				6E0C81701A619E2E0032AE32 /* PGSplitViewController.h in Headers */,
 				6E69F6B01A67BABF0014EC1F /* PGSourceViewNode.h in Headers */,
@@ -1656,6 +1674,7 @@
 				6E92F56C1A65B26F003C0727 /* traffic-orange.tiff in Resources */,
 				6EE4E2081A61A22D00BEC4AD /* ResizeControl.png in Resources */,
 				6E5D8BD71A67056500C54D42 /* elephant-64.png in Resources */,
+				6E322F0F1A7512D800096520 /* PGTabView.xib in Resources */,
 				6E92F56B1A65B0E1003C0727 /* traffic-red.tiff in Resources */,
 				6EE4E2071A61A22B00BEC4AD /* Gradient.png in Resources */,
 				6E69F6AD1A67AD340014EC1F /* PGSourceView.xib in Resources */,
@@ -1824,6 +1843,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				14E1323B1A6D6F7800451602 /* PGSourceViewTree.m in Sources */,
+				6E322F0D1A75122C00096520 /* PGTabViewController.m in Sources */,
 				6E47EDBF1A6EE96D00352939 /* PGSourceViewHeading.m in Sources */,
 				6E45A40F1A73AAF900E20B36 /* MMElement.m in Sources */,
 				6E45A4111A73AB0000E20B36 /* MMHTMLParser.m in Sources */,

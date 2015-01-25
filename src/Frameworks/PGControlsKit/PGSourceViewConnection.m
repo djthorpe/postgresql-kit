@@ -47,18 +47,30 @@
 	return NO;
 }
 
--(BOOL)shouldSelectItem {
+-(BOOL)isSelectable {
 	return YES;
 }
 
--(NSTableCellView* )cellViewForOutlineView:(NSOutlineView* )outlineView tableColumn:(NSTableColumn* )tableColumn owner:(id)owner {
-	NSTableCellView* cellView = [super cellViewForOutlineView:outlineView tableColumn:tableColumn owner:owner];
+-(BOOL)isNameEditable {
+	return YES;
+}
+
+-(BOOL)isDraggable {
+	return YES;
+}
+
+-(NSTableCellView* )cellViewForOutlineView:(NSOutlineView* )outlineView tableColumn:(NSTableColumn* )tableColumn owner:(id)owner tag:(NSInteger)tag {
+	NSTableCellView* cellView = [super cellViewForOutlineView:outlineView tableColumn:tableColumn owner:owner tag:tag];
 	NSParameterAssert(cellView);
 	
 	NSImage* trafficIcon = [self imageForStatus:PGSourceViewConnectionIconDisconnected];
 	[[cellView imageView] setImage:trafficIcon];
-	
+
 	return cellView;
+}
+
+-(NSString* )tooltipForCell:(NSCell* )cell {
+	return @"TODO: TOOLTIP GOES HERE";
 }
 
 @end

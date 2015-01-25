@@ -65,14 +65,25 @@
 // properties
 
 @synthesize name = _name;
+@synthesize childClasses;
 @dynamic isGroupItem;
-@dynamic shouldSelectItem;
+@dynamic isSelectable;
+@dynamic isNameEditable;
+@dynamic isDraggable;
 
 -(BOOL)isGroupItem {
 	return YES;
 }
 
--(BOOL)shouldSelectItem {
+-(BOOL)isNameEditable {
+	return NO;
+}
+
+-(BOOL)isDraggable {
+	return NO;
+}
+
+-(BOOL)isSelectable {
 	return YES;
 }
 
@@ -91,18 +102,29 @@
 	return defaults;
 }
 
--(NSTableCellView* )cellViewForOutlineView:(NSOutlineView* )outlineView tableColumn:(NSTableColumn* )tableColumn owner:(id)owner {
+-(NSTableCellView* )cellViewForOutlineView:(NSOutlineView* )outlineView tableColumn:(NSTableColumn* )tableColumn owner:(id)owner tag:(NSInteger)tag {
 	NSTableCellView* cellView = nil;
 	if([self isGroupItem]) {
 		cellView = [outlineView makeViewWithIdentifier:@"HeaderCell" owner:owner];
 	} else {
 		cellView = [outlineView makeViewWithIdentifier:@"DataCell" owner:owner];
 	}	
+
+	// set some properties
 	[[cellView textField] setStringValue:[self name]];
+	[[cellView textField] setTag:tag];
+	[[cellView textField] setEditable:[self isNameEditable]];
+
 	return cellView;
 }
 
-
+-(BOOL)canAcceptDrop:(PGSourceViewNode* )node {
+	NSParameterAssert(node);
+	if([[self childClasses] containsObject:[node className]]) {
+		return YES;
+	}
+	return NO;
+}
 
 
 @end

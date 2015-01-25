@@ -15,10 +15,18 @@
 #import <PGControlsKit/PGControlsKit.h>
 #import "PGSourceViewTree.h"
 
+////////////////////////////////////////////////////////////////////////////////
+
+NSString* PGSourceViewDragType = @"PGSourceViewDragType";
+
+////////////////////////////////////////////////////////////////////////////////
+
 @interface PGSourceViewController ()
 @property (readonly) PGSourceViewTree* model;
 @property (weak) IBOutlet NSOutlineView* ibOutlineView;
 @end
+
+////////////////////////////////////////////////////////////////////////////////
 
 @implementation PGSourceViewController
 
@@ -37,6 +45,8 @@
 -(void)awakeFromNib {
 	[[self ibOutlineView] setTarget:self];
 	[[self ibOutlineView] setDoubleAction:@selector(doDoubleClick:)];
+	// register for dragging
+	[[self ibOutlineView] registerForDraggedTypes:@[ PGSourceViewDragType ]];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -156,6 +166,26 @@
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+// NSOutlineView editing cell contents
+
+-(IBAction)doEditCell:(id)sender {
+	NSTextField* view = (NSTextField* )sender;
+	NSParameterAssert([view isKindOfClass:[NSTextField class]]);
+	PGSourceViewNode* node = [view tag] ? [[self model] nodeForTag:[view tag]] : nil;
+	if(node==nil) {
+		return;
+	}
+	NSString* value = [[view stringValue] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+	if([value length]) {
+		// set the name here
+		[node setName:value];
+	}
+	// Redisplay the data for this row, for some reason we have to do this in a tricky way
+	NSInteger rowIndex = [[self ibOutlineView] rowForItem:node];
+	[[self ibOutlineView] reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:rowIndex] columnIndexes:[NSIndexSet indexSetWithIndex:0]];
+}
+
+////////////////////////////////////////////////////////////////////////////////
 // NSOutlineView delegate
 
 -(BOOL)outlineView:(NSOutlineView* )outlineView isGroupItem:(id)item {
@@ -165,21 +195,13 @@
 
 -(BOOL)outlineView:(NSOutlineView* )outlineView shouldSelectItem:(id)item {
 	NSParameterAssert([item isKindOfClass:[PGSourceViewNode class]]);
-	return [item shouldSelectItem];
-}
-
--(NSString* )outlineView:(NSOutlineView* )outlineView toolTipForCell:(NSCell* )cell rect:(NSRectPointer)rect tableColumn:(NSTableColumn *)tc item:(id)item mouseLocation:(NSPoint)mouseLocation {
-	NSParameterAssert([item isKindOfClass:[PGSourceViewNode class]]);
-	return nil;
-}
-
--(BOOL)outlineView:(NSOutlineView* )outlineView shouldEditTableColumn:(NSTableColumn* )tableColumn item:(id)item {
-	return NO;
+	return [item isSelectable];
 }
 
 -(NSView* )outlineView:(NSOutlineView *)outlineView viewForTableColumn:(NSTableColumn* )tableColumn item:(id)item {
 	NSParameterAssert([item isKindOfClass:[PGSourceViewNode class]]);
-	return [item cellViewForOutlineView:outlineView tableColumn:tableColumn owner:self];
+	NSInteger tag = [[self model] tagForNode:((PGSourceViewNode* )item)];
+	return [item cellViewForOutlineView:outlineView tableColumn:tableColumn owner:self tag:tag];
 }
 
 -(void)outlineViewSelectionDidChange:(NSNotification* )notification {
@@ -197,5 +219,88 @@
 	}
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// NSOutlineView drag and drop
+
+-(BOOL)outlineView:(NSOutlineView* )outlineView writeItems:(NSArray* )items toPasteboard:(NSPasteboard* )pboard {
+	NSParameterAssert([items count]==1);
+    PGSourceViewNode* node = [items objectAtIndex:0];
+	NSParameterAssert([node isKindOfClass:[PGSourceViewNode class]]);
+	// node which cannot be dragged
+	if([node isDraggable]==NO) {
+		return NO;
+	}
+	// use key object as the pasteboard content
+	NSInteger tag = [[self model] tagForNode:node];
+	if(tag) {
+		[pboard setPropertyList:[NSNumber numberWithInteger:tag] forType:PGSourceViewDragType];
+		return YES;
+	} else {
+		return NO;
+	}
+}
+
+-(NSDragOperation)outlineView:(NSOutlineView* )outlineView validateDrop:(id<NSDraggingInfo>)info proposedItem:(id)item proposedChildIndex:(NSInteger)index {
+	NSParameterAssert(item==nil || [item isKindOfClass:[PGSourceViewNode class]]);
+	if(item==nil) {
+		return NSDragOperationNone;
+	}
+	// retrieve dragged node from pasteboard
+	NSPasteboard* pasteboard = [info draggingPasteboard];
+	NSNumber* key = [pasteboard propertyListForType:PGSourceViewDragType];
+	NSParameterAssert([key isKindOfClass:[NSNumber class]]);
+	PGSourceViewNode* draggedNode = [[self model] nodeForTag:[key integerValue]];
+	NSParameterAssert(draggedNode);
+	if(index==-1) {
+		// item is on the heading
+		return NO;
+	}
+	if([draggedNode isDraggable]==NO) {
+		return NSDragOperationNone;
+	}
+	if([item canAcceptDrop:draggedNode]==NO) {
+		return NSDragOperationNone;
+	}
+	NSLog(@"dragging %@ => %@ to %ld",draggedNode,item,index);
+	return NSDragOperationMove;
+}
+/*
+-(BOOL)outlineView:(NSOutlineView* )outlineView acceptDrop:(id<NSDraggingInfo>)info item:(id)item childIndex:(NSInteger)index {
+        PGSidebarNode* node = (PGSidebarNode* )item;
+        if(node==nil) {
+                return NO;
+        }
+        NSParameterAssert([item isKindOfClass:[PGSidebarNode class]]);
+        
+        // retrieve dragged node from pasteboard
+        NSPasteboard* pasteboard = [info draggingPasteboard];
+        NSNumber* nodeKey = [pasteboard propertyListForType:PGSidebarDragType];
+        NSParameterAssert([nodeKey isKindOfClass:[NSNumber class]]);
+        PGSidebarNode* draggedNode = [self nodeForKey:[nodeKey unsignedIntegerValue]];
+        NSParameterAssert(draggedNode);
+        
+        // determine if the move can occur
+        if(![node canContainNode:draggedNode]) {
+                return NSDragOperationNone;
+        }
+        
+        if(index < 1) {
+                // drop onto the group header, thus move to index position 0
+                [node insertChild:draggedNode atIndex:0];
+        } else {
+                // drop underneath existing item
+                [node insertChild:draggedNode atIndex:(index-1)];
+        }
+        // reload data
+        [outlineView reloadData];
+
+        // select dragged object
+        NSInteger rowIndex = [outlineView rowForItem:draggedNode];
+        NSParameterAssert(rowIndex >= 0);
+        [outlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:rowIndex] byExtendingSelection:NO];
+
+        return YES;
+}
+*/
 
 @end

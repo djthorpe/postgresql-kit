@@ -38,6 +38,7 @@ NSInteger PGQueriesTag = -200;
 		_connection = [Connection new];
 		_splitView = [PGSplitViewController new];
 		_sourceView = [PGSourceViewController new];
+		_tabView = [PGTabViewController new];
 		_helpWindow = [PGHelpWindowController new];
 		NSParameterAssert(_connection && _splitView && _sourceView && _helpWindow);
 		[_connection setDelegate:self];
@@ -52,6 +53,7 @@ NSInteger PGQueriesTag = -200;
 @synthesize connection = _connection;
 @synthesize splitView = _splitView;
 @synthesize sourceView = _sourceView;
+@synthesize tabView = _tabView;
 @synthesize helpWindow = _helpWindow;
 @synthesize databases;
 @synthesize queries;
@@ -63,6 +65,7 @@ NSInteger PGQueriesTag = -200;
 	[self setDatabases:[PGSourceViewNode headingWithName:@"DATABASES"]];
 	[self setQueries:[PGSourceViewNode headingWithName:@"QUERIES"]];
 	NSParameterAssert([self databases] && [self queries]);
+	
 	[[self sourceView] removeAllNodes];
 	[[self sourceView] addNode:[self databases] parent:nil tag:PGDatabasesTag];
 	[[self sourceView] addNode:[self queries] parent:nil tag:PGQueriesTag];
@@ -80,6 +83,11 @@ NSInteger PGQueriesTag = -200;
 		[self setDatabases:d];
 		[self setQueries:q];
 	}
+	
+	// set the child classes we're willing to accept
+	[[self databases] setChildClasses:@[ NSStringFromClass([PGSourceViewConnection class]) ]];
+	[[self queries] setChildClasses:@[ ]];
+
 	if([[self sourceView] count]==2) {
 		// empty source view...only the headings
 		return NO;
@@ -106,8 +114,9 @@ NSInteger PGQueriesTag = -200;
 	
 	// add left and right views
 	[[self splitView] setLeftView:[self sourceView]];
+	[[self splitView] setRightView:[self tabView]];
 
-	// add menu items
+	// add menu items to split view
 	NSMenuItem* menuItem1 = [[NSMenuItem alloc] initWithTitle:@"New Connection..." action:@selector(doNewConnection:) keyEquivalent:@""];
 	[[self splitView] addMenuItem:menuItem1];
 

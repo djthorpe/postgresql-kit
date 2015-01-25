@@ -31,6 +31,7 @@
 -(PGSourceViewNode* )nodeAtIndex:(NSInteger)index parent:(PGSourceViewNode* )parent;
 -(NSInteger)numberOfChildrenOfParent:(PGSourceViewNode* )parent;
 -(PGSourceViewNode* )nodeForTag:(NSInteger)tag;
+-(NSInteger)tagForNode:(PGSourceViewNode* )node;
 
 // methods - NSUserDefaults
 -(BOOL)loadFromUserDefaults;
