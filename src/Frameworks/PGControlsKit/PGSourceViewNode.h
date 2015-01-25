@@ -29,6 +29,7 @@
 @property (readonly) BOOL isSelectable;
 @property (readonly) BOOL isNameEditable;
 @property (readonly) BOOL isDraggable;
+@property (readonly) BOOL isDeletable;
 @property (retain) NSArray* childClasses;
 
 // methods

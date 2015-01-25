@@ -70,6 +70,7 @@
 @dynamic isSelectable;
 @dynamic isNameEditable;
 @dynamic isDraggable;
+@dynamic isDeletable;
 
 -(BOOL)isGroupItem {
 	return YES;
@@ -85,6 +86,10 @@
 
 -(BOOL)isSelectable {
 	return YES;
+}
+
+-(BOOL)isDeletable {
+	return NO;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

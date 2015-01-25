@@ -23,6 +23,8 @@ NSInteger PGQueriesTag = -200;
 
 @interface Application ()
 @property (weak) IBOutlet NSWindow* window;
+@property (weak) IBOutlet NSWindow* ibDeleteDatabaseSheet;
+@property (retain) NSString* ibDeleteDatabaseSheetNodeName;
 @property (retain) PGSourceViewNode* databases;
 @property (retain) PGSourceViewNode* queries;
 @end
@@ -198,6 +200,19 @@ NSInteger PGQueriesTag = -200;
 	}
 }
 
+-(IBAction)ibButtonClicked:(id)sender {
+	NSParameterAssert([sender isKindOfClass:[NSButton class]]);
+	NSWindow* theWindow = [(NSButton* )sender window];
+	if([[(NSButton* )sender title] isEqualToString:@"Cancel"]) {
+		[[self window] endSheet:theWindow returnCode:NSModalResponseCancel];
+	} else if([[(NSButton* )sender title] isEqualToString:@"OK"]) {
+		[[self window] endSheet:theWindow returnCode:NSModalResponseOK];
+	} else {
+		// Unknown button clicked
+		NSLog(@"Button clicked, ignoring: %@",sender);
+	}
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // methods - PGSourceView delegate
 
@@ -210,6 +225,16 @@ NSInteger PGQueriesTag = -200;
 	if([node isKindOfClass:[PGSourceViewConnection class]]) {
 		NSLog(@"double clicked node = %@",node);
 	}
+}
+
+-(void)sourceView:(PGSourceViewController* )sourceView deleteNode:(PGSourceViewNode* )node {
+	// display confirmation sheet
+	[self setIbDeleteDatabaseSheetNodeName:[node name]];
+	[[self window] beginSheet:[self ibDeleteDatabaseSheet] completionHandler:^(NSModalResponse returnCode) {
+		if(returnCode==NSModalResponseOK) {
+			[sourceView removeNode:node];
+		}
+	}];
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -172,6 +172,9 @@
 		6E69F6B71A67C0040014EC1F /* NOTICE.md in Resources */ = {isa = PBXBuildFile; fileRef = 14EE3C36166752F80083C735 /* NOTICE.md */; };
 		6E69F6B81A67C0040014EC1F /* NOTICE.md in Resources */ = {isa = PBXBuildFile; fileRef = 14EE3C36166752F80083C735 /* NOTICE.md */; };
 		6E69F6B91A67C0040014EC1F /* NOTICE.md in Resources */ = {isa = PBXBuildFile; fileRef = 14EE3C36166752F80083C735 /* NOTICE.md */; };
+		6E89748F1A753E94000BA7C6 /* PGOutlineView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E89748D1A753E94000BA7C6 /* PGOutlineView.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6E8974901A753E94000BA7C6 /* PGOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E89748E1A753E94000BA7C6 /* PGOutlineView.m */; };
+		6E8974911A7541B3000BA7C6 /* info.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14032DD3164AB35100CD5796 /* info.tiff */; };
 		6E92F5691A65B0D8003C0727 /* traffic-green.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6ED779F017C1266100124DF1 /* traffic-green.tiff */; };
 		6E92F56A1A65B0DB003C0727 /* traffic-grey.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ED779F117C1266100124DF1 /* traffic-grey.png */; };
 		6E92F56B1A65B0E1003C0727 /* traffic-red.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6ED779F217C1266100124DF1 /* traffic-red.tiff */; };
@@ -550,6 +553,8 @@
 		6E69F6AE1A67BABF0014EC1F /* PGSourceViewNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSourceViewNode.h; sourceTree = "<group>"; };
 		6E69F6AF1A67BABF0014EC1F /* PGSourceViewNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSourceViewNode.m; sourceTree = "<group>"; };
 		6E83260817AD08C1002AFCBC /* build-frameworks.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "build-frameworks.sh"; sourceTree = "<group>"; };
+		6E89748D1A753E94000BA7C6 /* PGOutlineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGOutlineView.h; sourceTree = "<group>"; };
+		6E89748E1A753E94000BA7C6 /* PGOutlineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGOutlineView.m; sourceTree = "<group>"; };
 		6E8C167C15F26BF20013A382 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		6E8C167F15F26BF20013A382 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		6E8C168115F26BF20013A382 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -1205,6 +1210,8 @@
 			children = (
 				6E69F6A81A67AD340014EC1F /* PGSourceViewController.h */,
 				6E69F6A91A67AD340014EC1F /* PGSourceViewController.m */,
+				6E89748D1A753E94000BA7C6 /* PGOutlineView.h */,
+				6E89748E1A753E94000BA7C6 /* PGOutlineView.m */,
 				14E132381A6D6F7800451602 /* PGSourceViewTree.h */,
 				14E132391A6D6F7800451602 /* PGSourceViewTree.m */,
 				6E69F6AE1A67BABF0014EC1F /* PGSourceViewNode.h */,
@@ -1366,6 +1373,7 @@
 				6E47EDC31A6EEA6800352939 /* PGSourceViewConnection.h in Headers */,
 				6E45A3811A73A28100E20B36 /* PGHelpWindowController.h in Headers */,
 				14F1E86F17CB857A00710D4A /* PGControlsKit.h in Headers */,
+				6E89748F1A753E94000BA7C6 /* PGOutlineView.h in Headers */,
 				6E60B5B91A628028005B0633 /* PGConnectionWindowController.h in Headers */,
 				6E47EDBE1A6EE96D00352939 /* PGSourceViewHeading.h in Headers */,
 				6E69F6AB1A67AD340014EC1F /* PGSourceViewController.h in Headers */,
@@ -1717,6 +1725,7 @@
 				6E398E871A724B8E00C3804A /* Images.xcassets in Resources */,
 				6E69F6B41A67C0000014EC1F /* NOTICE.md in Resources */,
 				6E398E861A724B8B00C3804A /* MainMenu.xib in Resources */,
+				6E8974911A7541B3000BA7C6 /* info.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1854,6 +1863,7 @@
 				6E45A40D1A73AAEF00E20B36 /* MMMarkdown.m in Sources */,
 				6E45A4121A73AB0000E20B36 /* MMParser.m in Sources */,
 				6E69F6AC1A67AD340014EC1F /* PGSourceViewController.m in Sources */,
+				6E8974901A753E94000BA7C6 /* PGOutlineView.m in Sources */,
 				6E45A4131A73AB0000E20B36 /* MMScanner.m in Sources */,
 				6E45A4141A73AB0000E20B36 /* MMSpanParser.m in Sources */,
 				6E69F6B11A67BABF0014EC1F /* PGSourceViewNode.m in Sources */,

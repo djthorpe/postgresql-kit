@@ -26,12 +26,14 @@
 
 // methods
 -(void)removeAllNodes;
+-(void)removeNode:(PGSourceViewNode* )node;
 -(NSInteger)addNode:(PGSourceViewNode* )node parent:(PGSourceViewNode* )parent;
 -(NSInteger)addNode:(PGSourceViewNode* )node parent:(PGSourceViewNode* )parent tag:(NSInteger)tag;
 -(PGSourceViewNode* )nodeAtIndex:(NSInteger)index parent:(PGSourceViewNode* )parent;
 -(NSInteger)numberOfChildrenOfParent:(PGSourceViewNode* )parent;
 -(PGSourceViewNode* )nodeForTag:(NSInteger)tag;
 -(NSInteger)tagForNode:(PGSourceViewNode* )node;
+-(BOOL)moveNode:(PGSourceViewNode* )node parent:(PGSourceViewNode* )parent index:(NSInteger)index;
 
 // methods - NSUserDefaults
 -(BOOL)loadFromUserDefaults;

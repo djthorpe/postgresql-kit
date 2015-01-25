@@ -59,6 +59,10 @@
 	return YES;
 }
 
+-(BOOL)isDeletable {
+	return YES;
+}
+
 -(NSTableCellView* )cellViewForOutlineView:(NSOutlineView* )outlineView tableColumn:(NSTableColumn* )tableColumn owner:(id)owner tag:(NSInteger)tag {
 	NSTableCellView* cellView = [super cellViewForOutlineView:outlineView tableColumn:tableColumn owner:owner tag:tag];
 	NSParameterAssert(cellView);
@@ -67,10 +71,6 @@
 	[[cellView imageView] setImage:trafficIcon];
 
 	return cellView;
-}
-
--(NSString* )tooltipForCell:(NSCell* )cell {
-	return @"TODO: TOOLTIP GOES HERE";
 }
 
 @end

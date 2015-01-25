@@ -116,14 +116,22 @@
 	return [(NSNumber* )key integerValue];
 }
 
+-(void)_removeNodeWithKey:(id)key {
+	NSParameterAssert(key);
+	NSArray* children = [self _childrenForKey:key];
+	for(id childKey in children) {
+		[self _removeNodeWithKey:childKey];
+	}
+	[_children removeObjectForKey:key];
+	[_tags removeObjectForKey:key];
+	for(id parentKey in _children) {
+		NSMutableArray* children = [self _childrenForKey:parentKey];
+		[children removeObject:key];
+	}
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
-
--(void)removeAllNodes {
-	[_tags removeAllObjects];
-	[_children removeAllObjects];
-	_counter = 0;
-}
 
 -(NSInteger)addNode:(PGSourceViewNode* )node parent:(PGSourceViewNode* )parent {
 	return [self addNode:node parent:parent tag:0];
@@ -151,9 +159,18 @@
 	return 0;
 }
 
-// TODO -(void)removeNode:(PGSourceViewNode* )parent {
-//
-//}
+-(void)removeAllNodes {
+	[_tags removeAllObjects];
+	[_children removeAllObjects];
+	_counter = 0;
+}
+
+-(void)removeNode:(PGSourceViewNode* )node {
+	NSParameterAssert(node);
+	id key = [self _tagKeyForNode:node];
+	NSParameterAssert(key);
+	[self _removeNodeWithKey:key];
+}
 
 -(PGSourceViewNode* )nodeAtIndex:(NSInteger)index parent:(PGSourceViewNode* )parent {
 	id key = parent ? [self _tagKeyForNode:parent] : [self _rootKey];
@@ -181,6 +198,17 @@
 -(PGSourceViewNode* )nodeForTag:(NSInteger)tag {
 	NSParameterAssert(tag);
 	return [self _nodeForTagKey:[self _keyForTag:tag]];
+}
+
+-(BOOL)moveNode:(PGSourceViewNode* )node parent:(PGSourceViewNode* )parent index:(NSInteger)index {
+	NSParameterAssert(node);
+	NSParameterAssert(parent);
+	// ensure parent can accept the node
+	if([parent canAcceptDrop:node]==NO) {
+		return NO;
+	}
+	NSLog(@"parent %@ node %@ index %ld",parent,node,index);
+	return YES;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

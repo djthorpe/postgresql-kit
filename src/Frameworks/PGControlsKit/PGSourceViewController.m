@@ -47,6 +47,8 @@ NSString* PGSourceViewDragType = @"PGSourceViewDragType";
 	[[self ibOutlineView] setDoubleAction:@selector(doDoubleClick:)];
 	// register for dragging
 	[[self ibOutlineView] registerForDraggedTypes:@[ PGSourceViewDragType ]];
+	[[self ibOutlineView] setDraggingDestinationFeedbackStyle:NSTableViewDraggingDestinationFeedbackStyleSourceList];
+	[[self ibOutlineView] setDraggingSourceOperationMask:(NSDragOperationMove|NSDragOperationDelete) forLocal:YES];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -108,6 +110,24 @@ NSString* PGSourceViewDragType = @"PGSourceViewDragType";
 	[[self ibOutlineView] reloadData];
 }
 
+-(void)removeNode:(PGSourceViewNode* )node {
+	NSParameterAssert(node);
+	if([node isDeletable]) {
+		[[self model] removeNode:node];
+		[[self ibOutlineView] reloadData];
+	}
+}
+
+-(PGSourceViewNode* )selectedNode {
+	NSInteger row = [[self ibOutlineView] selectedRow];
+	if(row < 0) {
+		return nil;
+	}
+	PGSourceViewNode* node = [[self ibOutlineView] itemAtRow:row];
+	NSParameterAssert([node isKindOfClass:[PGSourceViewNode class]]);
+	return node;
+}
+
 -(PGSourceViewNode* )clickedNode {
 	NSInteger row = [[self ibOutlineView] clickedRow];
 	if(row < 0) {
@@ -126,6 +146,13 @@ NSString* PGSourceViewDragType = @"PGSourceViewDragType";
 	NSParameterAssert(node);
 	if([[self delegate] respondsToSelector:@selector(sourceView:doubleClickedNode:)]) {
 		[[self delegate] sourceView:self doubleClickedNode:node];
+	}
+}
+
+-(IBAction)doDeleteKeyPressed:(id)sender {
+	PGSourceViewNode* node = [self selectedNode];
+	if(node && [[self delegate] respondsToSelector:@selector(sourceView:deleteNode:)]) {
+		[[self delegate] sourceView:self deleteNode:node];
 	}
 }
 
@@ -261,46 +288,38 @@ NSString* PGSourceViewDragType = @"PGSourceViewDragType";
 	if([item canAcceptDrop:draggedNode]==NO) {
 		return NSDragOperationNone;
 	}
-	NSLog(@"dragging %@ => %@ to %ld",draggedNode,item,index);
+	NSLog(@"dragging %@ => %@ to %ld (number of children of item is %ld)",draggedNode,item,index,[[self model] numberOfChildrenOfParent:item]);
 	return NSDragOperationMove;
 }
-/*
+
 -(BOOL)outlineView:(NSOutlineView* )outlineView acceptDrop:(id<NSDraggingInfo>)info item:(id)item childIndex:(NSInteger)index {
-        PGSidebarNode* node = (PGSidebarNode* )item;
-        if(node==nil) {
-                return NO;
-        }
-        NSParameterAssert([item isKindOfClass:[PGSidebarNode class]]);
-        
-        // retrieve dragged node from pasteboard
-        NSPasteboard* pasteboard = [info draggingPasteboard];
-        NSNumber* nodeKey = [pasteboard propertyListForType:PGSidebarDragType];
-        NSParameterAssert([nodeKey isKindOfClass:[NSNumber class]]);
-        PGSidebarNode* draggedNode = [self nodeForKey:[nodeKey unsignedIntegerValue]];
-        NSParameterAssert(draggedNode);
-        
-        // determine if the move can occur
-        if(![node canContainNode:draggedNode]) {
-                return NSDragOperationNone;
-        }
-        
-        if(index < 1) {
-                // drop onto the group header, thus move to index position 0
-                [node insertChild:draggedNode atIndex:0];
-        } else {
-                // drop underneath existing item
-                [node insertChild:draggedNode atIndex:(index-1)];
-        }
-        // reload data
-        [outlineView reloadData];
+	NSParameterAssert(item==nil || [item isKindOfClass:[PGSourceViewNode class]]);
+	if(item==nil) {
+		return NO;
+	}
 
-        // select dragged object
-        NSInteger rowIndex = [outlineView rowForItem:draggedNode];
-        NSParameterAssert(rowIndex >= 0);
-        [outlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:rowIndex] byExtendingSelection:NO];
+	// retrieve dragged node from pasteboard
+	NSPasteboard* pasteboard = [info draggingPasteboard];
+	NSNumber* key = [pasteboard propertyListForType:PGSourceViewDragType];
+	NSParameterAssert([key isKindOfClass:[NSNumber class]]);
+	PGSourceViewNode* draggedNode = [[self model] nodeForTag:[key integerValue]];
+	NSParameterAssert(draggedNode);
 
-        return YES;
+	// perform the move
+	if(index < 1) {
+		[[self model] moveNode:draggedNode parent:item index:0];
+	} else {
+		[[self model] moveNode:draggedNode parent:item index:(index -1)];
+	}
+
+	// reload data
+	[outlineView reloadData];
+
+	// select dragged object
+	NSInteger rowIndex = [outlineView rowForItem:draggedNode];
+	NSParameterAssert(rowIndex >= 0);
+	[outlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:rowIndex] byExtendingSelection:NO];
+	return YES;
 }
-*/
 
 @end
