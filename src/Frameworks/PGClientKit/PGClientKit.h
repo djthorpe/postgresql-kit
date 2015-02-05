@@ -16,14 +16,6 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-//! Project version number for PGClientKit_ios.
-FOUNDATION_EXPORT double PGClientKit_iosVersionNumber;
-
-//! Project version string for PGClientKit_ios.
-FOUNDATION_EXPORT const unsigned char PGClientKit_iosVersionString[];
-
-////////////////////////////////////////////////////////////////////////////////
-
 // typedefs
 typedef enum {
 	PGConnectionStatusDisconnected = 0,
@@ -54,12 +46,14 @@ extern NSString* PGClientErrorDomain;
 
 // forward class declarations
 @class PGConnection;
+@class PGConnectionPool;
 @class PGResult;
 @class PGStatement;
 @class PGPasswordStore;
 
 // header includes
 #import "PGConnection.h"
+#import "PGConnectionPool.h"
 #import "PGResult.h"
 #import "PGStatement.h"
 
@@ -71,6 +65,5 @@ extern NSString* PGClientErrorDomain;
 // Do not import additional header files
 #else
 // Import Mac OS X specific header files
-#import "PGClientKit+Cocoa.h"
 #import "PGResult+TextTable.h"
 #endif

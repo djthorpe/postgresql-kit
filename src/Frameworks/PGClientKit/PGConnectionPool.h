@@ -12,26 +12,16 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-#import <Cocoa/Cocoa.h>
-#import <PGClientKit/PGClientKit.h>
+@interface PGConnectionPool : NSObject <PGConnectionDelegate> {
+	NSMutableDictionary* _connection;
+	NSMutableDictionary* _url;
+}
 
-@protocol PGLoginDelegate <NSObject>
-@required
--(void)loginCompleted:(NSInteger)returnCode;
-@end
-
-@interface PGLoginController : NSWindowController
-
-// properties
-@property (weak, nonatomic) id<PGLoginDelegate> delegate;
-@property PGConnection* connection;
-@property BOOL ibStatusVisibility;
-@property BOOL ibRememberCheckbox;
-@property NSString* ibStatusText;
-@property BOOL ibStatusAnimate;
-@property NSString* ibURL;
-
-// methods to begin the login window
--(void)beginLoginSheetForWindow:(NSWindow* )window;
+// methods
+-(PGConnection* )connectionWithURL:(NSURL* )url tag:(NSInteger)tag error:(NSError** )error;
+-(BOOL)connectWithTag:(NSInteger)tag whenDone:(void(^)(NSError* error)) callback;
+-(BOOL)disconnectWithTag:(NSInteger)tag;
+-(BOOL)removeWithTag:(NSInteger)tag;
 
 @end
+
