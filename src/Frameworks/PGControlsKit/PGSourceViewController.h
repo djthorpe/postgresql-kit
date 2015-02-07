@@ -35,6 +35,7 @@
 -(PGSourceViewNode* )clickedNode;
 -(PGSourceViewNode* )selectedNode;
 -(PGSourceViewNode* )nodeForTag:(NSInteger)tag;
+-(NSInteger)tagForNode:(PGSourceViewNode* )node;
 
 // methods - adding nodes
 -(NSInteger)addNode:(PGSourceViewNode* )node parent:(PGSourceViewNode* )parent;

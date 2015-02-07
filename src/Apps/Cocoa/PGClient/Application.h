@@ -15,22 +15,22 @@
 #import <Cocoa/Cocoa.h>
 #import <PGControlsKit/PGControlsKit.h>
 
-#import "Connection.h"
-
-@interface Application : NSObject <NSApplicationDelegate,ConnectionDelegate,PGSourceViewDelegate> {
-	Connection* _connection;
+@interface Application : NSObject <NSApplicationDelegate,PGSourceViewDelegate,PGConnectionPoolDelegate> {
+	PGConnectionPool* _connections;
 	PGSplitViewController* _splitView;
 	PGSourceViewController* _sourceView;
 	PGTabViewController* _tabView;
 	PGHelpWindowController* _helpWindow;
+	PGConnectionWindowController* _connectionWindow;
 }
 
 // properties
-@property (readonly) Connection* connection;
+@property (readonly) PGConnectionPool* connections;
 @property (readonly) PGSplitViewController* splitView;
 @property (readonly) PGTabViewController* tabView;
 @property (readonly) PGSourceViewController* sourceView;
 @property (readonly) PGHelpWindowController* helpWindow;
+@property (readonly) PGConnectionWindowController* connectionWindow;
 
 @end
 

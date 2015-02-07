@@ -12,16 +12,38 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
+// forward declarations
+@protocol PGConnectionPoolDelegate;
+
+// PGConnectionPool interface
 @interface PGConnectionPool : NSObject <PGConnectionDelegate> {
 	NSMutableDictionary* _connection;
 	NSMutableDictionary* _url;
+	PGPasswordStore* _passwd;
+	BOOL _useKeychain;
 }
 
+// properties
+@property (weak, nonatomic) id<PGConnectionPoolDelegate> delegate;
+@property PGPasswordStore* passwordStore;
+@property BOOL useKeychain;
+@property NSArray* connections;
+
 // methods
--(PGConnection* )connectionWithURL:(NSURL* )url tag:(NSInteger)tag error:(NSError** )error;
+-(PGConnection* )createConnectionWithURL:(NSURL* )url tag:(NSInteger)tag;
+
+-(void)setURL:(NSURL* )url forTag:(NSInteger)tag;
+-(NSURL* )URLForTag:(NSInteger)tag;
+
 -(BOOL)connectWithTag:(NSInteger)tag whenDone:(void(^)(NSError* error)) callback;
 -(BOOL)disconnectWithTag:(NSInteger)tag;
 -(BOOL)removeWithTag:(NSInteger)tag;
+-(void)removeAll;
 
+@end
+
+// delegate for PGConnectionPool
+@protocol PGConnectionPoolDelegate <NSObject>
+// stuff here
 @end
 

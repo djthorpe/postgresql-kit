@@ -15,6 +15,7 @@
 #import <Cocoa/Cocoa.h>
 #import <PGClientKit/PGClientKit.h>
 
+/*
 ////////////////////////////////////////////////////////////////////////////////
 
 typedef enum  {
@@ -31,35 +32,39 @@ typedef enum  {
 ////////////////////////////////////////////////////////////////////////////////
 
 @protocol PGConnectionWindowDelegate <NSObject>
-@required
-	-(void)connectionWindow:(PGConnectionWindowController* )windowController status:(PGConnectionWindowStatus)status;
 @optional
 	-(void)connectionWindow:(PGConnectionWindowController* )windowController error:(NSError* )error;
 @end
 
 ////////////////////////////////////////////////////////////////////////////////
+*/
 
-@interface PGConnectionWindowController : NSWindowController <PGConnectionDelegate> {
+@interface PGConnectionWindowController : NSWindowController {
 	PGConnection* _connection;
 	NSMutableDictionary* _params;
-	PGPasswordStore* _password;
-	NSError* _lastError;
 }
 
+/*
 // properties
 @property (weak,nonatomic) id<PGConnectionWindowDelegate> delegate;
-@property BOOL useKeychain;
-@property NSURL* url;
-@property NSInteger tag;
-@property (readonly) PGPasswordStore* password;
-@property (readonly) PGConnection* connection;
-@property (readonly) NSError* lastError;
+*/
+
+// static methods
++(NSURL* )defaultNetworkURL;
++(NSURL* )defaultSocketURL;
+
 
 // methods
+-(void)beginConnectionSheetWithURL:(NSURL* )url parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(NSURL* url)) callback;
+-(void)beginPasswordSheetWithParentWindow:(NSWindow* )parentWindow whenDone:(void(^)(NSString* password,BOOL useKeychain)) callback;
+-(void)beginErrorSheetWithError:(NSError* )error parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(NSModalResponse response)) callback;
+
+/*
 -(void)beginSheetForParentWindow:(NSWindow* )parentWindow;
 -(void)beginPasswordSheetForParentWindow:(NSWindow* )parentWindow;
 -(void)beginErrorSheetForParentWindow:(NSWindow* )parentWindow;
 -(void)connect;
 -(void)disconnect;
+*/
 
 @end

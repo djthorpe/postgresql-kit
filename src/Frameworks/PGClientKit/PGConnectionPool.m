@@ -25,8 +25,22 @@
 	if(self) {
 		_connection = [NSMutableDictionary new];
 		_url = [NSMutableDictionary new];
+		_passwd = [PGPasswordStore new];
+		NSParameterAssert(_connection && _url && _passwd);
+		_useKeychain = YES;
 	}
 	return self;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// properties
+
+@synthesize passwordStore = _passwd;
+@synthesize useKeychain = _useKeychain;
+@dynamic connections;
+
+-(NSArray* )connections {
+	return [_connection allValues];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -39,12 +53,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
 
--(PGConnection* )connectionWithURL:(NSURL* )url tag:(NSInteger)tag error:(NSError** )error {
+-(PGConnection* )createConnectionWithURL:(NSURL* )url tag:(NSInteger)tag {
 	NSParameterAssert(url);
 	id key = [PGConnectionPool keyForTag:tag];
 	NSParameterAssert(key);
 	if([_connection objectForKey:key]) {
-		// TODO: error - tag already exists
 		return nil;
 	}
 	NSParameterAssert([_url objectForKey:key]==nil);
@@ -57,6 +70,19 @@
 	[_connection setObject:connection forKey:key];
 	// return connection
 	return connection;
+}
+
+-(void)setURL:(NSURL* )url forTag:(NSInteger)tag {
+	NSParameterAssert(url);
+	id key = [PGConnectionPool keyForTag:tag];
+	NSParameterAssert(key);
+	[_url setObject:url forKey:key];
+}
+
+-(NSURL* )URLForTag:(NSInteger)tag {
+	id key = [PGConnectionPool keyForTag:tag];
+	NSParameterAssert(key);
+	return [_url objectForKey:key];
 }
 
 -(BOOL)connectWithTag:(NSInteger)tag whenDone:(void(^)(NSError* error)) callback {
@@ -90,6 +116,41 @@
 	[_connection removeObjectForKey:key];
 	[_url removeObjectForKey:key];
 	return returnValue;
+}
+
+-(void)removeAll {
+	for(PGConnection* connection in [self connections]) {
+		NSParameterAssert(connection);
+		[self removeWithTag:[connection tag]];
+	}
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// PGConnectionDelegate
+
+-(void)connection:(PGConnection* )connection willOpenWithParameters:(NSMutableDictionary* )dictionary {
+	// retrieve password from store
+	NSParameterAssert([self passwordStore]);
+	if([dictionary objectForKey:@"password"]==nil) {
+		NSError* error = nil;
+		NSURL* url = [self URLForTag:[connection tag]];
+		NSParameterAssert(url);
+		NSString* password = [[self passwordStore] passwordForURL:url readFromKeychain:[self useKeychain] error:&error];
+		if(password) {
+			[dictionary setObject:password forKey:@"password"];
+		}
+		if(error) {
+			NSLog(@"connection:willOpenWithParameters: error: %@",error);
+		}
+	}
+}
+
+-(void)connection:(PGConnection* )connection error:(NSError* )theError {
+	// TODO: pass error onto the delegate
+}
+
+-(void)connection:(PGConnection* )connection statusChange:(PGConnectionStatus)status {
+	// TODO: pass status change onto the delegate
 }
 
 @end

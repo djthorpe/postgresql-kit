@@ -84,6 +84,10 @@ NSString* PGSourceViewDragType = @"PGSourceViewDragType";
 	return [[self model] nodeForTag:tag];
 }
 
+-(NSInteger)tagForNode:(PGSourceViewNode* )node {
+	return [[self model] tagForNode:node];
+}
+
 -(BOOL)selectNode:(PGSourceViewNode* )node {
 	NSParameterAssert(node);
 	if(node==nil) {

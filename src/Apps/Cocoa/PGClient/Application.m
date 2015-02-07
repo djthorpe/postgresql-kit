@@ -37,13 +37,16 @@ NSInteger PGQueriesTag = -200;
 -(id)init {
 	self = [super init];
 	if(self) {
-		_connection = [Connection new];
+		_connections = [PGConnectionPool new];
 		_splitView = [PGSplitViewController new];
 		_sourceView = [PGSourceViewController new];
 		_tabView = [PGTabViewController new];
 		_helpWindow = [PGHelpWindowController new];
-		NSParameterAssert(_connection && _splitView && _sourceView && _helpWindow);
-		[_connection setDelegate:self];
+		_connectionWindow = [PGConnectionWindowController new];
+		NSParameterAssert(_connections);
+		NSParameterAssert(_splitView && _sourceView);
+		NSParameterAssert(_helpWindow && _connectionWindow);
+		[_connections setDelegate:self];
 		[_sourceView setDelegate:self];
 	}
 	return self;
@@ -52,11 +55,12 @@ NSInteger PGQueriesTag = -200;
 ////////////////////////////////////////////////////////////////////////////////
 // properties
 
-@synthesize connection = _connection;
+@synthesize connections = _connections;
 @synthesize splitView = _splitView;
 @synthesize sourceView = _sourceView;
 @synthesize tabView = _tabView;
 @synthesize helpWindow = _helpWindow;
+@synthesize connectionWindow = _connectionWindow;
 @synthesize databases;
 @synthesize queries;
 
@@ -119,49 +123,103 @@ NSInteger PGQueriesTag = -200;
 	[[self splitView] setRightView:[self tabView]];
 
 	// add menu items to split view
-	NSMenuItem* menuItem1 = [[NSMenuItem alloc] initWithTitle:@"New Connection..." action:@selector(doNewConnection:) keyEquivalent:@""];
+	NSMenuItem* menuItem1 = [[NSMenuItem alloc] initWithTitle:@"New Network Connection..." action:@selector(doNewNetworkConnection:) keyEquivalent:@""];
 	[[self splitView] addMenuItem:menuItem1];
 
-	NSMenuItem* menuItem2 = [[NSMenuItem alloc] initWithTitle:@"Connect" action:@selector(doConnect:) keyEquivalent:@""];
+	NSMenuItem* menuItem2 = [[NSMenuItem alloc] initWithTitle:@"New Socket Connection..." action:@selector(doNewSocketConnection:) keyEquivalent:@""];
 	[[self splitView] addMenuItem:menuItem2];
 
-	NSMenuItem* menuItem3 = [[NSMenuItem alloc] initWithTitle:@"Disconnect" action:@selector(doDisconnect:) keyEquivalent:@""];
+
+	NSMenuItem* menuItem3 = [[NSMenuItem alloc] initWithTitle:@"Connect" action:@selector(doConnect:) keyEquivalent:@""];
 	[[self splitView] addMenuItem:menuItem3];
 
+	NSMenuItem* menuItem4 = [[NSMenuItem alloc] initWithTitle:@"Disconnect" action:@selector(doDisconnect:) keyEquivalent:@""];
+	[[self splitView] addMenuItem:menuItem4];
+/*
 	NSMenuItem* menuItem4 = [[NSMenuItem alloc] initWithTitle:@"New Query..." action:@selector(doNewQuery:) keyEquivalent:@""];
 	[[self splitView] addMenuItem:menuItem4];
-
+*/
 
 	NSMenuItem* menuItem5 = [[NSMenuItem alloc] initWithTitle:@"Reset Source View" action:@selector(doResetSourceView:) keyEquivalent:@""];
 	[[self splitView] addMenuItem:menuItem5];
 	
-	// set autosave name and minimum width
+	// set autosave name and set minimum split view width
 	[[self splitView] setAutosaveName:@"PGSplitView"];
 	[[self splitView] setMinimumSize:75.0];
 
 }
 
--(void)_selectConnectionWithURL:(NSURL* )url {
-
+-(void)_newConnectionWithURL:(NSURL* )url {
 	// create a node
 	PGSourceViewNode* node = [PGSourceViewNode connectionWithURL:url];
-	
-	// set the tag
-	NSInteger tag = [[self sourceView] addNode:node parent:[self databases]];
-	[[self connection] setTag:tag];
-	
-	NSLog(@"creating: %@ => tag %ld",url,tag);
-	
+	// add node
+	[[self sourceView] addNode:node parent:[self databases]];
+	// connect
+	NSParameterAssert([node isKindOfClass:[PGSourceViewConnection class]]);
+	[self _connectNode:(PGSourceViewConnection* )node];
+}
+
+-(void)_connectNode:(PGSourceViewConnection* )node {
+	// get tag node from source view
+	NSInteger tag = [[self sourceView] tagForNode:node];
+	NSParameterAssert(tag);
+
+	// set connection in the pool
+	if([[self connections] URLForTag:tag]) {
+		[[self connections] disconnectWithTag:tag];
+		[[self connections] setURL:[node URL] forTag:tag];
+	} else {
+		[[self connections] createConnectionWithURL:[node URL] tag:tag];
+	}
+
+	// display the node which is going to be connected
 	[[self sourceView] expandNode:[self databases]];
 	[[self sourceView] selectNode:node];
+
+	// perform connection
+	[[self connections] connectWithTag:tag whenDone:^(NSError* error) {
+		if([error domain]==PGClientErrorDomain && [error code]==PGClientErrorNeedsPassword) {
+			[self _connectWithPasswordNode:node];
+		} else {
+			NSLog(@"connection tag = %ld error = %@",tag,error);
+		}
+	}];
+}
+
+-(void)_disconnectNode:(PGSourceViewConnection* )node {
+	NSLog(@"TODO: disconnect node %@",node);
+}
+
+-(void)_connectWithPasswordNode:(PGSourceViewConnection* )node {
+	[[self connectionWindow] beginPasswordSheetWithParentWindow:[self window] whenDone:^(NSString* password,BOOL useKeychain) {
+		if(password) {
+			// TODO: store password with connection pool
+			[self _connectNode:node];
+		}
+	}];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // IBActions
 
--(IBAction)doNewConnection:(id)sender {
+-(IBAction)doNewNetworkConnection:(id)sender {
 	// connect to remote server
-	[[self connection] loginSheetWithWindow:[self window]];
+	NSURL* defaultURL = [PGConnectionWindowController defaultNetworkURL];
+	[[self connectionWindow] beginConnectionSheetWithURL:defaultURL parentWindow:[self window] whenDone:^(NSURL* url) {
+		if(url) {
+			[self _newConnectionWithURL:url];
+		}
+	}];
+}
+
+-(IBAction)doNewSocketConnection:(id)sender {
+	// connect to remote server
+	NSURL* defaultURL = [PGConnectionWindowController defaultSocketURL];
+	[[self connectionWindow] beginConnectionSheetWithURL:defaultURL parentWindow:[self window] whenDone:^(NSURL* url) {
+		if(url) {
+			[self _newConnectionWithURL:url];
+		}
+	}];
 }
 
 -(IBAction)doNewQuery:(id)sender {
@@ -169,19 +227,25 @@ NSInteger PGQueriesTag = -200;
 }
 
 -(IBAction)doResetSourceView:(id)sender {
-	// disconnect any existing connection
-	[[self connection] disconnect];
+	// disconnect any existing connections
+	[[self connections] removeAll];
 	
 	// connect to remote server
 	[self resetSourceView];
 }
 
 -(IBAction)doConnect:(id)sender {
-	NSLog(@"connect");
+	PGSourceViewNode* connection = [[self sourceView] selectedNode];
+	if([connection isKindOfClass:[PGSourceViewConnection class]]) {
+		[self _connectNode:(PGSourceViewConnection* )connection];
+	}
 }
 
 -(IBAction)doDisconnect:(id)sender {
-	NSLog(@"disconnect");
+	PGSourceViewNode* connection = [[self sourceView] selectedNode];
+	if([connection isKindOfClass:[PGSourceViewConnection class]]) {
+		[self _disconnectNode:(PGSourceViewConnection* )connection];
+	}
 }
 
 -(IBAction)doHelp:(id)sender {
@@ -223,7 +287,15 @@ NSInteger PGQueriesTag = -200;
 -(void)sourceView:(PGSourceViewController* )sourceView doubleClickedNode:(PGSourceViewNode* )node {
 	// if node is a connection node, then connect
 	if([node isKindOfClass:[PGSourceViewConnection class]]) {
-		[[self connection] doubleClickedNode:node];
+		[[self connectionWindow] beginConnectionSheetWithURL:[(PGSourceViewConnection* )node URL] parentWindow:[self window] whenDone:^(NSURL* url) {
+			// update the connection details
+			if(url) {
+				NSInteger tag = [[self sourceView] tagForNode:node];
+				NSLog(@"TODO: update URL to %@ for tag %ld",url,tag);
+			}
+		}];
+	} else {
+		NSLog(@"double clicked node = %@",node);
 	}
 }
 
@@ -252,17 +324,18 @@ NSInteger PGQueriesTag = -200;
 	
 	// load connections from user defaults
 	if([self loadSourceView]==NO) {
-		[self doNewConnection:nil];
+		[self doNewNetworkConnection:nil];
 	}
 }
 
 -(void)applicationWillTerminate:(NSNotification *)aNotification {
-	// disconnect from remote server
-	[[self connection] disconnect];
+	// disconnect from remote servers
+	[[self connections] removeAll];
 	// save user defaults
 	[[self sourceView] saveToUserDefaults];
 }
 
+/*
 ////////////////////////////////////////////////////////////////////////////////
 // ConnectionDelegate implementation
 
@@ -287,5 +360,7 @@ NSInteger PGQueriesTag = -200;
 -(void)connection:(Connection* )connection error:(NSError* )error {
 	NSLog(@"PGClient error %@",[error localizedDescription]);
 }
+
+*/
 
 @end

@@ -29,6 +29,7 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 @property (weak,nonatomic) IBOutlet NSWindow* ibErrorWindow;
 
 // Other Properties
+@property (readonly) PGConnection* connection;
 @property (readonly) NSMutableDictionary* params;
 @property BOOL isDefaultPort;
 @property BOOL isUseKeychain;
@@ -37,6 +38,7 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 @property NSString* errorTitle;
 @property NSString* errorDescription;
 @property (readonly) NSString* username;
+@property (readonly) NSURL* url;
 @property (retain) NSTimer* pingTimer;
 @property (retain) NSImage* pingImage;
 
@@ -54,12 +56,9 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 -(id)init {
 	self = [super init];
 	if(self) {
-		_password = [PGPasswordStore new];
 		_connection = [PGConnection new];
 		_params = [NSMutableDictionary new];
-		_lastError = nil;
-		NSParameterAssert(_password && _connection && _params);
-		[_connection setDelegate:self];
+		NSParameterAssert(_connection && _params);
 	}
 	return self;
 }
@@ -72,13 +71,10 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 // properties
 
 @synthesize connection = _connection;
-@synthesize password = _password;
 @synthesize params = _params;
-@synthesize lastError = _lastError;
 
 @synthesize ibPasswordWindow;
 @synthesize ibURLWindow;
-@synthesize useKeychain;
 @synthesize isDefaultPort;
 @synthesize isUseKeychain;
 @synthesize isRequireSSL;
@@ -88,12 +84,12 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 @synthesize errorTitle;
 @synthesize errorDescription;
 @dynamic url;
-@dynamic tag;
 
 -(NSURL* )url {
 	return [NSURL URLWithPostgresqlParams:[self params]];
 }
 
+/*
 -(void)setUrl:(NSURL* )url {
 	NSParameterAssert(url);
 	NSDictionary* params = [url postgresqlParameters];
@@ -110,6 +106,18 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 -(void)setTag:(NSInteger)value {
 	[[self connection] setTag:value];
 }
+*/
+
+////////////////////////////////////////////////////////////////////////////////
+// static methods
+
++(NSURL* )defaultNetworkURL {
+	return [NSURL URLWithHost:@"localhost" port:PGClientDefaultPort ssl:YES username:NSUserName() database:NSUserName() params:nil];
+}
+
++(NSURL* )defaultSocketURL {
+	return [NSURL URLWithSocketPath:NSHomeDirectory() port:PGClientDefaultPort database:NSUserName() username:NSUserName() params:nil];
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // private methods
@@ -125,12 +133,16 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 	[self setIsDefaultPort:YES];
 	[self setIsRequireSSL:YES];
 	[self setIsValidConnection:NO];
-	[self setUseKeychain:YES];
+	[self setIsUseKeychain:YES];
 }
 
--(void)_setDefaultValues {
+-(void)_setDefaultValuesFrom:(NSDictionary* )params {
+	// replace existing dictionary
+	[[self params] removeAllObjects];
+	[[self params] setValuesForKeysWithDictionary:params];
+
 	// set user
-	NSString* user = [[self params] objectForKey:@"user"];
+	NSString* user = [params objectForKey:@"user"];
 	if([user length]==0) {
 		user = NSUserName();
 		[[self params] setObject:user forKey:@"user"];
@@ -138,7 +150,7 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 	NSParameterAssert([user isKindOfClass:[NSString class]]);
 
 	// set dbname
-	NSString* dbname = [[self params] objectForKey:@"dbname"];
+	NSString* dbname = [params objectForKey:@"dbname"];
 	if([dbname length]==0) {
 		dbname = user;
 		[[self params] setObject:dbname forKey:@"dbname"];
@@ -146,27 +158,29 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 	NSParameterAssert([dbname isKindOfClass:[NSString class]]);
 
 	// set host
-	NSString* host = [[self params] objectForKey:@"host"];
+	NSString* host = [params objectForKey:@"host"];
 	if([host length]==0) {
 		host = @"localhost";
 		[[self params] setObject:host forKey:@"host"];
 	}
 	
 	// set port
-	NSNumber* port = [[self params] objectForKey:@"port"];
+	NSNumber* port = [params objectForKey:@"port"];
 	if([port isKindOfClass:[NSNumber class]]) {
 		if([port unsignedIntegerValue]==PGClientDefaultPort) {
 			[self setIsDefaultPort:YES];
 		}
 	} else {
+		port = [NSNumber numberWithUnsignedInteger:PGClientDefaultPort];
 		[self setIsDefaultPort:YES];
-		[[self params] setObject:[NSNumber numberWithUnsignedInteger:PGClientDefaultPort] forKey:@"port"];
+		[[self params] setObject:port forKey:@"port"];
 	}
 	
 	// set SSL
-	NSString* sslmode = [[self params] objectForKey:@"sslmode"];
+	NSString* sslmode = [params objectForKey:@"sslmode"];
 	if([sslmode isEqualToString:@"require"]) {
 		[self setIsRequireSSL:YES];
+		[[self params] setObject:@"require" forKey:@"sslmode"];
 	} else {
 		[[self params] setObject:@"prefer" forKey:@"sslmode"];
 		[self setIsRequireSSL:NO];
@@ -175,6 +189,8 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 	// set ping image
 	[self setPingImage:[[self class] resourceImageNamed:@"traffic-grey"]];
 }
+
+/*
 
 -(void)_setErrorValues {
 	if([self lastError]==nil) {
@@ -187,6 +203,7 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 	[self setErrorDescription:[[self lastError] localizedDescription]];
 	
 }
+*/
 
 ////////////////////////////////////////////////////////////////////////////////
 // private methods - ping timer
@@ -220,7 +237,7 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 			[self setIsValidConnection:YES];
 		}
 		if(error) {
-			[self connection:[self connection] error:error];
+			NSLog(@"_doPingTimer: error: %@",error);
 		}
 	} else {
 		[self setPingImage:[[self class] resourceImageNamed:@"traffic-red"]];
@@ -279,35 +296,67 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 ////////////////////////////////////////////////////////////////////////////////
 // methods
 
--(void)beginSheetForParentWindow:(NSWindow* )parentWindow {
+-(void)beginConnectionSheetWithURL:(NSURL* )url parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(NSURL* url)) callback {
+	NSParameterAssert(parentWindow);
+	
 	// register as observer
 	[self _registerAsObserver:[self window]];
 
+	// set default URL
+	if(url==nil) {
+		url = [PGConnectionWindowController defaultNetworkURL];
+	}
+
 	// set parameters
-	[self _setDefaultValues];
+	[self _setDefaultValuesFrom:[url postgresqlParameters]];
 	
-	// start sheet
-	[NSApp beginSheet:[self window] modalForWindow:parentWindow modalDelegate:self didEndSelector:@selector(endSheet:returnCode:contextInfo:) contextInfo:nil];
+	[parentWindow beginSheet:[self window] completionHandler:^(NSModalResponse returnValue) {
+		// cancel timers
+		[self _unschedulePingTimer];
+		// remove observers
+		[self _deregisterAsObserver:[self window]];
+		// for cancel, return nil
+		if(returnValue==NSModalResponseCancel) {
+			callback(nil);
+		} else {
+			callback([self url]);
+		}
+	}];
 }
 
--(void)beginPasswordSheetForParentWindow:(NSWindow* )parentWindow {
-	// TODO: set password
+-(void)beginPasswordSheetWithParentWindow:(NSWindow* )parentWindow whenDone:(void(^)(NSString* password,BOOL useKeychain)) callback {
+	NSParameterAssert(parentWindow);
 
+	// register as observer
 	[self _registerAsObserver:[self ibPasswordWindow]];
-
-	// start sheet
-	[NSApp beginSheet:[self ibPasswordWindow] modalForWindow:parentWindow modalDelegate:self didEndSelector:@selector(endSheet:returnCode:contextInfo:) contextInfo:nil];
+	
+	// set parameters
+	// TODO
+	
+	[parentWindow beginSheet:[self ibPasswordWindow] completionHandler:^(NSModalResponse returnValue) {
+		// remove observers
+		[self _deregisterAsObserver:[self ibPasswordWindow]];
+		// for cancel, return nil
+		if(returnValue==NSModalResponseCancel) {
+			callback(nil,NO);
+		} else {
+			NSString* password = [[self params] objectForKey:@"password"];
+			callback(password,[self isUseKeychain]);
+		}
+	}];
 }
 
 -(void)beginErrorSheetForParentWindow:(NSWindow* )parentWindow {
 	[self _registerAsObserver:[self ibErrorWindow]];
 
 	// set parameters
-	[self _setErrorValues];
+	//[self _setErrorValues];
 
 	// start sheet
 	[NSApp beginSheet:[self ibErrorWindow] modalForWindow:parentWindow modalDelegate:self didEndSelector:@selector(endSheet:returnCode:contextInfo:) contextInfo:nil];
 }
+
+/*
 
 -(void)endSheet:(NSWindow* )theSheet returnCode:(NSInteger)returnCode contextInfo:(void* )contextInfo {
 	// remove sheet
@@ -320,7 +369,8 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 	if(theSheet==[self window]) {
 		[self _unschedulePingTimer];
 	}
-	
+	*/
+	/*
 	// determine return status
 	PGConnectionWindowStatus status = PGConnectionWindowStatusOK;
 	
@@ -344,7 +394,9 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 		[[self delegate] connectionWindow:self status:status];
 	}
 }
+	*/
 
+/*
 -(void)connect {
 	if([self url]==nil) {
 		[[self delegate] connectionWindow:self status:PGConnectionWindowStatusBadParameters];
@@ -375,6 +427,7 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 		[[self connection] disconnect];
 	}
 }
+*/
 
 ////////////////////////////////////////////////////////////////////////////////
 // IBActions
@@ -382,60 +435,20 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 -(IBAction)ibButtonClicked:(id)sender {
 	NSParameterAssert([sender isKindOfClass:[NSButton class]]);
 	NSWindow* theWindow = [(NSButton* )sender window];
-
+	NSWindow* parentWindow = [theWindow sheetParent];
+	
 	if([[(NSButton* )sender title] isEqualToString:@"Cancel"]) {
 		// Cancel
-		[NSApp endSheet:theWindow returnCode:NSModalResponseCancel];
+		[parentWindow endSheet:theWindow returnCode:NSModalResponseCancel];
 	} else if([[(NSButton* )sender title] hasPrefix:@"Try"]) {
 		// Try again...
-		[NSApp endSheet:theWindow returnCode:NSModalResponseContinue];
+		[parentWindow endSheet:theWindow returnCode:NSModalResponseContinue];
 	} else if([[(NSButton* )sender title] isEqualToString:@"OK"]) {
 		// OK
-		[NSApp endSheet:theWindow returnCode:NSModalResponseOK];
+		[parentWindow endSheet:theWindow returnCode:NSModalResponseOK];
 	} else {
 		// Unknown button clicked
 		NSLog(@"Button clicked, ignoring: %@",sender);
-	}
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// PGConnectionDelegate delegate implementation
-
--(void)connection:(PGConnection* )connection willOpenWithParameters:(NSMutableDictionary* )dictionary {
-	// store and retrieve password
-	NSParameterAssert([self password]);
-	NSError* error = nil;
-	if([dictionary objectForKey:@"password"]) {
-		NSError* error = nil;
-		[[self password] setPassword:[dictionary objectForKey:@"password"] forURL:[self url] saveToKeychain:[self useKeychain] error:&error];
-	} else {
-		NSString* password = [[self password] passwordForURL:[self url] readFromKeychain:[self useKeychain] error:&error];
-		if(password) {
-			[dictionary setObject:password forKey:@"password"];
-		}
-	}
-	if(error) {
-		[self connection:connection error:error];
-	}
-}
-
--(void)connection:(PGConnection* )connection error:(NSError* )theError {
-	// ignore nil
-	if(theError==nil) {
-		return;
-	}
-	
-	// ignore "item cannot be found in the keychain" errors
-	if([[theError domain] isEqual:@"com.samsoffes.sskeychain"] && [theError code]==-25300) {
-		return;
-	}
-	
-	// set last error
-	_lastError = theError;
-	
-	// TODO: make sure this happens in the main thread
-	if([[self delegate] respondsToSelector:@selector(connectionWindow:error:)]) {
-		[[self delegate] connectionWindow:self error:theError];
 	}
 }
 
