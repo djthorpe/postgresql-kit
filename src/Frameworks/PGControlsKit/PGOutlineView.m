@@ -12,7 +12,12 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
+#import <PGControlsKit/PGControlsKit.h>
 #import "PGOutlineView.h"
+
+@interface PGSourceViewController (PGOutlineViewDelegate)
+-(NSMenu* )menuForItem:(id)item;
+@end
 
 @implementation PGOutlineView
 
@@ -29,6 +34,16 @@
         }
     }
     return [super performKeyEquivalent:theEvent];
+}
+
+-(NSMenu* )menuForEvent:(NSEvent* )theEvent {
+    NSPoint pt = [self convertPoint:[theEvent locationInWindow] fromView:nil];
+    id item = [self itemAtRow:[self rowAtPoint:pt]];
+	if(item && [[self delegate] isKindOfClass:[PGSourceViewController class]]) {
+		return [(PGSourceViewController* )[self delegate] menuForItem:item];
+	} else {
+		return nil;
+	}
 }
 
 @end

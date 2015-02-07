@@ -24,6 +24,7 @@ NSInteger PGQueriesTag = -200;
 @interface Application ()
 @property (weak) IBOutlet NSWindow* window;
 @property (weak) IBOutlet NSWindow* ibDeleteDatabaseSheet;
+@property (weak) IBOutlet NSMenu* ibConnectionContextMenu;
 @property (retain) NSString* ibDeleteDatabaseSheetNodeName;
 @property (retain) PGSourceViewNode* databases;
 @property (retain) PGSourceViewNode* queries;
@@ -129,17 +130,6 @@ NSInteger PGQueriesTag = -200;
 	NSMenuItem* menuItem2 = [[NSMenuItem alloc] initWithTitle:@"New Socket Connection..." action:@selector(doNewSocketConnection:) keyEquivalent:@""];
 	[[self splitView] addMenuItem:menuItem2];
 
-
-	NSMenuItem* menuItem3 = [[NSMenuItem alloc] initWithTitle:@"Connect" action:@selector(doConnect:) keyEquivalent:@""];
-	[[self splitView] addMenuItem:menuItem3];
-
-	NSMenuItem* menuItem4 = [[NSMenuItem alloc] initWithTitle:@"Disconnect" action:@selector(doDisconnect:) keyEquivalent:@""];
-	[[self splitView] addMenuItem:menuItem4];
-/*
-	NSMenuItem* menuItem4 = [[NSMenuItem alloc] initWithTitle:@"New Query..." action:@selector(doNewQuery:) keyEquivalent:@""];
-	[[self splitView] addMenuItem:menuItem4];
-*/
-
 	NSMenuItem* menuItem5 = [[NSMenuItem alloc] initWithTitle:@"Reset Source View" action:@selector(doResetSourceView:) keyEquivalent:@""];
 	[[self splitView] addMenuItem:menuItem5];
 	
@@ -187,7 +177,11 @@ NSInteger PGQueriesTag = -200;
 }
 
 -(void)_disconnectNode:(PGSourceViewConnection* )node {
-	NSLog(@"TODO: disconnect node %@",node);
+	// get tag node from source view
+	NSInteger tag = [[self sourceView] tagForNode:node];
+	NSParameterAssert(tag);
+	// perform disconnection
+	[[self connections] disconnectWithTag:tag];
 }
 
 -(void)_connectWithPasswordNode:(PGSourceViewConnection* )node {
@@ -239,10 +233,6 @@ NSInteger PGQueriesTag = -200;
 	}];
 }
 
--(IBAction)doNewQuery:(id)sender {
-	// add new query...
-}
-
 -(IBAction)doResetSourceView:(id)sender {
 	// disconnect any existing connections
 	[[self connections] removeAll];
@@ -262,6 +252,19 @@ NSInteger PGQueriesTag = -200;
 	PGSourceViewNode* connection = [[self sourceView] selectedNode];
 	if([connection isKindOfClass:[PGSourceViewConnection class]]) {
 		[self _disconnectNode:(PGSourceViewConnection* )connection];
+	}
+}
+
+-(IBAction)doEditConnection:(id)sender {
+	PGSourceViewNode* connection = [[self sourceView] selectedNode];
+	if([connection isKindOfClass:[PGSourceViewConnection class]]) {
+		[[self connectionWindow] beginConnectionSheetWithURL:[(PGSourceViewConnection* )connection URL] parentWindow:[self window] whenDone:^(NSURL* url) {
+			// update the connection details
+			if(url) {
+				NSInteger tag = [[self sourceView] tagForNode:connection];
+				NSLog(@"TODO: update URL to %@ for tag %ld",url,tag);
+			}
+		}];
 	}
 }
 
@@ -298,22 +301,11 @@ NSInteger PGQueriesTag = -200;
 // methods - PGSourceView delegate
 
 -(void)sourceView:(PGSourceViewController* )sourceView selectedNode:(PGSourceViewNode* )node {
-//	NSLog(@"selected node = %@",node);
+	NSLog(@"selected node = %@",node);
 }
 
 -(void)sourceView:(PGSourceViewController* )sourceView doubleClickedNode:(PGSourceViewNode* )node {
-	// if node is a connection node, then connect
-	if([node isKindOfClass:[PGSourceViewConnection class]]) {
-		[[self connectionWindow] beginConnectionSheetWithURL:[(PGSourceViewConnection* )node URL] parentWindow:[self window] whenDone:^(NSURL* url) {
-			// update the connection details
-			if(url) {
-				NSInteger tag = [[self sourceView] tagForNode:node];
-				NSLog(@"TODO: update URL to %@ for tag %ld",url,tag);
-			}
-		}];
-	} else {
-		NSLog(@"double clicked node = %@",node);
-	}
+	NSLog(@"double clicked node = %@",node);
 }
 
 -(void)sourceView:(PGSourceViewController* )sourceView deleteNode:(PGSourceViewNode* )node {
@@ -324,6 +316,14 @@ NSInteger PGQueriesTag = -200;
 			[sourceView removeNode:node];
 		}
 	}];
+}
+
+-(NSMenu* )sourceView:(PGSourceViewController* )sourceView menuForNode:(PGSourceViewNode* )node {
+	if([node isKindOfClass:[PGSourceViewNode class]]) {
+		[[self sourceView] selectNode:node];
+		return [self ibConnectionContextMenu];
+	}
+	return nil;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

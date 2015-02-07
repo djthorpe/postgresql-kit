@@ -256,6 +256,15 @@ NSString* PGSourceViewDragType = @"PGSourceViewDragType";
 	}
 }
 
+-(NSMenu* )menuForItem:(id)item {
+	NSParameterAssert([item isKindOfClass:[PGSourceViewNode class]]);
+	if([[self delegate] respondsToSelector:@selector(sourceView:menuForNode:)]) {
+		return [[self delegate] sourceView:self menuForNode:(PGSourceViewNode* )item];
+	} else {
+		return nil;
+	}
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // NSOutlineView drag and drop
 

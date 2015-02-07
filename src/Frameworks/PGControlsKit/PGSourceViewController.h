@@ -21,6 +21,7 @@
 	-(void)sourceView:(PGSourceViewController* )sourceView selectedNode:(PGSourceViewNode* )node;
 	-(void)sourceView:(PGSourceViewController* )sourceView deleteNode:(PGSourceViewNode* )node;
 	-(void)sourceView:(PGSourceViewController* )sourceView doubleClickedNode:(PGSourceViewNode* )node;
+	-(NSMenu* )sourceView:(PGSourceViewController* )sourceView menuForNode:(PGSourceViewNode* )node;
 @end
 
 ////////////////////////////////////////////////////////////////////////////////
