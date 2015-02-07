@@ -180,8 +180,8 @@ NSInteger PGQueriesTag = -200;
 	[[self connections] connectWithTag:tag whenDone:^(NSError* error) {
 		if([error domain]==PGClientErrorDomain && [error code]==PGClientErrorNeedsPassword) {
 			[self _connectWithPasswordNode:node];
-		} else {
-			NSLog(@"connection tag = %ld error = %@",tag,error);
+		} else if(error) {
+			[self _displayError:error node:node];
 		}
 	}];
 }
@@ -194,6 +194,19 @@ NSInteger PGQueriesTag = -200;
 	[[self connectionWindow] beginPasswordSheetWithParentWindow:[self window] whenDone:^(NSString* password,BOOL useKeychain) {
 		if(password) {
 			// TODO: store password with connection pool
+			[self _connectNode:node];
+		}
+	}];
+}
+
+-(void)_displayError:(NSError* )error node:(PGSourceViewConnection* )node {
+	NSParameterAssert(error);
+	NSParameterAssert(node);
+	NSLog(@"display the error sheet with %@",error);
+	[[self connectionWindow] beginErrorSheetWithError:error parentWindow:[self window] whenDone:^(NSModalResponse returnValue) {
+		NSLog(@"error sheet ended, returnValue = %ld",returnValue);
+		if(returnValue==NSModalResponseContinue) {
+			// try again
 			[self _connectNode:node];
 		}
 	}];
