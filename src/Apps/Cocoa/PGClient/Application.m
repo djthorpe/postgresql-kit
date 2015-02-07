@@ -212,6 +212,10 @@ NSInteger PGQueriesTag = -200;
 	}];
 }
 
+-(void)_reloadNode:(PGSourceViewNode* )node {
+	[[self sourceView] reloadNode:node];
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // IBActions
 
@@ -348,32 +352,44 @@ NSInteger PGQueriesTag = -200;
 	[[self sourceView] saveToUserDefaults];
 }
 
-/*
 ////////////////////////////////////////////////////////////////////////////////
-// ConnectionDelegate implementation
+// ConnectionPoolDelegate implementation
 
--(void)connection:(Connection* )connection status:(int)status url:(NSURL* )url {
+-(void)connectionPool:(PGConnectionPool *)pool tag:(NSInteger)tag statusChanged:(PGConnectionStatus)status {
+	PGSourceViewNode* node = [[self sourceView] nodeForTag:tag];
+	NSParameterAssert([node isKindOfClass:[PGSourceViewConnection class]]);
+	
 	switch(status) {
-		case ConnectionStatusCancelled:
-			NSLog(@"PGClient cancelled %ld %@",[connection tag],url);
+		case PGConnectionStatusConnected:
+			NSLog(@"PGConnectionPool tag = %ld, status = connected",tag);
+			[(PGSourceViewConnection* )node setIconStatus:PGSourceViewConnectionIconConnected];
+			[self performSelectorOnMainThread:@selector(_reloadNode:) withObject:node waitUntilDone:YES];
 			break;
-		case ConnectionStatusConnecting:
-			NSLog(@"PGClient connecting %ld %@",[connection tag],url);
-			[self _selectConnectionWithURL:url];
+		case PGConnectionStatusConnecting:
+			NSLog(@"PGConnectionPool tag = %ld, status = connecting",tag);
+			[(PGSourceViewConnection* )node setIconStatus:PGSourceViewConnectionIconConnecting];
+			[self performSelectorOnMainThread:@selector(_reloadNode:) withObject:node waitUntilDone:YES];
 			break;
-		case ConnectionStatusConnected:
-			NSLog(@"PGClient connected %ld %@",[connection tag],url);
+		case PGConnectionStatusDisconnected:
+			NSLog(@"PGConnectionPool tag = %ld, status = disconnected",tag);
+			[(PGSourceViewConnection* )node setIconStatus:PGSourceViewConnectionIconDisconnected];
+			[self performSelectorOnMainThread:@selector(_reloadNode:) withObject:node waitUntilDone:YES];
 			break;
-		case ConnectionStatusDisconnected:
-			NSLog(@"PGClient disconnected %ld %@",[connection tag],url);
+		case PGConnectionStatusRejected:
+			NSLog(@"PGConnectionPool tag = %ld, status = rejected",tag);
+			[(PGSourceViewConnection* )node setIconStatus:PGSourceViewConnectionIconRejected];
+			[self performSelectorOnMainThread:@selector(_reloadNode:) withObject:node waitUntilDone:YES];
+			break;
+		default:
+			NSLog(@"PGConnectionPool tag = %ld, status = other",tag);
+			[(PGSourceViewConnection* )node setIconStatus:PGSourceViewConnectionIconDisconnected];
+			[self performSelectorOnMainThread:@selector(_reloadNode:) withObject:node waitUntilDone:YES];
 			break;
 	}
 }
 
--(void)connection:(Connection* )connection error:(NSError* )error {
-	NSLog(@"PGClient error %@",[error localizedDescription]);
+-(void)connectionPool:(PGConnectionPool *)pool tag:(NSInteger)tag error:(NSError *)error {
+	NSLog(@"PGClient error tag %ld %@",tag,[error localizedDescription]);
 }
-
-*/
 
 @end

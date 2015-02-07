@@ -76,7 +76,7 @@
 	NSTableCellView* cellView = [super cellViewForOutlineView:outlineView tableColumn:tableColumn owner:owner tag:tag];
 	NSParameterAssert(cellView);
 	
-	NSImage* trafficIcon = [self imageForStatus:PGSourceViewConnectionIconDisconnected];
+	NSImage* trafficIcon = [self imageForStatus:[self iconStatus]];
 	[[cellView imageView] setImage:trafficIcon];
 
 	return cellView;

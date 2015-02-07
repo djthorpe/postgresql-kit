@@ -145,12 +145,16 @@
 	}
 }
 
--(void)connection:(PGConnection* )connection error:(NSError* )theError {
-	// TODO: pass error onto the delegate
+-(void)connection:(PGConnection* )connection error:(NSError* )error {
+	if([[self delegate] respondsToSelector:@selector(connectionPool:tag:error:)]) {
+		[[self delegate] connectionPool:self tag:[connection tag] error:error];
+	}
 }
 
 -(void)connection:(PGConnection* )connection statusChange:(PGConnectionStatus)status {
-	// TODO: pass status change onto the delegate
+	if([[self delegate] respondsToSelector:@selector(connectionPool:tag:statusChanged:)]) {
+		[[self delegate] connectionPool:self tag:[connection tag] statusChanged:status];
+	}
 }
 
 @end

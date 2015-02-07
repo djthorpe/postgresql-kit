@@ -44,6 +44,7 @@
 // methods - modifying the source view
 -(BOOL)selectNode:(PGSourceViewNode* )node;
 -(void)expandNode:(PGSourceViewNode* )node;
+-(void)reloadNode:(PGSourceViewNode* )node;
 
 // methods - removing nodes
 -(void)removeNode:(PGSourceViewNode* )node;

@@ -44,6 +44,10 @@
 
 // delegate for PGConnectionPool
 @protocol PGConnectionPoolDelegate <NSObject>
-// stuff here
+
+@optional
+	-(void)connectionPool:(PGConnectionPool* )pool tag:(NSInteger)tag statusChanged:(PGConnectionStatus)status;
+	-(void)connectionPool:(PGConnectionPool* )pool tag:(NSInteger)tag error:(NSError* )error;
+
 @end
 

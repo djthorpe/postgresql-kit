@@ -142,6 +142,12 @@ NSString* PGSourceViewDragType = @"PGSourceViewDragType";
 	return node;
 }
 
+-(void)reloadNode:(PGSourceViewNode* )node {
+	// Redisplay the data for this row, for some reason we have to do this in a tricky way
+	NSInteger rowIndex = [[self ibOutlineView] rowForItem:node];
+	[[self ibOutlineView] reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:rowIndex] columnIndexes:[NSIndexSet indexSetWithIndex:0]];
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // methods - IBActions
 
