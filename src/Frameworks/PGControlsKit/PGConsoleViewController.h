@@ -14,6 +14,10 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface PGConsoleViewController : NSViewController
+@interface PGConsoleViewController : NSViewController <NSTableViewDataSource, NSTableViewDelegate> {
+	NSFont* _textFont;
+	NSColor* _textColor;
+	NSColor* _backgroundColor;
+}
 
 @end

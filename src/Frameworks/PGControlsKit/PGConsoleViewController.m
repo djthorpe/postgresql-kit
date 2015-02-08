@@ -15,8 +15,8 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-@interface PGSourceViewController ()
-// TODO
+@interface PGConsoleViewController ()
+@property (weak) IBOutlet NSTableView* ibTableView;
 @end
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -29,14 +29,49 @@
 -(id)init {
     self = [super initWithNibName:@"PGConsoleView" bundle:[NSBundle bundleForClass:[self class]]];
 	if(self) {
-		// TODO
+		_textFont = [NSFont fontWithName:@"Monaco" size:11];
+		_textColor = [NSColor grayColor];
+		_backgroundColor = [NSColor blackColor];
 	}
 	return self;
 }
 
 -(void)awakeFromNib {
-	// Init here
-	NSLog(@"awakeFromNib %@",self);
+	[[self ibTableView] setBackgroundColor:_backgroundColor];
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// private methods
+
+-(NSUInteger)_numberOfRows {
+	return 0;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// NSTableViewDataSource implementation
+
+-(NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView {
+	NSInteger numOfRows = [self _numberOfRows];
+/*	if([self editable]) {
+		// we add one row at the bottom for the prompt
+		numOfRows = numOfRows + 1;
+	}*/
+	return numOfRows;
+}
+
+-(NSView* )tableView:(NSTableView* )tableView viewForTableColumn:(NSTableColumn* )tableColumn row:(NSInteger)row {
+	return [NSImageView new];
+}
+
+-(BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(NSInteger)rowIndex {
+	return NO;
+}
+
+/*
+-(CGFloat)tableView:(NSTableView* )tableView heightOfRow:(NSInteger)row	{
+	NSUInteger numberOfLines = [self _numberOfLinesForRow:row];
+	return numberOfLines > 0 ? (numberOfLines * [self textHeight]) : [self textHeight];
+}
+*/
 
 @end
