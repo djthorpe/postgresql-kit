@@ -15,7 +15,7 @@
 #import <Cocoa/Cocoa.h>
 #import <PGControlsKit/PGControlsKit.h>
 
-@interface Application : NSObject <NSApplicationDelegate,PGSourceViewDelegate,PGConnectionPoolDelegate> {
+@interface Application : NSObject <NSApplicationDelegate,PGSourceViewDelegate,PGConnectionPoolDelegate,PGTabViewDelegate> {
 	PGConnectionPool* _connections;
 	PGSplitViewController* _splitView;
 	PGSourceViewController* _sourceView;

@@ -27,13 +27,38 @@
 -(id)init {
     self = [super initWithNibName:@"PGTabView" bundle:[NSBundle bundleForClass:[self class]]];
 	if(self) {
-		// TODO
+		_views = [NSMutableDictionary new];
+		NSParameterAssert(_views);
 	}
 	return self;
 }
 
 -(void)awakeFromNib {
 	// do things here
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+// private methods
+
++(id)keyForTag:(NSInteger)tag {
+	return [NSNumber numberWithInteger:tag];
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// public methods
+
+-(NSViewController* )viewWithTag:(NSInteger)tag {
+	id key = [PGTabViewController keyForTag:tag];
+	NSParameterAssert(key);
+	NSViewController* view = [_views objectForKey:key];
+	if(view==nil && [[self delegate] respondsToSelector:@selector(tabView:newViewForTag:)]) {
+		view = [[self delegate] tabView:self newViewForTag:tag];
+		if(view) {
+			[_views setObject:view forKey:key];
+		}
+	}
+	return view;
 }
 
 @end

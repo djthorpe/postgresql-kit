@@ -49,6 +49,7 @@ NSInteger PGQueriesTag = -200;
 		NSParameterAssert(_helpWindow && _connectionWindow);
 		[_connections setDelegate:self];
 		[_sourceView setDelegate:self];
+		[_tabView setDelegate:self];
 	}
 	return self;
 }
@@ -302,7 +303,15 @@ NSInteger PGQueriesTag = -200;
 
 -(void)sourceView:(PGSourceViewController* )sourceView selectedNode:(PGSourceViewNode* )node {
 	NSParameterAssert(sourceView==[self sourceView]);
-	NSLog(@"selected node = %@",node);
+	NSParameterAssert(node);
+
+	// get tag node from source view
+	NSInteger tag = [[self sourceView] tagForNode:node];
+	NSParameterAssert(tag);
+	
+	// select view
+	NSViewController* view = [[self tabView] viewWithTag:tag];
+	NSLog(@"selected tag = %ld view = %@",tag,view);
 }
 
 -(void)sourceView:(PGSourceViewController* )sourceView doubleClickedNode:(PGSourceViewNode* )node {
@@ -341,6 +350,17 @@ NSInteger PGQueriesTag = -200;
 		[[self sourceView] selectNode:node];
 		return [self ibConnectionContextMenu];
 	}
+	return nil;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// PGTabViewDelegate implementation
+
+-(NSViewController* )tabView:(PGTabViewController* )tabView newViewForTag:(NSInteger)tag {
+	PGSourceViewNode* node = [[self sourceView] nodeForTag:tag];
+	NSParameterAssert(node);
+	return [PGConsoleView]
+	NSLog(@"TODO: return nsviewcontroller for %ld %@",tag,node);
 	return nil;
 }
 
