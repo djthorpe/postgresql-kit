@@ -181,6 +181,8 @@
 		6E92F56C1A65B26F003C0727 /* traffic-orange.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6ED779F317C1266100124DF1 /* traffic-orange.tiff */; };
 		6EA41EF01610E7DB00E81046 /* PGServer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EA41EEE1610E7DB00E81046 /* PGServer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6EA41EF11610E7DB00E81046 /* PGServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EA41EEF1610E7DB00E81046 /* PGServer.m */; };
+		6EA463F31A87E1FF005AA8A3 /* PGConsoleViewBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EA463F11A87E1FF005AA8A3 /* PGConsoleViewBuffer.h */; };
+		6EA463F41A87E1FF005AA8A3 /* PGConsoleViewBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EA463F21A87E1FF005AA8A3 /* PGConsoleViewBuffer.m */; };
 		6EAA40EB17BC150E0078EB32 /* NSURL+PGAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EAA40E917BC150E0078EB32 /* NSURL+PGAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6EAA40ED17BC150E0078EB32 /* NSURL+PGAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EAA40EA17BC150E0078EB32 /* NSURL+PGAdditions.m */; };
 		6EB1E79615F282910093F784 /* PGServerKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EB1E74015F273350093F784 /* PGServerKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -554,6 +556,8 @@
 		6E8C168115F26BF20013A382 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6EA41EEE1610E7DB00E81046 /* PGServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGServer.h; sourceTree = "<group>"; };
 		6EA41EEF1610E7DB00E81046 /* PGServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGServer.m; sourceTree = "<group>"; };
+		6EA463F11A87E1FF005AA8A3 /* PGConsoleViewBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGConsoleViewBuffer.h; sourceTree = "<group>"; };
+		6EA463F21A87E1FF005AA8A3 /* PGConsoleViewBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGConsoleViewBuffer.m; sourceTree = "<group>"; };
 		6EA5EA8117AAE480005A3343 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		6EA5EA8217AAF9DC005A3343 /* lipo.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = lipo.sh; sourceTree = "<group>"; };
 		6EAA40E917BC150E0078EB32 /* NSURL+PGAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+PGAdditions.h"; sourceTree = "<group>"; };
@@ -963,6 +967,8 @@
 			children = (
 				6E1BFDFF1A87B6010068884C /* PGConsoleViewController.h */,
 				6E1BFE001A87B6010068884C /* PGConsoleViewController.m */,
+				6EA463F11A87E1FF005AA8A3 /* PGConsoleViewBuffer.h */,
+				6EA463F21A87E1FF005AA8A3 /* PGConsoleViewBuffer.m */,
 				6E1BFE031A87B6920068884C /* PGConsoleView.xib */,
 			);
 			name = PGConsoleView;
@@ -1343,6 +1349,7 @@
 				6E0C81701A619E2E0032AE32 /* PGSplitViewController.h in Headers */,
 				6E69F6B01A67BABF0014EC1F /* PGSourceViewNode.h in Headers */,
 				6E47EDC31A6EEA6800352939 /* PGSourceViewConnection.h in Headers */,
+				6EA463F31A87E1FF005AA8A3 /* PGConsoleViewBuffer.h in Headers */,
 				6E45A3811A73A28100E20B36 /* PGHelpWindowController.h in Headers */,
 				6E1BFE011A87B6010068884C /* PGConsoleViewController.h in Headers */,
 				14F1E86F17CB857A00710D4A /* PGControlsKit.h in Headers */,
@@ -1842,6 +1849,7 @@
 				6E69F6B11A67BABF0014EC1F /* PGSourceViewNode.m in Sources */,
 				6E45A40E1A73AAF300E20B36 /* MMDocument.m in Sources */,
 				6E47EDC41A6EEA6800352939 /* PGSourceViewConnection.m in Sources */,
+				6EA463F41A87E1FF005AA8A3 /* PGConsoleViewBuffer.m in Sources */,
 				6E5D8BD61A66EE9000C54D42 /* PGConnectionWindowFormatter.m in Sources */,
 				6E45A3821A73A28100E20B36 /* PGHelpWindowController.m in Sources */,
 			);
