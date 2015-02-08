@@ -1,4 +1,3 @@
-
 // Copyright 2009-2015 David Thorpe
 // https://github.com/djthorpe/postgresql-kit
 //
@@ -12,25 +11,32 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-#import <Cocoa/Cocoa.h>
+#import <PGControlsKit/PGControlsKit.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-@protocol PGTabViewDelegate <NSObject>
-@required
-	-(NSViewController* )tabView:(PGTabViewController* )tabView newViewForTag:(NSInteger)tag;
+@interface PGSourceViewController ()
+// TODO
 @end
 
 ////////////////////////////////////////////////////////////////////////////////
 
-@interface PGTabViewController : NSViewController <NSTabViewDelegate> {
-	NSMutableDictionary* _views;
+@implementation PGConsoleViewController
+
+////////////////////////////////////////////////////////////////////////////////
+// constructors
+
+-(id)init {
+    self = [super initWithNibName:@"PGConsoleView" bundle:[NSBundle bundleForClass:[self class]]];
+	if(self) {
+		// TODO
+	}
+	return self;
 }
 
-// properties
-@property (weak,nonatomic) id<PGTabViewDelegate> delegate;
-
-// methods
--(NSViewController* )selectViewWithTag:(NSInteger)tag;
+-(void)awakeFromNib {
+	// Init here
+	NSLog(@"awakeFromNib %@",self);
+}
 
 @end

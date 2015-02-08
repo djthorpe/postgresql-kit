@@ -310,8 +310,7 @@ NSInteger PGQueriesTag = -200;
 	NSParameterAssert(tag);
 	
 	// select view
-	NSViewController* view = [[self tabView] viewWithTag:tag];
-	NSLog(@"selected tag = %ld view = %@",tag,view);
+	[[self tabView] selectViewWithTag:tag];
 }
 
 -(void)sourceView:(PGSourceViewController* )sourceView doubleClickedNode:(PGSourceViewNode* )node {
@@ -359,9 +358,9 @@ NSInteger PGQueriesTag = -200;
 -(NSViewController* )tabView:(PGTabViewController* )tabView newViewForTag:(NSInteger)tag {
 	PGSourceViewNode* node = [[self sourceView] nodeForTag:tag];
 	NSParameterAssert(node);
-	return [PGConsoleView]
-	NSLog(@"TODO: return nsviewcontroller for %ld %@",tag,node);
-	return nil;
+	NSViewController* controller = [PGConsoleViewController new];
+	[controller setTitle:[node name]];
+	return controller;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

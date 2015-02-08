@@ -28,6 +28,8 @@
 
 @class PGHelpWindowController;
 
+@class PGConsoleViewController;
+
 // Windows
 #import "PGConnectionWindowController.h"
 #import "PGHelpWindowController.h"
@@ -36,6 +38,7 @@
 #import "PGSplitViewController.h"
 #import "PGSourceViewController.h"
 #import "PGTabViewController.h"
+#import "PGConsoleViewController.h"
 
 // Nodes for Source View
 #import "PGSourceViewNode.h"

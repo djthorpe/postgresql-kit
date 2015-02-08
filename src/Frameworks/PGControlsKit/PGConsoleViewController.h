@@ -14,23 +14,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-////////////////////////////////////////////////////////////////////////////////
-
-@protocol PGTabViewDelegate <NSObject>
-@required
-	-(NSViewController* )tabView:(PGTabViewController* )tabView newViewForTag:(NSInteger)tag;
-@end
-
-////////////////////////////////////////////////////////////////////////////////
-
-@interface PGTabViewController : NSViewController <NSTabViewDelegate> {
-	NSMutableDictionary* _views;
-}
-
-// properties
-@property (weak,nonatomic) id<PGTabViewDelegate> delegate;
-
-// methods
--(NSViewController* )selectViewWithTag:(NSInteger)tag;
+@interface PGConsoleViewController : NSViewController
 
 @end

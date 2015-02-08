@@ -15,7 +15,7 @@
 #import <PGControlsKit/PGControlsKit.h>
 
 @interface PGTabViewController ()
-
+@property (weak) IBOutlet NSTabView* ibTabView;
 @end
 
 @implementation PGTabViewController
@@ -48,16 +48,29 @@
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
 
--(NSViewController* )viewWithTag:(NSInteger)tag {
+-(NSViewController* )selectViewWithTag:(NSInteger)tag {
 	id key = [PGTabViewController keyForTag:tag];
 	NSParameterAssert(key);
 	NSViewController* view = [_views objectForKey:key];
+	// if doesn't exist, ask delegate to return it
 	if(view==nil && [[self delegate] respondsToSelector:@selector(tabView:newViewForTag:)]) {
 		view = [[self delegate] tabView:self newViewForTag:tag];
 		if(view) {
 			[_views setObject:view forKey:key];
+			NSTabViewItem* item = [[NSTabViewItem alloc] initWithIdentifier:key];
+			[item setView:[view view]];
+			if([view title]) {
+				[item setLabel:[view title]];
+			} else {
+				[item setLabel:[key description]];
+			}
+			[[self ibTabView] addTabViewItem:item];
 		}
 	}
+	// select view
+	NSLog(@"tabs = %@",[[self ibTabView] tabViewItems]);
+	[[self ibTabView] selectTabViewItemWithIdentifier:key];
+	
 	return view;
 }
 
