@@ -125,6 +125,16 @@
 	}
 }
 
+-(PGConnectionStatus)statusForTag:(NSInteger)tag {
+	id key = [PGConnectionPool keyForTag:tag];
+	NSParameterAssert(key);
+	PGConnection* connection = [_connection objectForKey:key];
+	if(connection==nil) {
+		return PGConnectionStatusDisconnected;
+	}
+	return [connection status];
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // PGConnectionDelegate
 

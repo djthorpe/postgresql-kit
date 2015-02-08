@@ -9,6 +9,7 @@
             <connections>
                 <outlet property="ibErrorWindow" destination="tpz-r7-naX" id="BMd-MD-rix"/>
                 <outlet property="ibPasswordWindow" destination="ViW-cY-oM7" id="7Xr-aI-ikC"/>
+                <outlet property="ibSocketWindow" destination="6Aw-Yi-Jm1" id="h46-YG-7Ba"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="l1P-NB-k1w"/>
             </connections>
         </customObject>
@@ -355,8 +356,7 @@ DQ
 </string>
                         </buttonCell>
                         <connections>
-                            <action selector="ibButtonClicked:" target="-2" id="TyX-XB-Gxs"/>
-                            <binding destination="-2" name="enabled" keyPath="isValidConnection" id="Mep-Pp-pPo"/>
+                            <action selector="ibChooseSocketFolder:" target="-2" id="mFV-5a-lbX"/>
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rkx-3R-Ztl">

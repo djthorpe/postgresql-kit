@@ -301,14 +301,32 @@ NSInteger PGQueriesTag = -200;
 // methods - PGSourceView delegate
 
 -(void)sourceView:(PGSourceViewController* )sourceView selectedNode:(PGSourceViewNode* )node {
+	NSParameterAssert(sourceView==[self sourceView]);
 	NSLog(@"selected node = %@",node);
 }
 
 -(void)sourceView:(PGSourceViewController* )sourceView doubleClickedNode:(PGSourceViewNode* )node {
-	NSLog(@"double clicked node = %@",node);
+	NSParameterAssert(sourceView==[self sourceView]);
+	NSParameterAssert(node);
+
+	// get tag node from source view
+	NSInteger tag = [[self sourceView] tagForNode:node];
+	NSParameterAssert(tag);
+
+	if([node isKindOfClass:[PGSourceViewConnection class]]) {
+		PGConnectionStatus status = [[self connections] statusForTag:tag];
+		if(status != PGConnectionStatusConnected) {
+			[self _connectNode:(PGSourceViewConnection* )node];
+		}
+	} else {
+		NSLog(@"double clicked node = %@",node);
+	}
 }
 
 -(void)sourceView:(PGSourceViewController* )sourceView deleteNode:(PGSourceViewNode* )node {
+	NSParameterAssert(sourceView==[self sourceView]);
+	NSParameterAssert(node);
+
 	// display confirmation sheet
 	[self setIbDeleteDatabaseSheetNodeName:[node name]];
 	[[self window] beginSheet:[self ibDeleteDatabaseSheet] completionHandler:^(NSModalResponse returnCode) {

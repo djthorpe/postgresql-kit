@@ -24,6 +24,7 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 @interface PGConnectionWindowController ()
 
 // IB Properties
+@property (weak,nonatomic) IBOutlet NSWindow* ibSocketWindow;
 @property (weak,nonatomic) IBOutlet NSWindow* ibPasswordWindow;
 @property (weak,nonatomic) IBOutlet NSWindow* ibErrorWindow;
 
@@ -70,6 +71,7 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 // properties
 
 // windows
+@synthesize ibSocketWindow;
 @synthesize ibPasswordWindow;
 @synthesize ibErrorWindow;
 
@@ -216,7 +218,7 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 // private methods - key-value observing
 
 -(void)_registerAsObserver:(NSWindow* )window {
-	if(window==[self window]) {
+	if(window==[self window] || window==[self ibSocketWindow]) {
 		for(NSString* keyPath in @[ @"isDefaultPort",@"isRequireSSL",@"params.host", @"params.ssl", @"params.user", @"params.dbname", @"params.port" ]) {
 			[self addObserver:self forKeyPath:keyPath options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:NULL];
 		}
@@ -224,7 +226,7 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 }
 
 -(void)_deregisterAsObserver:(NSWindow* )window {
-	if(window==[self window]) {
+	if(window==[self window] || window==[self ibSocketWindow]) {
 		for(NSString* keyPath in @[ @"isDefaultPort",@"isRequireSSL",@"params.host", @"params.ssl", @"params.user", @"params.dbname", @"params.port" ]) {
 			[self removeObserver:self forKeyPath:keyPath];
 		}
@@ -265,23 +267,29 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 
 -(void)beginConnectionSheetWithURL:(NSURL* )url parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(NSURL* url)) callback {
 	NSParameterAssert(parentWindow);
-	
-	// register as observer
-	[self _registerAsObserver:[self window]];
 
 	// set default URL
 	if(url==nil) {
 		url = [PGConnectionWindowController defaultNetworkURL];
 	}
-
+	
+	// determine which window to use
+	NSWindow* theSheet = [self window];
+	if([url isSocketPathURL]) {
+		theSheet = [self ibSocketWindow];
+	}
+	
 	// set parameters
 	[self _setDefaultValuesFrom:[url postgresqlParameters]];
+
+	// register as observer
+	[self _registerAsObserver:theSheet];
 	
-	[parentWindow beginSheet:[self window] completionHandler:^(NSModalResponse returnValue) {
+	[parentWindow beginSheet:theSheet completionHandler:^(NSModalResponse returnValue) {
 		// cancel timers
 		[self _unschedulePingTimer];
 		// remove observers
-		[self _deregisterAsObserver:[self window]];
+		[self _deregisterAsObserver:theSheet];
 		// for cancel, return nil
 		if(returnValue==NSModalResponseCancel) {
 			callback(nil);
@@ -349,5 +357,27 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 		NSLog(@"Button clicked, ignoring: %@",sender);
 	}
 }
+
+-(IBAction)ibChooseSocketFolder:(id)sender {
+	NSParameterAssert([sender isKindOfClass:[NSButton class]]);
+	NSWindow* theWindow = [(NSButton* )sender window];
+
+	// Create file chooser
+	NSOpenPanel* panel = [NSOpenPanel new];
+	[panel setCanChooseDirectories:YES];
+	[panel setCanChooseFiles:NO];
+	[panel setAllowsMultipleSelection:NO];
+
+	// Perform sheet
+	[panel beginSheetModalForWindow:theWindow completionHandler:^(NSModalResponse returnValue) {
+		if(returnValue==NSModalResponseOK) {
+			NSString* thePath = [[panel URL] path];
+			[self willChangeValueForKey:@"params.host"];
+			[[self params] setObject:thePath forKey:@"host"];
+			[self didChangeValueForKey:@"params.host"];
+		}
+	}];
+}
+
 
 @end

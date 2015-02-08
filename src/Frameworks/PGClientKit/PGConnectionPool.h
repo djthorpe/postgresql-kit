@@ -37,6 +37,7 @@
 
 -(BOOL)connectWithTag:(NSInteger)tag whenDone:(void(^)(NSError* error)) callback;
 -(BOOL)disconnectWithTag:(NSInteger)tag;
+-(PGConnectionStatus)statusForTag:(NSInteger)tag;
 -(BOOL)removeWithTag:(NSInteger)tag;
 -(void)removeAll;
 
