@@ -14,11 +14,8 @@
 
 #import <Foundation/Foundation.h>
 
-@interface PGConsoleViewBuffer : NSObject {
+@interface PGConsoleViewBuffer : NSObject <PGConsoleViewDataSource> {
 	NSMutableArray* _rows;
 }
-
--(NSUInteger)count;
--(NSString* )stringForRow:(NSUInteger)row;
 
 @end

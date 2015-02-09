@@ -12,8 +12,16 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-#import "PGConsoleViewBuffer.h"
+#import <PGControlsKit/PGControlsKit.h>
 
 @implementation PGConsoleViewBuffer
+
+-(NSUInteger)numberOfRowsForConsoleView:(PGConsoleViewController* )view {
+	return 10;
+}
+
+-(NSString* )consoleView:(PGConsoleViewController* )consoleView stringForRow:(NSUInteger)row {
+	return [NSString stringWithFormat:@"Row number %ld",row];
+}
 
 @end

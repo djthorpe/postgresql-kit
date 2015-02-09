@@ -50,6 +50,9 @@ NSInteger PGQueriesTag = -200;
 		[_connections setDelegate:self];
 		[_sourceView setDelegate:self];
 		[_tabView setDelegate:self];
+		
+		// add console view buffer
+		_consoleViewBuffer = [PGConsoleViewBuffer new];
 	}
 	return self;
 }
@@ -358,8 +361,9 @@ NSInteger PGQueriesTag = -200;
 -(NSViewController* )tabView:(PGTabViewController* )tabView newViewForTag:(NSInteger)tag {
 	PGSourceViewNode* node = [[self sourceView] nodeForTag:tag];
 	NSParameterAssert(node);
-	NSViewController* controller = [PGConsoleViewController new];
+	PGConsoleViewController* controller = [PGConsoleViewController new];
 	[controller setTitle:[node name]];
+	[controller setDataSource:_consoleViewBuffer];
 	return controller;
 }
 

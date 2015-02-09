@@ -22,6 +22,7 @@
 	PGTabViewController* _tabView;
 	PGHelpWindowController* _helpWindow;
 	PGConnectionWindowController* _connectionWindow;
+	PGConsoleViewBuffer* _consoleViewBuffer;
 }
 
 // properties

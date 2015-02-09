@@ -14,10 +14,29 @@
 
 #import <Cocoa/Cocoa.h>
 
+
+////////////////////////////////////////////////////////////////////////////////
+
+@protocol PGConsoleViewDataSource <NSObject>
+@required
+	-(NSUInteger)numberOfRowsForConsoleView:(PGConsoleViewController* )view;
+	-(NSString* )consoleView:(PGConsoleViewController* )consoleView stringForRow:(NSUInteger)row;
+@end
+
+////////////////////////////////////////////////////////////////////////////////
+
 @interface PGConsoleViewController : NSViewController <NSTableViewDataSource, NSTableViewDelegate> {
 	NSFont* _textFont;
 	NSColor* _textColor;
 	NSColor* _backgroundColor;
 }
+
+// properties
+@property (weak) id<PGConsoleViewDataSource> dataSource;
+@property NSInteger tag;
+
+// methods
+-(void)reloadData;
+-(void)scrollToBottom;
 
 @end

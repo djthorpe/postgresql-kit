@@ -12,13 +12,12 @@
 // under the License.
 
 #import <PGControlsKit/PGControlsKit.h>
-#import "PGConsoleViewBuffer.h"
+
 
 ////////////////////////////////////////////////////////////////////////////////
 
 @interface PGConsoleViewController ()
 @property (weak) IBOutlet NSTableView* ibTableView;
-@property (retain) PGConsoleViewBuffer* buffer; // model
 @end
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -45,13 +44,71 @@
 ////////////////////////////////////////////////////////////////////////////////
 // properties
 
-@synthesize buffer = _buffer;
+@synthesize dataSource;
+@synthesize tag;
 
 ////////////////////////////////////////////////////////////////////////////////
 // private methods
 
 -(NSUInteger)_numberOfRows {
-	return 0;
+	if([[self dataSource] respondsToSelector:@selector(numberOfRowsForConsoleView:)]) {
+		return [[self dataSource] numberOfRowsForConsoleView:self];
+	} else {
+		return 0;
+	}
+}
+
+-(NSUInteger)_numberOfLinesForRow:(NSUInteger)rowIndex {
+	NSString* string = [self _stringForRow:rowIndex];
+	NSUInteger numberOfLines = 0;
+	for(NSUInteger index = 0; index < [string length]; numberOfLines++) {
+		index = NSMaxRange([string lineRangeForRange:NSMakeRange(index, 0)]);		
+	}
+	return numberOfLines;
+}
+
+-(NSString* )_stringForRow:(NSUInteger)row {
+	if([[self dataSource] respondsToSelector:@selector(consoleView:stringForRow:)]) {
+		return [[self dataSource] consoleView:self stringForRow:row];
+	} else {
+		return nil;
+	}
+}
+
+-(CGFloat)_textHeight {
+	return [_textFont capHeight] * 2;
+}
+
+-(NSTextField* )_textView {
+	NSRect frame = NSMakeRect(0,0,0,[self _textHeight]);
+	NSTextField* textField = [[NSTextField alloc] initWithFrame:frame];
+	[textField setEditable:NO];
+	[textField setFont:_textFont];
+	[textField setDrawsBackground:NO];
+	[textField setBordered:NO];
+	[textField setBezeled:NO];
+	[textField setTextColor:_textColor];
+	return textField;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// public methods
+
+-(void)reloadData {
+	[[self ibTableView] reloadData];
+}
+
+-(void)scrollToBottom {
+	NSScrollView* scrollView = (NSScrollView* )[self view];
+	NSParameterAssert([scrollView isKindOfClass:[NSScrollView class]]);
+	NSPoint newScrollOrigin;
+    // assume that the scrollview is an existing variable
+    if ([[scrollView documentView] isFlipped]) {
+        newScrollOrigin=NSMakePoint(0.0,NSMaxY([[scrollView documentView] frame])-NSHeight([[scrollView contentView] bounds]));
+    } else {
+        newScrollOrigin=NSMakePoint(0.0,0.0);
+    }	
+    [[scrollView documentView] scrollPoint:newScrollOrigin];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -67,7 +124,9 @@
 }
 
 -(NSView* )tableView:(NSTableView* )tableView viewForTableColumn:(NSTableColumn* )tableColumn row:(NSInteger)row {
-	return [NSImageView new];
+	NSTextField* view = [self _textView];
+	[view setStringValue:[self _stringForRow:row]];
+	return view;
 }
 
 -(BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(NSInteger)rowIndex {
