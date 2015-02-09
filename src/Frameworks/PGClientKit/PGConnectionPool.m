@@ -135,6 +135,18 @@
 	return [connection status];
 }
 
+-(void)execute:(NSString* )query forTag:(NSInteger)tag {
+	id key = [PGConnectionPool keyForTag:tag];
+	NSParameterAssert(key);
+	PGConnection* connection = [_connection objectForKey:key];
+	if([connection status]==PGConnectionStatusConnected) {
+		NSError* error = nil;
+		PGResult* result = [connection execute:query error:&error];
+		NSLog(@"%@",[result tableWithWidth:80]);
+	}
+}
+
+
 ////////////////////////////////////////////////////////////////////////////////
 // PGConnectionDelegate
 

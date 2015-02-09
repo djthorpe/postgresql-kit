@@ -18,6 +18,7 @@
 
 @interface PGConsoleViewController ()
 @property (weak) IBOutlet NSTableView* ibTableView;
+@property (weak) IBOutlet NSScrollView* ibScrollView;
 @end
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -39,6 +40,7 @@
 
 -(void)awakeFromNib {
 	[[self ibTableView] setBackgroundColor:_backgroundColor];
+	[[self ibScrollView] setScrollerKnobStyle:NSScrollerKnobStyleLight];
 }
 
 ////////////////////////////////////////////////////////////////////////////////

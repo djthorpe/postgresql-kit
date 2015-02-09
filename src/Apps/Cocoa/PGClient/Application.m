@@ -187,6 +187,14 @@ NSInteger PGQueriesTag = -200;
 	[[self connections] disconnectWithTag:tag];
 }
 
+-(void)_showDatabasesForNode:(PGSourceViewConnection* )node {
+	// get tag node from source view
+	NSInteger tag = [[self sourceView] tagForNode:node];
+	NSParameterAssert(tag);
+	// execute query
+	[[self connections] execute:@"SELECT 1" forTag:tag];
+}
+
 -(void)_connectWithPasswordNode:(PGSourceViewConnection* )node {
 	[[self connectionWindow] beginPasswordSheetWithParentWindow:[self window] whenDone:^(NSString* password,BOOL useKeychain) {
 		if(password) {
@@ -298,6 +306,13 @@ NSInteger PGQueriesTag = -200;
 	NSError* error = nil;
 	if([[self helpWindow] displayHelpFromMarkdownResource:@"NOTICE" bundle:[NSBundle mainBundle] error:&error]==NO) {
 		NSLog(@"error: %@",error);
+	}
+}
+
+-(IBAction)doShowDatabases:(id)sender {
+	PGSourceViewNode* connection = [[self sourceView] selectedNode];
+	if([connection isKindOfClass:[PGSourceViewConnection class]]) {
+		[self _showDatabasesForNode:(PGSourceViewConnection* )connection];
 	}
 }
 

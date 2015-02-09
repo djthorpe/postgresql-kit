@@ -31,15 +31,14 @@
 
 // methods
 -(PGConnection* )createConnectionWithURL:(NSURL* )url tag:(NSInteger)tag;
-
 -(void)setURL:(NSURL* )url forTag:(NSInteger)tag;
 -(NSURL* )URLForTag:(NSInteger)tag;
-
 -(BOOL)connectWithTag:(NSInteger)tag whenDone:(void(^)(NSError* error)) callback;
 -(BOOL)disconnectWithTag:(NSInteger)tag;
 -(PGConnectionStatus)statusForTag:(NSInteger)tag;
 -(BOOL)removeWithTag:(NSInteger)tag;
 -(void)removeAll;
+-(void)execute:(NSString* )query forTag:(NSInteger)tag;
 
 @end
 

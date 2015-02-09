@@ -7,6 +7,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PGConsoleViewController">
             <connections>
+                <outlet property="ibScrollView" destination="WGg-Dm-mLG" id="iIg-K2-VH8"/>
                 <outlet property="ibTableView" destination="5qQ-1R-BA5" id="Kz6-fD-Akx"/>
                 <outlet property="view" destination="WGg-Dm-mLG" id="r3h-sE-pji"/>
             </connections>
@@ -26,7 +27,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                         <tableColumns>
-                            <tableColumn editable="NO" width="500" minWidth="40" maxWidth="1000" id="5Zj-E6-aOR">
+                            <tableColumn editable="NO" width="510" minWidth="40" maxWidth="1000" id="5Zj-E6-aOR">
                                 <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
                                     <font key="font" metaFont="smallSystem"/>
                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
