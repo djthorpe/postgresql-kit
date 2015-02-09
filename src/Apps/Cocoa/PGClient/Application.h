@@ -14,6 +14,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import <PGControlsKit/PGControlsKit.h>
+#import "ConsoleBuffer.h"
 
 @interface Application : NSObject <NSApplicationDelegate,PGSourceViewDelegate,PGConnectionPoolDelegate,PGTabViewDelegate> {
 	PGConnectionPool* _connections;
@@ -22,7 +23,7 @@
 	PGTabViewController* _tabView;
 	PGHelpWindowController* _helpWindow;
 	PGConnectionWindowController* _connectionWindow;
-	PGConsoleViewBuffer* _consoleViewBuffer;
+	ConsoleBuffer* _buffers;
 }
 
 // properties

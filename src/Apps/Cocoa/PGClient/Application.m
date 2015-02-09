@@ -44,15 +44,14 @@ NSInteger PGQueriesTag = -200;
 		_tabView = [PGTabViewController new];
 		_helpWindow = [PGHelpWindowController new];
 		_connectionWindow = [PGConnectionWindowController new];
+		_buffers = [ConsoleBuffer new];
 		NSParameterAssert(_connections);
+		NSParameterAssert(_buffers);
 		NSParameterAssert(_splitView && _sourceView);
 		NSParameterAssert(_helpWindow && _connectionWindow);
 		[_connections setDelegate:self];
 		[_sourceView setDelegate:self];
 		[_tabView setDelegate:self];
-		
-		// add console view buffer
-		_consoleViewBuffer = [PGConsoleViewBuffer new];
 	}
 	return self;
 }
@@ -200,7 +199,9 @@ NSInteger PGQueriesTag = -200;
 -(void)_displayError:(NSError* )error node:(PGSourceViewConnection* )node {
 	NSParameterAssert(error);
 	NSParameterAssert(node);
-	NSLog(@"display the error sheet with %@",error);
+
+	[[self connectionWindow] loadWindow];
+	
 	[[self connectionWindow] beginErrorSheetWithError:error parentWindow:[self window] whenDone:^(NSModalResponse returnValue) {
 		NSLog(@"error sheet ended, returnValue = %ld",returnValue);
 		if(returnValue==NSModalResponseContinue) {
@@ -212,6 +213,18 @@ NSInteger PGQueriesTag = -200;
 
 -(void)_reloadNode:(PGSourceViewNode* )node {
 	[[self sourceView] reloadNode:node];
+}
+
+-(void)_appendConsoleString:(NSString* )string forTag:(NSInteger)tag {
+	PGConsoleViewController* controller = (PGConsoleViewController* )[_tabView selectViewWithTag:tag];
+	NSParameterAssert([controller isKindOfClass:[PGConsoleViewController class]]);
+
+	PGConsoleViewBuffer* buffer = [controller dataSource];
+	NSParameterAssert(buffer);
+	
+	[buffer appendString:string];
+	[controller reloadData];
+	[controller scrollToBottom];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -361,9 +374,22 @@ NSInteger PGQueriesTag = -200;
 -(NSViewController* )tabView:(PGTabViewController* )tabView newViewForTag:(NSInteger)tag {
 	PGSourceViewNode* node = [[self sourceView] nodeForTag:tag];
 	NSParameterAssert(node);
+	
+	// create a new console buffer
+	PGConsoleViewBuffer* buffer = [PGConsoleViewBuffer new];
+	NSParameterAssert(buffer);
+
+	// create a console view
 	PGConsoleViewController* controller = [PGConsoleViewController new];
+	NSParameterAssert(controller);
+
+	// tie up
 	[controller setTitle:[node name]];
-	[controller setDataSource:_consoleViewBuffer];
+	[controller setDataSource:buffer];
+	[_buffers setBuffer:buffer forTag:tag];
+	[_buffers appendString:[node name] forTag:tag];
+	
+	// return controller
 	return controller;
 }
 
@@ -402,35 +428,35 @@ NSInteger PGQueriesTag = -200;
 	
 	switch(status) {
 		case PGConnectionStatusConnected:
-			NSLog(@"PGConnectionPool tag = %ld, status = connected",tag);
+			[self _appendConsoleString:@"connected" forTag:tag];
 			[(PGSourceViewConnection* )node setIconStatus:PGSourceViewConnectionIconConnected];
-			[self performSelectorOnMainThread:@selector(_reloadNode:) withObject:node waitUntilDone:YES];
+			[self _reloadNode:node];
 			break;
 		case PGConnectionStatusConnecting:
-			NSLog(@"PGConnectionPool tag = %ld, status = connecting",tag);
+			[_buffers appendString:@"connecting" forTag:tag];
 			[(PGSourceViewConnection* )node setIconStatus:PGSourceViewConnectionIconConnecting];
-			[self performSelectorOnMainThread:@selector(_reloadNode:) withObject:node waitUntilDone:YES];
+			[self _reloadNode:node];
 			break;
 		case PGConnectionStatusDisconnected:
-			NSLog(@"PGConnectionPool tag = %ld, status = disconnected",tag);
+			[_buffers appendString:@"disconnected" forTag:tag];
 			[(PGSourceViewConnection* )node setIconStatus:PGSourceViewConnectionIconDisconnected];
-			[self performSelectorOnMainThread:@selector(_reloadNode:) withObject:node waitUntilDone:YES];
+			[self _reloadNode:node];
 			break;
 		case PGConnectionStatusRejected:
-			NSLog(@"PGConnectionPool tag = %ld, status = rejected",tag);
+			[_buffers appendString:@"rejected" forTag:tag];
 			[(PGSourceViewConnection* )node setIconStatus:PGSourceViewConnectionIconRejected];
-			[self performSelectorOnMainThread:@selector(_reloadNode:) withObject:node waitUntilDone:YES];
+			[self _reloadNode:node];
 			break;
 		default:
-			NSLog(@"PGConnectionPool tag = %ld, status = other",tag);
+			[_buffers appendString:@"other connection status" forTag:tag];
 			[(PGSourceViewConnection* )node setIconStatus:PGSourceViewConnectionIconDisconnected];
-			[self performSelectorOnMainThread:@selector(_reloadNode:) withObject:node waitUntilDone:YES];
+			[self _reloadNode:node];
 			break;
 	}
 }
 
--(void)connectionPool:(PGConnectionPool *)pool tag:(NSInteger)tag error:(NSError *)error {
-	NSLog(@"PGClient error tag %ld %@",tag,[error localizedDescription]);
+-(void)connectionPool:(PGConnectionPool* )pool tag:(NSInteger)tag error:(NSError* )error {
+	[self _appendConsoleString:[error localizedDescription] forTag:tag];
 }
 
 @end

@@ -188,6 +188,7 @@
 		6ECA7ADE15F3637600AF2B70 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C168115F26BF20013A382 /* Foundation.framework */; };
 		6ECA7AEA15F363C400AF2B70 /* PGServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
 		6ECC37941A88D4DD00E29CF9 /* PGConsoleViewBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EA463F21A87E1FF005AA8A3 /* PGConsoleViewBuffer.m */; };
+		6ECC37971A88FC9100E29CF9 /* ConsoleBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ECC37961A88FC9100E29CF9 /* ConsoleBuffer.m */; };
 		6EDC4CCF17BC25FF009E040D /* NSURL_PGAdditions_tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EDC4CCE17BC24DA009E040D /* NSURL_PGAdditions_tests.m */; };
 		6EDC4CD217BC274B009E040D /* PGClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
 		6EDC4CD317BC274B009E040D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C168115F26BF20013A382 /* Foundation.framework */; };
@@ -440,8 +441,6 @@
 		6E03102F162FE50B003225B1 /* PGStatement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGStatement.m; sourceTree = "<group>"; };
 		6E0773D7163744D90028783F /* PGResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGResult.h; sourceTree = "<group>"; };
 		6E0773D8163744D90028783F /* PGResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGResult.m; sourceTree = "<group>"; };
-		6E0C81631A618EDC0032AE32 /* Connection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Connection.h; sourceTree = "<group>"; };
-		6E0C81641A618EDC0032AE32 /* Connection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Connection.m; sourceTree = "<group>"; };
 		6E0C816D1A619E2E0032AE32 /* PGSplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSplitViewController.h; sourceTree = "<group>"; };
 		6E0C816E1A619E2E0032AE32 /* PGSplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSplitViewController.m; sourceTree = "<group>"; };
 		6E0C816F1A619E2E0032AE32 /* PGSplitView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PGSplitView.xib; sourceTree = "<group>"; };
@@ -567,6 +566,8 @@
 		6EB5485417AEC9CA000F4AA2 /* elephant-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "elephant-72.png"; sourceTree = "<group>"; };
 		6EB5485917AECCAF000F4AA2 /* elephant-144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "elephant-144.png"; sourceTree = "<group>"; };
 		6ECA7ADC15F3637600AF2B70 /* PGFoundationServer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PGFoundationServer; sourceTree = BUILT_PRODUCTS_DIR; };
+		6ECC37951A88FC9100E29CF9 /* ConsoleBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConsoleBuffer.h; sourceTree = "<group>"; };
+		6ECC37961A88FC9100E29CF9 /* ConsoleBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConsoleBuffer.m; sourceTree = "<group>"; };
 		6ED763FB15F2673600687079 /* PGServerKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PGServerKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6ED779F017C1266100124DF1 /* traffic-green.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "traffic-green.tiff"; sourceTree = "<group>"; };
 		6ED779F117C1266100124DF1 /* traffic-grey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "traffic-grey.png"; sourceTree = "<group>"; };
@@ -1153,8 +1154,8 @@
 				6E47EDBA1A6D9E9E00352939 /* MainMenu.xib */,
 				6E55A2291A618B8300CD2B60 /* Application.h */,
 				6E55A22A1A618B8300CD2B60 /* Application.m */,
-				6E0C81631A618EDC0032AE32 /* Connection.h */,
-				6E0C81641A618EDC0032AE32 /* Connection.m */,
+				6ECC37951A88FC9100E29CF9 /* ConsoleBuffer.h */,
+				6ECC37961A88FC9100E29CF9 /* ConsoleBuffer.m */,
 				6E55A22F1A618B8300CD2B60 /* Info.plist */,
 			);
 			path = PGClient;
@@ -1905,6 +1906,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E55A2321A618C6B00CD2B60 /* main.m in Sources */,
+				6ECC37971A88FC9100E29CF9 /* ConsoleBuffer.m in Sources */,
 				6E55A2341A618CD300CD2B60 /* Application.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

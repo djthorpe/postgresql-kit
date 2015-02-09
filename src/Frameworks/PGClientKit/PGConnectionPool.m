@@ -155,16 +155,40 @@
 	}
 }
 
--(void)connection:(PGConnection* )connection error:(NSError* )error {
+// cludge to make this send message to the delegate on the main thread
+
+-(void)errorMainThread:(NSArray* )payload {
+	NSError* error = payload[0];
+	NSNumber* tag = payload[1];
 	if([[self delegate] respondsToSelector:@selector(connectionPool:tag:error:)]) {
-		[[self delegate] connectionPool:self tag:[connection tag] error:error];
+		[[self delegate] connectionPool:self tag:[tag integerValue] error:error];
+	}
+}
+
+-(void)connection:(PGConnection* )connection error:(NSError* )error {
+	NSArray* payload = @[error,[NSNumber numberWithInteger:[connection tag]]];
+	[self performSelectorOnMainThread:@selector(errorMainThread:) withObject:payload waitUntilDone:YES];
+}
+
+// cludge to make this send message to the delegate on the main thread
+typedef struct {
+    NSUInteger tag;
+	PGConnectionStatus status;
+} PGConnectionDelegateTagStatus;
+
+-(void)statusChangeMainThread:(NSValue* )value {
+	PGConnectionDelegateTagStatus payload;
+	[value getValue:&payload];
+	if([[self delegate] respondsToSelector:@selector(connectionPool:tag:statusChanged:)]) {
+		[[self delegate] connectionPool:self tag:payload.tag statusChanged:payload.status];
 	}
 }
 
 -(void)connection:(PGConnection* )connection statusChange:(PGConnectionStatus)status {
-	if([[self delegate] respondsToSelector:@selector(connectionPool:tag:statusChanged:)]) {
-		[[self delegate] connectionPool:self tag:[connection tag] statusChanged:status];
-	}
+	// perform this on the main thread
+	PGConnectionDelegateTagStatus payload = { [connection tag],status };
+	NSValue* value = [NSValue valueWithBytes:&payload objCType:@encode(PGConnectionDelegateTagStatus)];
+	[self performSelectorOnMainThread:@selector(statusChangeMainThread:) withObject:value waitUntilDone:YES];
 }
 
 @end

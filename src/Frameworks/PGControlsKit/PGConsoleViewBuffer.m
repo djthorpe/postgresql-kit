@@ -16,12 +16,38 @@
 
 @implementation PGConsoleViewBuffer
 
+////////////////////////////////////////////////////////////////////////////////
+// constructor
+
+-(id)init {
+	self = [super init];
+	if(self) {
+		_rows = [NSMutableArray new];
+		NSParameterAssert(_rows);
+	}
+	return self;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// public methods
+
+-(void)appendString:(NSString* )string {
+	NSParameterAssert(string);
+	[_rows addObject:string];
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// PGConsoleViewDataSource implementation
+
 -(NSUInteger)numberOfRowsForConsoleView:(PGConsoleViewController* )view {
-	return 10;
+	return [_rows count];
 }
 
 -(NSString* )consoleView:(PGConsoleViewController* )consoleView stringForRow:(NSUInteger)row {
-	return [NSString stringWithFormat:@"Row number %ld",row];
+	NSParameterAssert(row >= 0 && row < [_rows count]);
+	NSString* string = [_rows objectAtIndex:row];
+	NSParameterAssert([string isKindOfClass:[NSString class]]);
+	return string;
 }
 
 @end

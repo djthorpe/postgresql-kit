@@ -13,12 +13,16 @@
 // under the License.
 
 #import <Foundation/Foundation.h>
+#import <PGControlsKit/PGControlsKit.h>
 
-@interface PGConsoleViewBuffer : NSObject <PGConsoleViewDataSource> {
-	NSMutableArray* _rows;
+@interface ConsoleBuffer : NSObject {
+	NSMutableDictionary* _buffers;
 }
 
 // methods
--(void)appendString:(NSString* )string;
+-(PGConsoleViewBuffer* )bufferForTag:(NSInteger)tag;
+-(void)setBuffer:(PGConsoleViewBuffer* )buffer forTag:(NSInteger)tag;
+-(void)appendString:(NSString* )string forTag:(NSInteger)tag;
+-(void)removeAll;
 
 @end

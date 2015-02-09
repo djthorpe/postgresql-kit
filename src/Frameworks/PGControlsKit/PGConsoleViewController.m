@@ -133,11 +133,9 @@
 	return NO;
 }
 
-/*
 -(CGFloat)tableView:(NSTableView* )tableView heightOfRow:(NSInteger)row	{
 	NSUInteger numberOfLines = [self _numberOfLinesForRow:row];
-	return numberOfLines > 0 ? (numberOfLines * [self textHeight]) : [self textHeight];
+	return numberOfLines > 0 ? (numberOfLines * [self _textHeight]) : [self _textHeight];
 }
-*/
 
 @end
