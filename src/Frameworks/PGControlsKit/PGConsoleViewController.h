@@ -21,6 +21,8 @@
 @required
 	-(NSUInteger)numberOfRowsForConsoleView:(PGConsoleViewController* )view;
 	-(NSString* )consoleView:(PGConsoleViewController* )consoleView stringForRow:(NSUInteger)row;
+@optional
+	-(NSColor* )consoleView:(PGConsoleViewController* )consoleView textColorForRow:(NSUInteger)row;
 @end
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -29,14 +31,17 @@
 	NSFont* _textFont;
 	NSColor* _textColor;
 	NSColor* _backgroundColor;
+	NSMutableString* _editBuffer;
 }
 
 // properties
 @property (weak) id<PGConsoleViewDataSource> dataSource;
 @property NSInteger tag;
+@property BOOL editable;
 
 // methods
 -(void)reloadData;
+-(void)reloadEditBuffer;
 -(void)scrollToBottom;
 
 @end

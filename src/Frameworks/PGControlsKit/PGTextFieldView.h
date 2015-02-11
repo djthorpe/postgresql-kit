@@ -12,14 +12,10 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-#import <Foundation/Foundation.h>
+#import <Cocoa/Cocoa.h>
 
-@interface PGConsoleViewBuffer : NSObject <PGConsoleViewDataSource> {
-	NSMutableArray* _rows;
-}
+@interface PGTextFieldView : NSTextField
 
-// methods
--(void)appendString:(NSString* )string;
--(void)appendString:(NSString* )string textColor:(NSColor* )color;
+@property NSRange selectedRange;
 
 @end

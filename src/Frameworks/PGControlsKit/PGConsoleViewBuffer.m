@@ -31,9 +31,13 @@
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
 
--(void)appendString:(NSString* )string {
+-(void)appendString:(NSString* )string textColor:(NSColor* )color {
 	NSParameterAssert(string);
 	[_rows addObject:string];
+}
+
+-(void)appendString:(NSString* )string {
+	[self appendString:string textColor:nil];
 }
 
 ////////////////////////////////////////////////////////////////////////////////

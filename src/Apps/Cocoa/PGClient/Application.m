@@ -401,6 +401,7 @@ NSInteger PGQueriesTag = -200;
 	// tie up
 	[controller setTitle:[node name]];
 	[controller setDataSource:buffer];
+	[controller setEditable:YES];
 	[_buffers setBuffer:buffer forTag:tag];
 	[_buffers appendString:[node name] forTag:tag];
 	

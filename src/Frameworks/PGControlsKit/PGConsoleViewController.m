@@ -12,7 +12,7 @@
 // under the License.
 
 #import <PGControlsKit/PGControlsKit.h>
-
+#import <PGControlsKit/PGTextFieldView.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -34,6 +34,8 @@
 		_textFont = [NSFont fontWithName:@"Monaco" size:11];
 		_textColor = [NSColor grayColor];
 		_backgroundColor = [NSColor blackColor];
+		_editBuffer = [NSMutableString new];
+		NSParameterAssert(_editBuffer);
 	}
 	return self;
 }
@@ -48,6 +50,7 @@
 
 @synthesize dataSource;
 @synthesize tag;
+@synthesize editable;
 
 ////////////////////////////////////////////////////////////////////////////////
 // private methods
@@ -55,8 +58,17 @@
 -(NSUInteger)_numberOfRows {
 	if([[self dataSource] respondsToSelector:@selector(numberOfRowsForConsoleView:)]) {
 		return [[self dataSource] numberOfRowsForConsoleView:self];
+	}
+	return 0;
+}
+
+-(NSString* )_stringForRow:(NSUInteger)row {
+	if([self editable] && row==[self _numberOfRows]) {
+		return _editBuffer;
+	} else if([[self dataSource] respondsToSelector:@selector(consoleView:stringForRow:)]) {
+		return [[self dataSource] consoleView:self stringForRow:row];
 	} else {
-		return 0;
+		return nil;
 	}
 }
 
@@ -69,21 +81,13 @@
 	return numberOfLines;
 }
 
--(NSString* )_stringForRow:(NSUInteger)row {
-	if([[self dataSource] respondsToSelector:@selector(consoleView:stringForRow:)]) {
-		return [[self dataSource] consoleView:self stringForRow:row];
-	} else {
-		return nil;
-	}
-}
-
 -(CGFloat)_textHeight {
 	return [_textFont capHeight] * 2;
 }
 
 -(NSTextField* )_textView {
 	NSRect frame = NSMakeRect(0,0,0,[self _textHeight]);
-	NSTextField* textField = [[NSTextField alloc] initWithFrame:frame];
+	NSTextField* textField = [[PGTextFieldView alloc] initWithFrame:frame];
 	[textField setEditable:NO];
 	[textField setFont:_textFont];
 	[textField setDrawsBackground:NO];
@@ -98,6 +102,13 @@
 
 -(void)reloadData {
 	[[self ibTableView] reloadData];
+}
+
+-(void)reloadEditBuffer {
+	if([self editable]) {
+		NSUInteger row = [self _numberOfRows];
+		[[self ibTableView] reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:row] columnIndexes:[NSIndexSet indexSetWithIndex:0]];
+	}
 }
 
 -(void)scrollToBottom {
@@ -118,10 +129,10 @@
 
 -(NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView {
 	NSInteger numOfRows = [self _numberOfRows];
-/*	if([self editable]) {
+	if([self editable]) {
 		// we add one row at the bottom for the prompt
 		numOfRows = numOfRows + 1;
-	}*/
+	}
 	return numOfRows;
 }
 
@@ -138,6 +149,45 @@
 -(CGFloat)tableView:(NSTableView* )tableView heightOfRow:(NSInteger)row	{
 	NSUInteger numberOfLines = [self _numberOfLinesForRow:row];
 	return numberOfLines > 0 ? (numberOfLines * [self _textHeight]) : [self _textHeight];
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// NSControl implementation
+
+-(void)keyDown:(NSEvent *)event {
+	NSString* chars = [event characters];
+	if([chars length]==0) {
+		return;
+	}
+	NSUInteger charCode = [[event characters] characterAtIndex:0];
+	if(charCode == NSDeleteCharacter || charCode == NSDeleteFunctionKey || charCode== NSBackspaceCharacter) {
+		// delete edit buffer
+		NSLog(@"TODO: delete");
+/*		if([[self editBuffer] length]) {
+			NSRange range = NSMakeRange([[self editBuffer] length] - 1, 1);
+			[[self editBuffer] deleteCharactersInRange:range];
+		}
+		[self reloadData];
+		[self scrollToBottom];*/
+		return;
+	} else if(charCode == NSCarriageReturnCharacter || charCode == NSEnterCharacter) {
+		NSLog(@"return");
+/*		if([event modifierFlags] & NSCommandKeyMask) {
+			[[self editBuffer] appendString:@"\n"];
+		} else if([self delegate] && [[self delegate] respondsToSelector:@selector(consoleView:appendString:)]) {
+			[[self delegate] consoleView:self appendString:[[self editBuffer] copy]];
+			[[self editBuffer] setString:@""];
+		}
+*/
+		return;
+	} else {
+		// append to edit buffer
+		[_editBuffer appendString:chars];
+	}
+
+	// scroll to end
+	[self reloadEditBuffer];
+	[self scrollToBottom];
 }
 
 @end

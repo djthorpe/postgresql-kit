@@ -207,6 +207,8 @@
 		6EE4E2081A61A22D00BEC4AD /* ResizeControl.png in Resources */ = {isa = PBXBuildFile; fileRef = 148F88C7166D61060088D3DF /* ResizeControl.png */; };
 		6EE4E2091A61A86300BEC4AD /* PGControlsKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14F1E84717CB83CD00710D4A /* PGControlsKit.framework */; };
 		6EE4E20A1A61A86300BEC4AD /* PGControlsKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 14F1E84717CB83CD00710D4A /* PGControlsKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6EEC13831A8B85B200D3666E /* PGTextFieldView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EEC13811A8B85B200D3666E /* PGTextFieldView.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6EEC13841A8B85B200D3666E /* PGTextFieldView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEC13821A8B85B200D3666E /* PGTextFieldView.m */; };
 		6EFFF2341A5F04C500CAA6E7 /* PGFoundationServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EFFF2331A5F044E00CAA6E7 /* PGFoundationServer.m */; };
 		6EFFF2351A5F04C800CAA6E7 /* PGFoundationApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EFFF2311A5F044E00CAA6E7 /* PGFoundationApp.m */; };
 		6EFFF23A1A5F052A00CAA6E7 /* PGFoundationApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EFFF2311A5F044E00CAA6E7 /* PGFoundationApp.m */; };
@@ -596,6 +598,8 @@
 		6EE23F5C1631EF7500C99BA7 /* PGConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGConnection.m; sourceTree = "<group>"; };
 		6EE23F601632076800C99BA7 /* PGClientParams.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGClientParams.m; sourceTree = "<group>"; };
 		6EE23F62163207DA00C99BA7 /* PGClientParams.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGClientParams.h; sourceTree = "<group>"; };
+		6EEC13811A8B85B200D3666E /* PGTextFieldView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGTextFieldView.h; sourceTree = "<group>"; };
+		6EEC13821A8B85B200D3666E /* PGTextFieldView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGTextFieldView.m; sourceTree = "<group>"; };
 		6EFFF2301A5F044E00CAA6E7 /* PGFoundationApp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGFoundationApp.h; sourceTree = "<group>"; };
 		6EFFF2311A5F044E00CAA6E7 /* PGFoundationApp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PGFoundationApp.m; sourceTree = "<group>"; };
 		6EFFF2321A5F044E00CAA6E7 /* PGFoundationServer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGFoundationServer.h; sourceTree = "<group>"; };
@@ -968,6 +972,8 @@
 			children = (
 				6E1BFDFF1A87B6010068884C /* PGConsoleViewController.h */,
 				6E1BFE001A87B6010068884C /* PGConsoleViewController.m */,
+				6EEC13811A8B85B200D3666E /* PGTextFieldView.h */,
+				6EEC13821A8B85B200D3666E /* PGTextFieldView.m */,
 				6EA463F11A87E1FF005AA8A3 /* PGConsoleViewBuffer.h */,
 				6EA463F21A87E1FF005AA8A3 /* PGConsoleViewBuffer.m */,
 				6E1BFE031A87B6920068884C /* PGConsoleView.xib */,
@@ -1347,6 +1353,7 @@
 			files = (
 				6E322F0C1A75122C00096520 /* PGTabViewController.h in Headers */,
 				14E1323A1A6D6F7800451602 /* PGSourceViewTree.h in Headers */,
+				6EEC13831A8B85B200D3666E /* PGTextFieldView.h in Headers */,
 				6E0C81701A619E2E0032AE32 /* PGSplitViewController.h in Headers */,
 				6E69F6B01A67BABF0014EC1F /* PGSourceViewNode.h in Headers */,
 				6E47EDC31A6EEA6800352939 /* PGSourceViewConnection.h in Headers */,
@@ -1831,6 +1838,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6EEC13841A8B85B200D3666E /* PGTextFieldView.m in Sources */,
 				14E1323B1A6D6F7800451602 /* PGSourceViewTree.m in Sources */,
 				6E322F0D1A75122C00096520 /* PGTabViewController.m in Sources */,
 				6E47EDBF1A6EE96D00352939 /* PGSourceViewHeading.m in Sources */,
