@@ -16,7 +16,7 @@
 #import <PGControlsKit/PGControlsKit.h>
 #import "ConsoleBuffer.h"
 
-@interface Application : NSObject <NSApplicationDelegate,PGSourceViewDelegate,PGConnectionPoolDelegate,PGTabViewDelegate> {
+@interface Application : NSObject <NSApplicationDelegate,PGSourceViewDelegate,PGConnectionPoolDelegate,PGTabViewDelegate,PGConsoleViewDelegate> {
 	PGConnectionPool* _connections;
 	PGSplitViewController* _splitView;
 	PGSourceViewController* _sourceView;

@@ -36,6 +36,7 @@
 		_backgroundColor = [NSColor blackColor];
 		_editBuffer = [NSMutableString new];
 		NSParameterAssert(_editBuffer);
+		[self setPrompt:@">"];
 	}
 	return self;
 }
@@ -51,6 +52,7 @@
 @synthesize dataSource;
 @synthesize tag;
 @synthesize editable;
+@synthesize prompt;
 
 ////////////////////////////////////////////////////////////////////////////////
 // private methods
@@ -63,22 +65,33 @@
 }
 
 -(NSString* )_stringForRow:(NSUInteger)row {
-	if([self editable] && row==[self _numberOfRows]) {
-		return _editBuffer;
-	} else if([[self dataSource] respondsToSelector:@selector(consoleView:stringForRow:)]) {
+	if([[self dataSource] respondsToSelector:@selector(consoleView:stringForRow:)]) {
 		return [[self dataSource] consoleView:self stringForRow:row];
 	} else {
 		return nil;
 	}
 }
 
--(NSUInteger)_numberOfLinesForRow:(NSUInteger)rowIndex {
-	NSString* string = [self _stringForRow:rowIndex];
+-(NSUInteger)_numberOfLinesForString:(NSString* )string {
+	NSParameterAssert(string);
 	NSUInteger numberOfLines = 0;
 	for(NSUInteger index = 0; index < [string length]; numberOfLines++) {
 		index = NSMaxRange([string lineRangeForRange:NSMakeRange(index, 0)]);		
 	}
 	return numberOfLines;
+}
+
+-(NSUInteger)_numberOfLinesForRow:(NSUInteger)rowIndex {
+	NSString* string = [self _stringForRow:rowIndex];
+	return [self _numberOfLinesForString:string];
+}
+
+-(NSString* )_stringForEditBuffer {
+	if([[self prompt] length]) {
+		return [NSString stringWithFormat:@"%@%@",[self prompt],_editBuffer];
+	} else {
+		return _editBuffer;
+	}
 }
 
 -(CGFloat)_textHeight {
@@ -138,7 +151,11 @@
 
 -(NSView* )tableView:(NSTableView* )tableView viewForTableColumn:(NSTableColumn* )tableColumn row:(NSInteger)row {
 	NSTextField* view = [self _textView];
-	[view setStringValue:[self _stringForRow:row]];
+	if([self editable] && row==[self _numberOfRows]) {
+		[view setStringValue:[self _stringForEditBuffer]];
+	} else {
+		[view setStringValue:[self _stringForRow:row]];
+	}
 	return view;
 }
 
@@ -147,7 +164,12 @@
 }
 
 -(CGFloat)tableView:(NSTableView* )tableView heightOfRow:(NSInteger)row	{
-	NSUInteger numberOfLines = [self _numberOfLinesForRow:row];
+	NSUInteger numberOfLines;
+	if([self editable] && row==[self _numberOfRows]) {
+		numberOfLines = [self _numberOfLinesForString:[self _stringForEditBuffer]];
+	} else {
+		numberOfLines = [self _numberOfLinesForRow:row];
+	}
 	return numberOfLines > 0 ? (numberOfLines * [self _textHeight]) : [self _textHeight];
 }
 
@@ -171,15 +193,12 @@
 		[self scrollToBottom];*/
 		return;
 	} else if(charCode == NSCarriageReturnCharacter || charCode == NSEnterCharacter) {
-		NSLog(@"return");
-/*		if([event modifierFlags] & NSCommandKeyMask) {
-			[[self editBuffer] appendString:@"\n"];
-		} else if([self delegate] && [[self delegate] respondsToSelector:@selector(consoleView:appendString:)]) {
-			[[self delegate] consoleView:self appendString:[[self editBuffer] copy]];
-			[[self editBuffer] setString:@""];
+		if([event modifierFlags] & NSCommandKeyMask) {
+			[_editBuffer appendString:@"\n"];
+		} else if([self delegate] && [[self delegate] respondsToSelector:@selector(consoleView:append:)]) {
+			[[self delegate] consoleView:self append:[_editBuffer copy]];
+			[_editBuffer setString:@""];
 		}
-*/
-		return;
 	} else {
 		// append to edit buffer
 		[_editBuffer appendString:chars];

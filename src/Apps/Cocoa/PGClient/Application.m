@@ -192,7 +192,11 @@ NSInteger PGQueriesTag = -200;
 	NSInteger tag = [[self sourceView] tagForNode:node];
 	NSParameterAssert(tag);
 	// execute query
-	[[self connections] execute:@"SELECT 1" forTag:tag];
+	PGResult* result = [[self connections] execute:@"SELECT 1" forTag:tag];
+	if(result) {
+		NSLog(@"%@",[result tableWithWidth:80]);
+		[self _appendConsoleString:[result tableWithWidth:80] forTag:tag];
+	}
 }
 
 -(void)_connectWithPasswordNode:(PGSourceViewConnection* )node {
@@ -401,12 +405,30 @@ NSInteger PGQueriesTag = -200;
 	// tie up
 	[controller setTitle:[node name]];
 	[controller setDataSource:buffer];
+	[controller setDelegate:self];
 	[controller setEditable:YES];
+	[controller setTag:tag];
 	[_buffers setBuffer:buffer forTag:tag];
 	[_buffers appendString:[node name] forTag:tag];
 	
 	// return controller
 	return controller;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// PGConsoleViewDelegate implementation
+
+-(void)consoleView:(PGConsoleViewController* )consoleView append:(NSString* )string {
+	NSInteger tag = [consoleView tag];
+	NSParameterAssert(tag);
+	
+	// append line
+	[self _appendConsoleString:string forTag:tag];
+	// execute query
+	PGResult* result = [[self connections] execute:string forTag:tag];
+	if(result) {
+		[self _appendConsoleString:[result tableWithWidth:80] forTag:tag];
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////

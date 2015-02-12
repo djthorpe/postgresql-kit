@@ -25,6 +25,11 @@
 	-(NSColor* )consoleView:(PGConsoleViewController* )consoleView textColorForRow:(NSUInteger)row;
 @end
 
+@protocol PGConsoleViewDelegate <NSObject>
+@optional
+	-(void)consoleView:(PGConsoleViewController* )consoleView append:(NSString* )string;
+@end
+
 ////////////////////////////////////////////////////////////////////////////////
 
 @interface PGConsoleViewController : NSViewController <NSTableViewDataSource, NSTableViewDelegate> {
@@ -36,8 +41,10 @@
 
 // properties
 @property (weak) id<PGConsoleViewDataSource> dataSource;
+@property (weak) id<PGConsoleViewDelegate> delegate;
 @property NSInteger tag;
 @property BOOL editable;
+@property NSString* prompt;
 
 // methods
 -(void)reloadData;

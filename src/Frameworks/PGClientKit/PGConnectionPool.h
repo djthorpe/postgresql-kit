@@ -38,7 +38,7 @@
 -(PGConnectionStatus)statusForTag:(NSInteger)tag;
 -(BOOL)removeWithTag:(NSInteger)tag;
 -(void)removeAll;
--(void)execute:(NSString* )query forTag:(NSInteger)tag;
+-(PGResult* )execute:(NSString* )query forTag:(NSInteger)tag;
 
 @end
 
