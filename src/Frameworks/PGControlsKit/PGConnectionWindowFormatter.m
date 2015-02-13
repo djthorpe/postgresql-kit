@@ -13,14 +13,26 @@
 // under the License.
 
 #import "PGConnectionWindowFormatter.h"
+#import "NSString+NetworkValidationAdditions.h"
 
 @implementation PGConnectionWindowFormatter
+
+////////////////////////////////////////////////////////////////////////////////
+// constructor
 
 -(void)awakeFromNib {
 	if(!_cs) {
 		_cs = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet];
 	}
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// properties
+
+@synthesize type;
+
+////////////////////////////////////////////////////////////////////////////////
+// methods
 
 -(NSNumber* )numericValueForString:(NSString* )string {
 	NSParameterAssert(_cs);
@@ -32,7 +44,11 @@
 	if(range.location != NSNotFound) {
 		return nil;
 	}
-	return [NSDecimalNumber decimalNumberWithString:string];
+	NSNumber* number = [NSDecimalNumber decimalNumberWithString:string];
+	if([number unsignedIntegerValue] < 1 || [number unsignedIntegerValue] > 65535) {
+		return nil;
+	}
+	return number;
 }
 
 
@@ -43,17 +59,27 @@
 -(BOOL)getObjectValue:(id* )anObject forString:(NSString* )string errorDescription:(NSString** )anError {
 	NSParameterAssert(anObject);
 	NSParameterAssert(string);
+
 	BOOL returnValue = YES;
-	NSNumber* port = [self numericValueForString:string];
-	NSString* error = nil;
-	if(port==nil) {
-		error = @"Invalid value";
-		returnValue = NO;
-	} else {
-		*anObject = port;
+	NSString* theError = nil;
+	if([[self type] isEqualTo:@"port"]) {
+		NSNumber* port = [self numericValueForString:string];
+		if(port==nil) {
+			theError = @"Invalid value, requires numeric value";
+			returnValue = NO;
+		} else {
+			*anObject = port;
+		}
+	} else if([[self type] isEqualTo:@"host"]) {
+		if([string isNetworkHostname] || [string isNetworkAddress]) {
+			*anObject = string;
+		} else {
+			theError = @"Invalid value";
+			returnValue = NO;
+		}
 	}
-	if(anError) {
-		*anError = error;
+	if(anError && theError) {
+		*anError = theError;
 	}
 	return returnValue;
 }

@@ -185,6 +185,8 @@
 		6EAA40EB17BC150E0078EB32 /* NSURL+PGAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EAA40E917BC150E0078EB32 /* NSURL+PGAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6EAA40ED17BC150E0078EB32 /* NSURL+PGAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EAA40EA17BC150E0078EB32 /* NSURL+PGAdditions.m */; };
 		6EB1E79615F282910093F784 /* PGServerKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EB1E74015F273350093F784 /* PGServerKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6EC2C0761A8E1131003F6F24 /* NSString+NetworkValidationAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EC2C0751A8E1131003F6F24 /* NSString+NetworkValidationAdditions.h */; };
+		6EC2C0781A8E11A0003F6F24 /* NSString+NetworkValidationAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC2C0771A8E11A0003F6F24 /* NSString+NetworkValidationAdditions.m */; };
 		6ECA7ADE15F3637600AF2B70 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C168115F26BF20013A382 /* Foundation.framework */; };
 		6ECA7AEA15F363C400AF2B70 /* PGServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
 		6ECC37941A88D4DD00E29CF9 /* PGConsoleViewBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EA463F21A87E1FF005AA8A3 /* PGConsoleViewBuffer.m */; };
@@ -567,6 +569,8 @@
 		6EB1E74015F273350093F784 /* PGServerKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGServerKit.h; sourceTree = "<group>"; };
 		6EB5485417AEC9CA000F4AA2 /* elephant-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "elephant-72.png"; sourceTree = "<group>"; };
 		6EB5485917AECCAF000F4AA2 /* elephant-144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "elephant-144.png"; sourceTree = "<group>"; };
+		6EC2C0751A8E1131003F6F24 /* NSString+NetworkValidationAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+NetworkValidationAdditions.h"; sourceTree = "<group>"; };
+		6EC2C0771A8E11A0003F6F24 /* NSString+NetworkValidationAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+NetworkValidationAdditions.m"; sourceTree = "<group>"; };
 		6ECA7ADC15F3637600AF2B70 /* PGFoundationServer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PGFoundationServer; sourceTree = BUILT_PRODUCTS_DIR; };
 		6ECC37951A88FC9100E29CF9 /* ConsoleBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConsoleBuffer.h; sourceTree = "<group>"; };
 		6ECC37961A88FC9100E29CF9 /* ConsoleBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConsoleBuffer.m; sourceTree = "<group>"; };
@@ -1174,6 +1178,8 @@
 				6E60B5B81A628028005B0633 /* PGConnectionWindowController.m */,
 				6E5D8BD31A66EE9000C54D42 /* PGConnectionWindowFormatter.h */,
 				6E5D8BD41A66EE9000C54D42 /* PGConnectionWindowFormatter.m */,
+				6EC2C0751A8E1131003F6F24 /* NSString+NetworkValidationAdditions.h */,
+				6EC2C0771A8E11A0003F6F24 /* NSString+NetworkValidationAdditions.m */,
 				6E60B5BB1A6280AF005B0633 /* PGConnectionWindow.xib */,
 			);
 			name = PGConnectionWindow;
@@ -1356,6 +1362,7 @@
 				6EEC13831A8B85B200D3666E /* PGTextFieldView.h in Headers */,
 				6E0C81701A619E2E0032AE32 /* PGSplitViewController.h in Headers */,
 				6E69F6B01A67BABF0014EC1F /* PGSourceViewNode.h in Headers */,
+				6EC2C0761A8E1131003F6F24 /* NSString+NetworkValidationAdditions.h in Headers */,
 				6E47EDC31A6EEA6800352939 /* PGSourceViewConnection.h in Headers */,
 				6EA463F31A87E1FF005AA8A3 /* PGConsoleViewBuffer.h in Headers */,
 				6E45A3811A73A28100E20B36 /* PGHelpWindowController.h in Headers */,
@@ -1861,6 +1868,7 @@
 				6ECC37941A88D4DD00E29CF9 /* PGConsoleViewBuffer.m in Sources */,
 				6E5D8BD61A66EE9000C54D42 /* PGConnectionWindowFormatter.m in Sources */,
 				6E45A3821A73A28100E20B36 /* PGHelpWindowController.m in Sources */,
+				6EC2C0781A8E11A0003F6F24 /* NSString+NetworkValidationAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -14,10 +14,9 @@
 
 #import <Foundation/Foundation.h>
 
-@interface PGConnectionWindowFormatter : NSFormatter {
-	NSCharacterSet* _cs;
-}
-
-@property NSString* type;
-
+@interface NSString (NeworkValidationAdditions)
+-(BOOL)isNetworkHostname;
+-(BOOL)isNetworkAddress;
+-(BOOL)isNetworkAddress4;
+-(BOOL)isNetworkAddress6;
 @end

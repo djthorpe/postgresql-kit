@@ -327,9 +327,8 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 	// set parameters
 	[self setErrorTitle:@"Error"];
 	[self setErrorDescription:[error localizedDescription]];
-	
-	NSLog(@"error = %@",[self ibErrorWindow]);
-	
+
+	// start sheet
 	[parentWindow beginSheet:[self ibErrorWindow] completionHandler:^(NSModalResponse returnValue) {
 		callback(returnValue);
 	}];
