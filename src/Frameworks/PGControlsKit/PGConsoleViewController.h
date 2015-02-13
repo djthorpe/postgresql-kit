@@ -45,6 +45,7 @@
 @property NSInteger tag;
 @property BOOL editable;
 @property NSString* prompt;
+@property (readonly) NSUInteger textWidth;
 
 // methods
 -(void)reloadData;

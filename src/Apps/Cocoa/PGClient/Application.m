@@ -427,7 +427,7 @@ NSInteger PGQueriesTag = -200;
 	// execute query
 	PGResult* result = [[self connections] execute:string forTag:tag];
 	if(result) {
-		[self _appendConsoleString:[result tableWithWidth:80] forTag:tag];
+		[self _appendConsoleString:[result tableWithWidth:[consoleView textWidth]] forTag:tag];
 	}
 }
 

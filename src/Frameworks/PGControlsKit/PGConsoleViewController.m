@@ -53,6 +53,13 @@
 @synthesize tag;
 @synthesize editable;
 @synthesize prompt;
+@dynamic textWidth;
+
+-(NSUInteger)textWidth {
+	CGFloat emWidth = [@"M" sizeWithAttributes:@{ NSFontAttributeName: _textFont }].width;
+	CGFloat windowWidth = [[self ibTableView] bounds].size.width;
+	return (windowWidth / emWidth);
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // private methods
