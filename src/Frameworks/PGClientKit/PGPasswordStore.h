@@ -12,11 +12,11 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
- /**
-  *  PGPasswordStore is used to store passwords temporarily in memory, keyed by
-  *  URL. Optionally, the password can also be stored encyrpted within the
-  *  users' keychain.
-  */
+/**
+ *  PGPasswordStore is used to store passwords temporarily in memory, keyed by
+ *  URL. Optionally, the password can also be stored encyrpted within the
+ *  users' keychain.
+ */
 
 @interface PGPasswordStore : NSObject {
 	NSMutableDictionary* _store;

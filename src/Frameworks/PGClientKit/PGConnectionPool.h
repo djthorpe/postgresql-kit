@@ -12,6 +12,15 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
+/**
+ *  PGConnectionPool gathers one or more PGConnection objects together, to
+ *  co-ordinate the process of connecting to remote PostgreSQL servers. With
+ *  a pool instance, the ability to connect, disconnect and query remote servers
+ *  in a background thread is provided, and integration with PGPasswordStore
+ *  provides the facility to automatically store passwords encrypted in the
+ *  users' keychain.
+ */
+
 // forward declarations
 @protocol PGConnectionPoolDelegate;
 
