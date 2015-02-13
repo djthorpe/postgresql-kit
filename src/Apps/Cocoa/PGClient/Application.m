@@ -361,6 +361,8 @@ NSInteger PGQueriesTag = -200;
 		if(status != PGConnectionStatusConnected) {
 			[self _connectNode:(PGSourceViewConnection* )node];
 		}
+		// set first responder
+		[[self tabView] selectViewWithTag:tag];
 	} else {
 		NSLog(@"double clicked node = %@",node);
 	}

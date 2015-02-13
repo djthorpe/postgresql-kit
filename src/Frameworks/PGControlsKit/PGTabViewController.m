@@ -68,8 +68,9 @@
 		}
 	}
 	// select view
-	NSLog(@"tabs = %@",[[self ibTabView] tabViewItems]);
 	[[self ibTabView] selectTabViewItemWithIdentifier:key];
+	// make the view the first responder
+	[[[self ibTabView] window] makeFirstResponder:[view view]];
 	
 	return view;
 }
