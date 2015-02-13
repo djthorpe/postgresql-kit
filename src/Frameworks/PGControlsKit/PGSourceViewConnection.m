@@ -82,4 +82,10 @@
 	return cellView;
 }
 
+-(void)writeToPasteboard:(NSPasteboard* )pboard {
+	NSParameterAssert(pboard);
+	[pboard addTypes:@[ NSURLPboardType ] owner:nil];
+	[[self URL] writeToPasteboard:pboard];
+}
+
 @end

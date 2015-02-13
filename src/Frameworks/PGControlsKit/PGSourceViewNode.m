@@ -146,5 +146,15 @@
 	return NO;
 }
 
+-(void)writeToPasteboard:(NSPasteboard* )pboard {
+	// empty default implementation
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// IBAction
+
+-(IBAction)doCopy:(id)sender {
+	NSLog(@"do copy!");
+}
 
 @end

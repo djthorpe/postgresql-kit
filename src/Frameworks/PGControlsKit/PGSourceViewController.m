@@ -275,11 +275,17 @@ NSString* PGSourceViewDragType = @"PGSourceViewDragType";
 	// node which cannot be dragged
 	if([node isDraggable]==NO) {
 		return NO;
+	} else {
+		[node writeToPasteboard:pboard];
 	}
 	// use key object as the pasteboard content
 	NSInteger tag = [[self model] tagForNode:node];
 	if(tag) {
 		[pboard setPropertyList:[NSNumber numberWithInteger:tag] forType:PGSourceViewDragType];
+		
+		NSLog(@"types: %@", [pboard types]);
+		NSLog(@"url: %@", [NSURL URLFromPasteboard:pboard]);
+
 		return YES;
 	} else {
 		return NO;
@@ -307,7 +313,6 @@ NSString* PGSourceViewDragType = @"PGSourceViewDragType";
 	if([item canAcceptDrop:draggedNode]==NO) {
 		return NSDragOperationNone;
 	}
-//	NSLog(@"dragging %@ => %@ to %ld (number of children of item is %ld)",draggedNode,item,index,[[self model] numberOfChildrenOfParent:item]);
 	return NSDragOperationMove;
 }
 

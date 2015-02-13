@@ -38,5 +38,6 @@
 -(NSDictionary* )dictionaryWithKey:(id)key;
 -(NSTableCellView* )cellViewForOutlineView:(NSOutlineView* )outlineView tableColumn:(NSTableColumn* )tableColumn owner:(id)owner tag:(NSInteger)tag;
 -(BOOL)canAcceptDrop:(PGSourceViewNode* )node;
+-(void)writeToPasteboard:(NSPasteboard* )pboard;
 
 @end
