@@ -182,5 +182,4 @@
  */
 -(BOOL)isRemoteHostURL;
 
-
 @end
