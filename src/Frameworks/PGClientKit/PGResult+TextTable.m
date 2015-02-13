@@ -91,6 +91,11 @@
 }
 
 -(NSString* )tableWithWidth:(NSUInteger)lineWidth {
+	// return nil if no data
+	if([self dataReturned]==NO) {
+		return nil;
+	}
+
 	NSUInteger totalWidth = 0;
 	NSUInteger oldCurrentRow = [self rowNumber];
 

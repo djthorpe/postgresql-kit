@@ -429,7 +429,13 @@ NSInteger PGQueriesTag = -200;
 	// execute query
 	PGResult* result = [[self connections] execute:string forTag:tag];
 	if(result) {
-		[self _appendConsoleString:[result tableWithWidth:[consoleView textWidth]] forTag:tag];
+		NSString* table = [result tableWithWidth:[consoleView textWidth]];
+		if(table) {
+			[self _appendConsoleString:table forTag:tag];
+		}
+		if([result affectedRows]) {
+			[self _appendConsoleString:[NSString stringWithFormat:@"%ld affected row(s)",[result affectedRows]] forTag:tag];
+		}
 	}
 }
 
