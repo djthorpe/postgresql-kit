@@ -13,10 +13,9 @@
 // under the License.
 
 #import <Foundation/Foundation.h>
-#import "NSString+NetworkValidationAdditions.h"
 #include <arpa/inet.h>
 
-@implementation NSString (NeworkValidationAdditions)
+@implementation NSString (PGNetworkValidationAdditions)
 
 -(BOOL)isNetworkHostname {
 	NSRegularExpression* regex = [NSRegularExpression regularExpressionWithPattern:@"^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])$" options:0 error:nil];

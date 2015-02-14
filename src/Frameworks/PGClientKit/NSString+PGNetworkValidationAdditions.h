@@ -14,9 +14,9 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NSString (NeworkValidationAdditions)
+@interface NSString (PGNetworkValidationAdditions)
 -(BOOL)isNetworkHostname;
 -(BOOL)isNetworkAddress;
--(BOOL)isNetworkAddress4;
--(BOOL)isNetworkAddress6;
+-(BOOL)isNetworkAddressV4;
+-(BOOL)isNetworkAddressV6;
 @end

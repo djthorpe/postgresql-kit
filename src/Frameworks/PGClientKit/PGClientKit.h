@@ -51,9 +51,6 @@ extern NSString* PGClientErrorDomain;
 @class PGStatement;
 @class PGPasswordStore;
 
-@class PGCSVImporter;
-@class PGCSVTableSpecification;
-
 // header includes
 #import "PGConnection.h"
 #import "PGConnectionPool.h"
@@ -62,12 +59,8 @@ extern NSString* PGClientErrorDomain;
 
 // helpers
 #import "NSURL+PGAdditions.h"
+#import "NSString+PGNetworkValidationAdditions.h"
 #import "PGPasswordStore.h"
-
-// import and export
-#import "PGCSVImporter.h"
-#import "PGCSVTableSpecification.h"
-//#import "PGResult+CSVExporter.h"
 
 #if TARGET_OS_IPHONE
 // Do not import additional header files
