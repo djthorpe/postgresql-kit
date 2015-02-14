@@ -12,13 +12,46 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-// externs
+ /**
+  *  The PGConnection class represents a single connection to a remote
+  *  PostgreSQL database, either via network or socket. The connection class
+  *  provides methods to test connecting, connecting, disconnecting, resetting
+  *  and executing statements on the remote database. In the future, it will
+  *  also provide the ability to be informed on notification.
+  *
+  *  You need to use a run loop in order to use this class, since some processes
+  *  occur in the background. A delegate can be implemented which is called on
+  *  state changes, connection and errors.
+  *
+  */
+
+////////////////////////////////////////////////////////////////////////////////
+// constants
+
+/**
+ *  The default port number used for making PostgreSQL connections
+ */
 extern NSUInteger PGClientDefaultPort;
+
+/**
+ *  The maximum supported port value which is supported
+ */
 extern NSUInteger PGClientMaximumPort;
+
+/**
+ *  The domain string used when returning NSError objects
+ */
 extern NSString* PGClientErrorDomain;
 
+
+
+////////////////////////////////////////////////////////////////////////////////
 // forward declarations
+
 @protocol PGConnectionDelegate;
+
+////////////////////////////////////////////////////////////////////////////////
+// PGConnection interface
 
 @interface PGConnection : NSObject {
 	void* _connection;
@@ -71,7 +104,8 @@ extern NSString* PGClientErrorDomain;
 @property (weak, nonatomic) id<PGConnectionDelegate> delegate;
 
 /**
- *  Tag for the connection object
+ *  Tag for the connection object. You can use this in order to refer to the
+ *  connection by unique tag number, when implementing a pool of connections
  */
 @property NSInteger tag;
 
@@ -107,7 +141,7 @@ extern NSString* PGClientErrorDomain;
 -(BOOL)connectionUsedPassword;
 
 ////////////////////////////////////////////////////////////////////////////////
-// execute statements
+// execute statement methods
 
 -(PGResult* )execute:(NSString* )query format:(PGClientTupleFormat)format error:(NSError** )error;
 -(PGResult* )execute:(NSString* )query format:(PGClientTupleFormat)format values:(NSArray* )values error:(NSError** )error;
@@ -118,7 +152,9 @@ extern NSString* PGClientErrorDomain;
 
 @end
 
-// delegate for PGConnection
+////////////////////////////////////////////////////////////////////////////////
+// PGConnectionDelegate protocol
+
 @protocol PGConnectionDelegate <NSObject>
 @optional
 -(void)connection:(PGConnection* )connection willOpenWithParameters:(NSMutableDictionary* )dictionary;
