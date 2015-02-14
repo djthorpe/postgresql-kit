@@ -43,8 +43,6 @@ extern NSUInteger PGClientMaximumPort;
  */
 extern NSString* PGClientErrorDomain;
 
-
-
 ////////////////////////////////////////////////////////////////////////////////
 // forward declarations
 
@@ -132,8 +130,48 @@ extern NSString* PGClientErrorDomain;
 ////////////////////////////////////////////////////////////////////////////////
 // connection, ping and disconnection methods
 
+/**
+ *  Connect to a database (as specififed by the URL) in the foreground. On
+ *  failure, will return NO and set the connection error string.
+ *
+ *  @param url   The specification of the database that should be connected to
+ *  @param error When the connection fails, the error condition is set
+ *
+ *  @return Returns YES on successful connection
+ */
 -(BOOL)connectWithURL:(NSURL* )url error:(NSError** )error;
+
+/**
+ *  Connect to a database (as specififed by the URL) on a background thread. If
+ *  the connection parameters were incorrect, the method immediately returns NO.
+ *  Once the connection process is completed (either to successful or unsuccessful
+ *  completion, the callback block is run. The error condition is set to nil on
+ *  successful connection, or to an error condition on failure.
+ *
+ *  @param url      The specification of the database that should be connected to
+ *  @param callback The callback which is called on conclusion of the connection
+ *                  process. The error will be set when the connection fails, or
+ *                  else the error is set to nil.
+ *
+ *  @return Returns YES when the connection process is initiated, or else returns
+ *          NO if the connection URL was invalid.
+ */
 -(BOOL)connectInBackgroundWithURL:(NSURL* )url whenDone:(void(^)(NSError* error)) callback;
+
+/**
+ *  Pings a remote database to determine if a connect can be initiated. Note
+ *  that this method doesn't check credentials, only that a connection could be
+ *  initiated (thus this routine could be used to determine if the URL parameters
+ *  are right or not. For example, no attempt to made to check the username,
+ *  password or database parameters.
+ *
+ *  @param url      The specification of the database that should be connected to
+ *  @param error    When the ping fails, the error condition is set. Often this
+ *                  will be set to "unknown" error.
+ *
+ *  @return Returns YES when the connection process could be initiated, or else
+ *          returns NO which indicates the remote database is not "pingable".
+ */
 -(BOOL)pingWithURL:(NSURL* )url error:(NSError** )error;
 -(BOOL)reset;
 -(BOOL)resetInBackgroundWhenDone:(void(^)(NSError* error)) callback;
