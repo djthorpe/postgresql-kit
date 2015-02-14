@@ -14,6 +14,28 @@
 
 #import <Foundation/Foundation.h>
 
+enum {
+	PGTableModelTemporary = 1
+} PGTableModelOptions;
+
+
 @interface PGTableModel : NSObject
 
+// constructors
+-(id)initWithName:(NSString* )name;
+
+// properties
+@property (copy) NSString* name;
+@property (assign) int options;
+@property (readonly) NSArray* columns;
+
+// methods
+//-(void)appendColumn:(PGTableColumnModel* )column;
+
 @end
+
+@interface PGConnection (PGTableModelAdditions)
+-(BOOL)create:(PGTableModel* )model schema:(NSString* )schema options:(int)options whenDone:(void(^)(NSError* error)) callback;
+-(PGTableModel* )modelForTable:(NSString* )table schema:(NSString* )schema;
+@end
+
