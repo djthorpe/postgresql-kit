@@ -27,7 +27,9 @@ enum {
 
 // forward class declarations
 @class PGCSVImporter;
+@class PGTableModel;
 
 // header includes
 #import "PGCSVImporter.h"
+#import "PGTableModel.h"
 

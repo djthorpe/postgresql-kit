@@ -12,8 +12,9 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-#import <Foundation/Foundation.h>
+#import <PGClientKit/PGClientKit.h>
+#import <PGDataKit/PGDataKit.h>
 
-@interface PGCSVTableSpecification : NSObject
+@implementation PGTableModel
 
 @end
