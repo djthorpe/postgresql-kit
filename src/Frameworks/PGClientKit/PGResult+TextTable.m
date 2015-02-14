@@ -12,14 +12,6 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-//
-//  PGResult+TextTable.m
-//  postgresql-kit
-//
-//  Created by David Thorpe on 28/11/2012.
-//
-//
-
 #import "PGResult+TextTable.h"
 
 @implementation PGResult (TextTable)
