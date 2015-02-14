@@ -14,11 +14,20 @@
 
 #import <Foundation/Foundation.h>
 
-@interface PGCSVImporter : NSObject
+////////////////////////////////////////////////////////////////////////////////
 
-// detecting table specification from URL
-+(BOOL)detectTableSpecificationForURL:(NSURL* )URL options:(int)options delimiter:(unichar)delimiter maxBytes:(NSUInteger)maxBytes whenDone:(void (^)(void)) callback;
-+(BOOL)detectTableSpecificationForURL:(NSURL* )URL options:(int)options maxBytes:(NSUInteger)maxBytes whenDone:(void (^)(void)) callback;
+enum {
+	PGCSVImporterHasHeader = 1, // use line 0 as the headings
+	PGCSVImporterIgnoreHashComments = 2, // ignore lines starting with #
+	PGCSVImporterIgnoreCodeComments = 4, // ignore lines starting with //
+	PGCSVImporterIgnoreComments = 6, // ignore lines starting with # or //
+};
 
+////////////////////////////////////////////////////////////////////////////////
 
-@end
+// forward class declarations
+@class PGCSVImporter;
+
+// header includes
+#import "PGCSVImporter.h"
+

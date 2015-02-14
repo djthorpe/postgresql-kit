@@ -34,9 +34,9 @@
 
 // properties
 @property (weak, nonatomic) id<PGConnectionPoolDelegate> delegate;
-@property PGPasswordStore* passwordStore;
+@property (retain) PGPasswordStore* passwordStore;
 @property BOOL useKeychain;
-@property NSArray* connections;
+@property (retain) NSArray* connections;
 
 // methods
 -(PGConnection* )createConnectionWithURL:(NSURL* )url tag:(NSInteger)tag;
