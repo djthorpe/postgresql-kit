@@ -187,14 +187,6 @@
 		6EB1E79615F282910093F784 /* PGServerKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EB1E74015F273350093F784 /* PGServerKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6EB4B9F31A8E3E420080DFF4 /* CHCSVParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB4B9E01A8E3E2B0080DFF4 /* CHCSVParser.m */; };
 		6EB4B9F41A8E3E470080DFF4 /* CHCSVParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB4B9E01A8E3E2B0080DFF4 /* CHCSVParser.m */; };
-		6EB4B9F81A8E3EB00080DFF4 /* PGCSVImporter.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EB4B9F61A8E3EB00080DFF4 /* PGCSVImporter.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6EB4B9F91A8E3EB00080DFF4 /* PGCSVImporter.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EB4B9F61A8E3EB00080DFF4 /* PGCSVImporter.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6EB4B9FA1A8E3EB00080DFF4 /* PGCSVImporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB4B9F71A8E3EB00080DFF4 /* PGCSVImporter.m */; };
-		6EB4B9FB1A8E3EB00080DFF4 /* PGCSVImporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB4B9F71A8E3EB00080DFF4 /* PGCSVImporter.m */; };
-		6EB4B9FE1A8E474E0080DFF4 /* PGCSVTableSpecification.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EB4B9FC1A8E474E0080DFF4 /* PGCSVTableSpecification.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6EB4B9FF1A8E474E0080DFF4 /* PGCSVTableSpecification.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EB4B9FC1A8E474E0080DFF4 /* PGCSVTableSpecification.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6EB4BA001A8E474E0080DFF4 /* PGCSVTableSpecification.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB4B9FD1A8E474E0080DFF4 /* PGCSVTableSpecification.m */; };
-		6EB4BA011A8E474E0080DFF4 /* PGCSVTableSpecification.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB4B9FD1A8E474E0080DFF4 /* PGCSVTableSpecification.m */; };
 		6EC2C0761A8E1131003F6F24 /* NSString+NetworkValidationAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EC2C0751A8E1131003F6F24 /* NSString+NetworkValidationAdditions.h */; };
 		6EC2C0781A8E11A0003F6F24 /* NSString+NetworkValidationAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC2C0771A8E11A0003F6F24 /* NSString+NetworkValidationAdditions.m */; };
 		6ECA7ADE15F3637600AF2B70 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C168115F26BF20013A382 /* Foundation.framework */; };
@@ -585,6 +577,10 @@
 		6EA41EEF1610E7DB00E81046 /* PGServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGServer.m; sourceTree = "<group>"; };
 		6EA463F11A87E1FF005AA8A3 /* PGConsoleViewBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGConsoleViewBuffer.h; sourceTree = "<group>"; };
 		6EA463F21A87E1FF005AA8A3 /* PGConsoleViewBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGConsoleViewBuffer.m; sourceTree = "<group>"; };
+		6EA4FA611A8F5ECA0013FD71 /* PGCSVImporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGCSVImporter.h; sourceTree = "<group>"; };
+		6EA4FA621A8F5ECA0013FD71 /* PGCSVImporter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PGCSVImporter.m; sourceTree = "<group>"; };
+		6EA4FA631A8F5ECA0013FD71 /* PGCSVTableSpecification.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGCSVTableSpecification.h; sourceTree = "<group>"; };
+		6EA4FA641A8F5ECA0013FD71 /* PGCSVTableSpecification.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PGCSVTableSpecification.m; sourceTree = "<group>"; };
 		6EA5EA8117AAE480005A3343 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		6EA5EA8217AAF9DC005A3343 /* lipo.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = lipo.sh; sourceTree = "<group>"; };
 		6EAA40E917BC150E0078EB32 /* NSURL+PGAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+PGAdditions.h"; sourceTree = "<group>"; };
@@ -602,10 +598,6 @@
 		6EB4B9EA1A8E3E2B0080DFF4 /* UnitTestContent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UnitTestContent.h; sourceTree = "<group>"; };
 		6EB4B9EB1A8E3E2B0080DFF4 /* UnitTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UnitTests.h; sourceTree = "<group>"; };
 		6EB4B9EC1A8E3E2B0080DFF4 /* UnitTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UnitTests.m; sourceTree = "<group>"; };
-		6EB4B9F61A8E3EB00080DFF4 /* PGCSVImporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGCSVImporter.h; sourceTree = "<group>"; };
-		6EB4B9F71A8E3EB00080DFF4 /* PGCSVImporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGCSVImporter.m; sourceTree = "<group>"; };
-		6EB4B9FC1A8E474E0080DFF4 /* PGCSVTableSpecification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGCSVTableSpecification.h; sourceTree = "<group>"; };
-		6EB4B9FD1A8E474E0080DFF4 /* PGCSVTableSpecification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGCSVTableSpecification.m; sourceTree = "<group>"; };
 		6EB5485417AEC9CA000F4AA2 /* elephant-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "elephant-72.png"; sourceTree = "<group>"; };
 		6EB5485917AECCAF000F4AA2 /* elephant-144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "elephant-144.png"; sourceTree = "<group>"; };
 		6EC2C0751A8E1131003F6F24 /* NSString+NetworkValidationAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+NetworkValidationAdditions.h"; sourceTree = "<group>"; };
@@ -805,6 +797,10 @@
 		1418234B166128A500765768 /* PGDataKit */ = {
 			isa = PBXGroup;
 			children = (
+				6EA4FA611A8F5ECA0013FD71 /* PGCSVImporter.h */,
+				6EA4FA621A8F5ECA0013FD71 /* PGCSVImporter.m */,
+				6EA4FA631A8F5ECA0013FD71 /* PGCSVTableSpecification.h */,
+				6EA4FA641A8F5ECA0013FD71 /* PGCSVTableSpecification.m */,
 				14182368166129D300765768 /* PGDataKit.plist */,
 				14805A1416622F4F00A4019F /* PGDataKit.h */,
 				14805A1516622F9000A4019F /* PGStore.h */,
@@ -1338,17 +1334,6 @@
 			path = "Unit Tests";
 			sourceTree = "<group>";
 		};
-		6EB4B9F51A8E3E620080DFF4 /* Import Export */ = {
-			isa = PBXGroup;
-			children = (
-				6EB4B9F61A8E3EB00080DFF4 /* PGCSVImporter.h */,
-				6EB4B9F71A8E3EB00080DFF4 /* PGCSVImporter.m */,
-				6EB4B9FC1A8E474E0080DFF4 /* PGCSVTableSpecification.h */,
-				6EB4B9FD1A8E474E0080DFF4 /* PGCSVTableSpecification.m */,
-			);
-			name = "Import Export";
-			sourceTree = "<group>";
-		};
 		6ED763FC15F2673600687079 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1396,7 +1381,6 @@
 				6E03102E162FE50B003225B1 /* PGStatement.h */,
 				6E03102F162FE50B003225B1 /* PGStatement.m */,
 				14DECDA416B56D7B00178235 /* Data Translation */,
-				6EB4B9F51A8E3E620080DFF4 /* Import Export */,
 				1422C5B21663FD3800FB22FE /* PGResult */,
 			);
 			path = PGClientKit;
@@ -1484,7 +1468,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6EB4B9F91A8E3EB00080DFF4 /* PGCSVImporter.h in Headers */,
 				6E1548471A5819CB00556573 /* PGPasswordStore.h in Headers */,
 				6E1548531A581BCB00556573 /* PGResult.h in Headers */,
 				6E1548551A581BD500556573 /* PGResult+TextTable.h in Headers */,
@@ -1492,7 +1475,6 @@
 				6E15484F1A581BB400556573 /* PGConverters.h in Headers */,
 				6E15484B1A5819DE00556573 /* PGClientParams.h in Headers */,
 				6E1548501A581BBA00556573 /* PGConverters+Private.h in Headers */,
-				6EB4B9FF1A8E474E0080DFF4 /* PGCSVTableSpecification.h in Headers */,
 				6E1548441A5819AC00556573 /* PGClientKit.h in Headers */,
 				6E1548491A5819D500556573 /* PGConnection.h in Headers */,
 				6E15484D1A5819EA00556573 /* PGStatement.h in Headers */,
@@ -1518,8 +1500,6 @@
 				6E2F1AFD1A83BD750022730E /* PGConnectionPool.h in Headers */,
 				6EE23F5D1631EF7500C99BA7 /* PGClientKit+Private.h in Headers */,
 				6EE23F5E1631EF7500C99BA7 /* PGConnection.h in Headers */,
-				6EB4B9FE1A8E474E0080DFF4 /* PGCSVTableSpecification.h in Headers */,
-				6EB4B9F81A8E3EB00080DFF4 /* PGCSVImporter.h in Headers */,
 				6EE12E2617D51D620034B9E1 /* PGPasswordStore.h in Headers */,
 				14DECDA116B56D7300178235 /* PGConverters.h in Headers */,
 				6EAA40EB17BC150E0078EB32 /* NSURL+PGAdditions.h in Headers */,
@@ -2013,13 +1993,11 @@
 				6E1548461A5819C600556573 /* NSURL+PGAdditions.m in Sources */,
 				6E1548541A581BD200556573 /* PGResult.m in Sources */,
 				6E1548511A581BC100556573 /* PGConverters+Object2Data.m in Sources */,
-				6EB4BA011A8E474E0080DFF4 /* PGCSVTableSpecification.m in Sources */,
 				6E1548481A5819CF00556573 /* PGPasswordStore.m in Sources */,
 				6EB4B9F41A8E3E470080DFF4 /* CHCSVParser.m in Sources */,
 				6E1548521A581BC400556573 /* PGConverters+Data2Object.m in Sources */,
 				6E15484E1A5819F000556573 /* PGStatement.m in Sources */,
 				6E1548581A581F2B00556573 /* SSKeychain.m in Sources */,
-				6EB4B9FB1A8E3EB00080DFF4 /* PGCSVImporter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2088,8 +2066,6 @@
 				6E2F1AFE1A83BD750022730E /* PGConnectionPool.m in Sources */,
 				1489AEC816669A6B00C3B67D /* PGResult+TextTable.m in Sources */,
 				14DECDA216B56D7300178235 /* PGConverters+Object2Data.m in Sources */,
-				6EB4B9FA1A8E3EB00080DFF4 /* PGCSVImporter.m in Sources */,
-				6EB4BA001A8E474E0080DFF4 /* PGCSVTableSpecification.m in Sources */,
 				14DECDA616B56DF300178235 /* PGConverters+Data2Object.m in Sources */,
 				6EAA40ED17BC150E0078EB32 /* NSURL+PGAdditions.m in Sources */,
 				6EB4B9F31A8E3E420080DFF4 /* CHCSVParser.m in Sources */,
