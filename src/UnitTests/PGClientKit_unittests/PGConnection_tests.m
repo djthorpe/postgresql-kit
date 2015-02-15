@@ -12,14 +12,24 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-#import "PGConnection_tests.h"
-#import "PGFoundationServer.h"
+#import <Foundation/Foundation.h>
 #import <PGClientKit/PGClientKit.h>
+#import <XCTest/XCTest.h>
+
+////////////////////////////////////////////////////////////////////////////////
 
 PGFoundationServer* server = nil;
 PGConnection* client = nil;
 NSUInteger port = 9999;
 BOOL lastTest = NO;
+
+////////////////////////////////////////////////////////////////////////////////
+
+@interface PGConnection_tests : XCTestCase
+
+@end
+
+////////////////////////////////////////////////////////////////////////////////
 
 @implementation PGConnection_tests
 

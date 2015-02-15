@@ -1,34 +1,44 @@
 
-#import "Application.h"
-#import <PostgresClientKit/PostgresClientKit.h>
 
+// Copyright 2009-2015 David Thorpe
+// https://github.com/djthorpe/postgresql-kit
+//
+// Licensed under the Apache License, Version 2.0 (the "License"); you may not
+// use this file except in compliance with the License. You may obtain a copy
+// of the License at http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+// WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+// License for the specific language governing permissions and limitations
+// under the License.
 
-@implementation Application
-@synthesize connection;
-@synthesize stringCache;
+#import <Foundation/Foundation.h>
+#import <PGClientKit/PGClientKit.h>
+#import <XCTest/XCTest.h>
 
--(id)initWithURL:(NSURL* )theURL {
-	self = [super init];
-	if (self != nil) {
-		FLXPostgresConnection* theConnection = [FLXPostgresConnection connectionWithURL:theURL];
-		if(theConnection==nil) {
-			[self release];
-			return nil;
-		}
-		[theConnection setDelegate:self];
-		[self setConnection:theConnection];
-		[self setStringCache:[[NSMutableDictionary alloc] init]];
-	}
-	return self;
+////////////////////////////////////////////////////////////////////////////////
+
+@interface type_tests : XCTestCase
+
+@end
+
+////////////////////////////////////////////////////////////////////////////////
+
+@implementation type_tests
+
+- (void)setUp {
+    [super setUp];
+    // Put setup code here. This method is called before the invocation of each test method in the class.
 }
 
--(void)dealloc {
-	[self setConnection:nil];
-	[self setStringCache:nil];
-	[super dealloc];
+-(void)tearDown {
+    // Put teardown code here. This method is called after the invocation of each test method in the class.
+    [super tearDown];
 }
 
-////////////////////////////////////////////////////////////////////////////
+@end
+
 
 -(NSString* )stringForURL:(NSURL* )theURL {
 	NSString* theString = [[self stringCache] objectForKey:theURL];
@@ -536,21 +546,6 @@
 	
 	// disconnect from database
 	[[self connection] disconnect];
-}
-
-////////////////////////////////////////////////////////////////////////////
-
--(void)connection:(FLXPostgresConnection* )theConnection notice:(NSString* )theNotice {
-	NSLog(@"%@",theNotice);
-}
-
--(void)connection:(FLXPostgresConnection* )theConnection willExecute:(NSObject* )theQuery values:(NSArray* )theValues {
-/*	if([theQuery isKindOfClass:[FLXPostgresStatement class]]) {
-		NSLog(@"Query: %@",[(FLXPostgresStatement* )theQuery statement]);
-	} else {
-		NSLog(@"Query: %@",theQuery);		
-	}
-*/
 }
 
 @end

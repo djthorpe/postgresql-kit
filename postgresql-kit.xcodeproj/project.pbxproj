@@ -56,6 +56,10 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		147070D51A90CC8C0069EF9C /* NSURL_PGAdditions_tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 147070D31A90CC8C0069EF9C /* NSURL_PGAdditions_tests.m */; };
+		147070DA1A90CDF90069EF9C /* PGClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
+		147070DB1A90CDF90069EF9C /* PGServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
+		147070DC1A90CE190069EF9C /* PGClientKit_tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 147070D11A90CB880069EF9C /* PGClientKit_tests.m */; };
 		1489AEC716669A6B00C3B67D /* PGResult+TextTable.h in Headers */ = {isa = PBXBuildFile; fileRef = 1489AEC516669A6B00C3B67D /* PGResult+TextTable.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1489AEC816669A6B00C3B67D /* PGResult+TextTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 1489AEC616669A6B00C3B67D /* PGResult+TextTable.m */; };
 		148D2EFE179555AD0005DB1B /* PGLoginController.h in Headers */ = {isa = PBXBuildFile; fileRef = 148D2EFB179555AD0005DB1B /* PGLoginController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -152,9 +156,6 @@
 		6E5D8BD51A66EE9000C54D42 /* PGConnectionWindowFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E5D8BD31A66EE9000C54D42 /* PGConnectionWindowFormatter.h */; };
 		6E5D8BD61A66EE9000C54D42 /* PGConnectionWindowFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E5D8BD41A66EE9000C54D42 /* PGConnectionWindowFormatter.m */; };
 		6E5D8BD71A67056500C54D42 /* elephant-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43E615F3A465001ED3BE /* elephant-64.png */; };
-		6E5FCF9617BE9EFE00483AF6 /* PGConnection_tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E5FCF9517BE9EFE00483AF6 /* PGConnection_tests.m */; };
-		6E5FCF9917BEA04100483AF6 /* PGFoundationServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E5FCF9817BEA04100483AF6 /* PGFoundationServer.m */; };
-		6E5FCF9A17BEA3AD00483AF6 /* PGServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
 		6E60B5B91A628028005B0633 /* PGConnectionWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E60B5B71A628028005B0633 /* PGConnectionWindowController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E60B5BA1A628028005B0633 /* PGConnectionWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E60B5B81A628028005B0633 /* PGConnectionWindowController.m */; };
 		6E60B5BC1A6280AF005B0633 /* PGConnectionWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E60B5BB1A6280AF005B0633 /* PGConnectionWindow.xib */; };
@@ -180,10 +181,6 @@
 		6EB1E79615F282910093F784 /* PGServerKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EB1E74015F273350093F784 /* PGServerKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6ECA7ADE15F3637600AF2B70 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C168115F26BF20013A382 /* Foundation.framework */; };
 		6ECA7AEA15F363C400AF2B70 /* PGServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
-		6EDC4CCF17BC25FF009E040D /* NSURL_PGAdditions_tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EDC4CCE17BC24DA009E040D /* NSURL_PGAdditions_tests.m */; };
-		6EDC4CD217BC274B009E040D /* PGClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
-		6EDC4CD317BC274B009E040D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C168115F26BF20013A382 /* Foundation.framework */; };
-		6EDC4CD517BC2755009E040D /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EDC4CD417BC2755009E040D /* SenTestingKit.framework */; };
 		6EE12E1A17D51CD70034B9E1 /* SSKeychain.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6EE12E1017D51CD70034B9E1 /* SSKeychain.strings */; };
 		6EE12E1E17D51CD70034B9E1 /* SSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE12E1317D51CD70034B9E1 /* SSKeychain.m */; };
 		6EE12E2217D51CD70034B9E1 /* SSKeychainQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE12E1517D51CD70034B9E1 /* SSKeychainQuery.m */; };
@@ -220,7 +217,14 @@
 			remoteGlobalIDString = 14280457166811D700A61BF6;
 			remoteInfo = openssl;
 		};
-		6E002D2F17BF9774001FB183 /* PBXContainerItemProxy */ = {
+		147070D61A90CDE80069EF9C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E256FDE15F252620079AD2D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6ED85B3516288C4800A6DC02;
+			remoteInfo = PGClientKit_mac;
+		};
+		147070D81A90CDE80069EF9C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6E256FDE15F252620079AD2D /* Project object */;
 			proxyType = 1;
@@ -289,13 +293,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 6E256FEE15F255780079AD2D;
 			remoteInfo = postgresql;
-		};
-		6EDC4CD017BC2659009E040D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6E256FDE15F252620079AD2D /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 6ED85B3516288C4800A6DC02;
-			remoteInfo = PGClientKit_mac;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -398,6 +395,12 @@
 		1466435C1A6A730500E984CF /* PGSchemaManagerApp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGSchemaManagerApp.h; sourceTree = "<group>"; };
 		1466435D1A6A730500E984CF /* PGSchemaManagerApp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PGSchemaManagerApp.m; sourceTree = "<group>"; };
 		1466435E1A6A730500E984CF /* tree.schema.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = tree.schema.xml; sourceTree = "<group>"; };
+		147070C61A90CB450069EF9C /* PGClientKit_unittests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PGClientKit_unittests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		147070D01A90CB880069EF9C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		147070D11A90CB880069EF9C /* PGClientKit_tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PGClientKit_tests.m; sourceTree = "<group>"; };
+		147070D21A90CC8C0069EF9C /* PGConnection_tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGConnection_tests.m; sourceTree = "<group>"; };
+		147070D31A90CC8C0069EF9C /* NSURL_PGAdditions_tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSURL_PGAdditions_tests.m; sourceTree = "<group>"; };
+		147070DD1A90D0680069EF9C /* type_tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = type_tests.m; sourceTree = "<group>"; };
 		14805A1416622F4F00A4019F /* PGDataKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGDataKit.h; sourceTree = "<group>"; };
 		14805A1516622F9000A4019F /* PGStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGStore.h; sourceTree = "<group>"; };
 		14805A1616622F9000A4019F /* PGStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGStore.m; sourceTree = "<group>"; };
@@ -476,7 +479,7 @@
 		6E1B43F915F3A465001ED3BE /* strapline-200x40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "strapline-200x40.png"; sourceTree = "<group>"; };
 		6E222C4F17B035E90087A483 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		6E222C5117B035F00087A483 /* LDAP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LDAP.framework; path = System/Library/Frameworks/LDAP.framework; sourceTree = SDKROOT; };
-		6E2A14F61A59488700F12954 /* PGServerKit_testcases.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PGServerKit_testcases.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6E2A14F61A59488700F12954 /* .xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = .xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E2A14F91A59488700F12954 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6E2A14FA1A59488700F12954 /* PGServerKit_testcases.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PGServerKit_testcases.m; sourceTree = "<group>"; };
 		6E2A15021A594D7100F12954 /* PGFoundationServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGFoundationServer.m; sourceTree = "<group>"; };
@@ -514,7 +517,7 @@
 		6E47EDC21A6EEA6800352939 /* PGSourceViewConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSourceViewConnection.m; sourceTree = "<group>"; };
 		6E489C1D1A6D8EDE008E3068 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6E489C201A6D8EDE008E3068 /* PGControlsKit_testcases.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PGControlsKit_testcases.m; sourceTree = "<group>"; };
-		6E489C2D1A6D8EFA008E3068 /* PGControlsKit_testcases.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PGControlsKit_testcases.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6E489C2D1A6D8EFA008E3068 /* .xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = .xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E48B370160604270044A6CB /* PGServer+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PGServer+Private.h"; sourceTree = "<group>"; };
 		6E48CD761A73F3360060B429 /* PGHelpTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGHelpTextView.h; sourceTree = "<group>"; };
 		6E48CD771A73F3360060B429 /* PGHelpTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGHelpTextView.m; sourceTree = "<group>"; };
@@ -531,10 +534,6 @@
 		6E5D8BD31A66EE9000C54D42 /* PGConnectionWindowFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGConnectionWindowFormatter.h; sourceTree = "<group>"; };
 		6E5D8BD41A66EE9000C54D42 /* PGConnectionWindowFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGConnectionWindowFormatter.m; sourceTree = "<group>"; };
 		6E5D8BD81A670E3600C54D42 /* PGControlsKit_PGConnectionWindow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PGControlsKit_PGConnectionWindow.png; sourceTree = "<group>"; };
-		6E5FCF9417BE9EFE00483AF6 /* PGConnection_tests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGConnection_tests.h; sourceTree = "<group>"; };
-		6E5FCF9517BE9EFE00483AF6 /* PGConnection_tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGConnection_tests.m; sourceTree = "<group>"; };
-		6E5FCF9717BEA04100483AF6 /* PGFoundationServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGFoundationServer.h; sourceTree = "<group>"; };
-		6E5FCF9817BEA04100483AF6 /* PGFoundationServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGFoundationServer.m; sourceTree = "<group>"; };
 		6E60B5B71A628028005B0633 /* PGConnectionWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGConnectionWindowController.h; sourceTree = "<group>"; };
 		6E60B5B81A628028005B0633 /* PGConnectionWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGConnectionWindowController.m; sourceTree = "<group>"; };
 		6E60B5BB1A6280AF005B0633 /* PGConnectionWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PGConnectionWindow.xib; sourceTree = "<group>"; };
@@ -567,10 +566,6 @@
 		6ED85B4916288D0200A6DC02 /* PGClientKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGClientKit.h; sourceTree = "<group>"; };
 		6EDB9D6C17C2141900B9BC89 /* build-macapps.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "build-macapps.sh"; sourceTree = "<group>"; };
 		6EDB9D6D17C2144900B9BC89 /* build-iosapps.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "build-iosapps.sh"; sourceTree = "<group>"; };
-		6EDC4CB017BC2459009E040D /* PGClientKit_testcases.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PGClientKit_testcases.octest; sourceTree = BUILT_PRODUCTS_DIR; };
-		6EDC4CCB17BC24DA009E040D /* PGClientKit_testcases.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PGClientKit_testcases.plist; sourceTree = "<group>"; };
-		6EDC4CCD17BC24DA009E040D /* NSURL_PGAdditions_tests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSURL_PGAdditions_tests.h; sourceTree = "<group>"; };
-		6EDC4CCE17BC24DA009E040D /* NSURL_PGAdditions_tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSURL_PGAdditions_tests.m; sourceTree = "<group>"; };
 		6EDC4CD417BC2755009E040D /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		6EE12E0D17D51CD70034B9E1 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		6EE12E0E17D51CD70034B9E1 /* Readme.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Readme.markdown; sourceTree = "<group>"; };
@@ -597,6 +592,15 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		147070C31A90CB450069EF9C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				147070DA1A90CDF90069EF9C /* PGClientKit.framework in Frameworks */,
+				147070DB1A90CDF90069EF9C /* PGServerKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		14F1E84317CB83CD00710D4A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -676,17 +680,6 @@
 				6E222C5017B035E90087A483 /* libz.dylib in Frameworks */,
 				14D7C3E617AD721D00479231 /* Foundation.framework in Frameworks */,
 				148D2F03179557330005DB1B /* Cocoa.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		6EDC4CAC17BC2459009E040D /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				6EDC4CD517BC2755009E040D /* SenTestingKit.framework in Frameworks */,
-				6EDC4CD217BC274B009E040D /* PGClientKit.framework in Frameworks */,
-				6E5FCF9A17BEA3AD00483AF6 /* PGServerKit.framework in Frameworks */,
-				6EDC4CD317BC274B009E040D /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -877,6 +870,18 @@
 				1466435E1A6A730500E984CF /* tree.schema.xml */,
 			);
 			path = PGSchemaManager;
+			sourceTree = "<group>";
+		};
+		147070CF1A90CB880069EF9C /* PGClientKit_unittests */ = {
+			isa = PBXGroup;
+			children = (
+				147070D01A90CB880069EF9C /* Info.plist */,
+				147070D11A90CB880069EF9C /* PGClientKit_tests.m */,
+				147070D31A90CC8C0069EF9C /* NSURL_PGAdditions_tests.m */,
+				147070D21A90CC8C0069EF9C /* PGConnection_tests.m */,
+				147070DD1A90D0680069EF9C /* type_tests.m */,
+			);
+			path = PGClientKit_unittests;
 			sourceTree = "<group>";
 		};
 		14805A1A1662305200A4019F /* Cocoa */ = {
@@ -1236,9 +1241,9 @@
 		6EB1E78C15F273350093F784 /* UnitTests */ = {
 			isa = PBXGroup;
 			children = (
-				6E489C1C1A6D8EDE008E3068 /* PGControlsKit_testcases */,
 				6E2A14F71A59488700F12954 /* PGServerKit_testcases */,
-				6EDC4CC817BC24DA009E040D /* PGClientKit_testcases */,
+				147070CF1A90CB880069EF9C /* PGClientKit_unittests */,
+				6E489C1C1A6D8EDE008E3068 /* PGControlsKit_testcases */,
 			);
 			path = UnitTests;
 			sourceTree = "<group>";
@@ -1250,12 +1255,12 @@
 				6ECA7ADC15F3637600AF2B70 /* PGFoundationServer */,
 				6ED85B4616288C4800A6DC02 /* PGClientKit.framework */,
 				6E4DEC85162CC38D008B26BD /* PGFoundationClient */,
-				6EDC4CB017BC2459009E040D /* PGClientKit_testcases.octest */,
 				14F1E84717CB83CD00710D4A /* PGControlsKit.framework */,
 				6E1548291A5816E600556573 /* PGClientKit_ios.framework */,
-				6E2A14F61A59488700F12954 /* PGServerKit_testcases.xctest */,
+				6E2A14F61A59488700F12954 /* .xctest */,
 				6E55A2091A618B0000CD2B60 /* PGClient.app */,
-				6E489C2D1A6D8EFA008E3068 /* PGControlsKit_testcases.xctest */,
+				6E489C2D1A6D8EFA008E3068 /* .xctest */,
+				147070C61A90CB450069EF9C /* PGClientKit_unittests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1282,20 +1287,6 @@
 				14805A1A1662305200A4019F /* Cocoa */,
 			);
 			path = PGClientKit;
-			sourceTree = "<group>";
-		};
-		6EDC4CC817BC24DA009E040D /* PGClientKit_testcases */ = {
-			isa = PBXGroup;
-			children = (
-				6EDC4CCB17BC24DA009E040D /* PGClientKit_testcases.plist */,
-				6E5FCF9717BEA04100483AF6 /* PGFoundationServer.h */,
-				6E5FCF9817BEA04100483AF6 /* PGFoundationServer.m */,
-				6EDC4CCD17BC24DA009E040D /* NSURL_PGAdditions_tests.h */,
-				6EDC4CCE17BC24DA009E040D /* NSURL_PGAdditions_tests.m */,
-				6E5FCF9417BE9EFE00483AF6 /* PGConnection_tests.h */,
-				6E5FCF9517BE9EFE00483AF6 /* PGConnection_tests.m */,
-			);
-			path = PGClientKit_testcases;
 			sourceTree = "<group>";
 		};
 		6EE12E0C17D51CD70034B9E1 /* sskeychain-1.2.0 */ = {
@@ -1405,6 +1396,25 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		147070C51A90CB450069EF9C /* PGClientKit_unittests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 147070CC1A90CB450069EF9C /* Build configuration list for PBXNativeTarget "PGClientKit_unittests" */;
+			buildPhases = (
+				147070C21A90CB450069EF9C /* Sources */,
+				147070C31A90CB450069EF9C /* Frameworks */,
+				147070C41A90CB450069EF9C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				147070D71A90CDE80069EF9C /* PBXTargetDependency */,
+				147070D91A90CDE80069EF9C /* PBXTargetDependency */,
+			);
+			name = PGClientKit_unittests;
+			productName = PGClientKit_unittests;
+			productReference = 147070C61A90CB450069EF9C /* PGClientKit_unittests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		14F1E84617CB83CD00710D4A /* PGControlsKit_mac */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 14F1E85A17CB83CD00710D4A /* Build configuration list for PBXNativeTarget "PGControlsKit_mac" */;
@@ -1457,7 +1467,7 @@
 			);
 			name = PGServerKit_testcases;
 			productName = PGServerKit_testcases;
-			productReference = 6E2A14F61A59488700F12954 /* PGServerKit_testcases.xctest */;
+			productReference = 6E2A14F61A59488700F12954 /* .xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		6E489C211A6D8EFA008E3068 /* PGControlsKit_testcases */ = {
@@ -1475,7 +1485,7 @@
 			);
 			name = PGControlsKit_testcases;
 			productName = PGServerKit_testcases;
-			productReference = 6E489C2D1A6D8EFA008E3068 /* PGControlsKit_testcases.xctest */;
+			productReference = 6E489C2D1A6D8EFA008E3068 /* .xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		6E4DEC84162CC38D008B26BD /* PGFoundationClient */ = {
@@ -1573,26 +1583,6 @@
 			productReference = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		6EDC4CAF17BC2459009E040D /* PGClientKit_testcases */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 6EDC4CC317BC2459009E040D /* Build configuration list for PBXNativeTarget "PGClientKit_testcases" */;
-			buildPhases = (
-				6EDC4CAB17BC2459009E040D /* Sources */,
-				6EDC4CAC17BC2459009E040D /* Frameworks */,
-				6EDC4CAD17BC2459009E040D /* Resources */,
-				6EDC4CAE17BC2459009E040D /* ShellScript */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				6E002D3017BF9774001FB183 /* PBXTargetDependency */,
-				6EDC4CD117BC2659009E040D /* PBXTargetDependency */,
-			);
-			name = PGClientKit_testcases;
-			productName = PGClientKit_testcases;
-			productReference = 6EDC4CB017BC2459009E040D /* PGClientKit_testcases.octest */;
-			productType = "com.apple.product-type.bundle.ocunit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1602,6 +1592,9 @@
 				LastTestingUpgradeCheck = 0610;
 				LastUpgradeCheck = 0610;
 				TargetAttributes = {
+					147070C51A90CB450069EF9C = {
+						CreatedOnToolsVersion = 6.0.1;
+					};
 					6E1548281A5816E600556573 = {
 						CreatedOnToolsVersion = 6.1.1;
 					};
@@ -1637,7 +1630,7 @@
 				6ECA7ADB15F3637600AF2B70 /* PGFoundationServer */,
 				6E4DEC84162CC38D008B26BD /* PGFoundationClient */,
 				6E55A2081A618B0000CD2B60 /* PGClient */,
-				6EDC4CAF17BC2459009E040D /* PGClientKit_testcases */,
+				147070C51A90CB450069EF9C /* PGClientKit_unittests */,
 				6E2A14F51A59488700F12954 /* PGServerKit_testcases */,
 				6E489C211A6D8EFA008E3068 /* PGControlsKit_testcases */,
 			);
@@ -1645,6 +1638,13 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		147070C41A90CB450069EF9C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		14F1E84517CB83CD00710D4A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1718,13 +1718,6 @@
 				6E37869D1A69783D0018BEA0 /* Version.plist in Resources */,
 				6EE12E1A17D51CD70034B9E1 /* SSKeychain.strings in Resources */,
 				6E69F6B91A67C0040014EC1F /* NOTICE.md in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		6EDC4CAD17BC2459009E040D /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1803,22 +1796,18 @@
 			shellPath = /bin/sh;
 			shellScript = "VERSION=postgresql-current-mac_x86_64\nBUILD=${BUILT_PRODUCTS_DIR}\nPREFIX=${BUILD}/${VERSION}\nDESTINATION=${BUILD}/${CONTENTS_FOLDER_PATH}/Resources\n\necho Installing from ${PREFIX} to ${DESTINATION}/${VERSION}\n\n# copy bin directory\necho cp -r ${PREFIX}/bin ${DESTINATION}/${VERSION}\ninstall -d ${DESTINATION}/${VERSION}/bin\ncp -r ${PREFIX}/bin ${DESTINATION}/${VERSION}\n\n# copy share directory\necho cp -r ${PREFIX}/share ${DESTINATION}/${VERSION}\ninstall -d ${DESTINATION}/${VERSION}/share\ncp -r ${PREFIX}/share ${DESTINATION}/${VERSION}\n\n# copy lib directory\necho cp -r ${PREFIX}/lib ${DESTINATION}/${VERSION}\ninstall -d ${DESTINATION}/${VERSION}/lib\ncp -r ${PREFIX}/lib ${DESTINATION}/${VERSION}\n\n";
 		};
-		6EDC4CAE17BC2459009E040D /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		147070C21A90CB450069EF9C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				147070DC1A90CE190069EF9C /* PGClientKit_tests.m in Sources */,
+				147070D51A90CC8C0069EF9C /* NSURL_PGAdditions_tests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		14F1E84217CB83CD00710D4A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1935,16 +1924,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6EDC4CAB17BC2459009E040D /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				6EDC4CCF17BC25FF009E040D /* NSURL_PGAdditions_tests.m in Sources */,
-				6E5FCF9617BE9EFE00483AF6 /* PGConnection_tests.m in Sources */,
-				6E5FCF9917BEA04100483AF6 /* PGFoundationServer.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -1958,10 +1937,15 @@
 			target = 14280457166811D700A61BF6 /* openssl_mac */;
 			targetProxy = 143398D4168F4F1A00234FBF /* PBXContainerItemProxy */;
 		};
-		6E002D3017BF9774001FB183 /* PBXTargetDependency */ = {
+		147070D71A90CDE80069EF9C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6ED85B3516288C4800A6DC02 /* PGClientKit_mac */;
+			targetProxy = 147070D61A90CDE80069EF9C /* PBXContainerItemProxy */;
+		};
+		147070D91A90CDE80069EF9C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 6ED763FA15F2673600687079 /* PGServerKit_mac */;
-			targetProxy = 6E002D2F17BF9774001FB183 /* PBXContainerItemProxy */;
+			targetProxy = 147070D81A90CDE80069EF9C /* PBXContainerItemProxy */;
 		};
 		6E0C815F1A618E640032AE32 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -2008,11 +1992,6 @@
 			target = 6E256FEE15F255780079AD2D /* postgresql_mac */;
 			targetProxy = 6ED85B3716288C4800A6DC02 /* PBXContainerItemProxy */;
 		};
-		6EDC4CD117BC2659009E040D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 6ED85B3516288C4800A6DC02 /* PGClientKit_mac */;
-			targetProxy = 6EDC4CD017BC2659009E040D /* PBXContainerItemProxy */;
-		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -2042,6 +2021,96 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				PRODUCT_NAME = openssl_mac;
+			};
+			name = Release;
+		};
+		147070CD1A90CB450069EF9C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = src/UnitTests/PGClientKit_unittests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		147070CE1A90CB450069EF9C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = src/UnitTests/PGClientKit_unittests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};
@@ -2270,180 +2339,24 @@
 		6E2A15001A59488700F12954 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-					"$(inherited)",
-				);
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = src/UnitTests/PGServerKit_testcases/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MTL_ENABLE_DEBUG_INFO = YES;
-				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
 		6E2A15011A59488700F12954 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-					"$(inherited)",
-				);
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = src/UnitTests/PGServerKit_testcases/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
 			};
 			name = Release;
 		};
 		6E489C2B1A6D8EFA008E3068 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-					"$(inherited)",
-				);
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = src/UnitTests/PGControlsKit_testcases/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MTL_ENABLE_DEBUG_INFO = YES;
-				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_NAME = PGControlsKit_testcases;
-				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
 		6E489C2C1A6D8EFA008E3068 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-					"$(inherited)",
-				);
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = src/UnitTests/PGControlsKit_testcases/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = PGControlsKit_testcases;
-				SDKROOT = macosx;
 			};
 			name = Release;
 		};
@@ -2820,76 +2733,6 @@
 			};
 			name = Release;
 		};
-		6EDC4CC417BC2459009E040D /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = NO;
-				GCC_PREFIX_HEADER = "";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = src/UnitTests/PGClientKit_testcases/PGClientKit_testcases.plist;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_AFTER_BUILD = YES;
-				WRAPPER_EXTENSION = octest;
-			};
-			name = Debug;
-		};
-		6EDC4CC517BC2459009E040D /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = NO;
-				GCC_PREFIX_HEADER = "";
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = src/UnitTests/PGClientKit_testcases/PGClientKit_testcases.plist;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_AFTER_BUILD = YES;
-				WRAPPER_EXTENSION = octest;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -2901,6 +2744,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		147070CC1A90CB450069EF9C /* Build configuration list for PBXNativeTarget "PGClientKit_unittests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				147070CD1A90CB450069EF9C /* Debug */,
+				147070CE1A90CB450069EF9C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		14F1E85A17CB83CD00710D4A /* Build configuration list for PBXNativeTarget "PGControlsKit_mac" */ = {
 			isa = XCConfigurationList;
@@ -3015,15 +2866,6 @@
 			buildConfigurations = (
 				6ED85B4416288C4800A6DC02 /* Debug */,
 				6ED85B4516288C4800A6DC02 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		6EDC4CC317BC2459009E040D /* Build configuration list for PBXNativeTarget "PGClientKit_testcases" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				6EDC4CC417BC2459009E040D /* Debug */,
-				6EDC4CC517BC2459009E040D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
