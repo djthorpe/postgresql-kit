@@ -15,22 +15,29 @@
 #import <Foundation/Foundation.h>
 #include <arpa/inet.h>
 
+
 @implementation NSString (PGNetworkValidationAdditions)
 
 -(BOOL)isNetworkHostname {
-	NSRegularExpression* regex = [NSRegularExpression regularExpressionWithPattern:@"^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])$" options:0 error:nil];
+	static NSRegularExpression* regex = nil;
+	if([self isNetworkAddressV4]) {
+		return NO;
+	}
+	if(regex==nil) {
+		regex = [NSRegularExpression regularExpressionWithPattern:@"^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])$" options:0 error:nil];
+	}
 	NSParameterAssert(regex);
 	NSArray* matches = [regex matchesInString:self options:0 range:NSMakeRange(0,[self length])];
 	return [matches count] ? YES : NO;
 }
 
--(BOOL)isNetworkAddress4 {
+-(BOOL)isNetworkAddressV4 {
 	struct in_addr dst;
 	int success = inet_pton(AF_INET,[self UTF8String],&dst);
 	return success == 1 ? YES : NO;
 }
 
--(BOOL)isNetworkAddress6 {
+-(BOOL)isNetworkAddressV6 {
 	struct in6_addr dst6;
 	int success = inet_pton(AF_INET6,[self UTF8String],&dst6);
 	return success == 1 ? YES : NO;
@@ -38,7 +45,7 @@
 
 
 -(BOOL)isNetworkAddress {
-	return [self isNetworkAddress4] || [self isNetworkAddress6];
+	return [self isNetworkAddressV4] || [self isNetworkAddressV6];
 }
 
 @end

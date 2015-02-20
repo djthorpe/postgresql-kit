@@ -13,8 +13,8 @@
 // under the License.
 
 #import <Foundation/Foundation.h>
-#import <XCTest/XCTest.h>
 #import <PGClientKit/PGClientKit.h>
+#import <XCTest/XCTest.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -23,7 +23,6 @@
 @end
 
 ////////////////////////////////////////////////////////////////////////////////
-
 
 @implementation NSURL_PGAdditions_tests
 
@@ -36,6 +35,8 @@
 	// TODO
     [super tearDown];
 }
+
+////////////////////////////////////////////////////////////////////////////////
 
 -(void)test_000 {
 	NSURL* url = [NSURL URLWithLocalDatabase:nil username:nil params:nil];

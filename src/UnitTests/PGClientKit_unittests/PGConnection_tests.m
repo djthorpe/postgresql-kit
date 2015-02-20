@@ -37,7 +37,7 @@ BOOL lastTest = NO;
     [super setUp];
 	if(server==nil) {
 		// create a server object
-		server = [[PGFoundationServer alloc] init];
+		server = [PGFoundationServer new];
 		// signal the server to start
 		if([server startWithPort:port] != YES) {
 			STFail(@"Server could not be started");
