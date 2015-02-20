@@ -13,7 +13,19 @@
 // under the License.
 
 #import <PGClientKit/PGClientKit.h>
+#import <PGDataKit/PGDataKit.h>
+#import "CHCSVParser.h"
 
-@interface PGStore : PGConnection
+@implementation PGCSVImporter
+
++(BOOL)detectTableSpecificationForURL:(NSURL* )URL options:(int)options delimiter:(unichar)delimiter maxBytes:(NSUInteger)maxBytes whenDone:(void (^)(void)) callback {
+	CHCSVParser* parser = [[CHCSVParser alloc] initWithContentsOfCSVURL:URL];
+
+	return YES;
+}
+
++(BOOL)detectTableSpecificationForURL:(NSURL* )URL options:(int)options maxBytes:(NSUInteger)maxBytes whenDone:(void (^)(void)) callback {
+	return [self detectTableSpecificationForURL:URL options:options delimiter:',' maxBytes:maxBytes whenDone:callback];
+}
 
 @end

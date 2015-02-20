@@ -19,7 +19,9 @@
 @protocol PGSourceViewDelegate <NSObject>
 @optional
 	-(void)sourceView:(PGSourceViewController* )sourceView selectedNode:(PGSourceViewNode* )node;
+	-(void)sourceView:(PGSourceViewController* )sourceView deleteNode:(PGSourceViewNode* )node;
 	-(void)sourceView:(PGSourceViewController* )sourceView doubleClickedNode:(PGSourceViewNode* )node;
+	-(NSMenu* )sourceView:(PGSourceViewController* )sourceView menuForNode:(PGSourceViewNode* )node;
 @end
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -30,14 +32,24 @@
 @property (readonly) NSUInteger count;
 @property (weak,nonatomic) id<PGSourceViewDelegate> delegate;
 
-// methods
+// methods - getting information about the source view
+-(PGSourceViewNode* )clickedNode;
+-(PGSourceViewNode* )selectedNode;
+-(PGSourceViewNode* )nodeForTag:(NSInteger)tag;
+-(NSInteger)tagForNode:(PGSourceViewNode* )node;
+
+// methods - adding nodes
 -(NSInteger)addNode:(PGSourceViewNode* )node parent:(PGSourceViewNode* )parent;
 -(NSInteger)addNode:(PGSourceViewNode* )node parent:(PGSourceViewNode* )parent tag:(NSInteger)tag;
+
+// methods - modifying the source view
 -(BOOL)selectNode:(PGSourceViewNode* )node;
--(PGSourceViewNode* )nodeForTag:(NSInteger)tag;
--(void)removeAllNodes;
 -(void)expandNode:(PGSourceViewNode* )node;
--(PGSourceViewNode* )clickedNode;
+-(void)reloadNode:(PGSourceViewNode* )node;
+
+// methods - removing nodes
+-(void)removeNode:(PGSourceViewNode* )node;
+-(void)removeAllNodes;
 
 // methods - NSUserDefaults
 -(BOOL)loadFromUserDefaults;

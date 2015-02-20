@@ -49,12 +49,16 @@ enum {
 	NSParameterAssert([self ibActionButton]);
 	NSParameterAssert(leftStatusView);
 	[leftStatusView addSubview:[self ibActionButton]];
+	
+	// set minimum size
+	[self setMinimumSize:[[self ibGrabberView] bounds].size.width];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // properties
 
 @dynamic autosaveName;
+@synthesize minimumSize;
 
 -(NSString* )autosaveName {
 	return [(NSSplitView* )[self view] autosaveName];
@@ -131,8 +135,9 @@ enum {
 	// constrain view to width of grabber view
 	NSParameterAssert([self ibGrabberView]);
 	CGFloat grabberWidth = [[self ibGrabberView] bounds].size.width;
-	if(proposedPosition < grabberWidth) {
-		proposedPosition = grabberWidth;
+	CGFloat minSize = [self minimumSize] > grabberWidth ? [self minimumSize] : grabberWidth;
+	if(proposedPosition < minSize) {
+		proposedPosition = minSize;
 	}
 	return proposedPosition;
 }

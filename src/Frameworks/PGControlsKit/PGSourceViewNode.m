@@ -33,6 +33,7 @@
 	self = [super init];
 	if(self) {
 		_name = name;
+		_dictionary = [NSMutableDictionary new];
 	}
 	return self;
 }
@@ -42,8 +43,10 @@
 }
 
 +(PGSourceViewNode* )connectionWithURL:(NSURL* )url {
-	NSString* name = [NSString stringWithFormat:@"%@@%@",[url user],[url path]];
-	return [[PGSourceViewConnection alloc] initWithName:name];
+	NSString* name = [NSString stringWithFormat:@"%@@%@",[url user],[[url path] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"/"]]];
+	PGSourceViewConnection* node = [[PGSourceViewConnection alloc] initWithName:name];
+	[node setURL:url];
+	return node;
 }
 
 +(PGSourceViewNode* )nodeFromDictionary:(NSDictionary* )dictionary {
@@ -57,23 +60,48 @@
 		return nil;
 	}
 	PGSourceViewNode* node = (PGSourceViewNode* )[[c alloc] initWithName:name];
+	for(NSString* key in dictionary) {
+		NSParameterAssert([key isKindOfClass:[NSString class]] && [key length]);
+		[node _setObject:[dictionary objectForKey:key] forKey:key];
+	}
+	
 	// set other properties for node
 	return node;
+}
+
+-(void)_setObject:(id)object forKey:(NSString* )key {
+	[_dictionary setObject:object forKey:key];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // properties
 
 @synthesize name = _name;
+@synthesize childClasses;
 @dynamic isGroupItem;
-@dynamic shouldSelectItem;
+@dynamic isSelectable;
+@dynamic isNameEditable;
+@dynamic isDraggable;
+@dynamic isDeletable;
 
 -(BOOL)isGroupItem {
 	return YES;
 }
 
--(BOOL)shouldSelectItem {
+-(BOOL)isNameEditable {
+	return NO;
+}
+
+-(BOOL)isDraggable {
+	return NO;
+}
+
+-(BOOL)isSelectable {
 	return YES;
+}
+
+-(BOOL)isDeletable {
+	return NO;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -88,21 +116,45 @@
 	[defaults setObject:key forKey:@"key"];
 	[defaults setObject:[self name] forKey:@"name"];
 	[defaults setObject:NSStringFromClass([self class]) forKey:@"class"];
+	for(NSString* key in _dictionary) {
+		[defaults setObject:[_dictionary objectForKey:key] forKey:key];
+	}
 	return defaults;
 }
 
--(NSTableCellView* )cellViewForOutlineView:(NSOutlineView* )outlineView tableColumn:(NSTableColumn* )tableColumn owner:(id)owner {
+-(NSTableCellView* )cellViewForOutlineView:(NSOutlineView* )outlineView tableColumn:(NSTableColumn* )tableColumn owner:(id)owner tag:(NSInteger)tag {
 	NSTableCellView* cellView = nil;
 	if([self isGroupItem]) {
 		cellView = [outlineView makeViewWithIdentifier:@"HeaderCell" owner:owner];
 	} else {
 		cellView = [outlineView makeViewWithIdentifier:@"DataCell" owner:owner];
 	}	
+
+	// set some properties
 	[[cellView textField] setStringValue:[self name]];
+	[[cellView textField] setTag:tag];
+	[[cellView textField] setEditable:[self isNameEditable]];
+
 	return cellView;
 }
 
+-(BOOL)canAcceptDrop:(PGSourceViewNode* )node {
+	NSParameterAssert(node);
+	if([[self childClasses] containsObject:[node className]]) {
+		return YES;
+	}
+	return NO;
+}
 
+-(void)writeToPasteboard:(NSPasteboard* )pboard {
+	// empty default implementation
+}
 
+////////////////////////////////////////////////////////////////////////////////
+// IBAction
+
+-(IBAction)doCopy:(id)sender {
+	NSLog(@"do copy!");
+}
 
 @end

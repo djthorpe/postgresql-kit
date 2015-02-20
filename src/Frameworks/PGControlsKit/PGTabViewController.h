@@ -12,8 +12,25 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-#import "PGDataKit.h"
+#import <Cocoa/Cocoa.h>
 
-@implementation PGStore
+////////////////////////////////////////////////////////////////////////////////
+
+@protocol PGTabViewDelegate <NSObject>
+@required
+	-(NSViewController* )tabView:(PGTabViewController* )tabView newViewForTag:(NSInteger)tag;
+@end
+
+////////////////////////////////////////////////////////////////////////////////
+
+@interface PGTabViewController : NSViewController <NSTabViewDelegate> {
+	NSMutableDictionary* _views;
+}
+
+// properties
+@property (weak,nonatomic) id<PGTabViewDelegate> delegate;
+
+// methods
+-(NSViewController* )selectViewWithTag:(NSInteger)tag;
 
 @end

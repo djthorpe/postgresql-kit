@@ -14,4 +14,22 @@
 
 #import <Foundation/Foundation.h>
 
-#import "PGStore.h"
+////////////////////////////////////////////////////////////////////////////////
+
+enum {
+	PGCSVImporterHasHeader = 1, // use line 0 as the headings
+	PGCSVImporterIgnoreHashComments = 2, // ignore lines starting with #
+	PGCSVImporterIgnoreCodeComments = 4, // ignore lines starting with //
+	PGCSVImporterIgnoreComments = 6, // ignore lines starting with # or //
+};
+
+////////////////////////////////////////////////////////////////////////////////
+
+// forward class declarations
+@class PGCSVImporter;
+@class PGTableModel;
+
+// header includes
+#import "PGCSVImporter.h"
+#import "PGTableModel.h"
+

@@ -12,11 +12,13 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 
-// forward class declarations
-@class PGLoginController;
+@interface PGCSVImporter : NSObject
 
-// header includes
-#import "PGLoginController.h"
+// detecting table specification from URL
++(BOOL)detectTableSpecificationForURL:(NSURL* )URL options:(int)options delimiter:(unichar)delimiter maxBytes:(NSUInteger)maxBytes whenDone:(void (^)(void)) callback;
++(BOOL)detectTableSpecificationForURL:(NSURL* )URL options:(int)options maxBytes:(NSUInteger)maxBytes whenDone:(void (^)(void)) callback;
 
+
+@end

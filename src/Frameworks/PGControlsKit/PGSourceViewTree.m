@@ -95,7 +95,7 @@
 	return [_children objectForKey:((key==nil) ? [self _rootKey] : key)];
 }
 
--(void)_addChildKey:(id)key parentKey:(id)parentKey {
+-(void)_addChildKey:(id)key parentKey:(id)parentKey index:(NSInteger)index {
 	// TODO: check key is not there yet
 	NSMutableArray* children = [self _childrenForKey:parentKey];
 	if(children==nil) {
@@ -103,7 +103,12 @@
 		NSParameterAssert(children);
 		[_children setObject:children forKey:(parentKey ? parentKey : [self _rootKey])];
 	}
-	[children addObject:key];
+	if(index==-1) {
+		// add at the end
+		[children addObject:key];
+	} else {
+		[children insertObject:key atIndex:index];
+	}
 }
 
 -(NSInteger)_tagForKey:(id)key {
@@ -116,14 +121,22 @@
 	return [(NSNumber* )key integerValue];
 }
 
+-(void)_removeNodeWithKey:(id)key {
+	NSParameterAssert(key);
+	NSArray* children = [self _childrenForKey:key];
+	for(id childKey in children) {
+		[self _removeNodeWithKey:childKey];
+	}
+	[_children removeObjectForKey:key];
+	[_tags removeObjectForKey:key];
+	for(id parentKey in _children) {
+		NSMutableArray* children = [self _childrenForKey:parentKey];
+		[children removeObject:key];
+	}
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
-
--(void)removeAllNodes {
-	[_tags removeAllObjects];
-	[_children removeAllObjects];
-	_counter = 0;
-}
 
 -(NSInteger)addNode:(PGSourceViewNode* )node parent:(PGSourceViewNode* )parent {
 	return [self addNode:node parent:parent tag:0];
@@ -137,15 +150,52 @@
 	//NSParameterAssert(parent==nil || tag != 0);
 	id key = [self _addNode:node tag:tag];
 	if(key) {
-		[self _addChildKey:key parentKey:[self _tagKeyForNode:parent]];
+		[self _addChildKey:key parentKey:[self _tagKeyForNode:parent] index:-1];
 	}
 	return [self _tagForKey:key];
 }
 
 
-// TODO -(void)removeNode:(PGSourceViewNode* )parent {
-//
-//}
+-(BOOL)moveNode:(PGSourceViewNode* )node parent:(PGSourceViewNode* )parent index:(NSInteger)index {
+	NSParameterAssert(node);
+	id key = [self _tagKeyForNode:node];
+	if(key==nil) {
+		// return NO if node is not already in the tree or is the root tag
+		return NO;
+	}
+	// remove node from all children
+	for(id parentKey in _children) {
+		NSMutableArray* children = [self _childrenForKey:parentKey];
+		[children removeObject:key];
+	}
+	// get children of parent
+	id newParentKey = parent ? [self _tagKeyForNode:parent] : [self _rootKey];
+	NSParameterAssert(newParentKey);
+	[self _addChildKey:key parentKey:newParentKey index:index];
+	return YES;
+}
+
+-(NSInteger)tagForNode:(PGSourceViewNode* )node {
+	NSParameterAssert(node);
+	id key = [self _tagKeyForNode:node];
+	if(key) {
+		return [self _tagForKey:key];
+	}
+	return 0;
+}
+
+-(void)removeAllNodes {
+	[_tags removeAllObjects];
+	[_children removeAllObjects];
+	_counter = 0;
+}
+
+-(void)removeNode:(PGSourceViewNode* )node {
+	NSParameterAssert(node);
+	id key = [self _tagKeyForNode:node];
+	NSParameterAssert(key);
+	[self _removeNodeWithKey:key];
+}
 
 -(PGSourceViewNode* )nodeAtIndex:(NSInteger)index parent:(PGSourceViewNode* )parent {
 	id key = parent ? [self _tagKeyForNode:parent] : [self _rootKey];

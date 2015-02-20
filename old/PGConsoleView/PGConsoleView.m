@@ -13,7 +13,6 @@
 // under the License.
 
 #import "PGControlsKit.h"
-#import "PGControlsKit+Private.h"
 
 @implementation PGConsoleView
 

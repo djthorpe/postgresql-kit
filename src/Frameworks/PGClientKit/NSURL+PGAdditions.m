@@ -303,4 +303,29 @@
 	return theParameters;
 }
 
+-(BOOL)isSocketPathURL {
+	NSDictionary* parameters = [self postgresqlParameters];
+	if(parameters==nil) {
+		return NO;
+	}
+	if([[parameters objectForKey:@"host"] hasPrefix:@"/"]) {
+		return YES;
+	}
+	return NO;
+}
+
+-(BOOL)isRemoteHostURL {
+	NSDictionary* parameters = [self postgresqlParameters];
+	if(parameters==nil) {
+		return NO;
+	}
+	if([[parameters objectForKey:@"hostaddr"] count]) {
+		return YES;
+	}
+	if([[parameters objectForKey:@"host"] hasPrefix:@"/"]==NO) {
+		return YES;
+	}
+	return NO;
+}
+
 @end

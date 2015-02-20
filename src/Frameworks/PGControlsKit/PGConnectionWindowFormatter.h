@@ -18,4 +18,6 @@
 	NSCharacterSet* _cs;
 }
 
+@property NSString* type;
+
 @end

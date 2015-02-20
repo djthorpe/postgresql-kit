@@ -21,7 +21,7 @@
 	return YES;
 }
 
--(BOOL)shouldSelectItem {
+-(BOOL)isSelectable {
 	return NO;
 }
 

@@ -21,6 +21,15 @@
 // properties
 
 @synthesize iconStatus;
+@dynamic URL;
+
+-(void)setURL:(NSURL* )url {
+	[_dictionary setObject:[url absoluteString] forKey:@"URL"];
+}
+
+-(NSURL* )URL {
+	return [NSURL URLWithString:[[self dictionary] objectForKey:@"URL"]];
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // private methods
@@ -47,18 +56,36 @@
 	return NO;
 }
 
--(BOOL)shouldSelectItem {
+-(BOOL)isSelectable {
 	return YES;
 }
 
--(NSTableCellView* )cellViewForOutlineView:(NSOutlineView* )outlineView tableColumn:(NSTableColumn* )tableColumn owner:(id)owner {
-	NSTableCellView* cellView = [super cellViewForOutlineView:outlineView tableColumn:tableColumn owner:owner];
+-(BOOL)isNameEditable {
+	return YES;
+}
+
+-(BOOL)isDraggable {
+	return YES;
+}
+
+-(BOOL)isDeletable {
+	return YES;
+}
+
+-(NSTableCellView* )cellViewForOutlineView:(NSOutlineView* )outlineView tableColumn:(NSTableColumn* )tableColumn owner:(id)owner tag:(NSInteger)tag {
+	NSTableCellView* cellView = [super cellViewForOutlineView:outlineView tableColumn:tableColumn owner:owner tag:tag];
 	NSParameterAssert(cellView);
 	
-	NSImage* trafficIcon = [self imageForStatus:PGSourceViewConnectionIconDisconnected];
+	NSImage* trafficIcon = [self imageForStatus:[self iconStatus]];
 	[[cellView imageView] setImage:trafficIcon];
-	
+
 	return cellView;
+}
+
+-(void)writeToPasteboard:(NSPasteboard* )pboard {
+	NSParameterAssert(pboard);
+	[pboard addTypes:@[ NSURLPboardType ] owner:nil];
+	[[self URL] writeToPasteboard:pboard];
 }
 
 @end

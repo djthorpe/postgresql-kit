@@ -24,7 +24,12 @@
   @class PGSourceViewHeading;
   @class PGSourceViewConnection;
 
+@class PGTabViewController;
+
 @class PGHelpWindowController;
+
+@class PGConsoleViewController;
+@class PGConsoleViewBuffer;
 
 // Windows
 #import "PGConnectionWindowController.h"
@@ -33,8 +38,15 @@
 // Views
 #import "PGSplitViewController.h"
 #import "PGSourceViewController.h"
+#import "PGTabViewController.h"
+#import "PGConsoleViewController.h"
+
+// Nodes for Source View
 #import "PGSourceViewNode.h"
 #import "PGSourceViewHeading.h"
 #import "PGSourceViewConnection.h"
+
+// Buffer model for console view
+#import "PGConsoleViewBuffer.h"
 
 

@@ -168,4 +168,18 @@
  */
 -(NSDictionary* )postgresqlParameters;
 
+/**
+ *  NSURL helper to determine if the URL is a valid socket-path URL
+ *
+ *  @return YES if the URL is a valid socket-path URL.
+ */
+-(BOOL)isSocketPathURL;
+
+/**
+ *  NSURL helper to determine if the URL is a valid remote host URL
+ *
+ *  @return YES if the URL is a valid remote host URL.
+ */
+-(BOOL)isRemoteHostURL;
+
 @end
