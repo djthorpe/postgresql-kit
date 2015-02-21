@@ -269,6 +269,31 @@ void PGConnectionNoticeProcessor(void* arg,const char* cString) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+#pragma mark Notifications
+
+-(void)_pollNotification {
+	if(_connection==nil) {
+		return;
+	}
+	// attempt to acquire lock
+	if([_lock tryLock]==NO) {
+		return;
+	}
+	// loop for notifications
+	PGnotify* notify = nil;
+	while((notify = PQnotifies(_connection)) != nil) {
+		if([[self delegate] respondsToSelector:@selector(connection:notificationOnChannel:payload:)]) {
+			NSString* channel = [NSString stringWithUTF8String:notify->relname];
+			NSString* payload = [NSString stringWithUTF8String:notify->extra];
+			[[self delegate] connection:self notificationOnChannel:channel payload:payload];
+        }
+		PQfreemem(notify);
+	}
+	// unlock
+	[_lock unlock];
+}
+
+////////////////////////////////////////////////////////////////////////////////
 // private methods
 
 -(NSDictionary* )_connectionParametersForURL:(NSURL* )theURL {
@@ -822,6 +847,57 @@ void PGConnectionNoticeProcessor(void* arg,const char* cString) {
 	]];
 }
 
+
+////////////////////////////////////////////////////////////////////////////////
+// public methods - notifications
+
+-(BOOL)_executeObserverCommand:(NSString* )command channel:(NSString* )channelName {
+	NSParameterAssert(command);
+	NSParameterAssert(channelName);
+	if([channelName length]==0) {
+		return NO;
+	}
+	if(_connection==nil) {
+		return NO;
+	}
+	// try to obtain lock
+	if([_lock tryLock]==NO) {
+		[self raiseError:nil code:PGClientErrorState reason:@"Cannot obtain lock"];
+		return NO;
+	}
+	const char* quoted_identifier = PQescapeIdentifier(_connection,[channelName UTF8String],[channelName lengthOfBytesUsingEncoding:NSUTF8StringEncoding]);
+	if(quoted_identifier==nil) {
+		[_lock unlock];
+		[self raiseError:nil code:PGClientErrorExecute reason:nil];
+		return NO;
+	}
+	NSString* query = [NSString stringWithFormat:@"%@ %s",command,quoted_identifier];
+	PQfreemem((void* )quoted_identifier);
+	PGresult* theResult = PQexec(_connection,[query UTF8String]);
+	if(theResult==nil) {
+		[_lock unlock];
+		[self raiseError:nil code:PGClientErrorExecute reason:nil];
+		return NO;
+	}
+	if(PQresultStatus(theResult)==PGRES_BAD_RESPONSE || PQresultStatus(theResult)==PGRES_FATAL_ERROR) {
+		PQclear(theResult);
+		[_lock unlock];
+		[self raiseError:nil code:PGClientErrorExecute reason:[NSString stringWithUTF8String:PQresultErrorMessage(theResult)]];
+		return nil;
+	}
+	PQclear(theResult);
+	[_lock unlock];
+	return YES;
+}
+
+-(BOOL)addObserver:(NSString* )channelName {
+	return [self _executeObserverCommand:@"LISTEN" channel:channelName];
+}
+
+-(BOOL)removeObserver:(NSString* )channelName {
+	return [self _executeObserverCommand:@"UNLISTEN" channel:channelName];
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // underlying execute method with parameters
 
@@ -895,6 +971,10 @@ void PGConnectionNoticeProcessor(void* arg,const char* cString) {
 	// return resultset
 	PGResult* r = [[PGResult alloc] initWithResult:theResult format:format];
 	[_lock unlock];
+	
+	// poll for notifications
+	[self _pollNotification];
+	
 	return r;
 }
 

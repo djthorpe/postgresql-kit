@@ -123,6 +123,10 @@
 	[[self term] printf:@"Error: %@ (%@/%d)",[theError localizedDescription],[theError domain],[theError code]];
 }
 
+-(void)connection:(PGConnection *)connection notificationOnChannel:(NSString *)channelName payload:(NSString *)payload {
+	[[self term] printf:@"Notification: %@ payload: %@",channelName,payload];
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // private methods
 

@@ -249,6 +249,6 @@ extern NSString* PGClientErrorDomain;
 -(void)connection:(PGConnection* )connection willExecute:(NSString* )theQuery values:(NSArray* )values;
 -(void)connection:(PGConnection* )connection error:(NSError* )theError;
 -(void)connection:(PGConnection* )connection statusChange:(PGConnectionStatus)status;
-
+-(void)connection:(PGConnection* )connection notificationOnChannel:(NSString* )channelName payload:(NSString* )payload;
 @end
 
