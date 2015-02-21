@@ -25,6 +25,7 @@ NSUInteger PGClientDefaultPort = DEF_PGPORT;
 NSUInteger PGClientMaximumPort = 65535;
 
 ////////////////////////////////////////////////////////////////////////////////
+#pragma mark Key Value pair construction
 
 typedef struct {
 	const char** keywords;
@@ -73,7 +74,7 @@ void PGConnectionNoticeProcessor(void* arg,const char* cString) {
 @implementation PGConnection
 
 ////////////////////////////////////////////////////////////////////////////////
-// static methods
+#pragma mark Static Methods
 
 +(NSArray* )allURLSchemes {
 	return [PGConnectionSchemes componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
@@ -84,7 +85,7 @@ void PGConnectionNoticeProcessor(void* arg,const char* cString) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// initialization
+#pragma mark Constructor and Destructor
 
 -(id)init {
 	self = [super init];
@@ -124,7 +125,7 @@ void PGConnectionNoticeProcessor(void* arg,const char* cString) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// properties
+#pragma mark Properties
 
 @dynamic user, database, status, serverProcessID;
 @synthesize tag;
@@ -171,7 +172,7 @@ void PGConnectionNoticeProcessor(void* arg,const char* cString) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// Private methods - error handling
+#pragma mark Error Handling
 
 +(NSString* )_stringForErrorCode:(PGClientErrorDomainCode)code {
 	switch(code) {
@@ -271,6 +272,33 @@ void PGConnectionNoticeProcessor(void* arg,const char* cString) {
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark Notifications
 
+/*
+-(void)_pollBackgroundThreadSleep {
+	if(_connection==nil) {
+		// if no connection, then return immediately
+		return;
+	}
+	// sleep in background until there is data on the connection
+	int sock = PQsocket(_connection);
+	fd_set input_mask;
+	if(sock < 0) {
+		// invalid socket
+		return;
+	}
+
+	FD_ZERO(&input_mask);
+	FD_SET(sock, &input_mask);
+	if(select(sock+1,&input_mask, NULL, NULL, NULL) < 0) {
+		// select failed
+		return;
+	}
+	// consume input
+	PQconsumeInput(_connection);
+	// check for notifications
+	[self _pollNotification];
+}
+*/
+
 -(void)_pollNotification {
 	if(_connection==nil) {
 		return;
@@ -293,8 +321,55 @@ void PGConnectionNoticeProcessor(void* arg,const char* cString) {
 	[_lock unlock];
 }
 
+-(BOOL)_executeObserverCommand:(NSString* )command channel:(NSString* )channelName {
+	NSParameterAssert(command);
+	NSParameterAssert(channelName);
+	if([channelName length]==0) {
+		return NO;
+	}
+	if(_connection==nil) {
+		return NO;
+	}
+	// try to obtain lock
+	if([_lock tryLock]==NO) {
+		[self raiseError:nil code:PGClientErrorState reason:@"Cannot obtain lock"];
+		return NO;
+	}
+	const char* quoted_identifier = PQescapeIdentifier(_connection,[channelName UTF8String],[channelName lengthOfBytesUsingEncoding:NSUTF8StringEncoding]);
+	if(quoted_identifier==nil) {
+		[_lock unlock];
+		[self raiseError:nil code:PGClientErrorExecute reason:nil];
+		return NO;
+	}
+	NSString* query = [NSString stringWithFormat:@"%@ %s",command,quoted_identifier];
+	PQfreemem((void* )quoted_identifier);
+	PGresult* theResult = PQexec(_connection,[query UTF8String]);
+	if(theResult==nil) {
+		[_lock unlock];
+		[self raiseError:nil code:PGClientErrorExecute reason:nil];
+		return NO;
+	}
+	if(PQresultStatus(theResult)==PGRES_BAD_RESPONSE || PQresultStatus(theResult)==PGRES_FATAL_ERROR) {
+		PQclear(theResult);
+		[_lock unlock];
+		[self raiseError:nil code:PGClientErrorExecute reason:[NSString stringWithUTF8String:PQresultErrorMessage(theResult)]];
+		return nil;
+	}
+	PQclear(theResult);
+	[_lock unlock];
+	return YES;
+}
+
+-(BOOL)addObserver:(NSString* )channelName {
+	return [self _executeObserverCommand:@"LISTEN" channel:channelName];
+}
+
+-(BOOL)removeObserver:(NSString* )channelName {
+	return [self _executeObserverCommand:@"UNLISTEN" channel:channelName];
+}
+
 ////////////////////////////////////////////////////////////////////////////////
-// private methods
+#pragma mark Connecting
 
 -(NSDictionary* )_connectionParametersForURL:(NSURL* )theURL {
 	// make parameters from the URL
@@ -318,9 +393,6 @@ void PGConnectionNoticeProcessor(void* arg,const char* cString) {
 	}
 	return theParameters;
 }
-
-////////////////////////////////////////////////////////////////////////////////
-// private methods - connect in background
 
 -(void)_connectPollUnlock:(NSArray* )parameters {
 	// Method to complete the background connection on the main thread
@@ -444,174 +516,6 @@ void PGConnectionNoticeProcessor(void* arg,const char* cString) {
 	}
 }
 
-////////////////////////////////////////////////////////////////////////////////
-// private methods - ping in background
-
--(void)_pingOnMainThread:(NSArray* )parameters {
-	// Method to complete the background ping on the main thread
-	// arguments are @[ callback, NSError* error ]
-	NSParameterAssert(parameters && [parameters isKindOfClass:[NSArray class]] && [parameters count]==2);
-	void(^callback)(NSError* error) = [parameters objectAtIndex:0];
-	NSError* error = [parameters objectAtIndex:1];
-	NSParameterAssert(callback);
-	NSParameterAssert([error isKindOfClass:[NSError class]]);
-	if([[error domain] isEqualToString:PGClientErrorDomain] && [error code]==PGClientErrorNone) {
-		error = nil;
-	}
-	callback(error);
-}
-
--(void)_pingWithParametersThread:(NSArray* )parameters {
-	// Method to initiate the background connection on a new thread
-	// arguments are @[ NSDictionary* dictionary, callback, NSURL* url ]
-	NSParameterAssert(parameters && [parameters isKindOfClass:[NSArray class]] && [parameters count]==3);
-	NSDictionary* dictionary = [parameters objectAtIndex:0];
-	void(^callback)(NSError* error) = [parameters objectAtIndex:1];
-	NSURL* url = [parameters objectAtIndex:2];
-	NSParameterAssert([dictionary isKindOfClass:[NSDictionary class]]);
-	NSParameterAssert(callback);
-	NSParameterAssert([url isKindOfClass:[NSURL class]]);
-
-	@autoreleasepool {
-		// make the key value pairs
-		PGKVPairs* pairs = makeKVPairs(dictionary);
-		NSError* error = nil;
-		if(pairs==nil) {
-			error = [self raiseError:nil code:PGClientErrorParameters url:url reason:nil];
-		} else {
-			// perform the ping
-			PGPing status = PQpingParams(pairs->keywords,pairs->values,0);
-			freeKVPairs(pairs);
-			switch(status) {
-			case PQPING_OK:
-				error = [self raiseError:nil code:PGClientErrorNone reason:nil];
-				break;
-			case PQPING_REJECT:
-				error = [self raiseError:nil code:PGClientErrorRejected url:url reason:nil];
-				break;
-			case PQPING_NO_ATTEMPT:
-				error = [self raiseError:nil code:PGClientErrorParameters url:url reason:nil];
-				break;
-			default:
-				error = [self raiseError:nil code:PGClientErrorUnknown url:url reason:nil];
-				break;
-			}
-		}
-		
-		// perform callback on main thread
-		[self performSelector:@selector(_pingOnMainThread:) onThread:[NSThread mainThread] withObject:@[
-			callback,
-			error
-		] waitUntilDone:NO];
-	}
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// private methods - reset in background
-
-/*
--(void)_resetPollWithParametersThread:(NSArray* )parameters {
-	NSParameterAssert(parameters && [parameters isKindOfClass:[NSArray class]] && [parameters count]==1);
-	void(^callback)(NSError* error) = [parameters objectAtIndex:0];
-	NSParameterAssert(callback);
-	
-	@autoreleasepool {
-		PostgresPollingStatusType status;
-		do {
-			status = PQresetPoll(_connection);
-			int socket = PQsocket(_connection);
-			fd_set fd;
-			switch(status) {
-				case PGRES_POLLING_READING:
-				case PGRES_POLLING_WRITING:
-					// still connecting
-					FD_ZERO(&fd);
-					FD_SET(socket, &fd);
-					select(socket+1,status == PGRES_POLLING_READING ? &fd : NULL,status == PGRES_POLLING_WRITING ? &fd : NULL,NULL, NULL);
-					break;
-				case PGRES_POLLING_OK:
-					// reset
-					break;
-				case PGRES_POLLING_FAILED:
-					// reset failed
-					break;
-				default:
-					break;
-			}
-#ifdef DEBUG
-			switch(PQstatus(_connection)) {
-				case CONNECTION_STARTED:
-					NSLog(@"CONNECTION_STARTED");
-					break;
-				case CONNECTION_MADE:
-					NSLog(@"CONNECTION_MADE");
-					break;
-				case CONNECTION_AWAITING_RESPONSE:
-					NSLog(@"CONNECTION_AWAITING_RESPONSE");
-					break;
-				case CONNECTION_AUTH_OK:
-					NSLog(@"CONNECTION_AUTH_OK");
-					break;
-				case CONNECTION_SSL_STARTUP:
-					NSLog(@"CONNECTION_SSL_STARTUP");
-					break;
-				case CONNECTION_SETENV:
-					NSLog(@"CONNECTION_SETENV");
-					break;
-				case CONNECTION_OK:
-					NSLog(@"CONNECTION_OK");
-					break;
-				case CONNECTION_BAD:
-					NSLog(@"CONNECTION_BAD");
-					break;
-				default:
-					NSLog(@"CONNECTION_UNKNOWN");
-					break;
-			}
-#endif
-		} while(status != PGRES_POLLING_OK && status != PGRES_POLLING_FAILED);
-		
-		NSError* error = nil;
-		if(status==PGRES_POLLING_OK) {
-			PQsetNoticeProcessor(connection,PGConnectionNoticeProcessor,connection);
-			error = [self raiseError:nil code:PGClientErrorNone reason:nil];
-		} else if(PQconnectionNeedsPassword(_connection)) {
-			error = [self raiseError:nil code:PGClientErrorNeedsPassword reason:nil];
-		} else if(PQconnectionUsedPassword(_connection)) {
-			error = [self raiseError:nil code:PGClientErrorInvalidPassword reason:nil];
-		} else {
-			error = [self raiseError:nil code:PGClientErrorRejected reason:@"%s",PQerrorMessage(_connection)];
-		}
-		// unlock and callback on the main thread
-		[self performSelector:@selector(_pollUnlock:) onThread:[NSThread mainThread] withObject:@[ callback, error ] waitUntilDone:NO];
-	}
-}
-*/
-
-////////////////////////////////////////////////////////////////////////////////
-// Private methods - status change
-
--(BOOL)_connectionUsedPassword {
-	return PQconnectionUsedPassword(_connection) ? YES : NO;
-}
-
--(void)_setStatusMainThread:(NSNumber* )status {
-	NSParameterAssert(status);
-	[[self delegate] connection:self statusChange:(PGConnectionStatus)[status intValue]];
-}
-
--(void)_setStatus:(PGConnectionStatus)status {
-	if(_status==status) {
-		return;
-	}
-	_status = status;
-	if([[self delegate] respondsToSelector:@selector(connection:statusChange:)]) {
-		[self performSelectorOnMainThread:@selector(_setStatusMainThread:) withObject:[NSNumber numberWithInt:status] waitUntilDone:YES];
-	}
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// public methods - connection and disconnection
 
 -(void)connectWithURL:(NSURL* )url whenDone:(void(^)(BOOL usedPassword,NSError* error)) callback {
 
@@ -726,22 +630,67 @@ void PGConnectionNoticeProcessor(void* arg,const char* cString) {
 	]];
 }
 
--(void)disconnect {
-	if([_lock tryLock]==NO) {
-		[self raiseError:nil code:PGClientErrorState reason:@"Cannot obtain lock"];
-		return;
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark Ping methods
+
+-(void)_pingOnMainThread:(NSArray* )parameters {
+	// Method to complete the background ping on the main thread
+	// arguments are @[ callback, NSError* error ]
+	NSParameterAssert(parameters && [parameters isKindOfClass:[NSArray class]] && [parameters count]==2);
+	void(^callback)(NSError* error) = [parameters objectAtIndex:0];
+	NSError* error = [parameters objectAtIndex:1];
+	NSParameterAssert(callback);
+	NSParameterAssert([error isKindOfClass:[NSError class]]);
+	if([[error domain] isEqualToString:PGClientErrorDomain] && [error code]==PGClientErrorNone) {
+		error = nil;
 	}
-	if(_connection != nil) {
-		PQfinish(_connection);
-		_connection = nil;
-		// check for changed status
-		[self _setStatus:PGConnectionStatusDisconnected];
-	}
-	[_lock unlock];
+	callback(error);
 }
 
-////////////////////////////////////////////////////////////////////////////////
-// public methods - ping
+-(void)_pingWithParametersThread:(NSArray* )parameters {
+	// Method to initiate the background connection on a new thread
+	// arguments are @[ NSDictionary* dictionary, callback, NSURL* url ]
+	NSParameterAssert(parameters && [parameters isKindOfClass:[NSArray class]] && [parameters count]==3);
+	NSDictionary* dictionary = [parameters objectAtIndex:0];
+	void(^callback)(NSError* error) = [parameters objectAtIndex:1];
+	NSURL* url = [parameters objectAtIndex:2];
+	NSParameterAssert([dictionary isKindOfClass:[NSDictionary class]]);
+	NSParameterAssert(callback);
+	NSParameterAssert([url isKindOfClass:[NSURL class]]);
+
+	@autoreleasepool {
+		// make the key value pairs
+		PGKVPairs* pairs = makeKVPairs(dictionary);
+		NSError* error = nil;
+		if(pairs==nil) {
+			error = [self raiseError:nil code:PGClientErrorParameters url:url reason:nil];
+		} else {
+			// perform the ping
+			PGPing status = PQpingParams(pairs->keywords,pairs->values,0);
+			freeKVPairs(pairs);
+			switch(status) {
+			case PQPING_OK:
+				error = [self raiseError:nil code:PGClientErrorNone reason:nil];
+				break;
+			case PQPING_REJECT:
+				error = [self raiseError:nil code:PGClientErrorRejected url:url reason:nil];
+				break;
+			case PQPING_NO_ATTEMPT:
+				error = [self raiseError:nil code:PGClientErrorParameters url:url reason:nil];
+				break;
+			default:
+				error = [self raiseError:nil code:PGClientErrorUnknown url:url reason:nil];
+				break;
+			}
+		}
+		
+		// perform callback on main thread
+		[self performSelector:@selector(_pingOnMainThread:) onThread:[NSThread mainThread] withObject:@[
+			callback,
+			error
+		] waitUntilDone:NO];
+	}
+}
 
 -(void)pingWithURL:(NSURL* )url whenDone:(void(^)(NSError* error)) callback {
 	// extract parameters from the URL
@@ -794,7 +743,7 @@ void PGConnectionNoticeProcessor(void* arg,const char* cString) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// public methods - reset
+#pragma mark Reset methods
 
 -(void)resetWhenDone:(void(^)(NSError* error)) callback {
 	if([_lock tryLock]==NO) {
@@ -847,59 +796,126 @@ void PGConnectionNoticeProcessor(void* arg,const char* cString) {
 	]];
 }
 
+/*
+-(void)_resetPollWithParametersThread:(NSArray* )parameters {
+	NSParameterAssert(parameters && [parameters isKindOfClass:[NSArray class]] && [parameters count]==1);
+	void(^callback)(NSError* error) = [parameters objectAtIndex:0];
+	NSParameterAssert(callback);
+	
+	@autoreleasepool {
+		PostgresPollingStatusType status;
+		do {
+			status = PQresetPoll(_connection);
+			int socket = PQsocket(_connection);
+			fd_set fd;
+			switch(status) {
+				case PGRES_POLLING_READING:
+				case PGRES_POLLING_WRITING:
+					// still connecting
+					FD_ZERO(&fd);
+					FD_SET(socket, &fd);
+					select(socket+1,status == PGRES_POLLING_READING ? &fd : NULL,status == PGRES_POLLING_WRITING ? &fd : NULL,NULL, NULL);
+					break;
+				case PGRES_POLLING_OK:
+					// reset
+					break;
+				case PGRES_POLLING_FAILED:
+					// reset failed
+					break;
+				default:
+					break;
+			}
+#ifdef DEBUG
+			switch(PQstatus(_connection)) {
+				case CONNECTION_STARTED:
+					NSLog(@"CONNECTION_STARTED");
+					break;
+				case CONNECTION_MADE:
+					NSLog(@"CONNECTION_MADE");
+					break;
+				case CONNECTION_AWAITING_RESPONSE:
+					NSLog(@"CONNECTION_AWAITING_RESPONSE");
+					break;
+				case CONNECTION_AUTH_OK:
+					NSLog(@"CONNECTION_AUTH_OK");
+					break;
+				case CONNECTION_SSL_STARTUP:
+					NSLog(@"CONNECTION_SSL_STARTUP");
+					break;
+				case CONNECTION_SETENV:
+					NSLog(@"CONNECTION_SETENV");
+					break;
+				case CONNECTION_OK:
+					NSLog(@"CONNECTION_OK");
+					break;
+				case CONNECTION_BAD:
+					NSLog(@"CONNECTION_BAD");
+					break;
+				default:
+					NSLog(@"CONNECTION_UNKNOWN");
+					break;
+			}
+#endif
+		} while(status != PGRES_POLLING_OK && status != PGRES_POLLING_FAILED);
+		
+		NSError* error = nil;
+		if(status==PGRES_POLLING_OK) {
+			PQsetNoticeProcessor(connection,PGConnectionNoticeProcessor,connection);
+			error = [self raiseError:nil code:PGClientErrorNone reason:nil];
+		} else if(PQconnectionNeedsPassword(_connection)) {
+			error = [self raiseError:nil code:PGClientErrorNeedsPassword reason:nil];
+		} else if(PQconnectionUsedPassword(_connection)) {
+			error = [self raiseError:nil code:PGClientErrorInvalidPassword reason:nil];
+		} else {
+			error = [self raiseError:nil code:PGClientErrorRejected reason:@"%s",PQerrorMessage(_connection)];
+		}
+		// unlock and callback on the main thread
+		[self performSelector:@selector(_pollUnlock:) onThread:[NSThread mainThread] withObject:@[ callback, error ] waitUntilDone:NO];
+	}
+}
+*/
 
 ////////////////////////////////////////////////////////////////////////////////
-// public methods - notifications
+#pragma mark Status changes
 
--(BOOL)_executeObserverCommand:(NSString* )command channel:(NSString* )channelName {
-	NSParameterAssert(command);
-	NSParameterAssert(channelName);
-	if([channelName length]==0) {
-		return NO;
+-(BOOL)_connectionUsedPassword {
+	return PQconnectionUsedPassword(_connection) ? YES : NO;
+}
+
+-(void)_setStatusMainThread:(NSNumber* )status {
+	NSParameterAssert(status);
+	[[self delegate] connection:self statusChange:(PGConnectionStatus)[status intValue]];
+}
+
+-(void)_setStatus:(PGConnectionStatus)status {
+	if(_status==status) {
+		return;
 	}
-	if(_connection==nil) {
-		return NO;
+	_status = status;
+	if([[self delegate] respondsToSelector:@selector(connection:statusChange:)]) {
+		[self performSelectorOnMainThread:@selector(_setStatusMainThread:) withObject:[NSNumber numberWithInt:status] waitUntilDone:YES];
 	}
-	// try to obtain lock
+}
+
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark Disconnection
+
+-(void)disconnect {
 	if([_lock tryLock]==NO) {
 		[self raiseError:nil code:PGClientErrorState reason:@"Cannot obtain lock"];
-		return NO;
+		return;
 	}
-	const char* quoted_identifier = PQescapeIdentifier(_connection,[channelName UTF8String],[channelName lengthOfBytesUsingEncoding:NSUTF8StringEncoding]);
-	if(quoted_identifier==nil) {
-		[_lock unlock];
-		[self raiseError:nil code:PGClientErrorExecute reason:nil];
-		return NO;
+	if(_connection != nil) {
+		PQfinish(_connection);
+		_connection = nil;
+		// check for changed status
+		[self _setStatus:PGConnectionStatusDisconnected];
 	}
-	NSString* query = [NSString stringWithFormat:@"%@ %s",command,quoted_identifier];
-	PQfreemem((void* )quoted_identifier);
-	PGresult* theResult = PQexec(_connection,[query UTF8String]);
-	if(theResult==nil) {
-		[_lock unlock];
-		[self raiseError:nil code:PGClientErrorExecute reason:nil];
-		return NO;
-	}
-	if(PQresultStatus(theResult)==PGRES_BAD_RESPONSE || PQresultStatus(theResult)==PGRES_FATAL_ERROR) {
-		PQclear(theResult);
-		[_lock unlock];
-		[self raiseError:nil code:PGClientErrorExecute reason:[NSString stringWithUTF8String:PQresultErrorMessage(theResult)]];
-		return nil;
-	}
-	PQclear(theResult);
 	[_lock unlock];
-	return YES;
-}
-
--(BOOL)addObserver:(NSString* )channelName {
-	return [self _executeObserverCommand:@"LISTEN" channel:channelName];
-}
-
--(BOOL)removeObserver:(NSString* )channelName {
-	return [self _executeObserverCommand:@"UNLISTEN" channel:channelName];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// underlying execute method with parameters
+#pragma mark Statement execution methods
 
 -(PGResult* )_execute:(NSString* )query format:(PGClientTupleFormat)format values:(NSArray* )values error:(NSError** )error {
 	NSParameterAssert(query && [query isKindOfClass:[NSString class]]);
