@@ -12,7 +12,6 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-//#include "libpq-fe.h"
 #import "PGClientParams.h"
 #import "PGConverters.h"
 

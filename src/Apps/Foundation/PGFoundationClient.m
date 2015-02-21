@@ -174,19 +174,38 @@
 }
 
 -(BOOL)connect:(NSURL* )url inBackground:(BOOL)inBackground error:(NSError** )error {
+	__block BOOL returnValue = YES;
+	
+	// if url is nil
+	if(url==nil) {
+		return NO;
+	}
+	
 	// in the case of connecting in the foreground...
 	if(inBackground==NO) {
-		return [[self db] connectWithURL:url error:error];
+		[[self db] connectWithURL:url whenDone:^(BOOL usedPassword, NSError *error) {
+			if([error code]==PGClientErrorNeedsPassword) {
+				[[self term] printf:@"TODO: Ask for password"];
+				returnValue = NO;
+			} else if([error code]) {
+				[self connection:[self db] error:error];
+				[self stop];
+				returnValue = NO;
+			}
+		}];
 	}
 	// connect in background
-	return [[self db] connectInBackgroundWithURL:url whenDone:^(NSError* error) {
+	[[self db] connectInBackgroundWithURL:url whenDone:^(BOOL usedPassword, NSError *error) {
 		if([error code]==PGClientErrorNeedsPassword) {
 			[[self term] printf:@"TODO: Ask for password"];
+			returnValue = NO;
 		} else if([error code]) {
 			[self connection:[self db] error:error];
 			[self stop];
+			returnValue = NO;
 		}
 	}];
+	return returnValue;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -199,6 +218,7 @@
 			if([[self db] status] == PGConnectionStatusRejected) {
 				[[self term] setPrompt:@"Password: "];
 				NSString* line = [[self term] readline];
+				NSLog(@"TODO: use password %@",line);
 				continue;
 			}
 		

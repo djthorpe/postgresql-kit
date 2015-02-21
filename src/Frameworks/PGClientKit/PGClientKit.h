@@ -37,7 +37,7 @@ typedef enum {
 	PGClientErrorInvalidPassword,   // password failure
 	PGClientErrorRejected,          // rejected from operation
 	PGClientErrorExecute,           // execution error
-	PGClientErrorUnknown,           // unknown error
+	PGClientErrorUnknown            // unknown error
 } PGClientErrorDomainCode;
 
 extern NSString* PGClientErrorDomain;
@@ -48,14 +48,14 @@ extern NSString* PGClientErrorDomain;
 @class PGConnection;
 @class PGConnectionPool;
 @class PGResult;
-@class PGStatement;
+@class PGQuery;
 @class PGPasswordStore;
 
 // header includes
 #import "PGConnection.h"
 #import "PGConnectionPool.h"
+#import "PGQuery.h"
 #import "PGResult.h"
-#import "PGStatement.h"
 
 // helpers
 #import "NSURL+PGAdditions.h"

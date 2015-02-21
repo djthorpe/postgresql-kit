@@ -13,8 +13,37 @@
 // under the License.
 
 #import "PGClientKit.h"
-#import "PGClientKit+Private.h"
 
-@implementation PGStatement
+@implementation PGQuery
+
+////////////////////////////////////////////////////////////////////////////////
+// initialization
+
+-(id)init {
+	// default constructor cannot be used
+	return nil;
+}
+
+-(id)initWithString:(NSString* )statement {
+	NSParameterAssert(statement);
+	self = [super init];
+	if(self) {
+		_statement = statement;
+	}
+	return self;
+}
+
++(PGQuery* )queryWithString:(NSString* )statement {
+	return [[PGQuery alloc] initWithString:statement];
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// properties
+
+@dynamic statement;
+
+-(NSString* )statement {
+	return _statement;
+}
 
 @end

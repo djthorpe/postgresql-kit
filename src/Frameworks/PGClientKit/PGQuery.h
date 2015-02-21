@@ -14,8 +14,15 @@
 
 #import <Foundation/Foundation.h>
 
-@interface PGStatement : NSObject {
-	void* _statement;
+@interface PGQuery : NSObject {
+	NSString* _statement;
+	void* _id;
 }
+
+// constructors
++(PGQuery* )queryWithString:(NSString* )statement;
+
+// properties
+@property (readonly) NSString* statement;
 
 @end

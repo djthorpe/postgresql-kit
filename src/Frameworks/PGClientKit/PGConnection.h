@@ -14,10 +14,11 @@
 
  /**
   *  The PGConnection class represents a single connection to a remote
-  *  PostgreSQL database, either via network or socket. The connection class
-  *  provides methods to test connecting, connecting, disconnecting, resetting
-  *  and executing statements on the remote database. In the future, it will
-  *  also provide the ability to be informed on notification.
+  *  PostgreSQL database, either via network or file-based socket. The 
+  *  connection class provides methods to test connecting, connecting, 
+  *  disconnecting, resetting and executing statements on the remote database.
+  *  In the future, it will also provide the ability to be informed on 
+  *  notification.
   *
   *  You need to use a run loop in order to use this class, since some processes
   *  occur in the background. A delegate can be implemented which is called on
@@ -108,6 +109,11 @@ extern NSString* PGClientErrorDomain;
 @property NSInteger tag;
 
 /**
+ *  Connection timeout in seconds
+ */
+@property NSUInteger timeout;
+
+/**
  *  The currently connected user, or nil if a connection has not yet been made
  */
 @property (readonly) NSString* user;
@@ -131,19 +137,7 @@ extern NSString* PGClientErrorDomain;
 // connection, ping and disconnection methods
 
 /**
- *  Connect to a database (as specififed by the URL) in the foreground. On
- *  failure, will return NO and set the connection error string.
- *
- *  @param url   The specification of the database that should be connected to
- *  @param error When the connection fails, the error condition is set
- *
- *  @return Returns YES on successful connection
- */
--(BOOL)connectWithURL:(NSURL* )url error:(NSError** )error;
-
-/**
- *  Connect to a database (as specififed by the URL) on a background thread. If
- *  the connection parameters were incorrect, the method immediately returns NO.
+ *  Connect to a database (as specififed by the URL) in the current thread.
  *  Once the connection process is completed (either to successful or unsuccessful
  *  completion, the callback block is run. The error condition is set to nil on
  *  successful connection, or to an error condition on failure.
@@ -151,42 +145,75 @@ extern NSString* PGClientErrorDomain;
  *  @param url      The specification of the database that should be connected to
  *  @param callback The callback which is called on conclusion of the connection
  *                  process. The error will be set when the connection fails, or
- *                  else the error is set to nil.
- *
- *  @return Returns YES when the connection process is initiated, or else returns
- *          NO if the connection URL was invalid.
+ *                  else the error is set to nil. A boolean flag indicates if the
+ *                  password was used to connect to the remote server.
  */
--(BOOL)connectInBackgroundWithURL:(NSURL* )url whenDone:(void(^)(NSError* error)) callback;
+-(void)connectWithURL:(NSURL* )url whenDone:(void(^)(BOOL usedPassword,NSError* error)) callback;
+
+/**
+ *  Connect to a database (as specififed by the URL) on a background thread.
+ *  Once the connection process is completed (either to successful or unsuccessful
+ *  completion, the callback block is run. The error condition is set to nil on
+ *  successful connection, or to an error condition on failure.
+ *
+ *  @param url      The specification of the database that should be connected to
+ *  @param callback The callback which is called on conclusion of the connection
+ *                  process. The error will be set when the connection fails, or
+ *                  else the error is set to nil. A boolean flag indicates if the
+ *                  password was used to connect to the remote server.
+ */
+-(void)connectInBackgroundWithURL:(NSURL* )url whenDone:(void(^)(BOOL usedPassword,NSError* error)) callback;
 
 /**
  *  Pings a remote database to determine if a connect can be initiated. Note
  *  that this method doesn't check credentials, only that a connection could be
- *  initiated (thus this routine could be used to determine if the URL parameters
+ *  initiated. Thus this routine could be used to determine if the URL parameters
  *  are right or not. For example, no attempt to made to check the username,
  *  password or database parameters.
  *
- *  @param url      The specification of the database that should be connected to
- *  @param error    When the ping fails, the error condition is set. Often this
- *                  will be set to "unknown" error.
- *
- *  @return Returns YES when the connection process could be initiated, or else
- *          returns NO which indicates the remote database is not "pingable".
+ *  @param url      The specification of the database that should be pinged
+ *  @param callback The callback which is called on conclusion of the ping
+ *                  process. The error will be set when the connection fails, or
+ *                  else the error is set to nil.
  */
--(BOOL)pingWithURL:(NSURL* )url error:(NSError** )error;
--(BOOL)reset;
--(BOOL)resetInBackgroundWhenDone:(void(^)(NSError* error)) callback;
--(BOOL)disconnect;
--(BOOL)connectionUsedPassword;
+-(void)pingWithURL:(NSURL* )url whenDone:(void(^)(NSError* error)) callback;
+
+/**
+ *  Pings a remote database to determine if a connect can be initiated on a
+ *  background thread. Note that this method doesn't check credentials, only 
+ *  that a connection could be initiated. Thus this routine could be used to 
+ *  determine if the URL parameters are right or not. For example, no attempt 
+ *  to made to check the username, password or database parameters.
+ *
+ *  @param url      The specification of the database that should be pinged
+ *  @param callback The callback which is called on conclusion of the ping
+ *                  process. The error will be set when the connection fails, or
+ *                  else the error is set to nil.
+ */
+//-(void)pingInBackgroundWithURL:(NSURL* )url whenDone:(void(^)(NSError* error)) callback;
+
+/**
+ *  Disconnect from the remote connection
+ */
+-(void)disconnect;
+
+//-(BOOL)resetWhenDone:(void(^)(NSError* error)) callback;
+//-(BOOL)resetInBackgroundWhenDone:(void(^)(NSError* error)) callback;
 
 ////////////////////////////////////////////////////////////////////////////////
 // execute statement methods
 
+//-(PGQuery* )prepare:(id)query error:(NSError** )error;
+-(PGResult* )execute:(id)query error:(NSError** )error;
+
+/*
 -(PGResult* )execute:(NSString* )query format:(PGClientTupleFormat)format error:(NSError** )error;
 -(PGResult* )execute:(NSString* )query format:(PGClientTupleFormat)format values:(NSArray* )values error:(NSError** )error;
 -(PGResult* )execute:(NSString* )query format:(PGClientTupleFormat)format value:(id)value error:(NSError** )error;
 -(PGResult* )execute:(NSString* )query error:(NSError** )error;
 -(PGResult* )execute:(NSString* )query values:(NSArray* )values error:(NSError** )error;
 -(PGResult* )execute:(NSString* )query value:(id)value error:(NSError** )error;
+*/
 
 @end
 
