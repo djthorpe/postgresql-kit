@@ -67,6 +67,8 @@
 		1489AEC716669A6B00C3B67D /* PGResult+TextTable.h in Headers */ = {isa = PBXBuildFile; fileRef = 1489AEC516669A6B00C3B67D /* PGResult+TextTable.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1489AEC816669A6B00C3B67D /* PGResult+TextTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 1489AEC616669A6B00C3B67D /* PGResult+TextTable.m */; };
 		148D2F03179557330005DB1B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C167C15F26BF20013A382 /* Cocoa.framework */; };
+		149BA1A01A98858C007B86A0 /* PGFoundationServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 149BA19E1A98857C007B86A0 /* PGFoundationServer.m */; };
+		149BA1A11A9885AD007B86A0 /* PGConnection_tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 147070D21A90CC8C0069EF9C /* PGConnection_tests.m */; };
 		14D7C3E617AD721D00479231 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C168115F26BF20013A382 /* Foundation.framework */; };
 		14D7C3E717AD729000479231 /* PGClientParams.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EE23F62163207DA00C99BA7 /* PGClientParams.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		14DECDA116B56D7300178235 /* PGConverters.h in Headers */ = {isa = PBXBuildFile; fileRef = 14DECD9F16B56D7300178235 /* PGConverters.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -117,7 +119,6 @@
 		6E222C5217B035F00087A483 /* LDAP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E222C5117B035F00087A483 /* LDAP.framework */; };
 		6E2A14FB1A59488700F12954 /* PGServerKit_testcases.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2A14FA1A59488700F12954 /* PGServerKit_testcases.m */; };
 		6E2A14FC1A59488700F12954 /* PGServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
-		6E2A15031A594D7100F12954 /* PGFoundationServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2A15021A594D7100F12954 /* PGFoundationServer.m */; };
 		6E37869D1A69783D0018BEA0 /* Version.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6E37869C1A69783D0018BEA0 /* Version.plist */; };
 		6E37869E1A69783D0018BEA0 /* Version.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6E37869C1A69783D0018BEA0 /* Version.plist */; };
 		6E37869F1A69783D0018BEA0 /* Version.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6E37869C1A69783D0018BEA0 /* Version.plist */; };
@@ -415,6 +416,8 @@
 		148D2EF91795518E0005DB1B /* PGSchemaKit+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PGSchemaKit+Private.h"; sourceTree = "<group>"; };
 		148F88C6166D61060088D3DF /* Gradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Gradient.png; sourceTree = "<group>"; };
 		148F88C7166D61060088D3DF /* ResizeControl.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ResizeControl.png; sourceTree = "<group>"; };
+		149BA19D1A98857C007B86A0 /* PGFoundationServer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGFoundationServer.h; sourceTree = "<group>"; };
+		149BA19E1A98857C007B86A0 /* PGFoundationServer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PGFoundationServer.m; sourceTree = "<group>"; };
 		14CF6E931667488500D2DF78 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		14DECD9F16B56D7300178235 /* PGConverters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGConverters.h; sourceTree = "<group>"; };
 		14DECDA016B56D7300178235 /* PGConverters+Object2Data.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PGConverters+Object2Data.m"; sourceTree = "<group>"; };
@@ -477,8 +480,6 @@
 		6E2A14F61A59488700F12954 /* .xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = .xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E2A14F91A59488700F12954 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6E2A14FA1A59488700F12954 /* PGServerKit_testcases.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PGServerKit_testcases.m; sourceTree = "<group>"; };
-		6E2A15021A594D7100F12954 /* PGFoundationServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGFoundationServer.m; sourceTree = "<group>"; };
-		6E2A15041A59508500F12954 /* PGFoundationServer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGFoundationServer.h; sourceTree = "<group>"; };
 		6E37869B1A6976FA0018BEA0 /* reversion.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = reversion.sh; sourceTree = "<group>"; };
 		6E37869C1A69783D0018BEA0 /* Version.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Version.plist; sourceTree = "<group>"; };
 		6E45A37F1A73A28100E20B36 /* PGHelpWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGHelpWindowController.h; sourceTree = "<group>"; };
@@ -1051,8 +1052,6 @@
 			children = (
 				6E2A14F91A59488700F12954 /* Info.plist */,
 				6E2A14FA1A59488700F12954 /* PGServerKit_testcases.m */,
-				6E2A15021A594D7100F12954 /* PGFoundationServer.m */,
-				6E2A15041A59508500F12954 /* PGFoundationServer.h */,
 			);
 			path = PGServerKit_testcases;
 			sourceTree = "<group>";
@@ -1213,6 +1212,8 @@
 		6EB1E78C15F273350093F784 /* UnitTests */ = {
 			isa = PBXGroup;
 			children = (
+				149BA19D1A98857C007B86A0 /* PGFoundationServer.h */,
+				149BA19E1A98857C007B86A0 /* PGFoundationServer.m */,
 				6E2A14F71A59488700F12954 /* PGServerKit_testcases */,
 				147070CF1A90CB880069EF9C /* PGClientKit_unittests */,
 				6E489C1C1A6D8EDE008E3068 /* PGControlsKit_testcases */,
@@ -1783,8 +1784,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				149BA1A11A9885AD007B86A0 /* PGConnection_tests.m in Sources */,
 				147070E41A976E230069EF9C /* NSString+PGNetworkValidationAdditions.m in Sources */,
 				147070DC1A90CE190069EF9C /* PGClientKit_tests.m in Sources */,
+				149BA1A01A98858C007B86A0 /* PGFoundationServer.m in Sources */,
 				147070D51A90CC8C0069EF9C /* NSURL_PGAdditions_tests.m in Sources */,
 				147070DF1A976CDD0069EF9C /* NSString_PGNetworkValidationAdditions_tests.m in Sources */,
 			);
@@ -1837,7 +1840,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E2A15031A594D7100F12954 /* PGFoundationServer.m in Sources */,
 				6E2A14FB1A59488700F12954 /* PGServerKit_testcases.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

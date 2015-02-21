@@ -55,6 +55,8 @@
 @dynamic isStopped;
 @dynamic isError;
 @dynamic dataPath;
+@dynamic pid;
+@dynamic port;
 
 -(BOOL)isStarted {
 	return ([_server state]==PGServerStateRunning || [_server state]==PGServerStateAlreadyRunning);
@@ -71,6 +73,15 @@
 -(NSString* )dataPath {
 	return [_server dataPath];
 }
+
+-(int)pid {
+	return [_server pid];
+}
+
+-(NSUInteger)port {
+	return [_server port];
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // class methods

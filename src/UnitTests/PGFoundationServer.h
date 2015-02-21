@@ -32,6 +32,8 @@
 @property (readonly) BOOL isStopped;
 @property (readonly) BOOL isError;
 @property (readonly) NSString* dataPath;
+@property (readonly) int pid;
+@property (readonly) NSUInteger port;
 
 // methods
 -(BOOL)start;

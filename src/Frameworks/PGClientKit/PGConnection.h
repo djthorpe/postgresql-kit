@@ -190,15 +190,38 @@ extern NSString* PGClientErrorDomain;
  *                  process. The error will be set when the connection fails, or
  *                  else the error is set to nil.
  */
-//-(void)pingInBackgroundWithURL:(NSURL* )url whenDone:(void(^)(NSError* error)) callback;
+-(void)pingInBackgroundWithURL:(NSURL* )url whenDone:(void(^)(NSError* error)) callback;
 
 /**
  *  Disconnect from the remote connection
  */
 -(void)disconnect;
 
-//-(BOOL)resetWhenDone:(void(^)(NSError* error)) callback;
-//-(BOOL)resetInBackgroundWhenDone:(void(^)(NSError* error)) callback;
+/**
+ *  Perform a connection reset (reconnect with all the same parameters) in the
+ *  foreground.
+ *
+ *  @param callback The callback which is called on conclusion of the reset
+ *                  process. The error will be set when the reset fails, or
+ *                  else the error is set to nil.
+ */
+-(void)resetWhenDone:(void(^)(NSError* error)) callback;
+
+/**
+ *  Perform a connection reset (reconnect with all the same parameters) in the
+ *  background.
+ *
+ *  @param callback The callback which is called on the main thread on 
+ *                  conclusion of the reset process. The error will be set when
+ *                  the reset fails, or else the error is set to nil.
+ */
+-(void)resetInBackgroundWhenDone:(void(^)(NSError* error)) callback;
+
+////////////////////////////////////////////////////////////////////////////////
+// listen for notifications
+
+//-(BOOL)addObserver:(NSString* )channelName;
+//-(BOOL)removeObserver:(NSString* )channelName;
 
 ////////////////////////////////////////////////////////////////////////////////
 // execute statement methods
