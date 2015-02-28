@@ -395,10 +395,13 @@ NSDictionary* PGClientErrorDomainCodeDescription = nil;
 				error = [self _errorWithCode:PGClientErrorNone url:url];
 				break;
 			case PQPING_REJECT:
-				error = [self _errorWithCode:PGClientErrorRejected url:url];
+				error = [self _errorWithCode:PGClientErrorRejected url:url reason:@"Remote server is not accepting connections"];
 				break;
 			case PQPING_NO_ATTEMPT:
 				error = [self _errorWithCode:PGClientErrorParameters url:url];
+				break;
+			case PQPING_NO_RESPONSE:
+				error = [self _errorWithCode:PGClientErrorRejected url:url reason:@"No response from remote server"];
 				break;
 			default:
 				error = [self _errorWithCode:PGClientErrorUnknown url:url reason:@"Unknown ping error (%d)",status];
@@ -408,6 +411,27 @@ NSDictionary* PGClientErrorDomainCodeDescription = nil;
 		// perform callback on main thread
 		[self performSelector:@selector(_pingInBackgroundCallback:) onThread:[NSThread mainThread] withObject:@[ callback, error ] waitUntilDone:NO];
 	}
+}
+
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark private methods - notifications
+////////////////////////////////////////////////////////////////////////////////
+
+-(BOOL)_executeObserverCommand:(NSString* )command channel:(NSString* )channelName {
+	NSParameterAssert(command);
+	NSParameterAssert(channelName);
+
+	NSString* query = [NSString stringWithFormat:@"%@ %@",command,[self quote:channelName]];
+	PGresult* theResult = PQexec(_connection,[query UTF8String]);
+	if(theResult==nil) {
+		return NO;
+	}
+	if(PQresultStatus(theResult)==PGRES_BAD_RESPONSE || PQresultStatus(theResult)==PGRES_FATAL_ERROR) {
+		PQclear(theResult);
+		return NO;
+	}
+	PQclear(theResult);
+	return YES;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -517,6 +541,46 @@ NSDictionary* PGClientErrorDomainCodeDescription = nil;
 		_socket = nil;
 	}
 	[self _updateStatus];
+}
+
+-(void)resetWhenDone:(void(^)(NSError* error)) callback {
+	// TODO
+	return;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark public methods - quoting
+////////////////////////////////////////////////////////////////////////////////
+
+-(NSString* )quote:(NSString* )string {
+	if(_connection==nil) {
+		return nil;
+	}
+	const char* quoted_identifier = PQescapeIdentifier(_connection,[string UTF8String],[string lengthOfBytesUsingEncoding:NSUTF8StringEncoding]);
+	if(quoted_identifier==nil) {
+		return nil;
+	}
+	NSString* quoted = [NSString stringWithUTF8String:quoted_identifier];
+	PQfreemem((void* )quoted_identifier);
+	return quoted;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark public methods - notifications
+////////////////////////////////////////////////////////////////////////////////
+
+-(BOOL)addNotificationObserver:(NSString* )channelName {
+	if(_connection == nil || _state != PGConnectionStateNone) {
+		return NO;
+	}
+	return [self _executeObserverCommand:@"LISTEN" channel:channelName];
+}
+
+-(BOOL)removeNotificationObserver:(NSString* )channelName {
+	if(_connection == nil || _state != PGConnectionStateNone) {
+		return NO;
+	}
+	return [self _executeObserverCommand:@"UNLISTEN" channel:channelName];
 }
 
 ////////////////////////////////////////////////////////////////////////////////

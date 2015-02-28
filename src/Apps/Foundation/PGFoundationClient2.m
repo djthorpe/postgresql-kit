@@ -98,7 +98,7 @@
 	}];
 }
 
--(void)command:(NSString* )command {
+-(void)command:(NSString* )command args:(NSArray* )args {
 	if([command isEqualToString:@"ping"]) {
 		[[self db] pingWithURL:[self url] whenDone:^(NSError *error) {
 			[[self term] printf:@"pingWithURL finished, error=%@",error];
@@ -110,6 +110,27 @@
 		[[self db] disconnect];
 		return;
 	}
+
+	if([command isEqualToString:@"listen"]) {
+		if([args count] != 1) {
+			[[self term] printf:@"error: listen: bad arguments"];
+		} else {
+			NSString* channel = [args objectAtIndex:0];
+			[[self db] addNotificationObserver:channel];
+		}
+		return;
+	}
+
+	if([command isEqualToString:@"unlisten"]) {
+		if([args count] != 1) {
+			[[self term] printf:@"error: unlisten: bad arguments"];
+		} else {
+			NSString* channel = [args objectAtIndex:0];
+			[[self db] removeNotificationObserver:channel];
+		}
+		return;
+	}
+
 
 	[[self term] printf:@"Unknown command: %@",command];
 }
@@ -158,9 +179,23 @@
 				continue;
 			}
 			if([line hasPrefix:@"\\"]) {
-				// run a command
-				NSString* command = [[line substringFromIndex:1] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-				[self command:command];
+				// parse a command into arguments
+				NSArray* commandargs = [[line substringFromIndex:1] componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+				NSString* command = nil;
+				NSMutableArray* args = [NSMutableArray new];
+				for(NSString* arg in commandargs) {
+					if([arg length]==0) {
+						continue;
+					}
+					if(command==nil) {
+						command = arg;
+						continue;
+					} else {
+						[args addObject:arg];
+					}
+				}
+				// run the command
+				[self command:command args:args];
 			} else {
 				// execute a statement
 				[self execute:line];

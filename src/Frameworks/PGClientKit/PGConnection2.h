@@ -85,7 +85,19 @@ typedef enum {
 
 -(void)pingWithURL:(NSURL* )url whenDone:(void(^)(NSError* error)) callback;
 -(void)connectWithURL:(NSURL* )url whenDone:(void(^)(BOOL usedPassword,NSError* error)) callback;
+-(void)resetWhenDone:(void(^)(NSError* error)) callback;
 -(void)disconnect;
+
+////////////////////////////////////////////////////////////////////////////////
+// listen for notifications
+
+-(BOOL)addNotificationObserver:(NSString* )channelName;
+-(BOOL)removeNotificationObserver:(NSString* )channelName;
+
+////////////////////////////////////////////////////////////////////////////////
+// string quoting
+
+-(NSString* )quote:(NSString* )string;
 
 ////////////////////////////////////////////////////////////////////////////////
 // execution methods
