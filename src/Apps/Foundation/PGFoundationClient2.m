@@ -99,12 +99,18 @@
 }
 
 -(void)command:(NSString* )command {
-/*	if([command isEqualToString:@"reset"]) {
-		[[self db] resetWhenDone:^(NSError *error) {
-			[[self term] printf:@"resetWhenDone finished, error=%@",error];
+	if([command isEqualToString:@"ping"]) {
+		[[self db] pingWithURL:[self url] whenDone:^(NSError *error) {
+			[[self term] printf:@"pingWithURL finished, error=%@",error];
 		}];
 		return;
-	}*/
+	}
+
+	if([command isEqualToString:@"disconnect"]) {
+		[[self db] disconnect];
+		return;
+	}
+
 	[[self term] printf:@"Unknown command: %@",command];
 }
 
@@ -129,6 +135,11 @@
 	@autoreleasepool {
 		BOOL isRunning = YES;
 		while(isRunning) {
+			if([[self db] status]==PGConnectionStatusDisconnected) {
+				isRunning = NO;
+				continue;
+			}
+			
 			if([[self db] status] != PGConnectionStatusConnected && [[self db] status] != PGConnectionStatusBusy) {
 				[NSThread sleepForTimeInterval:0.1];
 				continue;

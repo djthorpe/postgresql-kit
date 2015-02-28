@@ -81,8 +81,9 @@ typedef enum {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-// connection methods
+// background connection methods
 
+-(void)pingWithURL:(NSURL* )url whenDone:(void(^)(NSError* error)) callback;
 -(void)connectWithURL:(NSURL* )url whenDone:(void(^)(BOOL usedPassword,NSError* error)) callback;
 -(void)disconnect;
 

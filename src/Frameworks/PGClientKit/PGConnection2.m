@@ -25,15 +25,15 @@
 @property (atomic) PGConnectionState state;
 
 // methods
--(void)socketCallback:(CFSocketCallBackType)callBackType;
+-(void)_socketCallback:(CFSocketCallBackType)callBackType;
 
 @end
 
 ////////////////////////////////////////////////////////////////////////////////
 // C callbacks
 
-void SocketCallback(CFSocketRef s, CFSocketCallBackType callBackType,CFDataRef address,const void* data,void* self) {
-	[(__bridge PGConnection2* )self socketCallback:callBackType];
+void _socketCallback(CFSocketRef s, CFSocketCallBackType callBackType,CFDataRef address,const void* data,void* self) {
+	[(__bridge PGConnection2* )self _socketCallback:callBackType];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -41,6 +41,9 @@ void SocketCallback(CFSocketRef s, CFSocketCallBackType callBackType,CFDataRef a
 @implementation PGConnection2
 
 ////////////////////////////////////////////////////////////////////////////////
+#pragma mark constructor and destructors
+////////////////////////////////////////////////////////////////////////////////
+
 
 -(instancetype)init {
     self = [super init];
@@ -58,7 +61,8 @@ void SocketCallback(CFSocketRef s, CFSocketCallBackType callBackType,CFDataRef a
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// properties
+#pragma mark properties
+////////////////////////////////////////////////////////////////////////////////
 
 @dynamic status;
 @dynamic user;
@@ -109,7 +113,8 @@ void SocketCallback(CFSocketRef s, CFSocketCallBackType callBackType,CFDataRef a
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// error handling
+#pragma mark private methods - error handling
+////////////////////////////////////////////////////////////////////////////////
 
 NSDictionary* PGClientErrorDomainCodeDescription = nil;
 
@@ -156,7 +161,8 @@ NSDictionary* PGClientErrorDomainCodeDescription = nil;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// status update
+#pragma mark private methods - status update
+////////////////////////////////////////////////////////////////////////////////
 
 -(void)_updateStatus {
 	static PGConnectionStatus oldStatus = PGConnectionStatusDisconnected;
@@ -176,9 +182,10 @@ NSDictionary* PGClientErrorDomainCodeDescription = nil;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// callbacks
+#pragma mark private methods - socket callbacks
+////////////////////////////////////////////////////////////////////////////////
 
--(void)socketCallbackNotification {
+-(void)_socketCallbackNotification {
 	NSParameterAssert(_connection);
 	// consume input
 	PQconsumeInput(_connection);
@@ -194,7 +201,7 @@ NSDictionary* PGClientErrorDomainCodeDescription = nil;
 	}
 }
 
--(void)socketCallbackConnectEndedWithStatus:(PostgresPollingStatusType)pqstatus {
+-(void)_socketCallbackConnectEndedWithStatus:(PostgresPollingStatusType)pqstatus {
 	// callback
 	NSParameterAssert(_callback);
 	void (^callback)(BOOL usedPassword,NSError* error) = (__bridge void (^)(BOOL,NSError* ))(_callback);
@@ -214,7 +221,7 @@ NSDictionary* PGClientErrorDomainCodeDescription = nil;
 	[self _updateStatus];
 }
 
--(void)socketCallbackConnect {
+-(void)_socketCallbackConnect {
 	NSParameterAssert(_connection);
 
 	PostgresPollingStatusType pqstatus = PQconnectPoll(_connection);
@@ -226,13 +233,13 @@ NSDictionary* PGClientErrorDomainCodeDescription = nil;
 			break;
 		case PGRES_POLLING_OK:
 		case PGRES_POLLING_FAILED:
-			[self socketCallbackConnectEndedWithStatus:pqstatus];
+			[self _socketCallbackConnectEndedWithStatus:pqstatus];
 		default:
 			break;
 	}
 }
 
--(void)socketCallbackQuery {
+-(void)_socketCallbackQuery {
 	NSParameterAssert(_connection);
 
 	// consume input
@@ -285,7 +292,7 @@ NSDictionary* PGClientErrorDomainCodeDescription = nil;
 	[self _updateStatus];
 }
 
--(void)socketCallback:(CFSocketCallBackType)callBackType {
+-(void)_socketCallback:(CFSocketCallBackType)callBackType {
 /*	switch(callBackType) {
 		case kCFSocketReadCallBack:
 			NSLog(@"kCFSocketReadCallBack");
@@ -308,20 +315,22 @@ NSDictionary* PGClientErrorDomainCodeDescription = nil;
 	}*/
 	switch([self state]) {
 		case PGConnectionStateConnect:
-			[self socketCallbackConnect];
+			[self _socketCallbackConnect];
 			break;
 		case PGConnectionStateQuery:
-			[self socketCallbackQuery];
-			[self socketCallbackNotification];
+			[self _socketCallbackQuery];
+			[self _socketCallbackNotification];
 			break;
 		default:
-			[self socketCallbackNotification];
+			[self _socketCallbackNotification];
 			break;
 	}
 	
 	[self _updateStatus];
 }
 
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark private methods - connections
 ////////////////////////////////////////////////////////////////////////////////
 
 -(NSDictionary* )_connectionParametersForURL:(NSURL* )theURL {
@@ -346,6 +355,64 @@ NSDictionary* PGClientErrorDomainCodeDescription = nil;
 	}
 	return theParameters;
 }
+
+-(void)_pingInBackgroundCallback:(NSArray* )parameters {
+	NSParameterAssert(parameters && [parameters count]==2);
+	void(^callback)(NSError* error) = [parameters objectAtIndex:0];
+	NSParameterAssert(callback);
+	NSError* error = [parameters objectAtIndex:1];
+	NSParameterAssert([error isKindOfClass:[NSError class]]);
+	NSParameterAssert([[error domain] isEqualToString:PGClientErrorDomain]);
+	if([error code]==PGClientErrorNone) {
+		callback(nil);
+	} else {
+		callback(error);
+	}
+}
+
+-(void)_pingInBackground:(NSArray* )parameters {
+	NSParameterAssert(parameters && [parameters count]==4);
+	NSThread* callbackThread = [parameters objectAtIndex:0];
+	NSParameterAssert([callbackThread isKindOfClass:[NSThread class]]);
+	NSDictionary* dictionary = [parameters objectAtIndex:1];
+	NSParameterAssert([dictionary isKindOfClass:[NSDictionary class]]);
+	void(^callback)(NSError* error) = [parameters objectAtIndex:2];
+	NSParameterAssert(callback);
+	NSURL* url = [parameters objectAtIndex:3];
+	NSParameterAssert([url isKindOfClass:[NSURL class]]);
+
+	@autoreleasepool {
+		// make the key value pairs
+		PGKVPairs* pairs = makeKVPairs(dictionary);
+		NSError* error = nil;
+		PGPing status = PQPING_NO_ATTEMPT;
+		if(pairs != nil) {
+			status = PQpingParams(pairs->keywords,pairs->values,0);
+			freeKVPairs(pairs);
+		}
+		switch(status) {
+			case PQPING_OK:
+				error = [self _errorWithCode:PGClientErrorNone url:url];
+				break;
+			case PQPING_REJECT:
+				error = [self _errorWithCode:PGClientErrorRejected url:url];
+				break;
+			case PQPING_NO_ATTEMPT:
+				error = [self _errorWithCode:PGClientErrorParameters url:url];
+				break;
+			default:
+				error = [self _errorWithCode:PGClientErrorUnknown url:url reason:@"Unknown ping error (%d)",status];
+				break;
+		}
+		
+		// perform callback on main thread
+		[self performSelector:@selector(_pingInBackgroundCallback:) onThread:[NSThread mainThread] withObject:@[ callback, error ] waitUntilDone:NO];
+	}
+}
+
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark public methods - connections
+////////////////////////////////////////////////////////////////////////////////
 
 -(void)connectWithURL:(NSURL* )url whenDone:(void(^)(BOOL usedPassword,NSError* error)) callback {
 	NSParameterAssert(url);
@@ -402,7 +469,7 @@ NSDictionary* PGClientErrorDomainCodeDescription = nil;
 	
 	// create socket object
 	CFSocketContext context = {0, (__bridge void *)(self), NULL, NULL, NULL};
-	_socket = CFSocketCreateWithNative(NULL,PQsocket(_connection),kCFSocketReadCallBack | kCFSocketWriteCallBack,&SocketCallback,&context);
+	_socket = CFSocketCreateWithNative(NULL,PQsocket(_connection),kCFSocketReadCallBack | kCFSocketWriteCallBack,&_socketCallback,&context);
 	NSParameterAssert(_socket && CFSocketIsValid(_socket));
 
 	// set state
@@ -417,7 +484,22 @@ NSDictionary* PGClientErrorDomainCodeDescription = nil;
 	CFRunLoopAddSource(CFRunLoopGetCurrent(),_runloopsource,(CFStringRef)kCFRunLoopCommonModes);
 }
 
-////////////////////////////////////////////////////////////////////////////////
+-(void)pingWithURL:(NSURL* )url whenDone:(void(^)(NSError* error)) callback {
+	NSParameterAssert(url);
+	NSParameterAssert(callback);
+
+	// extract connection parameters
+	NSDictionary* parameters = [self _connectionParametersForURL:url];
+	if(parameters==nil) {
+		callback([self _errorWithCode:PGClientErrorParameters url:url]);
+		return;
+	}
+
+	// in the background, perform the ping
+	[self performSelectorInBackground:@selector(_pingInBackground:) withObject:@[
+		[NSThread currentThread],parameters,callback,url
+	]];
+}
 
 -(void)disconnect {
 	if(_connection) {
@@ -438,7 +520,7 @@ NSDictionary* PGClientErrorDomainCodeDescription = nil;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-#pragma mark Statement execution methods
+#pragma mark private methods - statement execution
 ////////////////////////////////////////////////////////////////////////////////
 
 -(void)_execute:(NSString* )query format:(PGClientTupleFormat)format values:(NSArray* )values whenDone:(void(^)(PGResult* result,NSError* error)) callback {
@@ -496,6 +578,10 @@ NSDictionary* PGClientErrorDomainCodeDescription = nil;
 	NSParameterAssert(_callback==nil);
 	_callback = (__bridge_retained void* )[callback copy];
 }
+
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark public methods - statement execution
+////////////////////////////////////////////////////////////////////////////////
 
 -(void)execute:(id)query whenDone:(void(^)(PGResult* result,NSError* error)) callback {
 	[self _execute:query format:PGClientTupleFormatText values:nil whenDone:callback];
