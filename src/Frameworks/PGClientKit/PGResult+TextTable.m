@@ -87,7 +87,9 @@
 	if([self dataReturned]==NO) {
 		return nil;
 	}
-
+	if([self numberOfColumns]==0) {
+		return nil;
+	}
 	NSUInteger totalWidth = 0;
 	NSUInteger oldCurrentRow = [self rowNumber];
 

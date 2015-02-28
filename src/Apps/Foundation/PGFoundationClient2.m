@@ -56,11 +56,11 @@
 // PGConnectionDelegate delegate implementation
 
 -(void)connection:(PGConnection* )connection willOpenWithParameters:(NSMutableDictionary* )dictionary {
-	NSLog(@"connection:willOpenWithParameters:%@",dictionary);
+	[[self term] printf:@"connection:willOpenWithParameters:%@",dictionary];
 }
 
 -(void)connection:(PGConnection* )connection statusChange:(PGConnectionStatus)status {
-	NSLog(@"connection:statusChange:%d",status);
+	[[self term] printf:@"connection:statusChange:%d",status];
 	
 	// disconnected
 	if(status==PGConnectionStatusDisconnected) {
@@ -70,11 +70,11 @@
 }
 
 -(void)connection:(PGConnection* )connection error:(NSError* )theError {
-	NSLog(@"connection:error: %@ (%@/%ld)",[theError localizedDescription],[theError domain],[theError code]);
+	[[self term] printf:@"connection:error: %@ (%@/%ld)",[theError localizedDescription],[theError domain],[theError code]];
 }
 
 -(void)connection:(PGConnection *)connection notificationOnChannel:(NSString* )channelName payload:(NSString* )payload {
-	NSLog(@"connection:notification: %@ payload: %@",channelName,payload);
+	[[self term] printf:@"connection:notification: %@ payload: %@",channelName,payload];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -82,7 +82,7 @@
 
 -(void)connect:(NSURL* )url {
 	[[self db] connectWithURL:url whenDone:^(BOOL usedPassword, NSError* error) {
-		NSLog(@"connectWithURL finished, usedPassword=%d error=%@",usedPassword,error);
+		[[self term] printf:@"connectWithURL finished, usedPassword=%d error=%@",usedPassword,error];
 	}];
 }
 
@@ -98,15 +98,29 @@
 	}];
 }
 
+-(void)command:(NSString* )command {
+/*	if([command isEqualToString:@"reset"]) {
+		[[self db] resetWhenDone:^(NSError *error) {
+			[[self term] printf:@"resetWhenDone finished, error=%@",error];
+		}];
+		return;
+	}*/
+	[[self term] printf:@"Unknown command: %@",command];
+}
+
 -(void)displayResult:(PGResult* )result {
 	NSParameterAssert(result);
 	if([result dataReturned]) {
-		NSLog(@"%@",[result tableWithWidth:80]);
+		NSString* table = [result tableWithWidth:80];
+		if(table) {
+			[[self term] printf:table];
+		} else {
+			[[self term] printf:@"Empty result"];
+		}
 	} else {
 		[[self term] printf:@"Affected Rows: %ld",[result affectedRows]];
 	}
 }
-
 
 ////////////////////////////////////////////////////////////////////////////////
 // background thread to read commands
@@ -132,17 +146,19 @@
 				isRunning = NO;
 				continue;
 			}
-			// execute a statement
-			[self execute:line];
+			if([line hasPrefix:@"\\"]) {
+				// run a command
+				NSString* command = [[line substringFromIndex:1] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+				[self command:command];
+			} else {
+				// execute a statement
+				[self execute:line];
+			}
 		}
 	}
 	
 	// signal end to main thread
 	[self performSelectorOnMainThread:@selector(stop) withObject:nil waitUntilDone:NO];
-	
-#ifdef DEBUG
-	NSLog(@"Background thread ended");
-#endif
 }
 
 -(void)setup {

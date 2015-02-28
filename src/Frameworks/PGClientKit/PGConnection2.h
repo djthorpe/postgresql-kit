@@ -25,8 +25,7 @@
 typedef enum {
 	PGConnectionStateNone = 0,
 	PGConnectionStateConnect = 100,
-	PGConnectionStateReset = 101,
-	PGConnectionStateQuery = 102
+	PGConnectionStateQuery = 101
 } PGConnectionState;
 
 ////////////////////////////////////////////////////////////////////////////////
