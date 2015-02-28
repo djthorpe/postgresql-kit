@@ -60,6 +60,7 @@ NSInteger DEFAULT_COLUMNS = 120;
     result = CFStringCreateWithFormatAndArguments(NULL, NULL,(CFStringRef)format,arglist);
     va_end(arglist);
 	printf("%s\n",[(__bridge NSString* )result UTF8String]);
+	CFRelease(result);
 }
 
 @end

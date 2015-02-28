@@ -43,6 +43,7 @@
 }
 
 -(void)dealloc {
+	[NSThread sleepForTimeInterval:1.0];
 	[_cachedData removeAllObjects];
 	PQclear((PGresult* )_result);
 }

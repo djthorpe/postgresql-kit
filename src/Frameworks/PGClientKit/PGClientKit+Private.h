@@ -24,3 +24,11 @@
 -(NSError* )raiseError:(NSError** )error code:(PGClientErrorDomainCode)code reason:(NSString* )format,...;
 -(id)initWithResult:(PGresult* )theResult format:(PGClientTupleFormat)format;
 @end
+
+typedef struct {
+	const char** keywords;
+	const char** values;
+} PGKVPairs;
+
+PGKVPairs* makeKVPairs(NSDictionary* dict);
+void freeKVPairs(PGKVPairs* pairs);

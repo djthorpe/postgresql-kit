@@ -171,6 +171,9 @@
 		6E69F6B71A67C0040014EC1F /* NOTICE.md in Resources */ = {isa = PBXBuildFile; fileRef = 14EE3C36166752F80083C735 /* NOTICE.md */; };
 		6E69F6B81A67C0040014EC1F /* NOTICE.md in Resources */ = {isa = PBXBuildFile; fileRef = 14EE3C36166752F80083C735 /* NOTICE.md */; };
 		6E69F6B91A67C0040014EC1F /* NOTICE.md in Resources */ = {isa = PBXBuildFile; fileRef = 14EE3C36166752F80083C735 /* NOTICE.md */; };
+		6E82F1731A9BC9B20024B8BE /* PGConnection2.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E82F1711A9BC9B20024B8BE /* PGConnection2.h */; };
+		6E82F1741A9BC9B20024B8BE /* PGConnection2.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E82F1721A9BC9B20024B8BE /* PGConnection2.m */; };
+		6E82F1771AA1D06D0024B8BE /* PGFoundationClient2.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E82F1761AA1D06D0024B8BE /* PGFoundationClient2.m */; };
 		6E92F5691A65B0D8003C0727 /* traffic-green.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6ED779F017C1266100124DF1 /* traffic-green.tiff */; };
 		6E92F56A1A65B0DB003C0727 /* traffic-grey.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ED779F117C1266100124DF1 /* traffic-grey.png */; };
 		6E92F56B1A65B0E1003C0727 /* traffic-red.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6ED779F217C1266100124DF1 /* traffic-red.tiff */; };
@@ -199,7 +202,6 @@
 		6EFFF2341A5F04C500CAA6E7 /* PGFoundationServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EFFF2331A5F044E00CAA6E7 /* PGFoundationServer.m */; };
 		6EFFF2351A5F04C800CAA6E7 /* PGFoundationApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EFFF2311A5F044E00CAA6E7 /* PGFoundationApp.m */; };
 		6EFFF23A1A5F052A00CAA6E7 /* PGFoundationApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EFFF2311A5F044E00CAA6E7 /* PGFoundationApp.m */; };
-		6EFFF23B1A5F052E00CAA6E7 /* PGFoundationClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EFFF2371A5F051D00CAA6E7 /* PGFoundationClient.m */; };
 		6EFFF23C1A5F053000CAA6E7 /* Terminal.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EFFF2391A5F051D00CAA6E7 /* Terminal.m */; };
 /* End PBXBuildFile section */
 
@@ -538,6 +540,10 @@
 		6E69F6AA1A67AD340014EC1F /* PGSourceView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PGSourceView.xib; sourceTree = "<group>"; };
 		6E69F6AE1A67BABF0014EC1F /* PGSourceViewNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSourceViewNode.h; sourceTree = "<group>"; };
 		6E69F6AF1A67BABF0014EC1F /* PGSourceViewNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSourceViewNode.m; sourceTree = "<group>"; };
+		6E82F1711A9BC9B20024B8BE /* PGConnection2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGConnection2.h; sourceTree = "<group>"; };
+		6E82F1721A9BC9B20024B8BE /* PGConnection2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGConnection2.m; sourceTree = "<group>"; };
+		6E82F1751AA1D06D0024B8BE /* PGFoundationClient2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGFoundationClient2.h; sourceTree = "<group>"; };
+		6E82F1761AA1D06D0024B8BE /* PGFoundationClient2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGFoundationClient2.m; sourceTree = "<group>"; };
 		6E83260817AD08C1002AFCBC /* build-frameworks.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "build-frameworks.sh"; sourceTree = "<group>"; };
 		6E8C167C15F26BF20013A382 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		6E8C167F15F26BF20013A382 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -1263,6 +1269,8 @@
 				6EE12E2517D51D620034B9E1 /* PGPasswordStore.m */,
 				6EE23F5B1631EF7500C99BA7 /* PGConnection.h */,
 				6EE23F5C1631EF7500C99BA7 /* PGConnection.m */,
+				6E82F1711A9BC9B20024B8BE /* PGConnection2.h */,
+				6E82F1721A9BC9B20024B8BE /* PGConnection2.m */,
 				6EE23F62163207DA00C99BA7 /* PGClientParams.h */,
 				6EE23F601632076800C99BA7 /* PGClientParams.m */,
 				14DECDA416B56D7B00178235 /* Data Translation */,
@@ -1305,6 +1313,8 @@
 				6EFFF2371A5F051D00CAA6E7 /* PGFoundationClient.m */,
 				6EFFF2381A5F051D00CAA6E7 /* Terminal.h */,
 				6EFFF2391A5F051D00CAA6E7 /* Terminal.m */,
+				6E82F1751AA1D06D0024B8BE /* PGFoundationClient2.h */,
+				6E82F1761AA1D06D0024B8BE /* PGFoundationClient2.m */,
 			);
 			path = Foundation;
 			sourceTree = "<group>";
@@ -1372,6 +1382,7 @@
 				14DECDA816B57EC400178235 /* PGConverters+Private.h in Headers */,
 				14D7C3E717AD729000479231 /* PGClientParams.h in Headers */,
 				147070E21A976E230069EF9C /* NSString+PGNetworkValidationAdditions.h in Headers */,
+				6E82F1731A9BC9B20024B8BE /* PGConnection2.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1856,9 +1867,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6EFFF23B1A5F052E00CAA6E7 /* PGFoundationClient.m in Sources */,
 				6EFFF23C1A5F053000CAA6E7 /* Terminal.m in Sources */,
 				6EFFF23A1A5F052A00CAA6E7 /* PGFoundationApp.m in Sources */,
+				6E82F1771AA1D06D0024B8BE /* PGFoundationClient2.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1898,6 +1909,7 @@
 				6EE23F611632076800C99BA7 /* PGClientParams.m in Sources */,
 				6E0773DA163744D90028783F /* PGResult.m in Sources */,
 				1489AEC816669A6B00C3B67D /* PGResult+TextTable.m in Sources */,
+				6E82F1741A9BC9B20024B8BE /* PGConnection2.m in Sources */,
 				14DECDA216B56D7300178235 /* PGConverters+Object2Data.m in Sources */,
 				14DECDA616B56DF300178235 /* PGConverters+Data2Object.m in Sources */,
 				6EAA40ED17BC150E0078EB32 /* NSURL+PGAdditions.m in Sources */,

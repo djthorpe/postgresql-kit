@@ -12,8 +12,8 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-#import "PGClientKit.h"
-#import "PGClientKit+Private.h"
+#import <PGClientKit/PGClientKit.h>
+#import <PGClientKit/PGClientKit+Private.h>
 #include <pg_config.h>
 
 NSString* PGConnectionSchemes = @"pgsql pgsqls postgresql postgres postgresqls";
@@ -26,11 +26,6 @@ NSUInteger PGClientMaximumPort = 65535;
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark Key Value pair construction
-
-typedef struct {
-	const char** keywords;
-	const char** values;
-} PGKVPairs;
 
 void freeKVPairs(PGKVPairs* pairs) {
 	if(pairs) {
@@ -68,6 +63,7 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 }
 
 void PGConnectionNoticeProcessor(void* arg,const char* cString) {
+	// TODO
 	NSLog(@"PGConnectionNoticeProcessor: %s",cString);
 }
 

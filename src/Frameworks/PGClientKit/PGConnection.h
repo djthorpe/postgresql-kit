@@ -44,6 +44,16 @@ extern NSUInteger PGClientMaximumPort;
  */
 extern NSString* PGClientErrorDomain;
 
+/**
+ *  The userInfo key for the connection URL when returning NSError objects
+ */
+extern NSString* PGClientErrorURLKey;
+
+/**
+ *  The default client character encoding to use (UTF-8)
+ */
+extern NSString* PGConnectionDefaultEncoding;
+
 ////////////////////////////////////////////////////////////////////////////////
 // forward declarations
 
