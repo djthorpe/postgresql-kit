@@ -112,7 +112,8 @@ typedef enum {
 @protocol PGConnectionDelegate2 <NSObject>
 @optional
 	-(void)connection:(PGConnection2* )connection willOpenWithParameters:(NSMutableDictionary* )dictionary;
-	-(void)connection:(PGConnection2* )connection error:(NSError* )theError;
+	-(void)connection:(PGConnection2* )connection error:(NSError* )error;
+	-(void)connection:(PGConnection2* )connection notice:(NSString* )notice;
 	-(void)connection:(PGConnection2* )connection statusChange:(PGConnectionStatus)status;
 	-(void)connection:(PGConnection2* )connection notificationOnChannel:(NSString* )channelName payload:(NSString* )payload;
 @end

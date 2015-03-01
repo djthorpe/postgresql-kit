@@ -16,6 +16,9 @@
 #import <PGClientKit/PGClientKit+Private.h>
 #include <libpq-fe.h>
 
+// define DEBUG2 for extra debugging output
+#define DEBUG2
+
 ////////////////////////////////////////////////////////////////////////////////
 // forward declarations
 
@@ -34,6 +37,15 @@
 
 void _socketCallback(CFSocketRef s, CFSocketCallBackType callBackType,CFDataRef address,const void* data,void* self) {
 	[(__bridge PGConnection2* )self _socketCallback:callBackType];
+}
+
+void _noticeProcessor(void* arg,const char* cString) {
+	NSString* notice = [NSString stringWithUTF8String:cString];
+	PGConnection2* connection = (__bridge PGConnection2* )arg;
+	NSCParameterAssert(connection && [connection isKindOfClass:[PGConnection2 class]]);
+	if([[connection delegate] respondsToSelector:@selector(connection:notice:)]) {
+		[[connection delegate] connection:connection notice:notice];
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -89,7 +101,6 @@ void _socketCallback(CFSocketRef s, CFSocketCallBackType callBackType,CFDataRef 
 			return PGConnectionStatusRejected;
 	}
 }
-
 
 -(NSString* )user {
 	if(_connection==nil || PQstatus(_connection) != CONNECTION_OK) {
@@ -178,7 +189,6 @@ NSDictionary* PGClientErrorDomainCodeDescription = nil;
 	if(oldStatus==PGConnectionStatusRejected) {
 		[self disconnect];
 	}
-	
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -202,23 +212,25 @@ NSDictionary* PGClientErrorDomainCodeDescription = nil;
 }
 
 -(void)_socketCallbackConnectEndedWithStatus:(PostgresPollingStatusType)pqstatus {
-	// callback
 	NSParameterAssert(_callback);
 	void (^callback)(BOOL usedPassword,NSError* error) = (__bridge void (^)(BOOL,NSError* ))(_callback);
 	if(pqstatus==PGRES_POLLING_OK) {
-		// success condition
-		//TODOPQsetNoticeProcessor(connection,PGConnectionNoticeProcessor,connection);
+		// set up notice processor, set success condition
+		PQsetNoticeProcessor(_connection,_noticeProcessor,(__bridge void *)(self));
 		callback(PQconnectionUsedPassword(_connection) ? YES : NO,nil);
 	} else if(PQconnectionNeedsPassword(_connection)) {
+		// error callback - connection not made, needs password
 		callback(NO,[self _errorWithCode:PGClientErrorNeedsPassword url:nil]);
 	} else if(PQconnectionUsedPassword(_connection)) {
+		// error callback - connection not made, password was invalid
 		callback(YES,[self _errorWithCode:PGClientErrorInvalidPassword url:nil]);
 	} else {
+		// error callback - connection not made, some other kind of rejection
 		callback(YES,[self _errorWithCode:PGClientErrorRejected url:nil]);
 	}
 	_callback = nil;
 	[self setState:PGConnectionStateNone];
-	[self _updateStatus];
+	[self _updateStatus]; // this also calls disconnect when rejected
 }
 
 -(void)_socketCallbackConnect {
@@ -293,7 +305,8 @@ NSDictionary* PGClientErrorDomainCodeDescription = nil;
 }
 
 -(void)_socketCallback:(CFSocketCallBackType)callBackType {
-/*	switch(callBackType) {
+#ifdef DEBUG
+	switch(callBackType) {
 		case kCFSocketReadCallBack:
 			NSLog(@"kCFSocketReadCallBack");
 			break;
@@ -312,7 +325,8 @@ NSDictionary* PGClientErrorDomainCodeDescription = nil;
 		default:
 			NSLog(@"CFSocketCallBackType OTHER");
 			break;
-	}*/
+	}
+#endif
 	switch([self state]) {
 		case PGConnectionStateConnect:
 			[self _socketCallbackConnect];
@@ -648,6 +662,8 @@ NSDictionary* PGClientErrorDomainCodeDescription = nil;
 ////////////////////////////////////////////////////////////////////////////////
 
 -(void)execute:(id)query whenDone:(void(^)(PGResult* result,NSError* error)) callback {
+	NSParameterAssert([query isKindOfClass:[NSString class]] || [query isKindOfClass:[PGQuery class]]);
+	NSParameterAssert(callback);
 	[self _execute:query format:PGClientTupleFormatText values:nil whenDone:callback];
 }
 

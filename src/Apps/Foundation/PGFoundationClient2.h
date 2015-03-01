@@ -20,12 +20,15 @@
 
 @interface PGFoundationClient2 : PGFoundationApp <PGConnectionDelegate2> {
 	PGConnection2* _db;
+	PGPasswordStore* _passwordstore;
 	Terminal* _term;
 }
 
 // properties
 @property (readonly) NSURL* url;
+@property (retain) NSString* password;
 @property (readonly) PGConnection2* db;
+@property (readonly) PGPasswordStore* passwordstore;
 @property (readonly) Terminal* term;
 @property (readonly) NSString* prompt;
 

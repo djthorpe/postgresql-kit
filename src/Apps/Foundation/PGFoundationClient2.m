@@ -25,6 +25,10 @@
 		_db = [PGConnection2 new];
 		[_db setDelegate:self];
 		_term = [Terminal new];
+		_passwordstore = [PGPasswordStore new];
+		NSParameterAssert(_db);
+		NSParameterAssert(_term);
+		NSParameterAssert(_passwordstore);
 	}
 	return self;
 }
@@ -34,11 +38,12 @@
 
 @synthesize db = _db;
 @synthesize term = _term;
+@synthesize passwordstore = _passwordstore;
 @dynamic url;
 @dynamic prompt;
 
 -(NSURL* )url {
-	return [NSURL URLWithString:@"postgres://pttnkktdoyjfyc:9Ftu1oLNncy1Qgtt6OLxw_BHc2@ec2-54-227-255-156.compute-1.amazonaws.com:5432/dej7aj0jp668p5"];
+	return [NSURL URLWithString:@"postgres://pttnkktdoyjfyc@ec2-54-227-255-156.compute-1.amazonaws.com:5432/dej7aj0jp668p5"];
 }
 
 -(NSString* )prompt {
@@ -56,12 +61,25 @@
 // PGConnectionDelegate delegate implementation
 
 -(void)connection:(PGConnection* )connection willOpenWithParameters:(NSMutableDictionary* )dictionary {
+#ifdef DEBUG
 	[[self term] printf:@"connection:willOpenWithParameters:%@",dictionary];
+#endif
+	
+	// if there is a password in the parameters, then store it
+	NSString* password = [dictionary objectForKey:@"password"];
+	if(!password) {
+		password = [[self passwordstore] passwordForURL:[self url]];
+	}
+	if(password) {
+		[self setPassword:password];
+		[dictionary setObject:password forKey:@"password"];
+	}
 }
 
 -(void)connection:(PGConnection* )connection statusChange:(PGConnectionStatus)status {
-	[[self term] printf:@"connection:statusChange:%d",status];
-	
+#ifdef DEBUG
+	[[self term] printf:@"StatusChange: %d",status];
+#endif
 	// disconnected
 	if(status==PGConnectionStatusDisconnected) {
 		// indicate server connection has been shutdown
@@ -69,12 +87,16 @@
 	}
 }
 
--(void)connection:(PGConnection* )connection error:(NSError* )theError {
-	[[self term] printf:@"connection:error: %@ (%@/%ld)",[theError localizedDescription],[theError domain],[theError code]];
+-(void)connection:(PGConnection* )connection error:(NSError* )error {
+	[[self term] printf:@"Error: %@ (%@/%ld)",[error localizedDescription],[error domain],[error code]];
+}
+
+-(void)connection:(PGConnection2* )connection notice:(NSString* )notice {
+	[[self term] printf:@"Notice: %@",notice];
 }
 
 -(void)connection:(PGConnection *)connection notificationOnChannel:(NSString* )channelName payload:(NSString* )payload {
-	[[self term] printf:@"connection:notification: %@ payload: %@",channelName,payload];
+	[[self term] printf:@"Notification: %@ Payload: %@",channelName,payload];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -82,11 +104,18 @@
 
 -(void)connect:(NSURL* )url {
 	[[self db] connectWithURL:url whenDone:^(BOOL usedPassword, NSError* error) {
+#ifdef DEBUG
 		[[self term] printf:@"connectWithURL finished, usedPassword=%d error=%@",usedPassword,error];
+#endif
+		// if used password and no error, then store the password
+		if(error==nil && usedPassword) {
+			[[self passwordstore] setPassword:[self password] forURL:url saveToKeychain:YES];
+		}
+		
 	}];
 }
 
--(void)execute:(NSString* )query {
+-(void)execute:(id)query {
 	[[self db] execute:query whenDone:^(PGResult* result, NSError* error) {
 		if(error) {
 			[[self term] printf:@"Error: %@ (%@/%ld)",[error localizedDescription],[error domain],[error code]];
@@ -111,6 +140,12 @@
 		return;
 	}
 
+	if([command isEqualToString:@"reset"]) {
+		[[self db] resetWhenDone:^(NSError *error) {
+			[[self term] printf:@"resetWhenDone finished, error=%@",error];
+		}];
+	}
+
 	if([command isEqualToString:@"listen"]) {
 		if([args count] != 1) {
 			[[self term] printf:@"error: listen: bad arguments"];
@@ -130,7 +165,6 @@
 		}
 		return;
 	}
-
 
 	[[self term] printf:@"Unknown command: %@",command];
 }

@@ -18,11 +18,11 @@
 
 // typedefs
 typedef enum {
-	PGConnectionStatusDisconnected = 0,
-	PGConnectionStatusConnected = 1,
-	PGConnectionStatusRejected = 2,
-	PGConnectionStatusConnecting = 3,
-	PGConnectionStatusBusy = 4
+	PGConnectionStatusDisconnected = 0, // not connected
+	PGConnectionStatusConnected = 1,    // connected and idle
+	PGConnectionStatusRejected = 2,     // not connected, rejected connection
+	PGConnectionStatusConnecting = 3,   // busy connecting
+	PGConnectionStatusBusy = 4          // connected and busy
 } PGConnectionStatus;
 
 typedef enum {
@@ -31,15 +31,15 @@ typedef enum {
 } PGClientTupleFormat;
 
 typedef enum {
-	PGClientErrorNone = 0,          // no error occured
-	PGClientErrorState = 100,       // state is wrong for this call
-	PGClientErrorParameters = 101,  // invalid parameters
-	PGClientErrorNeedsPassword = 102, // password required
-	PGClientErrorInvalidPassword = 103, // password failure
-	PGClientErrorRejected = 104,    // rejected from operation
-	PGClientErrorExecute = 105,     // execution error
-	PGClientErrorEmptyQuery = 106,     // empty query
-	PGClientErrorUnknown = 107      // unknown error
+	PGClientErrorNone = 0,                // no error occured
+	PGClientErrorState = 100,             // state is wrong for this call
+	PGClientErrorParameters = 101,        // invalid parameters
+	PGClientErrorNeedsPassword = 102,     // password required
+	PGClientErrorInvalidPassword = 103,   // password failure
+	PGClientErrorRejected = 104,          // rejected from operation
+	PGClientErrorExecute = 105,           // execution error
+	PGClientErrorEmptyQuery = 106,        // empty query
+	PGClientErrorUnknown = 107            // unknown error
 } PGClientErrorDomainCode;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -55,8 +55,10 @@ typedef enum {
 #import "PGConnection.h"
 #import "PGConnection2.h"
 #import "PGConnectionPool.h"
-#import "PGQuery.h"
 #import "PGResult.h"
+
+// queries
+#import "PGQuery.h"
 
 // helpers
 #import "NSURL+PGAdditions.h"
