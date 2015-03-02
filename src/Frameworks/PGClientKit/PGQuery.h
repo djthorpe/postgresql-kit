@@ -15,14 +15,22 @@
 #import <Foundation/Foundation.h>
 
 @interface PGQuery : NSObject {
-	NSString* _statement;
-	void* _id;
+	NSMutableDictionary* _dictionary;
 }
 
 // constructors
++(PGQuery* )queryWithDictionary:(NSDictionary* )dictionary;
 +(PGQuery* )queryWithString:(NSString* )statement;
 
 // properties
-@property (readonly) NSString* statement;
+@property (readonly) NSDictionary* dictionary;
+@property (readonly) NSString* className;
+
+// methods to manipulate the dictionary
+-(void)setObject:(id)object forKey:(NSString* )key;
+-(id)objectForKey:(NSString* )key;
+
+// methods to generate an SQL statement
+-(NSString* )statementForConnection:(PGConnection* )connection;
 
 @end
