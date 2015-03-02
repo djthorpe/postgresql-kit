@@ -119,7 +119,7 @@
 }
 
 -(void)execute:(id)query {
-	[[self db] execute:query whenDone:^(PGResult* result, NSError* error) {
+	[[self db] executeQuery:query whenDone:^(PGResult* result, NSError* error) {
 		if(error) {
 			[[self term] printf:@"Error: %@ (%@/%ld)",[error localizedDescription],[error domain],[error code]];
 		}
@@ -175,7 +175,7 @@
 			[[self term] printf:@"error: tables: too many arguments"];
 		} else {
 			PGQuery* query = [PGQuery queryWithString:@"SELECT datname AS database,pid AS pid,query AS query,usename AS username,client_hostname AS remotehost,application_name,query_start,waiting FROM pg_stat_activity WHERE pid <> pg_backend_pid()"];
-			[[self db] execute:query whenDone:^(PGResult* result, NSError* error) {
+			[[self db] executeQuery:query whenDone:^(PGResult* result, NSError* error) {
 				if(result) {
 					[self displayResult:result];
 				}
@@ -187,6 +187,16 @@
 		return;
 	}
 
+	if([command isEqualToString:@"cancel"]) {
+		if([args count]) {
+			[[self term] printf:@"error: cancel: too many arguments"];
+		} else {
+			[[self db] cancelQueryWhenDone:^(NSError *error) {
+				[[self term] printf:@"cancelQueryWhenDone:error: %@",error];
+			}];
+		}
+		return;
+	}
 
 	[[self term] printf:@"Unknown command: %@",command];
 }

@@ -26,7 +26,8 @@ typedef enum {
 	PGConnectionStateNone = 0,
 	PGConnectionStateConnect = 100,
 	PGConnectionStateReset = 101,
-	PGConnectionStateQuery = 102
+	PGConnectionStateQuery = 102,
+	PGConnectionStateCancel = 103
 } PGConnectionState;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -34,6 +35,7 @@ typedef enum {
 
 @interface PGConnection2 : NSObject {
 	void* _connection;
+	void* _cancel;
 	void* _callback;
 	CFSocketRef _socket;
 	CFRunLoopSourceRef _runloopsource;
@@ -97,12 +99,13 @@ typedef enum {
 ////////////////////////////////////////////////////////////////////////////////
 // string quoting
 
--(NSString* )quote:(NSString* )string;
+-(NSString* )quoteIdentifier:(NSString* )string;
 
 ////////////////////////////////////////////////////////////////////////////////
 // execution methods
 
--(void)execute:(id)query whenDone:(void(^)(PGResult* result,NSError* error)) callback;
+-(void)executeQuery:(id)query whenDone:(void(^)(PGResult* result,NSError* error)) callback;
+-(void)cancelQueryWhenDone:(void(^)(NSError* error)) callback;
 
 @end
 

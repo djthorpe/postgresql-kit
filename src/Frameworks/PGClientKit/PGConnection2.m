@@ -62,6 +62,7 @@ void _noticeProcessor(void* arg,const char* cString) {
     self = [super init];
     if(self) {
 		_connection = nil;
+		_cancel = nil;
 		_timeout = 0;
 		_state = PGConnectionStateNone;
 		pgdata2obj_init();
@@ -398,6 +399,68 @@ NSDictionary* PGConnectionStatusDescription = nil;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+#pragma mark private methods - cancelling queries
+////////////////////////////////////////////////////////////////////////////////
+
+-(BOOL)_cancelCreate {
+	NSParameterAssert(_cancel==nil);
+	NSParameterAssert(_connection);
+	_cancel = PQgetCancel(_connection);
+	return (_cancel==nil) ? NO : YES;
+}
+
+-(void)_cancelDestroy {
+	if(_cancel) {
+		PQfreeCancel(_cancel);
+		_cancel = nil;
+	}
+}
+
+-(void)_cancelRequestInBackgroundCallback:(NSArray* )parameters {
+	NSParameterAssert(parameters && [parameters count]==2);
+	void(^callback)(NSError* error) = [parameters objectAtIndex:0];
+	NSParameterAssert(callback);
+	NSError* error = [parameters objectAtIndex:1];
+	NSParameterAssert([error isKindOfClass:[NSError class]]);
+	NSParameterAssert([[error domain] isEqualToString:PGClientErrorDomain]);
+
+	// set state and destroy cancel object
+	[self setState:PGConnectionStateNone];
+	[self _cancelDestroy];
+
+	if([error code]==PGClientErrorNone) {
+		callback(nil);
+	} else {
+		callback(error);
+	}
+}
+
+-(void)_cancelRequestInBackground:(NSArray* )parameters {
+	NSParameterAssert(parameters && [parameters count]==1);
+	void(^callback)(NSError* error) = [parameters objectAtIndex:0];
+	NSParameterAssert(callback);
+	NSParameterAssert(_connection);
+	NSParameterAssert(_cancel);
+	NSParameterAssert(_state==PGConnectionStateCancel);
+	const int bufferLength = 512;
+	NSMutableData* buffer = [NSMutableData dataWithCapacity:bufferLength];
+	NSParameterAssert(buffer);
+	[buffer resetBytesInRange:NSMakeRange(0,[buffer length])];
+	int returnValue = PQcancel(_cancel,(char* )[buffer mutableBytes],bufferLength);
+	NSError* error = nil;
+	if(returnValue==0) {
+		// failure to cancel
+		NSString* reason = [[NSString alloc] initWithData:buffer encoding:NSUTF8StringEncoding];
+		error = [self _errorWithCode:PGClientErrorExecute url:nil reason:reason];
+	} else {
+		error = [self _errorWithCode:PGClientErrorNone url:nil];
+	}
+
+	// operate callback here on separate thread
+	[self performSelector:@selector(_cancelRequestInBackgroundCallback:) onThread:[NSThread mainThread] withObject:@[ callback, error ] waitUntilDone:NO];
+}
+
+////////////////////////////////////////////////////////////////////////////////
 #pragma mark private methods - connections
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -431,6 +494,7 @@ NSDictionary* PGConnectionStatusDescription = nil;
 	NSError* error = [parameters objectAtIndex:1];
 	NSParameterAssert([error isKindOfClass:[NSError class]]);
 	NSParameterAssert([[error domain] isEqualToString:PGClientErrorDomain]);
+	
 	if([error code]==PGClientErrorNone) {
 		callback(nil);
 	} else {
@@ -439,15 +503,11 @@ NSDictionary* PGConnectionStatusDescription = nil;
 }
 
 -(void)_pingInBackground:(NSArray* )parameters {
-	NSParameterAssert(parameters && [parameters count]==4);
-	NSThread* callbackThread = [parameters objectAtIndex:0];
-	NSParameterAssert([callbackThread isKindOfClass:[NSThread class]]);
-	NSDictionary* dictionary = [parameters objectAtIndex:1];
+	NSParameterAssert(parameters && [parameters count]==2);
+	NSDictionary* dictionary = [parameters objectAtIndex:0];
 	NSParameterAssert([dictionary isKindOfClass:[NSDictionary class]]);
-	void(^callback)(NSError* error) = [parameters objectAtIndex:2];
+	void(^callback)(NSError* error) = [parameters objectAtIndex:1];
 	NSParameterAssert(callback);
-	NSURL* url = [parameters objectAtIndex:3];
-	NSParameterAssert([url isKindOfClass:[NSURL class]]);
 
 	@autoreleasepool {
 		// make the key value pairs
@@ -460,22 +520,22 @@ NSDictionary* PGConnectionStatusDescription = nil;
 		}
 		switch(status) {
 			case PQPING_OK:
-				error = [self _errorWithCode:PGClientErrorNone url:url];
+				error = [self _errorWithCode:PGClientErrorNone url:nil];
 				break;
 			case PQPING_REJECT:
-				error = [self _errorWithCode:PGClientErrorRejected url:url reason:@"Remote server is not accepting connections"];
+				error = [self _errorWithCode:PGClientErrorRejected url:nil reason:@"Remote server is not accepting connections"];
 				break;
 			case PQPING_NO_ATTEMPT:
-				error = [self _errorWithCode:PGClientErrorParameters url:url];
+				error = [self _errorWithCode:PGClientErrorParameters url:nil];
 				break;
 			case PQPING_NO_RESPONSE:
-				error = [self _errorWithCode:PGClientErrorRejected url:url reason:@"No response from remote server"];
+				error = [self _errorWithCode:PGClientErrorRejected url:nil reason:@"No response from remote server"];
 				break;
 			default:
-				error = [self _errorWithCode:PGClientErrorUnknown url:url reason:@"Unknown ping error (%d)",status];
+				error = [self _errorWithCode:PGClientErrorUnknown url:nil reason:@"Unknown ping error (%d)",status];
 				break;
 		}
-		
+
 		// perform callback on main thread
 		[self performSelector:@selector(_pingInBackgroundCallback:) onThread:[NSThread mainThread] withObject:@[ callback, error ] waitUntilDone:NO];
 	}
@@ -525,7 +585,7 @@ NSDictionary* PGConnectionStatusDescription = nil;
 	NSParameterAssert(command);
 	NSParameterAssert(channelName);
 
-	NSString* query = [NSString stringWithFormat:@"%@ %@",command,[self quote:channelName]];
+	NSString* query = [NSString stringWithFormat:@"%@ %@",command,[self quoteIdentifier:channelName]];
 	PGresult* theResult = PQexec(_connection,[query UTF8String]);
 	if(theResult==nil) {
 		return NO;
@@ -616,16 +676,17 @@ NSDictionary* PGConnectionStatusDescription = nil;
 
 	// in the background, perform the ping
 	[self performSelectorInBackground:@selector(_pingInBackground:) withObject:@[
-		[NSThread currentThread],parameters,callback,url
+		parameters,callback
 	]];
 }
 
 -(void)disconnect {
+	[self _cancelDestroy];
+	[self _socketDisconnect];
 	if(_connection) {
 		PQfinish(_connection);
         _connection = nil;
 	}
-	[self _socketDisconnect];
 	[self _updateStatus];
 }
 
@@ -705,7 +766,7 @@ NSDictionary* PGConnectionStatusDescription = nil;
 #pragma mark public methods - quoting
 ////////////////////////////////////////////////////////////////////////////////
 
--(NSString* )quote:(NSString* )string {
+-(NSString* )quoteIdentifier:(NSString* )string {
 	if(_connection==nil) {
 		return nil;
 	}
@@ -797,10 +858,10 @@ NSDictionary* PGConnectionStatusDescription = nil;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-#pragma mark public methods - statement execution
+#pragma mark public methods - execution
 ////////////////////////////////////////////////////////////////////////////////
 
--(void)execute:(id)query whenDone:(void(^)(PGResult* result,NSError* error)) callback {
+-(void)executeQuery:(id)query whenDone:(void(^)(PGResult* result,NSError* error)) callback {
 	NSParameterAssert([query isKindOfClass:[NSString class]] || [query isKindOfClass:[PGQuery class]]);
 	NSParameterAssert(callback);
 	if([query isKindOfClass:[PGQuery class]]) {
@@ -810,6 +871,32 @@ NSDictionary* PGConnectionStatusDescription = nil;
 		NSParameterAssert([query isKindOfClass:[NSString class]]);
 		[self _execute:query format:PGClientTupleFormatText values:nil whenDone:callback];
 	}
+}
+
+-(void)cancelQueryWhenDone:(void(^)(NSError* error)) callback {
+	NSParameterAssert(callback);
+	if(_connection==nil) {
+		callback([self _errorWithCode:PGClientErrorState url:nil]);
+		return;
+	}
+	if([self state]==PGConnectionStateConnect || [self state]==PGConnectionStateReset) {
+		callback([self _errorWithCode:PGClientErrorState url:nil]);
+		return;
+	}
+	if(_cancel==nil) {
+		if([self _cancelCreate]==NO) {
+			callback([self _errorWithCode:PGClientErrorParameters url:nil]);
+			return;
+		}
+	}
+
+	// change state to cancel
+	[self setState:PGConnectionStateCancel];
+
+	// in the background, perform the cancel so we are non-blocking
+	[self performSelectorInBackground:@selector(_cancelRequestInBackground:) withObject:@[
+		callback
+	]];
 }
 
 @end
