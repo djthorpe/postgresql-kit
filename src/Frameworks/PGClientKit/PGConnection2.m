@@ -16,7 +16,7 @@
 #import <PGClientKit/PGClientKit+Private.h>
 #include <libpq-fe.h>
 
-// define DEBUG2 for extra debugging output
+// define DEBUG2 for extra debugging output on NSLog
 #define DEBUG2
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -26,6 +26,7 @@
 
 // properties
 @property (atomic) PGConnectionState state;
+@property PGconn* pqconn;
 
 // methods
 -(void)_socketCallback:(CFSocketCallBackType)callBackType;
@@ -82,6 +83,7 @@ void _noticeProcessor(void* arg,const char* cString) {
 @dynamic serverProcessID;
 @synthesize timeout = _timeout;
 @synthesize state = _state;
+@synthesize pqconn = _connection;
 
 -(PGConnectionStatus)status {
 	if(_connection==nil) {
@@ -175,14 +177,27 @@ NSDictionary* PGClientErrorDomainCodeDescription = nil;
 #pragma mark private methods - status update
 ////////////////////////////////////////////////////////////////////////////////
 
+NSDictionary* PGConnectionStatusDescription = nil;
+
 -(void)_updateStatus {
 	static PGConnectionStatus oldStatus = PGConnectionStatusDisconnected;
+	static dispatch_once_t onceToken;
+    dispatch_once(&onceToken,^{
+        // Do some work that happens once
+		PGConnectionStatusDescription = @{
+			[NSNumber numberWithInt:PGConnectionStatusBusy]: @"Busy",
+			[NSNumber numberWithInt:PGConnectionStatusConnected]: @"Idle",
+			[NSNumber numberWithInt:PGConnectionStatusConnecting]: @"Connecting",
+			[NSNumber numberWithInt:PGConnectionStatusDisconnected]: @"Disconnected",
+			[NSNumber numberWithInt:PGConnectionStatusRejected]: @"Rejected"
+		};
+    });
 	if([self status] == oldStatus) {
 		return;
 	}
 	oldStatus = [self status];
-	if([[self delegate] respondsToSelector:@selector(connection:statusChange:)]) {
-		[[self delegate] connection:self statusChange:[self status]];
+	if([[self delegate] respondsToSelector:@selector(connection:statusChange:description:)]) {
+		[[self delegate] connection:self statusChange:[self status] description:[PGConnectionStatusDescription objectForKey:[NSNumber numberWithInt:[self status]]]];
 	}
 	
 	// if connection is rejected, then call disconnect
@@ -233,6 +248,20 @@ NSDictionary* PGClientErrorDomainCodeDescription = nil;
 	[self _updateStatus]; // this also calls disconnect when rejected
 }
 
+
+-(void)_socketCallbackResetEndedWithStatus:(PostgresPollingStatusType)pqstatus {
+	NSParameterAssert(_callback);
+	void (^callback)(NSError* error) = (__bridge void (^)(NSError* ))(_callback);
+	if(pqstatus==PGRES_POLLING_OK) {
+		callback(nil);
+	} else {
+		callback([self _errorWithCode:PGClientErrorRejected url:nil]);
+	}
+	_callback = nil;
+	[self setState:PGConnectionStateNone];
+	[self _updateStatus]; // this also calls disconnect when rejected
+}
+
 -(void)_socketCallbackConnect {
 	NSParameterAssert(_connection);
 
@@ -245,7 +274,29 @@ NSDictionary* PGClientErrorDomainCodeDescription = nil;
 			break;
 		case PGRES_POLLING_OK:
 		case PGRES_POLLING_FAILED:
+			// finished connecting
 			[self _socketCallbackConnectEndedWithStatus:pqstatus];
+			break;
+		default:
+			break;
+	}
+}
+
+-(void)_socketCallbackReset {
+	NSParameterAssert(_connection);
+
+	PostgresPollingStatusType pqstatus = PQresetPoll(_connection);
+	switch(pqstatus) {
+		case PGRES_POLLING_READING:
+		case PGRES_POLLING_WRITING:
+			// still connecting - call poll again
+			PQresetPoll(_connection);
+			break;
+		case PGRES_POLLING_OK:
+		case PGRES_POLLING_FAILED:
+			// finished connecting
+			[self _socketCallbackResetEndedWithStatus:pqstatus];
+			break;
 		default:
 			break;
 	}
@@ -305,7 +356,7 @@ NSDictionary* PGClientErrorDomainCodeDescription = nil;
 }
 
 -(void)_socketCallback:(CFSocketCallBackType)callBackType {
-#ifdef DEBUG
+#ifdef DEBUG2
 	switch(callBackType) {
 		case kCFSocketReadCallBack:
 			NSLog(@"kCFSocketReadCallBack");
@@ -330,6 +381,9 @@ NSDictionary* PGClientErrorDomainCodeDescription = nil;
 	switch([self state]) {
 		case PGConnectionStateConnect:
 			[self _socketCallbackConnect];
+			break;
+		case PGConnectionStateReset:
+			[self _socketCallbackReset];
 			break;
 		case PGConnectionStateQuery:
 			[self _socketCallbackQuery];
@@ -427,6 +481,42 @@ NSDictionary* PGClientErrorDomainCodeDescription = nil;
 	}
 }
 
+-(void)_socketConnect:(PGConnectionState)state {
+	NSParameterAssert(_state==PGConnectionStateNone);
+	NSParameterAssert(state==PGConnectionStateConnect || state==PGConnectionStateReset || state==PGConnectionStateNone);
+	NSParameterAssert(_connection);
+	NSParameterAssert(_socket==nil && _runloopsource==nil);
+	
+	// create socket object
+	CFSocketContext context = {0, (__bridge void *)(self), NULL, NULL, NULL};
+	_socket = CFSocketCreateWithNative(NULL,PQsocket(_connection),kCFSocketReadCallBack | kCFSocketWriteCallBack,&_socketCallback,&context);
+	NSParameterAssert(_socket && CFSocketIsValid(_socket));
+	// let libpq do the closing
+	CFSocketSetSocketFlags(_socket, ~kCFSocketCloseOnInvalidate & CFSocketGetSocketFlags(_socket));
+	
+	// set state
+	[self setState:state];
+	[self _updateStatus];
+
+	// add to run loop to begin polling
+	_runloopsource = CFSocketCreateRunLoopSource(NULL,_socket,0);
+	NSParameterAssert(_runloopsource && CFRunLoopSourceIsValid(_runloopsource));
+	CFRunLoopAddSource(CFRunLoopGetCurrent(),_runloopsource,(CFStringRef)kCFRunLoopCommonModes);
+}
+
+-(void)_socketDisconnect {
+	if(_runloopsource) {
+		CFRunLoopSourceInvalidate(_runloopsource);
+		CFRelease(_runloopsource);
+		_runloopsource = nil;
+	}
+	if(_socket) {
+		CFSocketInvalidate(_socket);
+		CFRelease(_socket);
+		_socket = nil;
+	}
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark private methods - notifications
 ////////////////////////////////////////////////////////////////////////////////
@@ -504,22 +594,13 @@ NSDictionary* PGClientErrorDomainCodeDescription = nil;
 		callback(NO,[self _errorWithCode:PGClientErrorParameters url:url]);
 		return;
 	}
-	
-	// create socket object
-	CFSocketContext context = {0, (__bridge void *)(self), NULL, NULL, NULL};
-	_socket = CFSocketCreateWithNative(NULL,PQsocket(_connection),kCFSocketReadCallBack | kCFSocketWriteCallBack,&_socketCallback,&context);
-	NSParameterAssert(_socket && CFSocketIsValid(_socket));
 
-	// set state
-	[self setState:PGConnectionStateConnect];
-	[self _updateStatus];
+	// add socket to run loop
+	[self _socketConnect:PGConnectionStateConnect];
+	
+	// set callback
 	NSParameterAssert(_callback==nil);
 	_callback = (__bridge_retained void* )[callback copy];
-
-	// add to run loop to begin polling
-	_runloopsource = CFSocketCreateRunLoopSource(NULL,_socket,0);
-	NSParameterAssert(_runloopsource && CFRunLoopSourceIsValid(_runloopsource));
-	CFRunLoopAddSource(CFRunLoopGetCurrent(),_runloopsource,(CFStringRef)kCFRunLoopCommonModes);
 }
 
 -(void)pingWithURL:(NSURL* )url whenDone:(void(^)(NSError* error)) callback {
@@ -544,22 +625,80 @@ NSDictionary* PGClientErrorDomainCodeDescription = nil;
 		PQfinish(_connection);
         _connection = nil;
 	}
-	if(_runloopsource) {
-		CFRunLoopRemoveSource(CFRunLoopGetCurrent(),_runloopsource,(CFStringRef)kCFRunLoopCommonModes);
-		CFRelease(_runloopsource);
-		_runloopsource = nil;
-	}
-	if(_socket) {
-		CFSocketInvalidate(_socket);
-		CFRelease(_socket);
-		_socket = nil;
-	}
+	[self _socketDisconnect];
 	[self _updateStatus];
 }
 
 -(void)resetWhenDone:(void(^)(NSError* error)) callback {
-	// TODO
-	return;
+	NSParameterAssert(callback);
+
+	// check to ensure connection
+	if(_connection==nil || _state != PGConnectionStateNone) {
+		callback([self _errorWithCode:PGClientErrorState url:nil]);
+		return;
+	}
+
+	// remove existing socket from the runloop
+	[self _socketDisconnect];
+
+	// start the reset
+	NSLog(@" 1 socket = %d",PQsocket(_connection));
+	int returnCode = PQresetStart(_connection);
+	NSLog(@" 12 socket = %d",PQsocket(_connection));
+	if(returnCode==0) {
+		PQfinish(_connection);
+        _connection = nil;
+		[self _updateStatus];
+		callback([self _errorWithCode:PGClientErrorRejected url:nil]);
+		return;
+	}
+
+	// add the new socket to the run loop
+	[self _socketConnect:PGConnectionStateReset];
+	
+	// set callback
+	//NSParameterAssert(_callback==nil);
+	//_callback = (__bridge_retained void* )[callback copy];
+
+	// call PGresetpoll until we have a new socket
+	PostgresPollingStatusType pqstatus = PGRES_POLLING_ACTIVE;
+	int socket = PQsocket(_connection);
+//	struct timeval timeout = {.tv_sec = 15, .tv_usec = 0};
+	fd_set mask = {};
+	FD_ZERO (&mask);
+	FD_SET (socket, &mask);
+	while(1) {
+		NSLog(@" 2 socket = %d",PQsocket(_connection));
+		pqstatus = PQresetPoll(_connection);
+		NSLog(@"pqstatus=%d socket=%d",pqstatus,socket);
+		switch(pqstatus) {
+			case PGRES_POLLING_READING:
+				NSLog(@"READING");
+				select(socket + 1,&mask,NULL,NULL,NULL);
+				break;
+			case PGRES_POLLING_WRITING:
+				NSLog(@"WRITING");
+				select(socket + 1,NULL,&mask,NULL,NULL);
+				break;
+			case PGRES_POLLING_OK:
+				break;
+			default:
+				break;
+		}
+		if(pqstatus==PGRES_POLLING_OK|| pqstatus==PGRES_POLLING_FAILED) {
+			break;
+		}
+	}
+	NSLog(@" 3 socket = %d",PQsocket(_connection));
+	if(pqstatus==PGRES_POLLING_OK) {
+		callback(nil);
+		[self setState:PGConnectionStateNone];
+		[self _socketDisconnect];
+		[self _socketConnect:PGConnectionStateNone];
+	} else {
+		callback([self _errorWithCode:PGClientErrorRejected url:nil reason:@"Reset rejected"]);
+		[self disconnect];
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -664,7 +803,13 @@ NSDictionary* PGClientErrorDomainCodeDescription = nil;
 -(void)execute:(id)query whenDone:(void(^)(PGResult* result,NSError* error)) callback {
 	NSParameterAssert([query isKindOfClass:[NSString class]] || [query isKindOfClass:[PGQuery class]]);
 	NSParameterAssert(callback);
-	[self _execute:query format:PGClientTupleFormatText values:nil whenDone:callback];
+	if([query isKindOfClass:[PGQuery class]]) {
+		NSString* queryString = [(PGQuery* )query statementForConnection:self];
+		[self _execute:queryString format:PGClientTupleFormatText values:nil whenDone:callback];
+	} else {
+		NSParameterAssert([query isKindOfClass:[NSString class]]);
+		[self _execute:query format:PGClientTupleFormatText values:nil whenDone:callback];
+	}
 }
 
 @end

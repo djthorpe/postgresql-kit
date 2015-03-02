@@ -25,7 +25,8 @@
 typedef enum {
 	PGConnectionStateNone = 0,
 	PGConnectionStateConnect = 100,
-	PGConnectionStateQuery = 101
+	PGConnectionStateReset = 101,
+	PGConnectionStateQuery = 102
 } PGConnectionState;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -79,7 +80,6 @@ typedef enum {
  */
 @property (readonly) int serverProcessID;
 
-
 ////////////////////////////////////////////////////////////////////////////////
 // background connection methods
 
@@ -114,7 +114,7 @@ typedef enum {
 	-(void)connection:(PGConnection2* )connection willOpenWithParameters:(NSMutableDictionary* )dictionary;
 	-(void)connection:(PGConnection2* )connection error:(NSError* )error;
 	-(void)connection:(PGConnection2* )connection notice:(NSString* )notice;
-	-(void)connection:(PGConnection2* )connection statusChange:(PGConnectionStatus)status;
+	-(void)connection:(PGConnection2* )connection statusChange:(PGConnectionStatus)status description:(NSString* )description;
 	-(void)connection:(PGConnection2* )connection notificationOnChannel:(NSString* )channelName payload:(NSString* )payload;
 @end
 

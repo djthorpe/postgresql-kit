@@ -71,9 +71,11 @@ NSString* PQQueryClassKey = @"PGQuery_class";
 }
 
 +(PGQuery* )queryWithString:(NSString* )statement {
-	PGQuery* query = [PGQuery queryWithDictionary:@{
-		PQQueryStatementKey: statement
-	}];
+	NSParameterAssert(statement);
+		PGQuery* query = [[PGQuery alloc] initWithDictionary:@{
+			PQQueryClassKey: NSStringFromClass([self class]),
+			PQQueryStatementKey: statement
+		}];
 	NSParameterAssert(query);
 	return query;
 }
@@ -107,7 +109,8 @@ NSString* PQQueryClassKey = @"PGQuery_class";
 // it requires the connection object in order to generate different statements
 // for different versions of the remote server, since sometimes the names
 // of things changes between server versions
--(NSString* )statementForConnection:(PGConnection* )connection {
+-(NSString* )statementForConnection:(PGConnection2* )connection {
+	NSParameterAssert(connection);
 	NSString* statement = [self objectForKey:PQQueryStatementKey];
 	if(statement==nil || [statement isKindOfClass:[NSString class]]==NO || [statement length]==0) {
 		return @"-- EMPTY STATEMENT --";

@@ -31,6 +31,6 @@
 -(id)objectForKey:(NSString* )key;
 
 // methods to generate an SQL statement
--(NSString* )statementForConnection:(PGConnection* )connection;
+-(NSString* )statementForConnection:(PGConnection2* )connection;
 
 @end

@@ -14,6 +14,9 @@
 
 #import "PGFoundationClient2.h"
 
+// define DEBUG2 for extra debugging output on NSLog
+#define DEBUG2
+
 @implementation PGFoundationClient2
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -76,9 +79,9 @@
 	}
 }
 
--(void)connection:(PGConnection* )connection statusChange:(PGConnectionStatus)status {
-#ifdef DEBUG
-	[[self term] printf:@"StatusChange: %d",status];
+-(void)connection:(PGConnection* )connection statusChange:(PGConnectionStatus)status description:(NSString *)description {
+#ifdef DEBUG2
+	[[self term] printf:@"StatusChange: %@ (%d)",description,status];
 #endif
 	// disconnected
 	if(status==PGConnectionStatusDisconnected) {
@@ -144,6 +147,7 @@
 		[[self db] resetWhenDone:^(NSError *error) {
 			[[self term] printf:@"resetWhenDone finished, error=%@",error];
 		}];
+		return;
 	}
 
 	if([command isEqualToString:@"listen"]) {
@@ -166,13 +170,31 @@
 		return;
 	}
 
+	if([command isEqualToString:@"processes"]) {
+		if([args count]) {
+			[[self term] printf:@"error: tables: too many arguments"];
+		} else {
+			PGQuery* query = [PGQuery queryWithString:@"SELECT datname AS database,pid AS pid,query AS query,usename AS username,client_hostname AS remotehost,application_name,query_start,waiting FROM pg_stat_activity WHERE pid <> pg_backend_pid()"];
+			[[self db] execute:query whenDone:^(PGResult* result, NSError* error) {
+				if(result) {
+					[self displayResult:result];
+				}
+				if(error) {
+					[[self term] printf:@"error: %@",error];
+				}
+			}];
+		}
+		return;
+	}
+
+
 	[[self term] printf:@"Unknown command: %@",command];
 }
 
 -(void)displayResult:(PGResult* )result {
 	NSParameterAssert(result);
 	if([result dataReturned]) {
-		NSString* table = [result tableWithWidth:80];
+		NSString* table = [result tableWithWidth:[[self term] columns]];
 		if(table) {
 			[[self term] printf:table];
 		} else {
