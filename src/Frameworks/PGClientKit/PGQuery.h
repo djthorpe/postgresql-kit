@@ -15,7 +15,7 @@
 #import <Foundation/Foundation.h>
 
 @interface PGQuery : NSObject {
-	NSDictionary* _dictionary;
+	NSMutableDictionary* _dictionary;
 }
 
 // constructors
@@ -24,6 +24,7 @@
 
 // properties
 @property (readonly) NSDictionary* dictionary;
+@property (readonly) NSString* className;
 
 // methods to manipulate the dictionary
 -(void)setObject:(id)object forKey:(NSString* )key;
