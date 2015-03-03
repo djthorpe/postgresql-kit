@@ -13,6 +13,7 @@
 // under the License.
 
 #import <PGClientKit/PGClientKit.h>
+#import <PGClientKit/PGClientKit+Private.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -74,8 +75,8 @@ NSString* PGQueryOptionsKey = @"PGQuery_options";
 +(instancetype)queryWithString:(NSString* )statement {
 	NSParameterAssert(statement);
 	PGQuery* query = [[PGQuery alloc] initWithDictionary:@{
-		PQQueryClassKey: NSStringFromClass([self class]),
-		PQQueryStatementKey: statement
+		PGQueryClassKey: NSStringFromClass([self class]),
+		PGQueryStatementKey: statement
 	}];
 	NSParameterAssert(query);
 	return query;
@@ -104,9 +105,6 @@ NSString* PGQueryOptionsKey = @"PGQuery_options";
 	[_dictionary setObject:[NSNumber numberWithInt:options] forKey:PGQueryOptionsKey];
 }
 
-////////////////////////////////////////////////////////////////////////////////
-// public methods
-
 -(void)setObject:(id)object forKey:(NSString* )key {
 	NSParameterAssert(object);
 	NSParameterAssert(key);
@@ -118,16 +116,15 @@ NSString* PGQueryOptionsKey = @"PGQuery_options";
 	return [_dictionary objectForKey:key];
 }
 
-// generate a statement
-// this method should be overridden for different subclasses
-// it requires the connection object in order to generate different statements
-// for different versions of the remote server, since sometimes the names
-// of things changes between server versions
--(NSString* )statementForConnection:(PGConnection2* )connection {
+////////////////////////////////////////////////////////////////////////////////
+// public methods
+
+-(NSString* )statementForConnection:(PGConnection2* )connection error:(NSError** )error {
 	NSParameterAssert(connection);
-	NSString* statement = [self objectForKey:PQQueryStatementKey];
+	NSString* statement = [self objectForKey:PGQueryStatementKey];
 	if(statement==nil || [statement isKindOfClass:[NSString class]]==NO || [statement length]==0) {
-		return @"-- EMPTY STATEMENT --";
+		[connection raiseError:error code:PGClientErrorEmptyQuery reason:@"Empty statement"];
+		return nil;
 	}
 	return statement;
 }

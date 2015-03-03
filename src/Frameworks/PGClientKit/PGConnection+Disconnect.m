@@ -12,16 +12,22 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-#import <Foundation/Foundation.h>
+#import <PGClientKit/PGClientKit.h>
+#import <PGClientKit/PGClientKit+Private.h>
 
-// options
-enum {
-	PGSelectOptionDistinct = 0x000001            // de-duplicate rows
-};
+@implementation PGConnection (Disconnect)
 
-@interface PGSelect : PGQuery
-
-// basic select statement, selects everything (*)
-+(PGSelect* )selectTableSource:(NSString* )tableName schema:(NSString* )schemaName options:(int)options;
+-(void)disconnect {
+	[self _cancelDestroy];
+	[self _socketDisconnect];
+	if(_connection) {
+		PQfinish(_connection);
+        _connection = nil;
+	}
+	[self _updateStatus];
+}
 
 @end
+
+
+

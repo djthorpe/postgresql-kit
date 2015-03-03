@@ -38,7 +38,7 @@ typedef enum {
 	PGClientErrorInvalidPassword = 103,   // password failure
 	PGClientErrorRejected = 104,          // rejected from operation
 	PGClientErrorExecute = 105,           // execution error
-	PGClientErrorEmptyQuery = 106,        // empty query
+	PGClientErrorQuery = 106,             // invalid query
 	PGClientErrorUnknown = 107            // unknown error
 } PGClientErrorDomainCode;
 
@@ -53,12 +53,11 @@ typedef enum {
 
 @class PGQuery;
   @class PGQueryCreate;
-  @class PGQuerySelect;
+  @class PGSelect;
 
 
 // header includes
 #import "PGConnection.h"
-#import "PGConnection2.h"
 #import "PGConnectionPool.h"
 #import "PGResult.h"
 

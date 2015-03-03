@@ -12,18 +12,15 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
+#import <Foundation/Foundation.h>
+
  /**
   *  The PGConnection class represents a single connection to a remote
   *  PostgreSQL database, either via network or file-based socket. The 
   *  connection class provides methods to test connecting, connecting, 
   *  disconnecting, resetting and executing statements on the remote database.
-  *  In the future, it will also provide the ability to be informed on 
-  *  notification.
-  *
-  *  You need to use a run loop in order to use this class, since some processes
-  *  occur in the background. A delegate can be implemented which is called on
-  *  state changes, connection and errors.
-  *
+  *  A delegate can be implemented which is called on state changes, connection
+  *  and errors.
   */
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -45,11 +42,6 @@ extern NSUInteger PGClientMaximumPort;
 extern NSString* PGClientErrorDomain;
 
 /**
- *  The userInfo key for the connection URL when returning NSError objects
- */
-extern NSString* PGClientErrorURLKey;
-
-/**
  *  The default client character encoding to use (UTF-8)
  */
 extern NSString* PGConnectionDefaultEncoding;
@@ -60,49 +52,34 @@ extern NSString* PGConnectionDefaultEncoding;
 @protocol PGConnectionDelegate;
 
 ////////////////////////////////////////////////////////////////////////////////
+// internal state
+
+/**
+ These values are used internally to determine the current state of the 
+ communication with the remote server. PGConnectionStateNone indicates
+ that the communication is idle, other states indicate other potential
+ states, so that the connection is busy.
+ */
+typedef enum {
+	PGConnectionStateNone = 0,
+	PGConnectionStateConnect = 100,
+	PGConnectionStateReset = 101,
+	PGConnectionStateQuery = 102,
+	PGConnectionStateCancel = 103
+} PGConnectionState;
+
+////////////////////////////////////////////////////////////////////////////////
 // PGConnection interface
 
 @interface PGConnection : NSObject {
 	void* _connection;
-	NSLock* _lock;
-	PGConnectionStatus _status;
+	void* _cancel;
+	void* _callback;
+	CFSocketRef _socket;
+	CFRunLoopSourceRef _runloopsource;
+	NSUInteger _timeout;
+	PGConnectionState _state;
 }
-
-////////////////////////////////////////////////////////////////////////////////
-// static methods
-
-/**
- *  Returns an array of URL schemes that can be used to connect to the remote
- *  server
- *
- *  @return An array of valid URL schemes
- */
-+(NSArray* )allURLSchemes;
-
-/**
- *  Returns the default URL scheme which can be used to connect to the remote
- *  server
- *
- *  @return The name of the default URL scheme
- */
-+(NSString* )defaultURLScheme;
-
-////////////////////////////////////////////////////////////////////////////////
-// constructors
-
-/**
- *  Create connection object and connect to remote endpoint in foreground. This
- *  is a convenience method which allocates the PGConnection object, initializes
- *  it, and connects to the remote server all at once. In general, you should
- *  perform these three steps separately.
- *
- *  @param url The endpoint for PostgreSQL server communication
- *  @param error  A pointer to an NSError object
- *
- *  @return Will return a PGConnection reference on successful connection, 
- *          or nil on failure, and return the error via the argument.
- */
-+(PGConnection* )connectionWithURL:(NSURL* )url error:(NSError** )error;
 
 ////////////////////////////////////////////////////////////////////////////////
 // properties
@@ -113,15 +90,25 @@ extern NSString* PGConnectionDefaultEncoding;
 @property (weak, nonatomic) id<PGConnectionDelegate> delegate;
 
 /**
- *  Tag for the connection object. You can use this in order to refer to the
- *  connection by unique tag number, when implementing a pool of connections
+ *  The current database connection status
  */
-@property NSInteger tag;
+@property (readonly) PGConnectionStatus status;
+
+/**
+ *  Communication state with the remote server
+ */
+@property (atomic) PGConnectionState state;
 
 /**
  *  Connection timeout in seconds
  */
 @property NSUInteger timeout;
+
+/**
+ *  Tag for the connection object. You can use this in order to refer to the
+ *  connection by unique tag number, when implementing a pool of connections
+ */
+@property NSInteger tag;
 
 /**
  *  The currently connected user, or nil if a connection has not yet been made
@@ -134,31 +121,22 @@ extern NSString* PGConnectionDefaultEncoding;
 @property (readonly) NSString* database;
 
 /**
- *  The current database connection status
- */
-@property (readonly) PGConnectionStatus status;
-
-/**
  *  The current server process ID
  */
 @property (readonly) int serverProcessID;
 
 ////////////////////////////////////////////////////////////////////////////////
-// connection, ping and disconnection methods
+// string quoting and transformation
 
-/**
- *  Connect to a database (as specififed by the URL) in the current thread.
- *  Once the connection process is completed (either to successful or unsuccessful
- *  completion, the callback block is run. The error condition is set to nil on
- *  successful connection, or to an error condition on failure.
- *
- *  @param url      The specification of the database that should be connected to
- *  @param callback The callback which is called on conclusion of the connection
- *                  process. The error will be set when the connection fails, or
- *                  else the error is set to nil. A boolean flag indicates if the
- *                  password was used to connect to the remote server.
- */
--(void)connectWithURL:(NSURL* )url whenDone:(void(^)(BOOL usedPassword,NSError* error)) callback;
+-(NSString* )quoteIdentifier:(NSString* )string;
+-(NSString* )quoteString:(NSString* )string;
+-(NSString* )encryptedPassword:(NSString* )password role:(NSString* )roleName;
+
+@end
+
+////////////////////////////////////////////////////////////////////////////////
+
+@interface PGConnection (Connect)
 
 /**
  *  Connect to a database (as specififed by the URL) on a background thread.
@@ -172,14 +150,101 @@ extern NSString* PGConnectionDefaultEncoding;
  *                  else the error is set to nil. A boolean flag indicates if the
  *                  password was used to connect to the remote server.
  */
--(void)connectInBackgroundWithURL:(NSURL* )url whenDone:(void(^)(BOOL usedPassword,NSError* error)) callback;
+-(void)connectWithURL:(NSURL* )url whenDone:(void(^)(BOOL usedPassword,NSError* error)) callback;
+
+@end
+
+////////////////////////////////////////////////////////////////////////////////
+
+@interface PGConnection (Disconnect)
 
 /**
- *  Pings a remote database to determine if a connect can be initiated. Note
- *  that this method doesn't check credentials, only that a connection could be
- *  initiated. Thus this routine could be used to determine if the URL parameters
- *  are right or not. For example, no attempt to made to check the username,
- *  password or database parameters.
+ *  Disconnect from the remote connection. This happens in the foreground so
+ *  blocks until the disconnection has occurred.
+ */
+-(void)disconnect;
+
+@end
+
+////////////////////////////////////////////////////////////////////////////////
+
+@interface PGConnection (Cancel)
+
+/**
+ *  Cancel an on-going query on the server asyncronously. This method will
+ *  return immediately, and the callback block is executed when the cancel
+ *  has completed. When there is no operation to cancel, the success condition
+ *  is returned (where the error parameter is set to nil)
+ *
+ *  @param callback The callback which is called on conclusion of the cancel
+ *                  process. The error will be set when the operation fails, or
+ *                  else the error is set to nil.
+ */
+-(void)cancelWhenDone:(void(^)(NSError* error)) callback;
+
+@end
+
+////////////////////////////////////////////////////////////////////////////////
+
+@interface PGConnection (Execute)
+/**
+ *  This method execute a statement on the server asyncronously, executing the
+ *  callback block on completion. The callback receives a PGResult object on
+ *  successful completion, or an error object with the details of the error
+ *  otherwise. The method returns immediately, and the cancel method can be
+ *  subsequently called to stop the execution of the statement, if necessary.
+ *
+ *  @param query    Either an NSString or PGQuery object
+ *  @param callback The callback which is called on completion of the execution
+ */
+-(void)executeQuery:(id)query whenDone:(void(^)(PGResult* result,NSError* error)) callback;
+@end
+
+////////////////////////////////////////////////////////////////////////////////
+
+@interface PGConnection (Notifications)
+
+/**
+ *  This method indicates that the delegate should start to receive notification
+ *  messages from the server. In order to receive the notifications, the
+ *  delegate should implement the connection:notificationOnChannel:payload:
+ *  method.
+ *
+ *  @param channelName The name of the channel to listen to notifications
+ *
+ *  @return Returns YES if the operation was successful.
+ */
+-(BOOL)addNotificationObserver:(NSString* )channelName;
+
+/**
+ *  This method indicates that the delegate should stop listening for
+ *  notifications from the server. 
+ *
+ *  @param channelName The name of the channel to stop listening for 
+ *                     notifications
+ *
+ *  @return Returns YES if the operation was successful.
+ */
+-(BOOL)removeNotificationObserver:(NSString* )channelName;
+
+@end
+
+////////////////////////////////////////////////////////////////////////////////
+
+@interface PGConnection (Ping)
+
+/**
+ *  "Ping" a remote database to determine if a connect can be initiated. 
+ *  Note that this method doesn't check credentials, only that a connection 
+ *  could be initiated. For example, no attempt to made to check the username, 
+ *  password or database parameters. It is possible to use this method regardless
+ *  of the current connection state.
+ *
+ *  The method returns immediately and the callback block is executed when the
+ *  operation completes. On successful completion, the error parameter is nil,
+ *  which indicates that the remote database server can be reached and a connection
+ *  should be attempted. On unsuccessful completion, the error message contains
+ *  further details of the error.
  *
  *  @param url      The specification of the database that should be pinged
  *  @param callback The callback which is called on conclusion of the ping
@@ -188,65 +253,22 @@ extern NSString* PGConnectionDefaultEncoding;
  */
 -(void)pingWithURL:(NSURL* )url whenDone:(void(^)(NSError* error)) callback;
 
-/**
- *  Pings a remote database to determine if a connect can be initiated on a
- *  background thread. Note that this method doesn't check credentials, only 
- *  that a connection could be initiated. Thus this routine could be used to 
- *  determine if the URL parameters are right or not. For example, no attempt 
- *  to made to check the username, password or database parameters.
- *
- *  @param url      The specification of the database that should be pinged
- *  @param callback The callback which is called on conclusion of the ping
- *                  process. The error will be set when the connection fails, or
- *                  else the error is set to nil.
- */
--(void)pingInBackgroundWithURL:(NSURL* )url whenDone:(void(^)(NSError* error)) callback;
+@end
 
-/**
- *  Disconnect from the remote connection
- */
--(void)disconnect;
+////////////////////////////////////////////////////////////////////////////////
+
+@interface PGConnection (Reset)
 
 /**
  *  Perform a connection reset (reconnect with all the same parameters) in the
- *  foreground.
+ *  background. This method will return immediately and execute the callback
+ *  block on completion.
  *
  *  @param callback The callback which is called on conclusion of the reset
  *                  process. The error will be set when the reset fails, or
  *                  else the error is set to nil.
  */
 -(void)resetWhenDone:(void(^)(NSError* error)) callback;
-
-/**
- *  Perform a connection reset (reconnect with all the same parameters) in the
- *  background.
- *
- *  @param callback The callback which is called on the main thread on 
- *                  conclusion of the reset process. The error will be set when
- *                  the reset fails, or else the error is set to nil.
- */
--(void)resetInBackgroundWhenDone:(void(^)(NSError* error)) callback;
-
-////////////////////////////////////////////////////////////////////////////////
-// listen for notifications
-
-//-(BOOL)addObserver:(NSString* )channelName;
-//-(BOOL)removeObserver:(NSString* )channelName;
-
-////////////////////////////////////////////////////////////////////////////////
-// execute statement methods
-
-//-(PGQuery* )prepare:(id)query error:(NSError** )error;
--(PGResult* )execute:(id)query error:(NSError** )error;
-
-/*
--(PGResult* )execute:(NSString* )query format:(PGClientTupleFormat)format error:(NSError** )error;
--(PGResult* )execute:(NSString* )query format:(PGClientTupleFormat)format values:(NSArray* )values error:(NSError** )error;
--(PGResult* )execute:(NSString* )query format:(PGClientTupleFormat)format value:(id)value error:(NSError** )error;
--(PGResult* )execute:(NSString* )query error:(NSError** )error;
--(PGResult* )execute:(NSString* )query values:(NSArray* )values error:(NSError** )error;
--(PGResult* )execute:(NSString* )query value:(id)value error:(NSError** )error;
-*/
 
 @end
 
@@ -255,10 +277,11 @@ extern NSString* PGConnectionDefaultEncoding;
 
 @protocol PGConnectionDelegate <NSObject>
 @optional
--(void)connection:(PGConnection* )connection willOpenWithParameters:(NSMutableDictionary* )dictionary;
--(void)connection:(PGConnection* )connection willExecute:(NSString* )theQuery values:(NSArray* )values;
--(void)connection:(PGConnection* )connection error:(NSError* )theError;
--(void)connection:(PGConnection* )connection statusChange:(PGConnectionStatus)status;
--(void)connection:(PGConnection* )connection notificationOnChannel:(NSString* )channelName payload:(NSString* )payload;
+	-(void)connection:(PGConnection* )connection willOpenWithParameters:(NSMutableDictionary* )dictionary;
+	-(void)connection:(PGConnection* )connection error:(NSError* )error;
+	-(void)connection:(PGConnection* )connection notice:(NSString* )notice;
+	-(void)connection:(PGConnection* )connection statusChange:(PGConnectionStatus)status description:(NSString* )description;
+	-(void)connection:(PGConnection* )connection notificationOnChannel:(NSString* )channelName payload:(NSString* )payload;
 @end
+
 

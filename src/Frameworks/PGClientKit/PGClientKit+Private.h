@@ -14,14 +14,38 @@
 
 #import "PGClientParams.h"
 #import "PGConverters.h"
+#include <libpq-fe.h>
+#include <pg_config.h>
+
+ /**
+  *  This file includes declarations which are private to the framework
+  */
 
 @interface PGConnection (Private)
-+(NSError* )createError:(NSError** )error code:(PGClientErrorDomainCode)code url:(NSURL* )url reason:(NSString* )format,...;
+-(void)_updateStatus;
+@end
+
+@interface PGConnection (Errors)
+-(NSError* )raiseError:(NSError** )error code:(PGClientErrorDomainCode)code reason:(NSString* )format,...;
+-(NSError* )raiseError:(NSError** )error code:(PGClientErrorDomainCode)code;
+@end
+
+@interface PGConnection (Callbacks)
+-(void)_socketConnect:(PGConnectionState)state;
+-(void)_socketDisconnect;
+-(void)_socketCallback:(CFSocketCallBackType)callBackType;
+@end
+
+@interface PGConnection (Connect)
+-(NSDictionary* )_connectionParametersForURL:(NSURL* )theURL;
+@end
+
+@interface PGConnection (Cancel)
+-(BOOL)_cancelCreate;
+-(void)_cancelDestroy;
 @end
 
 @interface PGResult (Private)
--(NSError* )raiseError:(NSError** )error code:(PGClientErrorDomainCode)code url:(NSURL* )url reason:(NSString* )format,...;
--(NSError* )raiseError:(NSError** )error code:(PGClientErrorDomainCode)code reason:(NSString* )format,...;
 -(id)initWithResult:(PGresult* )theResult format:(PGClientTupleFormat)format;
 @end
 
