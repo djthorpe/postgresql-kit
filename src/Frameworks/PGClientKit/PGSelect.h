@@ -22,8 +22,7 @@ enum {
 
 @interface PGSelect : PGQuery
 
-// basic select statement
+// basic select statement, selects everything (*)
 +(PGSelect* )selectTableSource:(NSString* )tableName schema:(NSString* )schemaName options:(int)options;
-+(PGSelect* )selectTableSource:(NSString* )tableName schema:(NSString* )schemaName output:(NSArray* )output options:(int)options;
 
 @end
