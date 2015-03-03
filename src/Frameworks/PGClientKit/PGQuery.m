@@ -12,12 +12,13 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-#import "PGClientKit.h"
+#import <PGClientKit/PGClientKit.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-NSString* PQQueryStatementKey = @"PGQuery_statement";
-NSString* PQQueryClassKey = @"PGQuery_class";
+NSString* PGQueryStatementKey = @"PGQuery_statement";
+NSString* PGQueryClassKey = @"PGQuery_class";
+NSString* PGQueryOptionsKey = @"PGQuery_options";
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -32,7 +33,7 @@ NSString* PQQueryClassKey = @"PGQuery_class";
 		_dictionary = [NSMutableDictionary new];
 		NSParameterAssert(_dictionary);
 		// set the class of query
-		[_dictionary setObject:NSStringFromClass([self class]) forKey:PQQueryClassKey];
+		[_dictionary setObject:NSStringFromClass([self class]) forKey:PGQueryClassKey];
 	}
 	return self;
 }
@@ -45,7 +46,7 @@ NSString* PQQueryClassKey = @"PGQuery_class";
 		NSParameterAssert(_dictionary);
 
 		// check class is correct
-		NSString* className = [dictionary objectForKey:PQQueryClassKey];
+		NSString* className = [dictionary objectForKey:PGQueryClassKey];
 		if(className==nil || [className isKindOfClass:[NSString class]]==NO || [className length]==0) {
 			return nil;
 		}
@@ -56,9 +57,9 @@ NSString* PQQueryClassKey = @"PGQuery_class";
 	return self;
 }
 
-+(PGQuery* )queryWithDictionary:(NSDictionary* )dictionary {
++(instancetype)queryWithDictionary:(NSDictionary* )dictionary {
 	NSParameterAssert(dictionary);
-	NSString* className = [dictionary objectForKey:PQQueryClassKey];
+	NSString* className = [dictionary objectForKey:PGQueryClassKey];
 	if(className==nil || [className isKindOfClass:[NSString class]]==NO || [className length]==0) {
 		return nil;
 	}
@@ -70,12 +71,12 @@ NSString* PQQueryClassKey = @"PGQuery_class";
 	return query;
 }
 
-+(PGQuery* )queryWithString:(NSString* )statement {
++(instancetype)queryWithString:(NSString* )statement {
 	NSParameterAssert(statement);
-		PGQuery* query = [[PGQuery alloc] initWithDictionary:@{
-			PQQueryClassKey: NSStringFromClass([self class]),
-			PQQueryStatementKey: statement
-		}];
+	PGQuery* query = [[PGQuery alloc] initWithDictionary:@{
+		PQQueryClassKey: NSStringFromClass([self class]),
+		PQQueryStatementKey: statement
+	}];
 	NSParameterAssert(query);
 	return query;
 }
@@ -85,9 +86,22 @@ NSString* PQQueryClassKey = @"PGQuery_class";
 
 @synthesize dictionary = _dictionary;
 @dynamic className;
+@dynamic options;
 
 -(NSString* )className {
-	return [_dictionary objectForKey:PQQueryClassKey];
+	return [_dictionary objectForKey:PGQueryClassKey];
+}
+
+-(int)options {
+	NSNumber* options = [_dictionary objectForKey:PGQueryOptionsKey];
+	if([options isKindOfClass:[NSNumber class]]==NO) {
+		return 0;
+	}
+	return [options intValue];
+}
+
+-(void)setOptions:(int)options {
+	[_dictionary setObject:[NSNumber numberWithInt:options] forKey:PGQueryOptionsKey];
 }
 
 ////////////////////////////////////////////////////////////////////////////////

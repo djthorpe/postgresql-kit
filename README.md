@@ -9,7 +9,7 @@ the Mac OS X and iOS. For more information on PostgreSQL see: http://www.postgre
 ## Documentation
 
 Please see https://github.com/djthorpe/postgresql-kit/wiki for the documentation,
-including a changelog of recent changes.
+including a [changelog](https://github.com/djthorpe/postgresql-kit/wiki/Changelog) of recent changes.
 
 This software is in alpha development state and as such there are plenty of limitations
 and issues. Hoping to get a beta version completed later in 2015. If you know of any 
@@ -48,7 +48,7 @@ THE UNIVERSITY OF CALIFORNIA SPECIFICALLY DISCLAIMS ANY WARRANTIES, INCLUDING, B
 
 ## Repository organization
 
-  * `src` contains source code for `Frameworks`, `Apps`, `iApps` and `UnitTests` folders.
+  * `src` contains source code for `Frameworks`, `Apps` and `UnitTests` folders.
   
   * `tar` contains third party libraries and frameworks
 

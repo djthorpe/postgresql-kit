@@ -14,24 +14,15 @@
 
 #import <Foundation/Foundation.h>
 
-@interface PGQuery : NSObject {
-	NSMutableDictionary* _dictionary;
-}
 
-// constructors
-+(instancetype)queryWithDictionary:(NSDictionary* )dictionary;
-+(instancetype)queryWithString:(NSString* )statement;
+// options
+enum {
+	PGSelectOptionDistinct = 0x000001            // de-duplicate rows
+};
 
-// properties
-@property (readonly) NSDictionary* dictionary;
-@property (readonly) NSString* className;
-@property int options;
+@interface PGSelect : PGQuery
 
-// methods to manipulate the dictionary
--(void)setObject:(id)object forKey:(NSString* )key;
--(id)objectForKey:(NSString* )key;
-
-// methods to generate an SQL statement
--(NSString* )statementForConnection:(PGConnection2* )connection error:(NSError** )error;
+// basic select statement, selects everything (*)
++(PGSelect* )selectTableSource:(NSString* )tableName schema:(NSString* )schemaName options:(int)options;
 
 @end
