@@ -121,7 +121,7 @@ NSString* PGQueryOptionsKey = @"PGQuery_options";
 // it requires the connection object in order to generate different statements
 // for different versions of the remote server, since sometimes the names
 // of things changes between server versions
--(NSString* )statementForConnection:(PGConnection* )connection {
+-(NSString* )statementForConnection:(PGConnection2* )connection {
 	NSString* statement = [self objectForKey:PQQueryStatementKey];
 	if(statement==nil || [statement isKindOfClass:[NSString class]]==NO || [statement length]==0) {
 		return @"-- EMPTY STATEMENT --";

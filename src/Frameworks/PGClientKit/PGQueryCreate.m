@@ -113,35 +113,55 @@ enum {
 /////////////////////////////////////////////////
 // methods
 
--(NSString* )_createDatabaseStatementForConnection:(PGConnection* )connection {
+-(NSString* )_createDatabaseStatementForConnection:(PGConnection2* )connection options:(int)options error:(NSError** )error {
 	NSString* databaseName = [super objectForKey:PQQueryCreateDatabaseNameKey];
 	if([databaseName length]==0) {
 		return nil;
 	}
-	return [NSString stringWithFormat:@"CREATE DATABASE %@",[connection quoteIdentifier:databaseName]];
-	// TODO look at flags
+	// OWNER
+	NSMutableArray* flags = [NSMutableArray array];
+	if(options & PGQueryOptionSetOwner) {
+		[flags addObject:[NSString stringWithFormat:@"OWNER %@",[connection quoteIdentifier:[self owner]]]];
+	}
+	if(options & PGQueryOptionSetDatabaseTemplate) {
+		[flags addObject:[NSString stringWithFormat:@"TEMPLATE %@",[connection quoteIdentifier:[self template]]]];
+	}
+	if(options & PGQueryOptionSetEncoding) {
+		[flags addObject:[NSString stringWithFormat:@"ENCODING %@",[connection quoteIdentifier:[self encoding]]]];
+	}
+	if(options & PGQueryOptionSetTablespace) {
+		[flags addObject:[NSString stringWithFormat:@"TABLESPACE %@",[connection quoteIdentifier:[self tablespace]]]];
+	}
+	if(options & PGQueryOptionSetConnectionLimit) {
+		[flags addObject:[NSString stringWithFormat:@"TABLESPACE %ld",[connection quoteIdentifier:[self connectionLimit]]]];
+	}
+	return [NSString stringWithFormat:@"CREATE DATABASE %@%@",[connection quoteIdentifier:databaseName],flags];
 }
 
--(NSString* )_dropDatabaseStatementForConnection:(PGConnection* )connection {
+-(NSString* )_dropDatabaseStatementForConnection:(PGConnection2* )connection options:(int)options error:(NSError** )error {
 	NSString* databaseName = [super objectForKey:PQQueryCreateDatabaseNameKey];
 	if([databaseName length]==0) {
 		return nil;
 	}
-	return [NSString stringWithFormat:@"DROP DATABASE %@",[connection quoteIdentifier:databaseName]];
-	// TODO look at flags
+	// IF EXISTS
+	NSString* flags = @"";
+	if(options & PGQueryOptionIgnoreIfExists) {
+		flags = @" IF EXISTS";
+	}
+	return [NSString stringWithFormat:@"DROP DATABASE %@%@",[connection quoteIdentifier:databaseName],flags];
 }
 
--(NSString* )statementForConnection:(PGConnection* )connection {
+-(NSString* )statementForConnection:(PGConnection* )connection error:(NSError** )error {
 	NSParameterAssert(connection);
 	int options = [super options];
 	if(options & PGQueryOptionTypeCreateDatabase) {
-		return [self _createDatabaseStatementForConnection:connection];
+		return [self _createDatabaseStatementForConnection:connection options:options error:error];
 	} else if(options & PGQueryOptionTypeCreateSchema) {
 		return @"-- NOT IMPLEMENTED --";
 	} else if(options & PGQueryOptionTypeCreateRole) {
 		return @"-- NOT IMPLEMENTED --";
 	} else if(options & PGQueryOptionTypeDropDatabase) {
-		return [self _dropDatabaseStatementForConnection:connection];
+		return [self _dropDatabaseStatementForConnection:connection options:options error:error];
 	} else if(options & PGQueryOptionTypeDropSchema) {
 		return @"-- NOT IMPLEMENTED --";
 	} else if(options & PGQueryOptionTypeDropRole) {

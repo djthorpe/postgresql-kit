@@ -66,6 +66,8 @@
 		147070E41A976E230069EF9C /* NSString+PGNetworkValidationAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 147070E11A976E230069EF9C /* NSString+PGNetworkValidationAdditions.m */; };
 		1482A9041AA5C4F50000BA25 /* PGQueryCreate.h in Headers */ = {isa = PBXBuildFile; fileRef = 1482A9021AA5C4F50000BA25 /* PGQueryCreate.h */; };
 		1482A9051AA5C4F50000BA25 /* PGQueryCreate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1482A9031AA5C4F50000BA25 /* PGQueryCreate.m */; };
+		1482A9081AA5F4530000BA25 /* PGSelect.h in Headers */ = {isa = PBXBuildFile; fileRef = 1482A9061AA5F4530000BA25 /* PGSelect.h */; };
+		1482A9091AA5F4530000BA25 /* PGSelect.m in Sources */ = {isa = PBXBuildFile; fileRef = 1482A9071AA5F4530000BA25 /* PGSelect.m */; };
 		1489AEC716669A6B00C3B67D /* PGResult+TextTable.h in Headers */ = {isa = PBXBuildFile; fileRef = 1489AEC516669A6B00C3B67D /* PGResult+TextTable.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1489AEC816669A6B00C3B67D /* PGResult+TextTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 1489AEC616669A6B00C3B67D /* PGResult+TextTable.m */; };
 		148D2F03179557330005DB1B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C167C15F26BF20013A382 /* Cocoa.framework */; };
@@ -410,6 +412,8 @@
 		147070E11A976E230069EF9C /* NSString+PGNetworkValidationAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+PGNetworkValidationAdditions.m"; sourceTree = "<group>"; };
 		1482A9021AA5C4F50000BA25 /* PGQueryCreate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGQueryCreate.h; sourceTree = "<group>"; };
 		1482A9031AA5C4F50000BA25 /* PGQueryCreate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGQueryCreate.m; sourceTree = "<group>"; };
+		1482A9061AA5F4530000BA25 /* PGSelect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSelect.h; sourceTree = "<group>"; };
+		1482A9071AA5F4530000BA25 /* PGSelect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSelect.m; sourceTree = "<group>"; };
 		1489AEC516669A6B00C3B67D /* PGResult+TextTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PGResult+TextTable.h"; sourceTree = "<group>"; };
 		1489AEC616669A6B00C3B67D /* PGResult+TextTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PGResult+TextTable.m"; sourceTree = "<group>"; };
 		148D2EEB179420980005DB1B /* PGSchemaProductNV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSchemaProductNV.h; sourceTree = "<group>"; };
@@ -891,8 +895,10 @@
 			isa = PBXGroup;
 			children = (
 				6E03102E162FE50B003225B1 /* PGQuery.h */,
-				6E03102F162FE50B003225B1 /* PGQuery.m */,
 				1482A9021AA5C4F50000BA25 /* PGQueryCreate.h */,
+				1482A9061AA5F4530000BA25 /* PGSelect.h */,
+				6E03102F162FE50B003225B1 /* PGQuery.m */,
+				1482A9071AA5F4530000BA25 /* PGSelect.m */,
 				1482A9031AA5C4F50000BA25 /* PGQueryCreate.m */,
 			);
 			name = PGQuery;
@@ -1377,6 +1383,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1482A9041AA5C4F50000BA25 /* PGQueryCreate.h in Headers */,
+				1482A9081AA5F4530000BA25 /* PGSelect.h in Headers */,
 				6E4DEC95162CC4AB008B26BD /* PGClientKit.h in Headers */,
 				6E031030162FE50B003225B1 /* PGQuery.h in Headers */,
 				6E0773D9163744D90028783F /* PGResult.h in Headers */,
@@ -1922,6 +1929,7 @@
 				14DECDA616B56DF300178235 /* PGConverters+Data2Object.m in Sources */,
 				6EAA40ED17BC150E0078EB32 /* NSURL+PGAdditions.m in Sources */,
 				147070E31A976E230069EF9C /* NSString+PGNetworkValidationAdditions.m in Sources */,
+				1482A9091AA5F4530000BA25 /* PGSelect.m in Sources */,
 				6EE12E1E17D51CD70034B9E1 /* SSKeychain.m in Sources */,
 				6EE12E2217D51CD70034B9E1 /* SSKeychainQuery.m in Sources */,
 				6EE12E2817D51D620034B9E1 /* PGPasswordStore.m in Sources */,

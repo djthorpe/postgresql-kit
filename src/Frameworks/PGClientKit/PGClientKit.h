@@ -47,9 +47,14 @@ typedef enum {
 // forward class declarations
 @class PGConnection;
 @class PGConnectionPool;
-@class PGResult;
-@class PGQuery;
 @class PGPasswordStore;
+
+@class PGResult;
+
+@class PGQuery;
+  @class PGQueryCreate;
+  @class PGQuerySelect;
+
 
 // header includes
 #import "PGConnection.h"
@@ -60,6 +65,7 @@ typedef enum {
 // queries
 #import "PGQuery.h"
 #import "PGQueryCreate.h"
+#import "PGSelect.h"
 
 // helpers
 #import "NSURL+PGAdditions.h"

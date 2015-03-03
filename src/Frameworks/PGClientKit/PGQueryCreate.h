@@ -23,7 +23,7 @@ enum {
 	PGQueryOptionSetEncoding = 0x000008,               // set database encoding
 	PGQueryOptionSetTablespace = 0x000010,             // set database tablespace
 	PGQueryOptionSetConnectionLimit = 0x000020,        // set database/role connection limit
-	PGQueryOptionDropObjects = 0x000040,               // drop objects when schema is dropped
+	PGQueryOptionDropObjects = 0x000040,               // drop objects when schema/table is dropped
 	PGQueryOptionRolePrivSuperuser = 0x000080,         // set role superuser flag
 	PGQueryOptionRolePrivCreateDatabase = 0x000100,    // set role createdb flag
 	PGQueryOptionRolePrivCreateRole = 0x000200,        // set role createrole flag
@@ -40,11 +40,15 @@ enum {
 +(PGQueryCreate* )createDatabase:(NSString* )databaseName options:(int)options;
 +(PGQueryCreate* )createSchema:(NSString* )schemaName options:(int)options;
 +(PGQueryCreate* )createRole:(NSString* )roleName options:(int)options;
++(PGQueryCreate* )createTable:(NSString* )tableName schema:(NSString* )schemaName columns:(NSArray* )columns options:(int)options;
++(PGQueryCreate* )createTable:(NSString* )tableName columns:(NSArray* )columns options:(int)options;
 
 // drop statements
 +(PGQueryCreate* )dropDatabase:(NSString* )databaseName options:(int)options;
 +(PGQueryCreate* )dropSchema:(NSString* )schemaName options:(int)options;
 +(PGQueryCreate* )dropRole:(NSString* )roleName options:(int)options;
++(PGQueryCreate* )dropTables:(NSArray* )tableNames options:(int)options;
++(PGQueryCreate* )dropTable:(NSString* )tableName options:(int)options;
 
 // properties
 @property NSString* owner;
@@ -52,7 +56,7 @@ enum {
 @property NSString* encoding;
 @property NSString* tablespace;
 @property NSString* password;
-@property NSUInteger connectionLimit;
+@property NSInteger connectionLimit;
 @property NSDate* expiry;
 
 @end
