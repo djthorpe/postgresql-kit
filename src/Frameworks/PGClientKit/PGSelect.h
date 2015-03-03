@@ -14,6 +14,12 @@
 
 #import <Foundation/Foundation.h>
 
+
+// options
+enum {
+	PGSelectOptionDistinct = 0x000001            // de-duplicate rows
+};
+
 @interface PGSelect : PGQuery
 
 // basic select statement
