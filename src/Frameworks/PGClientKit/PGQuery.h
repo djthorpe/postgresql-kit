@@ -19,12 +19,13 @@
 }
 
 // constructors
-+(PGQuery* )queryWithDictionary:(NSDictionary* )dictionary;
-+(PGQuery* )queryWithString:(NSString* )statement;
++(instancetype)queryWithDictionary:(NSDictionary* )dictionary;
++(instancetype)queryWithString:(NSString* )statement;
 
 // properties
 @property (readonly) NSDictionary* dictionary;
 @property (readonly) NSString* className;
+@property int options;
 
 // methods to manipulate the dictionary
 -(void)setObject:(id)object forKey:(NSString* )key;
