@@ -25,7 +25,7 @@
 -(id)init {
 	self = [super init];
 	if(self) {
-		_db = [PGConnection2 new];
+		_db = [PGConnection new];
 		[_db setDelegate:self];
 		_term = [Terminal new];
 		_passwordstore = [PGPasswordStore new];
@@ -94,7 +94,7 @@
 	[[self term] printf:@"Error: %@ (%@/%ld)",[error localizedDescription],[error domain],[error code]];
 }
 
--(void)connection:(PGConnection2* )connection notice:(NSString* )notice {
+-(void)connection:(PGConnection* )connection notice:(NSString* )notice {
 	[[self term] printf:@"Notice: %@",notice];
 }
 
@@ -191,7 +191,7 @@
 		if([args count]) {
 			[[self term] printf:@"error: cancel: too many arguments"];
 		} else {
-			[[self db] cancelQueryWhenDone:^(NSError *error) {
+			[[self db] cancelWhenDone:^(NSError *error) {
 				[[self term] printf:@"cancelQueryWhenDone:error: %@",error];
 			}];
 		}

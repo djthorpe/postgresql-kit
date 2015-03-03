@@ -15,6 +15,45 @@
 #import <PGClientKit/PGClientKit.h>
 #import <PGClientKit/PGClientKit+Private.h>
 
+
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark Key Value pair construction
+
+void freeKVPairs(PGKVPairs* pairs) {
+	if(pairs) {
+		free(pairs->keywords);
+		free(pairs->values);
+		free(pairs);
+	}
+}
+
+PGKVPairs* allocKVPairs(NSUInteger size) {
+	PGKVPairs* pairs = malloc(sizeof(PGKVPairs));
+	if(pairs==nil) {
+		return nil;
+	}
+	pairs->keywords = malloc(sizeof(const char* ) * (size+1));
+	pairs->values = malloc(sizeof(const char* ) * (size+1));
+	if(pairs->keywords==nil || pairs->values==nil) {
+		freeKVPairs(pairs);
+		return nil;
+	}
+	return pairs;
+}
+
+PGKVPairs* makeKVPairs(NSDictionary* dict) {
+	PGKVPairs* pairs = allocKVPairs([dict count]);	
+	NSUInteger i = 0;
+	for(NSString* theKey in dict) {
+		pairs->keywords[i] = [theKey UTF8String];
+		pairs->values[i] = [[[dict valueForKey:theKey] description] UTF8String];
+		i++;
+	}
+	pairs->keywords[i] = '\0';
+	pairs->values[i] = '\0';
+	return pairs;
+}
+
 @implementation PGConnection (Connect)
 
 ////////////////////////////////////////////////////////////////////////////////

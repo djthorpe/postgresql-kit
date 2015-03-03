@@ -119,11 +119,11 @@ NSString* PGQueryOptionsKey = @"PGQuery_options";
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
 
--(NSString* )statementForConnection:(PGConnection2* )connection error:(NSError** )error {
+-(NSString* )statementForConnection:(PGConnection* )connection error:(NSError** )error {
 	NSParameterAssert(connection);
 	NSString* statement = [self objectForKey:PGQueryStatementKey];
 	if(statement==nil || [statement isKindOfClass:[NSString class]]==NO || [statement length]==0) {
-		[connection raiseError:error code:PGClientErrorEmptyQuery reason:@"Empty statement"];
+		[connection raiseError:error code:PGClientErrorQuery reason:@"Empty statement"];
 		return nil;
 	}
 	return statement;

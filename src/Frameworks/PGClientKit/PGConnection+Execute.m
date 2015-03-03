@@ -24,18 +24,15 @@
 -(void)_execute:(NSString* )query format:(PGClientTupleFormat)format values:(NSArray* )values whenDone:(void(^)(PGResult* result,NSError* error)) callback {
 	NSParameterAssert(query && [query isKindOfClass:[NSString class]]);
 	NSParameterAssert(format==PGClientTupleFormatBinary || format==PGClientTupleFormatText);
-	if(_connection==nil) {
-		callback(nil,[self _errorWithCode:PGClientErrorState url:nil]);
+	if(_connection==nil || [self state] != PGConnectionStateNone) {
+		callback(nil,[self raiseError:nil code:PGClientErrorState]);
 		return;
 	}
-	if([self state] != PGConnectionStateNone) {
-		callback(nil,[self _errorWithCode:PGClientErrorState url:nil]);
-		return;
-	}
+
 	// create parameters object
 	PGClientParams* params = _paramAllocForValues(values);
 	if(params==nil) {
-		callback(nil,[self _errorWithCode:PGClientErrorParameters url:nil]);
+		callback(nil,[self raiseError:nil code:PGClientErrorParameters]);
 		return;
 	}
 	// convert parameters
@@ -57,7 +54,7 @@
 	// check number of parameters
 	if(params->size > INT_MAX) {
 		_paramFree(params);
-		callback(nil,[self _errorWithCode:PGClientErrorParameters url:nil]);
+		callback(nil,[self raiseError:nil code:PGClientErrorParameters]);
 		return;
 	}
 	
@@ -66,7 +63,7 @@
 	int returnCode = PQsendQueryParams(_connection,[query UTF8String],(int)params->size,params->types,(const char** )params->values,params->lengths,params->formats,resultFormat);
 	_paramFree(params);
 	if(!returnCode) {
-		callback(nil,[self _errorWithCode:PGClientErrorExecute url:nil reason:[NSString stringWithUTF8String:PQerrorMessage(_connection)]]);
+		callback(nil,[self raiseError:nil code:PGClientErrorExecute reason:[NSString stringWithUTF8String:PQerrorMessage(_connection)]]);
 		return;
 	}
 	
@@ -84,12 +81,19 @@
 -(void)executeQuery:(id)query whenDone:(void(^)(PGResult* result,NSError* error)) callback {
 	NSParameterAssert([query isKindOfClass:[NSString class]] || [query isKindOfClass:[PGQuery class]]);
 	NSParameterAssert(callback);
-	if([query isKindOfClass:[PGQuery class]]) {
-		NSString* queryString = [(PGQuery* )query statementForConnection:self];
-		[self _execute:queryString format:PGClientTupleFormatText values:nil whenDone:callback];
+	NSString* query2 = nil;
+	NSError* error = nil;
+	if([query isKindOfClass:[NSString class]]) {
+		query2 = query;
 	} else {
-		NSParameterAssert([query isKindOfClass:[NSString class]]);
-		[self _execute:query format:PGClientTupleFormatText values:nil whenDone:callback];
+		query2 = [(PGQuery* )query statementForConnection:self error:&error];
+	}
+	if(error) {
+		callback(nil,error);
+	} else if(query2==nil) {
+		callback(nil,[self raiseError:nil code:PGClientErrorExecute]);
+	} else {
+		[self _execute:query2 format:PGClientTupleFormatText values:nil whenDone:callback];
 	}
 }
 

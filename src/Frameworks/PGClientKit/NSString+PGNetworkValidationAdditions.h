@@ -15,8 +15,33 @@
 #import <Foundation/Foundation.h>
 
 @interface NSString (PGNetworkValidationAdditions)
+
+/**
+ *  Determine if the string is a valid hostname
+ *
+ *  @return returns YES if the string is a valid hostname
+ */
 -(BOOL)isNetworkHostname;
+
+/**
+ *  Determine if the string is a valid IP address (either IPv4 or IPv6)
+ *
+ *  @return returns YES if the string is a valid IP address
+ */
 -(BOOL)isNetworkAddress;
+
+/**
+ *  Determine if the string is a valid IPv4 address
+ *
+ *  @return returns YES if the string is a valid IPv4 address
+ */
 -(BOOL)isNetworkAddressV4;
+
+/**
+ *  Determine if the string is a valid IPv6 address
+ *
+ *  @return returns YES if the string is a valid IPv6 address
+ */
 -(BOOL)isNetworkAddressV6;
+
 @end

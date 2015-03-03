@@ -64,10 +64,6 @@
 		147070E21A976E230069EF9C /* NSString+PGNetworkValidationAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 147070E01A976E230069EF9C /* NSString+PGNetworkValidationAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		147070E31A976E230069EF9C /* NSString+PGNetworkValidationAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 147070E11A976E230069EF9C /* NSString+PGNetworkValidationAdditions.m */; };
 		147070E41A976E230069EF9C /* NSString+PGNetworkValidationAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 147070E11A976E230069EF9C /* NSString+PGNetworkValidationAdditions.m */; };
-		1482A9041AA5C4F50000BA25 /* PGQueryCreate.h in Headers */ = {isa = PBXBuildFile; fileRef = 1482A9021AA5C4F50000BA25 /* PGQueryCreate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1482A9051AA5C4F50000BA25 /* PGQueryCreate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1482A9031AA5C4F50000BA25 /* PGQueryCreate.m */; };
-		1482A9081AA5F4530000BA25 /* PGSelect.h in Headers */ = {isa = PBXBuildFile; fileRef = 1482A9061AA5F4530000BA25 /* PGSelect.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1482A9091AA5F4530000BA25 /* PGSelect.m in Sources */ = {isa = PBXBuildFile; fileRef = 1482A9071AA5F4530000BA25 /* PGSelect.m */; };
 		1489AEC716669A6B00C3B67D /* PGResult+TextTable.h in Headers */ = {isa = PBXBuildFile; fileRef = 1489AEC516669A6B00C3B67D /* PGResult+TextTable.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1489AEC816669A6B00C3B67D /* PGResult+TextTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 1489AEC616669A6B00C3B67D /* PGResult+TextTable.m */; };
 		148D2F03179557330005DB1B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C167C15F26BF20013A382 /* Cocoa.framework */; };
@@ -109,8 +105,6 @@
 		6E1548521A581BC400556573 /* PGConverters+Data2Object.m in Sources */ = {isa = PBXBuildFile; fileRef = 14DECDA516B56DF300178235 /* PGConverters+Data2Object.m */; };
 		6E1548531A581BCB00556573 /* PGResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0773D7163744D90028783F /* PGResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E1548541A581BD200556573 /* PGResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0773D8163744D90028783F /* PGResult.m */; };
-		6E1548551A581BD500556573 /* PGResult+TextTable.h in Headers */ = {isa = PBXBuildFile; fileRef = 1489AEC516669A6B00C3B67D /* PGResult+TextTable.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6E1548561A581BDB00556573 /* PGResult+TextTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 1489AEC616669A6B00C3B67D /* PGResult+TextTable.m */; };
 		6E1548571A581F2300556573 /* SSKeychain.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6EE12E1017D51CD70034B9E1 /* SSKeychain.strings */; };
 		6E1548581A581F2B00556573 /* SSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE12E1317D51CD70034B9E1 /* SSKeychain.m */; };
 		6E15485B1A5820BE00556573 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E15485A1A5820BE00556573 /* libz.dylib */; };
@@ -196,16 +190,8 @@
 		6E9256C01AA64BDA007DAD82 /* PGConnection+Ping.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E9256B71AA64BDA007DAD82 /* PGConnection+Ping.m */; };
 		6E9256C11AA64BDA007DAD82 /* PGConnection+Reset.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E9256B81AA64BDA007DAD82 /* PGConnection+Reset.m */; };
 		6E9256C21AA64BDA007DAD82 /* PGConnection+Reset.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E9256B81AA64BDA007DAD82 /* PGConnection+Reset.m */; };
-		6E9256C31AA65A88007DAD82 /* PGQueryCreate.h in Headers */ = {isa = PBXBuildFile; fileRef = 1482A9021AA5C4F50000BA25 /* PGQueryCreate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6E9256C41AA65A92007DAD82 /* PGSelect.h in Headers */ = {isa = PBXBuildFile; fileRef = 1482A9061AA5F4530000BA25 /* PGSelect.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6E9256C71AA65AE9007DAD82 /* PGConnectionPool.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E9256C51AA65AE9007DAD82 /* PGConnectionPool.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6E9256C81AA65AE9007DAD82 /* PGConnectionPool.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E9256C51AA65AE9007DAD82 /* PGConnectionPool.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6E9256C91AA65AE9007DAD82 /* PGConnectionPool.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E9256C61AA65AE9007DAD82 /* PGConnectionPool.m */; };
-		6E9256CA1AA65AE9007DAD82 /* PGConnectionPool.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E9256C61AA65AE9007DAD82 /* PGConnectionPool.m */; };
 		6E9256CB1AA65B1A007DAD82 /* PGClientKit+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EE23F5A1631EF7500C99BA7 /* PGClientKit+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6E9256CC1AA65B25007DAD82 /* NSString+PGNetworkValidationAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 147070E01A976E230069EF9C /* NSString+PGNetworkValidationAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6E9256CD1AA65B56007DAD82 /* PGSelect.m in Sources */ = {isa = PBXBuildFile; fileRef = 1482A9071AA5F4530000BA25 /* PGSelect.m */; };
-		6E9256CE1AA65B59007DAD82 /* PGQueryCreate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1482A9031AA5C4F50000BA25 /* PGQueryCreate.m */; };
 		6E92F5691A65B0D8003C0727 /* traffic-green.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6ED779F017C1266100124DF1 /* traffic-green.tiff */; };
 		6E92F56A1A65B0DB003C0727 /* traffic-grey.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ED779F117C1266100124DF1 /* traffic-grey.png */; };
 		6E92F56B1A65B0E1003C0727 /* traffic-red.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6ED779F217C1266100124DF1 /* traffic-red.tiff */; };
@@ -1246,8 +1232,6 @@
 				6E9256B61AA64BDA007DAD82 /* PGConnection+Notifications.m */,
 				6E9256B71AA64BDA007DAD82 /* PGConnection+Ping.m */,
 				6E9256B81AA64BDA007DAD82 /* PGConnection+Reset.m */,
-				6E9256C51AA65AE9007DAD82 /* PGConnectionPool.h */,
-				6E9256C61AA65AE9007DAD82 /* PGConnectionPool.m */,
 			);
 			name = Connection;
 			sourceTree = "<group>";
@@ -1340,6 +1324,8 @@
 				6EE23F5C1631EF7500C99BA7 /* PGConnection-old.m */,
 				6EE23F62163207DA00C99BA7 /* PGClientParams.h */,
 				6EE23F601632076800C99BA7 /* PGClientParams.m */,
+				6E9256C51AA65AE9007DAD82 /* PGConnectionPool.h */,
+				6E9256C61AA65AE9007DAD82 /* PGConnectionPool.m */,
 				6E9256AA1AA6483B007DAD82 /* Connection */,
 				14DECDA416B56D7B00178235 /* Data Translation */,
 				148E5B131A9774540066052F /* PGQuery */,
@@ -1412,16 +1398,12 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E9256C31AA65A88007DAD82 /* PGQueryCreate.h in Headers */,
 				6E1548471A5819CB00556573 /* PGPasswordStore.h in Headers */,
 				6E9256CC1AA65B25007DAD82 /* NSString+PGNetworkValidationAdditions.h in Headers */,
 				6E1548531A581BCB00556573 /* PGResult.h in Headers */,
-				6E1548551A581BD500556573 /* PGResult+TextTable.h in Headers */,
-				6E9256C81AA65AE9007DAD82 /* PGConnectionPool.h in Headers */,
 				6E1548451A5819BD00556573 /* NSURL+PGAdditions.h in Headers */,
 				6E15484F1A581BB400556573 /* PGConverters.h in Headers */,
 				6E9256A31AA64604007DAD82 /* PGConnection.h in Headers */,
-				6E9256C41AA65A92007DAD82 /* PGSelect.h in Headers */,
 				6E15484B1A5819DE00556573 /* PGClientParams.h in Headers */,
 				6E1548501A581BBA00556573 /* PGConverters+Private.h in Headers */,
 				6E9256CB1AA65B1A007DAD82 /* PGClientKit+Private.h in Headers */,
@@ -1443,8 +1425,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1482A9041AA5C4F50000BA25 /* PGQueryCreate.h in Headers */,
-				1482A9081AA5F4530000BA25 /* PGSelect.h in Headers */,
 				6E4DEC95162CC4AB008B26BD /* PGClientKit.h in Headers */,
 				6E031030162FE50B003225B1 /* PGQuery.h in Headers */,
 				6E0773D9163744D90028783F /* PGResult.h in Headers */,
@@ -1452,7 +1432,6 @@
 				6EE12E2617D51D620034B9E1 /* PGPasswordStore.h in Headers */,
 				14DECDA116B56D7300178235 /* PGConverters.h in Headers */,
 				6EAA40EB17BC150E0078EB32 /* NSURL+PGAdditions.h in Headers */,
-				6E9256C71AA65AE9007DAD82 /* PGConnectionPool.h in Headers */,
 				1489AEC716669A6B00C3B67D /* PGResult+TextTable.h in Headers */,
 				14DECDA816B57EC400178235 /* PGConverters+Private.h in Headers */,
 				14D7C3E717AD729000479231 /* PGClientParams.h in Headers */,
@@ -1912,7 +1891,6 @@
 				6E9256BE1AA64BDA007DAD82 /* PGConnection+Notifications.m in Sources */,
 				6E9256A91AA6481E007DAD82 /* PGConnection+Callbacks.m in Sources */,
 				6E15484C1A5819E500556573 /* PGClientParams.m in Sources */,
-				6E1548561A581BDB00556573 /* PGResult+TextTable.m in Sources */,
 				6E9256B31AA64B6C007DAD82 /* PGConnection+Connect.m in Sources */,
 				6E9256A21AA645FC007DAD82 /* PGConnection.m in Sources */,
 				6E1548461A5819C600556573 /* NSURL+PGAdditions.m in Sources */,
@@ -1921,16 +1899,13 @@
 				6E9256BA1AA64BDA007DAD82 /* PGConnection+Cancel.m in Sources */,
 				6E9256AD1AA64AAF007DAD82 /* PGConnection+Errors.m in Sources */,
 				6E1548541A581BD200556573 /* PGResult.m in Sources */,
-				6E9256CA1AA65AE9007DAD82 /* PGConnectionPool.m in Sources */,
 				6E1548511A581BC100556573 /* PGConverters+Object2Data.m in Sources */,
 				6E1548481A5819CF00556573 /* PGPasswordStore.m in Sources */,
-				6E9256CD1AA65B56007DAD82 /* PGSelect.m in Sources */,
 				6E1548521A581BC400556573 /* PGConverters+Data2Object.m in Sources */,
 				6E9256C01AA64BDA007DAD82 /* PGConnection+Ping.m in Sources */,
 				6E15484E1A5819F000556573 /* PGQuery.m in Sources */,
 				6E9256BC1AA64BDA007DAD82 /* PGConnection+Execute.m in Sources */,
 				6E1548581A581F2B00556573 /* SSKeychain.m in Sources */,
-				6E9256CE1AA65B59007DAD82 /* PGQueryCreate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1995,7 +1970,6 @@
 				6E9256AF1AA64B49007DAD82 /* PGConnection+Disconnect.m in Sources */,
 				6E9256BB1AA64BDA007DAD82 /* PGConnection+Execute.m in Sources */,
 				6EE23F611632076800C99BA7 /* PGClientParams.m in Sources */,
-				1482A9051AA5C4F50000BA25 /* PGQueryCreate.m in Sources */,
 				6E0773DA163744D90028783F /* PGResult.m in Sources */,
 				6E9256C11AA64BDA007DAD82 /* PGConnection+Reset.m in Sources */,
 				6E9256A81AA6481E007DAD82 /* PGConnection+Callbacks.m in Sources */,
@@ -2007,13 +1981,11 @@
 				14DECDA616B56DF300178235 /* PGConverters+Data2Object.m in Sources */,
 				6EAA40ED17BC150E0078EB32 /* NSURL+PGAdditions.m in Sources */,
 				147070E31A976E230069EF9C /* NSString+PGNetworkValidationAdditions.m in Sources */,
-				1482A9091AA5F4530000BA25 /* PGSelect.m in Sources */,
 				6EE12E1E17D51CD70034B9E1 /* SSKeychain.m in Sources */,
 				6EE12E2217D51CD70034B9E1 /* SSKeychainQuery.m in Sources */,
 				6EE12E2817D51D620034B9E1 /* PGPasswordStore.m in Sources */,
 				6E9256AC1AA64AAF007DAD82 /* PGConnection+Errors.m in Sources */,
 				6E9256BF1AA64BDA007DAD82 /* PGConnection+Ping.m in Sources */,
-				6E9256C91AA65AE9007DAD82 /* PGConnectionPool.m in Sources */,
 				6E9256B91AA64BDA007DAD82 /* PGConnection+Cancel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

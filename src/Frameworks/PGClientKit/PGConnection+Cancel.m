@@ -84,7 +84,7 @@
 #pragma mark public methods - cancelling queries
 ////////////////////////////////////////////////////////////////////////////////
 
--(void)cancelQueryWhenDone:(void(^)(NSError* error)) callback {
+-(void)cancelWhenDone:(void(^)(NSError* error)) callback {
 	NSParameterAssert(callback);
 	if(_connection==nil) {
 		callback([self raiseError:nil code:PGClientErrorState]);

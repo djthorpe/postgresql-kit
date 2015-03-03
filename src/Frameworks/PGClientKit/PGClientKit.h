@@ -52,19 +52,19 @@ typedef enum {
 @class PGResult;
 
 @class PGQuery;
-  @class PGQueryCreate;
-  @class PGSelect;
+//  @class PGQueryCreate;
+//  @class PGSelect;
 
 
 // header includes
 #import "PGConnection.h"
-#import "PGConnectionPool.h"
+//#import "PGConnectionPool.h"
 #import "PGResult.h"
 
 // queries
 #import "PGQuery.h"
-#import "PGQueryCreate.h"
-#import "PGSelect.h"
+//#import "PGQueryCreate.h"
+//#import "PGSelect.h"
 
 // helpers
 #import "NSURL+PGAdditions.h"

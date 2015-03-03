@@ -18,8 +18,8 @@
 #import "PGFoundationApp.h"
 #import "Terminal.h"
 
-@interface PGFoundationClient2 : PGFoundationApp <PGConnectionDelegate2> {
-	PGConnection2* _db;
+@interface PGFoundationClient2 : PGFoundationApp <PGConnectionDelegate> {
+	PGConnection* _db;
 	PGPasswordStore* _passwordstore;
 	Terminal* _term;
 }
@@ -27,7 +27,7 @@
 // properties
 @property (readonly) NSURL* url;
 @property (retain) NSString* password;
-@property (readonly) PGConnection2* db;
+@property (readonly) PGConnection* db;
 @property (readonly) PGPasswordStore* passwordstore;
 @property (readonly) Terminal* term;
 @property (readonly) NSString* prompt;
