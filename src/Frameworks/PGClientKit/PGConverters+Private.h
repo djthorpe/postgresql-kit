@@ -33,6 +33,7 @@ typedef struct {
 enum {
 	PGOidTypeBool = 16,
 	PGOidTypeData = 17,
+	PGOidTypeChar = 18,
 	PGOidTypeName = 19,
 	PGOidTypeInt8 = 20,
 	PGOidTypeInt2 = 21,
@@ -68,7 +69,7 @@ enum {
 	PGOidTypeArrayFloat8 = 1022,
 	PGOidTypeArrayMacAddr = 1040,
 	PGOidTypeArrayIPAddr = 1041,
-	PGOidTypeChar = 1042,
+	PGOidTypeBPChar = 1042,
 	PGOidTypeVarchar = 1043,
 	PGOidTypeDate = 1082,
 	PGOidTypeTime = 1083,

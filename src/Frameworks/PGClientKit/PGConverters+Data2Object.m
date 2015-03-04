@@ -39,10 +39,12 @@ PGResultConverterType _pgdata2obj_default_converters[] = {
 	{    PGOidTypeInt4, _bin2obj_int,  _bin2obj_text,          "int4"    },
 	{    PGOidTypeText, _bin2obj_text, _bin2obj_text,          "text"    },
 	{     PGOidTypeOid, _bin2obj_uint, _bin2obj_text,          "oid"     },
+	{     PGOidTypeXid, _bin2obj_uint, _bin2obj_text,          "xid"     },
 	{  PGOidTypeFloat4, _bin2obj_real, _bin2obj_text,          "float4"  },
 	{  PGOidTypeFloat8, _bin2obj_real, _bin2obj_text,          "float8"  },
 	{ PGOidTypeUnknown, _bin2obj_text, _bin2obj_text,          "unknown" },
 	{    PGOidTypeChar, _bin2obj_text, _bin2obj_text,          "char"    },
+	{  PGOidTypeBPChar, _bin2obj_text, _bin2obj_text,          "char"    },
 	{ PGOidTypeVarchar, _bin2obj_text, _bin2obj_text,          "varchar" },
 	{                0, nil,           nil,                    nil       }  // last entry
 };
