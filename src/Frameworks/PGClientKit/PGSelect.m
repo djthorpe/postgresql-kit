@@ -31,6 +31,9 @@ enum {
 	PGSelect* query = [super queryWithDictionary:@{
 		PQSelectTableNameKey: tableName
 	} class:NSStringFromClass([self class])];
+	if(query==nil) {
+		return nil;
+	}
 	if(schemaName) {
 		[query setObject:schemaName forKey:PQSelectSchemaNameKey];
 	}
@@ -58,8 +61,9 @@ enum {
 -(NSString* )distinctPhraseForConnection:(PGConnection* )connection options:(int)options {
 	if(options & PGSelectOptionDistinct) {
 		return @"DISTINCT";
+	} else {
+		return @"ALL";
 	}
-	return @"";
 }
 
 -(NSString* )columnsPhraseForConnection:(PGConnection* )connection options:(int)options {

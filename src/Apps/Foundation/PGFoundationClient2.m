@@ -198,8 +198,6 @@
 	}
 
 	if([command isEqualToString:@"table"]) {
-		if([args count] < 1 || [args count] > 2) {
-		}
 		NSString* tableName = nil;
 		NSString* schemaName = nil;
 		if([args count]==1) {
@@ -212,6 +210,7 @@
 			return;
 		}
 		PGQuery* query = [PGSelect selectTableSource:tableName schema:schemaName options:0];
+		NSParameterAssert(query);
 		[[self db] executeQuery:query whenDone:^(PGResult* result, NSError* error) {
 			if(result) {
 				[self displayResult:result];

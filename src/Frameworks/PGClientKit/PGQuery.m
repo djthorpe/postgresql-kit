@@ -28,7 +28,7 @@ NSString* PGQueryOptionsKey = @"PGQuery_options";
 ////////////////////////////////////////////////////////////////////////////////
 // initialization
 
--(id)init {
+-(instancetype)init {
 	self = [super init];
 	if(self) {
 		_dictionary = [NSMutableDictionary new];
@@ -39,7 +39,7 @@ NSString* PGQueryOptionsKey = @"PGQuery_options";
 	return self;
 }
 
--(id)initWithDictionary:(NSDictionary* )dictionary {
+-(instancetype)initWithDictionary:(NSDictionary* )dictionary {
 	NSParameterAssert(dictionary);
 	self = [super init];
 	if(self) {
@@ -66,7 +66,9 @@ NSString* PGQueryOptionsKey = @"PGQuery_options";
 	if(className==nil || [className isKindOfClass:[NSString class]]==NO || [className length]==0) {
 		return nil;
 	}
-	PGQuery* query = [[NSClassFromString(className) alloc] initWithDictionary:dictionary];
+	NSMutableDictionary* dictionary2 = [NSMutableDictionary dictionaryWithDictionary:dictionary];
+	[dictionary2 setObject:className forKey:PGQueryClassKey];
+	PGQuery* query = [[NSClassFromString(className) alloc] initWithDictionary:dictionary2];
 	if(query==nil) {
 		return nil;
 	}
@@ -129,6 +131,13 @@ NSString* PGQueryOptionsKey = @"PGQuery_options";
 		return nil;
 	}
 	return statement;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// describe query object
+
+-(NSString* )description {
+	return [NSString stringWithFormat:@"<%@ %@>",NSStringFromClass([self class]),[self dictionary]];
 }
 
 @end
