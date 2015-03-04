@@ -69,6 +69,10 @@
 		148D2F03179557330005DB1B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C167C15F26BF20013A382 /* Cocoa.framework */; };
 		149BA1A01A98858C007B86A0 /* PGFoundationServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 149BA19E1A98857C007B86A0 /* PGFoundationServer.m */; };
 		149BA1A11A9885AD007B86A0 /* PGConnection_tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 147070D21A90CC8C0069EF9C /* PGConnection_tests.m */; };
+		149BA1A21AA6FB4E007B86A0 /* PGSelect.m in Sources */ = {isa = PBXBuildFile; fileRef = 1482A9071AA5F4530000BA25 /* PGSelect.m */; };
+		149BA1A31AA6FB50007B86A0 /* PGSelect.m in Sources */ = {isa = PBXBuildFile; fileRef = 1482A9071AA5F4530000BA25 /* PGSelect.m */; };
+		149BA1A41AA6FB54007B86A0 /* PGSelect.h in Headers */ = {isa = PBXBuildFile; fileRef = 1482A9061AA5F4530000BA25 /* PGSelect.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		149BA1A51AA6FB58007B86A0 /* PGSelect.h in Headers */ = {isa = PBXBuildFile; fileRef = 1482A9061AA5F4530000BA25 /* PGSelect.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		14D7C3E617AD721D00479231 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C168115F26BF20013A382 /* Foundation.framework */; };
 		14D7C3E717AD729000479231 /* PGClientParams.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EE23F62163207DA00C99BA7 /* PGClientParams.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		14DECDA116B56D7300178235 /* PGConverters.h in Headers */ = {isa = PBXBuildFile; fileRef = 14DECD9F16B56D7300178235 /* PGConverters.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -1218,7 +1222,7 @@
 			name = PGSourceView;
 			sourceTree = "<group>";
 		};
-		6E9256AA1AA6483B007DAD82 /* Connection */ = {
+		6E9256AA1AA6483B007DAD82 /* PGConnection */ = {
 			isa = PBXGroup;
 			children = (
 				6E82F1711A9BC9B20024B8BE /* PGConnection.h */,
@@ -1233,7 +1237,7 @@
 				6E9256B71AA64BDA007DAD82 /* PGConnection+Ping.m */,
 				6E9256B81AA64BDA007DAD82 /* PGConnection+Reset.m */,
 			);
-			name = Connection;
+			name = PGConnection;
 			sourceTree = "<group>";
 		};
 		6EB1E70A15F273350093F784 /* src */ = {
@@ -1326,10 +1330,10 @@
 				6EE23F601632076800C99BA7 /* PGClientParams.m */,
 				6E9256C51AA65AE9007DAD82 /* PGConnectionPool.h */,
 				6E9256C61AA65AE9007DAD82 /* PGConnectionPool.m */,
-				6E9256AA1AA6483B007DAD82 /* Connection */,
-				14DECDA416B56D7B00178235 /* Data Translation */,
-				148E5B131A9774540066052F /* PGQuery */,
+				6E9256AA1AA6483B007DAD82 /* PGConnection */,
 				1422C5B21663FD3800FB22FE /* PGResult */,
+				148E5B131A9774540066052F /* PGQuery */,
+				14DECDA416B56D7B00178235 /* Data Translation */,
 			);
 			path = PGClientKit;
 			sourceTree = "<group>";
@@ -1405,6 +1409,7 @@
 				6E15484F1A581BB400556573 /* PGConverters.h in Headers */,
 				6E9256A31AA64604007DAD82 /* PGConnection.h in Headers */,
 				6E15484B1A5819DE00556573 /* PGClientParams.h in Headers */,
+				149BA1A51AA6FB58007B86A0 /* PGSelect.h in Headers */,
 				6E1548501A581BBA00556573 /* PGConverters+Private.h in Headers */,
 				6E9256CB1AA65B1A007DAD82 /* PGClientKit+Private.h in Headers */,
 				6E1548441A5819AC00556573 /* PGClientKit.h in Headers */,
@@ -1426,6 +1431,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E4DEC95162CC4AB008B26BD /* PGClientKit.h in Headers */,
+				149BA1A41AA6FB54007B86A0 /* PGSelect.h in Headers */,
 				6E031030162FE50B003225B1 /* PGQuery.h in Headers */,
 				6E0773D9163744D90028783F /* PGResult.h in Headers */,
 				6EE23F5D1631EF7500C99BA7 /* PGClientKit+Private.h in Headers */,
@@ -1903,6 +1909,7 @@
 				6E1548481A5819CF00556573 /* PGPasswordStore.m in Sources */,
 				6E1548521A581BC400556573 /* PGConverters+Data2Object.m in Sources */,
 				6E9256C01AA64BDA007DAD82 /* PGConnection+Ping.m in Sources */,
+				149BA1A31AA6FB50007B86A0 /* PGSelect.m in Sources */,
 				6E15484E1A5819F000556573 /* PGQuery.m in Sources */,
 				6E9256BC1AA64BDA007DAD82 /* PGConnection+Execute.m in Sources */,
 				6E1548581A581F2B00556573 /* SSKeychain.m in Sources */,
@@ -1982,6 +1989,7 @@
 				6EAA40ED17BC150E0078EB32 /* NSURL+PGAdditions.m in Sources */,
 				147070E31A976E230069EF9C /* NSString+PGNetworkValidationAdditions.m in Sources */,
 				6EE12E1E17D51CD70034B9E1 /* SSKeychain.m in Sources */,
+				149BA1A21AA6FB4E007B86A0 /* PGSelect.m in Sources */,
 				6EE12E2217D51CD70034B9E1 /* SSKeychainQuery.m in Sources */,
 				6EE12E2817D51D620034B9E1 /* PGPasswordStore.m in Sources */,
 				6E9256AC1AA64AAF007DAD82 /* PGConnection+Errors.m in Sources */,

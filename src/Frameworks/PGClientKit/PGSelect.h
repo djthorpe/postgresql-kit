@@ -24,4 +24,8 @@ enum {
 // basic select statement, selects everything (*)
 +(PGSelect* )selectTableSource:(NSString* )tableName schema:(NSString* )schemaName options:(int)options;
 
+// properties
+@property NSString* tableName;
+@property NSString* schemaName;
+
 @end

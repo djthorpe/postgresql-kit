@@ -78,7 +78,7 @@
 	// get password from the store
 	NSString* account = [self _accountForURL:url];
 	if(account==nil) {
-		[PGConnection createError:error code:PGClientErrorParameters url:url reason:nil];
+		[PGConnection createError:error code:PGClientErrorParameters];
 		return nil;
 	}
 	password = [_store objectForKey:account];
@@ -110,7 +110,7 @@
 -(BOOL)setPassword:(NSString* )password forURL:(NSURL* )url saveToKeychain:(BOOL)saveToKeychain error:(NSError** )error {
 	NSString* account = [self _accountForURL:url];
 	if(account==nil) {
-		[PGConnection createError:error code:PGClientErrorParameters url:url reason:nil];
+		[PGConnection createError:error code:PGClientErrorParameters];
 		return NO;
 	}
 

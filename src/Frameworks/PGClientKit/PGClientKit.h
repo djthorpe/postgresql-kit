@@ -52,8 +52,8 @@ typedef enum {
 @class PGResult;
 
 @class PGQuery;
-//  @class PGQueryCreate;
-//  @class PGSelect;
+	@class PGQueryCreate;
+	@class PGSelect;
 
 
 // header includes
@@ -64,7 +64,7 @@ typedef enum {
 // queries
 #import "PGQuery.h"
 //#import "PGQueryCreate.h"
-//#import "PGSelect.h"
+#import "PGSelect.h"
 
 // helpers
 #import "NSURL+PGAdditions.h"

@@ -15,6 +15,28 @@
 #import <PGClientKit/PGClientKit.h>
 #import <PGClientKit/PGClientKit+Private.h>
 
+// keys
+NSString* PQSelectTableNameKey = @"PGSelect_table";
+NSString* PQSelectSchemaNameKey = @"PGSelect_schema";
+
+// additional option flags
+enum {
+	PGSelectTableSource = 0x0100000,
+};
+
 @implementation PGSelect
+
++(PGSelect* )selectTableSource:(NSString* )tableName schema:(NSString* )schemaName options:(int)options {
+	NSParameterAssert(tableName);
+	PGQueryCreate* query = [super queryWithDictionary:@{
+		PQQueryClassKey: NSStringFromClass([self class]),
+		PQSelectTableNameKey: tableName
+	}];
+	if(schemaName) {
+		[query setObject:schemaName forKey:PQSelectSchemaNameKey];
+	}
+	[query setOptions:(options | PGSelectTableSource)];
+	return query;
+}
 
 @end

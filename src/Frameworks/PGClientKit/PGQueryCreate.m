@@ -14,12 +14,14 @@
 
 #import <PGClientKit/PGClientKit.h>
 
+// keys
 extern NSString* PQQueryClassKey;
 NSString* PQQueryCreateDatabaseNameKey = @"PGQueryCreate_database";
 NSString* PQQueryCreateSchemaNameKey = @"PGQueryCreate_schema";
 NSString* PQQueryCreateRoleNameKey = @"PGQueryCreate_role";
 NSString* PQQueryCreateOwnerNameKey = @"PGQueryCreate_owner";
 
+// additional option flags
 enum {
 	PGQueryOptionTypeCreateDatabase = 0x0100000,
 	PGQueryOptionTypeCreateSchema   = 0x0200000,
