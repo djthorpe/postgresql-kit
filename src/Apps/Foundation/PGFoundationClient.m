@@ -13,6 +13,7 @@
 // under the License.
 
 #import "PGFoundationClient.h"
+#import "GBCli.h"
 
 @implementation PGFoundationClient
 

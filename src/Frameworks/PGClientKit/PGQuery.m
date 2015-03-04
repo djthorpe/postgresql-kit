@@ -58,9 +58,11 @@ NSString* PGQueryOptionsKey = @"PGQuery_options";
 	return self;
 }
 
-+(instancetype)queryWithDictionary:(NSDictionary* )dictionary {
++(instancetype)queryWithDictionary:(NSDictionary* )dictionary class:(NSString* )className {
 	NSParameterAssert(dictionary);
-	NSString* className = [dictionary objectForKey:PGQueryClassKey];
+	if(className==nil) {
+		className = [dictionary objectForKey:PGQueryClassKey];
+	}
 	if(className==nil || [className isKindOfClass:[NSString class]]==NO || [className length]==0) {
 		return nil;
 	}

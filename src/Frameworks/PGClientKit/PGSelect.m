@@ -28,15 +28,61 @@ enum {
 
 +(PGSelect* )selectTableSource:(NSString* )tableName schema:(NSString* )schemaName options:(int)options {
 	NSParameterAssert(tableName);
-	PGQueryCreate* query = [super queryWithDictionary:@{
-		PQQueryClassKey: NSStringFromClass([self class]),
+	PGSelect* query = [super queryWithDictionary:@{
 		PQSelectTableNameKey: tableName
-	}];
+	} class:NSStringFromClass([self class])];
 	if(schemaName) {
 		[query setObject:schemaName forKey:PQSelectSchemaNameKey];
 	}
 	[query setOptions:(options | PGSelectTableSource)];
 	return query;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// properties
+
+@dynamic tableName;
+@dynamic schemaName;
+
+-(NSString* )tableName {
+	return [super objectForKey:PQSelectTableNameKey];
+}
+
+-(NSString* )schemaName {
+	return [super objectForKey:PQSelectSchemaNameKey];
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// public methods
+
+-(NSString* )distinctPhraseForConnection:(PGConnection* )connection options:(int)options {
+	if(options & PGSelectOptionDistinct) {
+		return @"DISTINCT";
+	}
+	return @"";
+}
+
+-(NSString* )columnsPhraseForConnection:(PGConnection* )connection options:(int)options {
+	return @"*";
+}
+
+-(NSString* )sourcePhraseForConnection:(PGConnection* )connection options:(int)options {
+	if([self schemaName]) {
+		return [NSString stringWithFormat:@"FROM %@.%@",[connection quoteIdentifier:[self schemaName]],[connection quoteIdentifier:[self tableName]]];
+	} else {
+		return [NSString stringWithFormat:@"FROM %@",[connection quoteIdentifier:[self tableName]]];
+	}
+}
+
+-(NSString* )statementForConnection:(PGConnection* )connection error:(NSError** )error {
+	NSParameterAssert(connection);
+	int options = [self options];
+	NSMutableArray* parts = [NSMutableArray new];
+	[parts addObject:@"SELECT"];
+	[parts addObject:[self distinctPhraseForConnection:connection options:options]];
+	[parts addObject:[self columnsPhraseForConnection:connection options:options]];
+	[parts addObject:[self sourcePhraseForConnection:connection options:options]];
+	return [parts componentsJoinedByString:@" "];
 }
 
 @end

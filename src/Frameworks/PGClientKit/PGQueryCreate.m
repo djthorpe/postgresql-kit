@@ -15,7 +15,6 @@
 #import <PGClientKit/PGClientKit.h>
 
 // keys
-extern NSString* PQQueryClassKey;
 NSString* PQQueryCreateDatabaseNameKey = @"PGQueryCreate_database";
 NSString* PQQueryCreateSchemaNameKey = @"PGQueryCreate_schema";
 NSString* PQQueryCreateRoleNameKey = @"PGQueryCreate_role";
@@ -36,9 +35,8 @@ enum {
 +(PGQueryCreate* )createDatabase:(NSString* )databaseName options:(int)options {
 	NSParameterAssert(databaseName);
 	PGQueryCreate* query = [super queryWithDictionary:@{
-		PQQueryClassKey: NSStringFromClass([self class]),
 		PQQueryCreateDatabaseNameKey: databaseName
-	}];
+	} class:NSStringFromClass([self class])];
 	[query setOptions:(options | PGQueryOptionTypeCreateDatabase)];
 	return query;
 }
@@ -46,9 +44,8 @@ enum {
 +(PGQueryCreate* )createSchema:(NSString* )schemaName options:(int)options {
 	NSParameterAssert(schemaName);
 	PGQueryCreate* query = [super queryWithDictionary:@{
-		PQQueryClassKey: NSStringFromClass([self class]),
 		PQQueryCreateSchemaNameKey: schemaName
-	}];
+	} class:NSStringFromClass([self class])];
 	[query setOptions:(options | PGQueryOptionTypeCreateSchema)];
 	return query;
 }
@@ -56,9 +53,8 @@ enum {
 +(PGQueryCreate* )createRole:(NSString* )roleName options:(int)options {
 	NSParameterAssert(roleName);
 	PGQueryCreate* query = [super queryWithDictionary:@{
-		PQQueryClassKey: NSStringFromClass([self class]),
 		PQQueryCreateRoleNameKey: roleName
-	}];
+	} class:NSStringFromClass([self class])];
 	[query setOptions:(options | PGQueryOptionTypeCreateRole)];
 	return query;
 }
@@ -66,9 +62,8 @@ enum {
 +(PGQueryCreate* )dropDatabase:(NSString* )databaseName options:(int)options {
 	NSParameterAssert(databaseName);
 	PGQueryCreate* query = [super queryWithDictionary:@{
-		PQQueryClassKey: NSStringFromClass([self class]),
 		PQQueryCreateDatabaseNameKey: databaseName
-	}];
+	} class:NSStringFromClass([self class])];
 	[query setOptions:(options | PGQueryOptionTypeDropDatabase)];
 	return query;
 }
@@ -76,9 +71,8 @@ enum {
 +(PGQueryCreate* )dropSchema:(NSString* )schemaName options:(int)options {
 	NSParameterAssert(schemaName);
 	PGQueryCreate* query = [super queryWithDictionary:@{
-		PQQueryClassKey: NSStringFromClass([self class]),
 		PQQueryCreateSchemaNameKey: schemaName
-	}];
+	} class:NSStringFromClass([self class])];
 	[query setOptions:(options | PGQueryOptionTypeDropSchema)];
 	return query;
 }
@@ -86,9 +80,8 @@ enum {
 +(PGQueryCreate* )dropRole:(NSString* )roleName options:(int)options {
 	NSParameterAssert(roleName);
 	PGQueryCreate* query = [super queryWithDictionary:@{
-		PQQueryClassKey: NSStringFromClass([self class]),
 		PQQueryCreateRoleNameKey: roleName
-	}];
+	} class:NSStringFromClass([self class])];
 	[query setOptions:(options | PGQueryOptionTypeDropRole)];
 	return query;
 }

@@ -67,7 +67,6 @@
 #ifdef DEBUG
 	[[self term] printf:@"connection:willOpenWithParameters:%@",dictionary];
 #endif
-	
 	// if there is a password in the parameters, then store it
 	NSString* password = [dictionary objectForKey:@"password"];
 	if(!password) {
@@ -198,6 +197,32 @@
 		return;
 	}
 
+	if([command isEqualToString:@"table"]) {
+		if([args count] < 1 || [args count] > 2) {
+		}
+		NSString* tableName = nil;
+		NSString* schemaName = nil;
+		if([args count]==1) {
+			tableName = [args objectAtIndex:0];
+		} else if([args count]==2) {
+			schemaName = [args objectAtIndex:0];
+			tableName = [args objectAtIndex:1];
+		} else {
+			[[self term] printf:@"error: table: not enough arguments"];
+			return;
+		}
+		PGQuery* query = [PGSelect selectTableSource:tableName schema:schemaName options:0];
+		[[self db] executeQuery:query whenDone:^(PGResult* result, NSError* error) {
+			if(result) {
+				[self displayResult:result];
+			}
+			if(error) {
+				[[self term] printf:@"error: %@",error];
+			}
+		}];
+		return;
+	}
+
 	[[self term] printf:@"Unknown command: %@",command];
 }
 
@@ -213,6 +238,15 @@
 	} else {
 		[[self term] printf:@"Affected Rows: %ld",[result affectedRows]];
 	}
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// register command line options
+
+-(void)registerCommandLineOptionsWithParser:(GBCommandLineParser* )parser {
+	[super registerCommandLineOptionsWithParser:parser];
+	// add a --password option for entering a password
+	[parser registerOption:@"password" shortcut:'p' requirement:GBValueNone];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -274,6 +308,15 @@
 }
 
 -(void)setup {
+	if([[self settings] boolForKey:@"password"]) {
+		// check for password entry
+		[[self term] setPrompt:@"Password: "];
+		NSString* password = [[self term] readline];
+		if([password length]) {
+			[[self passwordstore] setPassword:password forURL:[self url] saveToKeychain:YES];
+		}
+	}
+
 	// start connection
 	[self connect:[self url]];
 	
@@ -294,7 +337,13 @@
 int main (int argc, const char* argv[]) {
 	int returnValue = 0;
 	@autoreleasepool {
-		returnValue = [(PGFoundationApp* )[PGFoundationClient2 sharedApp] run];
+		PGFoundationApp* app = (PGFoundationApp* )[PGFoundationClient2 sharedApp];
+		NSError* error = nil;
+		if([app parseOptionsWithArguments:argv count:argc error:&error]==NO) {
+			returnValue = -1;
+		} else {
+			returnValue = [app run];
+		}
 	}
     return returnValue;
 }

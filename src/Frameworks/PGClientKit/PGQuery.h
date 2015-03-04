@@ -19,7 +19,7 @@
 }
 
 // constructors
-+(instancetype)queryWithDictionary:(NSDictionary* )dictionary;
++(instancetype)queryWithDictionary:(NSDictionary* )dictionary class:(NSString* )className;
 +(instancetype)queryWithString:(NSString* )statement;
 
 // properties

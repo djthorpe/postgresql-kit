@@ -13,10 +13,12 @@
 // under the License.
 
 #import <Foundation/Foundation.h>
+#import "GBCli.h"
 
 @interface PGFoundationApp : NSObject {
 	BOOL _stop;
 	int _returnValue;
+	GBSettings* _settings;
 }
 
 // constructor
@@ -24,6 +26,7 @@
 
 // properties
 @property (readonly) BOOL stopping;
+@property (readonly) GBSettings* settings;
 
 // methods
 
@@ -39,5 +42,9 @@
 
 // you should call stopped when the application is finally stopped
 -(void)stoppedWithReturnValue:(int)returnValue;
+
+// parsing command-line options
+-(BOOL)parseOptionsWithArguments:(const char** )argv count:(int)argc error:(NSError** )error;
+-(void)registerCommandLineOptionsWithParser:(GBCommandLineParser* )parser;
 
 @end

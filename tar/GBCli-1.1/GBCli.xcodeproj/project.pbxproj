@@ -1,0 +1,300 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		73484A011511FD010031EF85 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73484A001511FD010031EF85 /* Foundation.framework */; };
+		73484A041511FD010031EF85 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 73484A031511FD010031EF85 /* main.m */; };
+		73484A1B1511FDA90031EF85 /* GBCommandLineParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 73484A161511FDA90031EF85 /* GBCommandLineParser.m */; };
+		73484A1C1511FDA90031EF85 /* GBOptionsHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 73484A181511FDA90031EF85 /* GBOptionsHelper.m */; };
+		73484A1D1511FDA90031EF85 /* GBSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 73484A1A1511FDA90031EF85 /* GBSettings.m */; };
+		73484A201511FE9E0031EF85 /* GBSettings+Application.m in Sources */ = {isa = PBXBuildFile; fileRef = 73484A1F1511FE9E0031EF85 /* GBSettings+Application.m */; };
+		735219B6192FA1150031EAF0 /* GBPrint.m in Sources */ = {isa = PBXBuildFile; fileRef = 735219B5192FA1150031EAF0 /* GBPrint.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		734849FA1511FD010031EF85 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		7331C3C9192F0BA3003B8363 /* GBCli.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBCli.h; sourceTree = "<group>"; };
+		734849FC1511FD010031EF85 /* GBCli */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = GBCli; sourceTree = BUILT_PRODUCTS_DIR; };
+		73484A001511FD010031EF85 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		73484A031511FD010031EF85 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		73484A061511FD010031EF85 /* GBCli-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GBCli-Prefix.pch"; sourceTree = "<group>"; };
+		73484A151511FDA90031EF85 /* GBCommandLineParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBCommandLineParser.h; sourceTree = "<group>"; };
+		73484A161511FDA90031EF85 /* GBCommandLineParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBCommandLineParser.m; sourceTree = "<group>"; };
+		73484A171511FDA90031EF85 /* GBOptionsHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBOptionsHelper.h; sourceTree = "<group>"; };
+		73484A181511FDA90031EF85 /* GBOptionsHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBOptionsHelper.m; sourceTree = "<group>"; };
+		73484A191511FDA90031EF85 /* GBSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBSettings.h; sourceTree = "<group>"; };
+		73484A1A1511FDA90031EF85 /* GBSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBSettings.m; sourceTree = "<group>"; };
+		73484A1E1511FE9E0031EF85 /* GBSettings+Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GBSettings+Application.h"; sourceTree = "<group>"; };
+		73484A1F1511FE9E0031EF85 /* GBSettings+Application.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GBSettings+Application.m"; sourceTree = "<group>"; };
+		735219B4192FA1150031EAF0 /* GBPrint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBPrint.h; sourceTree = "<group>"; };
+		735219B5192FA1150031EAF0 /* GBPrint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBPrint.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		734849F91511FD010031EF85 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				73484A011511FD010031EF85 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		734849F11511FD010031EF85 = {
+			isa = PBXGroup;
+			children = (
+				73484A021511FD010031EF85 /* GBCli */,
+				734849FF1511FD010031EF85 /* Frameworks */,
+				734849FD1511FD010031EF85 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		734849FD1511FD010031EF85 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				734849FC1511FD010031EF85 /* GBCli */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		734849FF1511FD010031EF85 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				73484A001511FD010031EF85 /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		73484A021511FD010031EF85 /* GBCli */ = {
+			isa = PBXGroup;
+			children = (
+				73484A141511FD8B0031EF85 /* lib */,
+				73484A121511FD7F0031EF85 /* example */,
+			);
+			path = GBCli;
+			sourceTree = "<group>";
+		};
+		73484A051511FD010031EF85 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				73484A061511FD010031EF85 /* GBCli-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		73484A121511FD7F0031EF85 /* example */ = {
+			isa = PBXGroup;
+			children = (
+				73484A031511FD010031EF85 /* main.m */,
+				73484A1E1511FE9E0031EF85 /* GBSettings+Application.h */,
+				73484A1F1511FE9E0031EF85 /* GBSettings+Application.m */,
+				73484A051511FD010031EF85 /* Supporting Files */,
+			);
+			name = example;
+			sourceTree = "<group>";
+		};
+		73484A141511FD8B0031EF85 /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				7331C3C9192F0BA3003B8363 /* GBCli.h */,
+				73484A151511FDA90031EF85 /* GBCommandLineParser.h */,
+				73484A161511FDA90031EF85 /* GBCommandLineParser.m */,
+				73484A171511FDA90031EF85 /* GBOptionsHelper.h */,
+				73484A181511FDA90031EF85 /* GBOptionsHelper.m */,
+				73484A191511FDA90031EF85 /* GBSettings.h */,
+				73484A1A1511FDA90031EF85 /* GBSettings.m */,
+				735219B4192FA1150031EAF0 /* GBPrint.h */,
+				735219B5192FA1150031EAF0 /* GBPrint.m */,
+			);
+			name = lib;
+			path = src;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		734849FB1511FD010031EF85 /* GBCli */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 73484A0B1511FD010031EF85 /* Build configuration list for PBXNativeTarget "GBCli" */;
+			buildPhases = (
+				734849F81511FD010031EF85 /* Sources */,
+				734849F91511FD010031EF85 /* Frameworks */,
+				734849FA1511FD010031EF85 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = GBCli;
+			productName = GBCli;
+			productReference = 734849FC1511FD010031EF85 /* GBCli */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		734849F31511FD010031EF85 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0600;
+			};
+			buildConfigurationList = 734849F61511FD010031EF85 /* Build configuration list for PBXProject "GBCli" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 734849F11511FD010031EF85;
+			productRefGroup = 734849FD1511FD010031EF85 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				734849FB1511FD010031EF85 /* GBCli */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		734849F81511FD010031EF85 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				735219B6192FA1150031EAF0 /* GBPrint.m in Sources */,
+				73484A041511FD010031EF85 /* main.m in Sources */,
+				73484A1B1511FDA90031EF85 /* GBCommandLineParser.m in Sources */,
+				73484A1C1511FDA90031EF85 /* GBOptionsHelper.m in Sources */,
+				73484A1D1511FDA90031EF85 /* GBSettings.m in Sources */,
+				73484A201511FE9E0031EF85 /* GBSettings+Application.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		73484A091511FD010031EF85 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		73484A0A1511FD010031EF85 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		73484A0C1511FD010031EF85 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "GBCli/GBCli-Prefix.pch";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		73484A0D1511FD010031EF85 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "GBCli/GBCli-Prefix.pch";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		734849F61511FD010031EF85 /* Build configuration list for PBXProject "GBCli" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				73484A091511FD010031EF85 /* Debug */,
+				73484A0A1511FD010031EF85 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		73484A0B1511FD010031EF85 /* Build configuration list for PBXNativeTarget "GBCli" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				73484A0C1511FD010031EF85 /* Debug */,
+				73484A0D1511FD010031EF85 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 734849F31511FD010031EF85 /* Project object */;
+}

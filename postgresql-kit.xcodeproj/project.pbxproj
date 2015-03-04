@@ -83,6 +83,10 @@
 		14E1323B1A6D6F7800451602 /* PGSourceViewTree.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E132391A6D6F7800451602 /* PGSourceViewTree.m */; };
 		14F1E86F17CB857A00710D4A /* PGControlsKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 14F1E86017CB840400710D4A /* PGControlsKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		14F1E87017CB864C00710D4A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C167C15F26BF20013A382 /* Cocoa.framework */; };
+		14FD07231AA711140013557E /* GBSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 14FD07131AA70C0E0013557E /* GBSettings.m */; };
+		14FD07241AA7111A0013557E /* GBPrint.m in Sources */ = {isa = PBXBuildFile; fileRef = 14FD07111AA70C0E0013557E /* GBPrint.m */; };
+		14FD07251AA7111E0013557E /* GBOptionsHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 14FD070F1AA70C0E0013557E /* GBOptionsHelper.m */; };
+		14FD07261AA711210013557E /* GBCommandLineParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 14FD070D1AA70C0E0013557E /* GBCommandLineParser.m */; };
 		6E031030162FE50B003225B1 /* PGQuery.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E03102E162FE50B003225B1 /* PGQuery.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E031031162FE50B003225B1 /* PGQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E03102F162FE50B003225B1 /* PGQuery.m */; };
 		6E0773D9163744D90028783F /* PGResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0773D7163744D90028783F /* PGResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -253,6 +257,27 @@
 			proxyType = 1;
 			remoteGlobalIDString = 6ED763FA15F2673600687079;
 			remoteInfo = PGServerKit_mac;
+		};
+		14FD071C1AA70C0E0013557E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 14FD06FA1AA70C0E0013557E /* CHCSVParser.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8DD76FA10486AA7600D96B5E;
+			remoteInfo = CHCSVParser;
+		};
+		14FD071E1AA70C0E0013557E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 14FD06FA1AA70C0E0013557E /* CHCSVParser.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 557FD0531204A70D009FCDBA;
+			remoteInfo = "Unit Tests";
+		};
+		14FD07211AA70C0E0013557E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 14FD07151AA70C0E0013557E /* GBCli.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 734849FC1511FD010031EF85;
+			remoteInfo = GBCli;
 		};
 		6E0C815E1A618E640032AE32 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -465,6 +490,34 @@
 		14F1E86A17CB84FB00710D4A /* PGConsoleViewImpl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGConsoleViewImpl.h; sourceTree = "<group>"; };
 		14F94DFE17A67C5C008212B0 /* PGSchemaProductOpTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSchemaProductOpTable.h; sourceTree = "<group>"; };
 		14F94DFF17A67C5C008212B0 /* PGSchemaProductOpTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSchemaProductOpTable.m; sourceTree = "<group>"; };
+		14FD06F61AA70C0E0013557E /* CHCSVParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHCSVParser.h; sourceTree = "<group>"; };
+		14FD06F71AA70C0E0013557E /* CHCSVParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHCSVParser.m; sourceTree = "<group>"; };
+		14FD06F81AA70C0E0013557E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		14FD06F91AA70C0E0013557E /* CHCSVParser.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = CHCSVParser.podspec; sourceTree = "<group>"; };
+		14FD06FA1AA70C0E0013557E /* CHCSVParser.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = CHCSVParser.xcodeproj; sourceTree = "<group>"; };
+		14FD06FD1AA70C0E0013557E /* LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		14FD06FE1AA70C0E0013557E /* README.markdown */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.markdown; sourceTree = "<group>"; };
+		14FD07001AA70C0E0013557E /* Unit Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Unit Tests-Info.plist"; sourceTree = "<group>"; };
+		14FD07011AA70C0E0013557E /* UnitTestContent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UnitTestContent.h; sourceTree = "<group>"; };
+		14FD07021AA70C0E0013557E /* UnitTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UnitTests.h; sourceTree = "<group>"; };
+		14FD07031AA70C0E0013557E /* UnitTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UnitTests.m; sourceTree = "<group>"; };
+		14FD07061AA70C0E0013557E /* GBCli-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GBCli-Prefix.pch"; sourceTree = "<group>"; };
+		14FD07071AA70C0E0013557E /* GBSettings+Application.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GBSettings+Application.h"; sourceTree = "<group>"; };
+		14FD07081AA70C0E0013557E /* GBSettings+Application.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "GBSettings+Application.m"; sourceTree = "<group>"; };
+		14FD07091AA70C0E0013557E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		14FD070B1AA70C0E0013557E /* GBCli.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GBCli.h; sourceTree = "<group>"; };
+		14FD070C1AA70C0E0013557E /* GBCommandLineParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GBCommandLineParser.h; sourceTree = "<group>"; };
+		14FD070D1AA70C0E0013557E /* GBCommandLineParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GBCommandLineParser.m; sourceTree = "<group>"; };
+		14FD070E1AA70C0E0013557E /* GBOptionsHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GBOptionsHelper.h; sourceTree = "<group>"; };
+		14FD070F1AA70C0E0013557E /* GBOptionsHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GBOptionsHelper.m; sourceTree = "<group>"; };
+		14FD07101AA70C0E0013557E /* GBPrint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GBPrint.h; sourceTree = "<group>"; };
+		14FD07111AA70C0E0013557E /* GBPrint.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GBPrint.m; sourceTree = "<group>"; };
+		14FD07121AA70C0E0013557E /* GBSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GBSettings.h; sourceTree = "<group>"; };
+		14FD07131AA70C0E0013557E /* GBSettings.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GBSettings.m; sourceTree = "<group>"; };
+		14FD07141AA70C0E0013557E /* GBCli.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = GBCli.podspec; sourceTree = "<group>"; };
+		14FD07151AA70C0E0013557E /* GBCli.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = GBCli.xcodeproj; sourceTree = "<group>"; };
+		14FD07181AA70C0E0013557E /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		14FD07191AA70C0E0013557E /* Readme.markdown */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Readme.markdown; sourceTree = "<group>"; };
 		6E002D4A17BFEC7B001FB183 /* test-frameworks.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "test-frameworks.sh"; sourceTree = "<group>"; };
 		6E03102E162FE50B003225B1 /* PGQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGQuery.h; sourceTree = "<group>"; };
 		6E03102F162FE50B003225B1 /* PGQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGQuery.m; sourceTree = "<group>"; };
@@ -982,6 +1035,8 @@
 		14EE3C3E166752F80083C735 /* tar */ = {
 			isa = PBXGroup;
 			children = (
+				14FD06F31AA70C0E0013557E /* CHCSVParser-2.1.0 */,
+				14FD07041AA70C0E0013557E /* GBCli-1.1 */,
 				6E45A3851A73AA7E00E20B36 /* MMMarkdown-0.4.1 */,
 				6EE12E0C17D51CD70034B9E1 /* sskeychain-1.2.0 */,
 				6E1548221A57FBA000556573 /* openssl-1.0.1j.tar.gz */,
@@ -1016,6 +1071,105 @@
 				14F1E86917CB84FB00710D4A /* PGConsoleView.xib */,
 			);
 			name = PGConsoleView;
+			sourceTree = "<group>";
+		};
+		14FD06F31AA70C0E0013557E /* CHCSVParser-2.1.0 */ = {
+			isa = PBXGroup;
+			children = (
+				14FD06F41AA70C0E0013557E /* CHCSVParser */,
+				14FD06F91AA70C0E0013557E /* CHCSVParser.podspec */,
+				14FD06FA1AA70C0E0013557E /* CHCSVParser.xcodeproj */,
+				14FD06FD1AA70C0E0013557E /* LICENSE.txt */,
+				14FD06FE1AA70C0E0013557E /* README.markdown */,
+				14FD06FF1AA70C0E0013557E /* Unit Tests */,
+			);
+			path = "CHCSVParser-2.1.0";
+			sourceTree = "<group>";
+		};
+		14FD06F41AA70C0E0013557E /* CHCSVParser */ = {
+			isa = PBXGroup;
+			children = (
+				14FD06F51AA70C0E0013557E /* CHCSVParser */,
+				14FD06F81AA70C0E0013557E /* main.m */,
+			);
+			path = CHCSVParser;
+			sourceTree = "<group>";
+		};
+		14FD06F51AA70C0E0013557E /* CHCSVParser */ = {
+			isa = PBXGroup;
+			children = (
+				14FD06F61AA70C0E0013557E /* CHCSVParser.h */,
+				14FD06F71AA70C0E0013557E /* CHCSVParser.m */,
+			);
+			path = CHCSVParser;
+			sourceTree = "<group>";
+		};
+		14FD06FB1AA70C0E0013557E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				14FD071D1AA70C0E0013557E /* CHCSVParser */,
+				14FD071F1AA70C0E0013557E /* Unit Tests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		14FD06FF1AA70C0E0013557E /* Unit Tests */ = {
+			isa = PBXGroup;
+			children = (
+				14FD07001AA70C0E0013557E /* Unit Tests-Info.plist */,
+				14FD07011AA70C0E0013557E /* UnitTestContent.h */,
+				14FD07021AA70C0E0013557E /* UnitTests.h */,
+				14FD07031AA70C0E0013557E /* UnitTests.m */,
+			);
+			path = "Unit Tests";
+			sourceTree = "<group>";
+		};
+		14FD07041AA70C0E0013557E /* GBCli-1.1 */ = {
+			isa = PBXGroup;
+			children = (
+				14FD07051AA70C0E0013557E /* GBCli */,
+				14FD07141AA70C0E0013557E /* GBCli.podspec */,
+				14FD07151AA70C0E0013557E /* GBCli.xcodeproj */,
+				14FD07181AA70C0E0013557E /* LICENSE */,
+				14FD07191AA70C0E0013557E /* Readme.markdown */,
+			);
+			path = "GBCli-1.1";
+			sourceTree = "<group>";
+		};
+		14FD07051AA70C0E0013557E /* GBCli */ = {
+			isa = PBXGroup;
+			children = (
+				14FD07061AA70C0E0013557E /* GBCli-Prefix.pch */,
+				14FD07071AA70C0E0013557E /* GBSettings+Application.h */,
+				14FD07081AA70C0E0013557E /* GBSettings+Application.m */,
+				14FD07091AA70C0E0013557E /* main.m */,
+				14FD070A1AA70C0E0013557E /* src */,
+			);
+			path = GBCli;
+			sourceTree = "<group>";
+		};
+		14FD070A1AA70C0E0013557E /* src */ = {
+			isa = PBXGroup;
+			children = (
+				14FD070B1AA70C0E0013557E /* GBCli.h */,
+				14FD070C1AA70C0E0013557E /* GBCommandLineParser.h */,
+				14FD070D1AA70C0E0013557E /* GBCommandLineParser.m */,
+				14FD070E1AA70C0E0013557E /* GBOptionsHelper.h */,
+				14FD070F1AA70C0E0013557E /* GBOptionsHelper.m */,
+				14FD07101AA70C0E0013557E /* GBPrint.h */,
+				14FD07111AA70C0E0013557E /* GBPrint.m */,
+				14FD07121AA70C0E0013557E /* GBSettings.h */,
+				14FD07131AA70C0E0013557E /* GBSettings.m */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		14FD07161AA70C0E0013557E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				14FD07221AA70C0E0013557E /* GBCli */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		6E0C81681A61956B0032AE32 /* PGSplitView */ = {
@@ -1670,6 +1824,16 @@
 			mainGroup = 6E256FDC15F252620079AD2D;
 			productRefGroup = 6ED763FC15F2673600687079 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 14FD06FB1AA70C0E0013557E /* Products */;
+					ProjectRef = 14FD06FA1AA70C0E0013557E /* CHCSVParser.xcodeproj */;
+				},
+				{
+					ProductGroup = 14FD07161AA70C0E0013557E /* Products */;
+					ProjectRef = 14FD07151AA70C0E0013557E /* GBCli.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				14280457166811D700A61BF6 /* openssl_mac */,
@@ -1689,6 +1853,30 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		14FD071D1AA70C0E0013557E /* CHCSVParser */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = CHCSVParser;
+			remoteRef = 14FD071C1AA70C0E0013557E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		14FD071F1AA70C0E0013557E /* Unit Tests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "Unit Tests.xctest";
+			remoteRef = 14FD071E1AA70C0E0013557E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		14FD07221AA70C0E0013557E /* GBCli */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = GBCli;
+			remoteRef = 14FD07211AA70C0E0013557E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		147070C41A90CB450069EF9C /* Resources */ = {
@@ -1936,9 +2124,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				14FD07261AA711210013557E /* GBCommandLineParser.m in Sources */,
 				6EFFF23C1A5F053000CAA6E7 /* Terminal.m in Sources */,
+				14FD07251AA7111E0013557E /* GBOptionsHelper.m in Sources */,
+				14FD07231AA711140013557E /* GBSettings.m in Sources */,
 				6EFFF23A1A5F052A00CAA6E7 /* PGFoundationApp.m in Sources */,
 				6E82F1771AA1D06D0024B8BE /* PGFoundationClient2.m in Sources */,
+				14FD07241AA7111A0013557E /* GBPrint.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -13,6 +13,7 @@
 // under the License.
 
 #import "PGFoundationApp.h"
+#import "GBCli.h"
 
 static PGFoundationApp* app = nil;
 
@@ -48,6 +49,7 @@ void setHandleSignal() {
 	if(self) {
 		_stop = NO;
 		_returnValue = 0;
+		_settings = [GBSettings settingsWithName:@"settings" parent:nil];
 		setHandleSignal();
 	}
 	return self;
@@ -57,6 +59,7 @@ void setHandleSignal() {
 // properties
 
 @synthesize stopping = _stop;
+@synthesize settings = _settings;
 
 ////////////////////////////////////////////////////////////////////////////////
 // private methods
@@ -68,6 +71,43 @@ void setHandleSignal() {
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
+
+-(void)registerCommandLineOptionsWithParser:(GBCommandLineParser* )parser {
+	[parser registerOption:@"help" shortcut:'?' requirement:GBValueNone];
+}
+
+-(BOOL)parseOptionsWithArguments:(const char** )argv count:(int)argc error:(NSError** )error {
+	NSParameterAssert(argv);
+	NSParameterAssert(error);
+	GBCommandLineParser* parser = [[GBCommandLineParser alloc] init];
+	__block BOOL returnValue = YES;
+	
+	[self registerCommandLineOptionsWithParser:(GBCommandLineParser* )parser];
+	
+	[parser parseOptionsWithArguments:(char** )argv count:argc block:^(GBParseFlags flags, NSString* option, id value, BOOL* stop) {
+        switch (flags) {
+            case GBParseFlagUnknownOption:
+				// TODO: put into NSError* message
+                printf("Unknown command line option %s, try --help\n", [option UTF8String]);
+				(*stop) = YES;
+				returnValue = NO;
+                break;
+            case GBParseFlagMissingValue:
+				// TODO: put into NSError* message
+                printf("Missing value for command line option %s, try --help\n", [option UTF8String]);
+				(*stop) = YES;
+				returnValue = NO;
+                break;
+            case GBParseFlagOption:
+				[[self settings] setObject:value forKey:option];
+                break;
+            case GBParseFlagArgument:
+				[[self settings] addArgument:value];
+                break;
+        }
+    }];
+	return returnValue;
+}
 
 -(void)stop {
 	_stop = YES;
