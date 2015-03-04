@@ -15,6 +15,8 @@
 #import <PGClientKit/PGClientKit.h>
 #import <PGClientKit/PGClientKit+Private.h>
 
+//#define DEBUG2
+
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark C callback functions
 ////////////////////////////////////////////////////////////////////////////////
@@ -54,16 +56,16 @@ void _noticeProcessor(void* arg,const char* cString) {
 	NSParameterAssert(_socket==nil && _runloopsource==nil);
 	
 	// create socket object
-	CFSocketContext context = {0, (__bridge void *)(self), NULL, NULL, NULL};
+	CFSocketContext context = {0, (__bridge void* )(self), NULL, NULL, NULL};
 	_socket = CFSocketCreateWithNative(NULL,PQsocket(_connection),kCFSocketReadCallBack | kCFSocketWriteCallBack,&_socketCallback,&context);
 	NSParameterAssert(_socket && CFSocketIsValid(_socket));
-	// let libpq do the closing
-	CFSocketSetSocketFlags(_socket, ~kCFSocketCloseOnInvalidate & CFSocketGetSocketFlags(_socket));
+	// let libpq do the socket closing
+	CFSocketSetSocketFlags(_socket,~kCFSocketCloseOnInvalidate & CFSocketGetSocketFlags(_socket));
 	
 	// set state
 	[self setState:state];
 	[self _updateStatus];
-
+	
 	// add to run loop to begin polling
 	_runloopsource = CFSocketCreateRunLoopSource(NULL,_socket,0);
 	NSParameterAssert(_runloopsource && CFRunLoopSourceIsValid(_runloopsource));
@@ -190,35 +192,30 @@ void _noticeProcessor(void* arg,const char* cString) {
 
 /**
  *  In the case of a query being processed, this method will consume any input
- *  flush the connection and consume any results which are being processed.
+ *  then any results from the server
  */
--(void)_socketCallbackQuery {
+-(void)_socketCallbackQueryRead {
 	NSParameterAssert(_connection);
 
-	// consume input
 	PQconsumeInput(_connection);
 
-	// flush
-	int returnCode = PQflush(_connection);
-	if(returnCode==1) {
-		// not able to send all the data yet
-		return;
-	} else if(returnCode==-1) {
-		// callback with error
-		NSParameterAssert(_callback);
-		void (^callback)(PGResult* result,NSError* error) = (__bridge void (^)(PGResult* ,NSError* ))(_callback);
-		NSError* error = [self raiseError:nil code:PGClientErrorState reason:@"Data flush failed during query"];
-		callback(nil,error);
-	}
-
+	/* it seems that we don't really need to check for busy and it seems to
+	 * create some issues, so ignore for now
 	// check for busy, return if more to do
 	if(PQisBusy(_connection)) {
 		return;
 	}
+	*/
 
 	// consume results
 	PGresult* result = nil;
-	while((result = PQgetResult(_connection))) {
+	while(1) {
+		NSLog(@"=>PQgetResult");
+		result = PQgetResult(_connection);
+		if(result==nil) {
+			NSLog(@"<=PQgetResult result==nil");
+			break;
+		}
 		NSError* error = nil;
 		PGResult* r = nil;
 		// check for connection errors
@@ -237,12 +234,32 @@ void _noticeProcessor(void* arg,const char* cString) {
 			void (^callback)(PGResult* result,NSError* error) = (__bridge void (^)(PGResult* ,NSError* ))(_callback);
 			callback(r,error);
 		}
-		PQconsumeInput(_connection);
+		NSLog(@"<=PQgetResult");
 	}
+	
 	// all results consumed - update state
 	[self setState:PGConnectionStateNone];
 	_callback = nil; // release the callback
 	[self _updateStatus];
+}
+
+/**
+ *  In the case of a query being processed, this method will consume any input
+ *  flush the connection and consume any results which are being processed.
+ */
+-(void)_socketCallbackQueryWrite {
+	NSParameterAssert(_connection);
+	// flush
+	NSLog(@"=>PQflush");
+	int returnCode = PQflush(_connection);
+	NSLog(@"<=PQflush");
+	if(returnCode==-1) {
+		// callback with error
+		NSParameterAssert(_callback);
+		void (^callback)(PGResult* result,NSError* error) = (__bridge void (^)(PGResult* ,NSError* ))(_callback);
+		NSError* error = [self raiseError:nil code:PGClientErrorState reason:@"Data flush failed during query"];
+		callback(nil,error);
+	}
 }
 
 /**
@@ -281,8 +298,12 @@ void _noticeProcessor(void* arg,const char* cString) {
 			[self _socketCallbackReset];
 			break;
 		case PGConnectionStateQuery:
-			[self _socketCallbackQuery];
-			[self _socketCallbackNotification];
+			if(callBackType==kCFSocketReadCallBack) {
+				[self _socketCallbackQueryRead];
+				[self _socketCallbackNotification];
+			} else if(callBackType==kCFSocketWriteCallBack) {
+				[self _socketCallbackQueryWrite];
+			}
 			break;
 		default:
 			[self _socketCallbackNotification];

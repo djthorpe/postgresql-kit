@@ -39,6 +39,7 @@ enum {
 	PGOidTypeInt4 = 23,
 	PGOidTypeText = 25,
 	PGOidTypeOid = 26,
+	PGOidTypeXid = 28,
 	PGOidTypeXML = 142,
 	PGOidTypePoint = 600,
 	PGOidTypeLSeg = 601,
