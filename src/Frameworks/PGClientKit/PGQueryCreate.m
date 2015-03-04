@@ -19,6 +19,7 @@ NSString* PQQueryCreateDatabaseNameKey = @"PGQueryCreate_database";
 NSString* PQQueryCreateSchemaNameKey = @"PGQueryCreate_schema";
 NSString* PQQueryCreateRoleNameKey = @"PGQueryCreate_role";
 NSString* PQQueryCreateOwnerNameKey = @"PGQueryCreate_owner";
+NSString* PQQueryCreateTableNameKey = @"PGQueryCreate_table";
 
 // additional option flags
 enum {
@@ -27,10 +28,19 @@ enum {
 	PGQueryOptionTypeCreateRole     = 0x0400000,
 	PGQueryOptionTypeDropDatabase   = 0x0800000,
 	PGQueryOptionTypeDropSchema     = 0x1000000,
-	PGQueryOptionTypeDropRole       = 0x2000000
+	PGQueryOptionTypeDropRole       = 0x2000000,
+	PGQueryOptionTypeDropTable      = 0x4000000
 };
 
 @implementation PGQueryCreate
+
+-(instancetype)init {
+	self = [super init];
+	if(self) {
+		[self setConnectionLimit:-1]; // -1 is default
+	}
+	return self;
+}
 
 +(PGQueryCreate* )createDatabase:(NSString* )databaseName options:(int)options {
 	NSParameterAssert(databaseName);
@@ -86,6 +96,37 @@ enum {
 	return query;
 }
 
++(PGQueryCreate* )dropTables:(NSArray* )tableNames options:(int)options {
+	NSParameterAssert(tableNames);
+	// check for non-string table names
+	if([tableNames count]==0) {
+		return nil;
+	}
+	for(NSString* tableName in tableNames) {
+		if([tableName isKindOfClass:[NSString class]]==NO) {
+			return nil;
+		}
+		if([tableName length]==0) {
+			return nil;
+		}
+	}
+	// create the query
+	PGQueryCreate* query = [super queryWithDictionary:@{
+		PQQueryCreateTableNameKey: tableNames
+	} class:NSStringFromClass([self class])];
+	[query setOptions:(options | PGQueryOptionTypeDropTable)];
+	return query;
+}
+
++(PGQueryCreate* )dropTable:(NSString* )tableName options:(int)options {
+	NSParameterAssert(tableName);
+	PGQueryCreate* query = [super queryWithDictionary:@{
+		PQQueryCreateTableNameKey: tableName
+	} class:NSStringFromClass([self class])];
+	[query setOptions:(options | PGQueryOptionTypeDropTable)];
+	return query;
+}
+
 /////////////////////////////////////////////////
 // properties
 
@@ -105,15 +146,17 @@ enum {
 	[super setObject:owner forKey:PQQueryCreateOwnerNameKey];
 }
 
+// TODO: add the other dynamic properties in here
+
 /////////////////////////////////////////////////
 // methods
 
--(NSString* )_createDatabaseStatementForConnection:(PGConnection2* )connection options:(int)options error:(NSError** )error {
+-(NSString* )_createDatabaseStatementForConnection:(PGConnection* )connection options:(int)options error:(NSError** )error {
 	NSString* databaseName = [super objectForKey:PQQueryCreateDatabaseNameKey];
 	if([databaseName length]==0) {
 		return nil;
 	}
-	// OWNER
+	// FLAGS
 	NSMutableArray* flags = [NSMutableArray array];
 	if(options & PGQueryOptionSetOwner) {
 		[flags addObject:[NSString stringWithFormat:@"OWNER %@",[connection quoteIdentifier:[self owner]]]];
@@ -127,13 +170,13 @@ enum {
 	if(options & PGQueryOptionSetTablespace) {
 		[flags addObject:[NSString stringWithFormat:@"TABLESPACE %@",[connection quoteIdentifier:[self tablespace]]]];
 	}
-	if(options & PGQueryOptionSetConnectionLimit) {
-		[flags addObject:[NSString stringWithFormat:@"TABLESPACE %ld",[connection quoteIdentifier:[self connectionLimit]]]];
+	if((options & PGQueryOptionSetConnectionLimit) && [self connectionLimit] != -1) {
+		[flags addObject:[NSString stringWithFormat:@"CONNECTION LIMIT %ld",[self connectionLimit]]];
 	}
-	return [NSString stringWithFormat:@"CREATE DATABASE %@%@",[connection quoteIdentifier:databaseName],flags];
+	return [NSString stringWithFormat:@"CREATE DATABASE %@%@",[connection quoteIdentifier:databaseName],[flags componentsJoinedByString:@" "]];
 }
 
--(NSString* )_dropDatabaseStatementForConnection:(PGConnection2* )connection options:(int)options error:(NSError** )error {
+-(NSString* )_dropDatabaseStatementForConnection:(PGConnection* )connection options:(int)options error:(NSError** )error {
 	NSString* databaseName = [super objectForKey:PQQueryCreateDatabaseNameKey];
 	if([databaseName length]==0) {
 		return nil;
@@ -160,6 +203,8 @@ enum {
 	} else if(options & PGQueryOptionTypeDropSchema) {
 		return @"-- NOT IMPLEMENTED --";
 	} else if(options & PGQueryOptionTypeDropRole) {
+		return @"-- NOT IMPLEMENTED --";
+	} else if(options & PGQueryOptionTypeDropTable) {
 		return @"-- NOT IMPLEMENTED --";
 	}
 	return nil;

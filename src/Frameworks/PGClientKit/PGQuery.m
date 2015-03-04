@@ -41,11 +41,8 @@ NSString* PGQueryOptionsKey = @"PGQuery_options";
 
 -(instancetype)initWithDictionary:(NSDictionary* )dictionary {
 	NSParameterAssert(dictionary);
-	self = [super init];
+	self = [self init];
 	if(self) {
-		_dictionary = [[NSMutableDictionary alloc] initWithDictionary:dictionary];
-		NSParameterAssert(_dictionary);
-
 		// check class is correct
 		NSString* className = [dictionary objectForKey:PGQueryClassKey];
 		if(className==nil || [className isKindOfClass:[NSString class]]==NO || [className length]==0) {

@@ -40,8 +40,8 @@ enum {
 +(PGQueryCreate* )createDatabase:(NSString* )databaseName options:(int)options;
 +(PGQueryCreate* )createSchema:(NSString* )schemaName options:(int)options;
 +(PGQueryCreate* )createRole:(NSString* )roleName options:(int)options;
-+(PGQueryCreate* )createTable:(NSString* )tableName schema:(NSString* )schemaName columns:(NSArray* )columns options:(int)options;
-+(PGQueryCreate* )createTable:(NSString* )tableName columns:(NSArray* )columns options:(int)options;
+/*+(PGQueryCreate* )createTable:(NSString* )tableName schema:(NSString* )schemaName columns:(NSArray* )columns options:(int)options;
++(PGQueryCreate* )createTable:(NSString* )tableName columns:(NSArray* )columns options:(int)options;*/
 
 // drop statements
 +(PGQueryCreate* )dropDatabase:(NSString* )databaseName options:(int)options;

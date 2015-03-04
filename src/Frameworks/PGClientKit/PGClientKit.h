@@ -63,7 +63,7 @@ typedef enum {
 
 // queries
 #import "PGQuery.h"
-//#import "PGQueryCreate.h"
+#import "PGQueryCreate.h"
 #import "PGSelect.h"
 
 // helpers
