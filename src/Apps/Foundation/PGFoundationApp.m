@@ -66,7 +66,11 @@ void setHandleSignal() {
 
 -(void)timerFired:(id)theTimer {
 	// call the init method
-	[self setup];
+	BOOL returnValue = [self setup];
+	if(returnValue==NO) {
+		_stop = YES;
+		[self stoppedWithReturnValue:-1];
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -143,8 +147,9 @@ void setHandleSignal() {
 	return _returnValue;
 }
 
--(void)setup {
+-(BOOL)setup {
 	// do nothing - needs override
+	return YES;
 }
 
 @end

@@ -43,7 +43,15 @@
 @dynamic prompt;
 
 -(NSURL* )url {
-	return [NSURL URLWithString:@"postgres://pttnkktdoyjfyc@ec2-54-227-255-156.compute-1.amazonaws.com:5432/dej7aj0jp668p5"];
+	NSArray* arguments = [[self settings] arguments];
+	if([arguments count] != 1) {
+		return nil;
+	}
+	NSString* url = [arguments objectAtIndex:0];
+	if([url length]==0) {
+		return nil;
+	}
+	return [NSURL URLWithString:url];
 }
 
 -(NSString* )prompt {
@@ -61,7 +69,7 @@
 // PGConnectionDelegate delegate implementation
 
 -(void)connection:(PGConnection* )connection willOpenWithParameters:(NSMutableDictionary* )dictionary {
-#ifdef DEBUG
+#ifdef DEBUG2
 	[[self term] printf:@"connection:willOpenWithParameters:%@",dictionary];
 #endif
 	// if there is a password in the parameters, then store it
@@ -303,7 +311,13 @@
 	[self performSelectorOnMainThread:@selector(stop) withObject:nil waitUntilDone:NO];
 }
 
--(void)setup {
+-(BOOL)setup {
+	if([self url]==nil) {
+		[[self term] printf:@"Error: missing URL parameter"];
+		return NO;
+	}
+
+	// Enter password
 	if([[self settings] boolForKey:@"password"]) {
 		// check for password entry
 		[[self term] setPrompt:@"Password: "];
@@ -318,6 +332,9 @@
 	
 	// set up a separate thread to deal with input
 	[NSThread detachNewThreadSelector:@selector(readlineThread:) toTarget:self withObject:nil];
+	
+	// return success
+	return YES;
 }
 
 -(void)stop {
@@ -333,7 +350,7 @@
 int main (int argc, const char* argv[]) {
 	int returnValue = 0;
 	@autoreleasepool {
-		PGFoundationApp* app = (PGFoundationApp* )[PGFoundationClient2 sharedApp];
+		PGFoundationApp* app = (PGFoundationApp* )[PGFoundationClient sharedApp];
 		NSError* error = nil;
 		if([app parseOptionsWithArguments:argv count:argc error:&error]==NO) {
 			returnValue = -1;

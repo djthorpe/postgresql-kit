@@ -35,7 +35,7 @@
 -(int)run;
 
 // setup is called to do one-time initial set-up, you can override this method
--(void)setup;
+-(BOOL)setup;
 
 // call stop when you wish to stop the application
 -(void)stop;

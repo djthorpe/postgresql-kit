@@ -181,7 +181,7 @@
 		6E69F6B91A67C0040014EC1F /* NOTICE.md in Resources */ = {isa = PBXBuildFile; fileRef = 14EE3C36166752F80083C735 /* NOTICE.md */; };
 		6E82F1731A9BC9B20024B8BE /* PGConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E82F1711A9BC9B20024B8BE /* PGConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E82F1741A9BC9B20024B8BE /* PGConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E82F1721A9BC9B20024B8BE /* PGConnection.m */; };
-		6E82F1771AA1D06D0024B8BE /* PGFoundationClient2.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E82F1761AA1D06D0024B8BE /* PGFoundationClient2.m */; };
+		6E82F1771AA1D06D0024B8BE /* PGFoundationClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E82F1761AA1D06D0024B8BE /* PGFoundationClient.m */; };
 		6E9256A21AA645FC007DAD82 /* PGConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E82F1721A9BC9B20024B8BE /* PGConnection.m */; };
 		6E9256A31AA64604007DAD82 /* PGConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E82F1711A9BC9B20024B8BE /* PGConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E9256A81AA6481E007DAD82 /* PGConnection+Callbacks.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E9256A51AA6481E007DAD82 /* PGConnection+Callbacks.m */; };
@@ -623,8 +623,8 @@
 		6E69F6AF1A67BABF0014EC1F /* PGSourceViewNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSourceViewNode.m; sourceTree = "<group>"; };
 		6E82F1711A9BC9B20024B8BE /* PGConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGConnection.h; sourceTree = "<group>"; };
 		6E82F1721A9BC9B20024B8BE /* PGConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGConnection.m; sourceTree = "<group>"; };
-		6E82F1751AA1D06D0024B8BE /* PGFoundationClient2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGFoundationClient2.h; sourceTree = "<group>"; };
-		6E82F1761AA1D06D0024B8BE /* PGFoundationClient2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGFoundationClient2.m; sourceTree = "<group>"; };
+		6E82F1751AA1D06D0024B8BE /* PGFoundationClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGFoundationClient.h; sourceTree = "<group>"; };
+		6E82F1761AA1D06D0024B8BE /* PGFoundationClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGFoundationClient.m; sourceTree = "<group>"; };
 		6E83260817AD08C1002AFCBC /* build-frameworks.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "build-frameworks.sh"; sourceTree = "<group>"; };
 		6E8C167C15F26BF20013A382 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		6E8C167F15F26BF20013A382 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -1521,8 +1521,8 @@
 				6EFFF2331A5F044E00CAA6E7 /* PGFoundationServer.m */,
 				6EFFF2381A5F051D00CAA6E7 /* Terminal.h */,
 				6EFFF2391A5F051D00CAA6E7 /* Terminal.m */,
-				6E82F1751AA1D06D0024B8BE /* PGFoundationClient2.h */,
-				6E82F1761AA1D06D0024B8BE /* PGFoundationClient2.m */,
+				6E82F1751AA1D06D0024B8BE /* PGFoundationClient.h */,
+				6E82F1761AA1D06D0024B8BE /* PGFoundationClient.m */,
 			);
 			path = Foundation;
 			sourceTree = "<group>";
@@ -2128,7 +2128,7 @@
 				14FD07251AA7111E0013557E /* GBOptionsHelper.m in Sources */,
 				14FD07231AA711140013557E /* GBSettings.m in Sources */,
 				6EFFF23A1A5F052A00CAA6E7 /* PGFoundationApp.m in Sources */,
-				6E82F1771AA1D06D0024B8BE /* PGFoundationClient2.m in Sources */,
+				6E82F1771AA1D06D0024B8BE /* PGFoundationClient.m in Sources */,
 				14FD07241AA7111A0013557E /* GBPrint.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
