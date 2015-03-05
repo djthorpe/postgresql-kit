@@ -51,6 +51,8 @@ NSString* PGQueryOptionsKey = @"PGQuery_options";
 		if([self isKindOfClass:NSClassFromString(className)]==NO) {
 			return nil;
 		}
+		// add items into dictionary
+		[_dictionary addEntriesFromDictionary:dictionary];
 	}
 	return self;
 }
