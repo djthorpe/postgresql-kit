@@ -176,17 +176,125 @@ enum {
 	return [NSString stringWithFormat:@"CREATE DATABASE %@%@",[connection quoteIdentifier:databaseName],[flags componentsJoinedByString:@" "]];
 }
 
+-(NSString* )_createRoleStatementForConnection:(PGConnection* )connection options:(int)options error:(NSError** )error {
+	NSString* roleName = [super objectForKey:PQQueryCreateRoleNameKey];
+	if([roleName length]==0) {
+		return nil;
+	}
+	NSMutableArray* flags = [NSMutableArray new];
+	if(options & PGQueryOptionRolePrivSuperuser) {
+		[flags addObject:@"SUPERUSER"];
+	} else {
+		[flags addObject:@"NOSUPERUSER"];
+	}
+	if(options & PGQueryOptionRolePrivCreateDatabase) {
+		[flags addObject:@"CREATEDB"];
+	} else {
+		[flags addObject:@"NOCREATEDB"];
+	}
+	if(options & PGQueryOptionRolePrivCreateRole) {
+		[flags addObject:@"CREATEROLE"];
+	} else {
+		[flags addObject:@"NOCREATEROLE"];
+	}
+	if(options & PGQueryOptionRolePrivInherit) {
+		[flags addObject:@"INHERIT"];
+	}
+	if(options & PGQueryOptionRolePrivLogin) {
+		[flags addObject:@"LOGIN"];
+	} else {
+		[flags addObject:@"NOLOGIN"];
+	}
+	if((options & PGQueryOptionSetConnectionLimit) && [self connectionLimit] != -1) {
+		[flags addObject:[NSString stringWithFormat:@"CONNECTION LIMIT %ld",[self connectionLimit]]];
+	}
+	if(options & PGQueryOptionRoleSetPassword) {
+		// TODO
+	}
+	if(options & PGQueryOptionRoleSetExpiry) {
+		// TODO
+	}
+	if(options & PGQueryOptionSetOwner) {
+		[flags addObject:[NSString stringWithFormat:@"IN ROLE %@",[connection quoteIdentifier:[self owner]]]];
+	}
+	return [NSString stringWithFormat:@"CREATE ROLE %@ %@",[connection quoteIdentifier:roleName],[flags componentsJoinedByString:@" "]];
+}
+
+-(NSString* )_createSchemaStatementForConnection:(PGConnection* )connection options:(int)options error:(NSError** )error {
+	NSString* schemaName = [super objectForKey:PQQueryCreateSchemaNameKey];
+	if([schemaName length]==0) {
+		return nil;
+	}
+	NSMutableArray* flags = [NSMutableArray new];
+	// schema owner
+	if(options & PGQueryOptionSetOwner) {
+		[flags addObject:[NSString stringWithFormat:@"AUTHORIZATION %@",[connection quoteIdentifier:[self owner]]]];
+	}
+	return [NSString stringWithFormat:@"CREATE SCHEMA %@ %@",[connection quoteIdentifier:schemaName],[flags componentsJoinedByString:@" "]];
+}
+
+-(NSString* )_dropSchemaStatementForConnection:(PGConnection* )connection options:(int)options error:(NSError** )error {
+	NSString* schemaName = [super objectForKey:PQQueryCreateSchemaNameKey];
+	if([schemaName length]==0) {
+		return nil;
+	}
+	NSMutableArray* flags = [NSMutableArray new];
+	// IF EXISTS
+	if(options & PGQueryOptionIgnoreIfExists) {
+		[flags addObject:@"IF EXISTS"];
+	}
+	// CASCADE
+	if(options & PGQueryOptionDropObjects) {
+		[flags addObject:@"CASCADE"];
+	} else {
+		[flags addObject:@"RESTRICT"];
+	}
+	return [NSString stringWithFormat:@"DROP SCHEMA %@%@",[connection quoteIdentifier:schemaName],[flags componentsJoinedByString:@" "]];
+}
+
 -(NSString* )_dropDatabaseStatementForConnection:(PGConnection* )connection options:(int)options error:(NSError** )error {
 	NSString* databaseName = [super objectForKey:PQQueryCreateDatabaseNameKey];
 	if([databaseName length]==0) {
 		return nil;
 	}
+	NSMutableArray* flags = [NSMutableArray new];
 	// IF EXISTS
-	NSString* flags = @"";
 	if(options & PGQueryOptionIgnoreIfExists) {
-		flags = @" IF EXISTS";
+		[flags addObject:@"IF EXISTS"];
 	}
-	return [NSString stringWithFormat:@"DROP DATABASE %@%@",[connection quoteIdentifier:databaseName],flags];
+	return [NSString stringWithFormat:@"DROP DATABASE %@%@",[connection quoteIdentifier:databaseName],[flags componentsJoinedByString:@" "]];
+}
+
+-(NSString* )_dropRolesStatementForConnection:(PGConnection* )connection options:(int)options error:(NSError** )error {
+	NSArray* roleNames = [super objectForKey:PQQueryCreateRoleNameKey];
+	if([roleNames count]==0) {
+		return nil;
+	}
+	NSMutableArray* flags = [NSMutableArray new];
+	// IF EXISTS
+	if(options & PGQueryOptionIgnoreIfExists) {
+		[flags addObject:@"IF EXISTS"];
+	}
+	return [NSString stringWithFormat:@"DROP ROLE %@%@",[connection quoteIdentifier:roleNames],[flags componentsJoinedByString:@" "]];
+}
+
+-(NSString* )_dropTableStatementForConnection:(PGConnection* )connection options:(int)options error:(NSError** )error {
+	NSString* tableName = [super objectForKey:PQQueryCreateTableNameKey];
+	if([tableName length]==0) {
+		return nil;
+	}
+	NSMutableArray* flags = [NSMutableArray new];
+	// IF EXISTS
+	if(options & PGQueryOptionIgnoreIfExists) {
+		[flags addObject:@"IF EXISTS"];
+	}
+	// CASCADE
+	if(options & PGQueryOptionDropObjects) {
+		[flags addObject:@"CASCADE"];
+	} else {
+		[flags addObject:@"RESTRICT"];
+	}
+	return [NSString stringWithFormat:@"DROP TABLE %@%@",[connection quoteIdentifier:tableName],[flags componentsJoinedByString:@" "]];
 }
 
 -(NSString* )statementForConnection:(PGConnection* )connection error:(NSError** )error {
@@ -195,17 +303,17 @@ enum {
 	if(options & PGQueryOptionTypeCreateDatabase) {
 		return [self _createDatabaseStatementForConnection:connection options:options error:error];
 	} else if(options & PGQueryOptionTypeCreateSchema) {
-		return @"-- NOT IMPLEMENTED --";
+		return [self _createSchemaStatementForConnection:connection options:options error:error];
 	} else if(options & PGQueryOptionTypeCreateRole) {
-		return @"-- NOT IMPLEMENTED --";
+		return [self _createRoleStatementForConnection:connection options:options error:error];
 	} else if(options & PGQueryOptionTypeDropDatabase) {
 		return [self _dropDatabaseStatementForConnection:connection options:options error:error];
 	} else if(options & PGQueryOptionTypeDropSchema) {
-		return @"-- NOT IMPLEMENTED --";
+		return [self _dropSchemaStatementForConnection:connection options:options error:error];
 	} else if(options & PGQueryOptionTypeDropRole) {
-		return @"-- NOT IMPLEMENTED --";
+		return [self _dropRolesStatementForConnection:connection options:options error:error];
 	} else if(options & PGQueryOptionTypeDropTable) {
-		return @"-- NOT IMPLEMENTED --";
+		return [self _dropTableStatementForConnection:connection options:options error:error];
 	}
 	return nil;
 }
