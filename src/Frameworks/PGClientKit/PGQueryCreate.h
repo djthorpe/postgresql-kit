@@ -14,7 +14,18 @@
 
 #import <Foundation/Foundation.h>
 
-// options
+
+/**
+
+ The PGCreateQuery class defines a set of queries to create, drop and alter
+ different object types, such as databases, schemas, tables, schemas,
+ indexes, views, sequences and constraints. Firstly, you need to create an
+ instance of the appropriate type for the operation you're trying to perform,
+ and then set the parameter properties necessary (for example, the owner role,
+ etc).
+
+ */
+
 enum {
 	PGQueryOptionIgnoreIfExists = 0x000001,            // ignore create option if exists
 	PGQueryOptionIgnoreIfNotExists = 0x000001,         // ignore drop option if doesn't exist
@@ -36,14 +47,62 @@ enum {
 
 @interface PGQueryCreate : PGQuery
 
+////////////////////////////////////////////////////////////////////////////////
 // create statements
-+(PGQueryCreate* )createDatabase:(NSString* )databaseName options:(int)options;
-+(PGQueryCreate* )createSchema:(NSString* )schemaName options:(int)options;
-+(PGQueryCreate* )createRole:(NSString* )roleName options:(int)options;
-/*+(PGQueryCreate* )createTable:(NSString* )tableName schema:(NSString* )schemaName columns:(NSArray* )columns options:(int)options;
-+(PGQueryCreate* )createTable:(NSString* )tableName columns:(NSArray* )columns options:(int)options;*/
 
+/**
+ *  Create a database
+ *
+ *  @param databaseName The name of the database to create
+ *  @param options      Option flags. `PGQueryOptionIgnoreIfExists` can be set if
+ *                      the operation should be silently ignored if the database
+ *                      already exists.
+ *
+ *  @return Returns the PGQuery object, or nil if the query could not be created.
+ */
++(PGQueryCreate* )createDatabase:(NSString* )databaseName options:(int)options;
+
+/**
+ *  Create a schema within the current database
+ *
+ *  @param schemaName The name of the schema to create
+ *  @param options    Option flags. `PGQueryOptionIgnoreIfExists` can be set if
+ *                    the operation should be silently ignored if the schema
+ *                    already exists.
+ *
+ *  @return Returns the PGQuery object, or nil if the query could not be created.
+ */
++(PGQueryCreate* )createSchema:(NSString* )schemaName options:(int)options;
+
+/**
+ *  Create a role/user for the database server
+ *
+ *  @param roleName The name of the role/user to create
+ *  @param options  Option flags. `PGQueryOptionRolePrivSuperuser` should be used
+ *                  to make the role a superuser. `PGQueryOptionRolePrivCreateDatabase`
+ *                  should be used to allow the role to create databases.
+ *                  `PGQueryOptionRolePrivCreateRole` should be used if the role
+ *                  should be allowed to create roles. `PGQueryOptionRolePrivInherit`
+ *                  should be used to inherit options from the role parent.
+ *                  `PGQueryOptionRolePrivLogin` should be used to allow the role
+ *                  to login as a user. `PGQueryOptionSetConnectionLimit`
+ *                  should be used to set a connection limit for the user.
+ *                  TODO
+ *
+ *  @return Returns the PGQuery object, or nil if the query could not be created.
+ */
++(PGQueryCreate* )createRole:(NSString* )roleName options:(int)options;
+
+/*
++(PGQueryCreate* )createTable:(NSString* )tableName schema:(NSString* )schemaName columns:(NSArray* )columns options:(int)options;
++(PGQueryCreate* )createTable:(NSString* )tableName columns:(NSArray* )columns options:(int)options;
++(PGQueryCreate* )createView:(NSString* )viewName query:(PGSelect* )query options:(int)options;
++(PGQueryCreate* )createView:(NSString* )viewName columnNames:(NSArray* )columns query:(PGSelect* )query options:(int)options;
+*/
+
+////////////////////////////////////////////////////////////////////////////////
 // drop statements
+
 +(PGQueryCreate* )dropDatabase:(NSString* )databaseName options:(int)options;
 +(PGQueryCreate* )dropSchema:(NSString* )schemaName options:(int)options;
 +(PGQueryCreate* )dropRole:(NSString* )roleName options:(int)options;
