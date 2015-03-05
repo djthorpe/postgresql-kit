@@ -94,6 +94,13 @@
 -(id)objectForKey:(NSString* )key;
 
 /**
+ *  Remove an object from the dictionary
+ *
+ *  @param key he key used to refer to the object to be removed
+ */
+-(void)removeObjectForKey:(NSString* )key;
+
+/**
  *  This method generates an SQL statement string which can be sent to the
  *  server. In general, you wouldn't call this method yourself, since the
  *  connection object would use it as part of the execute chain. On error,

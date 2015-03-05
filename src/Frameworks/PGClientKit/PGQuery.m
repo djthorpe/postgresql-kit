@@ -119,6 +119,11 @@ NSString* PGQueryOptionsKey = @"PGQuery_options";
 	return [_dictionary objectForKey:key];
 }
 
+-(void)removeObjectForKey:(NSString* )key {
+	NSParameterAssert(key);
+	[_dictionary removeObjectForKey:key];
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
 
