@@ -12,12 +12,9 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-#import "PGFoundationClient2.h"
+#import "PGFoundationClient.h"
 
-// define DEBUG2 for extra debugging output on NSLog
-#define DEBUG2
-
-@implementation PGFoundationClient2
+@implementation PGFoundationClient
 
 ////////////////////////////////////////////////////////////////////////////////
 // constructor

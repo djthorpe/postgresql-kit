@@ -18,7 +18,7 @@
 #import "PGFoundationApp.h"
 #import "Terminal.h"
 
-@interface PGFoundationClient2 : PGFoundationApp <PGConnectionDelegate> {
+@interface PGFoundationClient : PGFoundationApp <PGConnectionDelegate> {
 	PGConnection* _db;
 	PGPasswordStore* _passwordstore;
 	Terminal* _term;
