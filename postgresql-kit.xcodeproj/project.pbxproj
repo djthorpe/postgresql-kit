@@ -73,6 +73,10 @@
 		149BA1A31AA6FB50007B86A0 /* PGSelect.m in Sources */ = {isa = PBXBuildFile; fileRef = 1482A9071AA5F4530000BA25 /* PGSelect.m */; };
 		149BA1A41AA6FB54007B86A0 /* PGSelect.h in Headers */ = {isa = PBXBuildFile; fileRef = 1482A9061AA5F4530000BA25 /* PGSelect.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		149BA1A51AA6FB58007B86A0 /* PGSelect.h in Headers */ = {isa = PBXBuildFile; fileRef = 1482A9061AA5F4530000BA25 /* PGSelect.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		14AEF6B61AA8737D00C3DA7F /* PGQueryInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 14AEF6B41AA8737D00C3DA7F /* PGQueryInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		14AEF6B71AA8737D00C3DA7F /* PGQueryInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 14AEF6B41AA8737D00C3DA7F /* PGQueryInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		14AEF6B81AA8737D00C3DA7F /* PGQueryInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 14AEF6B51AA8737D00C3DA7F /* PGQueryInfo.m */; };
+		14AEF6B91AA8737D00C3DA7F /* PGQueryInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 14AEF6B51AA8737D00C3DA7F /* PGQueryInfo.m */; };
 		14D7C3E617AD721D00479231 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C168115F26BF20013A382 /* Foundation.framework */; };
 		14D7C3E717AD729000479231 /* PGClientParams.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EE23F62163207DA00C99BA7 /* PGClientParams.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		14DECDA116B56D7300178235 /* PGConverters.h in Headers */ = {isa = PBXBuildFile; fileRef = 14DECD9F16B56D7300178235 /* PGConverters.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -473,6 +477,8 @@
 		148F88C7166D61060088D3DF /* ResizeControl.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ResizeControl.png; sourceTree = "<group>"; };
 		149BA19D1A98857C007B86A0 /* PGFoundationServer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGFoundationServer.h; sourceTree = "<group>"; };
 		149BA19E1A98857C007B86A0 /* PGFoundationServer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PGFoundationServer.m; sourceTree = "<group>"; };
+		14AEF6B41AA8737D00C3DA7F /* PGQueryInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGQueryInfo.h; sourceTree = "<group>"; };
+		14AEF6B51AA8737D00C3DA7F /* PGQueryInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGQueryInfo.m; sourceTree = "<group>"; };
 		14CF6E931667488500D2DF78 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		14DECD9F16B56D7300178235 /* PGConverters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGConverters.h; sourceTree = "<group>"; };
 		14DECDA016B56D7300178235 /* PGConverters+Object2Data.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PGConverters+Object2Data.m"; sourceTree = "<group>"; };
@@ -978,6 +984,8 @@
 				6E03102F162FE50B003225B1 /* PGQuery.m */,
 				1482A9021AA5C4F50000BA25 /* PGQueryCreate.h */,
 				1482A9031AA5C4F50000BA25 /* PGQueryCreate.m */,
+				14AEF6B41AA8737D00C3DA7F /* PGQueryInfo.h */,
+				14AEF6B51AA8737D00C3DA7F /* PGQueryInfo.m */,
 				1482A9061AA5F4530000BA25 /* PGSelect.h */,
 				1482A9071AA5F4530000BA25 /* PGSelect.m */,
 			);
@@ -1564,6 +1572,7 @@
 				6E1548501A581BBA00556573 /* PGConverters+Private.h in Headers */,
 				6E9256CB1AA65B1A007DAD82 /* PGClientKit+Private.h in Headers */,
 				6E1548441A5819AC00556573 /* PGClientKit.h in Headers */,
+				14AEF6B71AA8737D00C3DA7F /* PGQueryInfo.h in Headers */,
 				6E15484D1A5819EA00556573 /* PGQuery.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1584,6 +1593,7 @@
 				6E4DEC95162CC4AB008B26BD /* PGClientKit.h in Headers */,
 				149BA1A41AA6FB54007B86A0 /* PGSelect.h in Headers */,
 				6E031030162FE50B003225B1 /* PGQuery.h in Headers */,
+				14AEF6B61AA8737D00C3DA7F /* PGQueryInfo.h in Headers */,
 				6E0773D9163744D90028783F /* PGResult.h in Headers */,
 				6EE23F5D1631EF7500C99BA7 /* PGClientKit+Private.h in Headers */,
 				6EE12E2617D51D620034B9E1 /* PGPasswordStore.h in Headers */,
@@ -2090,6 +2100,7 @@
 				6E9256C21AA64BDA007DAD82 /* PGConnection+Reset.m in Sources */,
 				6E9256B01AA64B49007DAD82 /* PGConnection+Disconnect.m in Sources */,
 				6E9256BA1AA64BDA007DAD82 /* PGConnection+Cancel.m in Sources */,
+				14AEF6B91AA8737D00C3DA7F /* PGQueryInfo.m in Sources */,
 				6E9256AD1AA64AAF007DAD82 /* PGConnection+Errors.m in Sources */,
 				6E1548541A581BD200556573 /* PGResult.m in Sources */,
 				6E1548511A581BC100556573 /* PGConverters+Object2Data.m in Sources */,
@@ -2173,6 +2184,7 @@
 				6E9256A81AA6481E007DAD82 /* PGConnection+Callbacks.m in Sources */,
 				6E9256BD1AA64BDA007DAD82 /* PGConnection+Notifications.m in Sources */,
 				1489AEC816669A6B00C3B67D /* PGResult+TextTable.m in Sources */,
+				14AEF6B81AA8737D00C3DA7F /* PGQueryInfo.m in Sources */,
 				6E9256B21AA64B6C007DAD82 /* PGConnection+Connect.m in Sources */,
 				6E82F1741A9BC9B20024B8BE /* PGConnection.m in Sources */,
 				14DECDA216B56D7300178235 /* PGConverters+Object2Data.m in Sources */,

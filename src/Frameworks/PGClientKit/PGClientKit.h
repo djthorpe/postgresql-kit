@@ -53,8 +53,8 @@ typedef enum {
 
 @class PGQuery;
 	@class PGQueryCreate;
+	@class PGQueryInfo;
 	@class PGSelect;
-
 
 // header includes
 #import "PGConnection.h"
@@ -64,6 +64,7 @@ typedef enum {
 // queries
 #import "PGQuery.h"
 #import "PGQueryCreate.h"
+#import "PGQueryInfo.h"
 #import "PGSelect.h"
 
 // helpers
