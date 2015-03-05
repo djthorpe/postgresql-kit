@@ -226,6 +226,147 @@
 		}];
 		return;
 	}
+	
+	if([command isEqualToString:@"createrole"]) {
+		NSString* roleName = nil;
+		if([args count]==1) {
+			roleName = [args objectAtIndex:0];
+		} else {
+			[[self term] printf:@"createrole: not enough arguments"];
+			return;
+		}
+		PGQuery* query = [PGQueryCreate createRole:roleName options:0];
+		NSParameterAssert(query);
+		[[self db] executeQuery:query whenDone:^(PGResult* result, NSError* error) {
+			if(result) {
+				[self displayResult:result];
+			}
+			if(error) {
+				[[self term] printf:@"error: %@",error];
+			}
+		}];
+		return;
+	}
+
+	if([command isEqualToString:@"droprole"]) {
+		NSString* roleName = nil;
+		if([args count]==1) {
+			roleName = [args objectAtIndex:0];
+		} else {
+			[[self term] printf:@"droprole: not enough arguments"];
+			return;
+		}
+		PGQuery* query = [PGQueryCreate dropRole:roleName options:0];
+		NSParameterAssert(query);
+		[[self db] executeQuery:query whenDone:^(PGResult* result, NSError* error) {
+			if(result) {
+				[self displayResult:result];
+			}
+			if(error) {
+				[[self term] printf:@"error: %@",error];
+			}
+		}];
+		return;
+	}
+
+	if([command isEqualToString:@"createdb"]) {
+		NSString* databaseName = nil;
+		if([args count]==1) {
+			databaseName = [args objectAtIndex:0];
+		} else {
+			[[self term] printf:@"createdb: not enough arguments"];
+			return;
+		}
+		PGQuery* query = [PGQueryCreate createDatabase:databaseName options:0];
+		NSParameterAssert(query);
+		[[self db] executeQuery:query whenDone:^(PGResult* result, NSError* error) {
+			if(result) {
+				[self displayResult:result];
+			}
+			if(error) {
+				[[self term] printf:@"error: %@",error];
+			}
+		}];
+		return;
+	}
+
+	if([command isEqualToString:@"dropdb"]) {
+		NSString* databaseName = nil;
+		if([args count]==1) {
+			databaseName = [args objectAtIndex:0];
+		} else {
+			[[self term] printf:@"dropdb: not enough arguments"];
+			return;
+		}
+		PGQuery* query = [PGQueryCreate dropDatabase:databaseName options:0];
+		NSParameterAssert(query);
+		[[self db] executeQuery:query whenDone:^(PGResult* result, NSError* error) {
+			if(result) {
+				[self displayResult:result];
+			}
+			if(error) {
+				[[self term] printf:@"error: %@",error];
+			}
+		}];
+		return;
+	}
+
+
+	if([command isEqualToString:@"createschema"]) {
+		NSString* schemaName = nil;
+		if([args count]==1) {
+			schemaName = [args objectAtIndex:0];
+		} else {
+			[[self term] printf:@"createschema: not enough arguments"];
+			return;
+		}
+		PGQuery* query = [PGQueryCreate createSchema:schemaName options:0];
+		NSParameterAssert(query);
+		[[self db] executeQuery:query whenDone:^(PGResult* result, NSError* error) {
+			if(result) {
+				[self displayResult:result];
+			}
+			if(error) {
+				[[self term] printf:@"error: %@",error];
+			}
+		}];
+		return;
+	}
+
+	if([command isEqualToString:@"dropschema"]) {
+		NSString* schemaName = nil;
+		if([args count]==1) {
+			schemaName = [args objectAtIndex:0];
+		} else {
+			[[self term] printf:@"dropschema: not enough arguments"];
+			return;
+		}
+		PGQuery* query = [PGQueryCreate dropSchema:schemaName options:0];
+		NSParameterAssert(query);
+		[[self db] executeQuery:query whenDone:^(PGResult* result, NSError* error) {
+			if(result) {
+				[self displayResult:result];
+			}
+			if(error) {
+				[[self term] printf:@"error: %@",error];
+			}
+		}];
+		return;
+	}
+
+	if([command isEqualToString:@"listschemas"]) {
+		PGQuery* query = [PGQueryInfo schemasForDatabase:nil options:0];
+		NSParameterAssert(query);
+		[[self db] executeQuery:query whenDone:^(PGResult* result, NSError* error) {
+			if(result) {
+				[self displayResult:result];
+			}
+			if(error) {
+				[[self term] printf:@"error: %@",error];
+			}
+		}];
+		return;
+	}
 
 	[[self term] printf:@"Unknown command: %@",command];
 }

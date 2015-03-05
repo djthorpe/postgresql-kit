@@ -14,7 +14,6 @@
 
 #import <Foundation/Foundation.h>
 
-
 /**
 
  The PGCreateQuery class defines a set of queries to create, drop and alter

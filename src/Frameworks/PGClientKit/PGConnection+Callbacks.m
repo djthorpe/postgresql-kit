@@ -210,10 +210,8 @@ void _noticeProcessor(void* arg,const char* cString) {
 	// consume results
 	PGresult* result = nil;
 	while(1) {
-		NSLog(@"=>PQgetResult");
 		result = PQgetResult(_connection);
 		if(result==nil) {
-			NSLog(@"<=PQgetResult result==nil");
 			break;
 		}
 		NSError* error = nil;
@@ -234,7 +232,6 @@ void _noticeProcessor(void* arg,const char* cString) {
 			void (^callback)(PGResult* result,NSError* error) = (__bridge void (^)(PGResult* ,NSError* ))(_callback);
 			callback(r,error);
 		}
-		NSLog(@"<=PQgetResult");
 	}
 	
 	// all results consumed - update state

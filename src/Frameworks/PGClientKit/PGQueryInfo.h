@@ -16,10 +16,36 @@
 
 @interface PGQueryInfo : PGQuery
 
-// return information about databases
+////////////////////////////////////////////////////////////////////////////////
+// constructors
+
 +(PGQueryInfo* )schemasForDatabase:(NSString* )databaseName options:(int)options;
 +(PGQueryInfo* )rolesForDatabase:(NSString* )databaseName options:(int)options;
-+(PGQueryInfo* )tablesAndViewsForSchemas:(NSArray* )schemaNames options:(int)options;
++(PGQueryInfo* )tablesAndViewsForSchema:(NSString* )schemaName options:(int)options;
 +(PGQueryInfo* )columnsForTable:(NSString* )tableName schema:(NSString* )schemaName options:(int)options;
+
+////////////////////////////////////////////////////////////////////////////////
+// properties
+
+/**
+ *  The name of the table or view
+ */
+@property NSString* table;
+
+/**
+ *  The name of the schema
+ */
+@property NSString* schema;
+
+/**
+ *  The name of the database
+ */
+@property NSString* database;
+
+/**
+ *  The name of the role
+ */
+@property NSString* role;
+
 
 @end

@@ -441,6 +441,20 @@ enum {
 	return [NSString stringWithFormat:@"DROP DATABASE %@%@",[connection quoteIdentifier:databaseName],[flags componentsJoinedByString:@" "]];
 }
 
+-(NSString* )_dropRoleStatementForConnection:(PGConnection* )connection options:(int)options error:(NSError** )error {
+	NSString* roleName = [self role];
+	if(roleName==nil) {
+		return nil;
+	}
+	NSMutableArray* flags = [NSMutableArray new];
+	// IF EXISTS
+	if(options & PGQueryOptionIgnoreIfExists) {
+		[flags addObject:@"IF EXISTS"];
+	}
+	return [NSString stringWithFormat:@"DROP ROLE %@%@",[connection quoteIdentifier:roleName],[flags componentsJoinedByString:@" "]];
+}
+
+/* TODO
 -(NSString* )_dropRolesStatementForConnection:(PGConnection* )connection options:(int)options error:(NSError** )error {
 	NSArray* roleNames = [super objectForKey:PQQueryCreateRoleNameKey];
 	if([roleNames count]==0) {
@@ -453,6 +467,7 @@ enum {
 	}
 	return [NSString stringWithFormat:@"DROP ROLE %@%@",[connection quoteIdentifier:roleNames],[flags componentsJoinedByString:@" "]];
 }
+*/
 
 -(NSString* )_dropTableStatementForConnection:(PGConnection* )connection options:(int)options error:(NSError** )error {
 	NSString* tableName = [self table];
@@ -520,7 +535,7 @@ enum {
 	} else if(options & PGQueryOptionTypeDropSchema) {
 		return [self _dropSchemaStatementForConnection:connection options:options error:error];
 	} else if(options & PGQueryOptionTypeDropRole) {
-		return [self _dropRolesStatementForConnection:connection options:options error:error];
+		return [self _dropRoleStatementForConnection:connection options:options error:error];
 	} else if(options & PGQueryOptionTypeDropTable) {
 		return [self _dropTableStatementForConnection:connection options:options error:error];
 	} else if(options & PGQueryOptionTypeDropView) {
