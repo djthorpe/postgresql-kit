@@ -56,14 +56,18 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		1417B7BA1AAA1FF200B44DD4 /* PGQueryObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 1417B7B91AAA1FF200B44DD4 /* PGQueryObject.h */; };
+		1417B7BB1AAA1FF200B44DD4 /* PGQueryObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 1417B7B91AAA1FF200B44DD4 /* PGQueryObject.h */; };
+		1417B7C01AAA219100B44DD4 /* PGQueryObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 1417B7BF1AAA219100B44DD4 /* PGQueryObject.m */; };
+		1417B7C11AAA219100B44DD4 /* PGQueryObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 1417B7BF1AAA219100B44DD4 /* PGQueryObject.m */; };
 		1450A15E1AAA145A002D62D9 /* PGQuerySource.h in Headers */ = {isa = PBXBuildFile; fileRef = 1450A15C1AAA145A002D62D9 /* PGQuerySource.h */; };
 		1450A15F1AAA145A002D62D9 /* PGQuerySource.h in Headers */ = {isa = PBXBuildFile; fileRef = 1450A15C1AAA145A002D62D9 /* PGQuerySource.h */; };
 		1450A1601AAA145A002D62D9 /* PGQuerySource.m in Sources */ = {isa = PBXBuildFile; fileRef = 1450A15D1AAA145A002D62D9 /* PGQuerySource.m */; };
 		1450A1611AAA145A002D62D9 /* PGQuerySource.m in Sources */ = {isa = PBXBuildFile; fileRef = 1450A15D1AAA145A002D62D9 /* PGQuerySource.m */; };
-		1450A1671AAA18DA002D62D9 /* PGPredicate.h in Headers */ = {isa = PBXBuildFile; fileRef = 1450A1651AAA18DA002D62D9 /* PGPredicate.h */; };
-		1450A1681AAA18DA002D62D9 /* PGPredicate.h in Headers */ = {isa = PBXBuildFile; fileRef = 1450A1651AAA18DA002D62D9 /* PGPredicate.h */; };
-		1450A1691AAA18DA002D62D9 /* PGPredicate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1450A1661AAA18DA002D62D9 /* PGPredicate.m */; };
-		1450A16A1AAA18DA002D62D9 /* PGPredicate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1450A1661AAA18DA002D62D9 /* PGPredicate.m */; };
+		1450A1671AAA18DA002D62D9 /* PGQueryPredicate.h in Headers */ = {isa = PBXBuildFile; fileRef = 1450A1651AAA18DA002D62D9 /* PGQueryPredicate.h */; };
+		1450A1681AAA18DA002D62D9 /* PGQueryPredicate.h in Headers */ = {isa = PBXBuildFile; fileRef = 1450A1651AAA18DA002D62D9 /* PGQueryPredicate.h */; };
+		1450A1691AAA18DA002D62D9 /* PGQueryPredicate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1450A1661AAA18DA002D62D9 /* PGQueryPredicate.m */; };
+		1450A16A1AAA18DA002D62D9 /* PGQueryPredicate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1450A1661AAA18DA002D62D9 /* PGQueryPredicate.m */; };
 		147070D51A90CC8C0069EF9C /* NSURL_PGAdditions_tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 147070D31A90CC8C0069EF9C /* NSURL_PGAdditions_tests.m */; };
 		147070DA1A90CDF90069EF9C /* PGClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
 		147070DB1A90CDF90069EF9C /* PGServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
@@ -410,6 +414,8 @@
 		1412A7AD17998BF4005A217D /* PGSchemaKitSQL.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = PGSchemaKitSQL.strings; sourceTree = "<group>"; };
 		1413DF1D17AD79AC009615E5 /* PGClientKit_ios.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PGClientKit_ios.plist; sourceTree = "<group>"; };
 		1413DF1E17AD79AC009615E5 /* PGClientKit_mac.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PGClientKit_mac.plist; sourceTree = "<group>"; };
+		1417B7B91AAA1FF200B44DD4 /* PGQueryObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGQueryObject.h; sourceTree = "<group>"; };
+		1417B7BF1AAA219100B44DD4 /* PGQueryObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGQueryObject.m; sourceTree = "<group>"; };
 		1426753117A1B65000956F22 /* make-libpq.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "make-libpq.sh"; sourceTree = "<group>"; };
 		142804561668115600A61BF6 /* make-openssl.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "make-openssl.sh"; sourceTree = "<group>"; };
 		14336169179174C0000A79D5 /* PGSchemaKit.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PGSchemaKit.plist; sourceTree = "<group>"; };
@@ -419,8 +425,8 @@
 		1433619817919033000A79D5 /* pgschema.dtd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = pgschema.dtd; sourceTree = "<group>"; };
 		1450A15C1AAA145A002D62D9 /* PGQuerySource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGQuerySource.h; sourceTree = "<group>"; };
 		1450A15D1AAA145A002D62D9 /* PGQuerySource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGQuerySource.m; sourceTree = "<group>"; };
-		1450A1651AAA18DA002D62D9 /* PGPredicate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGPredicate.h; sourceTree = "<group>"; };
-		1450A1661AAA18DA002D62D9 /* PGPredicate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGPredicate.m; sourceTree = "<group>"; };
+		1450A1651AAA18DA002D62D9 /* PGQueryPredicate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGQueryPredicate.h; sourceTree = "<group>"; };
+		1450A1661AAA18DA002D62D9 /* PGQueryPredicate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGQueryPredicate.m; sourceTree = "<group>"; };
 		1457CBB61A64164D00952C16 /* PGControlsKit.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = PGControlsKit.md; sourceTree = "<group>"; };
 		146643341A6A72F400E984CF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		146643351A6A72F400E984CF /* PGApplication.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGApplication.h; sourceTree = "<group>"; };
@@ -992,12 +998,14 @@
 		148E5B131A9774540066052F /* PGQuery */ = {
 			isa = PBXGroup;
 			children = (
+				1417B7B91AAA1FF200B44DD4 /* PGQueryObject.h */,
+				1417B7BF1AAA219100B44DD4 /* PGQueryObject.m */,
 				6E03102E162FE50B003225B1 /* PGQuery.h */,
 				6E03102F162FE50B003225B1 /* PGQuery.m */,
-				1450A1651AAA18DA002D62D9 /* PGPredicate.h */,
-				1450A1661AAA18DA002D62D9 /* PGPredicate.m */,
 				1450A15C1AAA145A002D62D9 /* PGQuerySource.h */,
 				1450A15D1AAA145A002D62D9 /* PGQuerySource.m */,
+				1450A1651AAA18DA002D62D9 /* PGQueryPredicate.h */,
+				1450A1661AAA18DA002D62D9 /* PGQueryPredicate.m */,
 				1482A9061AA5F4530000BA25 /* PGSelect.h */,
 				1482A9071AA5F4530000BA25 /* PGSelect.m */,
 				1482A9021AA5C4F50000BA25 /* PGQueryCreate.h */,
@@ -1578,6 +1586,7 @@
 			files = (
 				6E1548471A5819CB00556573 /* PGPasswordStore.h in Headers */,
 				6E9256CC1AA65B25007DAD82 /* NSString+PGNetworkValidationAdditions.h in Headers */,
+				1417B7BB1AAA1FF200B44DD4 /* PGQueryObject.h in Headers */,
 				6E1548531A581BCB00556573 /* PGResult.h in Headers */,
 				14FD07321AA741DF0013557E /* PGQueryCreate.h in Headers */,
 				6E1548451A5819BD00556573 /* NSURL+PGAdditions.h in Headers */,
@@ -1587,7 +1596,7 @@
 				149BA1A51AA6FB58007B86A0 /* PGSelect.h in Headers */,
 				6E1548501A581BBA00556573 /* PGConverters+Private.h in Headers */,
 				6E9256CB1AA65B1A007DAD82 /* PGClientKit+Private.h in Headers */,
-				1450A1681AAA18DA002D62D9 /* PGPredicate.h in Headers */,
+				1450A1681AAA18DA002D62D9 /* PGQueryPredicate.h in Headers */,
 				6E1548441A5819AC00556573 /* PGClientKit.h in Headers */,
 				14AEF6B71AA8737D00C3DA7F /* PGQueryInfo.h in Headers */,
 				1450A15F1AAA145A002D62D9 /* PGQuerySource.h in Headers */,
@@ -1616,12 +1625,13 @@
 				6E0773D9163744D90028783F /* PGResult.h in Headers */,
 				6EE23F5D1631EF7500C99BA7 /* PGClientKit+Private.h in Headers */,
 				6EE12E2617D51D620034B9E1 /* PGPasswordStore.h in Headers */,
-				1450A1671AAA18DA002D62D9 /* PGPredicate.h in Headers */,
+				1450A1671AAA18DA002D62D9 /* PGQueryPredicate.h in Headers */,
 				14FD072E1AA741DE0013557E /* PGQueryCreate.h in Headers */,
 				14DECDA116B56D7300178235 /* PGConverters.h in Headers */,
 				6EAA40EB17BC150E0078EB32 /* NSURL+PGAdditions.h in Headers */,
 				1489AEC716669A6B00C3B67D /* PGResult+TextTable.h in Headers */,
 				14DECDA816B57EC400178235 /* PGConverters+Private.h in Headers */,
+				1417B7BA1AAA1FF200B44DD4 /* PGQueryObject.h in Headers */,
 				14D7C3E717AD729000479231 /* PGClientParams.h in Headers */,
 				147070E21A976E230069EF9C /* NSString+PGNetworkValidationAdditions.h in Headers */,
 				6E82F1731A9BC9B20024B8BE /* PGConnection.h in Headers */,
@@ -2114,10 +2124,11 @@
 				6E9256BE1AA64BDA007DAD82 /* PGConnection+Notifications.m in Sources */,
 				14FD07341AA741E70013557E /* PGQueryCreate.m in Sources */,
 				6E9256A91AA6481E007DAD82 /* PGConnection+Callbacks.m in Sources */,
+				1417B7C11AAA219100B44DD4 /* PGQueryObject.m in Sources */,
 				6E15484C1A5819E500556573 /* PGClientParams.m in Sources */,
 				6E9256B31AA64B6C007DAD82 /* PGConnection+Connect.m in Sources */,
 				6E9256A21AA645FC007DAD82 /* PGConnection.m in Sources */,
-				1450A16A1AAA18DA002D62D9 /* PGPredicate.m in Sources */,
+				1450A16A1AAA18DA002D62D9 /* PGQueryPredicate.m in Sources */,
 				6E1548461A5819C600556573 /* NSURL+PGAdditions.m in Sources */,
 				6E9256C21AA64BDA007DAD82 /* PGConnection+Reset.m in Sources */,
 				6E9256B01AA64B49007DAD82 /* PGConnection+Disconnect.m in Sources */,
@@ -2204,6 +2215,7 @@
 				6EE23F611632076800C99BA7 /* PGClientParams.m in Sources */,
 				6E0773DA163744D90028783F /* PGResult.m in Sources */,
 				6E9256C11AA64BDA007DAD82 /* PGConnection+Reset.m in Sources */,
+				1417B7C01AAA219100B44DD4 /* PGQueryObject.m in Sources */,
 				6E9256A81AA6481E007DAD82 /* PGConnection+Callbacks.m in Sources */,
 				6E9256BD1AA64BDA007DAD82 /* PGConnection+Notifications.m in Sources */,
 				1489AEC816669A6B00C3B67D /* PGResult+TextTable.m in Sources */,
@@ -2211,7 +2223,7 @@
 				6E9256B21AA64B6C007DAD82 /* PGConnection+Connect.m in Sources */,
 				6E82F1741A9BC9B20024B8BE /* PGConnection.m in Sources */,
 				14DECDA216B56D7300178235 /* PGConverters+Object2Data.m in Sources */,
-				1450A1691AAA18DA002D62D9 /* PGPredicate.m in Sources */,
+				1450A1691AAA18DA002D62D9 /* PGQueryPredicate.m in Sources */,
 				14DECDA616B56DF300178235 /* PGConverters+Data2Object.m in Sources */,
 				6EAA40ED17BC150E0078EB32 /* NSURL+PGAdditions.m in Sources */,
 				147070E31A976E230069EF9C /* NSString+PGNetworkValidationAdditions.m in Sources */,

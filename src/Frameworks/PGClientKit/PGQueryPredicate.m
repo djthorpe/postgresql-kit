@@ -15,38 +15,36 @@
 #import <PGClientKit/PGClientKit.h>
 #import <PGClientKit/PGClientKit+Private.h>
 
-////////////////////////////////////////////////////////////////////////////////
+// options
+enum {
+	PGQueryPredicateTypeNull = 0x00000001 // NULL
+};
 
-NSString* PGQueryStatementKey = @"statement";
-NSString* PGQueryTableKey = @"table";
-NSString* PGQuerySchemaKey = @"schema";
-NSString* PGQueryDatabaseKey = @"database";
-NSString* PGQueryAliasKey = @"alias";
 
-////////////////////////////////////////////////////////////////////////////////
-
-@implementation PGQuery
+@implementation PGQueryPredicate
 
 ////////////////////////////////////////////////////////////////////////////////
-// initialization
+// constructors
 
-+(PGQueryObject* )queryWithString:(NSString* )statement {
-	NSParameterAssert(statement);
++(PGQueryObject* )nullPredicate {
 	NSString* className = NSStringFromClass([self class]);
-	return [PGQueryObject queryWithDictionary:@{ PGQueryStatementKey: statement } class:className];
+	PGQueryObject* query = [PGQueryObject queryWithDictionary:@{ } class:className];
+	[query setOptions:PGQueryPredicateTypeNull];
+	return query;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// public methods
+// methods
 
 -(NSString* )quoteForConnection:(PGConnection* )connection error:(NSError** )error {
 	NSParameterAssert(connection);
-	NSString* statement = [self objectForKey:PGQueryStatementKey];
-	if(statement==nil || [statement isKindOfClass:[NSString class]]==NO || [statement length]==0) {
-		[connection raiseError:error code:PGClientErrorQuery reason:@"Empty statement"];
-		return nil;
+	NSUInteger options = [self options];
+	switch(options) {
+		case PGQueryPredicateTypeNull:
+			return @"NULL";
 	}
-	return statement;
+	// TODO raise error - invalid predicate type
+	return nil;
 }
 
 @end

@@ -14,6 +14,16 @@
 
 #import <Foundation/Foundation.h>
 
-@interface PGPredicate : NSObject
+ /**
+  *  This class represents any expression which can be used within SQL
+  *  statements
+  */
+
+@interface PGQueryPredicate : PGQueryObject
+
+////////////////////////////////////////////////////////////////////////////////
+// constructors
+
++(PGQueryPredicate* )nullPredicate;
 
 @end

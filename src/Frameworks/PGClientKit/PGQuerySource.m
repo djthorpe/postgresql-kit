@@ -17,4 +17,70 @@
 
 @implementation PGQuerySource
 
+////////////////////////////////////////////////////////////////////////////////
+// constructors
+
++(PGQueryObject* )sourceWithTable:(NSString* )tableName schema:(NSString* )schemaName alias:(NSString* )aliasName {
+	NSParameterAssert(tableName);
+	NSString* className = NSStringFromClass([self class]);
+	PGQueryObject* query = [PGQueryObject queryWithDictionary:@{
+		PGQueryTableKey: tableName
+	} class:className];
+	if(schemaName) {
+		[query setObject:schemaName forKey:PGQuerySchemaKey];
+	}
+	if(aliasName) {
+		[query setObject:aliasName forKey:PGQueryAliasKey];
+	}
+	return query;
+}
+
++(PGQueryObject* )sourceWithTable:(NSString* )tableName alias:(NSString* )alias {
+	return [PGQuerySource sourceWithTable:tableName schema:nil alias:alias];
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// properties
+
+@dynamic table;
+@dynamic schema;
+
+-(NSString* )table {
+	return [super objectForKey:PGQueryTableKey];
+}
+
+-(NSString* )schema {
+	return [super objectForKey:PGQuerySchemaKey];
+}
+
+-(NSString* )alias {
+	return [super objectForKey:PGQueryAliasKey];
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// methods
+
+-(NSString* )quoteForConnection:(PGConnection* )connection withAlias:(BOOL)withAlias error:(NSError** )error {
+	NSParameterAssert(connection);
+	NSString* aliasName = [self alias];
+	NSString* aliasQuoted = (withAlias && [aliasName length]) ? [NSString stringWithFormat:@" %@",[connection quoteIdentifier:[self alias]]] : @"";
+	NSString* schemaName = [self schema];
+	NSString* tableName = [self table];
+	if([tableName length]==0) {
+		// TODO SET ERROR (*error) = [NSError err]
+		return nil;
+	}
+	NSString* tableQuoted = [connection quoteIdentifier:tableName];
+	if([schemaName length]) {
+		NSString* schemaQuoted = [connection quoteIdentifier:schemaName];
+		return [NSString stringWithFormat:@"%@.%@%@",schemaQuoted,tableQuoted,aliasQuoted];
+	} else {
+		return [NSString stringWithFormat:@"%@%@",tableQuoted,aliasQuoted];
+	}
+}
+
+-(NSString* )quoteForConnection:(PGConnection* )connection error:(NSError** )error {
+	return [self quoteForConnection:connection withAlias:YES error:error];
+}
+
 @end

@@ -28,7 +28,7 @@ enum {
 // properties
 @property (readonly) NSDictionary* columns;
 @property (readonly) PGQuerySource* source;
-@property (readonly) PGPredicate* where;
+@property (readonly) PGQueryPredicate* where;
 
 // methods to set output columns
 -(void)setColumns:(NSDictionary* )columns order:(NSArray* )aliases;

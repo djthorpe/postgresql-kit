@@ -14,21 +14,80 @@
 
 #import <Foundation/Foundation.h>
 
-@interface PGQuerySource : NSObject
 
+/**
+ *  The PGQuerySource class represents a source of data, either a single table,
+ *  view or a table join. Table joins are still to be implemented.
+ */
+
+@interface PGQuerySource : PGQueryObject
+
+////////////////////////////////////////////////////////////////////////////////
 // constructors
--(instancetype)initWithDictionary:(NSDictionary* )dictionary;
-+(instancetype)sourceWithTable:(NSString* )tableName alias:(NSString* )alias;
-+(instancetype)sourceWithTable:(NSString* )tableName schema:(NSString* )schemaName alias:(NSString* )alias;
-+(instancetype)joinWithTable:(id)tableSourceL table:(id)tableSourceR on:(id)predicate options:(int)options;
 
+/**
+ *  Construct a simple data source, which represents a table name without a
+ *  named schema. Optionally, refer to an alias for the datasource.
+ *
+ *  @param tableName The identifer of the table to refer to
+ *  @param alias     The alias to use for the data source. Can be nil when not
+ *                   using aliases.
+ *
+ *  @return returns the constructed data source object
+ */
++(PGQueryObject* )sourceWithTable:(NSString* )tableName alias:(NSString* )alias;
+
+/**
+ *  Construct a simple data source, which represents a table name with a
+ *  named schema. Optionally, refer to an alias for the datasource.
+ *
+ *  @param tableName  The identifer of the table to refer to
+ *  @param schemaName The schema that contains the table. Can be nil to use
+ *                    the schema search path to locate the table.
+ *  @param alias      The alias to use for the data source. Can be nil when not
+ *                    using aliases.
+ *
+ *  @return returns the constructed data source object
+ */
++(PGQueryObject* )sourceWithTable:(NSString* )tableName schema:(NSString* )schemaName alias:(NSString* )alias;
+
+
+////////////////////////////////////////////////////////////////////////////////
 // properties
-@property NSDictionary* dictionary;
-@property NSString* table;
-@property NSString* schema;
-@property NSString* alias;
 
+/**
+ *  Return the table name
+ */
+@property (readonly) NSString* table;
+
+/**
+ *  Return the schema name, or nil
+ */
+@property (readonly) NSString* schema;
+
+/**
+ *  Return the alias name, or nil
+ */
+@property (readonly) NSString* alias;
+
+////////////////////////////////////////////////////////////////////////////////
 // methods
--(NSString* )quoteForConnection:(PGConnection* )connection withAlias:(BOOL)withAlias;
+
+/**
+ *  This method generates a quoted string suitable for using within an SQL 
+ *  statement. On error, this method will return nil and set the error object.
+ *
+ *  @param connection The connection for which the statement should be
+ *                    generated. Due to differing versions of the connected
+ *                    server, the statement generated might differ depending
+ *                    on the server version.
+ *  @param withAlias  If YES then the alias is quoted after the datasource names
+ *  @param error      On statement generation error, the error parameter is
+ *                    set to describe why a statement cannot be generated.
+ *
+ *  @return Returns the statement on success, or nil on error.
+ */
+-(NSString* )quoteForConnection:(PGConnection* )connection withAlias:(BOOL)withAlias error:(NSError** )error;
+
 
 @end

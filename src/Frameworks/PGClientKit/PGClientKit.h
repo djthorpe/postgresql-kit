@@ -51,14 +51,15 @@ typedef enum {
 
 @class PGResult;
 
-@class PGQuery;
-	@class PGSelect;
-	@class PGUpdate;
-	@class PGDelete;
-	@class PGQueryCreate;
-	@class PGQueryInfo;
-@class PGQuerySource;
-@class PGQueryPredicate;
+@class PGQueryObject;
+	@class PGQuery;
+	  	@class PGSelect;
+		@class PGUpdate;
+		@class PGDelete;
+		@class PGQueryCreate;
+		@class PGQueryInfo;
+	@class PGQuerySource;
+	@class PGQueryPredicate;
 
 // header includes
 #import "PGConnection.h"
@@ -66,8 +67,11 @@ typedef enum {
 #import "PGResult.h"
 
 // queries
+#import "PGQueryObject.h"
 #import "PGQuery.h"
 #import "PGQuerySource.h"
+#import "PGQueryPredicate.h"
+
 #import "PGQueryCreate.h"
 #import "PGQueryInfo.h"
 #import "PGSelect.h"
