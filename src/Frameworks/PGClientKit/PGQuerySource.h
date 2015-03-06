@@ -14,27 +14,21 @@
 
 #import <Foundation/Foundation.h>
 
-// options
-enum {
-	PGSelectOptionDistinct = 0x000001            // de-duplicate rows
-};
+@interface PGQuerySource : NSObject
 
-@interface PGSelect : PGQuery
-
-// basic select statement, selects everything (*)
-// source is NSString or PGQuerySource
-+(PGSelect* )select:(id)source options:(int)options;
+// constructors
+-(instancetype)initWithDictionary:(NSDictionary* )dictionary;
++(instancetype)sourceWithTable:(NSString* )tableName alias:(NSString* )alias;
++(instancetype)sourceWithTable:(NSString* )tableName schema:(NSString* )schemaName alias:(NSString* )alias;
++(instancetype)joinWithTable:(id)tableSourceL table:(id)tableSourceR on:(id)predicate options:(int)options;
 
 // properties
-@property (readonly) NSDictionary* columns;
-@property (readonly) PGQuerySource* source;
-@property (readonly) PGPredicate* where;
+@property NSDictionary* dictionary;
+@property NSString* table;
+@property NSString* schema;
+@property NSString* alias;
 
-// methods to set output columns
--(void)setColumns:(NSDictionary* )columns order:(NSArray* )aliases;
--(void)andWhere:(id)predicate; // NSString or PGPredicate
--(void)orWhere:(id)predicate;  // NSString or PGPredicate
-
-// TODO: GROUP, ORDER, HAVING, LIMIT
+// methods
+-(NSString* )quoteForConnection:(PGConnection* )connection withAlias:(BOOL)withAlias;
 
 @end

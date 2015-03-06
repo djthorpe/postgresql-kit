@@ -14,27 +14,6 @@
 
 #import <Foundation/Foundation.h>
 
-// options
-enum {
-	PGSelectOptionDistinct = 0x000001            // de-duplicate rows
-};
-
-@interface PGSelect : PGQuery
-
-// basic select statement, selects everything (*)
-// source is NSString or PGQuerySource
-+(PGSelect* )select:(id)source options:(int)options;
-
-// properties
-@property (readonly) NSDictionary* columns;
-@property (readonly) PGQuerySource* source;
-@property (readonly) PGPredicate* where;
-
-// methods to set output columns
--(void)setColumns:(NSDictionary* )columns order:(NSArray* )aliases;
--(void)andWhere:(id)predicate; // NSString or PGPredicate
--(void)orWhere:(id)predicate;  // NSString or PGPredicate
-
-// TODO: GROUP, ORDER, HAVING, LIMIT
+@implementation PGPredicate
 
 @end
