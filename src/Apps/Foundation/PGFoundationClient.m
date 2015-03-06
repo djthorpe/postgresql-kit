@@ -355,7 +355,21 @@
 	}
 
 	if([command isEqualToString:@"listschemas"]) {
-		PGQuery* query = [PGQueryInfo schemasForDatabase:nil options:0];
+		PGQuery* query = [PGQueryInfo schemas];
+		NSParameterAssert(query);
+		[[self db] executeQuery:query whenDone:^(PGResult* result, NSError* error) {
+			if(result) {
+				[self displayResult:result];
+			}
+			if(error) {
+				[[self term] printf:@"error: %@",error];
+			}
+		}];
+		return;
+	}
+
+	if([command isEqualToString:@"listroles"]) {
+		PGQuery* query = [PGQueryInfo roles];
 		NSParameterAssert(query);
 		[[self db] executeQuery:query whenDone:^(PGResult* result, NSError* error) {
 			if(result) {

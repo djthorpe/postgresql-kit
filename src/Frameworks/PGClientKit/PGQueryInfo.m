@@ -16,7 +16,6 @@
 
 // keys
 NSString* PQQueryInfoTableNameKey = @"PGQueryInfo_table";
-NSString* PQQueryInfoDatabaseNameKey = @"PGQueryInfo_database";
 NSString* PQQueryInfoSchemaNameKey = @"PGQueryInfo_schema";
 NSString* PQQueryInfoRoleNameKey = @"PGQueryInfo_role";
 
@@ -33,17 +32,15 @@ enum {
 ////////////////////////////////////////////////////////////////////////////////
 // constructors
 
-+(PGQueryInfo* )schemasForDatabase:(NSString* )databaseName options:(int)options {
++(PGQueryInfo* )schemas {
 	PGQueryInfo* query = [super queryWithDictionary:@{ } class:NSStringFromClass([self class])];
-	[query setDatabase:databaseName];
-	[query setOptions:(options | PGQueryOptionTypeInfoSchemas)];
+	[query setOptions:PGQueryOptionTypeInfoSchemas];
 	return query;
 }
 
-+(PGQueryInfo* )rolesForDatabase:(NSString* )databaseName options:(int)options {
++(PGQueryInfo* )roles {
 	PGQueryInfo* query = [super queryWithDictionary:@{ } class:NSStringFromClass([self class])];
-	[query setDatabase:databaseName];
-	[query setOptions:(options | PGQueryOptionTypeInfoRoles)];
+	[query setOptions:PGQueryOptionTypeInfoRoles];
 	return query;
 }
 
@@ -68,7 +65,6 @@ enum {
 // properties
 
 @dynamic table;
-@dynamic database;
 @dynamic schema;
 @dynamic role;
 
@@ -95,19 +91,6 @@ enum {
 		[super removeObjectForKey:PQQueryInfoTableNameKey];
 	} else {
 		[super setObject:table forKey:PQQueryInfoTableNameKey];
-	}
-}
-
--(NSString* )database {
-	NSString* database = [super objectForKey:PQQueryInfoDatabaseNameKey];
-	return ([database length]==0) ? nil : database;
-}
-
--(void)setDatabase:(NSString* )database {
-	if([database length]==0) {
-		[super removeObjectForKey:PQQueryInfoDatabaseNameKey];
-	} else {
-		[super setObject:database forKey:PQQueryInfoDatabaseNameKey];
 	}
 }
 
@@ -147,8 +130,26 @@ enum {
 }
 
 -(NSString* )_rolesForConnection:(PGConnection* )connection options:(int)options error:(NSError** )error {
-//SELECT r.rolname, r.rolsuper, r.rolinherit, r.rolcreaterole, r.rolcreatedb, r.rolcanlogin, r.rolconnlimit, r.rolvaliduntil, ARRAY(SELECT b.rolname FROM pg_catalog.pg_auth_members m JOIN pg_catalog.pg_roles b ON (m.roleid = b.oid) WHERE m.member = r.oid) as memberof, pg_catalog.shobj_description(r.oid, 'pg_authid') AS description, r.rolreplication FROM pg_catalog.pg_roles r;
-	return @"--NOT IMPLEMENTED--";
+	NSMutableArray* columns = [NSMutableArray new];
+	[columns addObject:@"r.rolname AS role"];
+	[columns addObject:@"r.rolsuper AS superuser"];
+	[columns addObject:@"r.rolinherit AS inherit"];
+	[columns addObject:@"r.rolcreaterole AS createrole"];
+	[columns addObject:@"r.rolcreatedb AS createdb"];
+	[columns addObject:@"r.rolcanlogin AS login"];
+	[columns addObject:@"r.rolconnlimit AS connection_limit"];
+	[columns addObject:@"r.rolvaliduntil AS expiry"];
+	[columns addObject:@"r.rolreplication AS replication"];
+	[columns addObject:@"ARRAY(SELECT b.rolname FROM pg_catalog.pg_auth_members m JOIN pg_catalog.pg_roles b ON (m.roleid = b.oid) WHERE m.member = r.oid) as memberof"];
+	[columns addObject:@"pg_catalog.shobj_description(r.oid, 'pg_authid') AS description"];
+
+	NSMutableArray* parts = [NSMutableArray new];
+	[parts addObject:@"SELECT"];
+	[parts addObject:[columns componentsJoinedByString:@","]];
+	[parts addObject:@"FROM pg_catalog.pg_roles r"];
+	[parts addObject:@"ORDER BY 1"];
+
+	return [parts componentsJoinedByString:@" "];
 }
 
 -(NSString* )_tablesForConnection:(PGConnection* )connection options:(int)options error:(NSError** )error {
