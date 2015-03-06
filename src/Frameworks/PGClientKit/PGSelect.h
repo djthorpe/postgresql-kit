@@ -28,4 +28,8 @@ enum {
 @property NSString* tableName;
 @property NSString* schemaName;
 
+// methods to set output columns
+-(void)setColumns:(NSArray* )columns;
+-(void)setColumnsAndAliases:(NSDictionary* )aliases order:(NSArray* )aliases;
+
 @end
