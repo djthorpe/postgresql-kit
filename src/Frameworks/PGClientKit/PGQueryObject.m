@@ -114,7 +114,7 @@ NSString* PGQueryOptionsKey = @"options";
 }
 
 -(NSString* )description {
-	return [NSString stringWithFormat:@"<%@ options=%08lX dictionary=%@>",[self className],[self options],[self dictionary]];
+	return [NSString stringWithFormat:@"<%@ options=%08lX dictionary=%@>",NSStringFromClass([self class]),[self options],[self dictionary]];
 }
 
 

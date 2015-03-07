@@ -85,10 +85,6 @@
 		149BA1A31AA6FB50007B86A0 /* PGQuerySelect.m in Sources */ = {isa = PBXBuildFile; fileRef = 1482A9071AA5F4530000BA25 /* PGQuerySelect.m */; };
 		149BA1A41AA6FB54007B86A0 /* PGQuerySelect.h in Headers */ = {isa = PBXBuildFile; fileRef = 1482A9061AA5F4530000BA25 /* PGQuerySelect.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		149BA1A51AA6FB58007B86A0 /* PGQuerySelect.h in Headers */ = {isa = PBXBuildFile; fileRef = 1482A9061AA5F4530000BA25 /* PGQuerySelect.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		14AEF6B61AA8737D00C3DA7F /* PGQueryInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 14AEF6B41AA8737D00C3DA7F /* PGQueryInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		14AEF6B71AA8737D00C3DA7F /* PGQueryInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 14AEF6B41AA8737D00C3DA7F /* PGQueryInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		14AEF6B81AA8737D00C3DA7F /* PGQueryInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 14AEF6B51AA8737D00C3DA7F /* PGQueryInfo.m */; };
-		14AEF6B91AA8737D00C3DA7F /* PGQueryInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 14AEF6B51AA8737D00C3DA7F /* PGQueryInfo.m */; };
 		14D7C3E617AD721D00479231 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C168115F26BF20013A382 /* Foundation.framework */; };
 		14D7C3E717AD729000479231 /* PGClientParams.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EE23F62163207DA00C99BA7 /* PGClientParams.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		14DECDA116B56D7300178235 /* PGConverters.h in Headers */ = {isa = PBXBuildFile; fileRef = 14DECD9F16B56D7300178235 /* PGConverters.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -103,10 +99,6 @@
 		14FD07241AA7111A0013557E /* GBPrint.m in Sources */ = {isa = PBXBuildFile; fileRef = 14FD07111AA70C0E0013557E /* GBPrint.m */; };
 		14FD07251AA7111E0013557E /* GBOptionsHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 14FD070F1AA70C0E0013557E /* GBOptionsHelper.m */; };
 		14FD07261AA711210013557E /* GBCommandLineParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 14FD070D1AA70C0E0013557E /* GBCommandLineParser.m */; };
-		14FD072E1AA741DE0013557E /* PGQueryCreate.h in Headers */ = {isa = PBXBuildFile; fileRef = 1482A9021AA5C4F50000BA25 /* PGQueryCreate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		14FD07321AA741DF0013557E /* PGQueryCreate.h in Headers */ = {isa = PBXBuildFile; fileRef = 1482A9021AA5C4F50000BA25 /* PGQueryCreate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		14FD07331AA741E60013557E /* PGQueryCreate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1482A9031AA5C4F50000BA25 /* PGQueryCreate.m */; };
-		14FD07341AA741E70013557E /* PGQueryCreate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1482A9031AA5C4F50000BA25 /* PGQueryCreate.m */; };
 		6E031030162FE50B003225B1 /* PGQuery.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E03102E162FE50B003225B1 /* PGQuery.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E031031162FE50B003225B1 /* PGQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E03102F162FE50B003225B1 /* PGQuery.m */; };
 		6E0773D9163744D90028783F /* PGResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0773D7163744D90028783F /* PGResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1629,7 +1621,6 @@
 				1417B7BB1AAA1FF200B44DD4 /* PGQueryObject.h in Headers */,
 				6E1548531A581BCB00556573 /* PGResult.h in Headers */,
 				6E0DDCDA1AAB2A4000A38F3B /* NSString+PrivateAdditions.h in Headers */,
-				14FD07321AA741DF0013557E /* PGQueryCreate.h in Headers */,
 				6E1548451A5819BD00556573 /* NSURL+PGAdditions.h in Headers */,
 				6E15484F1A581BB400556573 /* PGConverters.h in Headers */,
 				6E9256A31AA64604007DAD82 /* PGConnection.h in Headers */,
@@ -1643,7 +1634,6 @@
 				6E0DDCF61AAB74B100A38F3B /* PGQueryTableView.h in Headers */,
 				1450A1681AAA18DA002D62D9 /* PGQueryPredicate.h in Headers */,
 				6E1548441A5819AC00556573 /* PGClientKit.h in Headers */,
-				14AEF6B71AA8737D00C3DA7F /* PGQueryInfo.h in Headers */,
 				1450A15F1AAA145A002D62D9 /* PGQuerySource.h in Headers */,
 				6E15484D1A5819EA00556573 /* PGQuery.h in Headers */,
 			);
@@ -1667,7 +1657,6 @@
 				149BA1A41AA6FB54007B86A0 /* PGQuerySelect.h in Headers */,
 				6E031030162FE50B003225B1 /* PGQuery.h in Headers */,
 				1450A15E1AAA145A002D62D9 /* PGQuerySource.h in Headers */,
-				14AEF6B61AA8737D00C3DA7F /* PGQueryInfo.h in Headers */,
 				6E0773D9163744D90028783F /* PGResult.h in Headers */,
 				6E0DDCF51AAB74B100A38F3B /* PGQueryTableView.h in Headers */,
 				6E0DDCEF1AAB724E00A38F3B /* PGQuerySchema.h in Headers */,
@@ -1675,7 +1664,6 @@
 				6EE12E2617D51D620034B9E1 /* PGPasswordStore.h in Headers */,
 				6E0DDCE91AAB721600A38F3B /* PGQueryRole.h in Headers */,
 				1450A1671AAA18DA002D62D9 /* PGQueryPredicate.h in Headers */,
-				14FD072E1AA741DE0013557E /* PGQueryCreate.h in Headers */,
 				14DECDA116B56D7300178235 /* PGConverters.h in Headers */,
 				6EAA40EB17BC150E0078EB32 /* NSURL+PGAdditions.h in Headers */,
 				1489AEC716669A6B00C3B67D /* PGResult+TextTable.h in Headers */,
@@ -2174,7 +2162,6 @@
 				6E9256BE1AA64BDA007DAD82 /* PGConnection+Notifications.m in Sources */,
 				6E0DDCEC1AAB721600A38F3B /* PGQueryRole.m in Sources */,
 				6E0DDCE01AAB2A7700A38F3B /* NSString+PrivateAdditions.m in Sources */,
-				14FD07341AA741E70013557E /* PGQueryCreate.m in Sources */,
 				6E9256A91AA6481E007DAD82 /* PGConnection+Callbacks.m in Sources */,
 				1417B7C11AAA219100B44DD4 /* PGQueryObject.m in Sources */,
 				6E15484C1A5819E500556573 /* PGClientParams.m in Sources */,
@@ -2186,7 +2173,6 @@
 				6E9256C21AA64BDA007DAD82 /* PGConnection+Reset.m in Sources */,
 				6E9256B01AA64B49007DAD82 /* PGConnection+Disconnect.m in Sources */,
 				6E9256BA1AA64BDA007DAD82 /* PGConnection+Cancel.m in Sources */,
-				14AEF6B91AA8737D00C3DA7F /* PGQueryInfo.m in Sources */,
 				6E9256AD1AA64AAF007DAD82 /* PGConnection+Errors.m in Sources */,
 				6E1548541A581BD200556573 /* PGResult.m in Sources */,
 				6E0DDCF21AAB724E00A38F3B /* PGQuerySchema.m in Sources */,
@@ -2274,7 +2260,6 @@
 				6E9256A81AA6481E007DAD82 /* PGConnection+Callbacks.m in Sources */,
 				6E9256BD1AA64BDA007DAD82 /* PGConnection+Notifications.m in Sources */,
 				1489AEC816669A6B00C3B67D /* PGResult+TextTable.m in Sources */,
-				14AEF6B81AA8737D00C3DA7F /* PGQueryInfo.m in Sources */,
 				6E9256B21AA64B6C007DAD82 /* PGConnection+Connect.m in Sources */,
 				6E82F1741A9BC9B20024B8BE /* PGConnection.m in Sources */,
 				14DECDA216B56D7300178235 /* PGConverters+Object2Data.m in Sources */,
@@ -2294,7 +2279,6 @@
 				6E9256BF1AA64BDA007DAD82 /* PGConnection+Ping.m in Sources */,
 				6E0DDCF71AAB74B100A38F3B /* PGQueryTableView.m in Sources */,
 				6E9256B91AA64BDA007DAD82 /* PGConnection+Cancel.m in Sources */,
-				14FD07331AA741E60013557E /* PGQueryCreate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
