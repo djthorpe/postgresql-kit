@@ -258,7 +258,7 @@ const NSUInteger PGQuerySelectNoLimit = NSUIntegerMax;
 
 	// add SELECT DISTINCT
 	[parts addObject:@"SELECT"];
-	if(options & PGQuerySelectOptionDistinct) {
+	if(options & PGQueryOptionDistinct) {
 		[parts addObject:@"DISTINCT"];
 	}
 

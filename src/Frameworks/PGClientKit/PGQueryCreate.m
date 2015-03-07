@@ -523,7 +523,7 @@ enum {
 
 -(NSString* )statementForConnection:(PGConnection* )connection error:(NSError** )error {
 	NSParameterAssert(connection);
-	int options = [super options];
+	NSUInteger options = [super options];
 	if(options & PGQueryOptionTypeCreateDatabase) {
 		return [self _createDatabaseStatementForConnection:connection options:options error:error];
 	} else if(options & PGQueryOptionTypeCreateSchema) {

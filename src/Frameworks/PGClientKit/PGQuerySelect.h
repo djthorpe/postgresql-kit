@@ -14,7 +14,7 @@
 
 // options
 enum {
-	PGQuerySelectOptionDistinct = 0x000001            // de-duplicate rows
+	PGQueryOptionDistinct = 0x00000001            // de-duplicate rows
 };
 
 /**

@@ -12,27 +12,19 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-#import <Foundation/Foundation.h>
+#import <PGClientKit/PGClientKit.h>
+#import <PGClientKit/PGClientKit+Private.h>
 
-@interface PGQueryInfo : PGQuery
+@implementation PGQueryDatabase
 
-////////////////////////////////////////////////////////////////////////////////
-// properties
++(PGQueryDatabase* )create:(NSString* )database options:(NSUInteger)options {
+	// TODO
+	return nil;
+}
 
-/**
- *  The name of the table or view
- */
-@property NSString* table;
-
-/**
- *  The name of the schema
- */
-@property NSString* schema;
-
-/**
- *  The name of the role
- */
-@property NSString* role;
-
++(PGQueryDatabase* )drop:(NSString* )databaseName options:(NSUInteger)options {
+	// TODO
+	return nil;
+}
 
 @end

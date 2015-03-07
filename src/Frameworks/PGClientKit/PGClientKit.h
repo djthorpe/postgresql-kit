@@ -54,10 +54,12 @@ typedef enum {
 @class PGQueryObject;
 	@class PGQuery;
 		@class PGQuerySelect;
-//		@class PGUpdate;
-//		@class PGDelete;
-		@class PGQueryCreate;
-		@class PGQueryInfo;
+//		@class PGQueryUpdate;
+//		@class PGQueryDelete;
+		@class PGQueryDatabase;
+		@class PGQueryRole;
+		@class PGQuerySchema;
+		@class PGQueryTableView;
 	@class PGQuerySource;
 	@class PGQueryPredicate;
 
@@ -70,11 +72,13 @@ typedef enum {
 #import "PGQueryObject.h"
 #import "PGQuery.h"
 #import "PGQuerySelect.h"
+#import "PGQueryDatabase.h"
+#import "PGQueryRole.h"
+#import "PGQuerySchema.h"
+#import "PGQueryTableView.h"
+
 #import "PGQuerySource.h"
 #import "PGQueryPredicate.h"
-
-#import "PGQueryCreate.h"
-#import "PGQueryInfo.h"
 
 // helpers
 #import "NSURL+PGAdditions.h"
