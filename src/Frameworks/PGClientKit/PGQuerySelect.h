@@ -12,18 +12,29 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-#import <Foundation/Foundation.h>
-
 // options
 enum {
-	PGSelectOptionDistinct = 0x000001            // de-duplicate rows
+	PGQuerySelectOptionDistinct = 0x000001            // de-duplicate rows
 };
 
-@interface PGSelect : PGQuery
+@interface PGQuerySelect : PGQuery
 
 // basic select statement, selects everything (*)
 // source is NSString or PGQuerySource
-+(PGSelect* )select:(id)source options:(int)options;
+
+/**
+ *  Construct a SELECT query from a table, view or other data source
+ *
+ *  @param source  A NSString object representing the table or view name, or
+ *                 a PGQuerySource object representing a table, view or other
+ *                 data source.
+ *  @param options Options can be set to modify the statement. The
+ *                 PGQuerySelectOptionDistinct flag can be set within options
+ *                 in order to return a distinct set of rows.
+ *
+ *  @return Returns a PGQueryObject representing the SELECT query
+ */
++(PGQuerySelect* )select:(id)source options:(NSUInteger)options;
 
 // properties
 @property (readonly) NSDictionary* columns;
@@ -31,9 +42,11 @@ enum {
 @property (readonly) PGQueryPredicate* where;
 
 // methods to set output columns
+/*-(void)setColumns:(NSDictionary* )columns;
 -(void)setColumns:(NSDictionary* )columns order:(NSArray* )aliases;
 -(void)andWhere:(id)predicate; // NSString or PGPredicate
 -(void)orWhere:(id)predicate;  // NSString or PGPredicate
+*/
 
 // TODO: GROUP, ORDER, HAVING, LIMIT
 

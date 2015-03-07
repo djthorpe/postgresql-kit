@@ -42,11 +42,6 @@
 @property (readonly) NSDictionary* dictionary;
 
 /**
- *  Return the query class name
- */
-@property (readonly) NSString* class;
-
-/**
  *  Return option flags
  */
 @property NSUInteger options;

@@ -12,8 +12,8 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-#import "PGClientKit.h"
-#import "PGClientKit+Private.h"
+#import <PGClientKit/PGClientKit.h>
+#import <PGClientKit/PGClientKit+Private.h>
 
 @implementation PGResult
 

@@ -12,8 +12,6 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-#import <Foundation/Foundation.h>
-
  /**
   *  The PGConnection class represents a single connection to a remote
   *  PostgreSQL database, either via network or file-based socket. The 
@@ -297,6 +295,7 @@ typedef enum {
 @protocol PGConnectionDelegate <NSObject>
 @optional
 	-(void)connection:(PGConnection* )connection willOpenWithParameters:(NSMutableDictionary* )dictionary;
+	-(void)connection:(PGConnection* )connection willExecute:(NSString* )query;
 	-(void)connection:(PGConnection* )connection error:(NSError* )error;
 	-(void)connection:(PGConnection* )connection notice:(NSString* )notice;
 	-(void)connection:(PGConnection* )connection statusChange:(PGConnectionStatus)status description:(NSString* )description;

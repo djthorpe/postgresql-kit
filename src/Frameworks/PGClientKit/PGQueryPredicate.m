@@ -43,7 +43,8 @@ enum {
 		case PGQueryPredicateTypeNull:
 			return @"NULL";
 	}
-	// TODO raise error - invalid predicate type
+	
+	[connection raiseError:error code:PGClientErrorQuery reason:@"Invalid predicate"];
 	return nil;
 }
 

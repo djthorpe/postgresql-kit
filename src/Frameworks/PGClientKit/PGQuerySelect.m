@@ -15,17 +15,94 @@
 #import <PGClientKit/PGClientKit.h>
 #import <PGClientKit/PGClientKit+Private.h>
 
-// keys
-NSString* PQSelectTableNameKey = @"PGSelect_table";
-NSString* PQSelectSchemaNameKey = @"PGSelect_schema";
+@implementation PGQuerySelect
 
-// additional option flags
-enum {
-	PGSelectTableSource = 0x0100000,
-};
+////////////////////////////////////////////////////////////////////////////////
+// constructor
 
-@implementation PGSelect
++(PGQuerySelect* )select:(id)source options:(NSUInteger)options {
+	NSParameterAssert(source);
+	NSParameterAssert([source isKindOfClass:[NSString class]] || [source isKindOfClass:[PGQuerySource class]]);
+	NSString* className = NSStringFromClass([self class]);
+	PGQuerySelect* query = (PGQuerySelect* )[PGQueryObject queryWithDictionary:@{ } class:className];
+	NSParameterAssert(query && [query isKindOfClass:[PGQuerySelect class]]);
+	PGQuerySource* querySource = nil;
+	if([source isKindOfClass:[NSString class]]) {
+		querySource = (PGQuerySource* )[PGQuerySource sourceWithTable:source alias:nil];
+	} else if([source isKindOfClass:[PGQuerySource class]]) {
+		querySource = (PGQuerySource* )source;
+	}
+	if(querySource==nil) {
+		return nil;
+	}
+	[query setObject:querySource forKey:PGQuerySourceKey];
+	[query setOptions:options];
+	return query;
+}
 
+////////////////////////////////////////////////////////////////////////////////
+// properties
+
+@dynamic columns;
+@dynamic source;
+@dynamic where;
+
+-(PGQuerySource* )source {
+	return [super objectForKey:PGQuerySourceKey];
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// public methods
+
+-(NSString* )_columnsStringForConnection:(PGConnection* )connection options:(NSUInteger)options error:(NSError** )error {
+	return @"";
+}
+
+-(NSString* )_sourceStringForConnection:(PGConnection* )connection options:(NSUInteger)options error:(NSError** )error {
+	if([self source]==nil) {
+		// if there is no source, then return empty string
+		return @"";
+	} else {
+		// else return the source
+		return [[self source] quoteForConnection:connection withAlias:YES error:error];
+	}
+}
+
+-(NSString* )quoteForConnection:(PGConnection* )connection error:(NSError** )error {
+	NSParameterAssert(connection);
+	NSUInteger options = [self options];
+	NSMutableArray* parts = [NSMutableArray new];
+
+	// add SELECT DISTINCT
+	[parts addObject:@"SELECT"];
+	if(options & PGQuerySelectOptionDistinct) {
+		[parts addObject:@"DISTINCT"];
+	}
+
+	// columns
+	NSString* columns = [self _columnsStringForConnection:connection options:options error:error];
+	if(columns==nil) {
+		return nil;
+	} else if([columns length]) {
+		[parts addObject:columns];
+	} else {
+		[parts addObject:@"*"];
+	}
+
+	// dataSource
+	NSString* dataSource = [self _sourceStringForConnection:connection options:options error:error];
+	if(dataSource==nil) {
+		return nil;
+	} else if([dataSource length]) {
+		[parts addObject:@"FROM"];
+		[parts addObject:dataSource];
+	}
+
+	return [parts componentsJoinedByString:@" "];
+}
+
+
+/*
 +(PGSelect* )selectTableSource:(NSString* )tableName schema:(NSString* )schemaName options:(int)options {
 	NSParameterAssert(tableName);
 	PGSelect* query = [super queryWithDictionary:@{
@@ -88,5 +165,8 @@ enum {
 	[parts addObject:[self sourcePhraseForConnection:connection options:options]];
 	return [parts componentsJoinedByString:@" "];
 }
+
+*/
+
 
 @end

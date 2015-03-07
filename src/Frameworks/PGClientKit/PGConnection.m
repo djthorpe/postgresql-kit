@@ -154,6 +154,12 @@ NSDictionary* PGConnectionStatusDescription = nil;
 	if(_connection==nil) {
 		return nil;
 	}
+	
+	// if identifier only contains alphanumberic characters, return it unmodified
+	if([string isAlphanumeric]) {
+		return string;
+	}
+	
 	const char* quoted_identifier = PQescapeIdentifier(_connection,[string UTF8String],[string lengthOfBytesUsingEncoding:NSUTF8StringEncoding]);
 	if(quoted_identifier==nil) {
 		return nil;

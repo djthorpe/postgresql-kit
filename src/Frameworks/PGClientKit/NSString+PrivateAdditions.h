@@ -12,6 +12,14 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-@interface PGResult (TextTable)
--(NSString* )tableWithWidth:(NSUInteger)lineWidth;
+@interface NSString (PrivateAdditions)
+
+/**
+ *  Determines if the string only contains alphanumeric characters
+ *
+ *  @return Returns YES if the string only contains alphanumeric characters,
+ *          else returns NO
+ */
+-(BOOL)isAlphanumeric;
+
 @end

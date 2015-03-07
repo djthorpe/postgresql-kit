@@ -12,6 +12,18 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-@interface PGResult (TextTable)
--(NSString* )tableWithWidth:(NSUInteger)lineWidth;
+#import <PGClientKit/PGClientKit.h>
+#import <PGClientKit/PGClientKit+Private.h>
+
+@implementation NSString (PrivateAdditions)
+
+-(BOOL)isAlphanumeric {
+	static NSCharacterSet* unwantedCharacters =  nil;
+	if(unwantedCharacters==nil) {
+		unwantedCharacters = [[NSCharacterSet alphanumericCharacterSet] invertedSet];
+		NSParameterAssert(unwantedCharacters);
+	}
+    return ([self rangeOfCharacterFromSet:unwantedCharacters].location == NSNotFound) ? YES : NO;
+}
+
 @end

@@ -20,12 +20,13 @@
 ////////////////////////////////////////////////////////////////////////////////
 // constructors
 
-+(PGQueryObject* )sourceWithTable:(NSString* )tableName schema:(NSString* )schemaName alias:(NSString* )aliasName {
++(PGQuerySource* )sourceWithTable:(NSString* )tableName schema:(NSString* )schemaName alias:(NSString* )aliasName {
 	NSParameterAssert(tableName);
 	NSString* className = NSStringFromClass([self class]);
-	PGQueryObject* query = [PGQueryObject queryWithDictionary:@{
+	PGQuerySource* query = (PGQuerySource* )[PGQueryObject queryWithDictionary:@{
 		PGQueryTableKey: tableName
 	} class:className];
+	NSParameterAssert(query && [query isKindOfClass:[PGQuerySource class]]);
 	if(schemaName) {
 		[query setObject:schemaName forKey:PGQuerySchemaKey];
 	}
@@ -35,8 +36,8 @@
 	return query;
 }
 
-+(PGQueryObject* )sourceWithTable:(NSString* )tableName alias:(NSString* )alias {
-	return [PGQuerySource sourceWithTable:tableName schema:nil alias:alias];
++(PGQuerySource* )sourceWithTable:(NSString* )tableName alias:(NSString* )alias {
+	return (PGQuerySource* )[PGQuerySource sourceWithTable:tableName schema:nil alias:alias];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -67,7 +68,7 @@
 	NSString* schemaName = [self schema];
 	NSString* tableName = [self table];
 	if([tableName length]==0) {
-		// TODO SET ERROR (*error) = [NSError err]
+		[connection raiseError:error code:PGClientErrorQuery reason:@"Missing table name"];
 		return nil;
 	}
 	NSString* tableQuoted = [connection quoteIdentifier:tableName];

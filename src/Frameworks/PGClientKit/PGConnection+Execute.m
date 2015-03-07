@@ -58,6 +58,11 @@
 		return;
 	}
 	
+	// call the delegate
+	if([[self delegate] respondsToSelector:@selector(connection:willExecute:)]) {
+		[[self delegate] connection:self willExecute:query];
+	}
+	
 	// execute the command, free parameters
 	int resultFormat = (format==PGClientTupleFormatBinary) ? 1 : 0;
 	int returnCode = PQsendQueryParams(_connection,[query UTF8String],(int)params->size,params->types,(const char** )params->values,params->lengths,params->formats,resultFormat);
@@ -86,12 +91,12 @@
 	if([query isKindOfClass:[NSString class]]) {
 		query2 = query;
 	} else {
-		query2 = [(PGQuery* )query statementForConnection:self error:&error];
+		query2 = [(PGQuery* )query quoteForConnection:self error:&error];
 	}
 	if(error) {
 		callback(nil,error);
 	} else if(query2==nil) {
-		callback(nil,[self raiseError:nil code:PGClientErrorExecute]);
+		callback(nil,[self raiseError:nil code:PGClientErrorExecute reason:@"Query is nil"]);
 	} else {
 		[self _execute:query2 format:PGClientTupleFormatText values:nil whenDone:callback];
 	}

@@ -12,9 +12,11 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-#import "PGResult+TextTable.h"
+#import <PGClientKit/PGClientKit.h>
+#import <PGClientKit/PGClientKit+Private.h>
 
 @implementation PGResult (TextTable)
+
 -(NSString* )_rowAsString:(NSArray* )row columnWidth:(NSUInteger* )columnWidth delimiter:(char)delim padding:(char)pad {
 	NSMutableString* rowString = [NSMutableString string];
 	for(NSUInteger i = 0; i < [self numberOfColumns]; i++) {

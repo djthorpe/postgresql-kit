@@ -22,6 +22,7 @@ extern NSString* PGQueryTableKey;
 extern NSString* PGQuerySchemaKey;
 extern NSString* PGQueryDatabaseKey;
 extern NSString* PGQueryAliasKey;
+extern NSString* PGQuerySourceKey;
 
 /**
  *  The PGQuery class represents a query which can be executed by the database
@@ -49,6 +50,6 @@ extern NSString* PGQueryAliasKey;
  *  @return Returns the query object, or nil if the query object could not
  *          be constructed.
  */
-+(PGQueryObject* )queryWithString:(NSString* )statement;
++(PGQuery* )queryWithString:(NSString* )statement;
 
 @end

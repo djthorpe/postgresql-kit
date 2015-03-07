@@ -83,6 +83,10 @@
 	}
 }
 
+-(void)connection:(PGConnection* )connection willExecute:(NSString *)query {
+	[[self term] printf:query];
+}
+
 -(void)connection:(PGConnection* )connection statusChange:(PGConnectionStatus)status description:(NSString *)description {
 #ifdef DEBUG2
 	[[self term] printf:@"StatusChange: %@ (%d)",description,status];
@@ -178,7 +182,7 @@
 		if([args count]) {
 			[[self term] printf:@"error: tables: too many arguments"];
 		} else {
-			PGQuery* query = [PGQuery queryWithString:@"SELECT datname AS database,pid AS pid,query AS query,usename AS username,client_hostname AS remotehost,application_name,query_start,waiting FROM pg_stat_activity WHERE pid <> pg_backend_pid()"];
+			PGQueryObject* query = [PGQuery queryWithString:@"SELECT datname AS database,pid AS pid,query AS query,usename AS username,client_hostname AS remotehost,application_name,query_start,waiting FROM pg_stat_activity WHERE pid <> pg_backend_pid()"];
 			[[self db] executeQuery:query whenDone:^(PGResult* result, NSError* error) {
 				if(result) {
 					[self displayResult:result];
@@ -214,7 +218,7 @@
 			[[self term] printf:@"error: table: not enough arguments"];
 			return;
 		}
-		PGQuery* query = [PGSelect selectTableSource:tableName schema:schemaName options:0];
+		PGQueryObject* query = [PGQuerySelect select:[PGQuerySource sourceWithTable:tableName schema:schemaName alias:nil] options:0];
 		NSParameterAssert(query);
 		[[self db] executeQuery:query whenDone:^(PGResult* result, NSError* error) {
 			if(result) {

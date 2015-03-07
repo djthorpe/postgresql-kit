@@ -12,14 +12,16 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-#import "PGClientParams.h"
-#import "PGConverters.h"
 #include <libpq-fe.h>
 #include <pg_config.h>
 
  /**
   *  This file includes declarations which are private to the framework
   */
+
+#import "PGClientParams.h"
+#import "PGConverters.h"
+#import "NSString+PrivateAdditions.h"
 
 @interface PGConnection (Private)
 -(void)_updateStatus;

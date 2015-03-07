@@ -28,8 +28,6 @@ NSString* PGQueryOptionsKey = @"options";
 // constructors
 
 -(instancetype)init {
-	// default init returns nil, since the query object needs a dictionary to be
-	// created
 	return nil;
 }
 
@@ -38,9 +36,6 @@ NSString* PGQueryOptionsKey = @"options";
 	NSParameterAssert(className);
 	self = [super init];
 	if(self) {
-		if([self isKindOfClass:NSClassFromString(className)]==NO) {
-			return nil;
-		}
 		_dictionary = [NSMutableDictionary dictionaryWithDictionary:dictionary];
 		[_dictionary setObject:className forKey:PGQueryClassKey];
 	}
@@ -59,11 +54,12 @@ NSString* PGQueryOptionsKey = @"options";
 	}
 
 	// create the query object
-	PGQueryObject* query = [[NSClassFromString(className) alloc] initWithDictionary:dictionary class:className];
+	Class theClass = NSClassFromString(className);
+	PGQueryObject* query = [[theClass alloc] initWithDictionary:dictionary class:className];
 	if(query==nil) {
 		return nil;
 	}
-	NSParameterAssert([query isKindOfClass:NSClassFromString(className)]);
+	NSParameterAssert([query isKindOfClass:theClass]);
 	
 	// reset options
 	[query setOptions:0];
@@ -76,12 +72,7 @@ NSString* PGQueryOptionsKey = @"options";
 // properties
 
 @synthesize dictionary = _dictionary;
-@dynamic class;
 @dynamic options;
-
--(NSString* )class {
-	return [_dictionary objectForKey:PGQueryClassKey];
-}
 
 -(NSUInteger)options {
 	NSNumber* options = [_dictionary objectForKey:PGQueryOptionsKey];

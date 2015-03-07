@@ -22,6 +22,7 @@ NSString* PGQueryTableKey = @"table";
 NSString* PGQuerySchemaKey = @"schema";
 NSString* PGQueryDatabaseKey = @"database";
 NSString* PGQueryAliasKey = @"alias";
+NSString* PGQuerySourceKey = @"from";
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -30,10 +31,10 @@ NSString* PGQueryAliasKey = @"alias";
 ////////////////////////////////////////////////////////////////////////////////
 // initialization
 
-+(PGQueryObject* )queryWithString:(NSString* )statement {
++(PGQuery* )queryWithString:(NSString* )statement {
 	NSParameterAssert(statement);
 	NSString* className = NSStringFromClass([self class]);
-	return [PGQueryObject queryWithDictionary:@{ PGQueryStatementKey: statement } class:className];
+	return (PGQuery* )[PGQuery queryWithDictionary:@{ PGQueryStatementKey: statement } class:className];	
 }
 
 ////////////////////////////////////////////////////////////////////////////////
