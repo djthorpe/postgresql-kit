@@ -39,6 +39,10 @@
 -(id)initWithResult:(PGresult* )theResult format:(PGClientTupleFormat)format;
 @end
 
+@interface PGQueryPredicate (Private)
++(PGQueryPredicate* )predicateOrExpression:(id)expression;
+@end
+
 typedef struct {
 	const char** keywords;
 	const char** values;

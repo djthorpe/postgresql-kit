@@ -15,6 +15,11 @@
 #import <PGClientKit/PGClientKit.h>
 #import <PGClientKit/PGClientKit+Private.h>
 
+/**
+ *  Constant to indicate there is no limit
+ */
+const NSUInteger PGQuerySelectNoLimit = NSUIntegerMax;
+
 @implementation PGQuerySelect
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -36,6 +41,7 @@
 		return nil;
 	}
 	[query setObject:querySource forKey:PGQuerySourceKey];
+	[query setObject:[NSMutableArray array] forKey:PGQueryColumnsKey];
 	[query setOptions:options];
 	return query;
 }
@@ -44,18 +50,187 @@
 // properties
 
 @dynamic columns;
+@dynamic aliases;
 @dynamic source;
 @dynamic where;
+@dynamic having;
+@dynamic offset;
+@dynamic limit;
 
 -(PGQuerySource* )source {
 	return [super objectForKey:PGQuerySourceKey];
 }
 
+-(PGQueryPredicate* )where {
+	return [super objectForKey:PGQueryWhereKey];
+}
+
+-(PGQueryPredicate* )having {
+	return [super objectForKey:PGQueryHavingKey];
+}
+
+-(void)setWhere:(PGQueryPredicate* )where {
+	if(where==nil) {
+		// in the case where we need to have no WHERE statement
+		[super removeObjectForKey:PGQueryWhereKey];
+	} else {
+		[super setObject:where forKey:PGQueryWhereKey];
+	}
+}
+
+-(void)setHaving:(PGQueryPredicate* )having {
+	if(having==nil) {
+		// in the case where we need to have no HAVING statement
+		[super removeObjectForKey:PGQueryHavingKey];
+	} else {
+		[super setObject:having forKey:PGQueryHavingKey];
+	}
+}
+
+-(NSUInteger)offset {
+	NSNumber* offset = [super objectForKey:PGQueryOffsetKey];
+	if(offset==nil) {
+		return 0;
+	}
+	NSParameterAssert([offset isKindOfClass:[NSNumber class]]);
+	return [offset unsignedIntegerValue];
+}
+
+-(NSUInteger)limit {
+	NSNumber* limit = [super objectForKey:PGQueryLimitKey];
+	if(limit==nil) {
+		return PGQuerySelectNoLimit;
+	}
+	NSParameterAssert([limit isKindOfClass:[NSNumber class]]);
+	return [limit unsignedIntegerValue];
+}
+
+-(void)setOffset:(NSUInteger)offset {
+	[super setObject:[NSNumber numberWithUnsignedInteger:offset] forKey:PGQueryOffsetKey];
+}
+
+-(void)setLimit:(NSUInteger)limit {
+	[super setObject:[NSNumber numberWithUnsignedInteger:limit] forKey:PGQueryLimitKey];
+}
+
+-(NSArray* )columns {
+	NSArray* columns = [super objectForKey:PGQueryColumnsKey];
+	if(columns==nil || [columns count]==0) {
+		// return empty array of columns
+		return [NSArray array];
+	}
+	/**
+	 *  the column elements are of form [ predicate, alias ] where the
+	 *  predicate is of type PGQueryPredicate and the alias is an NSString.
+	 *  Where the NSString is an empty string, no alias is set.
+	 */
+	NSMutableArray* returnValue = [NSMutableArray arrayWithCapacity:[columns count]];
+	for(NSArray* column in columns) {
+		NSParameterAssert([columns isKindOfClass:[NSArray class]]);
+		NSParameterAssert([column count]==2);
+		PGQueryPredicate* value = [column objectAtIndex:0];
+		NSParameterAssert([value isKindOfClass:[PGQueryPredicate class]]);
+		[returnValue addObject:value];
+	}
+	return returnValue;
+}
+
+-(NSArray* )aliases {
+	NSArray* columns = [super objectForKey:PGQueryColumnsKey];
+	if(columns==nil || [columns count]==0) {
+		// return empty array of columns
+		return [NSArray array];
+	}
+	/**
+	 *  the column elements are of form [ predicate, alias ] where the
+	 *  predicate is of type PGQueryPredicate and the alias is an NSString.
+	 *  Where the NSString is an empty string, no alias is set.
+	 */
+	NSMutableArray* returnValue = [NSMutableArray arrayWithCapacity:[columns count]];
+	for(NSArray* column in columns) {
+		NSParameterAssert([columns isKindOfClass:[NSArray class]]);
+		NSParameterAssert([column count]==2);
+		NSString* value = [column objectAtIndex:1];
+		NSParameterAssert([value isKindOfClass:[NSString class]]);
+		[returnValue addObject:value];
+	}
+	return returnValue;
+}
+
+-(void)addColumn:(id)column alias:(NSString* )aliasName {
+	NSParameterAssert(column);
+	NSParameterAssert([column isKindOfClass:[PGQueryPredicate class]] || [column isKindOfClass:[NSString class]]);
+	if(aliasName==nil) {
+		aliasName = @"";
+	}
+	PGQueryPredicate* expression = [PGQueryPredicate predicateOrExpression:column];
+	NSParameterAssert(expression);
+	NSMutableArray* columns = [super objectForKey:PGQueryColumnsKey];
+	NSParameterAssert([columns isKindOfClass:[NSMutableArray class]]);
+	[columns addObject:@[ expression, aliasName ]];
+}
+
+-(void)andWhere:(id)predicate {
+	NSParameterAssert(predicate);
+	NSParameterAssert([predicate isKindOfClass:[NSString class]] || [predicate isKindOfClass:[PGQueryPredicate class]]);
+	PGQueryPredicate* new = [PGQueryPredicate predicateOrExpression:predicate];
+	NSParameterAssert(new);
+	PGQueryPredicate* where = [self where];
+	if(where==nil) {
+		where = new;
+	} else if([where isAND]) {
+		[where addArguments:new];
+	} else {
+		where = [PGQueryPredicate and:where,new,nil];
+	}
+	NSParameterAssert(where);
+	[self setObject:where forKey:PGQueryWhereKey];
+}
+
+-(void)orWhere:(id)predicate {
+	NSParameterAssert(predicate);
+	NSParameterAssert([predicate isKindOfClass:[NSString class]] || [predicate isKindOfClass:[PGQueryPredicate class]]);
+	PGQueryPredicate* new = [predicate isKindOfClass:[PGQueryPredicate class]] ? predicate : [PGQueryPredicate expression:predicate];
+	PGQueryPredicate* where = [self where];
+	if(where==nil) {
+		where = new;
+	} else if([where isOR]) {
+		[where addArguments:new];
+	} else {
+		where = [PGQueryPredicate or:where,new,nil];
+	}
+	NSParameterAssert(where);
+	[self setObject:where forKey:PGQueryWhereKey];
+}
+
 ////////////////////////////////////////////////////////////////////////////////
-// public methods
+// private methods
 
 -(NSString* )_columnsStringForConnection:(PGConnection* )connection options:(NSUInteger)options error:(NSError** )error {
-	return @"";
+	NSArray* columns = [super objectForKey:PGQueryColumnsKey];
+	if([columns count]==0) {
+		return @"";
+	}
+	NSMutableArray* returnValue = [NSMutableArray arrayWithCapacity:[columns count]];
+	for(NSArray* column in columns) {
+		NSParameterAssert([columns isKindOfClass:[NSArray class]]);
+		NSParameterAssert([column count]==2);
+		PGQueryPredicate* value = [column objectAtIndex:0];
+		NSParameterAssert([value isKindOfClass:[PGQueryPredicate class]]);
+		NSString* alias = [column objectAtIndex:1];
+		NSParameterAssert([alias isKindOfClass:[NSString class]]);
+		NSString* quotedValue = [value quoteForConnection:connection error:error];
+		NSString* quotedAlias = [alias length] ? [connection quoteIdentifier:alias] : alias;
+		if(quotedValue==nil || quotedAlias==nil) {
+			return nil;
+		}
+		if([quotedAlias length]) {
+			[returnValue addObject:[NSString stringWithFormat:@"%@ AS %@",quotedValue,quotedAlias]];
+		} else {
+			[returnValue addObject:quotedValue];
+		}
+	}
+	return [returnValue componentsJoinedByString:@","];
 }
 
 -(NSString* )_sourceStringForConnection:(PGConnection* )connection options:(NSUInteger)options error:(NSError** )error {
@@ -66,6 +241,14 @@
 		// else return the source
 		return [[self source] quoteForConnection:connection withAlias:YES error:error];
 	}
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// public methods
+
+-(void)setOffset:(NSUInteger)offset limit:(NSUInteger)limit {
+	[self setOffset:offset];
+	[self setLimit:limit];
 }
 
 -(NSString* )quoteForConnection:(PGConnection* )connection error:(NSError** )error {
@@ -97,76 +280,40 @@
 		[parts addObject:@"FROM"];
 		[parts addObject:dataSource];
 	}
+	
+	// where
+	PGQueryPredicate* where = [self where];
+	if(where) {
+		NSString* quotedWhere = [where quoteForConnection:connection error:error];
+		if(quotedWhere==nil) {
+			return nil;
+		}
+		[parts addObject:@"WHERE"];
+		[parts addObject:quotedWhere];
+	}
+
+	// having
+	PGQueryPredicate* having = [self having];
+	if(having) {
+		NSString* quotedHaving = [having quoteForConnection:connection error:error];
+		if(quotedHaving==nil) {
+			return nil;
+		}
+		[parts addObject:@"HAVING"];
+		[parts addObject:quotedHaving];
+	}
+	
+	// offset and limit
+	NSUInteger offset = [self offset];
+	if(offset) {
+		[parts addObject:[NSString stringWithFormat:@"OFFSET %lu",offset]];
+	}
+	NSUInteger limit = [self limit];
+	if(limit != PGQuerySelectNoLimit) {
+		[parts addObject:[NSString stringWithFormat:@"LIMIT %lu",limit]];
+	}
 
 	return [parts componentsJoinedByString:@" "];
 }
-
-
-/*
-+(PGSelect* )selectTableSource:(NSString* )tableName schema:(NSString* )schemaName options:(int)options {
-	NSParameterAssert(tableName);
-	PGSelect* query = [super queryWithDictionary:@{
-		PQSelectTableNameKey: tableName
-	} class:NSStringFromClass([self class])];
-	if(query==nil) {
-		return nil;
-	}
-	if(schemaName) {
-		[query setObject:schemaName forKey:PQSelectSchemaNameKey];
-	}
-	[query setOptions:(options | PGSelectTableSource)];
-	return query;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// properties
-
-@dynamic tableName;
-@dynamic schemaName;
-
--(NSString* )tableName {
-	return [super objectForKey:PQSelectTableNameKey];
-}
-
--(NSString* )schemaName {
-	return [super objectForKey:PQSelectSchemaNameKey];
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// public methods
-
--(NSString* )distinctPhraseForConnection:(PGConnection* )connection options:(int)options {
-	if(options & PGSelectOptionDistinct) {
-		return @"DISTINCT";
-	} else {
-		return @"ALL";
-	}
-}
-
--(NSString* )columnsPhraseForConnection:(PGConnection* )connection options:(int)options {
-	return @"*";
-}
-
--(NSString* )sourcePhraseForConnection:(PGConnection* )connection options:(int)options {
-	if([self schemaName]) {
-		return [NSString stringWithFormat:@"FROM %@.%@",[connection quoteIdentifier:[self schemaName]],[connection quoteIdentifier:[self tableName]]];
-	} else {
-		return [NSString stringWithFormat:@"FROM %@",[connection quoteIdentifier:[self tableName]]];
-	}
-}
-
--(NSString* )statementForConnection:(PGConnection* )connection error:(NSError** )error {
-	NSParameterAssert(connection);
-	int options = [self options];
-	NSMutableArray* parts = [NSMutableArray new];
-	[parts addObject:@"SELECT"];
-	[parts addObject:[self distinctPhraseForConnection:connection options:options]];
-	[parts addObject:[self columnsPhraseForConnection:connection options:options]];
-	[parts addObject:[self sourcePhraseForConnection:connection options:options]];
-	return [parts componentsJoinedByString:@" "];
-}
-
-*/
-
 
 @end

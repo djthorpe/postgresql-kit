@@ -23,6 +23,13 @@ extern NSString* PGQuerySchemaKey;
 extern NSString* PGQueryDatabaseKey;
 extern NSString* PGQueryAliasKey;
 extern NSString* PGQuerySourceKey;
+extern NSString* PGQueryColumnsKey;
+extern NSString* PGQueryWhereKey;
+extern NSString* PGQueryHavingKey;
+extern NSString* PGQueryOffsetKey;
+extern NSString* PGQueryLimitKey;
+extern NSString* PGQueryArgumentsKey;
+extern NSString* PGQueryValueKey;
 
 /**
  *  The PGQuery class represents a query which can be executed by the database

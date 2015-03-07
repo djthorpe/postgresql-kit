@@ -16,6 +16,8 @@
 #import <PGClientKit/PGClientKit+Private.h>
 
 ////////////////////////////////////////////////////////////////////////////////
+#pragma mark constant declarations
+////////////////////////////////////////////////////////////////////////////////
 
 NSString* PGQueryStatementKey = @"statement";
 NSString* PGQueryTableKey = @"table";
@@ -23,13 +25,21 @@ NSString* PGQuerySchemaKey = @"schema";
 NSString* PGQueryDatabaseKey = @"database";
 NSString* PGQueryAliasKey = @"alias";
 NSString* PGQuerySourceKey = @"from";
+NSString* PGQueryColumnsKey = @"columns";
+NSString* PGQueryWhereKey = @"where";
+NSString* PGQueryHavingKey = @"having";
+NSString* PGQueryOffsetKey = @"offset";
+NSString* PGQueryLimitKey = @"limit";
+NSString* PGQueryArgumentsKey = @"args";
+NSString* PGQueryValueKey = @"value";
 
 ////////////////////////////////////////////////////////////////////////////////
 
 @implementation PGQuery
 
 ////////////////////////////////////////////////////////////////////////////////
-// initialization
+#pragma mark constructors
+////////////////////////////////////////////////////////////////////////////////
 
 +(PGQuery* )queryWithString:(NSString* )statement {
 	NSParameterAssert(statement);
@@ -38,7 +48,8 @@ NSString* PGQuerySourceKey = @"from";
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// public methods
+#pragma mark public methods
+////////////////////////////////////////////////////////////////////////////////
 
 -(NSString* )quoteForConnection:(PGConnection* )connection error:(NSError** )error {
 	NSParameterAssert(connection);

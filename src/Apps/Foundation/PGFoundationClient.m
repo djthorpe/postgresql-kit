@@ -315,7 +315,6 @@
 		return;
 	}
 
-
 	if([command isEqualToString:@"createschema"]) {
 		NSString* schemaName = nil;
 		if([args count]==1) {
@@ -374,6 +373,24 @@
 
 	if([command isEqualToString:@"listroles"]) {
 		PGQuery* query = [PGQueryInfo roles];
+		NSParameterAssert(query);
+		[[self db] executeQuery:query whenDone:^(PGResult* result, NSError* error) {
+			if(result) {
+				[self displayResult:result];
+			}
+			if(error) {
+				[[self term] printf:@"error: %@",error];
+			}
+		}];
+		return;
+	}
+
+	if([command isEqualToString:@"select"]) {
+		NSString* tableName = [args objectAtIndex:0];
+		PGQuerySelect* query = [PGQuerySelect select:tableName options:0];
+		[query addColumn:@"x" alias:@"col1"];
+		[query addColumn:@"y" alias:@"col2"];
+		
 		NSParameterAssert(query);
 		[[self db] executeQuery:query whenDone:^(PGResult* result, NSError* error) {
 			if(result) {
