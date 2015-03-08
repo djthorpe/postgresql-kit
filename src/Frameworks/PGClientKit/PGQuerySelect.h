@@ -132,6 +132,7 @@ extern const NSUInteger PGQuerySelectNoLimit;
  */
 -(void)setOffset:(NSUInteger)offset limit:(NSUInteger)limit;
 
-// TODO: GROUP, ORDER
+// TODO: The following phrases need implemented: GROUP, ORDER
+// TODO: The following modification is needed: DISTINCT IN (xxxx)
 
 @end

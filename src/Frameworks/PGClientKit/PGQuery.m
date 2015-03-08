@@ -21,6 +21,7 @@
 
 NSString* PGQueryStatementKey = @"statement";
 NSString* PGQueryTableKey = @"table";
+NSString* PGQueryViewKey = @"view";
 NSString* PGQuerySchemaKey = @"schema";
 NSString* PGQueryDatabaseKey = @"database";
 NSString* PGQueryAliasKey = @"alias";
@@ -32,6 +33,15 @@ NSString* PGQueryOffsetKey = @"offset";
 NSString* PGQueryLimitKey = @"limit";
 NSString* PGQueryArgumentsKey = @"args";
 NSString* PGQueryValueKey = @"value";
+NSString* PGQueryOwnerKey = @"owner";
+NSString* PGQueryEncodingKey = @"encoding";
+NSString* PGQueryTemplateKey = @"template";
+NSString* PGQueryTablespaceKey = @"tablespace";
+NSString* PGQueryConnectionLimitKey = @"connection_limit";
+NSString* PGQueryNameKey = @"name";
+NSString* PGQueryRoleKey = @"role";
+NSString* PGQueryExpiryKey = @"expiry";
+NSString* PGQueryPasswordKey = @"password";
 
 ////////////////////////////////////////////////////////////////////////////////
 

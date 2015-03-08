@@ -19,6 +19,7 @@
  */
 extern NSString* PGQueryStatementKey;
 extern NSString* PGQueryTableKey;
+extern NSString* PGQueryViewKey;
 extern NSString* PGQuerySchemaKey;
 extern NSString* PGQueryDatabaseKey;
 extern NSString* PGQueryAliasKey;
@@ -30,6 +31,50 @@ extern NSString* PGQueryOffsetKey;
 extern NSString* PGQueryLimitKey;
 extern NSString* PGQueryArgumentsKey;
 extern NSString* PGQueryValueKey;
+extern NSString* PGQueryOwnerKey;
+extern NSString* PGQueryEncodingKey;
+extern NSString* PGQueryEncodingKey;
+extern NSString* PGQueryTemplateKey;
+extern NSString* PGQueryTablespaceKey;
+extern NSString* PGQueryConnectionLimitKey;
+extern NSString* PGQueryNameKey;
+extern NSString* PGQueryRoleKey;
+extern NSString* PGQueryPasswordKey;
+extern NSString* PGQueryExpiryKey;
+
+/**
+ * Flags affecting the query generated
+ */
+enum {
+	PGQueryOptionIgnoreIfExists         = 0x00000001, // ignore if exists
+	PGQueryOptionIgnoreIfNotExists      = 0x00000001, // ignore if doesn't exist (same flag as above)
+	PGQueryOptionSetOwner               = 0x00000002, // set the owner
+	PGQueryOptionSetDatabaseTemplate    = 0x00000004, // set the template for the new database
+	PGQueryOptionSetEncoding            = 0x00000008, // set database encoding
+	PGQueryOptionSetTablespace          = 0x00000010, // set database tablespace
+	PGQueryOptionSetConnectionLimit     = 0x00000020, // set connection limit
+	PGQueryOptionDropObjects            = 0x00000040, // drop objects when schema/table is dropped
+	PGQueryOptionRolePrivSuperuser      = 0x00000080, // set role superuser flag
+	PGQueryOptionRolePrivCreateDatabase = 0x00000100, // set role createdb flag
+	PGQueryOptionRolePrivCreateRole     = 0x00000200, // set role createrole flag
+	PGQueryOptionRolePrivInherit        = 0x00000400, // inherit privileges from parent role
+	PGQueryOptionRolePrivLogin          = 0x00000800, // allow login for this role
+	PGQueryOptionRolePrivReplication    = 0x00001000, // set replication flag for this role
+	PGQueryOptionSetPassword            = 0x00002000, // set password for role
+	PGQueryOptionSetExpiry              = 0x00004000, // set login expiry for role
+	PGQueryOptionSetName                = 0x00008000  // set new name
+};
+
+/**
+ * Operation type
+ */
+enum {
+	PGQueryOperationCreate             = 0x010000000,
+	PGQueryOperationDrop               = 0x020000000,
+	PGQueryOperationAlter              = 0x030000000,
+	PGQueryOperationList               = 0x040000000,
+	PGQueryOperationMask               = 0xFF0000000
+};
 
 /**
  *  The PGQuery class represents a query which can be executed by the database

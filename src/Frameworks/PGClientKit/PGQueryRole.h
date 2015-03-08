@@ -14,6 +14,9 @@
 
 @interface PGQueryRole : PGQuery
 
+////////////////////////////////////////////////////////////////////////////////
+// constructors
+
 /**
  *  Create a query to create a role/user for the connected server
  *
@@ -45,10 +48,57 @@
 +(PGQueryRole* )dropRole:(NSString* )role options:(NSUInteger)options;
 
 /**
+ *  Rename a role to a new name
+ *
+ *  @param role The existing role name to change, cannot be nil or empty
+ *  @param name The new role name, cannot be nil or empty
+ *
+ *  @return Returns the PGQueryRole object, or nil if the query could not be created.
+ */
++(PGQueryRole* )alter:(NSString* )role name:(NSString* )name;
+
+/**
  *  Create a query to return the list of roles for the currently selected server
  *
  *  @return Returns the PGQueryRole object, or nil if the query could not be created.
  */
-+(PGQueryRole* )list;
+// TODO: Implement
+// +(PGQueryRole* )listWithOptions:(NSUInteger)options;
+
+
+////////////////////////////////////////////////////////////////////////////////
+// properties
+
+/**
+ *  Return the name of the role
+ */
+@property (readonly) NSString* role;
+
+/**
+ *  Return the new name of the dabase when renaming
+ */
+@property (readonly) NSString* name;
+
+/**
+ *  The parent role owner for the role
+ */
+@property NSString* owner;
+
+/**
+ *  The connection limit to set when creating a database or role. By default,
+ *  it is set to -1 which means no connection limit
+ */
+@property NSInteger connectionLimit;
+
+/**
+ *  The password to use when creating a role (will automatically be encrypted)
+ */
+@property NSString* password;
+
+/**
+ *  The expiry date to set for role login, when creating roles. Can be set
+ *  to nil which indicates no expiry limit.
+ */
+@property NSDate* expiry;
 
 @end

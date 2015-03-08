@@ -23,7 +23,8 @@ const NSUInteger PGQuerySelectNoLimit = NSUIntegerMax;
 @implementation PGQuerySelect
 
 ////////////////////////////////////////////////////////////////////////////////
-// constructor
+#pragma mark constructor
+////////////////////////////////////////////////////////////////////////////////
 
 +(PGQuerySelect* )select:(id)source options:(NSUInteger)options {
 	NSParameterAssert(source);

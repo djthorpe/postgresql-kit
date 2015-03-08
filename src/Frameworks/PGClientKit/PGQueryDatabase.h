@@ -12,27 +12,10 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-// options
-enum {
-	PGQueryOptionIgnoreIfExists         = 0x00000001, // ignore create option if exists
-	PGQueryOptionIgnoreIfNotExists      = 0x00000001, // ignore drop option if doesn't exist
-	PGQueryOptionSetOwner               = 0x00000002, // set the owner for database/schema/role
-	PGQueryOptionSetDatabaseTemplate    = 0x00000004, // set the template for the new database
-	PGQueryOptionSetEncoding            = 0x00000008, // set database encoding
-	PGQueryOptionSetTablespace          = 0x00000010, // set database tablespace
-	PGQueryOptionSetConnectionLimit     = 0x00000020, // set database/role connection limit
-	PGQueryOptionDropObjects            = 0x00000040, // drop objects when schema/table is dropped
-	PGQueryOptionRolePrivSuperuser      = 0x00000080, // set role superuser flag
-	PGQueryOptionRolePrivCreateDatabase = 0x00000100, // set role createdb flag
-	PGQueryOptionRolePrivCreateRole     = 0x00000200, // set role createrole flag
-	PGQueryOptionRolePrivInherit        = 0x00000400, // inherit privileges from parent role
-	PGQueryOptionRolePrivLogin          = 0x00000800, // allow login for this role
-	PGQueryOptionRolePrivReplication    = 0x00001000, // set replication flag for this role
-	PGQueryOptionRoleSetPassword        = 0x00002000, // set password for role
-	PGQueryOptionRoleSetExpiry          = 0x00004000  // set login expiry for role
-};
-
 @interface PGQueryDatabase : PGQuery
+
+////////////////////////////////////////////////////////////////////////////////
+// constructors
 
 /**
  *  Create a database
@@ -57,34 +40,34 @@ enum {
  *
  *  @return Returns the PGQueryDatabase object, or nil if the query could not be created.
  */
-+(PGQueryDatabase* )drop:(NSString* )databaseName options:(NSUInteger)options;
++(PGQueryDatabase* )drop:(NSString* )database options:(NSUInteger)options;
 
 /**
  *  Create a query to return the list of databases for the currently selected server
  *
  *  @return Returns the PGQueryDatabase object, or nil if the query could not be created.
  */
-+(PGQueryDatabase* )list;
++(PGQueryDatabase* )listWithOptions:(NSUInteger)options;
 
 /**
  *  Create a query to rename a database
  *
  *  @param database The name of the database to rename. Cannot be nil or empty.
- *  @param newName  The new name for the database. Cannot be nil or empty.
+ *  @param name     The new name for the database. Cannot be nil or empty.
  *
  *  @return Returns the PGQueryDatabase object, or nil if the query could not be created.
  */
-+(PGQueryDatabase* )alter:(NSString* )database name:(NSString* )newName;
++(PGQueryDatabase* )alter:(NSString* )database name:(NSString* )name;
 
 /**
  *  Create a query to set a new owner for the database
  *
  *  @param database The name of the database to rename. Cannot be nil or empty.
- *  @param newOwner The role who will take ownership of the database. Cannot be nil or empty.
+ *  @param owner    The role who will take ownership of the database. Cannot be nil or empty.
  *
  *  @return Returns the PGQueryDatabase object, or nil if the query could not be created.
  */
-+(PGQueryDatabase* )alter:(NSString* )database owner:(NSString* )newOwner;
++(PGQueryDatabase* )alter:(NSString* )database owner:(NSString* )owner;
 
 /**
  *  Create a query to set a new connection limit for the database
@@ -101,11 +84,50 @@ enum {
  *  Create a query to set a new default tablespace for the database
  *
  *  @param database      The name of the database. Cannot be nil or empty.
- *  @param newTablespace The new tablespace name to use as the default.
+ *  @param tablespace    The new tablespace name to use as the default.
  *
  *  @return Returns the PGQueryDatabase object, or nil if the query could not be created.
  */
-+(PGQueryDatabase* )alter:(NSString* )database tablespace:(NSString* )newTablespace;
++(PGQueryDatabase* )alter:(NSString* )database tablespace:(NSString* )tablespace;
+
+////////////////////////////////////////////////////////////////////////////////
+// properties
+
+/**
+ *  Return the name of the database
+ */
+@property (readonly) NSString* database;
+
+/**
+ *  Return the new name of the dabase when renaming
+ */
+@property (readonly) NSString* name;
+
+/**
+ *  The owner for the database or role
+ */
+@property NSString* owner;
+
+/**
+ *  The template to use when creating a database
+ */
+@property NSString* template;
+
+/**
+ *  The character encoding to use when creating a database
+ */
+@property NSString* encoding;
+
+/**
+ *  The default tablespace for the database
+ */
+@property NSString* tablespace;
+
+/**
+ *  The connection limit to set when creating a database or role. By default,
+ *  it is set to -1 which means no connection limit
+ */
+@property NSInteger connectionLimit;
 
 @end
 

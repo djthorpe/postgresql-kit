@@ -152,32 +152,5 @@ enum {
 	return [parts componentsJoinedByString:@" "];
 }
 
--(NSString* )_tablesForConnection:(PGConnection* )connection options:(int)options error:(NSError** )error {
-//SELECT n.nspname as "schema",c.relname as "table",CASE c.relkind WHEN 'r' THEN 'table' WHEN 'v' THEN 'view' WHEN 'i' THEN 'index' WHEN 'S' THEN 'sequence' WHEN 's' THEN 'special' WHEN 'f' THEN 'foreign_table' END as "type",pg_catalog.pg_get_userbyid(c.relowner) as "owner" FROM pg_catalog.pg_class c LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace WHERE c.relkind IN ('r','') AND n.nspname <> 'pg_catalog' AND n.nspname <> 'information_schema' AND n.nspname !~ '^pg_toast' AND pg_catalog.pg_table_is_visible(c.oid) ORDER BY 1,2;
-	return @"--NOT IMPLEMENTED--";
-}
-
--(NSString* )_columnsForConnection:(PGConnection* )connection options:(int)options error:(NSError** )error {
-	return @"--NOT IMPLEMENTED--";
-}
-
--(NSString* )statementForConnection:(PGConnection* )connection error:(NSError** )error {
-	NSParameterAssert(connection);
-	int options = [super options];
-	if(options & PGQueryOptionTypeInfoSchemas) {
-		return [self _schemasForConnection:connection options:options error:error];
-	} else if(options & PGQueryOptionTypeInfoRoles) {
-		return [self _rolesForConnection:connection options:options error:error];
-	} else if(options & PGQueryOptionTypeInfoTablesViews) {
-		return [self _tablesForConnection:connection options:options error:error];
-	} else if(options & PGQueryOptionTypeInfoColumns) {
-		return [self _columnsForConnection:connection options:options error:error];
-	} else {
-		NSLog(@"TODO: RAISE ERROR");
-		return nil;
-	}
-}
-
-
 
 @end

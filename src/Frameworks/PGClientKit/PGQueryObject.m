@@ -117,6 +117,13 @@ NSString* PGQueryOptionsKey = @"options";
 	return [NSString stringWithFormat:@"<%@ options=%08lX dictionary=%@>",NSStringFromClass([self class]),[self options],[self dictionary]];
 }
 
+-(BOOL)isEqual:(id)object {
+	if([object isKindOfClass:[PGQueryObject class]]==NO) {
+		return [self isEqual:object];
+	}
+	return [[self dictionary] isEqual:[object dictionary]];
+}
+
 
 @end
 

@@ -14,6 +14,9 @@
 
 @interface PGQuerySchema : PGQuery
 
+////////////////////////////////////////////////////////////////////////////////
+// constructors
+
 /**
  *  Create a schema within the current database
  *
@@ -42,20 +45,62 @@
 +(PGQuerySchema* )drop:(NSString* )schema options:(NSUInteger)options;
 
 /**
- *  Create a query to return the list of schemas in the currently selected database
+ *  Create a query to rename the schema
+ *
+ *  @param schema   The name of the schema to rename. Cannot be nil or empty.
+ *  @param name     The new name for the schema. Cannot be nil or empty.
  *
  *  @return Returns the PGQuerySchema object, or nil if the query could not be created.
  */
-+(PGQuerySchema* )list;
++(PGQuerySchema* )alter:(NSString* )schema name:(NSString* )name;
 
 /**
- *  Create a query to return the list of objects for a particular schema in the currently selected database
+ *  Create a query to set a new owner for the schema
+ *
+ *  @param schema   The name of the schema to rename. Cannot be nil or empty.
+ *  @param owner    The role who will take ownership of the schema. Cannot be nil or empty.
+ *
+ *  @return Returns the PGQuerySchema object, or nil if the query could not be created.
+ */
++(PGQuerySchema* )alter:(NSString* )schema owner:(NSString* )owner;
+
+/**
+ *  Create a query to return the list of schemas in the currently selected database
+ *
+ *  @param options Options which affect the output of the query
+ *
+ *  @return Returns the PGQuerySchema object, or nil if the query could not be created.
+ */
+// TODO: Implement
+// +(PGQuerySchema* )listWithOptions:(NSUInteger)options;
+
+/**
+ *  Create a query to return the list of objects for a particular schema
  *
  *  @param schema  The schema for which to obtain a list of objects
  *  @param options Option flags. Currently unused.
  *
  *  @return Returns the PGQuerySchema object, or nil if the query could not be created.
  */
-+(PGQuerySchema* )objectsForSchema:(NSString* )schema options:(NSUInteger)options;
+// TODO: Implement
+// +(PGQuerySchema* )objectsForSchema:(NSString* )schema options:(NSUInteger)options;
+
+////////////////////////////////////////////////////////////////////////////////
+// properties
+
+/**
+ *  Return the name of the schema
+ */
+@property (readonly) NSString* schema;
+
+/**
+ *  Return the new name of the schema when renaming
+ */
+@property (readonly) NSString* name;
+
+/**
+ *  The owner for the schema
+ */
+@property NSString* owner;
 
 @end
