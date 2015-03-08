@@ -75,7 +75,6 @@
 		147070DF1A976CDD0069EF9C /* NSString_PGNetworkValidationAdditions_tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 147070DE1A976CDD0069EF9C /* NSString_PGNetworkValidationAdditions_tests.m */; };
 		147070E21A976E230069EF9C /* NSString+PGNetworkValidationAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 147070E01A976E230069EF9C /* NSString+PGNetworkValidationAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		147070E31A976E230069EF9C /* NSString+PGNetworkValidationAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 147070E11A976E230069EF9C /* NSString+PGNetworkValidationAdditions.m */; };
-		147070E41A976E230069EF9C /* NSString+PGNetworkValidationAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 147070E11A976E230069EF9C /* NSString+PGNetworkValidationAdditions.m */; };
 		1489AEC716669A6B00C3B67D /* PGResult+TextTable.h in Headers */ = {isa = PBXBuildFile; fileRef = 1489AEC516669A6B00C3B67D /* PGResult+TextTable.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1489AEC816669A6B00C3B67D /* PGResult+TextTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 1489AEC616669A6B00C3B67D /* PGResult+TextTable.m */; };
 		148D2F03179557330005DB1B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C167C15F26BF20013A382 /* Cocoa.framework */; };
@@ -255,6 +254,8 @@
 		6EE4E2081A61A22D00BEC4AD /* ResizeControl.png in Resources */ = {isa = PBXBuildFile; fileRef = 148F88C7166D61060088D3DF /* ResizeControl.png */; };
 		6EE4E2091A61A86300BEC4AD /* PGControlsKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14F1E84717CB83CD00710D4A /* PGControlsKit.framework */; };
 		6EE4E20A1A61A86300BEC4AD /* PGControlsKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 14F1E84717CB83CD00710D4A /* PGControlsKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6EF57BBE1AACD03B003D4AA3 /* NSString+PGNetworkValidationAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 147070E11A976E230069EF9C /* NSString+PGNetworkValidationAdditions.m */; };
+		6EF57BC01AACD07F003D4AA3 /* PGQuery_tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF57BBF1AACD07F003D4AA3 /* PGQuery_tests.m */; };
 		6EFFF2341A5F04C500CAA6E7 /* PGFoundationServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EFFF2331A5F044E00CAA6E7 /* PGFoundationServer.m */; };
 		6EFFF2351A5F04C800CAA6E7 /* PGFoundationApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EFFF2311A5F044E00CAA6E7 /* PGFoundationApp.m */; };
 		6EFFF23A1A5F052A00CAA6E7 /* PGFoundationApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EFFF2311A5F044E00CAA6E7 /* PGFoundationApp.m */; };
@@ -715,6 +716,7 @@
 		6EE23F5A1631EF7500C99BA7 /* PGClientKit+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PGClientKit+Private.h"; sourceTree = "<group>"; };
 		6EE23F601632076800C99BA7 /* PGClientParams.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGClientParams.m; sourceTree = "<group>"; };
 		6EE23F62163207DA00C99BA7 /* PGClientParams.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGClientParams.h; sourceTree = "<group>"; };
+		6EF57BBF1AACD07F003D4AA3 /* PGQuery_tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGQuery_tests.m; sourceTree = "<group>"; };
 		6EFFF2301A5F044E00CAA6E7 /* PGFoundationApp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGFoundationApp.h; sourceTree = "<group>"; };
 		6EFFF2311A5F044E00CAA6E7 /* PGFoundationApp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PGFoundationApp.m; sourceTree = "<group>"; };
 		6EFFF2321A5F044E00CAA6E7 /* PGFoundationServer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGFoundationServer.h; sourceTree = "<group>"; };
@@ -1007,6 +1009,7 @@
 				147070D11A90CB880069EF9C /* PGClientKit_tests.m */,
 				147070D31A90CC8C0069EF9C /* NSURL_PGAdditions_tests.m */,
 				147070DE1A976CDD0069EF9C /* NSString_PGNetworkValidationAdditions_tests.m */,
+				6EF57BBF1AACD07F003D4AA3 /* PGQuery_tests.m */,
 				147070D21A90CC8C0069EF9C /* PGConnection_tests.m */,
 				147070DD1A90D0680069EF9C /* type_tests.m */,
 			);
@@ -2112,7 +2115,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				149BA1A11A9885AD007B86A0 /* PGConnection_tests.m in Sources */,
-				147070E41A976E230069EF9C /* NSString+PGNetworkValidationAdditions.m in Sources */,
+				6EF57BC01AACD07F003D4AA3 /* PGQuery_tests.m in Sources */,
 				147070DC1A90CE190069EF9C /* PGClientKit_tests.m in Sources */,
 				149BA1A01A98858C007B86A0 /* PGFoundationServer.m in Sources */,
 				147070D51A90CC8C0069EF9C /* NSURL_PGAdditions_tests.m in Sources */,
@@ -2172,6 +2175,7 @@
 				6E1548481A5819CF00556573 /* PGPasswordStore.m in Sources */,
 				6E1548521A581BC400556573 /* PGConverters+Data2Object.m in Sources */,
 				6E9256C01AA64BDA007DAD82 /* PGConnection+Ping.m in Sources */,
+				6EF57BBE1AACD03B003D4AA3 /* NSString+PGNetworkValidationAdditions.m in Sources */,
 				149BA1A31AA6FB50007B86A0 /* PGQuerySelect.m in Sources */,
 				6E15484E1A5819F000556573 /* PGQuery.m in Sources */,
 				6E9256BC1AA64BDA007DAD82 /* PGConnection+Execute.m in Sources */,

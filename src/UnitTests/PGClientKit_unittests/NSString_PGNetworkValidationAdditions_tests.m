@@ -38,11 +38,6 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-//-(BOOL)isNetworkHostname;
-//-(BOOL)isNetworkAddress;
-//-(BOOL)isNetworkAddressV4;
-//-(BOOL)isNetworkAddressV6;
-
 -(void)test_000 {
 	NSString* ipAddress = @"0.0.0.0";
 	XCTAssert([ipAddress isNetworkAddress]);
