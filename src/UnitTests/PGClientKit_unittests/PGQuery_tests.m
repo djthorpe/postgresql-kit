@@ -54,10 +54,10 @@
 }
 
 -(void)test_004 {
-	NSString* input = @"SELECT 1";
+	PGQueryPredicate* input = [PGQueryPredicate string:@"SELECT 1"];
 	NSString* output = @"'SELECT 1'";
-	PGQueryPredicate* query = [PGQueryPredicate string:input];
-	XCTAssertEqualObjects(output,[query quoteForConnection:[self connection] error:nil],@"statements are not equal");
+	NSString* comparison = [input quoteForConnection:[self connection] error:nil];
+	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
 }
 
 -(void)test_005 {
