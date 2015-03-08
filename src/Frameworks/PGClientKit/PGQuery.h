@@ -48,6 +48,7 @@ extern NSString* PGQueryExpiryKey;
 enum {
 	PGQueryOptionIgnoreIfExists         = 0x00000001, // ignore if exists
 	PGQueryOptionIgnoreIfNotExists      = 0x00000001, // ignore if doesn't exist (same flag as above)
+	PGQueryOptionReplaceIfExists        = 0x00000001, // replace if exists (same flag as above)
 	PGQueryOptionSetOwner               = 0x00000002, // set the owner
 	PGQueryOptionSetDatabaseTemplate    = 0x00000004, // set the template for the new database
 	PGQueryOptionSetEncoding            = 0x00000008, // set database encoding
@@ -62,7 +63,8 @@ enum {
 	PGQueryOptionRolePrivReplication    = 0x00001000, // set replication flag for this role
 	PGQueryOptionSetPassword            = 0x00002000, // set password for role
 	PGQueryOptionSetExpiry              = 0x00004000, // set login expiry for role
-	PGQueryOptionSetName                = 0x00008000  // set new name
+	PGQueryOptionSetName                = 0x00008000, // set new name
+	PGQueryOptionTemporary              = 0x00010000  // temporary object
 };
 
 /**

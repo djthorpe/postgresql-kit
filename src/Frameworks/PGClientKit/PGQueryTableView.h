@@ -92,13 +92,13 @@
 @property (readonly) NSString* schema;
 
 /**
- *  Return an array of columns when creating tables
- */
-@property (readonly) NSArray* columns;
-
-/**
  *  Return the select statement used for the view when creating views
  */
-@property (readonly) PGQuerySelect* select;
+@property (readonly) PGQuery* select;
+
+/**
+ *  The default tablespace for the database
+ */
+@property NSString* tablespace;
 
 @end
