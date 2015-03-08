@@ -333,6 +333,31 @@
 TODO: implement
 -(NSString* )quoteListForConnection:(PGConnection* )connection options:(NSUInteger)options error:(NSError** )error {
 	return nil;
+
+-(NSString* )_rolesForConnection:(PGConnection* )connection options:(int)options error:(NSError** )error {
+	NSMutableArray* columns = [NSMutableArray new];
+	[columns addObject:@"r.rolname AS role"];
+	[columns addObject:@"r.rolsuper AS superuser"];
+	[columns addObject:@"r.rolinherit AS inherit"];
+	[columns addObject:@"r.rolcreaterole AS createrole"];
+	[columns addObject:@"r.rolcreatedb AS createdb"];
+	[columns addObject:@"r.rolcanlogin AS login"];
+	[columns addObject:@"r.rolconnlimit AS connection_limit"];
+	[columns addObject:@"r.rolvaliduntil AS expiry"];
+	[columns addObject:@"r.rolreplication AS replication"];
+	[columns addObject:@"ARRAY(SELECT b.rolname FROM pg_catalog.pg_auth_members m JOIN pg_catalog.pg_roles b ON (m.roleid = b.oid) WHERE m.member = r.oid) as memberof"];
+	[columns addObject:@"pg_catalog.shobj_description(r.oid, 'pg_authid') AS description"];
+
+	NSMutableArray* parts = [NSMutableArray new];
+	[parts addObject:@"SELECT"];
+	[parts addObject:[columns componentsJoinedByString:@","]];
+	[parts addObject:@"FROM pg_catalog.pg_roles r"];
+	[parts addObject:@"ORDER BY 1"];
+
+	return [parts componentsJoinedByString:@" "];
+}
+
+
 }
 */
 

@@ -231,6 +231,29 @@
 	return [NSString stringWithFormat:@"ALTER SCHEMA %@",[flags componentsJoinedByString:@" "]];
 }
 
+/*
+
+-(NSString* )_schemasForConnection:(PGConnection* )connection options:(int)options error:(NSError** )error {
+
+	NSMutableArray* columns = [NSMutableArray new];
+	[columns addObject:@"n.nspname AS schema"];
+	[columns addObject:@"pg_catalog.pg_get_userbyid(n.nspowner) AS owner"];
+	[columns addObject:@"n.nspacl AS access_privileges"];
+	[columns addObject:@"pg_catalog.obj_description(n.oid, 'pg_namespace') AS description"];
+
+	NSMutableArray* parts = [NSMutableArray new];
+	[parts addObject:@"SELECT"];
+	[parts addObject:[columns componentsJoinedByString:@","]];
+	[parts addObject:@"FROM pg_catalog.pg_namespace n"];
+	[parts addObject:@"WHERE n.nspname !~ '^pg_'"];
+	[parts addObject:@"AND n.nspname <> 'information_schema'"];
+	[parts addObject:@"ORDER BY 1"];
+
+	return [parts componentsJoinedByString:@" "];
+}
+
+*/
+
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark public methods
 ////////////////////////////////////////////////////////////////////////////////
