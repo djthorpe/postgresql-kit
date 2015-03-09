@@ -20,5 +20,4 @@
 +(BOOL)detectTableSpecificationForURL:(NSURL* )URL options:(int)options delimiter:(unichar)delimiter maxBytes:(NSUInteger)maxBytes whenDone:(void (^)(void)) callback;
 +(BOOL)detectTableSpecificationForURL:(NSURL* )URL options:(int)options maxBytes:(NSUInteger)maxBytes whenDone:(void (^)(void)) callback;
 
-
 @end

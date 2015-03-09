@@ -17,10 +17,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 enum {
-	PGCSVImporterHasHeader = 1, // use line 0 as the headings
-	PGCSVImporterIgnoreHashComments = 2, // ignore lines starting with #
-	PGCSVImporterIgnoreCodeComments = 4, // ignore lines starting with //
-	PGCSVImporterIgnoreComments = 6, // ignore lines starting with # or //
+	PGCSVImporterHasHeader          = 0x00000001, // use line 0 as the headings
+	PGCSVImporterIgnoreHashComments = 0x00000002, // ignore lines starting with #
+	PGCSVImporterIgnoreCodeComments = 0x00000004, // ignore lines starting with //
+	PGCSVImporterIgnoreComments     = 0x00000006, // ignore lines starting with # or //
 };
 
 ////////////////////////////////////////////////////////////////////////////////
