@@ -13,20 +13,15 @@
 // under the License.
 
 #import <Foundation/Foundation.h>
-#import <PGClientKit/PGClientKit.h>
-#import "PGFoundationServer.h"
 #import <XCTest/XCTest.h>
+#import <PGClientKit/PGClientKit.h>
+#import "PGUnitTester.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 
-PGFoundationServer* server = nil;
-PGConnection* client = nil;
-NSUInteger port = 9999;
-BOOL lastTest = NO;
-
-////////////////////////////////////////////////////////////////////////////////
-
-@interface PGConnection_tests : XCTestCase <PGConnectionDelegate>
+@interface PGConnection_tests : XCTestCase <PGConnectionDelegate> {
+	PGUnitTester* tester;
+}
 
 @end
 
@@ -38,51 +33,15 @@ BOOL lastTest = NO;
 
 -(void)setUp {
     [super setUp];
-	if(server==nil) {
-		// create a server object
-		server = [PGFoundationServer new];
-		// signal the server to start
-		if([server startWithPort:port] != YES) {
-			XCTFail(@"Server could not be started");
-		}
+	if(tester==nil) {
+		tester = [PGUnitTester new];
 	}
+	XCTAssertTrue([tester setUp]);
 }
 
 -(void)tearDown {
-	if(lastTest==YES) {
-		// stop the server
-		if(![server stop]) {
-			XCTFail(@"Server could not be started");
-		}
-		// delete the data files
-		NSString* dataPath = [server dataPath];
-		NSError* error = nil;
-		BOOL success = [[NSFileManager defaultManager] removeItemAtPath:dataPath error:&error];
-		if(success==NO) {
-			XCTFail(@"Error in tearDown: %@",[error localizedDescription]);
-		}
-	}
-	// call superclass
-    [super tearDown];
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
--(void)connection:(PGConnection *)connection statusChange:(PGConnectionStatus)status {
-	switch(status) {
-		case PGConnectionStatusConnected:
-			NSLog(@"status change = PGConnectionStatusConnected");
-			break;
-		case PGConnectionStatusConnecting:
-			NSLog(@"status change = PGConnectionStatusConnecting");
-			break;
-		case PGConnectionStatusDisconnected:
-			NSLog(@"status change = PGConnectionStatusDisconnected");
-			break;
-		case PGConnectionStatusRejected:
-			NSLog(@"status change = PGConnectionStatusRejected");
-			break;
-	}
+    XCTAssertTrue([tester tearDown]);
+	[super tearDown];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -93,123 +52,118 @@ BOOL lastTest = NO;
 }
 
 -(void)test_001 {
-	// create client object
-	XCTAssertNil(client,@"client not nil");
-	client = [[PGConnection alloc] init];
-	[client setDelegate:self];
-	XCTAssertTrue([client isKindOfClass:[PGConnection class]] ? YES : NO,@"client could not be created");
-	
-	XCTAssert([client serverProcessID]==0);
-	XCTAssert([client timeout]==0);
-	XCTAssert([client user]==nil);
-	XCTAssert([client database]==nil);
+	XCTAssertTrue([[tester client] isKindOfClass:[PGConnection class]] ? YES : NO,@"client could not be created");
+	XCTAssert([[tester client] serverProcessID]==0);
+	XCTAssert([[tester client] timeout]==0);
+	XCTAssert([[tester client] user]==nil);
+	XCTAssert([[tester client] database]==nil);
 }
 
 -(void)test_002 {
 	// check client
-	XCTAssert(client);
-	XCTAssertEqual([client status],PGConnectionStatusDisconnected);
+	XCTAssert([tester client]);
+	XCTAssertEqual([[tester client] status],PGConnectionStatusDisconnected);
 
-	// perform connection in foreground
-	NSURL* url = [NSURL URLWithSocketPath:nil port:port database:nil username:PGServerSuperuser params:nil];
-	[client connectWithURL:url whenDone:^(BOOL usedPassword, NSError *error) {
+	// perform connection
+	XCTAssert([tester url]);
+	[[tester client] connectWithURL:[tester url] whenDone:^(BOOL usedPassword, NSError *error) {
 		XCTAssertFalse(error,@"connectWithURL Error: %@",error);
 	}];
 
-	XCTAssertEqual([client status],PGConnectionStatusConnected);
-	XCTAssert([client serverProcessID] != 0);
-	XCTAssert([client user]);
-	XCTAssert([client database]);
+	XCTAssertEqual([[tester client] status],PGConnectionStatusConnected);
+	XCTAssert([[tester client] serverProcessID] != 0);
+	XCTAssert([[tester client] user]);
+	XCTAssert([[tester client] database]);
 	
 	// disconnect
-	[client disconnect];
+	[[tester client] disconnect];
 
-	XCTAssertEqual([client status],PGConnectionStatusDisconnected);
-	XCTAssert([client serverProcessID]==0);
-	XCTAssert([client timeout]==0);
-	XCTAssert([client user]==nil);
-	XCTAssert([client database]==nil);
+	XCTAssertEqual([[tester client] status],PGConnectionStatusDisconnected);
+	XCTAssert([[tester client] serverProcessID]==0);
+	XCTAssert([[tester client] timeout]==0);
+	XCTAssert([[tester client] user]==nil);
+	XCTAssert([[tester client] database]==nil);
 }
 
 -(void)test_003 {
-	XCTAssertEqual([client status],PGConnectionStatusDisconnected);
-	XCTAssert([client serverProcessID]==0);
-	XCTAssert([client timeout]==0);
-	XCTAssert([client user]==nil);
-	XCTAssert([client database]==nil);
+	XCTAssertEqual([[tester client] status],PGConnectionStatusDisconnected);
+	XCTAssert([[tester client] serverProcessID]==0);
+	XCTAssert([[tester client] timeout]==0);
+	XCTAssert([[tester client] user]==nil);
+	XCTAssert([[tester client] database]==nil);
 
 	// check for nil bad parameters
-	[client connectWithURL:nil whenDone:^(BOOL usedPassword, NSError *error) {
+	[[tester client] connectWithURL:[NSURL URLWithString:@""] whenDone:^(BOOL usedPassword, NSError *error) {
 		XCTAssertEqual([error code],PGClientErrorParameters,@"connectWithURL Error: %@",error);
 	}];
 
-	XCTAssertEqual([client status],PGConnectionStatusDisconnected);
-	XCTAssert([client serverProcessID]==0);
-	XCTAssert([client timeout]==0);
-	XCTAssert([client user]==nil);
-	XCTAssert([client database]==nil);
+	XCTAssertEqual([[tester client] status],PGConnectionStatusDisconnected);
+	XCTAssert([[tester client] serverProcessID]==0);
+	XCTAssert([[tester client] timeout]==0);
+	XCTAssert([[tester client] user]==nil);
+	XCTAssert([[tester client] database]==nil);
 }
 
 
 -(void)test_004 {
-	XCTAssertEqual([client status],PGConnectionStatusDisconnected);
-	XCTAssert([client serverProcessID]==0);
-	XCTAssert([client timeout]==0);
-	XCTAssert([client user]==nil);
-	XCTAssert([client database]==nil);
+	XCTAssertEqual([[tester client] status],PGConnectionStatusDisconnected);
+	XCTAssert([[tester client] serverProcessID]==0);
+	XCTAssert([[tester client] timeout]==0);
+	XCTAssert([[tester client] user]==nil);
+	XCTAssert([[tester client] database]==nil);
 
 	// perform ping in foreground
-	NSURL* url = [NSURL URLWithSocketPath:nil port:port database:nil username:PGServerSuperuser params:nil];
-	[client pingWithURL:url whenDone:^(NSError *error) {
+	NSURL* url = [tester url];
+	[[tester client] pingWithURL:url whenDone:^(NSError *error) {
 		XCTAssertFalse(error,@"pingWithURL Error: %@",error);
 	}];
 
-	XCTAssertEqual([client status],PGConnectionStatusDisconnected);
-	XCTAssert([client serverProcessID]==0);
-	XCTAssert([client timeout]==0);
-	XCTAssert([client user]==nil);
-	XCTAssert([client database]==nil);
+	XCTAssertEqual([[tester client] status],PGConnectionStatusDisconnected);
+	XCTAssert([[tester client] serverProcessID]==0);
+	XCTAssert([[tester client] timeout]==0);
+	XCTAssert([[tester client] user]==nil);
+	XCTAssert([[tester client] database]==nil);
 }
 
 -(void)test_005 {
 	// perform connection and then a reset in foreground
 
-	XCTAssertEqual([client status],PGConnectionStatusDisconnected);
-	XCTAssert([client serverProcessID]==0);
-	XCTAssert([client timeout]==0);
-	XCTAssert([client user]==nil);
-	XCTAssert([client database]==nil);
+	XCTAssertEqual([[tester client] status],PGConnectionStatusDisconnected);
+	XCTAssert([[tester client] serverProcessID]==0);
+	XCTAssert([[tester client] timeout]==0);
+	XCTAssert([[tester client] user]==nil);
+	XCTAssert([[tester client] database]==nil);
 
 	// perform connection in foreground
-	NSURL* url = [NSURL URLWithSocketPath:nil port:port database:nil username:PGServerSuperuser params:nil];
-	[client connectWithURL:url whenDone:^(BOOL usedPassword, NSError *error) {
+	NSURL* url = [tester url];
+	[[tester client] connectWithURL:url whenDone:^(BOOL usedPassword, NSError *error) {
 		XCTAssertFalse(error,@"connectWithURL Error: %@",error);
 	}];
 
-	XCTAssertEqual([client status],PGConnectionStatusConnected);
+	XCTAssertEqual([[tester client] status],PGConnectionStatusConnected);
 	// TODO XCTAssertEqual([client serverProcessID],[server pid]);
-	XCTAssertEqual([client timeout],0);
-	XCTAssertEqualObjects([client user],PGServerSuperuser);
-	XCTAssertEqualObjects([client database],PGServerSuperuser);
+	XCTAssertEqual([[tester client] timeout],0);
+	XCTAssertEqualObjects([[tester client] user],PGServerSuperuser);
+	XCTAssertEqualObjects([[tester client] database],PGServerSuperuser);
 
-	[client resetWhenDone:^(NSError *error) {
+	[[tester client] resetWhenDone:^(NSError *error) {
 		XCTAssertFalse(error,@"resetWhenDone Error: %@",error);
 	}];
 
 	
 	// disconnect
-	[client disconnect];
+	[[tester client] disconnect];
 
-	XCTAssertEqual([client status],PGConnectionStatusDisconnected);
-	XCTAssertEqual([client serverProcessID],0);
-	XCTAssertEqual([client timeout],0);
-	XCTAssertNil([client user]);
-	XCTAssertNil([client database]);
+	XCTAssertEqual([[tester client] status],PGConnectionStatusDisconnected);
+	XCTAssertEqual([[tester client] serverProcessID],0);
+	XCTAssertEqual([[tester client] timeout],0);
+	XCTAssertNil([[tester client] user]);
+	XCTAssertNil([[tester client] database]);
 }
 
 -(void)test_999 {
 	// signal last test, so that database is destroyed
-	lastTest = YES;
+	[tester setLastTest:YES];
 }
 
 @end

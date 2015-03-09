@@ -13,58 +13,96 @@
 // under the License.
 
 #import <Foundation/Foundation.h>
-#import <PGClientKit/PGClientKit.h>
 #import <XCTest/XCTest.h>
+#import <PGClientKit/PGClientKit.h>
+#import "PGUnitTester.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 
-@interface PGQuery_tests : XCTestCase
-@property PGConnection* connection;
+@interface PGQuery_tests : XCTestCase {
+	PGUnitTester* tester;
+}
+
 @end
 
 ////////////////////////////////////////////////////////////////////////////////
 
 @implementation PGQuery_tests
 
+////////////////////////////////////////////////////////////////////////////////
+
+-(instancetype)init {
+	self = [super init];
+	if(self) {
+		tester = [PGUnitTester new];
+		NSParameterAssert(tester);
+	}
+	return self;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 -(void)setUp {
     [super setUp];
-	[self setConnection:[PGConnection new]];
+	if(tester==nil) {
+		tester = [PGUnitTester new];
+	}
+	XCTAssertTrue([tester setUp]);
+	XCTAssertTrue([tester connectClientToServer]);
 }
 
 -(void)tearDown {
-	[self setConnection:nil];
-    [super tearDown];
+    XCTAssertTrue([tester tearDown]);
+	[super tearDown];
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
 -(void)test_001 {
+	PGConnection* client = [tester client];
+	XCTAssertNotNil(client,@"client is nil");
 	PGQuery* query = [PGQuery new];
 	XCTAssertNil(query,@"new method does not return nil");
 }
 
 -(void)test_002 {
+	PGConnection* client = [tester client];
+	XCTAssertNotNil(client,@"client is nil");
 	NSString* statement = @"SELECT 1";
 	PGQuery* query = [PGQuery queryWithString:statement];
-	XCTAssertEqualObjects(statement,[query quoteForConnection:[self connection] error:nil],@"statements are not equal");
+	XCTAssertEqualObjects(statement,[query quoteForConnection:client error:nil],@"statements are not equal");
 }
 
 -(void)test_003 {
+	PGConnection* client = [tester client];
+	XCTAssertNotNil(client,@"client is nil");
 	NSString* statement = @"NULL";
 	PGQueryPredicate* query = [PGQueryPredicate nullPredicate];
-	XCTAssertEqualObjects(statement,[query quoteForConnection:[self connection] error:nil],@"statements are not equal");
+	XCTAssertEqualObjects(statement,[query quoteForConnection:client error:nil],@"statements are not equal");
 }
 
 -(void)test_004 {
+	PGConnection* client = [tester client];
+	XCTAssertNotNil(client,@"client is nil");
 	PGQueryPredicate* input = [PGQueryPredicate string:@"SELECT 1"];
 	NSString* output = @"'SELECT 1'";
-	NSString* comparison = [input quoteForConnection:[self connection] error:nil];
+	NSString* comparison = [input quoteForConnection:client error:nil];
+	XCTAssertNotNil(comparison);
 	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
 }
 
 -(void)test_005 {
+	PGConnection* client = [tester client];
+	XCTAssertNotNil(client,@"client is nil");
 	PGQuerySelect* input = [PGQuerySelect select:@"table" options:0];
 	NSString* output = @"SELECT * FROM table";
-	NSString* comparison = [input quoteForConnection:[self connection] error:nil];
+	NSString* comparison = [input quoteForConnection:client error:nil];
+	XCTAssertNotNil(comparison);
 	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
+}
+
+-(void)test_999 {
+	[tester setLastTest:YES];
 }
 
 @end
