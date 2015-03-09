@@ -66,14 +66,21 @@
 
 	// perform connection
 	XCTAssert([tester url]);
+	XCTestExpectation* expectation = [self expectationWithDescription:@"Conect"];
 	[[tester client] connectWithURL:[tester url] whenDone:^(BOOL usedPassword, NSError *error) {
-		XCTAssertFalse(error,@"connectWithURL Error: %@",error);
+		XCTAssert(usedPassword==NO);
+		XCTAssert(error==nil);
+		XCTAssertEqual([[tester client] status],PGConnectionStatusConnected);
+		XCTAssert([[tester client] serverProcessID] != 0);
+		XCTAssert([[tester client] user]);
+		XCTAssert([[tester client] database]);
+		[expectation fulfill];
 	}];
 
-	XCTAssertEqual([[tester client] status],PGConnectionStatusConnected);
-	XCTAssert([[tester client] serverProcessID] != 0);
-	XCTAssert([[tester client] user]);
-	XCTAssert([[tester client] database]);
+	// wait for callback to complete
+	[self waitForExpectationsWithTimeout:1.0 handler:^(NSError *error) {
+		XCTAssertNil(error,@"Timeout Error: %@", error);
+	}];
 	
 	// disconnect
 	[[tester client] disconnect];
@@ -125,6 +132,7 @@
 	XCTAssert([[tester client] database]==nil);
 }
 
+/*
 -(void)test_005 {
 	// perform connection and then a reset in foreground
 
@@ -160,6 +168,7 @@
 	XCTAssertNil([[tester client] user]);
 	XCTAssertNil([[tester client] database]);
 }
+*/
 
 -(void)test_999 {
 	// signal last test, so that database is destroyed

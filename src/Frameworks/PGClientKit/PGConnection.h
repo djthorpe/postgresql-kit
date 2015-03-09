@@ -156,8 +156,9 @@ typedef enum {
 @interface PGConnection (Connect)
 
 /**
- *  Connect to a database (as specififed by the URL) on a background thread.
- *  Once the connection process is completed (either to successful or unsuccessful
+ *  Connect to a database (as specififed by the URL) without blocking. The method
+ *  returns immediately, on initiation of the connection. Once the connection 
+ *  process is completed (either to successful or unsuccessful
  *  completion, the callback block is run. The error condition is set to nil on
  *  successful connection, or to an error condition on failure.
  *
@@ -168,6 +169,27 @@ typedef enum {
  *                  password was used to connect to the remote server.
  */
 -(void)connectWithURL:(NSURL* )url whenDone:(void(^)(BOOL usedPassword,NSError* error)) callback;
+
+/**
+ *  Connect to a database (as specififed by the URL). The method
+ *  returns once the connection process is completed (either to successful or 
+ *  unsuccessful completion. The error condition is set to nil on successful 
+ *  connection, or to an error condition on failure. The password parameter can
+ *  be used to determine if the password was used as part of the connection
+ *  process.
+ *
+ *  @param url          The specification of the database that should be connected to
+ *  @param usedPassword A pointer to a BOOL value, or nil. The BOOL value is set
+ *                      to YES if the password was used as part of the connection
+ *                      process. Use the error code to determine if the password was
+ *                      rejected.
+ *  @param error        A pointer to an error object, or nil. The error is set if
+ *                      the connection was unsuccessful, or else the error object
+ *                      pointer is nil.
+ *
+ *  @return Returns YES if the connection process was successful
+ */
+-(BOOL)connectWithURL:(NSURL* )url usedPassword:(BOOL* )usedPassword error:(NSError** )error;
 
 @end
 

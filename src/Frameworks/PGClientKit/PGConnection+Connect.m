@@ -149,6 +149,25 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 	[self _socketConnect:PGConnectionStateConnect];
 }
 
+-(BOOL)connectWithURL:(NSURL* )url usedPassword:(BOOL* )usedPassword error:(NSError** )error {
+	dispatch_semaphore_t s = dispatch_semaphore_create(0);
+	__block BOOL returnValue = NO;
+	[self connectWithURL:url whenDone:^(BOOL p, NSError* e) {
+		if(usedPassword) {
+			(*usedPassword) = p;
+		}
+		if(error) {
+			(*error) = e;
+		}
+		if(e) {
+			returnValue = NO;
+		}
+		dispatch_semaphore_signal(s);
+	}];
+	dispatch_semaphore_wait(s, DISPATCH_TIME_FOREVER);
+	return returnValue;
+}
+
 @end
 
 

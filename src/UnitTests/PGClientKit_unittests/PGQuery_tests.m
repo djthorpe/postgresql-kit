@@ -48,10 +48,32 @@
 		tester = [PGUnitTester new];
 	}
 	XCTAssertTrue([tester setUp]);
-	XCTAssertTrue([tester connectClientToServer]);
+	
+	// perform connection
+	XCTAssert([tester url]);
+	XCTestExpectation* expectation = [self expectationWithDescription:@"Connect"];
+	[[tester client] connectWithURL:[tester url] whenDone:^(BOOL usedPassword, NSError *error) {
+		XCTAssert(usedPassword==NO);
+		XCTAssert(error==nil);
+		XCTAssertEqual([[tester client] status],PGConnectionStatusConnected);
+		XCTAssert([[tester client] serverProcessID] != 0);
+		XCTAssert([[tester client] user]);
+		XCTAssert([[tester client] database]);
+		[expectation fulfill];
+	}];
+
+	// wait for callback to complete
+	[self waitForExpectationsWithTimeout:1.0 handler:^(NSError *error) {
+		XCTAssertNil(error,@"Timeout Error: %@", error);
+	}];
+	
+	
 }
 
 -(void)tearDown {
+	// disconnect client
+	[[tester client] disconnect];
+	// potentially disconnect server
     XCTAssertTrue([tester tearDown]);
 	[super tearDown];
 }

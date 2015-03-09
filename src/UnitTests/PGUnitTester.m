@@ -61,6 +61,8 @@
 }
 
 -(BOOL)tearDown {
+	NSLog(@"tearDown");
+
 	if([self lastTest]==NO) {
 		return YES;
 	}
@@ -91,12 +93,12 @@
 	return YES;
 }
 
--(BOOL)connectClientToServer {
-	// TODO: Connect client to server, and return YES if it was successful
-	return YES;
-}
-
 ////////////////////////////////////////////////////////////////////////////////
+
+
+-(void)connection:(PGConnection *)connection willOpenWithParameters:(NSMutableDictionary *)dictionary {
+	NSLog(@"willopenwithparameters = %@",dictionary);
+}
 
 -(void)connection:(PGConnection *)connection statusChange:(PGConnectionStatus)status {
 	switch(status) {

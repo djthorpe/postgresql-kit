@@ -15,7 +15,7 @@
 #import <PGClientKit/PGClientKit.h>
 #import <PGClientKit/PGClientKit+Private.h>
 
-//#define DEBUG2
+#define DEBUG2
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark C callback functions
@@ -108,6 +108,12 @@ void _noticeProcessor(void* arg,const char* cString) {
 -(void)_socketCallbackConnectEndedWithStatus:(PostgresPollingStatusType)pqstatus {
 	NSParameterAssert(_callback);
 	void (^callback)(BOOL usedPassword,NSError* error) = (__bridge void (^)(BOOL,NSError* ))(_callback);
+
+	// update the status
+	[self setState:PGConnectionStateNone];
+	[self _updateStatus]; // this also calls disconnect when rejected
+
+	// callback
 	if(pqstatus==PGRES_POLLING_OK) {
 		// set up notice processor, set success condition
 		PQsetNoticeProcessor(_connection,_noticeProcessor,(__bridge void *)(self));
@@ -123,8 +129,6 @@ void _noticeProcessor(void* arg,const char* cString) {
 		callback(YES,[self raiseError:nil code:PGClientErrorRejected]);
 	}
 	_callback = nil;
-	[self setState:PGConnectionStateNone];
-	[self _updateStatus]; // this also calls disconnect when rejected
 }
 
 
