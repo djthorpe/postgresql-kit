@@ -123,6 +123,130 @@
 	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
 }
 
+-(void)test_006 {
+	PGConnection* client = [tester client];
+	XCTAssertNotNil(client,@"client is nil");
+	PGQuerySelect* input = [PGQuerySelect select:@"table" options:PGQueryOptionDistinct];
+	NSString* output = @"SELECT DISTINCT * FROM table";
+	NSString* comparison = [input quoteForConnection:client error:nil];
+	XCTAssertNotNil(comparison);
+	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
+}
+
+-(void)test_007 {
+	PGConnection* client = [tester client];
+	XCTAssertNotNil(client,@"client is nil");
+	PGQuerySelect* input = [PGQuerySelect select:@"table" options:PGQueryOptionDistinct];
+	[input setLimit:1];
+	NSString* output = @"SELECT DISTINCT * FROM table LIMIT 1";
+	NSString* comparison = [input quoteForConnection:client error:nil];
+	XCTAssertNotNil(comparison);
+	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
+}
+
+-(void)test_008 {
+	PGConnection* client = [tester client];
+	XCTAssertNotNil(client,@"client is nil");
+	PGQuerySelect* input = [PGQuerySelect select:@"table" options:PGQueryOptionDistinct];
+	[input setLimit:PGQuerySelectNoLimit];
+	NSString* output = @"SELECT DISTINCT * FROM table";
+	NSString* comparison = [input quoteForConnection:client error:nil];
+	XCTAssertNotNil(comparison);
+	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
+}
+
+-(void)test_009 {
+	PGConnection* client = [tester client];
+	XCTAssertNotNil(client,@"client is nil");
+	PGQuerySelect* input = [PGQuerySelect select:@"table" options:PGQueryOptionDistinct];
+	[input setLimit:0];
+	NSString* output = @"SELECT DISTINCT * FROM table LIMIT 0";
+	NSString* comparison = [input quoteForConnection:client error:nil];
+	XCTAssertNotNil(comparison);
+	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
+}
+
+-(void)test_010 {
+	PGConnection* client = [tester client];
+	XCTAssertNotNil(client,@"client is nil");
+	PGQuerySelect* input = [PGQuerySelect select:@"table" options:PGQueryOptionDistinct];
+	[input setOffset:0];
+	NSString* output = @"SELECT DISTINCT * FROM table";
+	NSString* comparison = [input quoteForConnection:client error:nil];
+	XCTAssertNotNil(comparison);
+	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
+}
+
+-(void)test_011 {
+	PGConnection* client = [tester client];
+	XCTAssertNotNil(client,@"client is nil");
+	PGQuerySelect* input = [PGQuerySelect select:@"table" options:PGQueryOptionDistinct];
+	[input setOffset:1];
+	NSString* output = @"SELECT DISTINCT * FROM table OFFSET 1";
+	NSString* comparison = [input quoteForConnection:client error:nil];
+	XCTAssertNotNil(comparison);
+	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
+}
+
+-(void)test_012 {
+	PGConnection* client = [tester client];
+	XCTAssertNotNil(client,@"client is nil");
+	PGQuerySelect* input = [PGQuerySelect select:@"table" options:PGQueryOptionDistinct];
+	[input setOffset:10 limit:10];
+	NSString* output = @"SELECT DISTINCT * FROM table OFFSET 10 LIMIT 10";
+	NSString* comparison = [input quoteForConnection:client error:nil];
+	XCTAssertNotNil(comparison);
+	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
+}
+
+-(void)test_013 {
+	PGConnection* client = [tester client];
+	XCTAssertNotNil(client,@"client is nil");
+	PGQuerySelect* input = [PGQuerySelect select:@"table" options:0];
+	[input andWhere:@"NULL"];
+	NSString* output = @"SELECT * FROM table WHERE NULL";
+	NSString* comparison = [input quoteForConnection:client error:nil];
+	XCTAssertNotNil(comparison);
+	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
+}
+
+-(void)test_014 {
+	PGConnection* client = [tester client];
+	XCTAssertNotNil(client,@"client is nil");
+	PGQuerySelect* input = [PGQuerySelect select:@"table" options:0];
+	[input andWhere:@"NULL1"];
+	[input andWhere:@"NULL2"];
+	NSString* output = @"SELECT * FROM table WHERE NULL1 AND NULL2";
+	NSString* comparison = [input quoteForConnection:client error:nil];
+	XCTAssertNotNil(comparison);
+	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
+}
+
+-(void)test_015 {
+	PGConnection* client = [tester client];
+	XCTAssertNotNil(client,@"client is nil");
+	PGQuerySelect* input = [PGQuerySelect select:@"table" options:0];
+	[input andWhere:@"NULL1"];
+	[input orWhere:@"NULL2"];
+	NSString* output = @"SELECT * FROM table WHERE (NULL1 OR NULL2)";
+	NSString* comparison = [input quoteForConnection:client error:nil];
+	XCTAssertNotNil(comparison);
+	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
+}
+
+-(void)test_016 {
+	PGConnection* client = [tester client];
+	XCTAssertNotNil(client,@"client is nil");
+	PGQuerySelect* input = [PGQuerySelect select:@"table" options:0];
+	[input andWhere:@"NULL1"];
+	[input orWhere:@"NULL2"];
+	[input orWhere:@"NULL3"];
+	NSString* output = @"SELECT * FROM table WHERE (NULL1 OR NULL2 OR NULL3)";
+	NSString* comparison = [input quoteForConnection:client error:nil];
+	XCTAssertNotNil(comparison);
+	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
+}
+
 -(void)test_999 {
 	[tester setLastTest:YES];
 }
