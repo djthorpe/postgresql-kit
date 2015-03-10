@@ -124,6 +124,13 @@ NSString* PGQueryOptionsKey = @"options";
 	return [[self dictionary] isEqual:[object dictionary]];
 }
 
+-(void)setOptionFlags:(NSUInteger)flag {
+	[self setOptions:([self options]  | flag)];
+}
+
+-(void)clearOptionFlags:(NSUInteger)flag {
+	[self setOptions:([self options] & ~flag)];
+}
 
 @end
 

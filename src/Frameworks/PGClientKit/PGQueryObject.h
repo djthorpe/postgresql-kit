@@ -50,6 +50,20 @@
 // methods
 
 /**
+ *  Adds additional flags to the options
+ *
+ *  @param flag The flag or OR'd flags to set
+ */
+-(void)setOptionFlags:(NSUInteger)flag;
+
+/**
+ *  Removes flags from the options
+ *
+ *  @param flag The flag or OR'd flags to clear
+ */
+-(void)clearOptionFlags:(NSUInteger)flag;
+
+/**
  *  Set an object in the dictionary
  *
  *  @param object The object to store in the dictionary. Cannot be nil.

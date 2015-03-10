@@ -80,14 +80,14 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
--(void)test_001 {
+-(void)test_001_createquery {
 	PGConnection* client = [tester client];
 	XCTAssertNotNil(client,@"client is nil");
 	PGQuery* query = [PGQuery new];
 	XCTAssertNil(query,@"new method does not return nil");
 }
 
--(void)test_002 {
+-(void)test_002_basicquery {
 	PGConnection* client = [tester client];
 	XCTAssertNotNil(client,@"client is nil");
 	NSString* statement = @"SELECT 1";
@@ -95,7 +95,7 @@
 	XCTAssertEqualObjects(statement,[query quoteForConnection:client error:nil],@"statements are not equal");
 }
 
--(void)test_003 {
+-(void)test_003_null {
 	PGConnection* client = [tester client];
 	XCTAssertNotNil(client,@"client is nil");
 	NSString* statement = @"NULL";
@@ -103,7 +103,7 @@
 	XCTAssertEqualObjects(statement,[query quoteForConnection:client error:nil],@"statements are not equal");
 }
 
--(void)test_004 {
+-(void)test_004_string {
 	PGConnection* client = [tester client];
 	XCTAssertNotNil(client,@"client is nil");
 	PGQueryPredicate* input = [PGQueryPredicate string:@"SELECT 1"];
@@ -113,7 +113,7 @@
 	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
 }
 
--(void)test_005 {
+-(void)test_005_basicselect {
 	PGConnection* client = [tester client];
 	XCTAssertNotNil(client,@"client is nil");
 	PGQuerySelect* input = [PGQuerySelect select:@"table" options:0];
@@ -123,7 +123,7 @@
 	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
 }
 
--(void)test_006 {
+-(void)test_006_selectdistinct {
 	PGConnection* client = [tester client];
 	XCTAssertNotNil(client,@"client is nil");
 	PGQuerySelect* input = [PGQuerySelect select:@"table" options:PGQueryOptionDistinct];
@@ -133,7 +133,7 @@
 	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
 }
 
--(void)test_007 {
+-(void)test_007_selectlimit {
 	PGConnection* client = [tester client];
 	XCTAssertNotNil(client,@"client is nil");
 	PGQuerySelect* input = [PGQuerySelect select:@"table" options:PGQueryOptionDistinct];
@@ -144,7 +144,7 @@
 	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
 }
 
--(void)test_008 {
+-(void)test_008_selectnolimit {
 	PGConnection* client = [tester client];
 	XCTAssertNotNil(client,@"client is nil");
 	PGQuerySelect* input = [PGQuerySelect select:@"table" options:PGQueryOptionDistinct];
@@ -155,7 +155,7 @@
 	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
 }
 
--(void)test_009 {
+-(void)test_009_selectzerolimit {
 	PGConnection* client = [tester client];
 	XCTAssertNotNil(client,@"client is nil");
 	PGQuerySelect* input = [PGQuerySelect select:@"table" options:PGQueryOptionDistinct];
@@ -166,7 +166,7 @@
 	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
 }
 
--(void)test_010 {
+-(void)test_010_selectoffset {
 	PGConnection* client = [tester client];
 	XCTAssertNotNil(client,@"client is nil");
 	PGQuerySelect* input = [PGQuerySelect select:@"table" options:PGQueryOptionDistinct];
@@ -177,7 +177,7 @@
 	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
 }
 
--(void)test_011 {
+-(void)test_011_selectoffset {
 	PGConnection* client = [tester client];
 	XCTAssertNotNil(client,@"client is nil");
 	PGQuerySelect* input = [PGQuerySelect select:@"table" options:PGQueryOptionDistinct];
@@ -188,7 +188,7 @@
 	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
 }
 
--(void)test_012 {
+-(void)test_012_selectoffsetlimit {
 	PGConnection* client = [tester client];
 	XCTAssertNotNil(client,@"client is nil");
 	PGQuerySelect* input = [PGQuerySelect select:@"table" options:PGQueryOptionDistinct];
@@ -199,7 +199,7 @@
 	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
 }
 
--(void)test_013 {
+-(void)test_013_selectand {
 	PGConnection* client = [tester client];
 	XCTAssertNotNil(client,@"client is nil");
 	PGQuerySelect* input = [PGQuerySelect select:@"table" options:0];
@@ -210,7 +210,7 @@
 	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
 }
 
--(void)test_014 {
+-(void)test_014_selectand {
 	PGConnection* client = [tester client];
 	XCTAssertNotNil(client,@"client is nil");
 	PGQuerySelect* input = [PGQuerySelect select:@"table" options:0];
@@ -222,7 +222,7 @@
 	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
 }
 
--(void)test_015 {
+-(void)test_015_selector {
 	PGConnection* client = [tester client];
 	XCTAssertNotNil(client,@"client is nil");
 	PGQuerySelect* input = [PGQuerySelect select:@"table" options:0];
@@ -234,7 +234,7 @@
 	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
 }
 
--(void)test_016 {
+-(void)test_016_selector {
 	PGConnection* client = [tester client];
 	XCTAssertNotNil(client,@"client is nil");
 	PGQuerySelect* input = [PGQuerySelect select:@"table" options:0];
@@ -247,7 +247,7 @@
 	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
 }
 
--(void)test_017 {
+-(void)test_017_createdatabase {
 	PGConnection* client = [tester client];
 	XCTAssertNotNil(client,@"client is nil");
 	
@@ -258,7 +258,7 @@
 	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
 }
 
--(void)test_018 {
+-(void)test_018_createdatabase {
 	PGConnection* client = [tester client];
 	XCTAssertNotNil(client,@"client is nil");
 	
@@ -276,7 +276,7 @@
 	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
 }
 
--(void)test_019 {
+-(void)test_019_createdatabase {
 	PGConnection* client = [tester client];
 	XCTAssertNotNil(client,@"client is nil");
 	
@@ -294,7 +294,7 @@
 	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
 }
 
--(void)test_020 {
+-(void)test_020_createdatabase {
 	PGConnection* client = [tester client];
 	XCTAssertNotNil(client,@"client is nil");
 	
@@ -311,7 +311,7 @@
 	XCTAssertNotNil(comparison);
 	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
 	
-	[input setOptions:PGQueryOptionSetEncoding];
+	[input setOptionFlags:PGQueryOptionSetEncoding];
 	output = @"CREATE DATABASE database WITH ENCODING DEFAULT";
 	comparison = [input quoteForConnection:client error:nil];
 	XCTAssertNotNil(comparison);
@@ -319,7 +319,7 @@
 	
 }
 
--(void)test_021 {
+-(void)test_021_createdatabase {
 	PGConnection* client = [tester client];
 	XCTAssertNotNil(client,@"client is nil");
 	
@@ -336,7 +336,7 @@
 	XCTAssertNotNil(comparison);
 	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
 	
-	[input setOptions:PGQueryOptionSetTablespace];
+	[input setOptionFlags:PGQueryOptionSetTablespace];
 	output = @"CREATE DATABASE database WITH TABLESPACE DEFAULT";
 	comparison = [input quoteForConnection:client error:nil];
 	XCTAssertNotNil(comparison);
@@ -344,7 +344,7 @@
 
 }
 
--(void)test_022 {
+-(void)test_022_createdatabase {
 	PGConnection* client = [tester client];
 	XCTAssertNotNil(client,@"client is nil");
 	
@@ -368,7 +368,7 @@
 	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
 }
 
--(void)test_023 {
+-(void)test_023_dropdatabase {
 	PGConnection* client = [tester client];
 	XCTAssertNotNil(client,@"client is nil");
 	
@@ -379,7 +379,7 @@
 	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
 }
 
--(void)test_024 {
+-(void)test_024_dropdatabase {
 	PGConnection* client = [tester client];
 	XCTAssertNotNil(client,@"client is nil");
 	
@@ -390,16 +390,178 @@
 	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
 }
 
--(void)test_025 {
+-(void)test_025_alterdatabase {
 	PGConnection* client = [tester client];
 	XCTAssertNotNil(client,@"client is nil");
 	
-	PGQueryDatabase* input = [PGQueryDatabase drop:@"database" options:(PGQueryOptionIgnoreIfNotExists | PGQueryOptionDropObjects)];
-	NSString* output = @"DROP DATABASE IF EXISTS database CASCADE";
+	PGQueryDatabase* input = [PGQueryDatabase alter:@"database" name:@"newname"];
+	NSString* output = @"ALTER DATABASE database RENAME TO newname";
 	NSString* comparison = [input quoteForConnection:client error:nil];
 	XCTAssertNotNil(comparison);
 	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
 }
+
+-(void)test_026_alterdatabase {
+	PGConnection* client = [tester client];
+	XCTAssertNotNil(client,@"client is nil");
+	
+	PGQueryDatabase* input = [PGQueryDatabase alter:@"database" connectionLimit:10];
+	NSString* output = @"ALTER DATABASE database WITH CONNECTION LIMIT 10";
+	NSString* comparison = [input quoteForConnection:client error:nil];
+	XCTAssertNotNil(comparison);
+	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
+	
+	input = [PGQueryDatabase alter:@"database" connectionLimit:-1];
+	output = @"ALTER DATABASE database WITH CONNECTION LIMIT -1";
+	comparison = [input quoteForConnection:client error:nil];
+	XCTAssertNotNil(comparison);
+	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
+}
+
+-(void)test_027_alterdatabase {
+	PGConnection* client = [tester client];
+	XCTAssertNotNil(client,@"client is nil");
+	
+	PGQueryDatabase* input = [PGQueryDatabase alter:@"database" owner:@"newowner"];
+	NSString* output = @"ALTER DATABASE database OWNER TO newowner";
+	NSString* comparison = [input quoteForConnection:client error:nil];
+	XCTAssertNotNil(comparison);
+	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
+}
+
+-(void)test_028_alterdatabase {
+	PGConnection* client = [tester client];
+	XCTAssertNotNil(client,@"client is nil");
+	
+	PGQueryDatabase* input = [PGQueryDatabase alter:@"database" tablespace:@"tablespace"];
+	NSString* output = @"ALTER DATABASE database SET TABLESPACE tablespace";
+	NSString* comparison = [input quoteForConnection:client error:nil];
+	XCTAssertNotNil(comparison);
+	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
+}
+
+-(void)test_029_createschema {
+	PGConnection* client = [tester client];
+	XCTAssertNotNil(client,@"client is nil");
+	
+	PGQuerySchema* input = [PGQuerySchema create:@"schema" options:0];
+	NSString* output = @"CREATE SCHEMA schema";
+	NSString* comparison = [input quoteForConnection:client error:nil];
+	XCTAssertNotNil(comparison);
+	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
+}
+
+-(void)test_030_createschema {
+	PGConnection* client = [tester client];
+	XCTAssertNotNil(client,@"client is nil");
+	
+	PGQuerySchema* input = [PGQuerySchema create:@"schema" options:0];
+	[input setOwner:@"owner"];
+	NSString* output = @"CREATE SCHEMA schema AUTHORIZATION owner";
+	NSString* comparison = [input quoteForConnection:client error:nil];
+	XCTAssertNotNil(comparison);
+	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
+}
+
+-(void)test_031_createschema {
+	PGConnection* client = [tester client];
+	XCTAssertNotNil(client,@"client is nil");
+	
+	PGQuerySchema* input = [PGQuerySchema create:@"schema" options:PGQueryOptionIgnoreIfExists];
+	NSString* output = @"CREATE SCHEMA IF NOT EXISTS schema";
+	NSString* comparison = [input quoteForConnection:client error:nil];
+	XCTAssertNotNil(comparison);
+	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
+}
+
+-(void)test_032_dropschema {
+	PGConnection* client = [tester client];
+	XCTAssertNotNil(client,@"client is nil");
+	
+	PGQuerySchema* input = [PGQuerySchema drop:@"schema" options:0];
+	NSString* output = @"DROP SCHEMA schema RESTRICT";
+	NSString* comparison = [input quoteForConnection:client error:nil];
+	XCTAssertNotNil(comparison);
+	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
+}
+
+-(void)test_033_dropschema {
+	PGConnection* client = [tester client];
+	XCTAssertNotNil(client,@"client is nil");
+	
+	PGQuerySchema* input = [PGQuerySchema drop:@"schema" options:PGQueryOptionIgnoreIfNotExists];
+	NSString* output = @"DROP SCHEMA IF EXISTS schema RESTRICT";
+	NSString* comparison = [input quoteForConnection:client error:nil];
+	XCTAssertNotNil(comparison);
+	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
+}
+
+-(void)test_034_dropschema {
+	PGConnection* client = [tester client];
+	XCTAssertNotNil(client,@"client is nil");
+	
+	PGQuerySchema* input = [PGQuerySchema drop:@"schema" options:(PGQueryOptionIgnoreIfNotExists | PGQueryOptionDropObjects)];
+	NSString* output = @"DROP SCHEMA IF EXISTS schema CASCADE";
+	NSString* comparison = [input quoteForConnection:client error:nil];
+	XCTAssertNotNil(comparison);
+	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
+}
+
+-(void)test_035_alterschema {
+	PGConnection* client = [tester client];
+	XCTAssertNotNil(client,@"client is nil");
+	
+	PGQuerySchema* input = [PGQuerySchema alter:@"schema" name:@"newname"];
+	NSString* output = @"ALTER SCHEMA schema RENAME TO newname";
+	NSString* comparison = [input quoteForConnection:client error:nil];
+	XCTAssertNotNil(comparison);
+	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
+}
+
+-(void)test_036_alterschema {
+	PGConnection* client = [tester client];
+	XCTAssertNotNil(client,@"client is nil");
+	
+	PGQuerySchema* input = [PGQuerySchema alter:@"schema" owner:@"owner"];
+	NSString* output = @"ALTER SCHEMA schema OWNER TO owner";
+	NSString* comparison = [input quoteForConnection:client error:nil];
+	XCTAssertNotNil(comparison);
+	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
+}
+
+-(void)test_037_createrole {
+	PGConnection* client = [tester client];
+	XCTAssertNotNil(client,@"client is nil");
+	
+	PGQueryRole* input = [PGQueryRole create:@"role" options:0];
+	NSString* output = @"CREATE ROLE role";
+	NSString* comparison = [input quoteForConnection:client error:nil];
+	XCTAssertNotNil(comparison);
+	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
+}
+
+-(void)test_038_createrole {
+	PGConnection* client = [tester client];
+	XCTAssertNotNil(client,@"client is nil");
+	
+	PGQueryRole* input = [PGQueryRole create:@"role" options:PGQueryOptionRolePrivSuperuser];
+	NSString* output = @"CREATE ROLE role WITH SUPERUSER";
+	NSString* comparison = [input quoteForConnection:client error:nil];
+	XCTAssertNotNil(comparison);
+	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
+}
+
+-(void)test_039_createrole {
+	PGConnection* client = [tester client];
+	XCTAssertNotNil(client,@"client is nil");
+	
+	PGQueryRole* input = [PGQueryRole create:@"role" options:PGQueryOptionRolePrivCreateDatabase];
+	NSString* output = @"CREATE ROLE role WITH CREATEDB";
+	NSString* comparison = [input quoteForConnection:client error:nil];
+	XCTAssertNotNil(comparison);
+	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
+}
+
 
 -(void)test_999 {
 	[tester setLastTest:YES];
