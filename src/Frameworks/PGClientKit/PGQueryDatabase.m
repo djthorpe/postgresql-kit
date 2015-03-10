@@ -280,6 +280,11 @@
 		[flags addObject:[NSString stringWithFormat:@"CONNECTION LIMIT %ld",connectionLimit]];
 	}
 
+	// add WITH in
+	if([flags count] > 1) {
+		[flags insertObject:@"WITH" atIndex:1];
+	}
+
 	// return statement
 	return [NSString stringWithFormat:@"CREATE DATABASE %@",[flags componentsJoinedByString:@" "]];
 }
