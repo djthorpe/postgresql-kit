@@ -46,25 +46,35 @@ extern NSString* PGQueryExpiryKey;
  * Flags affecting the query generated
  */
 enum {
-	PGQueryOptionIgnoreIfExists         = 0x00000001, // ignore if exists
-	PGQueryOptionIgnoreIfNotExists      = 0x00000001, // ignore if doesn't exist (same flag as above)
-	PGQueryOptionReplaceIfExists        = 0x00000001, // replace if exists (same flag as above)
-	PGQueryOptionSetOwner               = 0x00000002, // set the owner
-	PGQueryOptionSetDatabaseTemplate    = 0x00000004, // set the template for the new database
-	PGQueryOptionSetEncoding            = 0x00000008, // set database encoding
-	PGQueryOptionSetTablespace          = 0x00000010, // set database tablespace
-	PGQueryOptionSetConnectionLimit     = 0x00000020, // set connection limit
-	PGQueryOptionDropObjects            = 0x00000040, // drop objects when schema/table is dropped
-	PGQueryOptionRolePrivSuperuser      = 0x00000080, // set role superuser flag
-	PGQueryOptionRolePrivCreateDatabase = 0x00000100, // set role createdb flag
-	PGQueryOptionRolePrivCreateRole     = 0x00000200, // set role createrole flag
-	PGQueryOptionRolePrivInherit        = 0x00000400, // inherit privileges from parent role
-	PGQueryOptionRolePrivLogin          = 0x00000800, // allow login for this role
-	PGQueryOptionRolePrivReplication    = 0x00001000, // set replication flag for this role
-	PGQueryOptionSetPassword            = 0x00002000, // set password for role
-	PGQueryOptionSetExpiry              = 0x00004000, // set login expiry for role
-	PGQueryOptionSetName                = 0x00008000, // set new name
-	PGQueryOptionTemporary              = 0x00010000  // temporary object
+	PGQueryOptionIgnoreIfExists          = 0x00000001, // ignore if exists
+	PGQueryOptionIgnoreIfNotExists       = 0x00000001, // ignore if doesn't exist (same flag as above)
+	PGQueryOptionReplaceIfExists         = 0x00000001, // replace if exists (same flag as above)
+	PGQueryOptionSetOwner                = 0x00000002, // set the owner
+	PGQueryOptionSetDatabaseTemplate     = 0x00000004, // set the template for the new database
+	PGQueryOptionSetEncoding             = 0x00000008, // set database encoding
+	PGQueryOptionSetTablespace           = 0x00000010, // set database tablespace
+	PGQueryOptionSetConnectionLimit      = 0x00000020, // set connection limit
+	PGQueryOptionSetPassword             = 0x00000040, // set password for role
+	PGQueryOptionSetExpiry               = 0x00000080, // set login expiry for role
+	PGQueryOptionSetName                 = 0x00000100, // set new name
+	// The following option flags are used for roles
+	PGQueryOptionPrivSuperuserSet        = 0x00000200, // set role superuser flag
+	PGQueryOptionPrivSuperuserClear      = 0x00000400, // clear role superuser flag
+	PGQueryOptionPrivCreateDatabaseSet   = 0x00000800, // set role createdb flag
+	PGQueryOptionPrivCreateDatabaseClear = 0x00001000, // clear role createdb flag
+	PGQueryOptionPrivCreateRoleSet       = 0x00002000, // set role createrole flag
+	PGQueryOptionPrivCreateRoleClear     = 0x00004000, // clear role createrole flag
+	PGQueryOptionPrivInheritSet          = 0x00008000, // set inherit privileges from parent role flag
+	PGQueryOptionPrivInheritClear        = 0x00010000, // clear inherit privileges from parent role flag
+	PGQueryOptionPrivLoginSet            = 0x00020000, // set login flag
+	PGQueryOptionPrivLoginClear          = 0x00040000, // clear login flag
+	PGQueryOptionPrivReplicationSet      = 0x00080000, // set replication flag
+	PGQueryOptionPrivReplicationClear    = 0x00100000, // clear replication flag
+	// The following option flags are used for schemas, tables and views
+	PGQueryOptionTemporary               = 0x00000010, // temporary object
+	PGQueryOptionDropObjects             = 0x00000020, // drop objects when schema/table is dropped
+	PGQueryOptionDistinct                = 0x00000080, // de-duplicate rows
+	PGQueryOptionMaterialize             = 0x00800100  // materialized view
 };
 
 /**

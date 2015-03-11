@@ -12,11 +12,6 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-// options
-enum {
-	PGQueryOptionDistinct = 0x00000001            // de-duplicate rows
-};
-
 /**
  *  Constant value used to indicate there is no limit to the number of
  *  results returned
