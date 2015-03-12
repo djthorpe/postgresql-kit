@@ -196,18 +196,17 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 		[self setPingImage:[[self class] resourceImageNamed:@"traffic-orange"]];
 		[self setIsValidConnection:NO];
 		
-		// TODO: Do ping in background, with a timeout
-		NSError* error = nil;
-		if([_connection pingWithURL:url error:&error]==NO) {
-			[self setPingImage:[[self class] resourceImageNamed:@"traffic-red"]];
-			[self setIsValidConnection:NO];
-		} else {
-			[self setPingImage:[[self class] resourceImageNamed:@"traffic-green"]];
-			[self setIsValidConnection:YES];
-		}
-		if(error) {
-			NSLog(@"_doPingTimer: error: %@",error);
-		}
+		// Do ping in background, with a timeout
+		[_connection pingWithURL:url whenDone:^(NSError *error) {
+			if(error) {
+				[self setPingImage:[[self class] resourceImageNamed:@"traffic-red"]];
+				[self setIsValidConnection:NO];
+				NSLog(@"_doPingTimer: error: %@",error);
+			} else {
+				[self setPingImage:[[self class] resourceImageNamed:@"traffic-green"]];
+				[self setIsValidConnection:YES];
+			}
+		}];
 	} else {
 		[self setPingImage:[[self class] resourceImageNamed:@"traffic-red"]];
 		[self setIsValidConnection:NO];

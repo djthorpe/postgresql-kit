@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import <PGControlsKit/PGControlsKit.h>
 
 @interface AppDelegate ()
 
@@ -21,6 +22,14 @@
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
 	// Insert code here to tear down your application
+}
+
+
+-(IBAction)doCreateConnectionURL:(id)sender {
+	PGConnectionWindowController* controller = [PGConnectionWindowController new];
+	[controller beginConnectionSheetWithURL:nil parentWindow:[self window] whenDone:^(NSURL *url) {
+		NSLog(@"GOT URL: %@",url);
+	}];
 }
 
 @end

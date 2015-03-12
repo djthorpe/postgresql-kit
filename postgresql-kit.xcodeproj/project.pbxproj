@@ -238,10 +238,13 @@
 		6E92F56C1A65B26F003C0727 /* traffic-orange.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6ED779F317C1266100124DF1 /* traffic-orange.tiff */; };
 		6EA41EF01610E7DB00E81046 /* PGServer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EA41EEE1610E7DB00E81046 /* PGServer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6EA41EF11610E7DB00E81046 /* PGServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EA41EEF1610E7DB00E81046 /* PGServer.m */; };
-		6EA7CA371AB23D4900F22E90 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EA7CA361AB23D4900F22E90 /* AppDelegate.m */; };
-		6EA7CA391AB23D4900F22E90 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EA7CA381AB23D4900F22E90 /* main.m */; };
-		6EA7CA3B1AB23D4900F22E90 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6EA7CA3A1AB23D4900F22E90 /* Images.xcassets */; };
-		6EA7CA3E1AB23D4900F22E90 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6EA7CA3C1AB23D4900F22E90 /* MainMenu.xib */; };
+		6EA7CA5B1AB23E1100F22E90 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EA7CA561AB23E0700F22E90 /* AppDelegate.m */; };
+		6EA7CA5C1AB23E1500F22E90 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E55A2311A618C6B00CD2B60 /* main.m */; };
+		6EA7CA5D1AB23E4600F22E90 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6EA7CA571AB23E0700F22E90 /* MainMenu.xib */; };
+		6EA7CA5E1AB23E6800F22E90 /* PGClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
+		6EA7CA5F1AB23E6800F22E90 /* PGControlsKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14F1E84717CB83CD00710D4A /* PGControlsKit.framework */; };
+		6EA7CA611AB23E9400F22E90 /* PGClientKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6EA7CA621AB23E9400F22E90 /* PGControlsKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 14F1E84717CB83CD00710D4A /* PGControlsKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6EAA40EB17BC150E0078EB32 /* NSURL+PGAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EAA40E917BC150E0078EB32 /* NSURL+PGAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6EAA40ED17BC150E0078EB32 /* NSURL+PGAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EAA40EA17BC150E0078EB32 /* NSURL+PGAdditions.m */; };
 		6EB1E79615F282910093F784 /* PGServerKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EB1E74015F273350093F784 /* PGServerKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -414,6 +417,17 @@
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 1;
+		};
+		6EA7CA601AB23E8400F22E90 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				6EA7CA611AB23E9400F22E90 /* PGClientKit.framework in CopyFiles */,
+				6EA7CA621AB23E9400F22E90 /* PGControlsKit.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -701,12 +715,11 @@
 		6EA5EA8117AAE480005A3343 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		6EA5EA8217AAF9DC005A3343 /* lipo.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = lipo.sh; sourceTree = "<group>"; };
 		6EA7CA311AB23D4900F22E90 /* ControlsTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ControlsTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		6EA7CA341AB23D4900F22E90 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6EA7CA351AB23D4900F22E90 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		6EA7CA361AB23D4900F22E90 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		6EA7CA381AB23D4900F22E90 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		6EA7CA3A1AB23D4900F22E90 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		6EA7CA3D1AB23D4900F22E90 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		6EA7CA551AB23E0700F22E90 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		6EA7CA561AB23E0700F22E90 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		6EA7CA581AB23E0700F22E90 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		6EA7CA591AB23E0700F22E90 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		6EA7CA5A1AB23E0700F22E90 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6EAA40E917BC150E0078EB32 /* NSURL+PGAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+PGAdditions.h"; sourceTree = "<group>"; };
 		6EAA40EA17BC150E0078EB32 /* NSURL+PGAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+PGAdditions.m"; sourceTree = "<group>"; };
 		6EB1E73F15F273350093F784 /* PGServerKit.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PGServerKit.plist; sourceTree = "<group>"; };
@@ -813,6 +826,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6EA7CA5E1AB23E6800F22E90 /* PGClientKit.framework in Frameworks */,
+				6EA7CA5F1AB23E6800F22E90 /* PGControlsKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1330,7 +1345,6 @@
 				14EE3C35166752F80083C735 /* doc */,
 				14EE3C3A166752F80083C735 /* etc */,
 				14EE3C3E166752F80083C735 /* tar */,
-				6EA7CA321AB23D4900F22E90 /* ControlsTest */,
 				6ED763FD15F2673600687079 /* Frameworks */,
 				6ED763FC15F2673600687079 /* Products */,
 				6E1548621A582BD900556573 /* postgresql-kit.wiki */,
@@ -1415,6 +1429,7 @@
 		6E55A2021A618A4E00CD2B60 /* Cocoa */ = {
 			isa = PBXGroup;
 			children = (
+				6EA7CA541AB23E0700F22E90 /* ControlsTest */,
 				6E55A2031A618A8400CD2B60 /* PGClient */,
 				1466433C1A6A730500E984CF /* PGServer */,
 				146643591A6A730500E984CF /* PGSchemaManager */,
@@ -1485,26 +1500,16 @@
 			name = PGConnection;
 			sourceTree = "<group>";
 		};
-		6EA7CA321AB23D4900F22E90 /* ControlsTest */ = {
+		6EA7CA541AB23E0700F22E90 /* ControlsTest */ = {
 			isa = PBXGroup;
 			children = (
-				6EA7CA351AB23D4900F22E90 /* AppDelegate.h */,
-				6EA7CA361AB23D4900F22E90 /* AppDelegate.m */,
-				6EA7CA3A1AB23D4900F22E90 /* Images.xcassets */,
-				6EA7CA3C1AB23D4900F22E90 /* MainMenu.xib */,
-				6EA7CA331AB23D4900F22E90 /* Supporting Files */,
+				6EA7CA551AB23E0700F22E90 /* AppDelegate.h */,
+				6EA7CA561AB23E0700F22E90 /* AppDelegate.m */,
+				6EA7CA571AB23E0700F22E90 /* MainMenu.xib */,
+				6EA7CA591AB23E0700F22E90 /* Images.xcassets */,
+				6EA7CA5A1AB23E0700F22E90 /* Info.plist */,
 			);
-			name = ControlsTest;
-			path = "/Users/djt/Projects/postgresql-kit/ControlsTest";
-			sourceTree = "<absolute>";
-		};
-		6EA7CA331AB23D4900F22E90 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				6EA7CA341AB23D4900F22E90 /* Info.plist */,
-				6EA7CA381AB23D4900F22E90 /* main.m */,
-			);
-			name = "Supporting Files";
+			path = ControlsTest;
 			sourceTree = "<group>";
 		};
 		6EB1E70A15F273350093F784 /* src */ = {
@@ -1871,6 +1876,7 @@
 				6EA7CA2D1AB23D4900F22E90 /* Sources */,
 				6EA7CA2E1AB23D4900F22E90 /* Frameworks */,
 				6EA7CA2F1AB23D4900F22E90 /* Resources */,
+				6EA7CA601AB23E8400F22E90 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -2097,8 +2103,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6EA7CA3B1AB23D4900F22E90 /* Images.xcassets in Resources */,
-				6EA7CA3E1AB23D4900F22E90 /* MainMenu.xib in Resources */,
+				6EA7CA5D1AB23E4600F22E90 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2318,8 +2323,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6EA7CA391AB23D4900F22E90 /* main.m in Sources */,
-				6EA7CA371AB23D4900F22E90 /* AppDelegate.m in Sources */,
+				6EA7CA5C1AB23E1500F22E90 /* main.m in Sources */,
+				6EA7CA5B1AB23E1100F22E90 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2448,10 +2453,10 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		6EA7CA3C1AB23D4900F22E90 /* MainMenu.xib */ = {
+		6EA7CA571AB23E0700F22E90 /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				6EA7CA3D1AB23D4900F22E90 /* Base */,
+				6EA7CA581AB23E0700F22E90 /* Base */,
 			);
 			name = MainMenu.xib;
 			sourceTree = "<group>";
@@ -3047,7 +3052,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = ControlsTest/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/src/Apps/Cocoa/ControlsTest/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -3087,7 +3092,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = ControlsTest/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/src/Apps/Cocoa/ControlsTest/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
