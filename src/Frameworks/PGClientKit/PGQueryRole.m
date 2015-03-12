@@ -181,44 +181,62 @@
 	[flags addObject:[connection quoteIdentifier:roleName]];
 
 	// superuser privilege
-	if(options & PGQueryOptionRolePrivSuperuser) {
+	if((options & PGQueryOptionPrivSuperuserSet) && (options & PGQueryOptionPrivSuperuserClear)) {
+		[connection raiseError:error code:PGClientErrorQuery reason:@"CREATE ROLE: Unable to both set and clear SUPERUSER flag"];
+		return nil;
+	} else if(options & PGQueryOptionPrivSuperuserSet) {
 		[flags addObject:@"SUPERUSER"];
-	} else {
+	} else if(options & PGQueryOptionPrivSuperuserClear) {
 		[flags addObject:@"NOSUPERUSER"];
 	}
-	
+
 	// createdb privilege
-	if(options & PGQueryOptionRolePrivCreateDatabase) {
+	if((options & PGQueryOptionPrivCreateDatabaseSet) && (options & PGQueryOptionPrivCreateDatabaseClear)) {
+		[connection raiseError:error code:PGClientErrorQuery reason:@"CREATE ROLE: Unable to both set and clear CREATEDB flag"];
+		return nil;
+	} else if(options & PGQueryOptionPrivCreateDatabaseSet) {
 		[flags addObject:@"CREATEDB"];
-	} else {
+	} else if(options & PGQueryOptionPrivCreateDatabaseClear) {
 		[flags addObject:@"NOCREATEDB"];
 	}
-	
-	// createroleb privilege
-	if(options & PGQueryOptionRolePrivCreateRole) {
+
+	// createrole privilege
+	if((options & PGQueryOptionPrivCreateRoleSet) && (options & PGQueryOptionPrivCreateRoleClear)) {
+		[connection raiseError:error code:PGClientErrorQuery reason:@"CREATE ROLE: Unable to both set and clear CREATEROLE flag"];
+		return nil;
+	} else if(options & PGQueryOptionPrivCreateRoleSet) {
 		[flags addObject:@"CREATEROLE"];
-	} else {
+	} else if(options & PGQueryOptionPrivCreateRoleClear) {
 		[flags addObject:@"NOCREATEROLE"];
 	}
 
 	// inherit privilege
-	if(options & PGQueryOptionRolePrivInherit) {
+	if((options & PGQueryOptionPrivInheritSet) && (options & PGQueryOptionPrivInheritClear)) {
+		[connection raiseError:error code:PGClientErrorQuery reason:@"CREATE ROLE: Unable to both set and clear INHERIT flag"];
+		return nil;
+	} else if(options & PGQueryOptionPrivInheritSet) {
 		[flags addObject:@"INHERIT"];
-	} else {
+	} else if(options & PGQueryOptionPrivInheritClear) {
 		[flags addObject:@"NOINHERIT"];
 	}
 
 	// login privilege
-	if(options & PGQueryOptionRolePrivLogin) {
+	if((options & PGQueryOptionPrivLoginSet) && (options & PGQueryOptionPrivLoginClear)) {
+		[connection raiseError:error code:PGClientErrorQuery reason:@"CREATE ROLE: Unable to both set and clear LOGIN flag"];
+		return nil;
+	} else if(options & PGQueryOptionPrivLoginSet) {
 		[flags addObject:@"LOGIN"];
-	} else {
+	} else if(options & PGQueryOptionPrivLoginClear) {
 		[flags addObject:@"NOLOGIN"];
 	}
 	
 	// replication privilege
-	if(options & PGQueryOptionRolePrivReplication) {
+	if((options & PGQueryOptionPrivReplicationSet) && (options & PGQueryOptionPrivReplicationClear)) {
+		[connection raiseError:error code:PGClientErrorQuery reason:@"CREATE ROLE: Unable to both set and clear NOREPLICATION flag"];
+		return nil;
+	} else if(options & PGQueryOptionPrivReplicationSet) {
 		[flags addObject:@"REPLICATION"];
-	} else {
+	} else if(options & PGQueryOptionPrivReplicationClear) {
 		[flags addObject:@"NOREPLICATION"];
 	}
 	

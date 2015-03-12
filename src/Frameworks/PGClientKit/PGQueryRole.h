@@ -48,7 +48,7 @@
 +(PGQueryRole* )dropRole:(NSString* )role options:(NSUInteger)options;
 
 /**
- *  Rename a role to a new name
+ *  Create a query to rename a role to a new name
  *
  *  @param role The existing role name to change, cannot be nil or empty
  *  @param name The new role name, cannot be nil or empty
@@ -58,12 +58,11 @@
 +(PGQueryRole* )alter:(NSString* )role name:(NSString* )name;
 
 /**
- *  Create a query to return the list of roles for the currently selected server
+ *  Create a query to change the options for a role
  *
  *  @return Returns the PGQueryRole object, or nil if the query could not be created.
  */
-// TODO: Implement
-// +(PGQueryRole* )listWithOptions:(NSUInteger)options;
++(PGQueryRole* )listWithOptions:(NSUInteger)options;
 
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -196,7 +196,7 @@ const NSUInteger PGQuerySelectNoLimit = NSUIntegerMax;
 	if(where==nil) {
 		where = new;
 	} else if([where isOR]) {
-		[where addArguments:new];
+		[where addArguments:new,nil];
 	} else {
 		where = [PGQueryPredicate or:where,new,nil];
 	}

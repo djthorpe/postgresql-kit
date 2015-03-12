@@ -544,7 +544,7 @@
 	PGConnection* client = [tester client];
 	XCTAssertNotNil(client,@"client is nil");
 	
-	PGQueryRole* input = [PGQueryRole create:@"role" options:PGQueryOptionRolePrivSuperuser];
+	PGQueryRole* input = [PGQueryRole create:@"role" options:PGQueryOptionPrivSuperuserSet];
 	NSString* output = @"CREATE ROLE role WITH SUPERUSER";
 	NSString* comparison = [input quoteForConnection:client error:nil];
 	XCTAssertNotNil(comparison);
@@ -555,8 +555,61 @@
 	PGConnection* client = [tester client];
 	XCTAssertNotNil(client,@"client is nil");
 	
-	PGQueryRole* input = [PGQueryRole create:@"role" options:PGQueryOptionRolePrivCreateDatabase];
+	PGQueryRole* input = [PGQueryRole create:@"role" options:PGQueryOptionPrivSuperuserClear];
+	NSString* output = @"CREATE ROLE role WITH NOSUPERUSER";
+	NSString* comparison = [input quoteForConnection:client error:nil];
+	XCTAssertNotNil(comparison);
+	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
+}
+
+-(void)test_040_createrole {
+	PGConnection* client = [tester client];
+	XCTAssertNotNil(client,@"client is nil");
+	
+	PGQueryRole* input = [PGQueryRole create:@"role" options:(PGQueryOptionPrivSuperuserClear | PGQueryOptionPrivSuperuserSet)];
+	NSString* comparison = [input quoteForConnection:client error:nil];
+	XCTAssertNil(comparison);
+}
+
+-(void)test_041_createrole {
+	PGConnection* client = [tester client];
+	XCTAssertNotNil(client,@"client is nil");
+	
+	PGQueryRole* input = [PGQueryRole create:@"role" options:PGQueryOptionPrivCreateDatabaseSet];
 	NSString* output = @"CREATE ROLE role WITH CREATEDB";
+	NSString* comparison = [input quoteForConnection:client error:nil];
+	XCTAssertNotNil(comparison);
+	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
+}
+
+-(void)test_042_createrole {
+	PGConnection* client = [tester client];
+	XCTAssertNotNil(client,@"client is nil");
+	
+	PGQueryRole* input = [PGQueryRole create:@"role" options:PGQueryOptionPrivCreateDatabaseClear];
+	NSString* output = @"CREATE ROLE role WITH NOCREATEDB";
+	NSString* comparison = [input quoteForConnection:client error:nil];
+	XCTAssertNotNil(comparison);
+	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
+}
+
+-(void)test_043_createrole {
+	PGConnection* client = [tester client];
+	XCTAssertNotNil(client,@"client is nil");
+	
+	PGQueryRole* input = [PGQueryRole create:@"role" options:(PGQueryOptionPrivCreateDatabaseClear | PGQueryOptionPrivSuperuserSet)];
+	NSString* output = @"CREATE ROLE role WITH SUPERUSER NOCREATEDB";
+	NSString* comparison = [input quoteForConnection:client error:nil];
+	XCTAssertNotNil(comparison);
+	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);
+}
+
+-(void)test_044_createrole {
+	PGConnection* client = [tester client];
+	XCTAssertNotNil(client,@"client is nil");
+	
+	PGQueryRole* input = [PGQueryRole create:@"role" options:(PGQueryOptionPrivCreateDatabaseSet | PGQueryOptionPrivSuperuserClear)];
+	NSString* output = @"CREATE ROLE role WITH NOSUPERUSER CREATEDB";
 	NSString* comparison = [input quoteForConnection:client error:nil];
 	XCTAssertNotNil(comparison);
 	XCTAssertEqualObjects(output,comparison,@"statements are not equal: %@",comparison);

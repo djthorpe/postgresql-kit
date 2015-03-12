@@ -33,7 +33,12 @@
 		[query setObject:schema forKey:PGQuerySchemaKey];
 	}
 
-	// TODO: set columns
+	// set columns
+	if([columns count]) {
+		for(id column in columns) {
+			[query _addColumn:column];
+		}
+	}
 
 	[query setOptions:(options | PGQueryOperationCreate)];
 	return query;
@@ -169,6 +174,13 @@
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark private methods
 ////////////////////////////////////////////////////////////////////////////////
+
+-(void)_addColumn:(id)column {
+	NSParameterAssert(column);
+	NSParameterAssert([column isKindOfClass:[NSString class]]);
+	// TODO: accept more than just NSString as a column
+	NSLog(@"TODO: _addColumn %@",column);
+}
 
 -(NSString* )quoteCreateTable:(NSString* )tableName connection:(PGConnection* )connection options:(NSUInteger)options error:(NSError** )error {
 	NSParameterAssert(connection);

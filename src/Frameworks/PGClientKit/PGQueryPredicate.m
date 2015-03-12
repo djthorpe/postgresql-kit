@@ -257,9 +257,30 @@ enum {
 -(void)addArguments:(id)expression,... {
 	NSParameterAssert(expression);
 	NSUInteger options = [self options];
+
+	// ensure the predicate is AND or OR logical predicate
 	NSParameterAssert(options==PGQueryPredicateTypeAnd || options==PGQueryPredicateTypeOr);
-	// TODO
-	NSLog(@"TODO: IMPLEMENT addArguments:");
+
+	// obtain the array of new arguments
+	va_list args;
+	va_start(args,expression);
+	NSArray* new_arguments = [[self class] _argumentArray:args first:expression];
+	va_end(args);
+	if([new_arguments count]==0) {
+		return;
+	}
+
+	// obtain the array of existing arguments
+	NSArray* existing_arguments = [super objectForKey:PGQueryArgumentsKey];
+	NSParameterAssert([existing_arguments isKindOfClass:[NSArray class]]);
+	
+	// make new array
+	NSArray* result_arguments = [existing_arguments arrayByAddingObjectsFromArray:new_arguments];
+	NSParameterAssert(result_arguments);
+	NSParameterAssert([result_arguments count]==([existing_arguments count] + [new_arguments count]));
+	
+	// set in dictionary
+	[super setObject:result_arguments forKey:PGQueryArgumentsKey];
 }
 
 -(NSString* )quoteForConnection:(PGConnection* )connection error:(NSError** )error {
