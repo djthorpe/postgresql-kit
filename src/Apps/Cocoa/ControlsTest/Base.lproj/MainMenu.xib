@@ -696,53 +696,13 @@
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vjb-1N-b7q">
-                        <rect key="frame" x="14" y="246" width="144" height="32"/>
-                        <buttonCell key="cell" type="push" title="Create Database" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="D9g-0B-vCE">
+                        <rect key="frame" x="14" y="246" width="128" height="32"/>
+                        <buttonCell key="cell" type="push" title="Custom Sheet" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="D9g-0B-vCE">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
-                            <action selector="doCreateConnectionURL:" target="Voe-Tx-rLC" id="IAF-Nf-Amq"/>
-                        </connections>
-                    </button>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ktr-iP-hkd">
-                        <rect key="frame" x="14" y="213" width="113" height="32"/>
-                        <buttonCell key="cell" type="push" title="Create Role" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ffT-iW-61j">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="doCreateConnectionURL:" target="Voe-Tx-rLC" id="SoK-JE-B5Q"/>
-                        </connections>
-                    </button>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ix3-R7-Zv5">
-                        <rect key="frame" x="14" y="180" width="135" height="32"/>
-                        <buttonCell key="cell" type="push" title="Create Schema" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="yFF-hq-hS4">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="doCreateConnectionURL:" target="Voe-Tx-rLC" id="ast-MW-a1y"/>
-                        </connections>
-                    </button>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fIP-Xj-xk1">
-                        <rect key="frame" x="14" y="147" width="118" height="32"/>
-                        <buttonCell key="cell" type="push" title="Create Table" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="lFW-Wl-FmD">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="doCreateConnectionURL:" target="Voe-Tx-rLC" id="etA-hb-DE4"/>
-                        </connections>
-                    </button>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WKw-WX-udf">
-                        <rect key="frame" x="14" y="114" width="114" height="32"/>
-                        <buttonCell key="cell" type="push" title="Create View" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="FF3-94-gYc">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="doCreateConnectionURL:" target="Voe-Tx-rLC" id="Yar-r4-UkV"/>
+                            <action selector="doCustomWindow:" target="Voe-Tx-rLC" id="4aw-mo-lHx"/>
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sUz-c4-mqJ">

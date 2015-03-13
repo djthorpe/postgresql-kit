@@ -152,6 +152,8 @@
 		6E1548601A5828F400556573 /* SSKeychainQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE12E1517D51CD70034B9E1 /* SSKeychainQuery.m */; };
 		6E222C5017B035E90087A483 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E222C4F17B035E90087A483 /* libz.dylib */; };
 		6E222C5217B035F00087A483 /* LDAP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E222C5117B035F00087A483 /* LDAP.framework */; };
+		6E24DCC01AB2D8DE00115F61 /* PGDialogBackgroundView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E24DCBE1AB2D8DE00115F61 /* PGDialogBackgroundView.h */; };
+		6E24DCC11AB2D8DE00115F61 /* PGDialogBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E24DCBF1AB2D8DE00115F61 /* PGDialogBackgroundView.m */; };
 		6E2A14FB1A59488700F12954 /* PGServerKit_testcases.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2A14FA1A59488700F12954 /* PGServerKit_testcases.m */; };
 		6E2A14FC1A59488700F12954 /* PGServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
 		6E37869D1A69783D0018BEA0 /* Version.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6E37869C1A69783D0018BEA0 /* Version.plist */; };
@@ -622,6 +624,8 @@
 		6E1B43F915F3A465001ED3BE /* strapline-200x40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "strapline-200x40.png"; sourceTree = "<group>"; };
 		6E222C4F17B035E90087A483 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		6E222C5117B035F00087A483 /* LDAP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LDAP.framework; path = System/Library/Frameworks/LDAP.framework; sourceTree = SDKROOT; };
+		6E24DCBE1AB2D8DE00115F61 /* PGDialogBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGDialogBackgroundView.h; sourceTree = "<group>"; };
+		6E24DCBF1AB2D8DE00115F61 /* PGDialogBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGDialogBackgroundView.m; sourceTree = "<group>"; };
 		6E2A14F61A59488700F12954 /* .xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = .xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E2A14F91A59488700F12954 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6E2A14FA1A59488700F12954 /* PGServerKit_testcases.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PGServerKit_testcases.m; sourceTree = "<group>"; };
@@ -1460,6 +1464,8 @@
 				6E5D8BD31A66EE9000C54D42 /* PGConnectionWindowFormatter.h */,
 				6E5D8BD41A66EE9000C54D42 /* PGConnectionWindowFormatter.m */,
 				6E60B5BB1A6280AF005B0633 /* PGConnectionWindow.xib */,
+				6E24DCBE1AB2D8DE00115F61 /* PGDialogBackgroundView.h */,
+				6E24DCBF1AB2D8DE00115F61 /* PGDialogBackgroundView.m */,
 			);
 			name = PGConnectionWindow;
 			sourceTree = "<group>";
@@ -1657,6 +1663,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6E24DCC01AB2D8DE00115F61 /* PGDialogBackgroundView.h in Headers */,
 				14E1323A1A6D6F7800451602 /* PGSourceViewTree.h in Headers */,
 				6E0C81701A619E2E0032AE32 /* PGSplitViewController.h in Headers */,
 				6E69F6B01A67BABF0014EC1F /* PGSourceViewNode.h in Headers */,
@@ -2222,6 +2229,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6E24DCC11AB2D8DE00115F61 /* PGDialogBackgroundView.m in Sources */,
 				14E1323B1A6D6F7800451602 /* PGSourceViewTree.m in Sources */,
 				6E47EDBF1A6EE96D00352939 /* PGSourceViewHeading.m in Sources */,
 				6E45A40F1A73AAF900E20B36 /* MMElement.m in Sources */,

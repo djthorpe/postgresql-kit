@@ -24,9 +24,11 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 @interface PGConnectionWindowController ()
 
 // IB Properties
+@property (weak,nonatomic) IBOutlet NSWindow* ibNetworkWindow;
 @property (weak,nonatomic) IBOutlet NSWindow* ibSocketWindow;
 @property (weak,nonatomic) IBOutlet NSWindow* ibPasswordWindow;
 @property (weak,nonatomic) IBOutlet NSWindow* ibErrorWindow;
+@property (weak,nonatomic) IBOutlet NSView* ibCustomView;
 
 // Other Properties
 @property (readonly) PGConnection* connection;
@@ -217,7 +219,7 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 // private methods - key-value observing
 
 -(void)_registerAsObserver:(NSWindow* )window {
-	if(window==[self window] || window==[self ibSocketWindow]) {
+	if(window==[self ibNetworkWindow] || window==[self ibSocketWindow]) {
 		for(NSString* keyPath in @[ @"isDefaultPort",@"isRequireSSL",@"params.host", @"params.ssl", @"params.user", @"params.dbname", @"params.port" ]) {
 			[self addObserver:self forKeyPath:keyPath options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:NULL];
 		}
@@ -225,7 +227,7 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 }
 
 -(void)_deregisterAsObserver:(NSWindow* )window {
-	if(window==[self window] || window==[self ibSocketWindow]) {
+	if(window==[self ibNetworkWindow] || window==[self ibSocketWindow]) {
 		for(NSString* keyPath in @[ @"isDefaultPort",@"isRequireSSL",@"params.host", @"params.ssl", @"params.user", @"params.dbname", @"params.port" ]) {
 			[self removeObserver:self forKeyPath:keyPath];
 		}
@@ -273,7 +275,7 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 	}
 	
 	// determine which window to use
-	NSWindow* theSheet = [self window];
+	NSWindow* theSheet = [self ibNetworkWindow];
 	if([url isSocketPathURL]) {
 		theSheet = [self ibSocketWindow];
 	}
@@ -329,6 +331,25 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 
 	// start sheet
 	[parentWindow beginSheet:[self ibErrorWindow] completionHandler:^(NSModalResponse returnValue) {
+		callback(returnValue);
+	}];
+}
+
+-(void)beginCustomSheetWithTitle:(NSString* )title description:(NSString* )description view:(NSView* )view parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(NSModalResponse response)) callback {
+	NSParameterAssert(title);
+	NSParameterAssert(parentWindow);
+	NSParameterAssert(view);
+	NSParameterAssert(callback);
+
+	// TODO: set parameters
+	
+	// set view
+	NSLog(@"custom view = %@",[self ibCustomView]);
+	
+	[[self ibCustomView] setSubviews:@[ view ]];
+
+	// start sheet
+	[parentWindow beginSheet:[self window] completionHandler:^(NSModalResponse returnValue) {
 		callback(returnValue);
 	}];
 }

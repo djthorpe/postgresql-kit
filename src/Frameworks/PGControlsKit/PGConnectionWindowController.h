@@ -24,9 +24,13 @@
 +(NSURL* )defaultNetworkURL;
 +(NSURL* )defaultSocketURL;
 
+// properties
+@property (weak,nonatomic) IBOutlet NSView* ibCreateRoleView;
+
 // methods to show dialogs
 -(void)beginConnectionSheetWithURL:(NSURL* )url parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(NSURL* url)) callback;
 -(void)beginPasswordSheetWithParentWindow:(NSWindow* )parentWindow whenDone:(void(^)(NSString* password,BOOL useKeychain)) callback;
 -(void)beginErrorSheetWithError:(NSError* )error parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(NSModalResponse response)) callback;
+-(void)beginCustomSheetWithTitle:(NSString* )title description:(NSString* )description view:(NSView* )view parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(NSModalResponse response)) callback;
 
 @end

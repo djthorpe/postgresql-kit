@@ -73,6 +73,15 @@
 	}];
 }
 
+-(IBAction)doCustomWindow:(id)sender {
+	[[self connectionWindow] loadWindow];
+
+	NSView* view = [[self connectionWindow] ibCreateRoleView];
+	[[self connectionWindow] beginCustomSheetWithTitle:@"Create new role" description:nil view:view parentWindow:[self window] whenDone:^(NSModalResponse response) {
+		NSLog(@"DONE, RESPONSE = %ld",response);
+	}];
+}
+
 -(IBAction)doLogin:(id)sender {
 	if([self url]) {
 		[[self connection] connectWithURL:[self url] whenDone:^(BOOL usedPassword, NSError *error) {
