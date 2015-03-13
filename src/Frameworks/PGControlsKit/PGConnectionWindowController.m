@@ -264,6 +264,23 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+// private methods - views
+
+-(BOOL)setView:(NSView* )subView parentView:(NSView* )parentView {
+	NSParameterAssert(subView && parentView);
+
+	[parentView addSubview:subView];
+	[subView setTranslatesAutoresizingMaskIntoConstraints:NO];
+
+	// make it resize with the window
+	NSDictionary* views = NSDictionaryOfVariableBindings(subView);
+	[parentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[subView]|" options:0 metrics:nil views:views]];
+	[parentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[subView]|" options:0 metrics:nil views:views]];
+	
+	return YES;
+}
+
+////////////////////////////////////////////////////////////////////////////////
 // methods
 
 -(void)beginConnectionSheetWithURL:(NSURL* )url parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(NSURL* url)) callback {
@@ -343,10 +360,8 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 
 	// TODO: set parameters
 	
-	// set view
-	NSLog(@"custom view = %@",[self ibCustomView]);
-	
-	[[self ibCustomView] setSubviews:@[ view ]];
+	// set view and add constraints
+	[self setView:view parentView:[self ibCustomView]];
 
 	// start sheet
 	[parentWindow beginSheet:[self window] completionHandler:^(NSModalResponse returnValue) {
