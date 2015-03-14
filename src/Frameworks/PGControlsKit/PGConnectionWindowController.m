@@ -28,6 +28,8 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 @property (weak,nonatomic) IBOutlet NSWindow* ibSocketWindow;
 @property (weak,nonatomic) IBOutlet NSWindow* ibPasswordWindow;
 @property (weak,nonatomic) IBOutlet NSWindow* ibErrorWindow;
+
+// IB Properties
 @property (weak,nonatomic) IBOutlet NSView* ibCustomView;
 
 // Other Properties
@@ -269,13 +271,20 @@ NSTimeInterval PingTimerInterval = 2.0; // two seconds until a ping is made
 -(BOOL)setView:(NSView* )subView parentView:(NSView* )parentView {
 	NSParameterAssert(subView && parentView);
 
-	[parentView addSubview:subView];
+	[parentView setSubviews:@[ subView ]];
 	[subView setTranslatesAutoresizingMaskIntoConstraints:NO];
 
 	// make it resize with the window
 	NSDictionary* views = NSDictionaryOfVariableBindings(subView);
 	[parentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[subView]|" options:0 metrics:nil views:views]];
 	[parentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[subView]|" options:0 metrics:nil views:views]];
+	
+	// set window minimum and maximum size to those of the view
+	NSRect subViewSize = [subView frame];
+	NSRect parentViewSize = [subView frame];
+	
+	NSLog(@"subView height = %f",subViewSize.size.height);
+	NSLog(@"parentView height = %f",parentViewSize.size.height);
 	
 	return YES;
 }

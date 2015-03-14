@@ -539,13 +539,7 @@
 		14F1E84717CB83CD00710D4A /* PGControlsKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PGControlsKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		14F1E85E17CB840400710D4A /* PGControlsKit.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PGControlsKit.plist; sourceTree = "<group>"; };
 		14F1E86017CB840400710D4A /* PGControlsKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGControlsKit.h; sourceTree = "<group>"; };
-		14F1E86317CB84FB00710D4A /* PGGutterView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PGGutterView.m; sourceTree = "<group>"; };
-		14F1E86417CB84FB00710D4A /* PGGutterView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGGutterView.h; sourceTree = "<group>"; };
-		14F1E86517CB84FB00710D4A /* PGConsoleViewImpl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PGConsoleViewImpl.m; sourceTree = "<group>"; };
-		14F1E86617CB84FB00710D4A /* PGConsoleView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PGConsoleView.m; sourceTree = "<group>"; };
-		14F1E86717CB84FB00710D4A /* PGConsoleView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGConsoleView.h; sourceTree = "<group>"; };
 		14F1E86917CB84FB00710D4A /* PGConsoleView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PGConsoleView.xib; sourceTree = "<group>"; };
-		14F1E86A17CB84FB00710D4A /* PGConsoleViewImpl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGConsoleViewImpl.h; sourceTree = "<group>"; };
 		14F94DFE17A67C5C008212B0 /* PGSchemaProductOpTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSchemaProductOpTable.h; sourceTree = "<group>"; };
 		14F94DFF17A67C5C008212B0 /* PGSchemaProductOpTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSchemaProductOpTable.m; sourceTree = "<group>"; };
 		14FD06F61AA70C0E0013557E /* CHCSVParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHCSVParser.h; sourceTree = "<group>"; };
@@ -1171,12 +1165,6 @@
 		14F1E86217CB84A400710D4A /* PGConsoleView */ = {
 			isa = PBXGroup;
 			children = (
-				14F1E86717CB84FB00710D4A /* PGConsoleView.h */,
-				14F1E86617CB84FB00710D4A /* PGConsoleView.m */,
-				14F1E86417CB84FB00710D4A /* PGGutterView.h */,
-				14F1E86317CB84FB00710D4A /* PGGutterView.m */,
-				14F1E86A17CB84FB00710D4A /* PGConsoleViewImpl.h */,
-				14F1E86517CB84FB00710D4A /* PGConsoleViewImpl.m */,
 				14F1E86917CB84FB00710D4A /* PGConsoleView.xib */,
 			);
 			name = PGConsoleView;
@@ -3062,7 +3050,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/src/Apps/Cocoa/ControlsTest/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -3102,7 +3090,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/src/Apps/Cocoa/ControlsTest/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;

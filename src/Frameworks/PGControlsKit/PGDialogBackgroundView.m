@@ -19,7 +19,7 @@
 -(void)drawRect:(NSRect)dirtyRect {
     // Fill in background color to something slighty darker
     CGContextRef context = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
-    CGContextSetRGBFillColor(context,0.90,0.90,0.90,1.0);
+    CGContextSetRGBFillColor(context,0.85,0.85,0.85,1.0);
     CGContextFillRect(context, NSRectToCGRect(dirtyRect));
 	// draw content
     [super drawRect:dirtyRect];

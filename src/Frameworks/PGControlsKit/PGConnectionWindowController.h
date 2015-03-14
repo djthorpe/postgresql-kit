@@ -26,6 +26,8 @@
 
 // properties
 @property (weak,nonatomic) IBOutlet NSView* ibCreateRoleView;
+@property (weak,nonatomic) IBOutlet NSView* ibCreateSchemaView;
+@property (weak,nonatomic) IBOutlet NSView* ibCreateDatabaseView;
 
 // methods to show dialogs
 -(void)beginConnectionSheetWithURL:(NSURL* )url parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(NSURL* url)) callback;

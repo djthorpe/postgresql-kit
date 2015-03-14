@@ -73,11 +73,29 @@
 	}];
 }
 
--(IBAction)doCustomWindow:(id)sender {
+-(IBAction)doCreateRoleWindow:(id)sender {
 	[[self connectionWindow] loadWindow];
 
 	NSView* view = [[self connectionWindow] ibCreateRoleView];
 	[[self connectionWindow] beginCustomSheetWithTitle:@"Create new role" description:nil view:view parentWindow:[self window] whenDone:^(NSModalResponse response) {
+		NSLog(@"DONE, RESPONSE = %ld",response);
+	}];
+}
+
+-(IBAction)doCreateSchemaWindow:(id)sender {
+	[[self connectionWindow] loadWindow];
+
+	NSView* view = [[self connectionWindow] ibCreateSchemaView];
+	[[self connectionWindow] beginCustomSheetWithTitle:@"Create new schema" description:nil view:view parentWindow:[self window] whenDone:^(NSModalResponse response) {
+		NSLog(@"DONE, RESPONSE = %ld",response);
+	}];
+}
+
+-(IBAction)doCreateDatabaseWindow:(id)sender {
+	[[self connectionWindow] loadWindow];
+
+	NSView* view = [[self connectionWindow] ibCreateDatabaseView];
+	[[self connectionWindow] beginCustomSheetWithTitle:@"Create new database" description:nil view:view parentWindow:[self window] whenDone:^(NSModalResponse response) {
 		NSLog(@"DONE, RESPONSE = %ld",response);
 	}];
 }
