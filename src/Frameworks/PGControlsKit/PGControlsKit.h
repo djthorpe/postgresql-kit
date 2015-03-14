@@ -31,9 +31,13 @@
 @class PGConsoleViewController;
 @class PGConsoleViewBuffer;
 
+@class PGDialogController;
+
+
 // Windows
 #import "PGConnectionWindowController.h"
 #import "PGHelpWindowController.h"
+#import "PGDialogController.h"
 
 // Views
 #import "PGSplitViewController.h"

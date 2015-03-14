@@ -1,18 +1,10 @@
-//
-//  AppDelegate.m
-//  ControlsTest
-//
-//  Created by David Thorpe on 12/03/2015.
-//
-//
 
 #import "AppDelegate.h"
-#import <PGControlsKit/PGControlsKit.h>
 
 @interface AppDelegate ()
 @property (weak) IBOutlet NSWindow* window;
 @property (retain) PGConnection* connection;
-@property (retain) PGConnectionWindowController* connectionWindow;
+@property (retain) PGDialogController* dialog;
 @property (retain) NSURL* url;
 @property (readonly) NSString* urlstring;
 @end
@@ -28,7 +20,13 @@
 -(void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 	// create connection class
 	[self setConnection:[PGConnection new]];
-	[self setConnectionWindow:[PGConnectionWindowController new]];
+	[self setDialog:[PGDialogController new]];
+	
+	// set delegates
+	[[self connection] setDelegate:self];
+	[[self dialog] setDelegate:self];
+	
+	
 	// get user default for url
 	NSString* url = [[NSUserDefaults standardUserDefaults] objectForKey:@"url"];
 	if(url) {
@@ -43,23 +41,25 @@
 }
 
 -(void)handleLoginError:(NSError* )error {
+/*
 	if([[error domain] isEqualToString:PGClientErrorDomain] && [error code]==PGClientErrorNeedsPassword) {
-		[[self connectionWindow] beginPasswordSheetWithParentWindow:[self window] whenDone:^(NSString* password, BOOL useKeychain) {
+		[[self dialog] beginPasswordSheetWithParentWindow:[self window] whenDone:^(NSString* password, BOOL useKeychain) {
 			NSLog(@"SAVE PASSWORD: %@",error);
 		}];
 		return;
 	}
 
-	[[self connectionWindow] beginErrorSheetWithError:error parentWindow:[self window] whenDone:^(NSModalResponse response) {
+	[[self dialog] beginErrorSheetWithError:error parentWindow:[self window] whenDone:^(NSModalResponse response) {
 		if(response==NSModalResponseContinue) {
 			[self doCreateConnectionURL:nil];
 		}
 	}];
-
+*/
 }
 
 -(IBAction)doCreateConnectionURL:(id)sender {
-	[[self connectionWindow] beginConnectionSheetWithURL:[self url] parentWindow:[self window] whenDone:^(NSURL *url) {
+/*
+	[[self dialog] beginConnectionSheetWithURL:[self url] parentWindow:[self window] whenDone:^(NSURL *url) {
 		if(url) {
 			// set the URL
 			[super willChangeValueForKey:@"urlstring"];
@@ -71,31 +71,29 @@
 			[[NSUserDefaults standardUserDefaults] synchronize];
 		}
 	}];
+*/
 }
 
 -(IBAction)doCreateRoleWindow:(id)sender {
-	[[self connectionWindow] loadWindow];
-
-	NSView* view = [[self connectionWindow] ibCreateRoleView];
-	[[self connectionWindow] beginCustomSheetWithTitle:@"Create new role" description:nil view:view parentWindow:[self window] whenDone:^(NSModalResponse response) {
+	[[self dialog] loadWindow];
+	NSView* view = [[self dialog] ibCreateRoleView];
+	[[self dialog] beginCustomSheetWithTitle:@"Create new role" description:nil view:view parentWindow:[self window] whenDone:^(NSModalResponse response) {
 		NSLog(@"DONE, RESPONSE = %ld",response);
 	}];
 }
 
 -(IBAction)doCreateSchemaWindow:(id)sender {
-	[[self connectionWindow] loadWindow];
-
-	NSView* view = [[self connectionWindow] ibCreateSchemaView];
-	[[self connectionWindow] beginCustomSheetWithTitle:@"Create new schema" description:nil view:view parentWindow:[self window] whenDone:^(NSModalResponse response) {
+	[[self dialog] loadWindow];
+	NSView* view = [[self dialog] ibCreateSchemaView];
+	[[self dialog] beginCustomSheetWithTitle:@"Create new schema" description:nil view:view parentWindow:[self window] whenDone:^(NSModalResponse response) {
 		NSLog(@"DONE, RESPONSE = %ld",response);
 	}];
 }
 
 -(IBAction)doCreateDatabaseWindow:(id)sender {
-	[[self connectionWindow] loadWindow];
-
-	NSView* view = [[self connectionWindow] ibCreateDatabaseView];
-	[[self connectionWindow] beginCustomSheetWithTitle:@"Create new database" description:nil view:view parentWindow:[self window] whenDone:^(NSModalResponse response) {
+	[[self dialog] loadWindow];
+	NSView* view = [[self dialog] ibCreateDatabaseView];
+	[[self dialog] beginCustomSheetWithTitle:@"Create new database" description:nil view:view parentWindow:[self window] whenDone:^(NSModalResponse response) {
 		NSLog(@"DONE, RESPONSE = %ld",response);
 	}];
 }
@@ -113,5 +111,10 @@
 -(IBAction)doLogout:(id)sender {
 	[[self connection] disconnect];
 }
+
+-(void)controller:(PGDialogController *)controller dialogWillOpenWithParameters:(NSMutableDictionary *)parameters {
+	NSLog(@"dialog:willopenwithparameters:%@",parameters);
+}
+
 
 @end

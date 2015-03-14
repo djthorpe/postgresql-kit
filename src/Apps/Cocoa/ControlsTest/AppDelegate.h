@@ -1,15 +1,9 @@
-//
-//  AppDelegate.h
-//  ControlsTest
-//
-//  Created by David Thorpe on 12/03/2015.
-//
-//
 
 #import <Cocoa/Cocoa.h>
+#import <PGClientKit/PGClientKit.h>
+#import <PGControlsKit/PGControlsKit.h>
 
-@interface AppDelegate : NSObject <NSApplicationDelegate>
-
+@interface AppDelegate : NSObject <NSApplicationDelegate,PGDialogDelegate,PGConnectionDelegate>
 
 @end
 
