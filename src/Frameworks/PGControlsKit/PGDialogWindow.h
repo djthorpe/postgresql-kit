@@ -28,7 +28,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-@interface PGDialogController : NSWindowController {
+@interface PGDialogWindow : NSWindowController {
 	PGConnection* _connection;
 	NSMutableDictionary* _parameters;
 }
@@ -55,19 +55,18 @@
 ////////////////////////////////////////////////////////////////////////////////
 // properties
 
-@property (weak,nonatomic) IBOutlet NSView* ibFileConnectionView;
-@property (weak,nonatomic) IBOutlet NSView* ibNetworkConnectionView;
-@property (weak,nonatomic) IBOutlet NSView* ibCreateRoleView;
-@property (weak,nonatomic) IBOutlet NSView* ibCreateSchemaView;
-@property (weak,nonatomic) IBOutlet NSView* ibCreateDatabaseView;
-
+@property (weak,nonatomic) IBOutlet PGDialogView* ibFileConnectionView;
+@property (weak,nonatomic) IBOutlet PGDialogView* ibNetworkConnectionView;
+@property (weak,nonatomic) IBOutlet PGDialogView* ibCreateRoleView;
+@property (weak,nonatomic) IBOutlet PGDialogView* ibCreateSchemaView;
+@property (weak,nonatomic) IBOutlet PGDialogView* ibCreateDatabaseView;
 @property (weak,nonatomic) id<PGDialogDelegate> delegate;
 
 
 ////////////////////////////////////////////////////////////////////////////////
 // public properties
 
--(void)beginCustomSheetWithTitle:(NSString* )title description:(NSString* )description view:(NSView* )view parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(NSModalResponse response)) callback;
+-(void)beginCustomSheetWithTitle:(NSString* )title description:(NSString* )description view:(PGDialogView* )view parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(NSModalResponse response)) callback;
 
 @end
 
@@ -76,7 +75,7 @@
 
 @protocol PGDialogDelegate <NSObject>
 @optional
-	-(void)controller:(PGDialogController* )controller dialogWillOpenWithParameters:(NSMutableDictionary* )parameters;	
+	-(void)controller:(PGDialogWindow* )controller dialogWillOpenWithParameters:(NSMutableDictionary* )parameters;
 @end
 
 

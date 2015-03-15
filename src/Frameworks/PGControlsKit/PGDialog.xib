@@ -4,13 +4,9 @@
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6245"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="PGDialogController">
+        <customObject id="-2" userLabel="File's Owner" customClass="PGDialogWindow">
             <connections>
-                <outlet property="ibBackgroundView" destination="9ZS-Ku-1RU" id="5Bu-tl-QEa"/>
-                <outlet property="ibCreateDatabaseView" destination="2Ga-zH-90q" id="kHx-B1-s4b"/>
-                <outlet property="ibCreateRoleView" destination="W3o-A6-nnY" id="Fc4-gm-OJh"/>
-                <outlet property="ibCreateSchemaView" destination="OHY-PZ-gKZ" id="BOa-9F-i1N"/>
-                <outlet property="ibCustomView" destination="9ZS-Ku-1RU" id="kAw-eE-Grj"/>
+                <outlet property="ibCreateDatabaseView" destination="cTe-i9-1Qf" id="a6D-9y-Ky4"/>
                 <outlet property="window" destination="ASC-uL-Kwd" id="dMy-Mh-j4x"/>
             </connections>
         </customObject>
@@ -579,9 +575,6 @@
 DQ
 </string>
                         </buttonCell>
-                        <connections>
-                            <action selector="doEndDialog:" target="-2" id="Fhc-Xz-Jj3"/>
-                        </connections>
                     </button>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="BwP-QG-Yqr">
                         <rect key="frame" x="14" y="13" width="83" height="32"/>
@@ -595,9 +588,6 @@ DQ
 Gw
 </string>
                         </buttonCell>
-                        <connections>
-                            <action selector="doEndDialog:" target="-2" id="IbI-Y1-qhk"/>
-                        </connections>
                     </button>
                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="9ZS-Ku-1RU" customClass="PGDialogBackgroundView">
                         <rect key="frame" x="0.0" y="61" width="480" height="275"/>
@@ -674,6 +664,13 @@ Gw
             </view>
             <point key="canvasLocation" x="-33" y="865"/>
         </window>
+        <customObject id="cTe-i9-1Qf" userLabel="PGDialogCreateDatabaseView" customClass="PGDialogCreateDatabaseView">
+            <connections>
+                <outlet property="view" destination="2Ga-zH-90q" id="u9Q-4i-toc"/>
+            </connections>
+        </customObject>
+        <customObject id="sqn-Gp-stD" userLabel="PGDialogCreateRoleView"/>
+        <customObject id="j3F-AG-LsC" userLabel="PGDialogCreateSchemaView"/>
     </objects>
     <resources>
         <image name="elephant-72" width="72" height="72"/>

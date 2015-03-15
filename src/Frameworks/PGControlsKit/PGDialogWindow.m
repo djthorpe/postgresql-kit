@@ -16,13 +16,13 @@
 #import <PGControlsKit/PGControlsKit.h>
 #import <PGControlsKit/PGControlsKit+Private.h>
 
-@interface PGDialogController ()
+@interface PGDialogWindow ()
 @property (nonatomic,weak) IBOutlet PGDialogBackgroundView* ibBackgroundView;
 @property (readonly) PGConnection* connection;
 @property (readonly) NSMutableDictionary* parameters;
 @end
 
-@implementation PGDialogController
+@implementation PGDialogWindow
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma constructors

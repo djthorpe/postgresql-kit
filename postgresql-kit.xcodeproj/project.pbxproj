@@ -61,8 +61,8 @@
 		1417B7C01AAA219100B44DD4 /* PGQueryObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 1417B7BF1AAA219100B44DD4 /* PGQueryObject.m */; };
 		1417B7C11AAA219100B44DD4 /* PGQueryObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 1417B7BF1AAA219100B44DD4 /* PGQueryObject.m */; };
 		141BEBD31AB44485000EFCFC /* PGDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = 141BEBD21AB44485000EFCFC /* PGDialog.xib */; };
-		141BEBD61AB444AE000EFCFC /* PGDialogController.h in Headers */ = {isa = PBXBuildFile; fileRef = 141BEBD41AB444AE000EFCFC /* PGDialogController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		141BEBD71AB444AE000EFCFC /* PGDialogController.m in Sources */ = {isa = PBXBuildFile; fileRef = 141BEBD51AB444AE000EFCFC /* PGDialogController.m */; };
+		141BEBD61AB444AE000EFCFC /* PGDialogWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 141BEBD41AB444AE000EFCFC /* PGDialogWindow.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		141BEBD71AB444AE000EFCFC /* PGDialogWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 141BEBD51AB444AE000EFCFC /* PGDialogWindow.m */; };
 		141BEBD91AB44B28000EFCFC /* PGControlsKit+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 141BEBD81AB44B28000EFCFC /* PGControlsKit+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1450A15E1AAA145A002D62D9 /* PGQuerySource.h in Headers */ = {isa = PBXBuildFile; fileRef = 1450A15C1AAA145A002D62D9 /* PGQuerySource.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1450A15F1AAA145A002D62D9 /* PGQuerySource.h in Headers */ = {isa = PBXBuildFile; fileRef = 1450A15C1AAA145A002D62D9 /* PGQuerySource.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -88,6 +88,10 @@
 		149BA1A31AA6FB50007B86A0 /* PGQuerySelect.m in Sources */ = {isa = PBXBuildFile; fileRef = 1482A9071AA5F4530000BA25 /* PGQuerySelect.m */; };
 		149BA1A41AA6FB54007B86A0 /* PGQuerySelect.h in Headers */ = {isa = PBXBuildFile; fileRef = 1482A9061AA5F4530000BA25 /* PGQuerySelect.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		149BA1A51AA6FB58007B86A0 /* PGQuerySelect.h in Headers */ = {isa = PBXBuildFile; fileRef = 1482A9061AA5F4530000BA25 /* PGQuerySelect.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		14A6281F1AB60351003668AB /* PGDialogCreateDatabaseView.h in Headers */ = {isa = PBXBuildFile; fileRef = 14A6281D1AB60351003668AB /* PGDialogCreateDatabaseView.h */; };
+		14A628201AB60351003668AB /* PGDialogCreateDatabaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14A6281E1AB60351003668AB /* PGDialogCreateDatabaseView.m */; };
+		14C3A8F51AB5F74F00DD5323 /* PGDialogView.h in Headers */ = {isa = PBXBuildFile; fileRef = 14C3A8F31AB5F74F00DD5323 /* PGDialogView.h */; };
+		14C3A8F61AB5F74F00DD5323 /* PGDialogView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14C3A8F41AB5F74F00DD5323 /* PGDialogView.m */; };
 		14D7C3E617AD721D00479231 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C168115F26BF20013A382 /* Foundation.framework */; };
 		14D7C3E717AD729000479231 /* PGClientParams.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EE23F62163207DA00C99BA7 /* PGClientParams.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		14DECDA116B56D7300178235 /* PGConverters.h in Headers */ = {isa = PBXBuildFile; fileRef = 14DECD9F16B56D7300178235 /* PGConverters.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -455,8 +459,8 @@
 		1417B7B91AAA1FF200B44DD4 /* PGQueryObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGQueryObject.h; sourceTree = "<group>"; };
 		1417B7BF1AAA219100B44DD4 /* PGQueryObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGQueryObject.m; sourceTree = "<group>"; };
 		141BEBD21AB44485000EFCFC /* PGDialog.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PGDialog.xib; sourceTree = "<group>"; };
-		141BEBD41AB444AE000EFCFC /* PGDialogController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGDialogController.h; sourceTree = "<group>"; };
-		141BEBD51AB444AE000EFCFC /* PGDialogController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGDialogController.m; sourceTree = "<group>"; };
+		141BEBD41AB444AE000EFCFC /* PGDialogWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGDialogWindow.h; sourceTree = "<group>"; };
+		141BEBD51AB444AE000EFCFC /* PGDialogWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGDialogWindow.m; sourceTree = "<group>"; };
 		141BEBD81AB44B28000EFCFC /* PGControlsKit+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PGControlsKit+Private.h"; sourceTree = "<group>"; };
 		1426753117A1B65000956F22 /* make-libpq.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "make-libpq.sh"; sourceTree = "<group>"; };
 		142804561668115600A61BF6 /* make-openssl.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "make-openssl.sh"; sourceTree = "<group>"; };
@@ -535,6 +539,10 @@
 		148F88C7166D61060088D3DF /* ResizeControl.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ResizeControl.png; sourceTree = "<group>"; };
 		149BA19D1A98857C007B86A0 /* PGFoundationServer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGFoundationServer.h; sourceTree = "<group>"; };
 		149BA19E1A98857C007B86A0 /* PGFoundationServer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PGFoundationServer.m; sourceTree = "<group>"; };
+		14A6281D1AB60351003668AB /* PGDialogCreateDatabaseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGDialogCreateDatabaseView.h; sourceTree = "<group>"; };
+		14A6281E1AB60351003668AB /* PGDialogCreateDatabaseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGDialogCreateDatabaseView.m; sourceTree = "<group>"; };
+		14C3A8F31AB5F74F00DD5323 /* PGDialogView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGDialogView.h; sourceTree = "<group>"; };
+		14C3A8F41AB5F74F00DD5323 /* PGDialogView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGDialogView.m; sourceTree = "<group>"; };
 		14CF6E931667488500D2DF78 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		14DECD9F16B56D7300178235 /* PGConverters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGConverters.h; sourceTree = "<group>"; };
 		14DECDA016B56D7300178235 /* PGConverters+Object2Data.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PGConverters+Object2Data.m"; sourceTree = "<group>"; };
@@ -936,8 +944,12 @@
 		141BEBCE1AB4444C000EFCFC /* PGDialogControllers */ = {
 			isa = PBXGroup;
 			children = (
-				141BEBD41AB444AE000EFCFC /* PGDialogController.h */,
-				141BEBD51AB444AE000EFCFC /* PGDialogController.m */,
+				141BEBD41AB444AE000EFCFC /* PGDialogWindow.h */,
+				141BEBD51AB444AE000EFCFC /* PGDialogWindow.m */,
+				14C3A8F31AB5F74F00DD5323 /* PGDialogView.h */,
+				14C3A8F41AB5F74F00DD5323 /* PGDialogView.m */,
+				14A6281D1AB60351003668AB /* PGDialogCreateDatabaseView.h */,
+				14A6281E1AB60351003668AB /* PGDialogCreateDatabaseView.m */,
 				6E24DCBE1AB2D8DE00115F61 /* PGDialogBackgroundView.h */,
 				6E24DCBF1AB2D8DE00115F61 /* PGDialogBackgroundView.m */,
 				141BEBD21AB44485000EFCFC /* PGDialog.xib */,
@@ -1682,9 +1694,11 @@
 				6E60B5B91A628028005B0633 /* PGConnectionWindowController.h in Headers */,
 				6E47EDBE1A6EE96D00352939 /* PGSourceViewHeading.h in Headers */,
 				6E69F6AB1A67AD340014EC1F /* PGSourceViewController.h in Headers */,
+				14C3A8F51AB5F74F00DD5323 /* PGDialogView.h in Headers */,
 				6E5D8BD51A66EE9000C54D42 /* PGConnectionWindowFormatter.h in Headers */,
+				14A6281F1AB60351003668AB /* PGDialogCreateDatabaseView.h in Headers */,
 				6E48CD781A73F3360060B429 /* PGHelpTextView.h in Headers */,
-				141BEBD61AB444AE000EFCFC /* PGDialogController.h in Headers */,
+				141BEBD61AB444AE000EFCFC /* PGDialogWindow.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2248,17 +2262,19 @@
 				6E45A4101A73AB0000E20B36 /* MMGenerator.m in Sources */,
 				6E48CD791A73F3360060B429 /* PGHelpTextView.m in Sources */,
 				6E60B5BA1A628028005B0633 /* PGConnectionWindowController.m in Sources */,
-				141BEBD71AB444AE000EFCFC /* PGDialogController.m in Sources */,
+				141BEBD71AB444AE000EFCFC /* PGDialogWindow.m in Sources */,
 				6E0C81711A619E2E0032AE32 /* PGSplitViewController.m in Sources */,
 				6E45A40D1A73AAEF00E20B36 /* MMMarkdown.m in Sources */,
 				6E45A4121A73AB0000E20B36 /* MMParser.m in Sources */,
 				6E69F6AC1A67AD340014EC1F /* PGSourceViewController.m in Sources */,
 				6E45A4131A73AB0000E20B36 /* MMScanner.m in Sources */,
 				6E45A4141A73AB0000E20B36 /* MMSpanParser.m in Sources */,
+				14C3A8F61AB5F74F00DD5323 /* PGDialogView.m in Sources */,
 				6E69F6B11A67BABF0014EC1F /* PGSourceViewNode.m in Sources */,
 				6E45A40E1A73AAF300E20B36 /* MMDocument.m in Sources */,
 				6E47EDC41A6EEA6800352939 /* PGSourceViewConnection.m in Sources */,
 				6E5D8BD61A66EE9000C54D42 /* PGConnectionWindowFormatter.m in Sources */,
+				14A628201AB60351003668AB /* PGDialogCreateDatabaseView.m in Sources */,
 				6E45A3821A73A28100E20B36 /* PGHelpWindowController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

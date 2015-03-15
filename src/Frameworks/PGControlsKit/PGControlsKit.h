@@ -33,11 +33,19 @@
 
 @class PGDialogController;
 
+@class PGDialogView;
+  @class PGDialogCreateDatabaseView;
+  @class PGDialogCreateRoleView;
+  @class PGDialogCreateSchemaView;
+
+// PGDialog
+#import "PGDialogWindow.h"
+#import "PGDialogView.h"
+#import "PGDialogCreateDatabaseView.h"
 
 // Windows
 #import "PGConnectionWindowController.h"
 #import "PGHelpWindowController.h"
-#import "PGDialogController.h"
 
 // Views
 #import "PGSplitViewController.h"
