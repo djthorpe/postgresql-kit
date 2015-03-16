@@ -131,6 +131,38 @@ then
   exit 0
 fi
 
+##############################################################
+# Check SDK's exist
+
+SDK_AVAILABILITY=`xcodebuild -showsdks | sed -n 's/.*\-sdk \(.*\)/\1/p'`
+
+if [ "${MACOSX_DEPLOYMENT_TARGET}" ]
+then
+	# look for -sdk macosx${MACOSX_DEPLOYMENT_TARGET}
+    if [[ ${SDK_AVAILABILITY} != *"macosx${MACOSX_DEPLOYMENT_TARGET}"* ]]
+	then
+		echo "SDK does not exist: macosx${MACOSX_DEPLOYMENT_TARGET}"
+		exit -1
+	fi
+fi
+
+if [ "${IPHONEOS_DEPLOYMENT_TARGET}" ]
+then
+	# look for -sdk iphoneos${IPHONEOS_DEPLOYMENT_TARGET}
+    if [[ ${SDK_AVAILABILITY} != *"iphoneos${IPHONEOS_DEPLOYMENT_TARGET}"* ]]
+	then
+		echo "SDK does not exist: iphoneos${IPHONEOS_DEPLOYMENT_TARGET}"
+		exit -1
+	fi
+
+	# look for -sdk iphonesimulator${IPHONEOS_DEPLOYMENT_TARGET}
+    if [[ ${SDK_AVAILABILITY} != *"iphonesimulator${IPHONEOS_DEPLOYMENT_TARGET}"* ]]
+	then
+		echo "SDK does not exist: iphonesimulator${IPHONEOS_DEPLOYMENT_TARGET}"
+		exit -1
+	fi
+
+fi
 
 ##############################################################
 # remove existing build directory, unarchive

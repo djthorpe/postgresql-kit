@@ -129,7 +129,38 @@ case ${PLATFORM} in
 	exit -1
 esac
 
+##############################################################
+# Check SDK's exist
 
+SDK_AVAILABILITY=`xcodebuild -showsdks | sed -n 's/.*\-sdk \(.*\)/\1/p'`
+
+if [ "${MACOSX_DEPLOYMENT_TARGET}" ]
+then
+	# look for -sdk macosx${MACOSX_DEPLOYMENT_TARGET}
+    if [[ ${SDK_AVAILABILITY} != *"macosx${MACOSX_DEPLOYMENT_TARGET}"* ]]
+	then
+		echo "SDK does not exist: macosx${MACOSX_DEPLOYMENT_TARGET}"
+		exit -1
+	fi
+fi
+
+if [ "${IPHONEOS_DEPLOYMENT_TARGET}" ]
+then
+	# look for -sdk iphoneos${IPHONEOS_DEPLOYMENT_TARGET}
+    if [[ ${SDK_AVAILABILITY} != *"iphoneos${IPHONEOS_DEPLOYMENT_TARGET}"* ]]
+	then
+		echo "SDK does not exist: iphoneos${IPHONEOS_DEPLOYMENT_TARGET}"
+		exit -1
+	fi
+
+	# look for -sdk iphonesimulator${IPHONEOS_DEPLOYMENT_TARGET}
+    if [[ ${SDK_AVAILABILITY} != *"iphonesimulator${IPHONEOS_DEPLOYMENT_TARGET}"* ]]
+	then
+		echo "SDK does not exist: iphonesimulator${IPHONEOS_DEPLOYMENT_TARGET}"
+		exit -1
+	fi
+
+fi
 
 ##############################################################
 # Check to see if already built, ignore if so
@@ -148,13 +179,13 @@ fi
 # Check for the UNARCHIVE  directories, use TMP if necessary
 if [ "${UNARCHIVE}" == "" ]
 then
-UNARCHIVE="${TMPDIR}/${VERSION}/src"
+	UNARCHIVE="${TMPDIR}/${VERSION}/src"
 fi
 
 if [ ! -d "${UNARCHIVE}" ]
 then
-echo "mkdir ${UNARCHIVE}"
-mkdir -pv "${UNARCHIVE}"
+	echo "mkdir ${UNARCHIVE}"
+	mkdir -pv "${UNARCHIVE}"
 fi
 
 rm -fr "${UNARCHIVE}"
