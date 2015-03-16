@@ -25,11 +25,10 @@
 @implementation PGDialogWindow
 
 ////////////////////////////////////////////////////////////////////////////////
-#pragma constructors
+#pragma mark constructors
 ////////////////////////////////////////////////////////////////////////////////
 
-
--(id)init {
+-(instancetype)init {
 	self = [super init];
 	if(self) {
 		_connection = [PGConnection new];
@@ -67,6 +66,10 @@
 #pragma mark private methods
 ////////////////////////////////////////////////////////////////////////////////
 
+-(void)load {
+	[super loadWindow];
+}
+
 /**
  *  This method sets the subview for the window and sets the constraints
  */
@@ -83,6 +86,24 @@
 	[parentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[subView]|" options:0 metrics:nil views:views]];
 	
 	return YES;
+}
+
+-(IBAction)doButtonPressed:(id)sender {
+	NSParameterAssert([sender isKindOfClass:[NSButton class]]);
+	NSWindow* theWindow = [(NSButton* )sender window];
+	NSWindow* parentWindow = [theWindow sheetParent];
+	
+	if([[(NSButton* )sender title] isEqualToString:@"Cancel"]) {
+		// Cancel
+		[parentWindow endSheet:theWindow returnCode:NSModalResponseCancel];
+	} else if([[(NSButton* )sender title] isEqualToString:@"OK"]) {
+		// OK
+		[parentWindow endSheet:theWindow returnCode:NSModalResponseOK];
+	} else {
+		// Unknown button clicked
+		NSLog(@"Button clicked, ignoring: %@",sender);
+	}
+	
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -108,6 +129,12 @@
 	NSParameterAssert(view);
 	NSParameterAssert(callback);
 
+	// check to ensure NIB is loaded
+	if([self window]==nil) {
+		[self load];
+		NSParameterAssert([self window] != nil);
+	}
+
 	// set window title
 	[[self parameters] setObject:title forKey:@"window_title"];
 	if(description) {
@@ -117,8 +144,8 @@
 	}
 
 	// send message to delegate
-	if([[self delegate] respondsToSelector:@selector(controller:dialogWillOpenWithParameters:)]) {
-		[[self delegate] controller:self dialogWillOpenWithParameters:[self parameters]];
+	if([[self delegate] respondsToSelector:@selector(window:dialogWillOpenWithParameters:)]) {
+		[[self delegate] window:self dialogWillOpenWithParameters:[self parameters]];
 	}
 
 	// set parameters for the view
@@ -132,5 +159,17 @@
 		callback(returnValue);
 	}];
 }
+
+-(void)beginNetworkConnectionSheetForWindow:(NSWindow* )window whenDone:(void(^)(NSModalResponse response,NSURL* url)) callback {
+	NSParameterAssert(window);
+	NSString* title = @"Create Network Connection";
+	NSString* description = @"Enter the details for the connection to the remote PostgreSQL database";
+	PGDialogView* view = [self ibNetworkConnectionView];
+	[self beginCustomSheetWithTitle:title description:description view:view parentWindow:window whenDone:^(NSModalResponse response) {
+		NSDictionary* parameters = [view parameters];
+		callback(response,[NSURL URLWithPostgresqlParams:parameters]);
+	}];
+}
+
 
 @end

@@ -66,7 +66,13 @@
 ////////////////////////////////////////////////////////////////////////////////
 // public properties
 
+/**
+ *  This method initalizes the object by loading the NIB. You should call this
+ *  method before accessing views.
+ */
+-(void)load;
 -(void)beginCustomSheetWithTitle:(NSString* )title description:(NSString* )description view:(PGDialogView* )view parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(NSModalResponse response)) callback;
+-(void)beginNetworkConnectionSheetForWindow:(NSWindow* )window whenDone:(void(^)(NSModalResponse response,NSURL* url)) callback;
 
 @end
 
@@ -75,7 +81,7 @@
 
 @protocol PGDialogDelegate <NSObject>
 @optional
-	-(void)controller:(PGDialogWindow* )controller dialogWillOpenWithParameters:(NSMutableDictionary* )parameters;
+	-(void)window:(PGDialogWindow* )controller dialogWillOpenWithParameters:(NSMutableDictionary* )parameters;
 @end
 
 

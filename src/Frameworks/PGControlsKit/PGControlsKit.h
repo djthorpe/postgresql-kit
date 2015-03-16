@@ -32,17 +32,23 @@
 @class PGConsoleViewController;
 @class PGConsoleViewBuffer;
 
-@class PGDialogController;
-
+// PGDialog forward declarations
+@class PGDialogWindow;
 @class PGDialogView;
   @class PGDialogCreateDatabaseView;
   @class PGDialogCreateRoleView;
   @class PGDialogCreateSchemaView;
+  @class PGDialogNetworkConnectionView;
+  @class PGDialogFileConnectionView;
 
 // PGDialog
 #import "PGDialogWindow.h"
 #import "PGDialogView.h"
 #import "PGDialogCreateDatabaseView.h"
+#import "PGDialogCreateSchemaView.h"
+#import "PGDialogCreateRoleView.h"
+#import "PGDialogNetworkConnectionView.h"
+#import "PGDialogFileConnectionView.h"
 
 // Windows
 #import "PGConnectionWindowController.h"

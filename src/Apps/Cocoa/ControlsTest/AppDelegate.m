@@ -18,10 +18,11 @@
 }
 
 -(void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-	// create connection class
+	// create connection class and dialog window
 	[self setConnection:[PGConnection new]];
 	[self setDialog:[PGDialogWindow new]];
-	
+	[[self dialog] load];
+
 	// set delegates
 	[[self connection] setDelegate:self];
 	[[self dialog] setDelegate:self];
@@ -58,6 +59,11 @@
 }
 
 -(IBAction)doCreateConnectionURL:(id)sender {
+	PGDialogView* view = [[self dialog] ibNetworkConnectionView];
+	NSLog(@"view=%@",view);
+	[[self dialog] beginCustomSheetWithTitle:@"Create Network Connection" description:nil view:view parentWindow:[self window] whenDone:^(NSModalResponse response) {
+		NSLog(@"DONE");
+	}];
 /*
 	[[self dialog] beginConnectionSheetWithURL:[self url] parentWindow:[self window] whenDone:^(NSURL *url) {
 		if(url) {
@@ -112,7 +118,7 @@
 	[[self connection] disconnect];
 }
 
--(void)controller:(PGDialogController *)controller dialogWillOpenWithParameters:(NSMutableDictionary *)parameters {
+-(void)window:(PGDialogWindow* )controller dialogWillOpenWithParameters:(NSMutableDictionary *)parameters {
 	NSLog(@"dialog:willopenwithparameters:%@",parameters);
 }
 

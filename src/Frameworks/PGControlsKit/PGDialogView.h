@@ -12,12 +12,17 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-@interface PGDialogView : NSObject
+@interface PGDialogView : NSObject {
+	NSMutableDictionary* _parameters;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // properties
 
 @property (weak,nonatomic) IBOutlet NSView* view;
+@property (weak,nonatomic) id<PGDialogDelegate> delegate;
+@property (readonly) NSDictionary* parameters;
+@property BOOL isValid;
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
