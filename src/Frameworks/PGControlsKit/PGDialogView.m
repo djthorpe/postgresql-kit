@@ -45,12 +45,40 @@
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-#pragma mark pubic methods
+#pragma mark private methods
+////////////////////////////////////////////////////////////////////////////////
+
+
+-(void)_registerAsObserverForParameters:(NSArray* )parameters {
+	NSParameterAssert(parameters);
+	for(NSString* name in parameters) {
+		NSString* keyPath = [NSString stringWithFormat:@"parameters.%@",name];
+		[super addObserver:self forKeyPath:keyPath options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:NULL];
+	}
+}
+
+-(void)_deregisterAsObserverForParameters:(NSArray* )parameters {
+	NSParameterAssert(parameters);
+	for(NSString* name in parameters) {
+		NSString* keyPath = [NSString stringWithFormat:@"parameters.%@",name];
+		[super removeObserver:self forKeyPath:keyPath];
+	}
+}
+
+-(void)observeValueForKeyPath:(NSString* )keyPath ofObject:(id)object change:(NSDictionary* )change context:(void* )context {
+	NSLog(@"value changed = %@",keyPath);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark public methods
 ////////////////////////////////////////////////////////////////////////////////
 
 -(void)setViewParameters:(NSDictionary* )parameters {
 	NSParameterAssert(parameters);
 	NSLog(@"setViewParameters: %@",parameters);
+	[_parameters removeAllObjects];
+	[_parameters setValuesForKeysWithDictionary:parameters];
 }
+
 
 @end

@@ -59,14 +59,8 @@
 }
 
 -(IBAction)doCreateConnectionURL:(id)sender {
-	PGDialogView* view = [[self dialog] ibNetworkConnectionView];
-	NSLog(@"view=%@",view);
-	[[self dialog] beginCustomSheetWithTitle:@"Create Network Connection" description:nil view:view parentWindow:[self window] whenDone:^(NSModalResponse response) {
-		NSLog(@"DONE");
-	}];
-/*
-	[[self dialog] beginConnectionSheetWithURL:[self url] parentWindow:[self window] whenDone:^(NSURL *url) {
-		if(url) {
+	[[self dialog] beginNetworkConnectionSheetWithURL:[self url] parentWindow:[self window] whenDone:^(NSURL *url, NSModalResponse response) {
+		if(response==NSModalResponseOK && url) {
 			// set the URL
 			[super willChangeValueForKey:@"urlstring"];
 			[self setUrl:url];
@@ -77,7 +71,6 @@
 			[[NSUserDefaults standardUserDefaults] synchronize];
 		}
 	}];
-*/
 }
 
 -(IBAction)doCreateRoleWindow:(id)sender {

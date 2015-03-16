@@ -71,8 +71,31 @@
  *  method before accessing views.
  */
 -(void)load;
+
+/**
+ *  This method displays a sheet attatched to a parent window, where the title,
+ *  description and PGDialogView objects are provided to style the sheet. When
+ *  an action button is pressed (either OK or cancel) the sheet is dismissed
+ *  and the callback called.
+ *
+ *  @param title        The title for the sheet
+ *  @param description  An optional description for the sheet
+ *  @param view         The PGDialogView view controller for the sheet contents
+ *  @param parentWindow The NSWindow on which the sheet appears modally
+ *  @param callback
+ */
 -(void)beginCustomSheetWithTitle:(NSString* )title description:(NSString* )description view:(PGDialogView* )view parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(NSModalResponse response)) callback;
--(void)beginNetworkConnectionSheetForWindow:(NSWindow* )window whenDone:(void(^)(NSModalResponse response,NSURL* url)) callback;
+
+/**
+ *  This method displays a "Network Connection" sheet above a window, in order to
+ *  enter the details for a PostgreSQL network connection.
+ *
+ *  @param url          The URL which is used to "fill all the details in" for the
+ *                      sheet
+ *  @param parentWindow The NSWindow on which the sheet appears modally
+ *  @param callback     The callback which is called once the sheet is dismissed
+ */
+-(void)beginNetworkConnectionSheetWithURL:(NSURL* )url parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(NSURL* url,NSModalResponse response)) callback;
 
 @end
 
@@ -82,6 +105,7 @@
 @protocol PGDialogDelegate <NSObject>
 @optional
 	-(void)window:(PGDialogWindow* )controller dialogWillOpenWithParameters:(NSMutableDictionary* )parameters;
+	-(void)window:(PGDialogWindow* )controller modalResponseForSender:(id)sender;
 @end
 
 

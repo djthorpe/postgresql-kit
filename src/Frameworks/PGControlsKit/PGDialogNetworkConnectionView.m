@@ -17,4 +17,8 @@
 
 @implementation PGDialogNetworkConnectionView
 
+-(void)setViewParameters:(NSDictionary* )parameters {
+	[super setViewParameters:parameters];
+}
+
 @end

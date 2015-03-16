@@ -388,7 +388,7 @@
                     <font key="titleFont" metaFont="system"/>
                 </box>
                 <box verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="jhK-9T-TAp">
-                    <rect key="frame" x="12" y="104" width="426" height="4"/>
+                    <rect key="frame" x="12" y="104" width="426" height="5"/>
                     <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                     <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <font key="titleFont" metaFont="system"/>
@@ -463,6 +463,13 @@
                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
+                    <connections>
+                        <binding destination="rJg-gq-48y" name="value" keyPath="parameters.user" id="T7i-yc-jfi">
+                            <dictionary key="options">
+                                <bool key="NSValidatesImmediately" value="YES"/>
+                            </dictionary>
+                        </binding>
+                    </connections>
                 </textField>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Bsy-DB-9uU">
                     <rect key="frame" x="18" y="244" width="128" height="17"/>
@@ -479,6 +486,9 @@
                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
+                    <connections>
+                        <binding destination="rJg-gq-48y" name="value" keyPath="parameters.dbname" id="21j-LF-LVr"/>
+                    </connections>
                 </textField>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="330-WL-Td8">
                     <rect key="frame" x="18" y="214" width="128" height="17"/>
@@ -495,6 +505,9 @@
                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
+                    <connections>
+                        <binding destination="rJg-gq-48y" name="value" keyPath="parameters.host" id="WcV-Qs-eAy"/>
+                    </connections>
                 </textField>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3Cy-UE-Lqc">
                     <rect key="frame" x="18" y="184" width="128" height="17"/>
@@ -511,6 +524,9 @@
                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
+                    <connections>
+                        <binding destination="rJg-gq-48y" name="value" keyPath="parameters.port" id="Vbc-j2-lNE"/>
+                    </connections>
                 </textField>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JrL-gf-9tS">
                     <rect key="frame" x="18" y="154" width="128" height="17"/>
@@ -527,22 +543,25 @@
                         <font key="font" metaFont="system"/>
                     </buttonCell>
                 </button>
-                <button translatesAutoresizingMaskIntoConstraints="NO" id="J40-h5-iyT">
+                <button misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="J40-h5-iyT">
                     <rect key="frame" x="312" y="121" width="99" height="18"/>
                     <buttonCell key="cell" type="check" title="Require SSL" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Qnd-St-Xt1">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
                 </button>
-                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="uZX-8h-ORR">
+                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uZX-8h-ORR">
                     <rect key="frame" x="152" y="23" width="280" height="69"/>
                     <textFieldCell key="cell" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="IBm-0D-hGX">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
+                    <connections>
+                        <binding destination="rJg-gq-48y" name="value" keyPath="parameters.comment" id="q1X-s6-Bvr"/>
+                    </connections>
                 </textField>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="o8i-gJ-hiP">
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="o8i-gJ-hiP">
                     <rect key="frame" x="31" y="75" width="115" height="17"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Comment" id="vNs-rr-dJD">
                         <font key="font" metaFont="system"/>
@@ -550,7 +569,7 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="cjM-c8-tKZ">
+                <box verticalHuggingPriority="750" misplaced="YES" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="cjM-c8-tKZ">
                     <rect key="frame" x="20" y="105" width="412" height="5"/>
                     <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                     <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -571,7 +590,6 @@
                 <constraint firstItem="zE1-kZ-5jd" firstAttribute="centerY" secondItem="x6E-tT-tIa" secondAttribute="centerY" id="IQD-B9-NvM"/>
                 <constraint firstItem="cjM-c8-tKZ" firstAttribute="trailing" secondItem="uZX-8h-ORR" secondAttribute="trailing" id="IYG-sp-glc"/>
                 <constraint firstItem="x6E-tT-tIa" firstAttribute="baseline" secondItem="JrL-gf-9tS" secondAttribute="baseline" id="LTJ-ld-aZv"/>
-                <constraint firstAttribute="bottom" secondItem="o8i-gJ-hiP" secondAttribute="bottom" constant="75" id="O49-qi-y9J"/>
                 <constraint firstItem="J2m-iP-Dd6" firstAttribute="trailing" secondItem="quw-Ex-OwE" secondAttribute="trailing" id="OcG-Z8-pfr"/>
                 <constraint firstItem="3Cy-UE-Lqc" firstAttribute="leading" secondItem="330-WL-Td8" secondAttribute="leading" id="P37-zs-5Z3"/>
                 <constraint firstItem="Bsy-DB-9uU" firstAttribute="centerY" secondItem="6bt-Sb-SB2" secondAttribute="centerY" id="PeF-eX-k4Z"/>
@@ -722,7 +740,7 @@ DQ
                             <action selector="doButtonPressed:" target="-2" id="m7b-1F-caR"/>
                         </connections>
                     </button>
-                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="BwP-QG-Yqr">
+                    <button verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BwP-QG-Yqr">
                         <rect key="frame" x="14" y="13" width="83" height="32"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="71" id="spU-Eu-F2C"/>
@@ -738,17 +756,10 @@ Gw
                             <action selector="doButtonPressed:" target="-2" id="l8s-kg-x81"/>
                         </connections>
                     </button>
-                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="9ZS-Ku-1RU" customClass="PGDialogBackgroundView">
+                    <customView ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9ZS-Ku-1RU" customClass="PGDialogBackgroundView">
                         <rect key="frame" x="0.0" y="61" width="480" height="275"/>
                     </customView>
-                    <imageView translatesAutoresizingMaskIntoConstraints="NO" id="Cbd-iF-dVw">
-                        <rect key="frame" x="20" y="344" width="72" height="72"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="72" id="Rhx-8c-hup"/>
-                        </constraints>
-                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="elephant-72" id="ZIJ-ef-MtV"/>
-                    </imageView>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nur-xs-8CS">
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nur-xs-8CS">
                         <rect key="frame" x="100" y="392" width="362" height="17"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Create New Database Role" id="i9H-1K-zbN">
                             <font key="font" metaFont="systemBold"/>
@@ -759,7 +770,7 @@ Gw
                             <binding destination="-2" name="value" keyPath="parameters.window_title" id="4Oe-XS-aWZ"/>
                         </connections>
                     </textField>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="CGq-mC-qLl">
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CGq-mC-qLl">
                         <rect key="frame" x="102" y="360" width="360" height="17"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="17" id="Qd9-DO-s7X"/>
@@ -773,13 +784,13 @@ Gw
                             <binding destination="-2" name="value" keyPath="parameters.window_description" id="fBX-jD-UIc"/>
                         </connections>
                     </textField>
-                    <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="lTb-Y5-BQK">
+                    <box verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="lTb-Y5-BQK">
                         <rect key="frame" x="102" y="381" width="358" height="5"/>
                         <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                         <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <font key="titleFont" metaFont="system"/>
                     </box>
-                    <button horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="0mi-EA-IlU">
+                    <button horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0mi-EA-IlU">
                         <rect key="frame" x="437" y="392" width="25" height="25"/>
                         <buttonCell key="cell" type="help" bezelStyle="helpButton" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="8tE-fn-KVg">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -795,19 +806,13 @@ Gw
                     <constraint firstItem="BwP-QG-Yqr" firstAttribute="top" secondItem="9ZS-Ku-1RU" secondAttribute="bottom" constant="20" symbolic="YES" id="7Hg-V4-AG1"/>
                     <constraint firstItem="lTb-Y5-BQK" firstAttribute="top" secondItem="nur-xs-8CS" secondAttribute="bottom" constant="8" symbolic="YES" id="DWM-oW-dPn"/>
                     <constraint firstItem="lTb-Y5-BQK" firstAttribute="trailing" secondItem="nur-xs-8CS" secondAttribute="trailing" id="I8F-Jx-4yH"/>
-                    <constraint firstItem="9ZS-Ku-1RU" firstAttribute="top" secondItem="Cbd-iF-dVw" secondAttribute="bottom" constant="8" symbolic="YES" id="NIT-SS-8f3"/>
                     <constraint firstAttribute="bottom" secondItem="BwP-QG-Yqr" secondAttribute="bottom" constant="20" symbolic="YES" id="P5w-PX-W1o"/>
-                    <constraint firstItem="Cbd-iF-dVw" firstAttribute="top" secondItem="CTa-hk-8YJ" secondAttribute="top" constant="20" symbolic="YES" id="RnM-ba-2Z1"/>
                     <constraint firstItem="CGq-mC-qLl" firstAttribute="trailing" secondItem="lTb-Y5-BQK" secondAttribute="trailing" id="WfP-Oq-wsa"/>
-                    <constraint firstItem="BwP-QG-Yqr" firstAttribute="leading" secondItem="Cbd-iF-dVw" secondAttribute="leading" id="XrD-1A-6pJ"/>
-                    <constraint firstItem="Cbd-iF-dVw" firstAttribute="leading" secondItem="CTa-hk-8YJ" secondAttribute="leading" constant="20" symbolic="YES" id="ZXh-12-PuO"/>
+                    <constraint firstItem="9ZS-Ku-1RU" firstAttribute="top" secondItem="CGq-mC-qLl" secondAttribute="bottom" constant="24" id="aOc-ce-I1z"/>
                     <constraint firstItem="lTb-Y5-BQK" firstAttribute="top" secondItem="0mi-EA-IlU" secondAttribute="bottom" constant="11" id="ecb-pT-Zoi"/>
                     <constraint firstItem="lTb-Y5-BQK" firstAttribute="leading" secondItem="nur-xs-8CS" secondAttribute="leading" id="fKF-ss-cB2"/>
                     <constraint firstAttribute="trailing" secondItem="9ZS-Ku-1RU" secondAttribute="trailing" id="n8Q-TX-TfQ"/>
-                    <constraint firstItem="nur-xs-8CS" firstAttribute="leading" secondItem="Cbd-iF-dVw" secondAttribute="trailing" constant="10" id="tFF-93-Qfs"/>
                     <constraint firstItem="BwP-QG-Yqr" firstAttribute="baseline" secondItem="Th2-KB-PPl" secondAttribute="baseline" id="tYt-06-WpF"/>
-                    <constraint firstItem="CGq-mC-qLl" firstAttribute="leading" secondItem="Cbd-iF-dVw" secondAttribute="trailing" constant="12" id="yV3-LF-2LF"/>
-                    <constraint firstItem="0mi-EA-IlU" firstAttribute="top" secondItem="Cbd-iF-dVw" secondAttribute="top" id="z8T-nj-eQt"/>
                     <constraint firstItem="9ZS-Ku-1RU" firstAttribute="leading" secondItem="CTa-hk-8YJ" secondAttribute="leading" id="zrD-UG-uZ1"/>
                 </constraints>
             </view>
@@ -835,7 +840,4 @@ Gw
         </customObject>
         <customObject id="Sin-Yg-pjt" userLabel="PGDialogFileConnectionView" customClass="PGDialogFileConnectionView"/>
     </objects>
-    <resources>
-        <image name="elephant-72" width="72" height="72"/>
-    </resources>
 </document>

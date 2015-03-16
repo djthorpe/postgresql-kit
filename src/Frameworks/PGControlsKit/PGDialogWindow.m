@@ -114,7 +114,11 @@
 	NSParameterAssert([sender isKindOfClass:[NSButton class]]);
 	NSWindow* theWindow = [(NSButton* )sender window];
 	NSWindow* parentWindow = [theWindow sheetParent];
+	
+	// get NSModalResponse value from delegate
 	NSModalResponse returnValue = NSModalResponseOK;
+
+	// TODO: Alter modal response
 	
 	[parentWindow endSheet:theWindow returnCode:returnValue];
 }
@@ -160,16 +164,25 @@
 	}];
 }
 
--(void)beginNetworkConnectionSheetForWindow:(NSWindow* )window whenDone:(void(^)(NSModalResponse response,NSURL* url)) callback {
-	NSParameterAssert(window);
+-(void)beginNetworkConnectionSheetWithURL:(NSURL* )url parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(NSURL* url,NSModalResponse response)) callback {
+	NSParameterAssert(parentWindow);
 	NSString* title = @"Create Network Connection";
 	NSString* description = @"Enter the details for the connection to the remote PostgreSQL database";
 	PGDialogView* view = [self ibNetworkConnectionView];
-	[self beginCustomSheetWithTitle:title description:description view:view parentWindow:window whenDone:^(NSModalResponse response) {
+	NSParameterAssert(view);
+
+	// set the parameters from the URL
+	[[self parameters] removeAllObjects];
+	if(url==nil) {
+		url = [[self class] defaultNetworkURL];
+	}
+	[[self parameters] setValuesForKeysWithDictionary:[url postgresqlParameters]];
+	NSLog(@"params = %@",[self parameters]);
+	
+	[self beginCustomSheetWithTitle:title description:description view:view parentWindow:parentWindow whenDone:^(NSModalResponse response) {
 		NSDictionary* parameters = [view parameters];
-		callback(response,[NSURL URLWithPostgresqlParams:parameters]);
+		callback([NSURL URLWithPostgresqlParams:parameters],response);
 	}];
 }
-
 
 @end
