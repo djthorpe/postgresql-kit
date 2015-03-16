@@ -74,6 +74,12 @@
 // methods
 
 -(BOOL)setup {
+	// check for help
+	if([[self settings] boolForKey:@"help"]) {
+		printf("Syntax: PGFoundationServer --hostname (*|localhost) --port (port)\n");
+		return NO;
+	}
+
 	// get hostname and port
 	NSString* hostname = [[self settings] objectForKey:@"hostname"];
 	NSInteger port = [[self settings] integerForKey:@"port"];
@@ -105,11 +111,12 @@
 
 -(void)registerCommandLineOptionsWithParser:(GBCommandLineParser* )parser {
 	[super registerCommandLineOptionsWithParser:parser];
+	
 	// add a --hostname and --port options
 	[parser registerOption:@"hostname" shortcut:"h" requirement:GBValueOptional];
 	[parser registerOption:@"port" shortcut:"p" requirement:GBValueOptional];
+	[parser registerOption:@"help" shortcut:"?" requirement:GBValueNone];
 }
-
 
 @end
 
@@ -119,7 +126,14 @@
 int main (int argc, const char* argv[]) {
 	int returnValue = 0;
 	@autoreleasepool {
-		returnValue = [(PGFoundationApp* )[PGFoundationServer sharedApp] run];
+		PGFoundationApp* app = (PGFoundationApp* )[PGFoundationServer sharedApp];
+		NSError* error = nil;
+		if([app parseOptionsWithArguments:argv count:argc error:&error]==NO) {
+			returnValue = -1;
+		} else {
+			returnValue = [app run];
+		}
 	}
     return returnValue;
 }
+
