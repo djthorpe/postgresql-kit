@@ -2519,7 +2519,6 @@
 		1428045A166811D700A61BF6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 				PRODUCT_NAME = openssl_mac;
 			};
 			name = Debug;
@@ -2527,7 +2526,6 @@
 		1428045B166811D700A61BF6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 				PRODUCT_NAME = openssl_mac;
 			};
 			name = Release;
@@ -2809,9 +2807,8 @@
 		6E256FE315F252620079AD2D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx10.9;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = Debug;
 		};
@@ -2819,14 +2816,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				SDKROOT = macosx10.9;
-				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
 		6E256FF015F255780079AD2D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -2834,7 +2829,6 @@
 		6E256FF115F255780079AD2D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
