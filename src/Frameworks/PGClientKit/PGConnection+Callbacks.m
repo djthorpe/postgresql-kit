@@ -15,7 +15,7 @@
 #import <PGClientKit/PGClientKit.h>
 #import <PGClientKit/PGClientKit+Private.h>
 
-#define DEBUG2
+//#define DEBUG2
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark C callback functions
@@ -251,9 +251,7 @@ void _noticeProcessor(void* arg,const char* cString) {
 -(void)_socketCallbackQueryWrite {
 	NSParameterAssert(_connection);
 	// flush
-	NSLog(@"=>PQflush");
 	int returnCode = PQflush(_connection);
-	NSLog(@"<=PQflush");
 	if(returnCode==-1) {
 		// callback with error
 		NSParameterAssert(_callback);
@@ -269,7 +267,7 @@ void _noticeProcessor(void* arg,const char* cString) {
  *  or notification socket callback
  */
 -(void)_socketCallback:(CFSocketCallBackType)callBackType {
-#ifdef DEBUG2
+#if defined DEBUG && defined DEBUG2
 	switch(callBackType) {
 		case kCFSocketReadCallBack:
 			NSLog(@"kCFSocketReadCallBack");
