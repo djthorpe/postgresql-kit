@@ -14,7 +14,8 @@ ${BIN} \
 	src/Frameworks/PGClientKit/PGClientKit_ios.plist \
 	src/Frameworks/PGClientKit/PGClientKit_mac.plist \
 	src/Frameworks/PGControlsKit/PGControlsKit.plist \
-	src/Frameworks/PGSchemaKit/PGSchemaKit.plist \
+	src/Frameworks/PGDataKit/PGDataKit_mac.plist \
 	src/Apps/Cocoa/PGClient/Info.plist
+
 
 
