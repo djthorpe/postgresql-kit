@@ -2654,6 +2654,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = src/Frameworks/PGControlsKit/PGControlsKit.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = "";
 				PRODUCT_NAME = PGControlsKit;
 				WRAPPER_EXTENSION = framework;
 			};
@@ -2684,6 +2685,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = src/Frameworks/PGControlsKit/PGControlsKit.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = "";
 				PRODUCT_NAME = PGControlsKit;
 				WRAPPER_EXTENSION = framework;
 			};
@@ -2737,7 +2739,6 @@
 				);
 				INFOPLIST_FILE = src/Frameworks/PGClientKit/PGClientKit_ios.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRELINK_LIBS = "${BUILT_PRODUCTS_DIR}/openssl-current/lib/libcrypto.a ${BUILT_PRODUCTS_DIR}/openssl-current/lib/libssl.a ${BUILT_PRODUCTS_DIR}/libpq-current/lib/libpq.a";
@@ -2792,7 +2793,6 @@
 				);
 				INFOPLIST_FILE = src/Frameworks/PGClientKit/PGClientKit_ios.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRELINK_LIBS = "${BUILT_PRODUCTS_DIR}/openssl-current/lib/libcrypto.a ${BUILT_PRODUCTS_DIR}/openssl-current/lib/libssl.a ${BUILT_PRODUCTS_DIR}/libpq-current/lib/libpq.a";
@@ -2809,7 +2809,6 @@
 		6E256FE315F252620079AD2D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx10.9;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2819,7 +2818,6 @@
 		6E256FE415F252620079AD2D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				SDKROOT = macosx10.9;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -3002,8 +3000,6 @@
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)-ios";
 				CONFIGURATION_TEMP_DIR = "$(PROJECT_TEMP_DIR)/$(CONFIGURATION)";
 				PRODUCT_NAME = openssl_ios;
-				SDKROOT = iphoneos;
-				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 			};
 			name = Debug;
 		};
@@ -3013,8 +3009,6 @@
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)-ios";
 				CONFIGURATION_TEMP_DIR = "$(PROJECT_TEMP_DIR)/$(CONFIGURATION)";
 				PRODUCT_NAME = openssl_ios;
-				SDKROOT = iphoneos;
-				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 			};
 			name = Release;
 		};
@@ -3202,7 +3196,6 @@
 				);
 				INFOPLIST_FILE = src/Frameworks/PGServerKit/PGServerKit.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_NAME = PGServerKit;
 				WRAPPER_EXTENSION = framework;
 			};
@@ -3234,7 +3227,6 @@
 				);
 				INFOPLIST_FILE = src/Frameworks/PGServerKit/PGServerKit.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_NAME = PGServerKit;
 				WRAPPER_EXTENSION = framework;
 			};
