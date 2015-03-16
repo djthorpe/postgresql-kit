@@ -14,7 +14,7 @@ xcodebuild -project ${PROJECT} -target "postgresql_mac" -configuration ${CONFIGU
 xcodebuild -project ${PROJECT} -target "PGClientKit_mac" -configuration ${CONFIGURATION} || exit -1
 xcodebuild -project ${PROJECT} -target "PGServerKit_mac" -configuration ${CONFIGURATION} || exit -1
 xcodebuild -project ${PROJECT} -target "PGControlsKit_mac" -configuration ${CONFIGURATION} || exit -1
-xcodebuild -project ${PROJECT} -target "PGDataKit_mac" -configuration ${CONFIGURATION} || exit -1
+#xcodebuild -project ${PROJECT} -target "PGDataKit_mac" -configuration ${CONFIGURATION} || exit -1
 
 # Build iOS Frameworks
 xcodebuild -project ${PROJECT} -target "openssl_ios" -configuration ${CONFIGURATION} || exit -1

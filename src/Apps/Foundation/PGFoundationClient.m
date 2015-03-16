@@ -239,7 +239,7 @@
 			[[self term] printf:@"createrole: not enough arguments"];
 			return;
 		}
-		PGQuery* query = [PGQueryCreate createRole:roleName options:0];
+		PGQuery* query = [PGQueryRole create:roleName options:0];
 		NSParameterAssert(query);
 		[[self db] executeQuery:query whenDone:^(PGResult* result, NSError* error) {
 			if(result) {
@@ -260,7 +260,7 @@
 			[[self term] printf:@"droprole: not enough arguments"];
 			return;
 		}
-		PGQuery* query = [PGQueryCreate dropRole:roleName options:0];
+		PGQuery* query = [PGQueryRole drop:roleName options:0];
 		NSParameterAssert(query);
 		[[self db] executeQuery:query whenDone:^(PGResult* result, NSError* error) {
 			if(result) {
@@ -281,7 +281,7 @@
 			[[self term] printf:@"createdb: not enough arguments"];
 			return;
 		}
-		PGQuery* query = [PGQueryCreate createDatabase:databaseName options:0];
+		PGQuery* query = [PGQueryDatabase create:databaseName options:0];
 		NSParameterAssert(query);
 		[[self db] executeQuery:query whenDone:^(PGResult* result, NSError* error) {
 			if(result) {
@@ -302,7 +302,7 @@
 			[[self term] printf:@"dropdb: not enough arguments"];
 			return;
 		}
-		PGQuery* query = [PGQueryCreate dropDatabase:databaseName options:0];
+		PGQuery* query = [PGQueryDatabase drop:databaseName options:0];
 		NSParameterAssert(query);
 		[[self db] executeQuery:query whenDone:^(PGResult* result, NSError* error) {
 			if(result) {
@@ -323,7 +323,7 @@
 			[[self term] printf:@"createschema: not enough arguments"];
 			return;
 		}
-		PGQuery* query = [PGQueryCreate createSchema:schemaName options:0];
+		PGQuery* query = [PGQuerySchema create:schemaName options:0];
 		NSParameterAssert(query);
 		[[self db] executeQuery:query whenDone:^(PGResult* result, NSError* error) {
 			if(result) {
@@ -344,7 +344,7 @@
 			[[self term] printf:@"dropschema: not enough arguments"];
 			return;
 		}
-		PGQuery* query = [PGQueryCreate dropSchema:schemaName options:0];
+		PGQuery* query = [PGQuerySchema drop:schemaName options:0];
 		NSParameterAssert(query);
 		[[self db] executeQuery:query whenDone:^(PGResult* result, NSError* error) {
 			if(result) {
@@ -358,7 +358,7 @@
 	}
 
 	if([command isEqualToString:@"listschemas"]) {
-		PGQuery* query = [PGQueryInfo schemas];
+		PGQuery* query = [PGQuerySchema listWithOptions:0];
 		NSParameterAssert(query);
 		[[self db] executeQuery:query whenDone:^(PGResult* result, NSError* error) {
 			if(result) {
@@ -372,7 +372,7 @@
 	}
 
 	if([command isEqualToString:@"listroles"]) {
-		PGQuery* query = [PGQueryInfo roles];
+		PGQuery* query = [PGQueryRole listWithOptions:0];
 		NSParameterAssert(query);
 		[[self db] executeQuery:query whenDone:^(PGResult* result, NSError* error) {
 			if(result) {

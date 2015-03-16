@@ -13,6 +13,7 @@
 // under the License.
 
 #import <Cocoa/Cocoa.h>
+#import <PGClientKit/PGClientKit.h>
 
 // Forward class delarations
 @class PGSplitViewController;

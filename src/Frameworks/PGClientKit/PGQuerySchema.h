@@ -71,8 +71,7 @@
  *
  *  @return Returns the PGQuerySchema object, or nil if the query could not be created.
  */
-// TODO: Implement
-// +(PGQuerySchema* )listWithOptions:(NSUInteger)options;
++(PGQuerySchema* )listWithOptions:(NSUInteger)options;
 
 /**
  *  Create a query to return the list of objects for a particular schema

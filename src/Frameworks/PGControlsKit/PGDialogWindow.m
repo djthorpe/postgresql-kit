@@ -71,7 +71,8 @@
  *  This method sets the subview for the window and sets the constraints
  */
 -(BOOL)setView:(NSView* )subView parentView:(NSView* )parentView {
-	NSParameterAssert(subView && parentView);
+	NSParameterAssert(subView);
+	NSParameterAssert(parentView);
 
 	[parentView setSubviews:@[ subView ]];
 	[subView setTranslatesAutoresizingMaskIntoConstraints:NO];
@@ -101,7 +102,7 @@
 #pragma mark public methods
 ////////////////////////////////////////////////////////////////////////////////
 
--(void)beginCustomSheetWithTitle:(NSString* )title description:(NSString* )description view:(NSView* )view parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(NSModalResponse response)) callback {
+-(void)beginCustomSheetWithTitle:(NSString* )title description:(NSString* )description view:(PGDialogView* )view parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(NSModalResponse response)) callback {
 	NSParameterAssert(title);
 	NSParameterAssert(parentWindow);
 	NSParameterAssert(view);
@@ -115,15 +116,16 @@
 		[[self parameters] removeObjectForKey:@"window_description"];
 	}
 
-	// TODO: set parameters
-
 	// send message to delegate
 	if([[self delegate] respondsToSelector:@selector(controller:dialogWillOpenWithParameters:)]) {
 		[[self delegate] controller:self dialogWillOpenWithParameters:[self parameters]];
 	}
+
+	// set parameters for the view
+	[view setViewParameters:[self parameters]];
 	
 	// set view and add constraints
-	[self setView:view parentView:[self ibBackgroundView]];
+	[self setView:[view view] parentView:[self ibBackgroundView]];
 
 	// start sheet
 	[parentWindow beginSheet:[self window] completionHandler:^(NSModalResponse returnValue) {

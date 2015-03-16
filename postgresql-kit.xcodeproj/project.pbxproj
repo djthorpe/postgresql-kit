@@ -90,6 +90,10 @@
 		149BA1A51AA6FB58007B86A0 /* PGQuerySelect.h in Headers */ = {isa = PBXBuildFile; fileRef = 1482A9061AA5F4530000BA25 /* PGQuerySelect.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		14A6281F1AB60351003668AB /* PGDialogCreateDatabaseView.h in Headers */ = {isa = PBXBuildFile; fileRef = 14A6281D1AB60351003668AB /* PGDialogCreateDatabaseView.h */; };
 		14A628201AB60351003668AB /* PGDialogCreateDatabaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14A6281E1AB60351003668AB /* PGDialogCreateDatabaseView.m */; };
+		14C245DF1AB6C766005ED153 /* GBSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 14FD07131AA70C0E0013557E /* GBSettings.m */; };
+		14C245E31AB6C76A005ED153 /* GBPrint.m in Sources */ = {isa = PBXBuildFile; fileRef = 14FD07111AA70C0E0013557E /* GBPrint.m */; };
+		14C245E41AB6C76D005ED153 /* GBOptionsHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 14FD070F1AA70C0E0013557E /* GBOptionsHelper.m */; };
+		14C245E51AB6C770005ED153 /* GBCommandLineParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 14FD070D1AA70C0E0013557E /* GBCommandLineParser.m */; };
 		14C3A8F51AB5F74F00DD5323 /* PGDialogView.h in Headers */ = {isa = PBXBuildFile; fileRef = 14C3A8F31AB5F74F00DD5323 /* PGDialogView.h */; };
 		14C3A8F61AB5F74F00DD5323 /* PGDialogView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14C3A8F41AB5F74F00DD5323 /* PGDialogView.m */; };
 		14D7C3E617AD721D00479231 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C168115F26BF20013A382 /* Foundation.framework */; };
@@ -2369,7 +2373,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				6EFFF2341A5F04C500CAA6E7 /* PGFoundationServer.m in Sources */,
+				14C245E51AB6C770005ED153 /* GBCommandLineParser.m in Sources */,
+				14C245DF1AB6C766005ED153 /* GBSettings.m in Sources */,
+				14C245E31AB6C76A005ED153 /* GBPrint.m in Sources */,
 				6EFFF2351A5F04C800CAA6E7 /* PGFoundationApp.m in Sources */,
+				14C245E41AB6C76D005ED153 /* GBOptionsHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2512,7 +2520,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				PRODUCT_NAME = openssl_mac;
 			};
 			name = Debug;
@@ -2521,7 +2528,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				PRODUCT_NAME = openssl_mac;
 			};
 			name = Release;
@@ -2700,7 +2706,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: David Thorpe (J3B7M5TZ99)";
+				CODE_SIGN_IDENTITY = "";
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)-ios";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
@@ -2737,10 +2743,8 @@
 				PRELINK_LIBS = "${BUILT_PRODUCTS_DIR}/openssl-current/lib/libcrypto.a ${BUILT_PRODUCTS_DIR}/openssl-current/lib/libssl.a ${BUILT_PRODUCTS_DIR}/libpq-current/lib/libpq.a";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -2763,7 +2767,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: David Thorpe (J3B7M5TZ99)";
+				CODE_SIGN_IDENTITY = "";
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)-ios";
 				COPY_PHASE_STRIP = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -2794,11 +2798,9 @@
 				PRELINK_LIBS = "${BUILT_PRODUCTS_DIR}/openssl-current/lib/libcrypto.a ${BUILT_PRODUCTS_DIR}/openssl-current/lib/libssl.a ${BUILT_PRODUCTS_DIR}/libpq-current/lib/libpq.a";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
-				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -2997,58 +2999,40 @@
 		6E83260D17AD15C9002AFCBC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COMBINE_HIDPI_IMAGES = YES;
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)-ios";
 				CONFIGURATION_TEMP_DIR = "$(PROJECT_TEMP_DIR)/$(CONFIGURATION)";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
-				MACH_O_TYPE = mh_execute;
-				PRODUCT_NAME = "openssl - iOS";
+				PRODUCT_NAME = openssl_ios;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
-				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
 		6E83260E17AD15C9002AFCBC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COMBINE_HIDPI_IMAGES = YES;
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)-ios";
 				CONFIGURATION_TEMP_DIR = "$(PROJECT_TEMP_DIR)/$(CONFIGURATION)";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
-				MACH_O_TYPE = mh_execute;
-				PRODUCT_NAME = "openssl - iOS";
+				PRODUCT_NAME = openssl_ios;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
-				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
 		6E83261417AD15F3002AFCBC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)-ios";
 				CONFIGURATION_TEMP_DIR = "$(PROJECT_TEMP_DIR)/$(CONFIGURATION)";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				PRODUCT_NAME = libpq_ios;
-				SDKROOT = iphoneos;
-				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 			};
 			name = Debug;
 		};
 		6E83261517AD15F3002AFCBC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)-ios";
 				CONFIGURATION_TEMP_DIR = "$(PROJECT_TEMP_DIR)/$(CONFIGURATION)";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				PRODUCT_NAME = libpq_ios;
-				SDKROOT = iphoneos;
-				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 			};
 			name = Release;
 		};
@@ -3218,7 +3202,7 @@
 				);
 				INFOPLIST_FILE = src/Frameworks/PGServerKit/PGServerKit.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.01;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_NAME = PGServerKit;
 				WRAPPER_EXTENSION = framework;
 			};
@@ -3250,7 +3234,7 @@
 				);
 				INFOPLIST_FILE = src/Frameworks/PGServerKit/PGServerKit.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.01;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_NAME = PGServerKit;
 				WRAPPER_EXTENSION = framework;
 			};

@@ -17,4 +17,9 @@
 
 @implementation PGDialogView
 
+-(void)setViewParameters:(NSDictionary* )parameters {
+	NSParameterAssert(parameters);
+	NSLog(@"setViewParameters: %@",parameters);
+}
+
 @end

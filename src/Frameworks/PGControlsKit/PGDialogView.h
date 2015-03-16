@@ -19,4 +19,15 @@
 
 @property (weak,nonatomic) IBOutlet NSView* view;
 
+////////////////////////////////////////////////////////////////////////////////
+// public methods
+
+/**
+ *  Pass the parameters to a view in order to fill the view's details, before
+ *  the view is displayed on screen.
+ *
+ *  @param parameters The dictionary of parameters
+ */
+-(void)setViewParameters:(NSDictionary* )parameters;
+
 @end

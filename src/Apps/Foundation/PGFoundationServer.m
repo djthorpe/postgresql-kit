@@ -25,28 +25,12 @@
 // properties
 
 @dynamic dataPath;
-@dynamic port;
-@dynamic hostname;
 
 -(NSString* )dataPath {
 	NSString* theIdent = [[NSProcessInfo processInfo] processName];
 	NSArray* theAppFolder = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory,NSUserDomainMask, YES);
 	NSParameterAssert([theAppFolder count]);
 	return [[theAppFolder objectAtIndex:0] stringByAppendingPathComponent:theIdent];
-}
-
--(NSUInteger)port {
-	// retrieve port from NSUserDefaults
-	if([[NSUserDefaults standardUserDefaults] objectForKey:@"port"]) {
-		return [[NSUserDefaults standardUserDefaults] integerForKey:@"port"];
-	} else {
-		return PGServerDefaultPort;
-	}
-}
-
--(NSString* )hostname {
-	// retrieve hostname from NSUserDefaults
-	return [[NSUserDefaults standardUserDefaults] stringForKey:@"hostname"];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -89,20 +73,43 @@
 ////////////////////////////////////////////////////////////////////////////////
 // methods
 
--(void)setup {
+-(BOOL)setup {
+	// get hostname and port
+	NSString* hostname = [[self settings] objectForKey:@"hostname"];
+	NSInteger port = [[self settings] integerForKey:@"port"];
+	if(port < 1) {
+		port = PGServerDefaultPort;
+	}
+	
 	// create a server
 	PGServer* server = [PGServer serverWithDataPath:[self dataPath]];
+
 	// bind to server
 	[self setServer:server];
 	[[self server] setDelegate:self];
+
 	// start server
-	[[self server] startWithNetworkBinding:[self hostname] port:[self port]];
+	[[self server] startWithNetworkBinding:hostname port:port];
+	
+	// return success
+	return YES;
 }
 
 -(void)stop {
 	[super stop];
 	[[self server] stop];
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// register command line options
+
+-(void)registerCommandLineOptionsWithParser:(GBCommandLineParser* )parser {
+	[super registerCommandLineOptionsWithParser:parser];
+	// add a --hostname and --port options
+	[parser registerOption:@"hostname" shortcut:"h" requirement:GBValueOptional];
+	[parser registerOption:@"port" shortcut:"p" requirement:GBValueOptional];
+}
+
 
 @end
 

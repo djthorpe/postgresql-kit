@@ -12,15 +12,13 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-#import "PGFoundationApp.h"
 #import <PGServerKit/PGServerKit.h>
+#import "PGFoundationApp.h"
 
 @interface PGFoundationServer : PGFoundationApp <PGServerDelegate>
 
 // properties
 @property PGServer* server;
 @property (readonly) NSString* dataPath;
-@property (readonly) NSUInteger port;
-@property (readonly) NSString* hostname;
 
 @end

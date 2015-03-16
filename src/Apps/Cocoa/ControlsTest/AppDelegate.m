@@ -4,7 +4,7 @@
 @interface AppDelegate ()
 @property (weak) IBOutlet NSWindow* window;
 @property (retain) PGConnection* connection;
-@property (retain) PGDialogController* dialog;
+@property (retain) PGDialogWindow* dialog;
 @property (retain) NSURL* url;
 @property (readonly) NSString* urlstring;
 @end
@@ -20,7 +20,7 @@
 -(void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 	// create connection class
 	[self setConnection:[PGConnection new]];
-	[self setDialog:[PGDialogController new]];
+	[self setDialog:[PGDialogWindow new]];
 	
 	// set delegates
 	[[self connection] setDelegate:self];
@@ -76,7 +76,7 @@
 
 -(IBAction)doCreateRoleWindow:(id)sender {
 	[[self dialog] loadWindow];
-	NSView* view = [[self dialog] ibCreateRoleView];
+	PGDialogView* view = [[self dialog] ibCreateRoleView];
 	[[self dialog] beginCustomSheetWithTitle:@"Create new role" description:nil view:view parentWindow:[self window] whenDone:^(NSModalResponse response) {
 		NSLog(@"DONE, RESPONSE = %ld",response);
 	}];
@@ -84,7 +84,7 @@
 
 -(IBAction)doCreateSchemaWindow:(id)sender {
 	[[self dialog] loadWindow];
-	NSView* view = [[self dialog] ibCreateSchemaView];
+	PGDialogView* view = [[self dialog] ibCreateSchemaView];
 	[[self dialog] beginCustomSheetWithTitle:@"Create new schema" description:nil view:view parentWindow:[self window] whenDone:^(NSModalResponse response) {
 		NSLog(@"DONE, RESPONSE = %ld",response);
 	}];
@@ -92,7 +92,7 @@
 
 -(IBAction)doCreateDatabaseWindow:(id)sender {
 	[[self dialog] loadWindow];
-	NSView* view = [[self dialog] ibCreateDatabaseView];
+	PGDialogView* view = [[self dialog] ibCreateDatabaseView];
 	[[self dialog] beginCustomSheetWithTitle:@"Create new database" description:nil view:view parentWindow:[self window] whenDone:^(NSModalResponse response) {
 		NSLog(@"DONE, RESPONSE = %ld",response);
 	}];

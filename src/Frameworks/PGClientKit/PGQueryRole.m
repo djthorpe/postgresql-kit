@@ -35,7 +35,7 @@
 	return query;
 }
 
-+(PGQueryRole* )dropRole:(NSString* )role options:(NSUInteger)options {
++(PGQueryRole* )drop:(NSString* )role options:(NSUInteger)options {
 	NSParameterAssert(role);
 	NSString* className = NSStringFromClass([self class]);
 	if([role length]==0) {

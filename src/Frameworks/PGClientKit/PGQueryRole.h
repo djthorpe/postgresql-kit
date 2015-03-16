@@ -45,7 +45,7 @@
  *
  *  @return Returns the PGQueryRole object, or nil if the query could not be created.
  */
-+(PGQueryRole* )dropRole:(NSString* )role options:(NSUInteger)options;
++(PGQueryRole* )drop:(NSString* )role options:(NSUInteger)options;
 
 /**
  *  Create a query to rename a role to a new name
