@@ -160,6 +160,7 @@
 
 	// start sheet
 	[parentWindow beginSheet:[self window] completionHandler:^(NSModalResponse returnValue) {
+		[view viewDidEnd];
 		callback(returnValue);
 	}];
 }

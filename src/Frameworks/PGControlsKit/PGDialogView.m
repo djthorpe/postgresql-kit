@@ -36,7 +36,6 @@
 
 @synthesize view;
 @synthesize delegate;
-@dynamic isValid;
 @synthesize parameters = _parameters;
 
 -(BOOL)isValid {
@@ -49,7 +48,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 
--(void)registerAsObserverForParameters:(NSArray* )parameters {
+-(void)_registerAsObserverForParameters:(NSArray* )parameters {
 	NSParameterAssert(parameters);
 	for(NSString* name in parameters) {
 		NSString* keyPath = [NSString stringWithFormat:@"parameters.%@",name];
@@ -57,7 +56,7 @@
 	}
 }
 
--(void)deregisterAsObserverForParameters:(NSArray* )parameters {
+-(void)_deregisterAsObserverForParameters:(NSArray* )parameters {
 	NSParameterAssert(parameters);
 	for(NSString* name in parameters) {
 		NSString* keyPath = [NSString stringWithFormat:@"parameters.%@",name];
@@ -75,10 +74,18 @@
 
 -(void)setViewParameters:(NSDictionary* )parameters {
 	NSParameterAssert(parameters);
-	NSLog(@"setViewParameters: %@",parameters);
 	[_parameters removeAllObjects];
 	[_parameters setValuesForKeysWithDictionary:parameters];
+/*	if(observers && [observers count]) {
+		[self _registerAsObserverForParameters:observers];
+	}*/
 }
 
+-(void)viewDidEnd {
+/*	if(_observers) {
+		[self _deregisterAsObserverForParameters:_observers];
+	}
+	_observers = nil;*/
+}
 
 @end

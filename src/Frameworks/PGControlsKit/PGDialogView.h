@@ -14,6 +14,7 @@
 
 @interface PGDialogView : NSObject {
 	NSMutableDictionary* _parameters;
+	NSArray* _observers;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -22,7 +23,6 @@
 @property (weak,nonatomic) IBOutlet NSView* view;
 @property (weak,nonatomic) id<PGDialogDelegate> delegate;
 @property (readonly) NSMutableDictionary* parameters;
-@property BOOL isValid;
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
@@ -36,17 +36,9 @@
 -(void)setViewParameters:(NSDictionary* )parameters;
 
 /**
- *  Start observing value changes for parameters
- *
- *  @param parameters Array of parameters to observe values changes for
+ *  This method should be called when the window containing the view is dismissed
+ *  to give an opportunity to remove key-vaue observers
  */
--(void)registerAsObserverForParameters:(NSArray* )parameters;
-
-/**
- *  Stop observing value changes for parameters
- *
- *  @param parameters Array of parameters to stop observing values changes for
- */
--(void)deregisterAsObserverForParameters:(NSArray* )parameters;
+-(void)viewDidEnd;
 
 @end
