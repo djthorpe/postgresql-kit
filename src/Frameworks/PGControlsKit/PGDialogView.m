@@ -49,7 +49,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 
--(void)_registerAsObserverForParameters:(NSArray* )parameters {
+-(void)registerAsObserverForParameters:(NSArray* )parameters {
 	NSParameterAssert(parameters);
 	for(NSString* name in parameters) {
 		NSString* keyPath = [NSString stringWithFormat:@"parameters.%@",name];
@@ -57,7 +57,7 @@
 	}
 }
 
--(void)_deregisterAsObserverForParameters:(NSArray* )parameters {
+-(void)deregisterAsObserverForParameters:(NSArray* )parameters {
 	NSParameterAssert(parameters);
 	for(NSString* name in parameters) {
 		NSString* keyPath = [NSString stringWithFormat:@"parameters.%@",name];

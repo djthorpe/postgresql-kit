@@ -21,7 +21,7 @@
 
 @property (weak,nonatomic) IBOutlet NSView* view;
 @property (weak,nonatomic) id<PGDialogDelegate> delegate;
-@property (readonly) NSDictionary* parameters;
+@property (readonly) NSMutableDictionary* parameters;
 @property BOOL isValid;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -34,5 +34,19 @@
  *  @param parameters The dictionary of parameters
  */
 -(void)setViewParameters:(NSDictionary* )parameters;
+
+/**
+ *  Start observing value changes for parameters
+ *
+ *  @param parameters Array of parameters to observe values changes for
+ */
+-(void)registerAsObserverForParameters:(NSArray* )parameters;
+
+/**
+ *  Stop observing value changes for parameters
+ *
+ *  @param parameters Array of parameters to stop observing values changes for
+ */
+-(void)deregisterAsObserverForParameters:(NSArray* )parameters;
 
 @end

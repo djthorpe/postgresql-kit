@@ -14,4 +14,7 @@
 
 @interface PGDialogNetworkConnectionView : PGDialogView
 
+// properties
+@property (readonly) NSInteger port;
+
 @end
