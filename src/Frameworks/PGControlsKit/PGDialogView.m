@@ -37,29 +37,33 @@
 @synthesize view;
 @synthesize delegate;
 @synthesize parameters = _parameters;
+@dynamic bindings;
 
--(BOOL)isValid {
-	// always return YES
-	return YES;
+-(NSArray* )bindings {
+	// subclass this method
+	return @[ ];
 }
+
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark private methods
 ////////////////////////////////////////////////////////////////////////////////
 
 
--(void)_registerAsObserverForParameters:(NSArray* )parameters {
-	NSParameterAssert(parameters);
-	for(NSString* name in parameters) {
-		NSString* keyPath = [NSString stringWithFormat:@"parameters.%@",name];
+-(void)_registerKeyValueObserver {
+	NSArray* bindings = [self bindings];
+	NSParameterAssert(bindings);
+	for(NSString* binding in bindings) {
+		NSString* keyPath = [NSString stringWithFormat:@"parameters.%@",binding];
 		[super addObserver:self forKeyPath:keyPath options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:NULL];
 	}
 }
 
--(void)_deregisterAsObserverForParameters:(NSArray* )parameters {
-	NSParameterAssert(parameters);
-	for(NSString* name in parameters) {
-		NSString* keyPath = [NSString stringWithFormat:@"parameters.%@",name];
+-(void)_deregisterKeyValueObserver {
+	NSArray* bindings = [self bindings];
+	NSParameterAssert(bindings);
+	for(NSString* binding in bindings) {
+		NSString* keyPath = [NSString stringWithFormat:@"parameters.%@",binding];
 		[super removeObserver:self forKeyPath:keyPath];
 	}
 }
@@ -76,16 +80,11 @@
 	NSParameterAssert(parameters);
 	[_parameters removeAllObjects];
 	[_parameters setValuesForKeysWithDictionary:parameters];
-/*	if(observers && [observers count]) {
-		[self _registerAsObserverForParameters:observers];
-	}*/
+	[self _registerKeyValueObserver];
 }
 
 -(void)viewDidEnd {
-/*	if(_observers) {
-		[self _deregisterAsObserverForParameters:_observers];
-	}
-	_observers = nil;*/
+	[self _deregisterKeyValueObserver];
 }
 
 @end

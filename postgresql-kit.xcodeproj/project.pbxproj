@@ -272,6 +272,8 @@
 		6EB1E79615F282910093F784 /* PGServerKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EB1E74015F273350093F784 /* PGServerKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6ECA7ADE15F3637600AF2B70 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C168115F26BF20013A382 /* Foundation.framework */; };
 		6ECA7AEA15F363C400AF2B70 /* PGServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
+		6ED6944F1AB8AE7100751904 /* PGDialogTextFieldFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 6ED6944D1AB8AE7100751904 /* PGDialogTextFieldFormatter.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6ED694501AB8AE7100751904 /* PGDialogTextFieldFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ED6944E1AB8AE7100751904 /* PGDialogTextFieldFormatter.m */; };
 		6EE12E1A17D51CD70034B9E1 /* SSKeychain.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6EE12E1017D51CD70034B9E1 /* SSKeychain.strings */; };
 		6EE12E1E17D51CD70034B9E1 /* SSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE12E1317D51CD70034B9E1 /* SSKeychain.m */; };
 		6EE12E2217D51CD70034B9E1 /* SSKeychainQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE12E1517D51CD70034B9E1 /* SSKeychainQuery.m */; };
@@ -761,6 +763,8 @@
 		6EB5485417AEC9CA000F4AA2 /* elephant-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "elephant-72.png"; sourceTree = "<group>"; };
 		6EB5485917AECCAF000F4AA2 /* elephant-144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "elephant-144.png"; sourceTree = "<group>"; };
 		6ECA7ADC15F3637600AF2B70 /* PGFoundationServer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PGFoundationServer; sourceTree = BUILT_PRODUCTS_DIR; };
+		6ED6944D1AB8AE7100751904 /* PGDialogTextFieldFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGDialogTextFieldFormatter.h; sourceTree = "<group>"; };
+		6ED6944E1AB8AE7100751904 /* PGDialogTextFieldFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGDialogTextFieldFormatter.m; sourceTree = "<group>"; };
 		6ED763FB15F2673600687079 /* PGServerKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PGServerKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6ED779F017C1266100124DF1 /* traffic-green.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "traffic-green.tiff"; sourceTree = "<group>"; };
 		6ED779F117C1266100124DF1 /* traffic-grey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "traffic-grey.png"; sourceTree = "<group>"; };
@@ -980,6 +984,8 @@
 				6E6A8B931AB758E400A95748 /* PGDialogCreateSchemaView.m */,
 				6E24DCBE1AB2D8DE00115F61 /* PGDialogBackgroundView.h */,
 				6E24DCBF1AB2D8DE00115F61 /* PGDialogBackgroundView.m */,
+				6ED6944D1AB8AE7100751904 /* PGDialogTextFieldFormatter.h */,
+				6ED6944E1AB8AE7100751904 /* PGDialogTextFieldFormatter.m */,
 				141BEBD21AB44485000EFCFC /* PGDialog.xib */,
 			);
 			name = PGDialog;
@@ -1711,6 +1717,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6ED6944F1AB8AE7100751904 /* PGDialogTextFieldFormatter.h in Headers */,
 				6E24DCC01AB2D8DE00115F61 /* PGDialogBackgroundView.h in Headers */,
 				14E1323A1A6D6F7800451602 /* PGSourceViewTree.h in Headers */,
 				141BEBD91AB44B28000EFCFC /* PGControlsKit+Private.h in Headers */,
@@ -2299,6 +2306,7 @@
 				141BEBD71AB444AE000EFCFC /* PGDialogWindow.m in Sources */,
 				6E0C81711A619E2E0032AE32 /* PGSplitViewController.m in Sources */,
 				6E6A8B911AB758B500A95748 /* PGDialogCreateRoleView.m in Sources */,
+				6ED694501AB8AE7100751904 /* PGDialogTextFieldFormatter.m in Sources */,
 				6E45A40D1A73AAEF00E20B36 /* MMMarkdown.m in Sources */,
 				6E45A4121A73AB0000E20B36 /* MMParser.m in Sources */,
 				6E69F6AC1A67AD340014EC1F /* PGSourceViewController.m in Sources */,

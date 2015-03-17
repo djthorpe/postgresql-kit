@@ -23,6 +23,7 @@
 @property (weak,nonatomic) IBOutlet NSView* view;
 @property (weak,nonatomic) id<PGDialogDelegate> delegate;
 @property (readonly) NSMutableDictionary* parameters;
+@property (readonly) NSArray* bindings;
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods

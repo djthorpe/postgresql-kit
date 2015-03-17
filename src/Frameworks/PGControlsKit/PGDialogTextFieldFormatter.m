@@ -1,4 +1,3 @@
-
 // Copyright 2009-2015 David Thorpe
 // https://github.com/djthorpe/postgresql-kit
 //
@@ -13,23 +12,18 @@
 // under the License.
 
 #import <PGClientKit/PGClientKit.h>
-#import "PGConnectionWindowFormatter.h"
+#import "PGDialogTextFieldFormatter.h"
 
-@implementation PGConnectionWindowFormatter
+@implementation PGDialogTextFieldFormatter
 
 ////////////////////////////////////////////////////////////////////////////////
-// constructor
+#pragma mark constructor
 
 -(void)awakeFromNib {
 	if(!_cs) {
 		_cs = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet];
 	}
 }
-
-////////////////////////////////////////////////////////////////////////////////
-// properties
-
-@synthesize type;
 
 ////////////////////////////////////////////////////////////////////////////////
 // methods
@@ -83,6 +77,5 @@
 	}
 	return returnValue;
 }
-
 
 @end

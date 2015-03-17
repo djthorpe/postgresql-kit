@@ -40,6 +40,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 @dynamic port;
+@dynamic sslmode;
 
 -(NSInteger)port {
 	NSNumber* nsport = [[self parameters] objectForKey:@"port"];
@@ -53,35 +54,49 @@
 	return port;
 }
 
+-(NSString* )sslmode {
+	NSString* sslmode = [[self parameters] objectForKey:@"sslmode"];
+	if([sslmode isEqualTo:@"prefer"]) {
+		return @"prefer";
+	} else {
+		return @"require";
+	}
+}
+
+-(NSArray* )bindings {
+	return @[ @"user",@"dbname",@"host",@"port",@"is_default_port",@"is_require_ssl",@"comment" ];
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark private methods
 ////////////////////////////////////////////////////////////////////////////////
 
 -(void)updateViewParameters {
+
+	// port
 	if([self port]==PGClientDefaultPort) {
 		[[self parameters] setObject:[NSNumber numberWithBool:YES] forKey:@"is_default_port"];
 	} else {
 		[[self parameters] setObject:[NSNumber numberWithBool:NO] forKey:@"is_default_port"];
+	}
+
+	// sslmode
+	if([[self sslmode] isEqualTo:@"prefer"]) {
+		[[self parameters] setObject:[NSNumber numberWithBool:NO] forKey:@"is_require_ssl"];
+	} else {
+		[[self parameters] setObject:[NSNumber numberWithBool:YES] forKey:@"is_require_ssl"];
 	}
 }
 
 -(void)setViewParameters:(NSDictionary* )parameters {
 	[super setViewParameters:parameters];
 
-	// observe parameters
-	[super registerAsObserverForParameters:@[
-		@"user",@"dbname",@"host",@"port",@"is_default_port",@"is_require_ssl",@"comment"
-	]];
-
 	// update parameters
 	[self updateViewParameters];
 }
 
 -(void)viewDidEnd {
-	// stop observing parameters
-	[super deregisterAsObserverForParameters:@[
-		@"user",@"dbname",@"host",@"port",@"is_default_port",@"is_require_ssl",@"comment"
-	]];
+	[super viewDidEnd];
 }
 
 @end

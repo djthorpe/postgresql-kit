@@ -66,8 +66,17 @@
 #pragma mark private methods
 ////////////////////////////////////////////////////////////////////////////////
 
--(void)load {
-	[super loadWindow];
+/**
+ *  This method is called after the NIB is loaded
+ */
+-(void)awakeFromNib {
+	// calculate the width and height of the window
+	NSParameterAssert([self window]);
+	NSParameterAssert([self ibBackgroundView]);
+	NSSize windowSize = [[self window] frame].size;
+	NSSize viewSize = [[self ibBackgroundView] frame].size;
+	_offset.width = windowSize.width - viewSize.width;
+	_offset.height = windowSize.height - viewSize.height;
 }
 
 /**
@@ -84,6 +93,15 @@
 	NSDictionary* views = NSDictionaryOfVariableBindings(subView);
 	[parentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[subView]|" options:0 metrics:nil views:views]];
 	[parentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[subView]|" options:0 metrics:nil views:views]];
+	
+	// set the window height and width
+	NSWindow* window = [parentView window];
+	NSRect frame = [window frame];
+	frame.size = NSMakeSize(subView.frame.size.width + _offset.width,subView.frame.size.height + _offset.height);
+	NSLog(@"window offsize => %@",NSStringFromSize(_offset));
+	NSLog(@"set window size => %@",NSStringFromSize(frame.size));
+	[window setFrame:frame display:NO];
+	NSLog(@"window size => %@",NSStringFromSize([window frame].size));
 	
 	return YES;
 }
@@ -126,6 +144,14 @@
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark public methods
 ////////////////////////////////////////////////////////////////////////////////
+
+/**
+ *  Call this method to initiate the loading of the NIB file. This is necessary
+ *  in order to use the windows or dialog views.
+ */
+-(void)load {
+	[super loadWindow];
+}
 
 -(void)beginCustomSheetWithTitle:(NSString* )title description:(NSString* )description view:(PGDialogView* )view parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(NSModalResponse response)) callback {
 	NSParameterAssert(title);

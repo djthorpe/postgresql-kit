@@ -16,5 +16,6 @@
 
 // properties
 @property (readonly) NSInteger port;
+@property (readonly) NSString* sslmode;
 
 @end

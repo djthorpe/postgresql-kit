@@ -31,6 +31,7 @@
 @interface PGDialogWindow : NSWindowController {
 	PGConnection* _connection;
 	NSMutableDictionary* _parameters;
+	NSSize _offset;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -105,7 +106,6 @@
 @protocol PGDialogDelegate <NSObject>
 @optional
 	-(void)window:(PGDialogWindow* )controller dialogWillOpenWithParameters:(NSMutableDictionary* )parameters;
-	-(void)window:(PGDialogWindow* )controller modalResponseForSender:(id)sender;
 @end
 
 

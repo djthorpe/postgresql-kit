@@ -12,17 +12,13 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-#import "PGDialogBackgroundView.h"
+#import <Cocoa/Cocoa.h>
 
-@implementation PGDialogBackgroundView
-
--(void)drawRect:(NSRect)dirtyRect {
-    // Fill in background color to something slighty darker
-    CGContextRef context = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
-    CGContextSetRGBFillColor(context,0.90,0.90,0.90,1.0);
-    CGContextFillRect(context, NSRectToCGRect(dirtyRect));
-	// draw content
-    [super drawRect:dirtyRect];
+@interface PGDialogTextFieldFormatter : NSFormatter {
+	NSCharacterSet* _cs;
 }
+
+// properties
+@property NSString* type;
 
 @end
