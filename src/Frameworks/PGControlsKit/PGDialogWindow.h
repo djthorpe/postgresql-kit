@@ -27,6 +27,17 @@
 @protocol PGDialogDelegate;
 
 ////////////////////////////////////////////////////////////////////////////////
+// flags
+
+enum {
+	PGDialogWindowFlagEnabled          = 0x01,     // OK action is enabled
+	PGDialogWindowFlagIndicatorGrey    = 0x02,     // Grey indicator
+	PGDialogWindowFlagIndicatorRed     = 0x04,     // Red indicator
+	PGDialogWindowFlagIndicatorOrange  = 0x08,     // Orange indicator
+	PGDialogWindowFlagIndicatorGreen   = 0x10      // Green indicator
+};
+
+////////////////////////////////////////////////////////////////////////////////
 
 @interface PGDialogWindow : NSWindowController {
 	PGConnection* _connection;
@@ -106,6 +117,7 @@
 @protocol PGDialogDelegate <NSObject>
 @optional
 	-(void)window:(PGDialogWindow* )controller dialogWillOpenWithParameters:(NSMutableDictionary* )parameters;
+	-(void)view:(PGDialogView* )controller dialogSetFlags:(int)flags description:(NSString* )description;
 @end
 
 

@@ -215,4 +215,20 @@
 	}];
 }
 
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark PGDialogDelegate implementation
+////////////////////////////////////////////////////////////////////////////////
+
+-(void)view:(PGDialogView* )controller dialogSetFlags:(int)flags description:(NSString* )description {
+	NSMutableArray* flags2 = [NSMutableArray array];
+	if(flags && PGDialogWindowFlagEnabled) {
+		[flags2 addObject:@"ENABLED"];
+	} else {
+		[flags2 addObject:@"DISABLED"];
+	}
+	
+}
+
+
+
 @end
