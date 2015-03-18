@@ -21,6 +21,7 @@
 // properties
 
 @property (weak,nonatomic) IBOutlet NSView* view;
+@property (weak,nonatomic) IBOutlet NSView* firstResponder;
 @property (weak,nonatomic) id<PGDialogDelegate> delegate;
 @property (readonly) NSMutableDictionary* parameters;
 @property (readonly) NSArray* bindings;
@@ -41,5 +42,14 @@
  *  to give an opportunity to remove key-vaue observers
  */
 -(void)viewDidEnd;
+
+/**
+ *  This method is called when a bound value changes
+ *
+ *  @param key      The key value of the parameter
+ *  @param oldValue The old value for the parameter
+ *  @param newValue The new value for the parameter
+ */
+-(void)valueChangedWithKey:(NSString* )key oldValue:(id)oldValue newValue:(id)newValue;
 
 @end

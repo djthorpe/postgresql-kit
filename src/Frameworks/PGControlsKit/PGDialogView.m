@@ -15,6 +15,8 @@
 #import <PGControlsKit/PGControlsKit.h>
 #import <PGControlsKit/PGControlsKit+Private.h>
 
+NSString* PGDialogKeyPathPrefix = @"parameters";
+
 @implementation PGDialogView
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -46,30 +48,37 @@
 
 
 ////////////////////////////////////////////////////////////////////////////////
-#pragma mark private methods
+#pragma mark private methods - bindings
 ////////////////////////////////////////////////////////////////////////////////
 
-
--(void)_registerKeyValueObserver {
+-(void)registerBindings {
 	NSArray* bindings = [self bindings];
 	NSParameterAssert(bindings);
 	for(NSString* binding in bindings) {
-		NSString* keyPath = [NSString stringWithFormat:@"parameters.%@",binding];
+		NSString* keyPath = [NSString stringWithFormat:@"%@.%@",PGDialogKeyPathPrefix,binding];
 		[super addObserver:self forKeyPath:keyPath options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:NULL];
 	}
 }
 
--(void)_deregisterKeyValueObserver {
+-(void)deregisterBindings {
 	NSArray* bindings = [self bindings];
 	NSParameterAssert(bindings);
 	for(NSString* binding in bindings) {
-		NSString* keyPath = [NSString stringWithFormat:@"parameters.%@",binding];
+		NSString* keyPath = [NSString stringWithFormat:@"%@.%@",PGDialogKeyPathPrefix,binding];
 		[super removeObserver:self forKeyPath:keyPath];
 	}
 }
 
 -(void)observeValueForKeyPath:(NSString* )keyPath ofObject:(id)object change:(NSDictionary* )change context:(void* )context {
-	NSLog(@"value changed = %@",keyPath);
+	if([keyPath hasPrefix:PGDialogKeyPathPrefix]==NO) {
+		return;
+	}
+	NSString* key = [keyPath substringFromIndex:([PGDialogKeyPathPrefix length]+1)];
+	id oldValue = [change objectForKey:NSKeyValueChangeOldKey];
+	id newValue = [change objectForKey:NSKeyValueChangeNewKey];
+	if([oldValue isNotEqualTo:newValue]) {
+		[self valueChangedWithKey:key oldValue:oldValue newValue:newValue];
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -80,11 +89,19 @@
 	NSParameterAssert(parameters);
 	[_parameters removeAllObjects];
 	[_parameters setValuesForKeysWithDictionary:parameters];
-	[self _registerKeyValueObserver];
+	[self registerBindings];
+	
+	if([self firstResponder]) {
+		[[self firstResponder] becomeFirstResponder];
+	}
 }
 
 -(void)viewDidEnd {
-	[self _deregisterKeyValueObserver];
+	[self deregisterBindings];
+}
+
+-(void)valueChangedWithKey:(NSString* )key oldValue:(id)oldValue newValue:(id)newValue {
+	NSLog(@"%@ %@ => %@",key,oldValue,newValue);
 }
 
 @end

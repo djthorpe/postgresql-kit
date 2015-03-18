@@ -71,15 +71,13 @@
 #pragma mark private methods
 ////////////////////////////////////////////////////////////////////////////////
 
--(void)updateViewParameters {
-
+-(void)resetViewParameters {
 	// port
 	if([self port]==PGClientDefaultPort) {
 		[[self parameters] setObject:[NSNumber numberWithBool:YES] forKey:@"is_default_port"];
 	} else {
 		[[self parameters] setObject:[NSNumber numberWithBool:NO] forKey:@"is_default_port"];
 	}
-
 	// sslmode
 	if([[self sslmode] isEqualTo:@"prefer"]) {
 		[[self parameters] setObject:[NSNumber numberWithBool:NO] forKey:@"is_require_ssl"];
@@ -88,15 +86,38 @@
 	}
 }
 
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark overrides
+////////////////////////////////////////////////////////////////////////////////
+
+-(void)valueChangedWithKey:(NSString* )key oldValue:(id)oldValue newValue:(id)newValue {
+	[super valueChangedWithKey:key oldValue:oldValue newValue:newValue];
+	
+	// if default port checkbox clicked, then set the value in the 'port' field
+	if([key isEqualTo:@"is_default_port"] && [newValue isKindOfClass:[NSNumber class]]) {
+		BOOL newBool = [(NSNumber* )newValue boolValue];
+		if(newBool==YES) {
+			[[self parameters] setObject:[NSNumber numberWithInteger:PGClientDefaultPort] forKey:@"port"];
+		}
+	}
+
+	// if the "require ssl" checkbox is clicked, then set the sslmode to "require", or
+	// else set it to "prefer"
+	if([key isEqualTo:@"is_require_ssl"] && [newValue isKindOfClass:[NSNumber class]]) {
+		BOOL newBool = [(NSNumber* )newValue boolValue];
+		if(newBool==YES) {
+			[[self parameters] setObject:@"require" forKey:@"sslmode"];
+		} else {
+			[[self parameters] setObject:@"prefer" forKey:@"sslmode"];
+		}
+	}
+}
+
 -(void)setViewParameters:(NSDictionary* )parameters {
 	[super setViewParameters:parameters];
 
 	// update parameters
-	[self updateViewParameters];
-}
-
--(void)viewDidEnd {
-	[super viewDidEnd];
+	[self resetViewParameters];
 }
 
 @end

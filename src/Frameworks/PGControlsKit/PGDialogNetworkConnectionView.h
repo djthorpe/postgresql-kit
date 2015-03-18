@@ -12,7 +12,9 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-@interface PGDialogNetworkConnectionView : PGDialogView
+@interface PGDialogNetworkConnectionView : PGDialogView {
+	NSTimer* _timer;
+}
 
 // properties
 @property (readonly) NSInteger port;

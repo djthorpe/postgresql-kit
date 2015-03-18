@@ -466,7 +466,7 @@
             <rect key="frame" x="0.0" y="0.0" width="458" height="255"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6bt-Sb-SB2">
+                <textField verticalHuggingPriority="750" tag="-1" translatesAutoresizingMaskIntoConstraints="NO" id="6bt-Sb-SB2">
                     <rect key="frame" x="152" y="213" width="280" height="22"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="Srp-UN-04e">
                         <font key="font" metaFont="system"/>
@@ -749,6 +749,7 @@
             <point key="canvasLocation" x="464" y="277.5"/>
         </customView>
         <window title="PGDialogWindow" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="ASC-uL-Kwd" userLabel="Window - Dialog Window">
+            <windowStyleMask key="styleMask" titled="YES" fullSizeContentView="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="480" height="480"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1177"/>
@@ -795,11 +796,10 @@ Gw
                             <binding destination="-2" name="value" keyPath="parameters.window_title" id="4Oe-XS-aWZ"/>
                         </connections>
                     </textField>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CGq-mC-qLl">
-                        <rect key="frame" x="100" y="388" width="362" height="42"/>
-                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" id="Jcm-5p-D5m">
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CGq-mC-qLl">
+                        <rect key="frame" x="100" y="388" width="362" height="38"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="This text describes more about what is going to happen This text describes more about what is going to happen" id="Jcm-5p-D5m">
                             <font key="font" metaFont="smallSystem"/>
-                            <string key="title">This text describes more about what is going to happen This text describes more about what is going to happen This text describes more about what is going to happen</string>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
@@ -819,16 +819,16 @@ Gw
                         <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <font key="titleFont" metaFont="system"/>
                     </box>
-                    <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="0Ug-JD-Kq8">
+                    <box verticalHuggingPriority="750" misplaced="YES" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="0Ug-JD-Kq8">
                         <rect key="frame" x="0.0" y="377" width="480" height="5"/>
                         <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                         <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <font key="titleFont" metaFont="system"/>
                     </box>
-                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="9ZS-Ku-1RU" customClass="PGDialogBackgroundView">
+                    <customView misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9ZS-Ku-1RU" customClass="PGDialogBackgroundView">
                         <rect key="frame" x="0.0" y="62" width="480" height="317"/>
                     </customView>
-                    <imageView translatesAutoresizingMaskIntoConstraints="NO" id="pUL-ia-QEE">
+                    <imageView misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pUL-ia-QEE">
                         <rect key="frame" x="20" y="388" width="71" height="72"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="71" id="82j-3B-Vih"/>
@@ -845,6 +845,7 @@ Gw
                 </subviews>
                 <constraints>
                     <constraint firstItem="0Ug-JD-Kq8" firstAttribute="top" secondItem="pUL-ia-QEE" secondAttribute="bottom" constant="8" symbolic="YES" id="1yu-VC-BAx"/>
+                    <constraint firstItem="CGq-mC-qLl" firstAttribute="top" secondItem="lTb-Y5-BQK" secondAttribute="bottom" constant="8" id="2jg-yw-bsm"/>
                     <constraint firstItem="lTb-Y5-BQK" firstAttribute="leading" secondItem="CGq-mC-qLl" secondAttribute="leading" id="82P-Zt-A0o"/>
                     <constraint firstItem="lTb-Y5-BQK" firstAttribute="trailing" secondItem="9p9-in-D0c" secondAttribute="trailing" id="9Me-Wh-C9W"/>
                     <constraint firstAttribute="bottom" secondItem="BwP-QG-Yqr" secondAttribute="bottom" constant="20" symbolic="YES" id="9Zl-F1-iGL"/>
@@ -873,7 +874,7 @@ Gw
                     <constraint firstItem="9ZS-Ku-1RU" firstAttribute="leading" secondItem="0Ug-JD-Kq8" secondAttribute="leading" id="wZx-up-Yst"/>
                 </constraints>
             </view>
-            <point key="canvasLocation" x="-105.5" y="886"/>
+            <point key="canvasLocation" x="-106" y="886"/>
         </window>
         <customObject id="cTe-i9-1Qf" userLabel="PGDialogCreateDatabaseView" customClass="PGDialogCreateDatabaseView">
             <connections>
@@ -892,6 +893,7 @@ Gw
         </customObject>
         <customObject id="rJg-gq-48y" userLabel="PGDialogNetworkConnectionView" customClass="PGDialogNetworkConnectionView">
             <connections>
+                <outlet property="firstResponder" destination="6bt-Sb-SB2" id="z23-8c-Xyh"/>
                 <outlet property="view" destination="w4g-ZB-PzQ" id="zHU-uF-FXb"/>
             </connections>
         </customObject>
