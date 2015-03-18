@@ -174,20 +174,21 @@
 		[[self parameters] removeObjectForKey:@"window_description"];
 	}
 
-	// send message to delegate
-	if([[self delegate] respondsToSelector:@selector(window:dialogWillOpenWithParameters:)]) {
-		[[self delegate] window:self dialogWillOpenWithParameters:[self parameters]];
-	}
-
 	// set parameters for the view
 	[view setViewParameters:[self parameters]];
 	
 	// set view and add constraints
 	[self setView:[view view] parentView:[self ibBackgroundView]];
 
+	// set view delegate
+	[view setDelegate:self];
+
 	// start sheet
 	[parentWindow beginSheet:[self window] completionHandler:^(NSModalResponse returnValue) {
 		[view viewDidEnd];
+		// set view delegate
+		[view setDelegate:nil];
+		// callback
 		callback(returnValue);
 	}];
 }
@@ -219,14 +220,8 @@
 #pragma mark PGDialogDelegate implementation
 ////////////////////////////////////////////////////////////////////////////////
 
--(void)view:(PGDialogView* )controller dialogSetFlags:(int)flags description:(NSString* )description {
-	NSMutableArray* flags2 = [NSMutableArray array];
-	if(flags && PGDialogWindowFlagEnabled) {
-		[flags2 addObject:@"ENABLED"];
-	} else {
-		[flags2 addObject:@"DISABLED"];
-	}
-	
+-(void)view:(PGDialogView* )view setFlags:(int)flags description:(NSString* )description {
+	NSLog(@"flags=%d description=%@",flags,description);
 }
 
 

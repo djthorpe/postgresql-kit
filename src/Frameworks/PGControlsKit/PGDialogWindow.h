@@ -15,16 +15,21 @@
 #import <Cocoa/Cocoa.h>
 
 /**
- *  This NSWindowController class provides a standard window which can be used
+ *  This PGDialogDelegate class provides a standard window which can be used
  *  in sheets, etc. The NIB file which it loads provides standard dialogs
  *  for various PostgreSQL tasks, such as defining connections, creating
- *  databases and roles, entering passwords and so forth.
+ *  databases and roles, entering passwords and so forth. In order to use this
+ *  class, a PGDialogView instance is required, which represents an NSView
  */
 
 ////////////////////////////////////////////////////////////////////////////////
-// forward declarations
+// delegate
 
-@protocol PGDialogDelegate;
+@protocol PGDialogDelegate <NSObject>
+@optional
+	-(void)view:(PGDialogView* )view setFlags:(int)flags description:(NSString* )description;
+@end
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // flags
@@ -39,7 +44,7 @@ enum {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-@interface PGDialogWindow : NSWindowController {
+@interface PGDialogWindow : NSWindowController <PGDialogDelegate> {
 	PGConnection* _connection;
 	NSMutableDictionary* _parameters;
 	NSSize _offset;
@@ -110,14 +115,4 @@ enum {
 -(void)beginNetworkConnectionSheetWithURL:(NSURL* )url parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(NSURL* url,NSModalResponse response)) callback;
 
 @end
-
-////////////////////////////////////////////////////////////////////////////////
-// delegate
-
-@protocol PGDialogDelegate <NSObject>
-@optional
-	-(void)window:(PGDialogWindow* )controller dialogWillOpenWithParameters:(NSMutableDictionary* )parameters;
-	-(void)view:(PGDialogView* )controller dialogSetFlags:(int)flags description:(NSString* )description;
-@end
-
 

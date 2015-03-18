@@ -12,7 +12,7 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-@interface PGDialogView : NSObject {
+@interface PGDialogView : NSObject <PGDialogDelegate> {
 	NSMutableDictionary* _parameters;
 	NSArray* _observers;
 }
@@ -20,9 +20,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 // properties
 
+@property (weak,nonatomic) id<PGDialogDelegate> delegate;
 @property (weak,nonatomic) IBOutlet NSView* view;
 @property (weak,nonatomic) IBOutlet NSView* firstResponder;
-@property (weak,nonatomic) id<PGDialogDelegate> delegate;
 @property (readonly) NSMutableDictionary* parameters;
 @property (readonly) NSArray* bindings;
 

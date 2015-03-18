@@ -19,7 +19,6 @@
 @property NSTimer* timer;
 @property (readonly) PGConnection* connection;
 @property (readonly) NSLock* waitLock;
-@property NSWindow* window;
 @end
 
 const NSTimeInterval PGDialogNetworkConnectionPingDelayInterval = 2.0;
@@ -67,11 +66,7 @@ const NSTimeInterval PGDialogNetworkConnectionPingDelayInterval = 2.0;
 @synthesize timer = _timer;
 @synthesize connection = _connection;
 @synthesize waitLock = _waitLock;
-@dynamic port;
-@dynamic sslmode;
-@dynamic url;
-@dynamic window;
-@dynamic host,hostaddr;
+@dynamic host,hostaddr,user,dbname,sslmode,port,url;
 
 -(NSInteger)port {
 	NSNumber* nsport = [[self parameters] objectForKey:@"port"];
@@ -94,12 +89,20 @@ const NSTimeInterval PGDialogNetworkConnectionPingDelayInterval = 2.0;
 	}
 }
 
+-(NSString* )user {
+	return [[[self parameters] objectForKey:@"user"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+}
+
+-(NSString* )dbname {
+	return [[[self parameters] objectForKey:@"dbname"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+}
+
 -(NSString* )hostaddr {
-	return [[self parameters] objectForKey:@"hostaddr"];
+	return [[[self parameters] objectForKey:@"hostaddr"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 }
 
 -(NSString* )host {
-	return [[self parameters] objectForKey:@"host"];
+	return [[[self parameters] objectForKey:@"host"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 }
 
 -(NSArray* )bindings {
@@ -114,6 +117,14 @@ const NSTimeInterval PGDialogNetworkConnectionPingDelayInterval = 2.0;
 	[url removeObjectForKey:@"window_title"];
 	[url removeObjectForKey:@"window_description"];
 	
+	// if missing user or dbname, return nil
+	if([self user]==nil) {
+		return nil;
+	}
+	if([self dbname]==nil) {
+		return nil;
+	}
+	
 	// convert host into hostaddr
 	if([[self host] isNetworkAddress]) {
 		[url removeObjectForKey:@"host"];
@@ -125,10 +136,6 @@ const NSTimeInterval PGDialogNetworkConnectionPingDelayInterval = 2.0;
 	}
 	
 	return [NSURL URLWithPostgresqlParams:url];
-}
-
--(NSWindow* )window {
-	return [[self view] window];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -171,12 +178,19 @@ const NSTimeInterval PGDialogNetworkConnectionPingDelayInterval = 2.0;
 	[self setTimer:scheduledTimer];
 }
 
+-(void)setIndicatorFlag:(int)flag description:(NSString* )description {
+	if([[self delegate] respondsToSelector:@selector(view:setFlags:description:)]) {
+		[[self delegate] view:self setFlags:flag description:description];
+	}
+}
+
+
 -(void)triggeredTimer:(id)sender {
-	NSLog(@"STATE = BUSY");
+	[self setIndicatorFlag:PGDialogWindowFlagIndicatorOrange description:nil];
 	// do the ping
 	NSURL* url = [self url];
 	if(url==nil) {
-		NSLog(@"STATE = BAD PARAMETERS");
+		[self setIndicatorFlag:PGDialogWindowFlagIndicatorRed description:nil];
 		return;
 	}
 	// perform the lock
@@ -185,13 +199,12 @@ const NSTimeInterval PGDialogNetworkConnectionPingDelayInterval = 2.0;
 		return;
 	}
 	// perform the ping
-	NSLog(@"ping with %@",url);
 	[[self connection] pingWithURL:url whenDone:^(NSError* error) {
 		[[self waitLock] unlock];
 		if(error) {
-			NSLog(@"STATE = BAD PARAMETERS: %@",[error localizedDescription]);
+			[self setIndicatorFlag:PGDialogWindowFlagIndicatorRed description:[error localizedDescription]];
 		} else {
-			NSLog(@"STATE = OK");
+			[self setIndicatorFlag:PGDialogWindowFlagIndicatorGreen description:nil];
 		}
 	}];
 }
@@ -246,7 +259,7 @@ const NSTimeInterval PGDialogNetworkConnectionPingDelayInterval = 2.0;
 }
 
 -(void)viewDidEnd {
-	[self invalidateTimer];
+	[self invalidateTimer];	
 	[super viewDidEnd];
 }
 
