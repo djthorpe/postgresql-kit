@@ -45,7 +45,6 @@ enum {
 ////////////////////////////////////////////////////////////////////////////////
 
 @interface PGDialogWindow : NSWindowController <PGDialogDelegate> {
-	PGConnection* _connection;
 	NSMutableDictionary* _parameters;
 	NSSize _offset;
 }
@@ -68,17 +67,6 @@ enum {
  *  @return The URL which can be used as the default connection URL
  */
 +(NSURL* )defaultFileURL;
-
-////////////////////////////////////////////////////////////////////////////////
-// properties
-
-@property (weak,nonatomic) IBOutlet PGDialogView* ibFileConnectionView;
-@property (weak,nonatomic) IBOutlet PGDialogView* ibNetworkConnectionView;
-@property (weak,nonatomic) IBOutlet PGDialogView* ibCreateRoleView;
-@property (weak,nonatomic) IBOutlet PGDialogView* ibCreateSchemaView;
-@property (weak,nonatomic) IBOutlet PGDialogView* ibCreateDatabaseView;
-@property (weak,nonatomic) id<PGDialogDelegate> delegate;
-
 
 ////////////////////////////////////////////////////////////////////////////////
 // public properties
@@ -104,15 +92,18 @@ enum {
 -(void)beginCustomSheetWithTitle:(NSString* )title description:(NSString* )description view:(PGDialogView* )view parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(NSModalResponse response)) callback;
 
 /**
- *  This method displays a "Network Connection" sheet above a window, in order to
- *  enter the details for a PostgreSQL network connection.
+ *  This method displays a "Network Connection" or "File-based Connection" sheet
+ *  above a parent window, in order to enter the details for a PostgreSQL
+ *  connection. If the URL is nil, it assumes a network-based connection, or
+ *  a URL can be passed from the defaultNetworkURL or defaultFileURL static
+ *  methods.
  *
  *  @param url          The URL which is used to "fill all the details in" for the
  *                      sheet
  *  @param parentWindow The NSWindow on which the sheet appears modally
  *  @param callback     The callback which is called once the sheet is dismissed
  */
--(void)beginNetworkConnectionSheetWithURL:(NSURL* )url parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(NSURL* url,NSModalResponse response)) callback;
+-(void)beginConnectionSheetWithURL:(NSURL* )url parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(NSURL* url,NSModalResponse response)) callback;
 
 @end
 

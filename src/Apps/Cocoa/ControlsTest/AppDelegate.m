@@ -25,8 +25,6 @@
 
 	// set delegates
 	[[self connection] setDelegate:self];
-	[[self dialog] setDelegate:self];
-	
 	
 	// get user default for url
 	NSString* url = [[NSUserDefaults standardUserDefaults] objectForKey:@"url"];
@@ -59,7 +57,7 @@
 }
 
 -(IBAction)doCreateConnectionURL:(id)sender {
-	[[self dialog] beginNetworkConnectionSheetWithURL:[self url] parentWindow:[self window] whenDone:^(NSURL *url, NSModalResponse response) {
+	[[self dialog] beginConnectionSheetWithURL:[self url] parentWindow:[self window] whenDone:^(NSURL *url, NSModalResponse response) {
 		if(response==NSModalResponseOK && url) {
 			// set the URL
 			[super willChangeValueForKey:@"urlstring"];

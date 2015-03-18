@@ -17,9 +17,14 @@
 #import <PGControlsKit/PGControlsKit+Private.h>
 
 @interface PGDialogWindow ()
-@property (nonatomic,weak) IBOutlet PGDialogBackgroundView* ibBackgroundView;
 @property (readonly) PGConnection* connection;
 @property (readonly) NSMutableDictionary* parameters;
+@property (nonatomic,weak) IBOutlet PGDialogBackgroundView* ibBackgroundView;
+@property (weak,nonatomic) IBOutlet PGDialogView* ibFileConnectionView;
+@property (weak,nonatomic) IBOutlet PGDialogView* ibNetworkConnectionView;
+@property (weak,nonatomic) IBOutlet PGDialogView* ibCreateRoleView;
+@property (weak,nonatomic) IBOutlet PGDialogView* ibCreateSchemaView;
+@property (weak,nonatomic) IBOutlet PGDialogView* ibCreateDatabaseView;
 @end
 
 @implementation PGDialogWindow
@@ -31,9 +36,7 @@
 -(instancetype)init {
 	self = [super init];
 	if(self) {
-		_connection = [PGConnection new];
 		_parameters = [NSMutableDictionary new];
-		NSParameterAssert(_connection);
 		NSParameterAssert(_parameters);
 	}
 	return self;
@@ -59,7 +62,6 @@
 #pragma mark properties
 ////////////////////////////////////////////////////////////////////////////////
 
-@synthesize connection = _connection;
 @synthesize parameters = _parameters;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -195,6 +197,8 @@
 
 -(void)beginNetworkConnectionSheetWithURL:(NSURL* )url parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(NSURL* url,NSModalResponse response)) callback {
 	NSParameterAssert(parentWindow);
+	NSParameterAssert(url==nil || [url isRemoteHostURL]	);
+
 	NSString* title = @"Create Network Connection";
 	NSString* description = @"Enter the details for the connection to the remote PostgreSQL database";
 	PGDialogView* view = [self ibNetworkConnectionView];
@@ -214,6 +218,41 @@
 		NSURL* url = [(PGDialogNetworkConnectionView* )view url];
 		callback(url,response);
 	}];
+}
+
+
+-(void)beginFileConnectionSheetWithURL:(NSURL* )url parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(NSURL* url,NSModalResponse response)) callback {
+	NSParameterAssert(parentWindow);
+	NSParameterAssert(url==nil || [url isSocketPathURL]);
+	
+	NSString* title = @"Create Local Connection";
+	NSString* description = @"Enter the details for the connection to the local PostgreSQL database";
+	PGDialogView* view = [self ibFileConnectionView];
+	NSParameterAssert(view);
+
+	// set the parameters from the URL
+	[[self parameters] removeAllObjects];
+	if(url==nil) {
+		url = [[self class] defaultFileURL];
+	}
+	if(url) {
+		[[self parameters] setValuesForKeysWithDictionary:[url postgresqlParameters]];
+	}
+	
+	[self beginCustomSheetWithTitle:title description:description view:view parentWindow:parentWindow whenDone:^(NSModalResponse response) {
+		NSParameterAssert([view isKindOfClass:[PGDialogNetworkConnectionView class]]);
+		NSURL* url = [(PGDialogNetworkConnectionView* )view url];
+		callback(url,response);
+	}];
+}
+
+-(void)beginConnectionSheetWithURL:(NSURL* )url parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(NSURL* url,NSModalResponse response)) callback {
+	NSParameterAssert(parentWindow);
+	if([url isSocketPathURL]) {
+		[self beginFileConnectionSheetWithURL:url parentWindow:parentWindow whenDone:callback];
+	} else {
+		[self beginNetworkConnectionSheetWithURL:url parentWindow:parentWindow whenDone:callback];
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////
