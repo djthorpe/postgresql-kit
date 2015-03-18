@@ -19,6 +19,7 @@
 @property NSTimer* timer;
 @property (readonly) PGConnection* connection;
 @property (readonly) NSLock* waitLock;
+@property NSWindow* window;
 @end
 
 const NSTimeInterval PGDialogNetworkConnectionPingDelayInterval = 2.0;
@@ -63,12 +64,14 @@ const NSTimeInterval PGDialogNetworkConnectionPingDelayInterval = 2.0;
 #pragma mark properties
 ////////////////////////////////////////////////////////////////////////////////
 
-@dynamic port;
-@dynamic sslmode;
 @synthesize timer = _timer;
 @synthesize connection = _connection;
 @synthesize waitLock = _waitLock;
+@dynamic port;
+@dynamic sslmode;
 @dynamic url;
+@dynamic window;
+@dynamic host,hostaddr;
 
 -(NSInteger)port {
 	NSNumber* nsport = [[self parameters] objectForKey:@"port"];
@@ -91,6 +94,14 @@ const NSTimeInterval PGDialogNetworkConnectionPingDelayInterval = 2.0;
 	}
 }
 
+-(NSString* )hostaddr {
+	return [[self parameters] objectForKey:@"hostaddr"];
+}
+
+-(NSString* )host {
+	return [[self parameters] objectForKey:@"host"];
+}
+
 -(NSArray* )bindings {
 	return @[ @"user",@"dbname",@"host",@"port",@"is_default_port",@"is_require_ssl",@"comment" ];
 }
@@ -102,7 +113,22 @@ const NSTimeInterval PGDialogNetworkConnectionPingDelayInterval = 2.0;
 	[url removeObjectForKey:@"is_default_port"];
 	[url removeObjectForKey:@"window_title"];
 	[url removeObjectForKey:@"window_description"];
+	
+	// convert host into hostaddr
+	if([[self host] isNetworkAddress]) {
+		[url removeObjectForKey:@"host"];
+		[url setObject:[self host] forKey:@"hostaddr"];
+	} else if([[self host] isNetworkHostname]) {
+		[url removeObjectForKey:@"hostaddr"];	
+	} else {
+		return nil;
+	}
+	
 	return [NSURL URLWithPostgresqlParams:url];
+}
+
+-(NSWindow* )window {
+	return [[self view] window];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -121,6 +147,10 @@ const NSTimeInterval PGDialogNetworkConnectionPingDelayInterval = 2.0;
 		[[self parameters] setObject:[NSNumber numberWithBool:NO] forKey:@"is_require_ssl"];
 	} else {
 		[[self parameters] setObject:[NSNumber numberWithBool:YES] forKey:@"is_require_ssl"];
+	}
+	// hostaddr
+	if([self hostaddr]) {
+		[[self parameters] setObject:[self hostaddr] forKey:@"host"];
 	}
 }
 
@@ -142,6 +172,7 @@ const NSTimeInterval PGDialogNetworkConnectionPingDelayInterval = 2.0;
 }
 
 -(void)triggeredTimer:(id)sender {
+	NSLog(@"STATE = BUSY");
 	// do the ping
 	NSURL* url = [self url];
 	if(url==nil) {
@@ -149,12 +180,12 @@ const NSTimeInterval PGDialogNetworkConnectionPingDelayInterval = 2.0;
 		return;
 	}
 	// perform the lock
-	NSLog(@"STATE = BUSY");	
 	if([[self waitLock] tryLock]==NO) {
 		[self resetTimerWithDelay:YES];
 		return;
 	}
 	// perform the ping
+	NSLog(@"ping with %@",url);
 	[[self connection] pingWithURL:url whenDone:^(NSError* error) {
 		[[self waitLock] unlock];
 		if(error) {
@@ -196,7 +227,11 @@ const NSTimeInterval PGDialogNetworkConnectionPingDelayInterval = 2.0;
 	
 	if([key isNotEqualTo:@"comment"]) {
 		// set the comment
-		[[self parameters] setObject:[self url] forKey:@"comment"];
+		if([self url]) {
+			[[self parameters] setObject:[self url] forKey:@"comment"];
+		} else {
+			[[self parameters] removeObjectForKey:@"comment"];
+		}
 	}
 }
 

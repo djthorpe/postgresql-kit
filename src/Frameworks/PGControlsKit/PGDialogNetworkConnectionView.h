@@ -21,6 +21,8 @@
 // properties
 @property (readonly) NSInteger port;
 @property (readonly) NSString* sslmode;
+@property (readonly) NSString* hostaddr;
+@property (readonly) NSString* host;
 @property (readonly) NSURL* url;
 
 @end
