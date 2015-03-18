@@ -15,6 +15,14 @@
 #import <PGControlsKit/PGControlsKit.h>
 #import <PGControlsKit/PGControlsKit+Private.h>
 
+@interface PGDialogNetworkConnectionView ()
+@property NSTimer* timer;
+@property (readonly) PGConnection* connection;
+@property (readonly) NSLock* waitLock;
+@end
+
+const NSTimeInterval PGDialogNetworkConnectionPingDelayInterval = 2.0;
+
  /**
   *  The parameter bindings for this dialog are as follows:
   *
@@ -29,11 +37,27 @@
   *  Programmatically, the following parameters are also generated:
   *
   *  sslmode - NSString*
-  *  hostaddr - NSString*
-  *  is_valid_connection - BOOL
   */
 
+//postgres://pttnkktdoyjfyc@ec2-54-227-255-156.compute-1.amazonaws.com:5432/dej7aj0jp668p5
+
 @implementation PGDialogNetworkConnectionView
+
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark constructor
+////////////////////////////////////////////////////////////////////////////////
+
+-(instancetype)init {
+    self = [super init];
+    if (self) {
+		_timer = nil;
+		_connection = [PGConnection new];
+		_waitLock = [NSLock new];
+		NSParameterAssert(_connection);
+		NSParameterAssert(_waitLock);
+    }
+    return self;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark properties
@@ -41,6 +65,10 @@
 
 @dynamic port;
 @dynamic sslmode;
+@synthesize timer = _timer;
+@synthesize connection = _connection;
+@synthesize waitLock = _waitLock;
+@dynamic url;
 
 -(NSInteger)port {
 	NSNumber* nsport = [[self parameters] objectForKey:@"port"];
@@ -67,6 +95,16 @@
 	return @[ @"user",@"dbname",@"host",@"port",@"is_default_port",@"is_require_ssl",@"comment" ];
 }
 
+-(NSURL* )url {
+	NSMutableDictionary* url = [NSMutableDictionary dictionaryWithDictionary:[self parameters]];
+	[url removeObjectForKey:@"comment"];
+	[url removeObjectForKey:@"is_require_ssl"];
+	[url removeObjectForKey:@"is_default_port"];
+	[url removeObjectForKey:@"window_title"];
+	[url removeObjectForKey:@"window_description"];
+	return [NSURL URLWithPostgresqlParams:url];
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark private methods
 ////////////////////////////////////////////////////////////////////////////////
@@ -86,8 +124,49 @@
 	}
 }
 
+-(void)invalidateTimer {
+	[[self timer] invalidate];
+	[self setTimer:nil];
+}
+
+-(void)resetTimerWithDelay:(BOOL)isDelayed {
+	if([self timer]) {
+		[self invalidateTimer];
+		NSParameterAssert([self timer]==nil);
+	}
+	
+	NSTimeInterval timeInterval = isDelayed ? PGDialogNetworkConnectionPingDelayInterval : 0.0;
+	NSTimer* scheduledTimer = [NSTimer scheduledTimerWithTimeInterval:timeInterval target:self selector:@selector(triggeredTimer:) userInfo:nil repeats:NO];
+	NSParameterAssert(scheduledTimer);
+	[self setTimer:scheduledTimer];
+}
+
+-(void)triggeredTimer:(id)sender {
+	// do the ping
+	NSURL* url = [self url];
+	if(url==nil) {
+		NSLog(@"STATE = BAD PARAMETERS");
+		return;
+	}
+	// perform the lock
+	NSLog(@"STATE = BUSY");	
+	if([[self waitLock] tryLock]==NO) {
+		[self resetTimerWithDelay:YES];
+		return;
+	}
+	// perform the ping
+	[[self connection] pingWithURL:url whenDone:^(NSError* error) {
+		[[self waitLock] unlock];
+		if(error) {
+			NSLog(@"STATE = BAD PARAMETERS: %@",[error localizedDescription]);
+		} else {
+			NSLog(@"STATE = OK");
+		}
+	}];
+}
+
 ////////////////////////////////////////////////////////////////////////////////
-#pragma mark overrides
+#pragma mark PGDialogView overrides
 ////////////////////////////////////////////////////////////////////////////////
 
 -(void)valueChangedWithKey:(NSString* )key oldValue:(id)oldValue newValue:(id)newValue {
@@ -111,6 +190,14 @@
 			[[self parameters] setObject:@"prefer" forKey:@"sslmode"];
 		}
 	}
+	
+	// reset the timer
+	[self resetTimerWithDelay:YES];
+	
+	if([key isNotEqualTo:@"comment"]) {
+		// set the comment
+		[[self parameters] setObject:[self url] forKey:@"comment"];
+	}
 }
 
 -(void)setViewParameters:(NSDictionary* )parameters {
@@ -118,6 +205,14 @@
 
 	// update parameters
 	[self resetViewParameters];
+	
+	// schedule timer
+	[self resetTimerWithDelay:NO];
+}
+
+-(void)viewDidEnd {
+	[self invalidateTimer];
+	[super viewDidEnd];
 }
 
 @end

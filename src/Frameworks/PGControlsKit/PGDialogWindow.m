@@ -98,10 +98,11 @@
 	NSWindow* window = [parentView window];
 	NSRect frame = [window frame];
 	frame.size = NSMakeSize(subView.frame.size.width + _offset.width,subView.frame.size.height + _offset.height);
-	NSLog(@"window offsize => %@",NSStringFromSize(_offset));
-	NSLog(@"set window size => %@",NSStringFromSize(frame.size));
 	[window setFrame:frame display:NO];
-	NSLog(@"window size => %@",NSStringFromSize([window frame].size));
+
+//	NSLog(@"window offsize => %@",NSStringFromSize(_offset));
+//	NSLog(@"set window size => %@",NSStringFromSize(frame.size));
+//	NSLog(@"window size => %@",NSStringFromSize([window frame].size));
 	
 	return YES;
 }
@@ -203,12 +204,14 @@
 	if(url==nil) {
 		url = [[self class] defaultNetworkURL];
 	}
-	[[self parameters] setValuesForKeysWithDictionary:[url postgresqlParameters]];
-	NSLog(@"params = %@",[self parameters]);
+	if(url) {
+		[[self parameters] setValuesForKeysWithDictionary:[url postgresqlParameters]];
+	}
 	
 	[self beginCustomSheetWithTitle:title description:description view:view parentWindow:parentWindow whenDone:^(NSModalResponse response) {
-		NSDictionary* parameters = [view parameters];
-		callback([NSURL URLWithPostgresqlParams:parameters],response);
+		NSParameterAssert([view isKindOfClass:[PGDialogNetworkConnectionView class]]);
+		NSURL* url = [(PGDialogNetworkConnectionView* )view url];
+		callback(url,response);
 	}];
 }
 

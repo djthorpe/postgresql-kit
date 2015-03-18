@@ -14,10 +14,13 @@
 
 @interface PGDialogNetworkConnectionView : PGDialogView {
 	NSTimer* _timer;
+	PGConnection* _connection;
+	NSLock* _waitLock;
 }
 
 // properties
 @property (readonly) NSInteger port;
 @property (readonly) NSString* sslmode;
+@property (readonly) NSURL* url;
 
 @end
