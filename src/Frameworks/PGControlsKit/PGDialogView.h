@@ -25,6 +25,8 @@
 @property (weak,nonatomic) IBOutlet NSView* firstResponder;
 @property (readonly) NSMutableDictionary* parameters;
 @property (readonly) NSArray* bindings;
+@property (readonly) NSString* windowTitle;
+@property (readonly) NSString* windowDescription;
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods

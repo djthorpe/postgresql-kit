@@ -18,7 +18,6 @@
 
 @interface PGDialogWindow ()
 @property (readonly) PGConnection* connection;
-@property (readonly) NSMutableDictionary* parameters;
 @property (nonatomic,weak) IBOutlet PGDialogBackgroundView* ibBackgroundView;
 @property (weak,nonatomic) IBOutlet PGDialogView* ibFileConnectionView;
 @property (weak,nonatomic) IBOutlet PGDialogView* ibNetworkConnectionView;
@@ -32,15 +31,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark constructors
 ////////////////////////////////////////////////////////////////////////////////
-
--(instancetype)init {
-	self = [super init];
-	if(self) {
-		_parameters = [NSMutableDictionary new];
-		NSParameterAssert(_parameters);
-	}
-	return self;
-}
 
 -(NSString* )windowNibName {
 	return @"PGDialog";
@@ -57,12 +47,6 @@
 +(NSURL* )defaultFileURL {
 	return [NSURL URLWithSocketPath:NSHomeDirectory() port:PGClientDefaultPort database:NSUserName() username:NSUserName() params:nil];
 }
-
-////////////////////////////////////////////////////////////////////////////////
-#pragma mark properties
-////////////////////////////////////////////////////////////////////////////////
-
-@synthesize parameters = _parameters;
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark private methods
@@ -109,28 +93,13 @@
 	return YES;
 }
 
--(IBAction)doButtonPressed:(id)sender {
-	NSParameterAssert([sender isKindOfClass:[NSButton class]]);
-	NSWindow* theWindow = [(NSButton* )sender window];
-	NSWindow* parentWindow = [theWindow sheetParent];
-	
-	if([[(NSButton* )sender title] isEqualToString:@"Cancel"]) {
-		// Cancel
-		[parentWindow endSheet:theWindow returnCode:NSModalResponseCancel];
-	} else if([[(NSButton* )sender title] isEqualToString:@"OK"]) {
-		// OK
-		[parentWindow endSheet:theWindow returnCode:NSModalResponseOK];
-	} else {
-		// Unknown button clicked
-		NSLog(@"Button clicked, ignoring: %@",sender);
-	}
-	
-}
-
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark IBActions
 ////////////////////////////////////////////////////////////////////////////////
 
+/**
+ *  This method is called when an action button is pressed (OK/Cancel/etc)
+ */
 -(IBAction)doEndDialog:(id)sender {
 	NSParameterAssert([sender isKindOfClass:[NSButton class]]);
 	NSWindow* theWindow = [(NSButton* )sender window];
@@ -156,10 +125,10 @@
 	[super loadWindow];
 }
 
--(void)beginCustomSheetWithTitle:(NSString* )title description:(NSString* )description view:(PGDialogView* )view parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(NSModalResponse response)) callback {
-	NSParameterAssert(title);
-	NSParameterAssert(parentWindow);
+-(void)beginCustomSheetWithParameters:(NSDictionary* )parameters view:(PGDialogView* )view parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(NSModalResponse response)) callback {
+	NSParameterAssert(parameters);
 	NSParameterAssert(view);
+	NSParameterAssert(parentWindow);
 	NSParameterAssert(callback);
 
 	// check to ensure NIB is loaded
@@ -168,16 +137,8 @@
 		NSParameterAssert([self window] != nil);
 	}
 
-	// set window title
-	[[self parameters] setObject:title forKey:@"window_title"];
-	if(description) {
-		[[self parameters] setObject:description forKey:@"window_description"];
-	} else {
-		[[self parameters] removeObjectForKey:@"window_description"];
-	}
-
 	// set parameters for the view
-	[view setViewParameters:[self parameters]];
+	[view setViewParameters:parameters];
 	
 	// set view and add constraints
 	[self setView:[view view] parentView:[self ibBackgroundView]];
@@ -187,71 +148,65 @@
 
 	// start sheet
 	[parentWindow beginSheet:[self window] completionHandler:^(NSModalResponse returnValue) {
+		// cleanup the view
 		[view viewDidEnd];
-		// set view delegate
+		// set view delegate to nil
 		[view setDelegate:nil];
 		// callback
 		callback(returnValue);
 	}];
 }
 
--(void)beginNetworkConnectionSheetWithURL:(NSURL* )url parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(NSURL* url,NSModalResponse response)) callback {
+-(void)beginNetworkConnectionSheetWithURL:(NSURL* )url comment:(NSString* )comment parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(NSURL* url,NSString* comment)) callback {
 	NSParameterAssert(parentWindow);
 	NSParameterAssert(url==nil || [url isRemoteHostURL]	);
-
-	NSString* title = @"Create Network Connection";
-	NSString* description = @"Enter the details for the connection to the remote PostgreSQL database";
-	PGDialogView* view = [self ibNetworkConnectionView];
+	PGDialogNetworkConnectionView* view = (PGDialogNetworkConnectionView* )[self ibNetworkConnectionView];
 	NSParameterAssert(view);
-
-	// set the parameters from the URL
-	[[self parameters] removeAllObjects];
-	if(url==nil) {
-		url = [[self class] defaultNetworkURL];
-	}
-	if(url) {
-		[[self parameters] setValuesForKeysWithDictionary:[url postgresqlParameters]];
+/*	NSString* title = @"Create Network Connection";
+	NSString* description = @"Enter the details for the connection to the remote PostgreSQL database";*/
+	// get parameters
+	NSDictionary* parameters = [url postgresqlParameters];
+	if(parameters==nil) {
+		parameters = [[[self class] defaultNetworkURL] postgresqlParameters];
 	}
 	
-	[self beginCustomSheetWithTitle:title description:description view:view parentWindow:parentWindow whenDone:^(NSModalResponse response) {
-		NSParameterAssert([view isKindOfClass:[PGDialogNetworkConnectionView class]]);
-		NSURL* url = [(PGDialogNetworkConnectionView* )view url];
-		callback(url,response);
+	[self beginCustomSheetWithParameters:parameters view:view parentWindow:parentWindow whenDone:^(NSModalResponse response) {
+		if(response==NSModalResponseOK) {
+			callback([view url],[view comment]);
+		} else {
+			callback(nil,nil);
+		}
 	}];
 }
 
-
--(void)beginFileConnectionSheetWithURL:(NSURL* )url parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(NSURL* url,NSModalResponse response)) callback {
+-(void)beginFileConnectionSheetWithURL:(NSURL* )url comment:(NSString* )comment parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(NSURL* url,NSString* comment)) callback {
 	NSParameterAssert(parentWindow);
-	NSParameterAssert(url==nil || [url isSocketPathURL]);
-	
-	NSString* title = @"Create Local Connection";
-	NSString* description = @"Enter the details for the connection to the local PostgreSQL database";
-	PGDialogView* view = [self ibFileConnectionView];
+	NSParameterAssert(url==nil || [url isRemoteHostURL]	);
+	PGDialogFileConnectionView* view = (PGDialogFileConnectionView* )[self ibFileConnectionView];
 	NSParameterAssert(view);
-
-	// set the parameters from the URL
-	[[self parameters] removeAllObjects];
-	if(url==nil) {
-		url = [[self class] defaultFileURL];
+/*	NSString* title = @"Create Network Connection";
+	NSString* description = @"Enter the details for the connection to the remote PostgreSQL database";*/
+	// get parameters
+	NSDictionary* parameters = [url postgresqlParameters];
+	if(parameters==nil) {
+		parameters = [[[self class] defaultFileURL] postgresqlParameters];
 	}
-	if(url) {
-		[[self parameters] setValuesForKeysWithDictionary:[url postgresqlParameters]];
-	}
-	
-	[self beginCustomSheetWithTitle:title description:description view:view parentWindow:parentWindow whenDone:^(NSModalResponse response) {
-		NSParameterAssert([view isKindOfClass:[PGDialogNetworkConnectionView class]]);
-		NSURL* url = [(PGDialogNetworkConnectionView* )view url];
-		callback(url,response);
+	[self beginCustomSheetWithParameters:parameters view:view parentWindow:parentWindow whenDone:^(NSModalResponse response) {
+		if(response==NSModalResponseOK) {
+			callback([view url],[view comment]);
+		} else {
+			callback(nil,nil);
+		}
 	}];
 }
 
--(void)beginConnectionSheetWithURL:(NSURL* )url parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(NSURL* url,NSModalResponse response)) callback {
+-(void)beginConnectionSheetWithURL:(NSURL* )url comment:(NSString* )comment parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(NSURL* url,NSString* comment)) callback {
 	NSParameterAssert(parentWindow);
+	NSParameterAssert(callback);
 	if([url isSocketPathURL]) {
-		[self beginFileConnectionSheetWithURL:url parentWindow:parentWindow whenDone:callback];
+		[self beginFileConnectionSheetWithURL:url comment:comment parentWindow:parentWindow whenDone:callback];
 	} else {
-		[self beginNetworkConnectionSheetWithURL:url parentWindow:parentWindow whenDone:callback];
+		[self beginNetworkConnectionSheetWithURL:url comment:comment parentWindow:parentWindow whenDone:callback];
 	}
 }
 

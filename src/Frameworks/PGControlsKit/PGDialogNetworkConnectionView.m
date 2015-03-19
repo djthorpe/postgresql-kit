@@ -66,7 +66,7 @@ const NSTimeInterval PGDialogNetworkConnectionPingDelayInterval = 2.0;
 @synthesize timer = _timer;
 @synthesize connection = _connection;
 @synthesize waitLock = _waitLock;
-@dynamic host,hostaddr,user,dbname,sslmode,port,url;
+@dynamic host,hostaddr,user,dbname,sslmode,port,url,comment;
 
 -(NSInteger)port {
 	NSNumber* nsport = [[self parameters] objectForKey:@"port"];
@@ -103,6 +103,10 @@ const NSTimeInterval PGDialogNetworkConnectionPingDelayInterval = 2.0;
 
 -(NSString* )host {
 	return [[[self parameters] objectForKey:@"host"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+}
+
+-(NSString* )comment {
+	return [[[self parameters] objectForKey:@"comment"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 }
 
 -(NSArray* )bindings {

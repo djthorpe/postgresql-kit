@@ -25,6 +25,7 @@
 @property (readonly) NSString* host;
 @property (readonly) NSString* user;
 @property (readonly) NSString* dbname;
+@property (readonly) NSString* comment;
 @property (readonly) NSURL* url;
 
 @end

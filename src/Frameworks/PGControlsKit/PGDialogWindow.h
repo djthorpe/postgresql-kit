@@ -45,7 +45,6 @@ enum {
 ////////////////////////////////////////////////////////////////////////////////
 
 @interface PGDialogWindow : NSWindowController <PGDialogDelegate> {
-	NSMutableDictionary* _parameters;
 	NSSize _offset;
 }
 
@@ -78,32 +77,70 @@ enum {
 -(void)load;
 
 /**
- *  This method displays a sheet attatched to a parent window, where the title,
- *  description and PGDialogView objects are provided to style the sheet. When
+ *  This method displays a sheet attatched to a parent window, where the dialog
+ *  parameters and PGDialogView objects are provided to style the sheet. When
  *  an action button is pressed (either OK or cancel) the sheet is dismissed
- *  and the callback called.
+ *  and the callback called with the appropriate modal response.
  *
- *  @param title        The title for the sheet
- *  @param description  An optional description for the sheet
+ *  @param parameters   The title for the sheet
  *  @param view         The PGDialogView view controller for the sheet contents
  *  @param parentWindow The NSWindow on which the sheet appears modally
  *  @param callback
  */
--(void)beginCustomSheetWithTitle:(NSString* )title description:(NSString* )description view:(PGDialogView* )view parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(NSModalResponse response)) callback;
+-(void)beginCustomSheetWithParameters:(NSDictionary* )parameters view:(PGDialogView* )view parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(NSModalResponse response)) callback;
 
 /**
  *  This method displays a "Network Connection" or "File-based Connection" sheet
  *  above a parent window, in order to enter the details for a PostgreSQL
  *  connection. If the URL is nil, it assumes a network-based connection, or
  *  a URL can be passed from the defaultNetworkURL or defaultFileURL static
- *  methods.
+ *  methods. When done, the callback provides the entered URL, or nil if the
+ *  cancel button was pressed.
  *
  *  @param url          The URL which is used to "fill all the details in" for the
  *                      sheet
+ *  @param comment      The comment associated with the URL, or nil
  *  @param parentWindow The NSWindow on which the sheet appears modally
  *  @param callback     The callback which is called once the sheet is dismissed
  */
--(void)beginConnectionSheetWithURL:(NSURL* )url parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(NSURL* url,NSModalResponse response)) callback;
+-(void)beginConnectionSheetWithURL:(NSURL* )url comment:(NSString* )comment parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(NSURL* url,NSString* comment)) callback;
+
+/**
+ *  This method displays a "Create Role" sheet above a parent window, in order
+ *  to allow the user to enter the details necessary for creating a role. When done,
+ *  the callback provides a PGQuery object which can be used for creating the
+ *  role, or nil if the sheet was cancelled.
+ *
+ *  @param parameters   The initial parameters used for display.
+ *  @param parentWindow The NSWindow on which the sheet appears modally
+ *  @param callback     The callback which is called once the sheet is dismissed
+ */
+-(void)beginCreateRoleSheetWithParameters:(NSDictionary* )parameters parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(PGQuery* query)) callback;
+
+/**
+ *  This method displays a "Create Schema" sheet above a parent window, in order
+ *  to allow the user to enter the details necessary for creating a schema. When done,
+ *  the callback provides a PGQuery object which can be used for creating the
+ *  schema, or nil if the sheet was cancelled.
+ *
+ *  @param parameters   The initial parameters used for display.
+ *  @param parentWindow The NSWindow on which the sheet appears modally
+ *  @param callback     The callback which is called once the sheet is dismissed
+ */
+-(void)beginCreateSchemaSheetWithParameters:(NSDictionary* )parameters parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(PGQuery* query)) callback;
+
+/**
+ *  This method displays a "Create Database" sheet above a parent window, in order
+ *  to allow the user to enter the details necessary for creating a database. When done,
+ *  the callback provides a PGQuery object which can be used for creating the
+ *  database, or nil if the sheet was cancelled.
+ *
+ *  @param parameters   The initial parameters used for display.
+ *  @param parentWindow The NSWindow on which the sheet appears modally
+ *  @param callback     The callback which is called once the sheet is dismissed
+ */
+-(void)beginCreateDatabaseSheetWithParameters:(NSDictionary* )parameters parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(PGQuery* query)) callback;
+
 
 @end
 
