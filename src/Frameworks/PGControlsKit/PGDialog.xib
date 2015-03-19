@@ -13,6 +13,7 @@
                 <outlet property="ibCreateSchemaView" destination="j3F-AG-LsC" id="za1-DF-NaS"/>
                 <outlet property="ibFileConnectionView" destination="Sin-Yg-pjt" id="7XJ-ES-78p"/>
                 <outlet property="ibNetworkConnectionView" destination="rJg-gq-48y" id="Jnm-gv-Eq6"/>
+                <outlet property="ibPasswordView" destination="mXH-1E-JYD" id="Hqt-gj-1Xx"/>
                 <outlet property="window" destination="ASC-uL-Kwd" id="dMy-Mh-j4x"/>
             </connections>
         </customObject>
@@ -652,6 +653,54 @@
             </constraints>
             <point key="canvasLocation" x="484" y="876.5"/>
         </customView>
+        <customView id="hVV-OF-8Pj" userLabel="View - Password">
+            <rect key="frame" x="0.0" y="0.0" width="458" height="84"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xo4-zC-Pp0">
+                    <rect key="frame" x="18" y="45" width="128" height="17"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="124" id="CBl-1s-eSw"/>
+                    </constraints>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Password" id="evB-ec-nx4">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="Suc-WH-jut">
+                    <rect key="frame" x="150" y="18" width="192" height="18"/>
+                    <buttonCell key="cell" type="check" title="Save password in Keychain" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="S0p-ak-QpK">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <binding destination="rJg-gq-48y" name="value" keyPath="parameters.is_default_port" id="u1D-fO-JTq"/>
+                    </connections>
+                </button>
+                <secureTextField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qPh-4t-F8C">
+                    <rect key="frame" x="152" y="42" width="286" height="22"/>
+                    <secureTextFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" usesSingleLineMode="YES" id="3OJ-ZG-jmA">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        <allowedInputSourceLocales>
+                            <string>NSAllRomanInputSourcesLocaleIdentifier</string>
+                        </allowedInputSourceLocales>
+                    </secureTextFieldCell>
+                </secureTextField>
+            </subviews>
+            <constraints>
+                <constraint firstItem="qPh-4t-F8C" firstAttribute="top" secondItem="hVV-OF-8Pj" secondAttribute="top" constant="20" symbolic="YES" id="7LF-ns-YxK"/>
+                <constraint firstItem="xo4-zC-Pp0" firstAttribute="leading" secondItem="hVV-OF-8Pj" secondAttribute="leading" constant="20" symbolic="YES" id="J8X-Zn-ENB"/>
+                <constraint firstItem="qPh-4t-F8C" firstAttribute="leading" secondItem="Suc-WH-jut" secondAttribute="leading" id="PRm-hk-Jri"/>
+                <constraint firstItem="Suc-WH-jut" firstAttribute="top" secondItem="qPh-4t-F8C" secondAttribute="bottom" constant="8" symbolic="YES" id="PcF-lN-Uh5"/>
+                <constraint firstAttribute="trailing" secondItem="qPh-4t-F8C" secondAttribute="trailing" constant="20" symbolic="YES" id="Sbb-F9-xRL"/>
+                <constraint firstItem="qPh-4t-F8C" firstAttribute="leading" secondItem="xo4-zC-Pp0" secondAttribute="trailing" constant="8" symbolic="YES" id="U5K-VA-II1"/>
+                <constraint firstItem="qPh-4t-F8C" firstAttribute="centerY" secondItem="xo4-zC-Pp0" secondAttribute="centerY" id="lHZ-9n-KTu"/>
+            </constraints>
+            <point key="canvasLocation" x="484" y="1089"/>
+        </customView>
         <customView id="OHY-PZ-gKZ" userLabel="View - Create Schema">
             <rect key="frame" x="0.0" y="0.0" width="458" height="189"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -749,7 +798,7 @@
             <point key="canvasLocation" x="464" y="277.5"/>
         </customView>
         <window title="PGDialogWindow" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="ASC-uL-Kwd" userLabel="Window - Dialog Window">
-            <windowStyleMask key="styleMask" titled="YES" fullSizeContentView="YES"/>
+            <windowStyleMask key="styleMask" titled="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="480" height="480"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1177"/>
@@ -785,7 +834,7 @@ Gw
                             <action selector="doButtonPressed:" target="-2" id="l8s-kg-x81"/>
                         </connections>
                     </button>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nur-xs-8CS">
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nur-xs-8CS">
                         <rect key="frame" x="100" y="443" width="333" height="17"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Create New Database Role" id="i9H-1K-zbN">
                             <font key="font" metaFont="systemBold"/>
@@ -796,7 +845,7 @@ Gw
                             <binding destination="-2" name="value" keyPath="parameters.window_title" id="4Oe-XS-aWZ"/>
                         </connections>
                     </textField>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CGq-mC-qLl">
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CGq-mC-qLl">
                         <rect key="frame" x="100" y="388" width="362" height="38"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="This text describes more about what is going to happen This text describes more about what is going to happen" id="Jcm-5p-D5m">
                             <font key="font" metaFont="smallSystem"/>
@@ -807,7 +856,7 @@ Gw
                             <binding destination="-2" name="value" keyPath="parameters.window_description" id="fBX-jD-UIc"/>
                         </connections>
                     </textField>
-                    <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="lTb-Y5-BQK">
+                    <box verticalHuggingPriority="750" ambiguous="YES" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="lTb-Y5-BQK">
                         <rect key="frame" x="102" y="432" width="358" height="5"/>
                         <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                         <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -819,16 +868,16 @@ Gw
                         <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <font key="titleFont" metaFont="system"/>
                     </box>
-                    <box verticalHuggingPriority="750" misplaced="YES" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="0Ug-JD-Kq8">
+                    <box verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="0Ug-JD-Kq8">
                         <rect key="frame" x="0.0" y="377" width="480" height="5"/>
                         <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                         <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <font key="titleFont" metaFont="system"/>
                     </box>
-                    <customView misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9ZS-Ku-1RU" customClass="PGDialogBackgroundView">
+                    <customView ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9ZS-Ku-1RU" customClass="PGDialogBackgroundView">
                         <rect key="frame" x="0.0" y="62" width="480" height="317"/>
                     </customView>
-                    <imageView misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pUL-ia-QEE">
+                    <imageView ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pUL-ia-QEE">
                         <rect key="frame" x="20" y="388" width="71" height="72"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="71" id="82j-3B-Vih"/>
@@ -874,30 +923,39 @@ Gw
                     <constraint firstItem="9ZS-Ku-1RU" firstAttribute="leading" secondItem="0Ug-JD-Kq8" secondAttribute="leading" id="wZx-up-Yst"/>
                 </constraints>
             </view>
-            <point key="canvasLocation" x="-106" y="886"/>
+            <point key="canvasLocation" x="-33" y="891"/>
         </window>
         <customObject id="cTe-i9-1Qf" userLabel="PGDialogCreateDatabaseView" customClass="PGDialogCreateDatabaseView">
             <connections>
+                <outlet property="firstResponder" destination="cMK-kn-UXc" id="EEe-PT-bRq"/>
                 <outlet property="view" destination="2Ga-zH-90q" id="9lo-2Q-w5B"/>
             </connections>
         </customObject>
         <customObject id="sqn-Gp-stD" userLabel="PGDialogCreateRoleView" customClass="PGDialogCreateRoleView">
             <connections>
+                <outlet property="firstResponder" destination="QXW-x2-2Rg" id="Scc-03-yY5"/>
                 <outlet property="view" destination="W3o-A6-nnY" id="cia-hN-zWd"/>
             </connections>
         </customObject>
         <customObject id="j3F-AG-LsC" userLabel="PGDialogCreateSchemaView" customClass="PGDialogCreateSchemaView">
             <connections>
+                <outlet property="firstResponder" destination="eiS-Hs-qgq" id="tkL-cI-wIu"/>
                 <outlet property="view" destination="OHY-PZ-gKZ" id="VYH-yz-OBF"/>
             </connections>
         </customObject>
         <customObject id="rJg-gq-48y" userLabel="PGDialogNetworkConnectionView" customClass="PGDialogNetworkConnectionView">
             <connections>
-                <outlet property="firstResponder" destination="6bt-Sb-SB2" id="z23-8c-Xyh"/>
+                <outlet property="firstResponder" destination="6bt-Sb-SB2" id="qH7-L5-h32"/>
                 <outlet property="view" destination="w4g-ZB-PzQ" id="zHU-uF-FXb"/>
             </connections>
         </customObject>
         <customObject id="Sin-Yg-pjt" userLabel="PGDialogFileConnectionView" customClass="PGDialogFileConnectionView"/>
+        <customObject id="mXH-1E-JYD" userLabel="PGDialogPasswordView" customClass="PGDialogPasswordView">
+            <connections>
+                <outlet property="firstResponder" destination="qPh-4t-F8C" id="mj2-x9-QLk"/>
+                <outlet property="view" destination="hVV-OF-8Pj" id="OdO-8d-SFw"/>
+            </connections>
+        </customObject>
     </objects>
     <resources>
         <image name="elephant-72" width="72" height="72"/>

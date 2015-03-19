@@ -38,8 +38,9 @@
   @class PGDialogCreateDatabaseView;
   @class PGDialogCreateRoleView;
   @class PGDialogCreateSchemaView;
+  @class PGDialogPasswordView;
   @class PGDialogNetworkConnectionView;
-  @class PGDialogFileConnectionView;
+    @class PGDialogFileConnectionView;
 
 // PGDialog
 #import "PGDialogWindow.h"
@@ -47,6 +48,7 @@
 #import "PGDialogCreateDatabaseView.h"
 #import "PGDialogCreateSchemaView.h"
 #import "PGDialogCreateRoleView.h"
+#import "PGDialogPasswordView.h"
 #import "PGDialogNetworkConnectionView.h"
 #import "PGDialogFileConnectionView.h"
 

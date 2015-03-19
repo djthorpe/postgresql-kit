@@ -12,6 +12,9 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-@interface PGDialogFileConnectionView : PGDialogNetworkConnectionView
+#import <PGControlsKit/PGControlsKit.h>
+#import <PGControlsKit/PGControlsKit+Private.h>
+
+@implementation PGDialogPasswordView
 
 @end

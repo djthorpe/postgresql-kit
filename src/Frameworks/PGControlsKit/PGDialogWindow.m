@@ -21,6 +21,7 @@
 @property (nonatomic,weak) IBOutlet PGDialogBackgroundView* ibBackgroundView;
 @property (weak,nonatomic) IBOutlet PGDialogView* ibFileConnectionView;
 @property (weak,nonatomic) IBOutlet PGDialogView* ibNetworkConnectionView;
+@property (weak,nonatomic) IBOutlet PGDialogView* ibPasswordView;
 @property (weak,nonatomic) IBOutlet PGDialogView* ibCreateRoleView;
 @property (weak,nonatomic) IBOutlet PGDialogView* ibCreateSchemaView;
 @property (weak,nonatomic) IBOutlet PGDialogView* ibCreateDatabaseView;

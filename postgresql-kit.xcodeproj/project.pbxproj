@@ -88,13 +88,13 @@
 		149BA1A31AA6FB50007B86A0 /* PGQuerySelect.m in Sources */ = {isa = PBXBuildFile; fileRef = 1482A9071AA5F4530000BA25 /* PGQuerySelect.m */; };
 		149BA1A41AA6FB54007B86A0 /* PGQuerySelect.h in Headers */ = {isa = PBXBuildFile; fileRef = 1482A9061AA5F4530000BA25 /* PGQuerySelect.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		149BA1A51AA6FB58007B86A0 /* PGQuerySelect.h in Headers */ = {isa = PBXBuildFile; fileRef = 1482A9061AA5F4530000BA25 /* PGQuerySelect.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		14A6281F1AB60351003668AB /* PGDialogCreateDatabaseView.h in Headers */ = {isa = PBXBuildFile; fileRef = 14A6281D1AB60351003668AB /* PGDialogCreateDatabaseView.h */; };
+		14A6281F1AB60351003668AB /* PGDialogCreateDatabaseView.h in Headers */ = {isa = PBXBuildFile; fileRef = 14A6281D1AB60351003668AB /* PGDialogCreateDatabaseView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		14A628201AB60351003668AB /* PGDialogCreateDatabaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14A6281E1AB60351003668AB /* PGDialogCreateDatabaseView.m */; };
 		14C245DF1AB6C766005ED153 /* GBSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 14FD07131AA70C0E0013557E /* GBSettings.m */; };
 		14C245E31AB6C76A005ED153 /* GBPrint.m in Sources */ = {isa = PBXBuildFile; fileRef = 14FD07111AA70C0E0013557E /* GBPrint.m */; };
 		14C245E41AB6C76D005ED153 /* GBOptionsHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 14FD070F1AA70C0E0013557E /* GBOptionsHelper.m */; };
 		14C245E51AB6C770005ED153 /* GBCommandLineParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 14FD070D1AA70C0E0013557E /* GBCommandLineParser.m */; };
-		14C3A8F51AB5F74F00DD5323 /* PGDialogView.h in Headers */ = {isa = PBXBuildFile; fileRef = 14C3A8F31AB5F74F00DD5323 /* PGDialogView.h */; };
+		14C3A8F51AB5F74F00DD5323 /* PGDialogView.h in Headers */ = {isa = PBXBuildFile; fileRef = 14C3A8F31AB5F74F00DD5323 /* PGDialogView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		14C3A8F61AB5F74F00DD5323 /* PGDialogView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14C3A8F41AB5F74F00DD5323 /* PGDialogView.m */; };
 		14D7C3E617AD721D00479231 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C168115F26BF20013A382 /* Foundation.framework */; };
 		14D7C3E717AD729000479231 /* PGClientParams.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EE23F62163207DA00C99BA7 /* PGClientParams.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -210,6 +210,8 @@
 		6E60B5BA1A628028005B0633 /* PGConnectionWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E60B5B81A628028005B0633 /* PGConnectionWindowController.m */; };
 		6E60B5BC1A6280AF005B0633 /* PGConnectionWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E60B5BB1A6280AF005B0633 /* PGConnectionWindow.xib */; };
 		6E60B5BD1A6285DB005B0633 /* PGClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
+		6E6481EE1ABACD3F00EF57C4 /* PGDialogPasswordView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E6481EC1ABACD3F00EF57C4 /* PGDialogPasswordView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6E6481EF1ABACD3F00EF57C4 /* PGDialogPasswordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E6481ED1ABACD3F00EF57C4 /* PGDialogPasswordView.m */; };
 		6E69F6AB1A67AD340014EC1F /* PGSourceViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E69F6A81A67AD340014EC1F /* PGSourceViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E69F6AC1A67AD340014EC1F /* PGSourceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E69F6A91A67AD340014EC1F /* PGSourceViewController.m */; };
 		6E69F6AD1A67AD340014EC1F /* PGSourceView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E69F6AA1A67AD340014EC1F /* PGSourceView.xib */; };
@@ -220,13 +222,13 @@
 		6E69F6B71A67C0040014EC1F /* NOTICE.md in Resources */ = {isa = PBXBuildFile; fileRef = 14EE3C36166752F80083C735 /* NOTICE.md */; };
 		6E69F6B81A67C0040014EC1F /* NOTICE.md in Resources */ = {isa = PBXBuildFile; fileRef = 14EE3C36166752F80083C735 /* NOTICE.md */; };
 		6E69F6B91A67C0040014EC1F /* NOTICE.md in Resources */ = {isa = PBXBuildFile; fileRef = 14EE3C36166752F80083C735 /* NOTICE.md */; };
-		6E6A8B881AB7585200A95748 /* PGDialogNetworkConnectionView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E6A8B861AB7585200A95748 /* PGDialogNetworkConnectionView.h */; };
+		6E6A8B881AB7585200A95748 /* PGDialogNetworkConnectionView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E6A8B861AB7585200A95748 /* PGDialogNetworkConnectionView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E6A8B891AB7585200A95748 /* PGDialogNetworkConnectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E6A8B871AB7585200A95748 /* PGDialogNetworkConnectionView.m */; };
-		6E6A8B8C1AB7588B00A95748 /* PGDialogFileConnectionView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E6A8B8A1AB7588B00A95748 /* PGDialogFileConnectionView.h */; };
+		6E6A8B8C1AB7588B00A95748 /* PGDialogFileConnectionView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E6A8B8A1AB7588B00A95748 /* PGDialogFileConnectionView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E6A8B8D1AB7588B00A95748 /* PGDialogFileConnectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E6A8B8B1AB7588B00A95748 /* PGDialogFileConnectionView.m */; };
-		6E6A8B901AB758B500A95748 /* PGDialogCreateRoleView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E6A8B8E1AB758B500A95748 /* PGDialogCreateRoleView.h */; };
+		6E6A8B901AB758B500A95748 /* PGDialogCreateRoleView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E6A8B8E1AB758B500A95748 /* PGDialogCreateRoleView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E6A8B911AB758B500A95748 /* PGDialogCreateRoleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E6A8B8F1AB758B500A95748 /* PGDialogCreateRoleView.m */; };
-		6E6A8B941AB758E400A95748 /* PGDialogCreateSchemaView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E6A8B921AB758E400A95748 /* PGDialogCreateSchemaView.h */; };
+		6E6A8B941AB758E400A95748 /* PGDialogCreateSchemaView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E6A8B921AB758E400A95748 /* PGDialogCreateSchemaView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E6A8B951AB758E400A95748 /* PGDialogCreateSchemaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E6A8B931AB758E400A95748 /* PGDialogCreateSchemaView.m */; };
 		6E820ACA1AAD9396003B987B /* PGUnitTester.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E820AC91AAD9396003B987B /* PGUnitTester.m */; };
 		6E82F1731A9BC9B20024B8BE /* PGConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E82F1711A9BC9B20024B8BE /* PGConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -706,6 +708,8 @@
 		6E60B5B71A628028005B0633 /* PGConnectionWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGConnectionWindowController.h; sourceTree = "<group>"; };
 		6E60B5B81A628028005B0633 /* PGConnectionWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGConnectionWindowController.m; sourceTree = "<group>"; };
 		6E60B5BB1A6280AF005B0633 /* PGConnectionWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PGConnectionWindow.xib; sourceTree = "<group>"; };
+		6E6481EC1ABACD3F00EF57C4 /* PGDialogPasswordView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGDialogPasswordView.h; sourceTree = "<group>"; };
+		6E6481ED1ABACD3F00EF57C4 /* PGDialogPasswordView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGDialogPasswordView.m; sourceTree = "<group>"; };
 		6E69F6A81A67AD340014EC1F /* PGSourceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSourceViewController.h; sourceTree = "<group>"; };
 		6E69F6A91A67AD340014EC1F /* PGSourceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSourceViewController.m; sourceTree = "<group>"; };
 		6E69F6AA1A67AD340014EC1F /* PGSourceView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PGSourceView.xib; sourceTree = "<group>"; };
@@ -976,6 +980,8 @@
 				6E6A8B871AB7585200A95748 /* PGDialogNetworkConnectionView.m */,
 				6E6A8B8A1AB7588B00A95748 /* PGDialogFileConnectionView.h */,
 				6E6A8B8B1AB7588B00A95748 /* PGDialogFileConnectionView.m */,
+				6E6481EC1ABACD3F00EF57C4 /* PGDialogPasswordView.h */,
+				6E6481ED1ABACD3F00EF57C4 /* PGDialogPasswordView.m */,
 				14A6281D1AB60351003668AB /* PGDialogCreateDatabaseView.h */,
 				14A6281E1AB60351003668AB /* PGDialogCreateDatabaseView.m */,
 				6E6A8B8E1AB758B500A95748 /* PGDialogCreateRoleView.h */,
@@ -1736,6 +1742,7 @@
 				6E5D8BD51A66EE9000C54D42 /* PGConnectionWindowFormatter.h in Headers */,
 				14A6281F1AB60351003668AB /* PGDialogCreateDatabaseView.h in Headers */,
 				6E48CD781A73F3360060B429 /* PGHelpTextView.h in Headers */,
+				6E6481EE1ABACD3F00EF57C4 /* PGDialogPasswordView.h in Headers */,
 				141BEBD61AB444AE000EFCFC /* PGDialogWindow.h in Headers */,
 				6E6A8B901AB758B500A95748 /* PGDialogCreateRoleView.h in Headers */,
 			);
@@ -2299,6 +2306,7 @@
 				6E45A40F1A73AAF900E20B36 /* MMElement.m in Sources */,
 				6E45A4111A73AB0000E20B36 /* MMHTMLParser.m in Sources */,
 				6E45A4101A73AB0000E20B36 /* MMGenerator.m in Sources */,
+				6E6481EF1ABACD3F00EF57C4 /* PGDialogPasswordView.m in Sources */,
 				6E6A8B951AB758E400A95748 /* PGDialogCreateSchemaView.m in Sources */,
 				6E6A8B891AB7585200A95748 /* PGDialogNetworkConnectionView.m in Sources */,
 				6E48CD791A73F3360060B429 /* PGHelpTextView.m in Sources */,
