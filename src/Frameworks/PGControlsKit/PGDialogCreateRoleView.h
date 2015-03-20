@@ -14,4 +14,7 @@
 
 @interface PGDialogCreateRoleView : PGDialogView
 
+// properties
+@property (readonly) PGQuery* query;
+
 @end

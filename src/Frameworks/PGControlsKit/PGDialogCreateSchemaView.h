@@ -14,4 +14,7 @@
 
 @interface PGDialogCreateSchemaView : PGDialogView
 
+// properties
+@property (readonly) PGQuery* query;
+
 @end

@@ -14,4 +14,7 @@
 
 @interface PGDialogCreateDatabaseView : PGDialogView
 
+// properties
+@property (readonly) PGQuery* query;
+
 @end

@@ -211,6 +211,51 @@
 	}
 }
 
+-(void)beginCreateRoleSheetWithParameters:(NSDictionary* )parameters parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(PGQuery* query)) callback {
+	NSParameterAssert(parentWindow);
+	NSParameterAssert(callback);
+	PGDialogCreateRoleView* view = (PGDialogCreateRoleView* )[self ibCreateRoleView];
+	NSParameterAssert(view);
+	// get parameters
+	[self beginCustomSheetWithParameters:parameters view:view parentWindow:parentWindow whenDone:^(NSModalResponse response) {
+		if(response==NSModalResponseOK) {
+			callback([view query]);
+		} else {
+			callback(nil);
+		}
+	}];
+}
+
+-(void)beginCreateSchemaSheetWithParameters:(NSDictionary* )parameters parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(PGQuery* query)) callback {
+	NSParameterAssert(parentWindow);
+	NSParameterAssert(callback);
+	PGDialogCreateSchemaView* view = (PGDialogCreateSchemaView* )[self ibCreateSchemaView];
+	NSParameterAssert(view);
+	// get parameters
+	[self beginCustomSheetWithParameters:parameters view:view parentWindow:parentWindow whenDone:^(NSModalResponse response) {
+		if(response==NSModalResponseOK) {
+			callback([view query]);
+		} else {
+			callback(nil);
+		}
+	}];
+}
+
+-(void)beginCreateDatabaseSheetWithParameters:(NSDictionary* )parameters parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(PGQuery* query)) callback {
+	NSParameterAssert(parentWindow);
+	NSParameterAssert(callback);
+	PGDialogCreateDatabaseView* view = (PGDialogCreateDatabaseView* )[self ibCreateDatabaseView];
+	NSParameterAssert(view);
+	// get parameters
+	[self beginCustomSheetWithParameters:parameters view:view parentWindow:parentWindow whenDone:^(NSModalResponse response) {
+		if(response==NSModalResponseOK) {
+			callback([view query]);
+		} else {
+			callback(nil);
+		}
+	}];
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark PGDialogDelegate implementation
 ////////////////////////////////////////////////////////////////////////////////

@@ -57,8 +57,8 @@
 }
 
 -(IBAction)doCreateConnectionURL:(id)sender {
-	[[self dialog] beginConnectionSheetWithURL:[self url] parentWindow:[self window] whenDone:^(NSURL *url, NSModalResponse response) {
-		if(response==NSModalResponseOK && url) {
+	[[self dialog] beginConnectionSheetWithURL:[self url] comment:nil parentWindow:[self window] whenDone:^(NSURL *url, NSString *comment) {
+		if(url) {
 			// set the URL
 			[super willChangeValueForKey:@"urlstring"];
 			[self setUrl:url];
@@ -72,26 +72,20 @@
 }
 
 -(IBAction)doCreateRoleWindow:(id)sender {
-	[[self dialog] loadWindow];
-	PGDialogView* view = [[self dialog] ibCreateRoleView];
-	[[self dialog] beginCustomSheetWithTitle:@"Create new role" description:nil view:view parentWindow:[self window] whenDone:^(NSModalResponse response) {
-		NSLog(@"DONE, RESPONSE = %ld",response);
+	[[self dialog] beginCreateRoleSheetWithParameters:nil parentWindow:[self window] whenDone:^(PGQuery *query) {
+		NSLog(@"QUERY = %@",query);
 	}];
 }
 
 -(IBAction)doCreateSchemaWindow:(id)sender {
-	[[self dialog] loadWindow];
-	PGDialogView* view = [[self dialog] ibCreateSchemaView];
-	[[self dialog] beginCustomSheetWithTitle:@"Create new schema" description:nil view:view parentWindow:[self window] whenDone:^(NSModalResponse response) {
-		NSLog(@"DONE, RESPONSE = %ld",response);
+	[[self dialog] beginCreateSchemaSheetWithParameters:nil parentWindow:[self window] whenDone:^(PGQuery *query) {
+		NSLog(@"QUERY = %@",query);
 	}];
 }
 
 -(IBAction)doCreateDatabaseWindow:(id)sender {
-	[[self dialog] loadWindow];
-	PGDialogView* view = [[self dialog] ibCreateDatabaseView];
-	[[self dialog] beginCustomSheetWithTitle:@"Create new database" description:nil view:view parentWindow:[self window] whenDone:^(NSModalResponse response) {
-		NSLog(@"DONE, RESPONSE = %ld",response);
+	[[self dialog] beginCreateDatabaseSheetWithParameters:nil parentWindow:[self window] whenDone:^(PGQuery *query) {
+		NSLog(@"QUERY = %@",query);
 	}];
 }
 
