@@ -70,6 +70,12 @@ enum {
 ////////////////////////////////////////////////////////////////////////////////
 // public properties
 
+@property (retain) NSString* windowTitle;
+@property (retain) NSString* windowDescription;
+
+////////////////////////////////////////////////////////////////////////////////
+// public methods
+
 /**
  *  This method initalizes the object by loading the NIB. You should call this
  *  method before accessing views.

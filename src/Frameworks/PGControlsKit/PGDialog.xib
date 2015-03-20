@@ -818,7 +818,7 @@ DQ
 </string>
                         </buttonCell>
                         <connections>
-                            <action selector="doButtonPressed:" target="-2" id="m7b-1F-caR"/>
+                            <action selector="doEndDialog:" target="-2" id="lf7-tY-9ra"/>
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="BwP-QG-Yqr">
@@ -831,7 +831,7 @@ Gw
 </string>
                         </buttonCell>
                         <connections>
-                            <action selector="doButtonPressed:" target="-2" id="l8s-kg-x81"/>
+                            <action selector="doEndDialog:" target="-2" id="GSi-Of-SSJ"/>
                         </connections>
                     </button>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nur-xs-8CS">
@@ -842,7 +842,7 @@ Gw
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                         <connections>
-                            <binding destination="-2" name="value" keyPath="parameters.window_title" id="4Oe-XS-aWZ"/>
+                            <binding destination="-2" name="value" keyPath="windowTitle" id="UJd-eX-z6H"/>
                         </connections>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CGq-mC-qLl">
@@ -853,7 +853,7 @@ Gw
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                         <connections>
-                            <binding destination="-2" name="value" keyPath="parameters.window_description" id="fBX-jD-UIc"/>
+                            <binding destination="-2" name="value" keyPath="windowDescription" id="WkB-wR-ja1"/>
                         </connections>
                     </textField>
                     <box verticalHuggingPriority="750" ambiguous="YES" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="lTb-Y5-BQK">

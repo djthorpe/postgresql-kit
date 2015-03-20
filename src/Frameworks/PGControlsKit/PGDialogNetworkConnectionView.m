@@ -30,8 +30,6 @@ const NSTimeInterval PGDialogNetworkConnectionPingDelayInterval = 2.0;
   *  dbname - NSString* database
   *  host - NSString* hostname
   *  port - NSUInteger port
-  *  is_default_port - BOOL
-  *  is_require_ssl - BOOL
   *  comment - NSString*
   *
   *  Programmatically, the following parameters are also generated:
@@ -115,11 +113,11 @@ const NSTimeInterval PGDialogNetworkConnectionPingDelayInterval = 2.0;
 
 -(NSURL* )url {
 	NSMutableDictionary* url = [NSMutableDictionary dictionaryWithDictionary:[self parameters]];
+
+	// remove parameters which aren't part of the URL
 	[url removeObjectForKey:@"comment"];
 	[url removeObjectForKey:@"is_require_ssl"];
 	[url removeObjectForKey:@"is_default_port"];
-	[url removeObjectForKey:@"window_title"];
-	[url removeObjectForKey:@"window_description"];
 	
 	// if missing user or dbname, return nil
 	if([self user]==nil) {
@@ -142,34 +140,47 @@ const NSTimeInterval PGDialogNetworkConnectionPingDelayInterval = 2.0;
 	return [NSURL URLWithPostgresqlParams:url];
 }
 
+-(NSString* )windowTitle {
+	return @"Create Network Connection";
+}
+
+-(NSString* )windowDescription {
+	return @"Enter the details for the connection to the remote PostgreSQL database";
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark private methods
 ////////////////////////////////////////////////////////////////////////////////
 
+/**
+ *  Method to reset parameters based on others within the parameter dictionary
+ */
 -(void)resetViewParameters {
 	// port
-	if([self port]==PGClientDefaultPort) {
-		[[self parameters] setObject:[NSNumber numberWithBool:YES] forKey:@"is_default_port"];
-	} else {
-		[[self parameters] setObject:[NSNumber numberWithBool:NO] forKey:@"is_default_port"];
-	}
+	BOOL isDefaultPort = ([self port]==PGClientDefaultPort) ? YES : NO;
+	[[self parameters] setObject:[NSNumber numberWithBool:isDefaultPort] forKey:@"is_default_port"];
+
 	// sslmode
-	if([[self sslmode] isEqualTo:@"prefer"]) {
-		[[self parameters] setObject:[NSNumber numberWithBool:NO] forKey:@"is_require_ssl"];
-	} else {
-		[[self parameters] setObject:[NSNumber numberWithBool:YES] forKey:@"is_require_ssl"];
-	}
+	BOOL isRequireSSL = ([[self sslmode] isEqualTo:@"prefer"]) ? NO : YES;
+	[[self parameters] setObject:[NSNumber numberWithBool:isRequireSSL] forKey:@"is_require_ssl"];
+
 	// hostaddr
 	if([self hostaddr]) {
 		[[self parameters] setObject:[self hostaddr] forKey:@"host"];
 	}
 }
 
+/**
+ *  Method to remove the timer
+ */
 -(void)invalidateTimer {
 	[[self timer] invalidate];
 	[self setTimer:nil];
 }
 
+/**
+ *  Method to reset the timer, so that it delays the ping, or calls immediately
+ */
 -(void)resetTimerWithDelay:(BOOL)isDelayed {
 	if([self timer]) {
 		[self invalidateTimer];
@@ -182,13 +193,18 @@ const NSTimeInterval PGDialogNetworkConnectionPingDelayInterval = 2.0;
 	[self setTimer:scheduledTimer];
 }
 
+/**
+ *  Method to message the delegate the current indicator status
+ */
 -(void)setIndicatorFlag:(int)flag description:(NSString* )description {
 	if([[self delegate] respondsToSelector:@selector(view:setFlags:description:)]) {
 		[[self delegate] view:self setFlags:flag description:description];
 	}
 }
 
-
+/**
+ *  Initiate the ping if it isn't already in progress
+ */
 -(void)triggeredTimer:(id)sender {
 	[self setIndicatorFlag:PGDialogWindowFlagIndicatorOrange description:nil];
 	// do the ping
@@ -242,10 +258,10 @@ const NSTimeInterval PGDialogNetworkConnectionPingDelayInterval = 2.0;
 	// reset the timer
 	[self resetTimerWithDelay:YES];
 	
+	// set the comment
 	if([key isNotEqualTo:@"comment"]) {
-		// set the comment
 		if([self url]) {
-			[[self parameters] setObject:[self url] forKey:@"comment"];
+			[[self parameters] setObject:[[self url] absoluteString] forKey:@"comment"];
 		} else {
 			[[self parameters] removeObjectForKey:@"comment"];
 		}

@@ -38,6 +38,13 @@
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+#pragma mark properties
+////////////////////////////////////////////////////////////////////////////////
+
+@synthesize windowTitle;
+@synthesize windowDescription;
+
+////////////////////////////////////////////////////////////////////////////////
 #pragma mark static methods
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -127,7 +134,6 @@
 }
 
 -(void)beginCustomSheetWithParameters:(NSDictionary* )parameters view:(PGDialogView* )view parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(NSModalResponse response)) callback {
-	NSParameterAssert(parameters);
 	NSParameterAssert(view);
 	NSParameterAssert(parentWindow);
 	NSParameterAssert(callback);
@@ -147,12 +153,21 @@
 	// set view delegate
 	[view setDelegate:self];
 
+	// set window title and description from view
+	if([self windowTitle]==nil) {
+		[self setWindowTitle:[view windowTitle]];
+		[self setWindowDescription:[view windowDescription]];
+	}
+
 	// start sheet
 	[parentWindow beginSheet:[self window] completionHandler:^(NSModalResponse returnValue) {
 		// cleanup the view
 		[view viewDidEnd];
 		// set view delegate to nil
 		[view setDelegate:nil];
+		// set window title and description to nil
+		[self setWindowTitle:nil];
+		[self setWindowDescription:nil];
 		// callback
 		callback(returnValue);
 	}];
@@ -163,8 +178,7 @@
 	NSParameterAssert(url==nil || [url isRemoteHostURL]	);
 	PGDialogNetworkConnectionView* view = (PGDialogNetworkConnectionView* )[self ibNetworkConnectionView];
 	NSParameterAssert(view);
-/*	NSString* title = @"Create Network Connection";
-	NSString* description = @"Enter the details for the connection to the remote PostgreSQL database";*/
+
 	// get parameters
 	NSDictionary* parameters = [url postgresqlParameters];
 	if(parameters==nil) {

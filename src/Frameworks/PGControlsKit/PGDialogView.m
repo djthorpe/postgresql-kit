@@ -40,10 +40,20 @@ NSString* PGDialogKeyPathPrefix = @"parameters";
 @synthesize delegate;
 @synthesize parameters = _parameters;
 @dynamic bindings;
+@dynamic windowTitle;
+@dynamic windowDescription;
 
 -(NSArray* )bindings {
 	// subclass this method
 	return @[ ];
+}
+
+-(NSString* )windowTitle {
+	return @"PGDialogView windowTitle";
+}
+
+-(NSString* )windowDescription {
+	return @"PGDialogView windowDescription";
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -85,9 +95,10 @@ NSString* PGDialogKeyPathPrefix = @"parameters";
 ////////////////////////////////////////////////////////////////////////////////
 
 -(void)setViewParameters:(NSDictionary* )parameters {
-	NSParameterAssert(parameters);
 	[_parameters removeAllObjects];
-	[_parameters setValuesForKeysWithDictionary:parameters];
+	if(parameters) {
+		[_parameters setValuesForKeysWithDictionary:parameters];
+	}
 	[self registerBindings];
 	
 	if([self firstResponder]) {
