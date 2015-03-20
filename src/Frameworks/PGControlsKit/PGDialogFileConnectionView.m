@@ -17,4 +17,17 @@
 
 @implementation PGDialogFileConnectionView
 
+
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark properties
+////////////////////////////////////////////////////////////////////////////////
+
+-(NSString* )windowTitle {
+	return @"Create File Socket Connection";
+}
+
+-(NSString* )windowDescription {
+	return @"Enter the details for the connection to the local PostgreSQL database";
+}
+
 @end

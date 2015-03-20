@@ -57,6 +57,7 @@
 }
 
 -(IBAction)doCreateConnectionURL:(id)sender {
+	NSLog(@"url = %@ %@",[self url],[[self url] class]);
 	[[self dialog] beginConnectionSheetWithURL:[self url] comment:nil parentWindow:[self window] whenDone:^(NSURL *url, NSString *comment) {
 		if(url) {
 			// set the URL

@@ -319,7 +319,7 @@
 	if(parameters==nil) {
 		return NO;
 	}
-	if([[parameters objectForKey:@"hostaddr"] count]) {
+	if([parameters objectForKey:@"hostaddr"]) {
 		return YES;
 	}
 	if([[parameters objectForKey:@"host"] hasPrefix:@"/"]==NO) {

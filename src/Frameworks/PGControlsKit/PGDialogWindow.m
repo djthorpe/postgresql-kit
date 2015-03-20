@@ -199,8 +199,6 @@
 	NSParameterAssert(url==nil || [url isRemoteHostURL]	);
 	PGDialogFileConnectionView* view = (PGDialogFileConnectionView* )[self ibFileConnectionView];
 	NSParameterAssert(view);
-/*	NSString* title = @"Create Network Connection";
-	NSString* description = @"Enter the details for the connection to the remote PostgreSQL database";*/
 	// get parameters
 	NSDictionary* parameters = [url postgresqlParameters];
 	if(parameters==nil) {
