@@ -693,6 +693,7 @@
                         </buttonCell>
                         <connections>
                             <action selector="doLogin:" target="Voe-Tx-rLC" id="wCO-RD-TJF"/>
+                            <binding destination="Voe-Tx-rLC" name="enabled" keyPath="disconnected" id="Ty1-AR-Iol"/>
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vjb-1N-b7q">
@@ -703,6 +704,7 @@
                         </buttonCell>
                         <connections>
                             <action selector="doCreateRoleWindow:" target="Voe-Tx-rLC" id="OsC-lo-pfJ"/>
+                            <binding destination="Voe-Tx-rLC" name="enabled" keyPath="connected" id="WEE-Gt-oyx"/>
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DBG-T1-xhK">
@@ -713,6 +715,7 @@
                         </buttonCell>
                         <connections>
                             <action selector="doCreateDatabaseWindow:" target="Voe-Tx-rLC" id="Vjp-oa-T0R"/>
+                            <binding destination="Voe-Tx-rLC" name="enabled" keyPath="connected" id="Edp-Xs-5DU"/>
                         </connections>
                     </button>
                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cPj-lU-IWj">
@@ -734,6 +737,7 @@
                         </buttonCell>
                         <connections>
                             <action selector="doCreateSchemaWindow:" target="Voe-Tx-rLC" id="Cte-Ot-Mem"/>
+                            <binding destination="Voe-Tx-rLC" name="enabled" keyPath="connected" id="8GH-Ya-rmD"/>
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sUz-c4-mqJ">
@@ -744,6 +748,7 @@
                         </buttonCell>
                         <connections>
                             <action selector="doLogout:" target="Voe-Tx-rLC" id="H2v-eS-cbg"/>
+                            <binding destination="Voe-Tx-rLC" name="enabled" keyPath="connected" id="38d-GX-bhK"/>
                         </connections>
                     </button>
                 </subviews>

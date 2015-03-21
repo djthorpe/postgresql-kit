@@ -8,6 +8,8 @@
 @property (retain) PGDialogWindow* dialog;
 @property (retain) NSURL* url;
 @property (readonly) NSString* urlstring;
+@property BOOL connected;
+@property BOOL disconnected;
 @end
 
 @implementation AppDelegate
@@ -23,6 +25,8 @@
 	[self setConnection:[PGConnection new]];
 	[self setDialog:[PGDialogWindow new]];
 	[self setPasswordstore:[PGPasswordStore new]];
+	[self setConnected:NO];
+	[self setDisconnected:YES];
 	[[self dialog] load];
 
 	// set delegates
@@ -39,6 +43,23 @@
 
 -(void)applicationWillTerminate:(NSNotification *)aNotification {
 	[[self connection] disconnect];
+}
+
+-(void)execute:(PGQuery* )query {
+	NSLog(@"execute: %@",[query quoteForConnection:[self connection] error:nil]);
+}
+
+-(NSArray* )roles {
+	// get a list of roles
+	PGQueryRole* query = [PGQueryRole listWithOptions:0];
+	[[self connection] executeQuery:query whenDone:^(PGResult* result, NSError* error) {
+		if(error) {
+			NSLog(@"error=%@",error);
+		} else {
+			NSLog(@"roles=%@",[result tableWithWidth:80]);
+		}
+	}];
+	return @[ ];
 }
 
 -(void)handleLoginError:(NSError* )error {
@@ -120,19 +141,28 @@
 
 -(IBAction)doCreateRoleWindow:(id)sender {
 	[[self dialog] beginCreateRoleSheetWithParameters:nil parentWindow:[self window] whenDone:^(PGQuery *query) {
-		NSLog(@"QUERY = %@",query);
+		if(query) {
+			[self execute:query];
+		}
 	}];
 }
 
 -(IBAction)doCreateSchemaWindow:(id)sender {
-	[[self dialog] beginCreateSchemaSheetWithParameters:nil parentWindow:[self window] whenDone:^(PGQuery *query) {
-		NSLog(@"QUERY = %@",query);
+	// get the roles
+	NSArray* roles = [self roles];
+
+	[[self dialog] beginCreateSchemaSheetWithParameters:@{ @"roles": roles } parentWindow:[self window] whenDone:^(PGQuery *query) {
+		if(query) {
+			[self execute:query];
+		}
 	}];
 }
 
 -(IBAction)doCreateDatabaseWindow:(id)sender {
 	[[self dialog] beginCreateDatabaseSheetWithParameters:nil parentWindow:[self window] whenDone:^(PGQuery *query) {
-		NSLog(@"QUERY = %@",query);
+		if(query) {
+			[self execute:query];
+		}
 	}];
 }
 
@@ -140,14 +170,17 @@
 	if([self url]==nil) {
 		return;
 	}
-	
 	[[self connection] connectWithURL:[self url] whenDone:^(BOOL usedPassword, NSError* error) {
 		if(error) {
 			[self handleLoginError:error];
 			return;
 		}
 		if(usedPassword) {
-			NSLog(@"TODO: store password");
+			NSString* password = [[self passwordstore] passwordForURL:[self url]];
+			if(password) {
+				// TODO: don't save to keychain if user doesn't want it
+				[[self passwordstore] setPassword:password forURL:[self url] saveToKeychain:YES];
+			}
 		}
 	}];
 }
@@ -164,6 +197,16 @@
 }
 
 -(void)connection:(PGConnection *)connection statusChange:(PGConnectionStatus)status description:(NSString *)description {
+	if(status==PGConnectionStatusConnected) {
+		[self setConnected:YES];
+		[self setDisconnected:NO];
+	} else if(status==PGConnectionStatusDisconnected) {
+		[self setDisconnected:YES];
+		[self setConnected:NO];
+	} else {
+		[self setDisconnected:NO];
+		[self setConnected:NO];
+	}
 	NSLog(@"status = %@",description);
 }
 

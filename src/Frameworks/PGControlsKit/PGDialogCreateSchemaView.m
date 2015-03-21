@@ -17,14 +17,87 @@
 
 @implementation PGDialogCreateSchemaView
 
+ /**
+  *  The parameter bindings for this dialog are as follows:
+  *
+  *  schema - NSString* username
+  *  owner - NSString* database
+  *  comment - NSString* hostname
+  */
+
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark properties
 ////////////////////////////////////////////////////////////////////////////////
 
 @dynamic query;
+@dynamic schema;
+@dynamic owner;
+@dynamic comment;
 
 -(PGQuery* )query {
-	return nil;
+	if([[self schema] length]==0) {
+		return nil;
+	}
+	PGQuerySchema* query = [PGQuerySchema create:[self schema] options:0];
+	if([[self owner] length]) {
+		[query setOwner:[self owner]];
+	}
+	return query;
+}
+
+-(NSString* )schema {
+	return [[[self parameters] objectForKey:@"schema"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+}
+
+-(NSString* )owner {
+	return [[[self parameters] objectForKey:@"owner"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+}
+
+-(NSString* )comment {
+	return [[[self parameters] objectForKey:@"comment"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+}
+
+-(NSArray* )bindings {
+	return @[ @"schema",@"owner",@"comment" ];
+}
+
+-(NSString* )windowTitle {
+	return @"Create Schema";
+}
+
+-(NSString* )windowDescription {
+	return @"Create a new schema in the database";
+}
+
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark Private Methods
+////////////////////////////////////////////////////////////////////////////////
+
+/**
+ *  Method to message the delegate to enable or disable the OK button
+ */
+-(void)setEnabled:(BOOL)enabled {
+	int flag = enabled ? PGDialogWindowFlagEnabled : PGDialogWindowFlagDisabled;
+	if([[self delegate] respondsToSelector:@selector(view:setFlags:description:)]) {
+		[[self delegate] view:self setFlags:flag description:nil];
+	}
+}
+
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark PGDialogView overrides
+////////////////////////////////////////////////////////////////////////////////
+
+-(void)valueChangedWithKey:(NSString* )key oldValue:(id)oldValue newValue:(id)newValue {
+	[super valueChangedWithKey:key oldValue:oldValue newValue:newValue];
+
+	NSLog(@"value %@ %@=>%@ query=>%@",key,oldValue,newValue,[self query]);
+
+	// validate OK button
+	if([[self schema] length]) {
+		[self setEnabled:YES];
+	} else {
+		[self setEnabled:NO];
+	}
 }
 
 @end

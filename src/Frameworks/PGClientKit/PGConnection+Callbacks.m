@@ -15,7 +15,9 @@
 #import <PGClientKit/PGClientKit.h>
 #import <PGClientKit/PGClientKit+Private.h>
 
-#define DEBUG2
+#ifdef DEBUG
+//#define DEBUG2
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark C callback functions
@@ -154,10 +156,10 @@ void _noticeProcessor(void* arg,const char* cString) {
  *  run.
  */
 -(void)_socketCallbackConnect {
-	if(_connection==nil) {
+	// ignore this call if either connection or callback are nil
+	if(_connection==nil || _callback==nil) {
 		return;
 	}
-	NSParameterAssert(_connection);
 
 	PostgresPollingStatusType pqstatus = PQconnectPoll(_connection);
 	switch(pqstatus) {

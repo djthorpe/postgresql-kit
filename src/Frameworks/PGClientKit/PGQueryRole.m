@@ -347,12 +347,15 @@
 	return [NSString stringWithFormat:@"ALTER SCHEMA %@",[flags componentsJoinedByString:@" "]];
 }
 
-/*
-TODO: implement
 -(NSString* )quoteListForConnection:(PGConnection* )connection options:(NSUInteger)options error:(NSError** )error {
-	return nil;
+	NSParameterAssert(connection);
+	PGQuerySelect* q = [PGQuerySelect select:[PGQuerySource sourceWithTable:@"pg_roles" schema:@"pg_catalog" alias:@"r"] options:0];
+	[q addColumn:@"r.rolname" alias:@"role"];
+	return [q quoteForConnection:connection error:error];
+}
 
--(NSString* )_rolesForConnection:(PGConnection* )connection options:(int)options error:(NSError** )error {
+/*
+	// for extended use the following
 	NSMutableArray* columns = [NSMutableArray new];
 	[columns addObject:@"r.rolname AS role"];
 	[columns addObject:@"r.rolsuper AS superuser"];
@@ -363,8 +366,8 @@ TODO: implement
 	[columns addObject:@"r.rolconnlimit AS connection_limit"];
 	[columns addObject:@"r.rolvaliduntil AS expiry"];
 	[columns addObject:@"r.rolreplication AS replication"];
-	[columns addObject:@"ARRAY(SELECT b.rolname FROM pg_catalog.pg_auth_members m JOIN pg_catalog.pg_roles b ON (m.roleid = b.oid) WHERE m.member = r.oid) as memberof"];
-	[columns addObject:@"pg_catalog.shobj_description(r.oid, 'pg_authid') AS description"];
+	[columns addObject:@"ARRAY(SELECT b.rolname FROM  WHERE m.member = r.oid) as memberof"];
+	[columns addObject:@"pg_catalog.shobj_description(r.oid, 'pg_authid') AS comment"];
 
 	NSMutableArray* parts = [NSMutableArray new];
 	[parts addObject:@"SELECT"];
@@ -373,10 +376,6 @@ TODO: implement
 	[parts addObject:@"ORDER BY 1"];
 
 	return [parts componentsJoinedByString:@" "];
-}
-
-
-}
 */
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -393,6 +392,8 @@ TODO: implement
 		return [self quoteDropForConnection:connection options:options error:error];
 	case PGQueryOperationAlter:
 		return [self quoteAlterForConnection:connection options:options error:error];
+	case PGQueryOperationList:
+		return [self quoteListForConnection:connection options:options error:error];
 	}
 
 	[connection raiseError:error code:PGClientErrorQuery reason:@"SCHEMA: Invalid operation"];
