@@ -136,16 +136,18 @@ enum {
 -(void)beginCreateRoleSheetWithParameters:(NSDictionary* )parameters parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(PGQuery* query)) callback;
 
 /**
- *  This method displays a "Create Schema" sheet above a parent window, in order
- *  to allow the user to enter the details necessary for creating a schema. When done,
- *  the callback provides a PGQuery object which can be used for creating the
- *  schema, or nil if the sheet was cancelled.
+ *  This method displays a "Create Schema" or "Alter Schema" sheet above a 
+ *  parent window, in order to allow the user to enter the details necessary
+ *  for creating or altering a schema. When done, the callback provides a 
+ *  PGQuery object which can be used for creating or altering the schema, or 
+ *  nil if the sheet was cancelled.
  *
- *  @param parameters   The initial parameters used for display.
+ *  @param parameters   The initial parameters used for display, or nil otherwise
+ *  @param connection   The connection used to fetch the current roles
  *  @param parentWindow The NSWindow on which the sheet appears modally
  *  @param callback     The callback which is called once the sheet is dismissed
  */
--(void)beginCreateSchemaSheetWithParameters:(NSDictionary* )parameters parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(PGQuery* query)) callback;
+-(void)beginSchemaSheetWithParameters:(NSDictionary* )parameters connection:(PGConnection* )connection parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(PGQuery* query)) callback;
 
 /**
  *  This method displays a "Create Database" sheet above a parent window, in order

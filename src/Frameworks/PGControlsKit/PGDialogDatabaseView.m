@@ -12,12 +12,19 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-@interface PGDialogCreateSchemaView : PGDialogView
+#import <PGControlsKit/PGControlsKit.h>
+#import <PGControlsKit/PGControlsKit+Private.h>
 
-// properties
-@property (readonly) PGQuery* query;
-@property (readonly) NSString* schema;
-@property (readonly) NSString* owner;
-@property (readonly) NSString* comment;
+@implementation PGDialogDatabaseView
+
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark properties
+////////////////////////////////////////////////////////////////////////////////
+
+@dynamic query;
+
+-(PGQuery* )query {
+	return nil;
+}
 
 @end

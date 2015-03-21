@@ -132,6 +132,7 @@ NSDictionary* PGConnectionStatusDescription = nil;
 			[NSNumber numberWithInt:PGConnectionStatusRejected]: @"Rejected"
 		};
     });
+
 	if([self status] == oldStatus) {
 		return;
 	}
@@ -144,6 +145,7 @@ NSDictionary* PGConnectionStatusDescription = nil;
 	if(oldStatus==PGConnectionStatusRejected) {
 		[self disconnect];
 	}
+	
 }
 
 ////////////////////////////////////////////////////////////////////////////////

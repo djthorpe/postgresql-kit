@@ -38,4 +38,13 @@
 -(NSArray* )fetchRowAsArray;
 -(NSDictionary* )fetchRowAsDictionary;
 
+/**
+ *  Fetch a column as an array of NSObject values
+ *
+ *  @param column The column name
+ *
+ *  @return Returns an NSArray which contains the column values
+ */
+-(NSArray* )arrayForColumn:(NSString* )columnName;
+
 @end

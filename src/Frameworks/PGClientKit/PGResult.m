@@ -156,6 +156,24 @@
 	return [NSDictionary dictionaryWithObjects:[self fetchRowAsArray] forKeys:[self columnNames]];
 }
 
+
+-(NSArray* )arrayForColumn:(NSString* )columnName {
+	NSParameterAssert(columnName);
+	NSInteger c = [[self columnNames] indexOfObject:columnName];
+	if(c < 0 || c >= [self numberOfColumns]) {
+		return nil;
+	}
+	NSUInteger size = [self size];
+	if(size==0) {
+		return @[ ];
+	}
+	NSMutableArray* array = [NSMutableArray arrayWithCapacity:size];
+	for(NSUInteger i  = 0; i < size; i++) {
+		[array addObject:[self _tupleForRow:i column:c]];
+	}
+	return array;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 
 -(NSString* )description {

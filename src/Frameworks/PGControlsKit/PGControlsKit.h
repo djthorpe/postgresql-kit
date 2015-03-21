@@ -35,9 +35,9 @@
 // PGDialog forward declarations
 @class PGDialogWindow;
 @class PGDialogView;
-  @class PGDialogCreateDatabaseView;
-  @class PGDialogCreateRoleView;
-  @class PGDialogCreateSchemaView;
+  @class PGDialogDatabaseView;
+  @class PGDialogRoleView;
+  @class PGDialogSchemaView;
   @class PGDialogPasswordView;
   @class PGDialogNetworkConnectionView;
     @class PGDialogFileConnectionView;
@@ -45,9 +45,9 @@
 // PGDialog
 #import "PGDialogWindow.h"
 #import "PGDialogView.h"
-#import "PGDialogCreateDatabaseView.h"
-#import "PGDialogCreateSchemaView.h"
-#import "PGDialogCreateRoleView.h"
+#import "PGDialogDatabaseView.h"
+#import "PGDialogSchemaView.h"
+#import "PGDialogRoleView.h"
 #import "PGDialogPasswordView.h"
 #import "PGDialogNetworkConnectionView.h"
 #import "PGDialogFileConnectionView.h"

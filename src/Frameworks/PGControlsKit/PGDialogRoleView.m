@@ -15,7 +15,7 @@
 #import <PGControlsKit/PGControlsKit.h>
 #import <PGControlsKit/PGControlsKit+Private.h>
 
-@implementation PGDialogCreateDatabaseView
+@implementation PGDialogRoleView
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark properties

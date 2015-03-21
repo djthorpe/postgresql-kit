@@ -49,19 +49,6 @@
 	NSLog(@"execute: %@",[query quoteForConnection:[self connection] error:nil]);
 }
 
--(NSArray* )roles {
-	// get a list of roles
-	PGQueryRole* query = [PGQueryRole listWithOptions:0];
-	[[self connection] executeQuery:query whenDone:^(PGResult* result, NSError* error) {
-		if(error) {
-			NSLog(@"error=%@",error);
-		} else {
-			NSLog(@"roles=%@",[result tableWithWidth:80]);
-		}
-	}];
-	return @[ ];
-}
-
 -(void)handleLoginError:(NSError* )error {
 	if([error isNeedsPassword]) {
 		[self doPassword:nil];
@@ -140,7 +127,8 @@
 
 
 -(IBAction)doCreateRoleWindow:(id)sender {
-	[[self dialog] beginCreateRoleSheetWithParameters:nil parentWindow:[self window] whenDone:^(PGQuery *query) {
+	NSString* owner = [[self connection] user];
+	[[self dialog] beginCreateRoleSheetWithParameters:@{ @"owner": owner } parentWindow:[self window] whenDone:^(PGQuery *query) {
 		if(query) {
 			[self execute:query];
 		}
@@ -148,10 +136,7 @@
 }
 
 -(IBAction)doCreateSchemaWindow:(id)sender {
-	// get the roles
-	NSArray* roles = [self roles];
-
-	[[self dialog] beginCreateSchemaSheetWithParameters:@{ @"roles": roles } parentWindow:[self window] whenDone:^(PGQuery *query) {
+	[[self dialog] beginSchemaSheetWithParameters:nil connection:[self connection] parentWindow:[self window] whenDone:^(PGQuery *query) {
 		if(query) {
 			[self execute:query];
 		}
@@ -159,7 +144,8 @@
 }
 
 -(IBAction)doCreateDatabaseWindow:(id)sender {
-	[[self dialog] beginCreateDatabaseSheetWithParameters:nil parentWindow:[self window] whenDone:^(PGQuery *query) {
+	NSString* owner = [[self connection] user];
+	[[self dialog] beginCreateDatabaseSheetWithParameters:@{ @"owner": owner } parentWindow:[self window] whenDone:^(PGQuery *query) {
 		if(query) {
 			[self execute:query];
 		}

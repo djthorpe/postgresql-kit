@@ -15,13 +15,14 @@
 #import <PGControlsKit/PGControlsKit.h>
 #import <PGControlsKit/PGControlsKit+Private.h>
 
-@implementation PGDialogCreateSchemaView
+@implementation PGDialogSchemaView
 
  /**
   *  The parameter bindings for this dialog are as follows:
   *
   *  schema - NSString* username
   *  owner - NSString* database
+  *  roles - NSArray* of roles
   *  comment - NSString* hostname
   */
 
@@ -58,7 +59,7 @@
 }
 
 -(NSArray* )bindings {
-	return @[ @"schema",@"owner",@"comment" ];
+	return @[ @"schema",@"owner",@"comment",@"roles" ];
 }
 
 -(NSString* )windowTitle {
@@ -84,6 +85,20 @@
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+#pragma mark Public Methods
+////////////////////////////////////////////////////////////////////////////////
+
+-(void)setRoles:(NSArray* )roles {
+	NSString* owner = [self owner];
+	// set the roles which can be chosen
+	[[self parameters] setObject:roles forKey:@"roles"];
+	// reset the owner
+	if(owner) {
+		[[self parameters] setObject:owner forKey:@"owner"];
+	}
+}
+
+////////////////////////////////////////////////////////////////////////////////
 #pragma mark PGDialogView overrides
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -97,6 +112,17 @@
 		[self setEnabled:YES];
 	} else {
 		[self setEnabled:NO];
+	}
+}
+
+-(void)setViewParameters:(NSDictionary* )parameters {
+	[super setViewParameters:parameters];
+	
+	// add owner to the list of roles
+	if([self owner]) {
+		[[self parameters] setObject:@[ [self owner] ] forKey:@"roles"];
+	} else {
+		[[self parameters] setObject:@[ ] forKey:@"roles"];
 	}
 }
 

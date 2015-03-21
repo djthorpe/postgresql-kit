@@ -12,9 +12,15 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-@interface PGDialogCreateRoleView : PGDialogView
+@interface PGDialogSchemaView : PGDialogView
 
 // properties
 @property (readonly) PGQuery* query;
+@property (readonly) NSString* schema;
+@property (readonly) NSString* owner;
+@property (readonly) NSString* comment;
+
+// methods
+-(void)setRoles:(NSArray* )roles;
 
 @end

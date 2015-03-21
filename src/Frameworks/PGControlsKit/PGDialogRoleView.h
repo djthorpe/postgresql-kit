@@ -12,19 +12,9 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-#import <PGControlsKit/PGControlsKit.h>
-#import <PGControlsKit/PGControlsKit+Private.h>
+@interface PGDialogRoleView : PGDialogView
 
-@implementation PGDialogCreateRoleView
-
-////////////////////////////////////////////////////////////////////////////////
-#pragma mark properties
-////////////////////////////////////////////////////////////////////////////////
-
-@dynamic query;
-
--(PGQuery* )query {
-	return nil;
-}
+// properties
+@property (readonly) PGQuery* query;
 
 @end

@@ -17,7 +17,6 @@
 #import <PGControlsKit/PGControlsKit+Private.h>
 
 @interface PGDialogWindow ()
-@property (readonly) PGConnection* connection;
 @property (nonatomic,weak) IBOutlet PGDialogBackgroundView* ibBackgroundView;
 @property (weak,nonatomic) IBOutlet PGDialogView* ibFileConnectionView;
 @property (weak,nonatomic) IBOutlet PGDialogView* ibNetworkConnectionView;
@@ -254,7 +253,7 @@
 -(void)beginCreateRoleSheetWithParameters:(NSDictionary* )parameters parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(PGQuery* query)) callback {
 	NSParameterAssert(parentWindow);
 	NSParameterAssert(callback);
-	PGDialogCreateRoleView* view = (PGDialogCreateRoleView* )[self ibCreateRoleView];
+	PGDialogRoleView* view = (PGDialogRoleView* )[self ibCreateRoleView];
 	NSParameterAssert(view);
 	[self beginCustomSheetWithParameters:parameters view:view parentWindow:parentWindow whenDone:^(NSModalResponse response) {
 		if(response==NSModalResponseOK) {
@@ -265,11 +264,27 @@
 	}];
 }
 
--(void)beginCreateSchemaSheetWithParameters:(NSDictionary* )parameters parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(PGQuery* query)) callback {
+-(void)beginSchemaSheetWithParameters:(NSDictionary* )parameters connection:(PGConnection* )connection parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(PGQuery* query)) callback {
+	NSParameterAssert(connection);
 	NSParameterAssert(parentWindow);
 	NSParameterAssert(callback);
-	PGDialogCreateSchemaView* view = (PGDialogCreateSchemaView* )[self ibCreateSchemaView];
+	PGDialogSchemaView* view = (PGDialogSchemaView* )[self ibCreateSchemaView];
 	NSParameterAssert(view);
+	
+	// fetch roles in background
+	[connection executeQuery:[PGQueryRole listWithOptions:0] whenDone:^(PGResult* result, NSError* error) {
+		if(result) {
+			[view setRoles:[result arrayForColumn:@"role"]];
+		}
+	}];
+	
+	// set parameters
+	if(parameters==nil && [connection user]) {
+		parameters = @{
+			@"owner": [connection user]
+		};
+	}
+	
 	[self beginCustomSheetWithParameters:parameters view:view parentWindow:parentWindow whenDone:^(NSModalResponse response) {
 		if(response==NSModalResponseOK) {
 			callback([view query]);
@@ -282,7 +297,7 @@
 -(void)beginCreateDatabaseSheetWithParameters:(NSDictionary* )parameters parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(PGQuery* query)) callback {
 	NSParameterAssert(parentWindow);
 	NSParameterAssert(callback);
-	PGDialogCreateDatabaseView* view = (PGDialogCreateDatabaseView* )[self ibCreateDatabaseView];
+	PGDialogDatabaseView* view = (PGDialogDatabaseView* )[self ibCreateDatabaseView];
 	NSParameterAssert(view);
 	[self beginCustomSheetWithParameters:parameters view:view parentWindow:parentWindow whenDone:^(NSModalResponse response) {
 		if(response==NSModalResponseOK) {

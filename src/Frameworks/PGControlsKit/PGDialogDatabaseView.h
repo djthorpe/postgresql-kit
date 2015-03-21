@@ -12,7 +12,7 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-@interface PGDialogCreateDatabaseView : PGDialogView
+@interface PGDialogDatabaseView : PGDialogView
 
 // properties
 @property (readonly) PGQuery* query;
