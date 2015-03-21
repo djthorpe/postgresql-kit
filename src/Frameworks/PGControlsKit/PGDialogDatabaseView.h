@@ -16,5 +16,16 @@
 
 // properties
 @property (readonly) PGQuery* query;
+@property (readonly) NSString* database;
+@property (readonly) NSString* owner;
+@property (readonly) NSString* template;
+@property (readonly) NSString* tablespace;
+@property (readonly) NSString* comment;
+@property (readonly) NSInteger connectionLimit;
+
+// methods
+-(void)setRoles:(NSArray* )roles;
+-(void)setTemplates:(NSArray* )templates;
+-(void)setTablespaces:(NSArray* )tablespaces;
 
 @end

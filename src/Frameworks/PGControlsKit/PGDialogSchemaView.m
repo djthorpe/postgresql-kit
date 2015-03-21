@@ -59,7 +59,7 @@
 }
 
 -(NSArray* )bindings {
-	return @[ @"schema",@"owner",@"comment",@"roles" ];
+	return @[ @"schema",@"owner",@"comment" ];
 }
 
 -(NSString* )windowTitle {
@@ -90,11 +90,15 @@
 
 -(void)setRoles:(NSArray* )roles {
 	NSString* owner = [self owner];
+
 	// set the roles which can be chosen
 	[[self parameters] setObject:roles forKey:@"roles"];
-	// reset the owner
-	if(owner) {
+
+	// reset the owner name
+	if(owner && [roles containsObject:owner]) {
 		[[self parameters] setObject:owner forKey:@"owner"];
+	} else if([roles count]) {
+		[[self parameters] setObject:[roles objectAtIndex:0] forKey:@"owner"];
 	}
 }
 

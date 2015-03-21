@@ -369,15 +369,27 @@
 }
 
 -(NSString* )quoteListForConnection:(PGConnection* )connection options:(NSUInteger)options error:(NSError** )error {
-	PGQuerySelect* query = [PGQuerySelect select:@"pg_catalog.pg_database d LEFT JOIN pg_catalog.pg_user u ON d.datdba = u.usesysid" options:0];
+	PGQuerySelect* query = [PGQuerySelect select:[PGQuerySource sourceWithTable:@"pg_database" schema:@"pg_catalog" alias:@"d"] options:0];
+	[query addColumn:@"d.datname" alias:@"database"];
+	
+	if(options & PGQueryOptionListExcludeDatabases) {
+		[query andWhere:@"d.datistemplate"];
+	} else if(!(options & PGQueryOptionListIncludeTemplates)) {
+		[query andWhere:@"NOT d.datistemplate"];
+	}
+
+	return [query quoteForConnection:connection error:error];
+}
+
+/*
+	@"pg_catalog.pg_database d LEFT JOIN pg_catalog.pg_user u ON d.datdba = u.usesysid" options:0];
 	[query addColumn:@"d.datname" alias:@"database"];
 	[query addColumn:@"u.usename" alias:@"owner"];
 	[query addColumn:@"pg_catalog.pg_encoding_to_char(d.encoding)" alias:@"encoding"];
 	[query addColumn:@"d.dattablespace" alias:@"tablespace"];
 	[query addColumn:@"d.datconnlimit" alias:@"connection_limit"];
 	[query andWhere:@"NOT d.datistemplate"];
-	return [query quoteForConnection:connection error:error];
-}
+	*/
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark public methods

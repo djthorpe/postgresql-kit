@@ -196,6 +196,8 @@
 		[self setWindowDescription:nil];
 		// callback
 		callback(returnValue);
+		// empty parameters
+		[[view parameters] removeAllObjects];
 	}];
 }
 
@@ -268,6 +270,8 @@
 	NSParameterAssert(connection);
 	NSParameterAssert(parentWindow);
 	NSParameterAssert(callback);
+
+	// get the view
 	PGDialogSchemaView* view = (PGDialogSchemaView* )[self ibCreateSchemaView];
 	NSParameterAssert(view);
 	
@@ -277,14 +281,15 @@
 			[view setRoles:[result arrayForColumn:@"role"]];
 		}
 	}];
-	
-	// set parameters
-	if(parameters==nil && [connection user]) {
+
+	// set default owner
+	if(parameters==nil) {
 		parameters = @{
 			@"owner": [connection user]
 		};
 	}
-	
+
+	// begin sheet
 	[self beginCustomSheetWithParameters:parameters view:view parentWindow:parentWindow whenDone:^(NSModalResponse response) {
 		if(response==NSModalResponseOK) {
 			callback([view query]);
@@ -294,11 +299,37 @@
 	}];
 }
 
--(void)beginCreateDatabaseSheetWithParameters:(NSDictionary* )parameters parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(PGQuery* query)) callback {
+-(void)beginDatabaseSheetWithParameters:(NSDictionary* )parameters connection:(PGConnection* )connection parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(PGQuery* query)) callback {
+	NSParameterAssert(connection);
 	NSParameterAssert(parentWindow);
 	NSParameterAssert(callback);
+
+	// get the view
 	PGDialogDatabaseView* view = (PGDialogDatabaseView* )[self ibCreateDatabaseView];
 	NSParameterAssert(view);
+
+	// fetch templates in background
+	[connection executeQuery:[PGQueryDatabase listWithOptions:PGQueryOptionListExcludeDatabases] whenDone:^(PGResult* result, NSError* error) {
+		if(result) {
+			[view setTemplates:[result arrayForColumn:@"database"]];
+		}
+	}];
+
+	// fetch roles in background
+	[connection executeQuery:[PGQueryRole listWithOptions:0] whenDone:^(PGResult* result, NSError* error) {
+		if(result) {
+			[view setRoles:[result arrayForColumn:@"role"]];
+		}
+	}];
+
+	// set default owner
+	if(parameters==nil) {
+		parameters = @{
+			@"owner": [connection user]
+		};
+	}
+
+	// begin sheet
 	[self beginCustomSheetWithParameters:parameters view:view parentWindow:parentWindow whenDone:^(NSModalResponse response) {
 		if(response==NSModalResponseOK) {
 			callback([view query]);

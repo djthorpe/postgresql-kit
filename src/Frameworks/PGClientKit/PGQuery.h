@@ -74,7 +74,9 @@ enum {
 	PGQueryOptionTemporary               = 0x00000010, // temporary object
 	PGQueryOptionDropObjects             = 0x00000020, // drop objects when schema/table is dropped
 	PGQueryOptionDistinct                = 0x00000080, // de-duplicate rows
-	PGQueryOptionMaterialize             = 0x00800100  // materialized view
+	PGQueryOptionMaterialize             = 0x00800100, // materialized view
+	PGQueryOptionListExcludeDatabases    = 0x00000200, // don't show databases when listing
+	PGQueryOptionListIncludeTemplates    = 0x00000400, // show templates when listing
 };
 
 /**

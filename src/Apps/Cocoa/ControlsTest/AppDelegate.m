@@ -47,6 +47,14 @@
 
 -(void)execute:(PGQuery* )query {
 	NSLog(@"execute: %@",[query quoteForConnection:[self connection] error:nil]);
+	[[self connection] executeQuery:query whenDone:^(PGResult *result, NSError *error) {
+		if([result size]) {
+			NSLog(@"%@",[result tableWithWidth:60]);
+		}
+		if(error) {
+			NSLog(@"ERROR: %@",error);
+		}
+	}];
 }
 
 -(void)handleLoginError:(NSError* )error {
@@ -144,8 +152,7 @@
 }
 
 -(IBAction)doCreateDatabaseWindow:(id)sender {
-	NSString* owner = [[self connection] user];
-	[[self dialog] beginCreateDatabaseSheetWithParameters:@{ @"owner": owner } parentWindow:[self window] whenDone:^(PGQuery *query) {
+	[[self dialog] beginDatabaseSheetWithParameters:nil connection:[self connection] parentWindow:[self window] whenDone:^(PGQuery *query) {
 		if(query) {
 			[self execute:query];
 		}
@@ -180,6 +187,10 @@
 	if(password) {
 		[dictionary setObject:password forKey:@"password"];
 	}
+}
+
+-(void)connection:(PGConnection *)connection error:(NSError *)error {
+	NSLog(@"ERROR: %@",error);
 }
 
 -(void)connection:(PGConnection *)connection statusChange:(PGConnectionStatus)status description:(NSString *)description {
