@@ -224,7 +224,7 @@ const NSTimeInterval PGDialogNetworkConnectionPingDelayInterval = 2.0;
 		if(error) {
 			[self setIndicatorFlag:PGDialogWindowFlagIndicatorRed description:[error localizedDescription]];
 		} else {
-			[self setIndicatorFlag:PGDialogWindowFlagIndicatorGreen description:nil];
+			[self setIndicatorFlag:(PGDialogWindowFlagEnabled | PGDialogWindowFlagIndicatorGreen) description:nil];
 		}
 	}];
 }
@@ -254,6 +254,9 @@ const NSTimeInterval PGDialogNetworkConnectionPingDelayInterval = 2.0;
 			[[self parameters] setObject:@"prefer" forKey:@"sslmode"];
 		}
 	}
+	
+	// set the indicator
+	[self setIndicatorFlag:PGDialogWindowFlagIndicatorOrange description:nil];
 	
 	// reset the timer
 	[self resetTimerWithDelay:YES];

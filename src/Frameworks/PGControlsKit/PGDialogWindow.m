@@ -25,6 +25,9 @@
 @property (weak,nonatomic) IBOutlet PGDialogView* ibCreateRoleView;
 @property (weak,nonatomic) IBOutlet PGDialogView* ibCreateSchemaView;
 @property (weak,nonatomic) IBOutlet PGDialogView* ibCreateDatabaseView;
+@property BOOL actionEnabled;
+@property BOOL indicatorEnabled;
+@property NSString* indicatorName;
 @end
 
 @implementation PGDialogWindow
@@ -43,6 +46,9 @@
 
 @synthesize windowTitle;
 @synthesize windowDescription;
+@synthesize actionEnabled;
+@synthesize indicatorEnabled;
+@synthesize indicatorName;
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark static methods
@@ -101,6 +107,15 @@
 	return YES;
 }
 
+-(void)setInitialBindings {
+	// set initial values
+	[self setWindowTitle:nil];
+	[self setWindowDescription:nil];
+	[self setActionEnabled:NO];
+	[self setIndicatorEnabled:NO];
+	[self setIndicatorName:@""];
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark IBActions
 ////////////////////////////////////////////////////////////////////////////////
@@ -143,6 +158,9 @@
 		[self load];
 		NSParameterAssert([self window] != nil);
 	}
+
+	// set initial binding values
+	[self setInitialBindings];
 
 	// set parameters for the view
 	[view setViewParameters:parameters];
@@ -273,7 +291,30 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 -(void)view:(PGDialogView* )view setFlags:(int)flags description:(NSString* )description {
-	NSLog(@"flags=%d description=%@",flags,description);
+	// set action and indicator enabled flags
+	[self setActionEnabled:(flags & PGDialogWindowFlagEnabled)];
+	[self setIndicatorEnabled:(flags & PGDialogWindowFlagIndicatorMask)];
+	
+	NSLog(@"flags=%d",flags & PGDialogWindowFlagIndicatorMask);
+	
+	[self setIndicatorEnabled:YES];
+	switch(flags & PGDialogWindowFlagIndicatorMask) {
+	case PGDialogWindowFlagIndicatorGrey:
+		[self setIndicatorName:@"grey"];
+		break;
+	case PGDialogWindowFlagIndicatorRed:
+		[self setIndicatorName:@"red"];
+		break;
+	case PGDialogWindowFlagIndicatorOrange:
+		[self setIndicatorName:@"orange"];
+		break;
+	case PGDialogWindowFlagIndicatorGreen:
+		[self setIndicatorName:@"green"];
+		break;
+	default:
+		[self setIndicatorName:@"other"];
+		break;
+	}
 }
 
 

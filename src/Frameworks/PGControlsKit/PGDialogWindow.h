@@ -35,11 +35,12 @@
 // flags
 
 enum {
-	PGDialogWindowFlagEnabled          = 0x01,     // OK action is enabled
-	PGDialogWindowFlagIndicatorGrey    = 0x02,     // Grey indicator
-	PGDialogWindowFlagIndicatorRed     = 0x04,     // Red indicator
-	PGDialogWindowFlagIndicatorOrange  = 0x08,     // Orange indicator
-	PGDialogWindowFlagIndicatorGreen   = 0x10      // Green indicator
+	PGDialogWindowFlagEnabled          = 0x01,       // Enabled flag
+	PGDialogWindowFlagIndicatorMask    = 0x00F0,     // Indicator mask
+	PGDialogWindowFlagIndicatorGrey    = 0x0010,     // Grey indicator
+	PGDialogWindowFlagIndicatorRed     = 0x0020,     // Red indicator
+	PGDialogWindowFlagIndicatorOrange  = 0x0030,     // Orange indicator
+	PGDialogWindowFlagIndicatorGreen   = 0x0040      // Green indicator
 };
 
 ////////////////////////////////////////////////////////////////////////////////
