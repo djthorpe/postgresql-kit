@@ -22,7 +22,8 @@
 @end
 
 const NSTimeInterval PGDialogDatabaseConnectionLimitMaxValue = 20;
-NSString* PGDialogDatabaseDefault = @"(default)";
+NSString* PGDialogDatabaseTemplateDefault = @"(default)";
+NSString* PGDialogDatabaseTablespaceDefault = @"pg_default";
 
 @implementation PGDialogDatabaseView
 
@@ -67,7 +68,7 @@ NSString* PGDialogDatabaseDefault = @"(default)";
 
 -(NSString* )template {
 	NSString* template = [[self parameters] objectForKey:@"template"];
-	if([template isEqualToString:PGDialogDatabaseDefault]) {
+	if([template isEqualToString:PGDialogDatabaseTemplateDefault]) {
 		return nil;
 	} else {
 		return template;
@@ -76,7 +77,7 @@ NSString* PGDialogDatabaseDefault = @"(default)";
 
 -(NSString* )tablespace {
 	NSString* tablespace = [[self parameters] objectForKey:@"tablespace"];
-	if([tablespace isEqualToString:PGDialogDatabaseDefault]) {
+	if([tablespace isEqualToString:PGDialogDatabaseTablespaceDefault]) {
 		return nil;
 	} else {
 		return tablespace;
@@ -166,7 +167,7 @@ NSString* PGDialogDatabaseDefault = @"(default)";
 
 	// set the templates which can be chosen, but include a "default" value
 	NSMutableArray* values = [NSMutableArray arrayWithArray:templates];
-	[values insertObject:PGDialogDatabaseDefault atIndex:0];
+	[values insertObject:PGDialogDatabaseTemplateDefault atIndex:0];
 	[[self parameters] setObject:values forKey:@"templates"];
 
 	// reset the template name
@@ -185,7 +186,9 @@ NSString* PGDialogDatabaseDefault = @"(default)";
 
 	// set the tablespaces which can be chosen, but include a "default" value
 	NSMutableArray* values = [NSMutableArray arrayWithArray:tablespaces];
-	[values insertObject:PGDialogDatabaseDefault atIndex:0];
+	if([values containsObject:PGDialogDatabaseTablespaceDefault]==NO) {
+		[values insertObject:PGDialogDatabaseTablespaceDefault atIndex:0];
+	}
 	[[self parameters] setObject:values forKey:@"tablespaces"];
 
 	// reset the tablespace name

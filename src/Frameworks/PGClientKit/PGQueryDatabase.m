@@ -57,6 +57,14 @@
 	return query;
 }
 
++(PGQueryDatabase* )listTablespacesWithOptions:(NSUInteger)options {
+	NSString* className = NSStringFromClass([self class]);
+	PGQueryDatabase* query = (PGQueryDatabase* )[PGQueryObject queryWithDictionary:@{ } class:className];
+	NSParameterAssert(query && [query isKindOfClass:[PGQueryDatabase class]]);
+	[query setOptions:(options | PGQueryOperationList2)];
+	return query;
+}
+
 +(PGQueryDatabase* )alter:(NSString* )database name:(NSString* )name {
 	NSParameterAssert(database);
 	NSParameterAssert(name);
@@ -391,6 +399,14 @@
 	[query andWhere:@"NOT d.datistemplate"];
 	*/
 
+
+-(NSString* )quoteListTablespacesForConnection:(PGConnection* )connection options:(NSUInteger)options error:(NSError** )error {
+	PGQuerySelect* query = [PGQuerySelect select:[PGQuerySource sourceWithTable:@"pg_tablespace" schema:@"pg_catalog" alias:@"t"] options:0];
+	[query addColumn:@"t.spcname" alias:@"tablespace"];
+	[query andWhere:@"t.spcname <> 'pg_global'"];
+	return [query quoteForConnection:connection error:error];
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark public methods
 ////////////////////////////////////////////////////////////////////////////////
@@ -407,6 +423,8 @@
 		return [self quoteAlterForConnection:connection options:options error:error];
 	case PGQueryOperationList:
 		return [self quoteListForConnection:connection options:options error:error];
+	case PGQueryOperationList2:
+		return [self quoteListTablespacesForConnection:connection options:options error:error];
 	}
 
 	[connection raiseError:error code:PGClientErrorQuery reason:@"DATABASE: Invalid operation"];

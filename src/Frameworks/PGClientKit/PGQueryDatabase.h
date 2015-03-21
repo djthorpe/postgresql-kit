@@ -50,6 +50,13 @@
 +(PGQueryDatabase* )listWithOptions:(NSUInteger)options;
 
 /**
+ *  Create a query to return the list of tablespaces for the currently selected server
+ *
+ *  @return Returns the PGQueryDatabase object, or nil if the query could not be created.
+ */
++(PGQueryDatabase* )listTablespacesWithOptions:(NSUInteger)options;
+
+/**
  *  Create a query to rename a database
  *
  *  @param database The name of the database to rename. Cannot be nil or empty.

@@ -308,18 +308,23 @@
 	PGDialogDatabaseView* view = (PGDialogDatabaseView* )[self ibCreateDatabaseView];
 	NSParameterAssert(view);
 
-	// fetch templates in background
-	[connection executeQuery:[PGQueryDatabase listWithOptions:PGQueryOptionListExcludeDatabases] whenDone:^(PGResult* result, NSError* error) {
+	// fetch tablespaces in the background
+	[connection executeQuery:[PGQueryDatabase listTablespacesWithOptions:0] whenDone:^(PGResult* result, NSError* error) {
 		if(result) {
-			[view setTemplates:[result arrayForColumn:@"database"]];
+			[view setTablespaces:[result arrayForColumn:@"tablespace"]];
 		}
-	}];
-
-	// fetch roles in background
-	[connection executeQuery:[PGQueryRole listWithOptions:0] whenDone:^(PGResult* result, NSError* error) {
-		if(result) {
-			[view setRoles:[result arrayForColumn:@"role"]];
-		}
+		// fetch templates in background
+		[connection executeQuery:[PGQueryDatabase listWithOptions:PGQueryOptionListExcludeDatabases] whenDone:^(PGResult* result, NSError* error) {
+			if(result) {
+				[view setTemplates:[result arrayForColumn:@"database"]];
+			}
+			// fetch roles in background
+			[connection executeQuery:[PGQueryRole listWithOptions:0] whenDone:^(PGResult* result, NSError* error) {
+				if(result) {
+					[view setRoles:[result arrayForColumn:@"role"]];
+				}
+			}];
+		}];
 	}];
 
 	// set default owner

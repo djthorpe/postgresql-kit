@@ -87,6 +87,7 @@ enum {
 	PGQueryOperationDrop               = 0x020000000,
 	PGQueryOperationAlter              = 0x030000000,
 	PGQueryOperationList               = 0x040000000,
+	PGQueryOperationList2              = 0x050000000,
 	PGQueryOperationMask               = 0xFF0000000
 };
 
