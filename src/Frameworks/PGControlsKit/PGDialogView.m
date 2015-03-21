@@ -111,9 +111,7 @@ NSString* PGDialogKeyPathPrefix = @"parameters";
 }
 
 -(void)valueChangedWithKey:(NSString* )key oldValue:(id)oldValue newValue:(id)newValue {
-#ifdef DEBUG
-	NSLog(@"valueChangedWithKey: %@ <'%@' => '%@'>",key,oldValue,newValue);
-#endif
+	// Do nothing - needs subclassing
 }
 
 

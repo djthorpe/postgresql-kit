@@ -27,7 +27,7 @@
 @property (weak,nonatomic) IBOutlet PGDialogView* ibCreateDatabaseView;
 @property BOOL actionEnabled;
 @property BOOL indicatorEnabled;
-@property NSString* indicatorName;
+@property NSImage* indicatorImage;
 @end
 
 @implementation PGDialogWindow
@@ -48,7 +48,7 @@
 @synthesize windowDescription;
 @synthesize actionEnabled;
 @synthesize indicatorEnabled;
-@synthesize indicatorName;
+@synthesize indicatorImage;
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark static methods
@@ -60,6 +60,11 @@
 
 +(NSURL* )defaultFileURL {
 	return [NSURL URLWithSocketPath:NSHomeDirectory() port:PGClientDefaultPort database:NSUserName() username:NSUserName() params:nil];
+}
+
++(NSImage* )resourceImageNamed:(NSString* )name {
+	NSBundle* bundle = [NSBundle bundleForClass:self];
+	return [bundle imageForResource:name];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -113,7 +118,7 @@
 	[self setWindowDescription:nil];
 	[self setActionEnabled:NO];
 	[self setIndicatorEnabled:NO];
-	[self setIndicatorName:@""];
+	[self setIndicatorImage:nil];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -294,27 +299,32 @@
 	// set action and indicator enabled flags
 	[self setActionEnabled:(flags & PGDialogWindowFlagEnabled)];
 	[self setIndicatorEnabled:(flags & PGDialogWindowFlagIndicatorMask)];
-	
-	NSLog(@"flags=%d",flags & PGDialogWindowFlagIndicatorMask);
-	
-	[self setIndicatorEnabled:YES];
-	switch(flags & PGDialogWindowFlagIndicatorMask) {
-	case PGDialogWindowFlagIndicatorGrey:
-		[self setIndicatorName:@"grey"];
-		break;
-	case PGDialogWindowFlagIndicatorRed:
-		[self setIndicatorName:@"red"];
-		break;
-	case PGDialogWindowFlagIndicatorOrange:
-		[self setIndicatorName:@"orange"];
-		break;
-	case PGDialogWindowFlagIndicatorGreen:
-		[self setIndicatorName:@"green"];
-		break;
-	default:
-		[self setIndicatorName:@"other"];
-		break;
+
+	// set indicator colour
+	if([self indicatorEnabled]) {
+		NSString* imageName = nil;
+		switch(flags & PGDialogWindowFlagIndicatorMask) {
+		case PGDialogWindowFlagIndicatorRed:
+			imageName = @"red";
+			break;
+		case PGDialogWindowFlagIndicatorOrange:
+			imageName = @"orange";
+			break;
+		case PGDialogWindowFlagIndicatorGreen:
+			imageName = @"green";
+			break;
+		case PGDialogWindowFlagIndicatorGrey:
+		default:
+			imageName = @"grey";
+			break;
+		}
+		NSParameterAssert(imageName);
+		NSImage* image = [[self class] resourceImageNamed:imageName];
+		NSParameterAssert(image);
+		[self setIndicatorImage:image];
 	}
+	
+	// TODO: do something with the description field?
 }
 
 

@@ -255,19 +255,12 @@ const NSTimeInterval PGDialogNetworkConnectionPingDelayInterval = 2.0;
 		}
 	}
 	
-	// set the indicator
-	[self setIndicatorFlag:PGDialogWindowFlagIndicatorOrange description:nil];
-	
-	// reset the timer
-	[self resetTimerWithDelay:YES];
-	
-	// set the comment
+	// if it's not the comment which was changed, then reset the ping
 	if([key isNotEqualTo:@"comment"]) {
-		if([self url]) {
-			[[self parameters] setObject:[[self url] absoluteString] forKey:@"comment"];
-		} else {
-			[[self parameters] removeObjectForKey:@"comment"];
-		}
+		// set the indicator
+		[self setIndicatorFlag:PGDialogWindowFlagIndicatorOrange description:nil];
+		// reset the timer
+		[self resetTimerWithDelay:YES];
 	}
 }
 
