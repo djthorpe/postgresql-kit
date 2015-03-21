@@ -40,6 +40,7 @@
 }
 
 -(void)handleLoginError:(NSError* )error {
+	NSLog(@"ERROR %@",error);
 /*
 	if([[error domain] isEqualToString:PGClientErrorDomain] && [error code]==PGClientErrorNeedsPassword) {
 		[[self dialog] beginPasswordSheetWithParentWindow:[self window] whenDone:^(NSString* password, BOOL useKeychain) {
@@ -129,22 +130,19 @@
 }
 
 -(IBAction)doLogin:(id)sender {
-	if([self url]) {
-		[[self connection] connectWithURL:[self url] whenDone:^(BOOL usedPassword, NSError *error) {
-			if(error) {
-				[self handleLoginError:error];
-			}
-		}];
+	if([self url]==nil) {
+		return;
 	}
+	
+	[[self connection] connectWithURL:[self url] whenDone:^(BOOL usedPassword, NSError *error) {
+		if(error) {
+			[self handleLoginError:error];
+		}
+	}];
 }
 
 -(IBAction)doLogout:(id)sender {
 	[[self connection] disconnect];
 }
-
--(void)window:(PGDialogWindow* )controller dialogWillOpenWithParameters:(NSMutableDictionary *)parameters {
-	NSLog(@"dialog:willopenwithparameters:%@",parameters);
-}
-
 
 @end
