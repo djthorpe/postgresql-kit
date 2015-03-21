@@ -141,6 +141,13 @@
 	[parentWindow endSheet:theWindow returnCode:returnValue];
 }
 
+/**
+ *  This method is called when the help button is pressed
+ */
+-(IBAction)doHelp:(id)sender {
+	NSLog(@"TODO: signal help should be opened");
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark public methods
 ////////////////////////////////////////////////////////////////////////////////

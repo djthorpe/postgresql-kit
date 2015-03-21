@@ -894,13 +894,16 @@ Gw
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                        <connections>
+                            <action selector="doHelp:" target="-2" id="zyb-dx-PXs"/>
+                        </connections>
                     </button>
                     <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="zSm-lj-CXL" userLabel="Indicator Image">
                         <rect key="frame" x="390" y="23" width="14" height="14"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="14" id="Pmg-dU-JAP"/>
                         </constraints>
-                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="v7a-Oa-Ql2"/>
+                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="red" id="v7a-Oa-Ql2"/>
                         <connections>
                             <binding destination="-2" name="hidden" keyPath="indicatorEnabled" id="z13-5l-Iyg">
                                 <dictionary key="options">
@@ -980,5 +983,6 @@ Gw
     </objects>
     <resources>
         <image name="elephant-72" width="72" height="72"/>
+        <image name="red" width="14" height="14"/>
     </resources>
 </document>
