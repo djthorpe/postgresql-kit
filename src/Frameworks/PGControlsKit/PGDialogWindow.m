@@ -223,7 +223,7 @@
 
 -(void)beginFileConnectionSheetWithURL:(NSURL* )url comment:(NSString* )comment parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(NSURL* url,NSString* comment)) callback {
 	NSParameterAssert(parentWindow);
-	NSParameterAssert(url==nil || [url isRemoteHostURL]	);
+	NSParameterAssert(url==nil || [url isSocketPathURL]);
 	PGDialogFileConnectionView* view = (PGDialogFileConnectionView* )[self ibFileConnectionView];
 	NSParameterAssert(view);
 	// get parameters
@@ -305,8 +305,8 @@
 	[self setIndicatorEnabled:(flags & PGDialogWindowFlagIndicatorMask)];
 
 	// set indicator colour
+	NSString* imageName = nil;
 	if([self indicatorEnabled]) {
-		NSString* imageName = nil;
 		switch(flags & PGDialogWindowFlagIndicatorMask) {
 		case PGDialogWindowFlagIndicatorRed:
 			imageName = @"red";
@@ -329,6 +329,12 @@
 	}
 	
 	// TODO: do something with the description field?
+#ifdef DEBUG
+	if(imageName || description) {
+		NSLog(@"PGDialog: %@ %@",imageName,description ? description : @"");
+	}
+#endif
+
 }
 
 

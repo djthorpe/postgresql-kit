@@ -205,9 +205,9 @@ const NSTimeInterval PGDialogNetworkConnectionPingDelayInterval = 2.0;
  *  Initiate the ping if it isn't already in progress
  */
 -(void)triggeredTimer:(id)sender {
-	[self setIndicatorFlag:PGDialogWindowFlagIndicatorOrange description:nil];
 	// do the ping
 	NSURL* url = [self url];
+	[self setIndicatorFlag:PGDialogWindowFlagIndicatorOrange description:[NSString stringWithFormat:@"ping=%@",url]];
 	if(url==nil) {
 		[self setIndicatorFlag:PGDialogWindowFlagIndicatorRed description:nil];
 		return;

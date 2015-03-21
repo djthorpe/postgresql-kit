@@ -56,14 +56,16 @@
 */
 }
 
--(IBAction)doCreateConnectionURL:(id)sender {
-	NSLog(@"url = %@ %@",[self url],[[self url] class]);
-	[[self dialog] beginConnectionSheetWithURL:[self url] comment:nil parentWindow:[self window] whenDone:^(NSURL *url, NSString *comment) {
+-(IBAction)doCreateNetworkURL:(id)sender {
+	NSURL* defaultURL = [PGDialogWindow defaultNetworkURL];
+	[[self dialog] beginConnectionSheetWithURL:defaultURL comment:nil parentWindow:[self window] whenDone:^(NSURL *url, NSString *comment) {
 		if(url) {
 			// set the URL
 			[super willChangeValueForKey:@"urlstring"];
 			[self setUrl:url];
 			[super didChangeValueForKey:@"urlstring"];
+
+			// TODO: deal with the comment
 
 			// save URL
 			[[NSUserDefaults standardUserDefaults] setObject:[[self url] absoluteString] forKey:@"url"];
@@ -71,6 +73,42 @@
 		}
 	}];
 }
+
+-(IBAction)doCreateFileURL:(id)sender {
+	NSURL* defaultURL = [PGDialogWindow defaultFileURL];
+	[[self dialog] beginConnectionSheetWithURL:defaultURL comment:nil parentWindow:[self window] whenDone:^(NSURL *url, NSString *comment) {
+		if(url) {
+			// set the URL
+			[super willChangeValueForKey:@"urlstring"];
+			[self setUrl:url];
+			[super didChangeValueForKey:@"urlstring"];
+
+			// TODO: deal with the comment
+
+			// save URL
+			[[NSUserDefaults standardUserDefaults] setObject:[[self url] absoluteString] forKey:@"url"];
+			[[NSUserDefaults standardUserDefaults] synchronize];
+		}
+	}];
+}
+
+-(IBAction)doEditURL:(id)sender {
+	[[self dialog] beginConnectionSheetWithURL:[self url] comment:nil parentWindow:[self window] whenDone:^(NSURL *url, NSString *comment) {
+		if(url) {
+			// set the URL
+			[super willChangeValueForKey:@"urlstring"];
+			[self setUrl:url];
+			[super didChangeValueForKey:@"urlstring"];
+
+			// TODO: deal with the comment
+
+			// save URL
+			[[NSUserDefaults standardUserDefaults] setObject:[[self url] absoluteString] forKey:@"url"];
+			[[NSUserDefaults standardUserDefaults] synchronize];
+		}
+	}];
+}
+
 
 -(IBAction)doCreateRoleWindow:(id)sender {
 	[[self dialog] beginCreateRoleSheetWithParameters:nil parentWindow:[self window] whenDone:^(PGQuery *query) {

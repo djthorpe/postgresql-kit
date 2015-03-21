@@ -19,7 +19,7 @@
 
 
 ////////////////////////////////////////////////////////////////////////////////
-#pragma mark properties
+#pragma mark Properties
 ////////////////////////////////////////////////////////////////////////////////
 
 -(NSString* )windowTitle {
@@ -28,6 +28,58 @@
 
 -(NSString* )windowDescription {
 	return @"Enter the details for the connection to the local PostgreSQL database";
+}
+
+
+-(NSURL* )url {
+	NSMutableDictionary* url = [NSMutableDictionary dictionaryWithDictionary:[self parameters]];
+
+	// remove parameters which aren't part of the URL
+	[url removeObjectForKey:@"comment"];
+	[url removeObjectForKey:@"is_require_ssl"];
+	[url removeObjectForKey:@"is_default_port"];
+	
+	// if missing user, host or dbname, return nil
+	if([self user]==nil) {
+		return nil;
+	}
+	if([self dbname]==nil) {
+		return nil;
+	}
+	if([self host]==nil) {
+		return nil;
+	}
+	return [NSURL URLWithPostgresqlParams:url];
+}
+
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark IBActions
+////////////////////////////////////////////////////////////////////////////////
+
+-(IBAction)pathControlDoubleClick:(NSPathControl* )sender {
+	NSWindow* window = [sender window];
+	NSParameterAssert(window);
+
+	// determine URL
+	NSURL* url = [NSURL fileURLWithPath:[self host]];
+	if([sender clickedPathComponentCell]) {
+		url = [[sender clickedPathComponentCell] URL];
+	}
+	
+	// Create file chooser
+	NSOpenPanel* panel = [NSOpenPanel new];
+	[panel setCanChooseDirectories:YES];
+	[panel setCanChooseFiles:NO];
+	[panel setAllowsMultipleSelection:NO];
+	[panel setDirectoryURL:url];
+
+	// Perform sheet
+	[panel beginSheetModalForWindow:window completionHandler:^(NSModalResponse returnValue) {
+		if(returnValue==NSModalResponseOK) {
+			NSString* thePath = [[panel URL] path];
+			[[self parameters] setObject:thePath forKey:@"host"];
+		}
+	}];
 }
 
 @end
