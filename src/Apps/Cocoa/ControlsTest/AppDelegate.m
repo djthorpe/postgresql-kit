@@ -3,7 +3,8 @@
 
 @interface AppDelegate ()
 @property (weak) IBOutlet NSWindow* window;
-@property (retain) PGConnection* connection;
+@property (nonatomic, retain) PGConnection* connection;
+@property (nonatomic, retain) PGPasswordStore* passwordstore;
 @property (retain) PGDialogWindow* dialog;
 @property (retain) NSURL* url;
 @property (readonly) NSString* urlstring;
@@ -21,6 +22,7 @@
 	// create connection class and dialog window
 	[self setConnection:[PGConnection new]];
 	[self setDialog:[PGDialogWindow new]];
+	[self setPasswordstore:[PGPasswordStore new]];
 	[[self dialog] load];
 
 	// set delegates
@@ -40,21 +42,26 @@
 }
 
 -(void)handleLoginError:(NSError* )error {
-	NSLog(@"ERROR %@",error);
-/*
-	if([[error domain] isEqualToString:PGClientErrorDomain] && [error code]==PGClientErrorNeedsPassword) {
-		[[self dialog] beginPasswordSheetWithParentWindow:[self window] whenDone:^(NSString* password, BOOL useKeychain) {
-			NSLog(@"SAVE PASSWORD: %@",error);
-		}];
+	if([error isNeedsPassword]) {
+		[self doPassword:nil];
 		return;
+	} else if([error isBadPassword]) {
+		// remove password from password store
+		[[self passwordstore] removePasswordForURL:[self url] saveToKeychain:YES error:nil];
 	}
+	// TODO: Show error message
+	NSLog(@"ERROR %@",error);
+}
 
-	[[self dialog] beginErrorSheetWithError:error parentWindow:[self window] whenDone:^(NSModalResponse response) {
-		if(response==NSModalResponseContinue) {
-			[self doCreateConnectionURL:nil];
+-(IBAction)doPassword:(id)sender {
+	[[self dialog] beginPasswordSheetSaveInKeychain:YES parentWindow:[self window] whenDone:^(NSString* password, BOOL saveInKeychain) {
+		if(password) {
+			// in the first instance, don't store it in the keychain
+			[[self passwordstore] setPassword:password forURL:[self url] saveToKeychain:NO];
+			// perform login
+			[self doLogin:sender];
 		}
 	}];
-*/
 }
 
 -(IBAction)doCreateNetworkURL:(id)sender {
@@ -134,15 +141,30 @@
 		return;
 	}
 	
-	[[self connection] connectWithURL:[self url] whenDone:^(BOOL usedPassword, NSError *error) {
+	[[self connection] connectWithURL:[self url] whenDone:^(BOOL usedPassword, NSError* error) {
 		if(error) {
 			[self handleLoginError:error];
+			return;
+		}
+		if(usedPassword) {
+			NSLog(@"TODO: store password");
 		}
 	}];
 }
 
 -(IBAction)doLogout:(id)sender {
 	[[self connection] disconnect];
+}
+
+-(void)connection:(PGConnection* )connection willOpenWithParameters:(NSMutableDictionary* )dictionary {
+	NSString* password = [[self passwordstore] passwordForURL:[NSURL URLWithPostgresqlParams:dictionary]];
+	if(password) {
+		[dictionary setObject:password forKey:@"password"];
+	}
+}
+
+-(void)connection:(PGConnection *)connection statusChange:(PGConnectionStatus)status description:(NSString *)description {
+	NSLog(@"status = %@",description);
 }
 
 @end

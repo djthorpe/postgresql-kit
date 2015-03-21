@@ -82,6 +82,7 @@ typedef enum {
 
 // helpers
 #import "NSURL+PGAdditions.h"
+#import "NSError+PGAdditions.h"
 #import "NSString+PGNetworkValidationAdditions.h"
 #import "PGPasswordStore.h"
 

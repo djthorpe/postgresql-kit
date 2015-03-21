@@ -15,7 +15,7 @@
 #import <PGClientKit/PGClientKit.h>
 #import <PGClientKit/PGClientKit+Private.h>
 
-//#define DEBUG2
+#define DEBUG2
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark C callback functions
@@ -109,6 +109,9 @@ void _noticeProcessor(void* arg,const char* cString) {
 	NSParameterAssert(_callback);
 	void (^callback)(BOOL usedPassword,NSError* error) = (__bridge void (^)(BOOL,NSError* ))(_callback);
 
+	BOOL needsPassword = PQconnectionNeedsPassword(_connection) ? YES : NO;
+	BOOL usedPassword = PQconnectionUsedPassword(_connection) ? YES : NO;
+
 	// update the status
 	[self setState:PGConnectionStateNone];
 	[self _updateStatus]; // this also calls disconnect when rejected
@@ -117,11 +120,11 @@ void _noticeProcessor(void* arg,const char* cString) {
 	if(pqstatus==PGRES_POLLING_OK) {
 		// set up notice processor, set success condition
 		PQsetNoticeProcessor(_connection,_noticeProcessor,(__bridge void *)(self));
-		callback(PQconnectionUsedPassword(_connection) ? YES : NO,nil);
-	} else if(PQconnectionNeedsPassword(_connection)) {
+		callback(usedPassword ? YES : NO,nil);
+	} else if(needsPassword) {
 		// error callback - connection not made, needs password
 		callback(NO,[self raiseError:nil code:PGClientErrorNeedsPassword]);
-	} else if(PQconnectionUsedPassword(_connection)) {
+	} else if(usedPassword) {
 		// error callback - connection not made, password was invalid
 		callback(YES,[self raiseError:nil code:PGClientErrorInvalidPassword]);
 	} else {
@@ -151,14 +154,17 @@ void _noticeProcessor(void* arg,const char* cString) {
  *  run.
  */
 -(void)_socketCallbackConnect {
+	if(_connection==nil) {
+		return;
+	}
 	NSParameterAssert(_connection);
 
 	PostgresPollingStatusType pqstatus = PQconnectPoll(_connection);
 	switch(pqstatus) {
 		case PGRES_POLLING_READING:
 		case PGRES_POLLING_WRITING:
-			// still connecting - call poll again
-			PQconnectPoll(_connection);
+			// still connecting - ask to call poll again in runloop
+			[self performSelector:@selector(_socketCallbackConnect) withObject:nil afterDelay:0.1];
 			break;
 		case PGRES_POLLING_OK:
 		case PGRES_POLLING_FAILED:

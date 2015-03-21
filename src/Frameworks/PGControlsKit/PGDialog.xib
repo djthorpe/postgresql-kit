@@ -852,7 +852,7 @@
                         <font key="font" metaFont="system"/>
                     </buttonCell>
                     <connections>
-                        <binding destination="rJg-gq-48y" name="value" keyPath="parameters.is_default_port" id="u1D-fO-JTq"/>
+                        <binding destination="mXH-1E-JYD" name="value" keyPath="parameters.save_in_keychain" id="WcR-La-taE"/>
                     </connections>
                 </button>
                 <secureTextField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qPh-4t-F8C">
@@ -865,6 +865,13 @@
                             <string>NSAllRomanInputSourcesLocaleIdentifier</string>
                         </allowedInputSourceLocales>
                     </secureTextFieldCell>
+                    <connections>
+                        <binding destination="mXH-1E-JYD" name="value" keyPath="parameters.password" id="wcX-mE-Cmg">
+                            <dictionary key="options">
+                                <bool key="NSContinuouslyUpdatesValue" value="YES"/>
+                            </dictionary>
+                        </binding>
+                    </connections>
                 </secureTextField>
             </subviews>
             <constraints>
@@ -1167,8 +1174,8 @@ Gw
         </customObject>
         <customObject id="mXH-1E-JYD" userLabel="PGDialogPasswordView" customClass="PGDialogPasswordView">
             <connections>
-                <outlet property="firstResponder" destination="qPh-4t-F8C" id="mj2-x9-QLk"/>
-                <outlet property="view" destination="hVV-OF-8Pj" id="OdO-8d-SFw"/>
+                <outlet property="firstResponder" destination="xo4-zC-Pp0" id="DcJ-mL-Zhb"/>
+                <outlet property="view" destination="hVV-OF-8Pj" id="3ay-w5-AfJ"/>
             </connections>
         </customObject>
     </objects>

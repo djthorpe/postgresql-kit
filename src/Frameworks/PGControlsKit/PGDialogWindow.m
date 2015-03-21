@@ -211,7 +211,7 @@
 	if(parameters==nil) {
 		parameters = [[[self class] defaultNetworkURL] postgresqlParameters];
 	}
-	
+	// show the sheet
 	[self beginCustomSheetWithParameters:parameters view:view parentWindow:parentWindow whenDone:^(NSModalResponse response) {
 		if(response==NSModalResponseOK) {
 			callback([view url],[view comment]);
@@ -231,6 +231,7 @@
 	if(parameters==nil) {
 		parameters = [[[self class] defaultFileURL] postgresqlParameters];
 	}
+	// show the sheet
 	[self beginCustomSheetWithParameters:parameters view:view parentWindow:parentWindow whenDone:^(NSModalResponse response) {
 		if(response==NSModalResponseOK) {
 			callback([view url],[view comment]);
@@ -255,7 +256,6 @@
 	NSParameterAssert(callback);
 	PGDialogCreateRoleView* view = (PGDialogCreateRoleView* )[self ibCreateRoleView];
 	NSParameterAssert(view);
-	// get parameters
 	[self beginCustomSheetWithParameters:parameters view:view parentWindow:parentWindow whenDone:^(NSModalResponse response) {
 		if(response==NSModalResponseOK) {
 			callback([view query]);
@@ -270,7 +270,6 @@
 	NSParameterAssert(callback);
 	PGDialogCreateSchemaView* view = (PGDialogCreateSchemaView* )[self ibCreateSchemaView];
 	NSParameterAssert(view);
-	// get parameters
 	[self beginCustomSheetWithParameters:parameters view:view parentWindow:parentWindow whenDone:^(NSModalResponse response) {
 		if(response==NSModalResponseOK) {
 			callback([view query]);
@@ -285,12 +284,25 @@
 	NSParameterAssert(callback);
 	PGDialogCreateDatabaseView* view = (PGDialogCreateDatabaseView* )[self ibCreateDatabaseView];
 	NSParameterAssert(view);
-	// get parameters
 	[self beginCustomSheetWithParameters:parameters view:view parentWindow:parentWindow whenDone:^(NSModalResponse response) {
 		if(response==NSModalResponseOK) {
 			callback([view query]);
 		} else {
 			callback(nil);
+		}
+	}];
+}
+
+-(void)beginPasswordSheetSaveInKeychain:(BOOL)saveinKeychain parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(NSString* password,BOOL saveInKeychain)) callback {
+	NSParameterAssert(parentWindow);
+	NSParameterAssert(callback);
+	PGDialogPasswordView* view = (PGDialogPasswordView* )[self ibPasswordView];
+	NSParameterAssert(view);
+	[self beginCustomSheetWithParameters:nil view:view parentWindow:parentWindow whenDone:^(NSModalResponse response) {
+		if(response==NSModalResponseOK) {
+			callback([view password],[view saveInKeychain]);
+		} else {
+			callback(nil,NO);
 		}
 	}];
 }

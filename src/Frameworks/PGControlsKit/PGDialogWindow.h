@@ -35,7 +35,8 @@
 // flags
 
 enum {
-	PGDialogWindowFlagEnabled          = 0x0001,     // Enabled flag
+	PGDialogWindowFlagDisabled         = 0x0000,     // Disabled
+	PGDialogWindowFlagEnabled          = 0x0001,     // Enabled
 	PGDialogWindowFlagIndicatorMask    = 0x0070,     // Indicator mask
 	PGDialogWindowFlagIndicatorGrey    = 0x0010,     // Grey indicator
 	PGDialogWindowFlagIndicatorRed     = 0x0020,     // Red indicator
@@ -111,6 +112,16 @@ enum {
  *  @param callback     The callback which is called once the sheet is dismissed
  */
 -(void)beginConnectionSheetWithURL:(NSURL* )url comment:(NSString* )comment parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(NSURL* url,NSString* comment)) callback;
+
+
+/**
+ *  This method provides a sheet to enter a password, and indicate whether the
+ *  password should be saved in the users' keychain. When done, the callback 
+ *  provides the password and the user preference on saving to keychain. The
+ *  password returned is nil if the cancel button was pressed.
+ *
+ */
+-(void)beginPasswordSheetSaveInKeychain:(BOOL)saveinKeychain parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(NSString* password,BOOL saveInKeychain)) callback;
 
 /**
  *  This method displays a "Create Role" sheet above a parent window, in order

@@ -171,6 +171,8 @@
 		6E308CF61ABD6A590091BD17 /* TrafficIcons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E308CF51ABD6A590091BD17 /* TrafficIcons.xcassets */; };
 		6E308CFC1ABD70F90091BD17 /* PGDialogButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E308CFA1ABD70F90091BD17 /* PGDialogButton.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6E308CFD1ABD70F90091BD17 /* PGDialogButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E308CFB1ABD70F90091BD17 /* PGDialogButton.m */; };
+		6E308D011ABD7FEA0091BD17 /* NSError+PGAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E308D001ABD7FEA0091BD17 /* NSError+PGAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6E308D061ABD80810091BD17 /* NSError+PGAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E308D051ABD80810091BD17 /* NSError+PGAdditions.m */; };
 		6E37869D1A69783D0018BEA0 /* Version.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6E37869C1A69783D0018BEA0 /* Version.plist */; };
 		6E37869E1A69783D0018BEA0 /* Version.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6E37869C1A69783D0018BEA0 /* Version.plist */; };
 		6E37869F1A69783D0018BEA0 /* Version.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6E37869C1A69783D0018BEA0 /* Version.plist */; };
@@ -661,6 +663,8 @@
 		6E308CF51ABD6A590091BD17 /* TrafficIcons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = TrafficIcons.xcassets; sourceTree = "<group>"; };
 		6E308CFA1ABD70F90091BD17 /* PGDialogButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGDialogButton.h; sourceTree = "<group>"; };
 		6E308CFB1ABD70F90091BD17 /* PGDialogButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGDialogButton.m; sourceTree = "<group>"; };
+		6E308D001ABD7FEA0091BD17 /* NSError+PGAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+PGAdditions.h"; sourceTree = "<group>"; };
+		6E308D051ABD80810091BD17 /* NSError+PGAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+PGAdditions.m"; sourceTree = "<group>"; };
 		6E37869B1A6976FA0018BEA0 /* reversion.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = reversion.sh; sourceTree = "<group>"; };
 		6E37869C1A69783D0018BEA0 /* Version.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Version.plist; sourceTree = "<group>"; };
 		6E45A37F1A73A28100E20B36 /* PGHelpWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGHelpWindowController.h; sourceTree = "<group>"; };
@@ -1670,6 +1674,8 @@
 				6EE23F5A1631EF7500C99BA7 /* PGClientKit+Private.h */,
 				6EAA40E917BC150E0078EB32 /* NSURL+PGAdditions.h */,
 				6EAA40EA17BC150E0078EB32 /* NSURL+PGAdditions.m */,
+				6E308D001ABD7FEA0091BD17 /* NSError+PGAdditions.h */,
+				6E308D051ABD80810091BD17 /* NSError+PGAdditions.m */,
 				147070E01A976E230069EF9C /* NSString+PGNetworkValidationAdditions.h */,
 				147070E11A976E230069EF9C /* NSString+PGNetworkValidationAdditions.m */,
 				6E0DDCD81AAB2A4000A38F3B /* NSString+PrivateAdditions.h */,
@@ -1817,6 +1823,7 @@
 				1417B7BA1AAA1FF200B44DD4 /* PGQueryObject.h in Headers */,
 				6E0DDCD91AAB2A4000A38F3B /* NSString+PrivateAdditions.h in Headers */,
 				14D7C3E717AD729000479231 /* PGClientParams.h in Headers */,
+				6E308D011ABD7FEA0091BD17 /* NSError+PGAdditions.h in Headers */,
 				147070E21A976E230069EF9C /* NSString+PGNetworkValidationAdditions.h in Headers */,
 				6E82F1731A9BC9B20024B8BE /* PGConnection.h in Headers */,
 			);
@@ -2465,6 +2472,7 @@
 				6E9256BD1AA64BDA007DAD82 /* PGConnection+Notifications.m in Sources */,
 				1489AEC816669A6B00C3B67D /* PGResult+TextTable.m in Sources */,
 				6E9256B21AA64B6C007DAD82 /* PGConnection+Connect.m in Sources */,
+				6E308D061ABD80810091BD17 /* NSError+PGAdditions.m in Sources */,
 				6E82F1741A9BC9B20024B8BE /* PGConnection.m in Sources */,
 				14DECDA216B56D7300178235 /* PGConverters+Object2Data.m in Sources */,
 				6E0DDCF11AAB724E00A38F3B /* PGQuerySchema.m in Sources */,

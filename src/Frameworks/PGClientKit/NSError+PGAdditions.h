@@ -12,10 +12,9 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-@interface PGDialogPasswordView : PGDialogView
+#import <Foundation/Foundation.h>
 
-// properties
-@property (readonly) NSString* password;
-@property (readonly) BOOL saveInKeychain;
-
+@interface NSError (PGAdditions)
+-(BOOL)isBadPassword;
+-(BOOL)isNeedsPassword;
 @end

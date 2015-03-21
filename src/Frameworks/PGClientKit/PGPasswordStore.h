@@ -80,7 +80,8 @@
  *  Set password for a particular PostgreSQL URL, and optionally store 
  *  permanently to the users' keychain.
  *
- *  @param password       The plaintext password
+ *  @param password       The plaintext password, or nil if the password should
+ *                        be removed
  *  @param url            The PostgreSQL connection URL
  *  @param saveToKeychain Indicate YES if the password should also be stored in
  *                        the users' keychain
@@ -93,7 +94,8 @@
  *  Set password for a particular PostgreSQL URL, and optionally store 
  *  permanently to the users' keychain.
  *
- *  @param password       The plaintext password
+ *  @param password       The plaintext password, or nil if the password should
+ *                        be removed
  *  @param url            The PostgreSQL connection URL
  *  @param saveToKeychain Indicate YES if the password should also be stored in
  *                        the users' keychain
@@ -103,6 +105,19 @@
  *  @return Returns NO if the password could not be stored, due to malformed URL
  */
 -(BOOL)setPassword:(NSString* )password forURL:(NSURL* )url saveToKeychain:(BOOL)saveToKeychain error:(NSError** )error;
+
+/**
+ *  Remove password from store keyed to PostgreSQL URL, from the temporary store
+ *  and from the permanent store in the Keychain.
+ *
+ *  @param url            The PostgreSQL connection URL
+ *  @param saveToKeychain Whether to also remove the password from the keychain
+ *  @param error          Pointer to an error object, which will contain an
+ *                        error condition if NO is returned
+ *
+ *  @return Returns NO if the password could not be deleted
+ */
+-(BOOL)removePasswordForURL:(NSURL* )url saveToKeychain:(BOOL)saveToKeychain error:(NSError** )error;
 
 @end
 

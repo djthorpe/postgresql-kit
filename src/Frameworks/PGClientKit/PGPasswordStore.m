@@ -70,6 +70,8 @@
 // retrieve password
 
 -(NSString* )passwordForURL:(NSURL* )url readFromKeychain:(BOOL)readFromKeychain error:(NSError** )error {
+	NSParameterAssert(url);
+	
 	// get password from the URL
 	NSString* password = [url password];
 	if(password && [password length]) {
@@ -108,6 +110,7 @@
 }
 
 -(BOOL)setPassword:(NSString* )password forURL:(NSURL* )url saveToKeychain:(BOOL)saveToKeychain error:(NSError** )error {
+	NSParameterAssert(url);
 	NSString* account = [self _accountForURL:url];
 	if(account==nil) {
 		// TODO [PGConnection createError:error code:PGClientErrorParameters];
@@ -115,15 +118,27 @@
 	}
 
 	// store password against account
-	[_store setObject:password forKey:account];
+	if(password) {
+		[_store setObject:password forKey:account];
+	} else {
+		[_store removeObjectForKey:account];
+	}
 
 	// if we save to keychain
 	BOOL returnValue = YES;
 	if(saveToKeychain) {
-		returnValue = [SSKeychain setPassword:password forService:[self serviceName] account:account error:error];
+		if(password) {
+			returnValue = [SSKeychain setPassword:password forService:[self serviceName] account:account error:error];
+		} else {
+			returnValue = [SSKeychain deletePasswordForService:[self serviceName] account:account error:error];
+		}
 	}
 	
 	return returnValue;
+}
+
+-(BOOL)removePasswordForURL:(NSURL* )url saveToKeychain:(BOOL)saveToKeychain error:(NSError** )error {
+	return [self setPassword:nil forURL:url saveToKeychain:saveToKeychain error:error];
 }
 
 @end
