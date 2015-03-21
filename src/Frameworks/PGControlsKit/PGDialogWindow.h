@@ -35,8 +35,8 @@
 // flags
 
 enum {
-	PGDialogWindowFlagEnabled          = 0x01,       // Enabled flag
-	PGDialogWindowFlagIndicatorMask    = 0x00F0,     // Indicator mask
+	PGDialogWindowFlagEnabled          = 0x0001,     // Enabled flag
+	PGDialogWindowFlagIndicatorMask    = 0x0070,     // Indicator mask
 	PGDialogWindowFlagIndicatorGrey    = 0x0010,     // Grey indicator
 	PGDialogWindowFlagIndicatorRed     = 0x0020,     // Red indicator
 	PGDialogWindowFlagIndicatorOrange  = 0x0030,     // Orange indicator

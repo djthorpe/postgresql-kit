@@ -169,6 +169,8 @@
 		6E2A14FB1A59488700F12954 /* PGServerKit_testcases.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2A14FA1A59488700F12954 /* PGServerKit_testcases.m */; };
 		6E2A14FC1A59488700F12954 /* PGServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
 		6E308CF61ABD6A590091BD17 /* TrafficIcons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E308CF51ABD6A590091BD17 /* TrafficIcons.xcassets */; };
+		6E308CFC1ABD70F90091BD17 /* PGDialogButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E308CFA1ABD70F90091BD17 /* PGDialogButton.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6E308CFD1ABD70F90091BD17 /* PGDialogButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E308CFB1ABD70F90091BD17 /* PGDialogButton.m */; };
 		6E37869D1A69783D0018BEA0 /* Version.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6E37869C1A69783D0018BEA0 /* Version.plist */; };
 		6E37869E1A69783D0018BEA0 /* Version.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6E37869C1A69783D0018BEA0 /* Version.plist */; };
 		6E37869F1A69783D0018BEA0 /* Version.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6E37869C1A69783D0018BEA0 /* Version.plist */; };
@@ -657,6 +659,8 @@
 		6E2A14F91A59488700F12954 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6E2A14FA1A59488700F12954 /* PGServerKit_testcases.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PGServerKit_testcases.m; sourceTree = "<group>"; };
 		6E308CF51ABD6A590091BD17 /* TrafficIcons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = TrafficIcons.xcassets; sourceTree = "<group>"; };
+		6E308CFA1ABD70F90091BD17 /* PGDialogButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGDialogButton.h; sourceTree = "<group>"; };
+		6E308CFB1ABD70F90091BD17 /* PGDialogButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGDialogButton.m; sourceTree = "<group>"; };
 		6E37869B1A6976FA0018BEA0 /* reversion.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = reversion.sh; sourceTree = "<group>"; };
 		6E37869C1A69783D0018BEA0 /* Version.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Version.plist; sourceTree = "<group>"; };
 		6E45A37F1A73A28100E20B36 /* PGHelpWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGHelpWindowController.h; sourceTree = "<group>"; };
@@ -995,6 +999,8 @@
 				6E24DCBF1AB2D8DE00115F61 /* PGDialogBackgroundView.m */,
 				6ED6944D1AB8AE7100751904 /* PGDialogTextFieldFormatter.h */,
 				6ED6944E1AB8AE7100751904 /* PGDialogTextFieldFormatter.m */,
+				6E308CFA1ABD70F90091BD17 /* PGDialogButton.h */,
+				6E308CFB1ABD70F90091BD17 /* PGDialogButton.m */,
 				141BEBD21AB44485000EFCFC /* PGDialog.xib */,
 			);
 			name = PGDialog;
@@ -1743,6 +1749,7 @@
 				14C3A8F51AB5F74F00DD5323 /* PGDialogView.h in Headers */,
 				6E6A8B881AB7585200A95748 /* PGDialogNetworkConnectionView.h in Headers */,
 				6E5D8BD51A66EE9000C54D42 /* PGConnectionWindowFormatter.h in Headers */,
+				6E308CFC1ABD70F90091BD17 /* PGDialogButton.h in Headers */,
 				14A6281F1AB60351003668AB /* PGDialogCreateDatabaseView.h in Headers */,
 				6E48CD781A73F3360060B429 /* PGHelpTextView.h in Headers */,
 				6E6481EE1ABACD3F00EF57C4 /* PGDialogPasswordView.h in Headers */,
@@ -2310,6 +2317,7 @@
 				6E45A40F1A73AAF900E20B36 /* MMElement.m in Sources */,
 				6E45A4111A73AB0000E20B36 /* MMHTMLParser.m in Sources */,
 				6E45A4101A73AB0000E20B36 /* MMGenerator.m in Sources */,
+				6E308CFD1ABD70F90091BD17 /* PGDialogButton.m in Sources */,
 				6E6481EF1ABACD3F00EF57C4 /* PGDialogPasswordView.m in Sources */,
 				6E6A8B951AB758E400A95748 /* PGDialogCreateSchemaView.m in Sources */,
 				6E6A8B891AB7585200A95748 /* PGDialogNetworkConnectionView.m in Sources */,

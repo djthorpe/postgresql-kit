@@ -808,7 +808,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Th2-KB-PPl">
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Th2-KB-PPl" customClass="PGDialogButton">
                         <rect key="frame" x="406" y="13" width="60" height="32"/>
                         <buttonCell key="cell" type="push" title="OK" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="obR-95-SWU">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -817,12 +817,17 @@
 DQ
 </string>
                         </buttonCell>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="returnValue">
+                                <integer key="value" value="1"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
                         <connections>
                             <action selector="doEndDialog:" target="-2" id="lf7-tY-9ra"/>
                             <binding destination="-2" name="enabled" keyPath="actionEnabled" id="mQf-il-L22"/>
                         </connections>
                     </button>
-                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="BwP-QG-Yqr">
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="BwP-QG-Yqr" customClass="PGDialogButton">
                         <rect key="frame" x="14" y="13" width="83" height="32"/>
                         <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="rK0-En-AzI">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -831,6 +836,11 @@ DQ
 Gw
 </string>
                         </buttonCell>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="returnValue">
+                                <integer key="value" value="0"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
                         <connections>
                             <action selector="doEndDialog:" target="-2" id="GSi-Of-SSJ"/>
                         </connections>

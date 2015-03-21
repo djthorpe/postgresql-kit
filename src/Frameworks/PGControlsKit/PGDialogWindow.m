@@ -128,17 +128,14 @@
 /**
  *  This method is called when an action button is pressed (OK/Cancel/etc)
  */
--(IBAction)doEndDialog:(id)sender {
+-(IBAction)doEndDialog:(NSButton* )sender {
 	NSParameterAssert([sender isKindOfClass:[NSButton class]]);
-	NSWindow* theWindow = [(NSButton* )sender window];
+	NSWindow* theWindow = [sender window];
 	NSWindow* parentWindow = [theWindow sheetParent];
 	
-	// get NSModalResponse value from delegate
-	NSModalResponse returnValue = NSModalResponseOK;
-
-	// TODO: Alter modal response
-	
-	[parentWindow endSheet:theWindow returnCode:returnValue];
+	// signal end of dialog
+	NSNumber* returnValue = [sender valueForKey:@"returnValue"];
+	[parentWindow endSheet:theWindow returnCode:[returnValue integerValue]];
 }
 
 /**

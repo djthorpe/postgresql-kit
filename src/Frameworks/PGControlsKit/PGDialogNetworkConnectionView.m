@@ -35,9 +35,8 @@ const NSTimeInterval PGDialogNetworkConnectionPingDelayInterval = 2.0;
   *  Programmatically, the following parameters are also generated:
   *
   *  sslmode - NSString*
+  *  hostaddr - NSString*
   */
-
-//postgres://pttnkktdoyjfyc@ec2-54-227-255-156.compute-1.amazonaws.com:5432/dej7aj0jp668p5
 
 @implementation PGDialogNetworkConnectionView
 
