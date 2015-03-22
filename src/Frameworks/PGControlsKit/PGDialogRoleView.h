@@ -22,6 +22,9 @@
 @property (readonly) NSString* password2;
 @property (readonly) NSInteger connectionLimit;
 @property (readonly) NSDate* expiry;
+@property (readonly) NSInteger inherit;
+@property (readonly) NSInteger createdb;
+@property (readonly) NSInteger createrole;
 
 // public methods
 -(void)setRoles:(NSArray* )roles;

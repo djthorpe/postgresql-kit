@@ -38,6 +38,7 @@ const NSTimeInterval PGDialogRoleConnectionLimitMaxValue = 20;
 @dynamic connectionLimit;
 @dynamic expiry;
 @dynamic password,password2;
+@dynamic inherit,createdb,createrole;
 @synthesize connectionLimitMinValue;
 @synthesize connectionLimitMaxValue;
 
@@ -54,17 +55,33 @@ const NSTimeInterval PGDialogRoleConnectionLimitMaxValue = 20;
 		// owner
 		[query setOwner:[self owner]];
 
-		// password
+		// password and login
 		if([[self password] length] || [[self password2] length]) {
 			if([[self password] isEqualToString:[self password2]]==NO) {
 				return nil;
 			} else {
 				[query setPassword:[self password]];
+				[query setOptionFlags:PGQueryOptionPrivLoginSet];
 			}
 		}
 		
 		// expiry
 		[query setExpiry:[self expiry]];
+		if([self expiry]) {
+			[query setOptionFlags:PGQueryOptionPrivLoginSet];
+		}
+		
+		// flags
+		if([self inherit] != -1) {
+			[query setOptionFlags:([self inherit] ? PGQueryOptionPrivInheritSet : PGQueryOptionPrivInheritClear)];
+		}
+		if([self createdb] != -1) {
+			[query setOptionFlags:([self createdb] ? PGQueryOptionPrivCreateDatabaseSet : PGQueryOptionPrivCreateDatabaseClear)];
+		}
+		if([self createrole] != -1) {
+			[query setOptionFlags:([self createrole] ? PGQueryOptionPrivCreateRoleSet : PGQueryOptionPrivCreateRoleClear)];
+		}
+		
 	}
 	return query;
 }
@@ -83,6 +100,33 @@ const NSTimeInterval PGDialogRoleConnectionLimitMaxValue = 20;
 
 -(NSString* )password2 {
 	return [[self parameters] objectForKey:@"password2"];
+}
+
+-(NSInteger)inherit {
+	NSNumber* value = [[self parameters] objectForKey:@"inherit"];
+	if([value isKindOfClass:[NSNumber class]]) {
+		return [value integerValue];
+	} else {
+		return -1;
+	}
+}
+
+-(NSInteger)createdb {
+	NSNumber* value = [[self parameters] objectForKey:@"createdb"];
+	if([value isKindOfClass:[NSNumber class]]) {
+		return [value integerValue];
+	} else {
+		return -1;
+	}
+}
+
+-(NSInteger)createrole {
+	NSNumber* value = [[self parameters] objectForKey:@"createrole"];
+	if([value isKindOfClass:[NSNumber class]]) {
+		return [value integerValue];
+	} else {
+		return -1;
+	}
 }
 
 -(NSDate* )expiry {
