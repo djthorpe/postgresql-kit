@@ -30,20 +30,23 @@
 #pragma mark properties
 ////////////////////////////////////////////////////////////////////////////////
 
-@dynamic query;
+@dynamic transaction;
 @dynamic schema;
 @dynamic owner;
 @dynamic comment;
 
--(PGQuery* )query {
-	if([[self schema] length]==0) {
-		return nil;
-	}
-	PGQuerySchema* query = [PGQuerySchema create:[self schema] options:0];
-	if([[self owner] length]) {
+-(PGTransaction* )transaction {
+	PGQuerySchema* query = nil;
+	PGQuerySchema* comment = nil;
+	PGTransaction* transaction = [PGTransaction new];
+	if([[self schema] length]) {
+		query = [PGQuerySchema create:[self schema] options:0];
+		comment = [PGQuerySchema comment:[self comment] schema:[self schema]];
 		[query setOwner:[self owner]];
+		[transaction add:query];
+		[transaction add:comment];
 	}
-	return query;
+	return (query && comment) ? transaction : nil;
 }
 
 -(NSString* )schema {

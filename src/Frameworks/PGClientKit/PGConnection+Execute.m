@@ -138,10 +138,25 @@
 	// queue up a start transaction, which triggers the first query
 	NSString* beginTransaction = [(PGTransaction* )transaction quoteBeginTransactionForConnection:self];
 	NSParameterAssert(beginTransaction);
-	[self execute:beginTransaction whenDone:^(PGResult *result, NSError *error) {
-	
-		// TODO: put all queries to execute in here
-	
+	[self execute:beginTransaction whenDone:^(PGResult* result, NSError* error) {
+		// if the BEGIN transaction didn't work, then callback
+		if(error) {
+			callback(nil,YES,error);
+			return;
+		}
+
+		// line up the transactions
+		for(NSUInteger i = 0; i < [(PGTransaction* )transaction count]; i++) {
+			dispatch_async(dispatch_get_main_queue(),^{
+				NSLog(@"executed %@",[transaction queryAtIndex:i]);
+			});
+		}
+
+		dispatch_async(dispatch_get_main_queue(),^{
+			NSLog(@"execute commit or rollback");
+		});
+		
+		// rollback
 		NSString* rollbackTransaction = [(PGTransaction* )transaction quoteRollbackTransactionForConnection:self];
 		NSParameterAssert(rollbackTransaction);
 		[self execute:rollbackTransaction whenDone:^(PGResult *result, NSError *error) {

@@ -71,4 +71,9 @@
 	[_queries addObject:query];
 }
 
+-(PGQuery* )queryAtIndex:(NSUInteger)index {
+	NSParameterAssert(index < [_queries count]);
+	return [_queries objectAtIndex:index];
+}
+
 @end

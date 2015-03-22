@@ -30,7 +30,7 @@ NSString* PGDialogDatabaseTablespaceDefault = @"pg_default";
 #pragma mark properties
 ////////////////////////////////////////////////////////////////////////////////
 
-@dynamic query;
+@dynamic transaction;
 @dynamic database;
 @dynamic owner;
 @dynamic template;
@@ -40,7 +40,7 @@ NSString* PGDialogDatabaseTablespaceDefault = @"pg_default";
 @synthesize connectionLimitMinValue;
 @synthesize connectionLimitMaxValue;
 
--(PGQuery* )query {
+-(PGTransaction* )transaction {
 	PGQueryDatabase* query = nil;
 	if([[self database] length]) {
 		query = [PGQueryDatabase create:[self database] options:0];
@@ -53,7 +53,7 @@ NSString* PGDialogDatabaseTablespaceDefault = @"pg_default";
 		[query setTemplate:[self template]];
 		[query setTablespace:[self tablespace]];
 	}
-	return query;
+	return query ? [PGTransaction transactionWithQuery:query] : nil;
 }
 
 

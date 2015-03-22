@@ -252,7 +252,7 @@
 	}
 }
 
--(void)beginRoleSheetWithParameters:(NSDictionary* )parameters connection:(PGConnection* )connection parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(PGQuery* query)) callback {
+-(void)beginRoleSheetWithParameters:(NSDictionary* )parameters connection:(PGConnection* )connection parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(PGTransaction* transaction)) callback {
 	NSParameterAssert(connection);
 	NSParameterAssert(parentWindow);
 	NSParameterAssert(callback);
@@ -278,14 +278,14 @@
 	// begin sheet
 	[self beginCustomSheetWithParameters:parameters view:view parentWindow:parentWindow whenDone:^(NSModalResponse response) {
 		if(response==NSModalResponseOK) {
-			callback([view query]);
+			callback([view transaction]);
 		} else {
 			callback(nil);
 		}
 	}];
 }
 
--(void)beginSchemaSheetWithParameters:(NSDictionary* )parameters connection:(PGConnection* )connection parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(PGQuery* query)) callback {
+-(void)beginSchemaSheetWithParameters:(NSDictionary* )parameters connection:(PGConnection* )connection parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(PGTransaction* transaction)) callback {
 	NSParameterAssert(connection);
 	NSParameterAssert(parentWindow);
 	NSParameterAssert(callback);
@@ -311,14 +311,14 @@
 	// begin sheet
 	[self beginCustomSheetWithParameters:parameters view:view parentWindow:parentWindow whenDone:^(NSModalResponse response) {
 		if(response==NSModalResponseOK) {
-			callback([view query]);
+			callback([view transaction]);
 		} else {
 			callback(nil);
 		}
 	}];
 }
 
--(void)beginDatabaseSheetWithParameters:(NSDictionary* )parameters connection:(PGConnection* )connection parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(PGQuery* query)) callback {
+-(void)beginDatabaseSheetWithParameters:(NSDictionary* )parameters connection:(PGConnection* )connection parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(PGTransaction* transaction)) callback {
 	NSParameterAssert(connection);
 	NSParameterAssert(parentWindow);
 	NSParameterAssert(callback);
@@ -356,7 +356,7 @@
 	// begin sheet
 	[self beginCustomSheetWithParameters:parameters view:view parentWindow:parentWindow whenDone:^(NSModalResponse response) {
 		if(response==NSModalResponseOK) {
-			callback([view query]);
+			callback([view transaction]);
 		} else {
 			callback(nil);
 		}

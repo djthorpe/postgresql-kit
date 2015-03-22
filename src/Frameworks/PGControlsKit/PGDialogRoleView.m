@@ -32,7 +32,7 @@ const NSTimeInterval PGDialogRoleConnectionLimitMaxValue = 20;
 #pragma mark properties
 ////////////////////////////////////////////////////////////////////////////////
 
-@dynamic query;
+@dynamic transaction;
 @dynamic role;
 @dynamic owner;
 @dynamic connectionLimit;
@@ -42,7 +42,7 @@ const NSTimeInterval PGDialogRoleConnectionLimitMaxValue = 20;
 @synthesize connectionLimitMinValue;
 @synthesize connectionLimitMaxValue;
 
--(PGQuery* )query {
+-(PGTransaction* )transaction {
 	PGQueryRole* query = nil;
 	if([[self role] length]) {
 		query = [PGQueryRole create:[self role] options:0];
@@ -83,7 +83,7 @@ const NSTimeInterval PGDialogRoleConnectionLimitMaxValue = 20;
 		}
 		
 	}
-	return query;
+	return query ? [PGTransaction transactionWithQuery:query] : nil;
 }
 
 -(NSString* )role {

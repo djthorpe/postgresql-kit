@@ -55,4 +55,13 @@
  */
 -(void)add:(PGQuery* )query;
 
+/**
+ *  Return a query from the block of queries
+ *
+ *  @param index The index of the query to return
+ *
+ *  @return Returns a PGQuery object
+ */
+-(PGQuery* )queryAtIndex:(NSUInteger)index;
+
 @end

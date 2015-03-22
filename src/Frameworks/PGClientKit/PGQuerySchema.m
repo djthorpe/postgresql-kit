@@ -78,13 +78,14 @@
 
 +(PGQuerySchema* )comment:(NSString* )comment schema:(NSString* )schema {
 	NSParameterAssert(schema);
-	NSParameterAssert(comment);
 	NSString* className = NSStringFromClass([self class]);
 	PGQuerySchema* query = (PGQuerySchema* )[PGQueryObject queryWithDictionary:@{
-		PGQuerySchemaKey: schema,
-		PGQueryCommentKey: comment
+		PGQuerySchemaKey: schema
 	} class:className];
 	NSParameterAssert(query && [query isKindOfClass:[PGQuerySchema class]]);
+	if(comment) {
+		[query setObject:comment forKey:PGQueryCommentKey];
+	}
 	[query setOptions:PGQueryOperationComment];
 	return query;
 }

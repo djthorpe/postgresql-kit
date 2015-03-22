@@ -15,7 +15,7 @@
 @interface PGDialogDatabaseView : PGDialogView
 
 // properties
-@property (readonly) PGQuery* query;
+@property (readonly) PGTransaction* transaction;
 @property (readonly) NSString* database;
 @property (readonly) NSString* owner;
 @property (readonly) NSString* template;

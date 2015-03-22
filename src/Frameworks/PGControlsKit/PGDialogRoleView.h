@@ -15,7 +15,7 @@
 @interface PGDialogRoleView : PGDialogView
 
 // properties
-@property (readonly) PGQuery* query;
+@property (readonly) PGTransaction* transaction;
 @property (readonly) NSString* role;
 @property (readonly) NSString* owner;
 @property (readonly) NSString* password;

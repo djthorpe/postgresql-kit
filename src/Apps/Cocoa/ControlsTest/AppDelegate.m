@@ -45,9 +45,12 @@
 	[[self connection] disconnect];
 }
 
--(void)execute:(PGQuery* )query {
-	NSLog(@"execute: %@",[query quoteForConnection:[self connection] error:nil]);
-	[[self connection] execute:query whenDone:^(PGResult *result, NSError *error) {
+-(void)execute:(PGTransaction* )transaction {
+	if(transaction==nil) {
+		// return if no transaction to execute
+		return;
+	}
+	[[self connection] queue:transaction whenQueryDone:^(PGResult *result, BOOL isLastQuery, NSError *error) {
 		if([result size]) {
 			NSLog(@"%@",[result tableWithWidth:60]);
 		}
@@ -135,26 +138,20 @@
 
 
 -(IBAction)doCreateRoleWindow:(id)sender {
-	[[self dialog] beginRoleSheetWithParameters:nil connection:[self connection] parentWindow:[self window] whenDone:^(PGQuery *query) {
-		if(query) {
-			[self execute:query];
-		}
+	[[self dialog] beginRoleSheetWithParameters:nil connection:[self connection] parentWindow:[self window] whenDone:^(PGTransaction* transaction) {
+		[self execute:transaction];
 	}];
 }
 
 -(IBAction)doCreateSchemaWindow:(id)sender {
-	[[self dialog] beginSchemaSheetWithParameters:nil connection:[self connection] parentWindow:[self window] whenDone:^(PGQuery *query) {
-		if(query) {
-			[self execute:query];
-		}
+	[[self dialog] beginSchemaSheetWithParameters:nil connection:[self connection] parentWindow:[self window] whenDone:^(PGTransaction* transaction) {
+		[self execute:transaction];
 	}];
 }
 
 -(IBAction)doCreateDatabaseWindow:(id)sender {
-	[[self dialog] beginDatabaseSheetWithParameters:nil connection:[self connection] parentWindow:[self window] whenDone:^(PGQuery *query) {
-		if(query) {
-			[self execute:query];
-		}
+	[[self dialog] beginDatabaseSheetWithParameters:nil connection:[self connection] parentWindow:[self window] whenDone:^(PGTransaction* transaction) {
+		[self execute:transaction];
 	}];
 }
 
@@ -186,6 +183,10 @@
 	if(password) {
 		[dictionary setObject:password forKey:@"password"];
 	}
+}
+
+-(void)connection:(PGConnection *)connection willExecute:(NSString* )query {
+	NSLog(@"EXEC: %@",query);
 }
 
 -(void)connection:(PGConnection *)connection error:(NSError *)error {

@@ -333,7 +333,8 @@ typedef enum {
 /**
  *  Perform a connection reset (reconnect with all the same parameters) in the
  *  background. This method will return immediately and execute the callback
- *  block on completion.
+ *  block on completion. PLEASE NOTE: This method is not implemented yet, it
+ *  is just a placeholder right now.
  *
  *  @param callback The callback which is called on conclusion of the reset
  *                  process. The error will be set when the reset fails, or

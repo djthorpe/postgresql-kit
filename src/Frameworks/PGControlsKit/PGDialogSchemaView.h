@@ -15,7 +15,7 @@
 @interface PGDialogSchemaView : PGDialogView
 
 // properties
-@property (readonly) PGQuery* query;
+@property (readonly) PGTransaction* transaction;
 @property (readonly) NSString* schema;
 @property (readonly) NSString* owner;
 @property (readonly) NSString* comment;
