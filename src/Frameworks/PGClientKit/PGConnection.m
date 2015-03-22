@@ -158,7 +158,7 @@ NSDictionary* PGConnectionStatusDescription = nil;
 	}
 	
 	// if identifier only contains alphanumberic characters, return it unmodified
-	if([string isAlphanumeric]) {
+	if([string isAlphanumericOrUnderscore]) {
 		return string;
 	}
 	

@@ -116,6 +116,24 @@
 	return result;
 }
 
+-(void)_queue:(PGTransaction* )transaction index:(NSUInteger)i whenQueryDone:(void(^)(PGResult* result,BOOL isLastQuery,NSError* error)) callback {
+	if(i==[transaction count]) {
+		// rollback
+		NSString* rollbackTransaction = [(PGTransaction* )transaction quoteRollbackTransactionForConnection:self];
+		NSParameterAssert(rollbackTransaction);
+		[self execute:rollbackTransaction whenDone:^(PGResult* result, NSError* error) {
+			callback(nil,YES,error);
+		}];
+	} else {
+		// execute a single query
+		[self execute:[transaction queryAtIndex:i] whenDone:^(PGResult* result,NSError* error) {
+			if(i < [transaction count]) {
+				[self _queue:transaction index:(i+1) whenQueryDone:callback];
+			}
+		}];
+	}
+}
+
 -(void)queue:(id)transaction whenQueryDone:(void(^)(PGResult* result,BOOL isLastQuery,NSError* error)) callback {
 	NSParameterAssert(transaction && [transaction isKindOfClass:[PGTransaction class]]);
 
@@ -144,24 +162,7 @@
 			callback(nil,YES,error);
 			return;
 		}
-
-		// line up the transactions
-		for(NSUInteger i = 0; i < [(PGTransaction* )transaction count]; i++) {
-			dispatch_async(dispatch_get_main_queue(),^{
-				NSLog(@"executed %@",[transaction queryAtIndex:i]);
-			});
-		}
-
-		dispatch_async(dispatch_get_main_queue(),^{
-			NSLog(@"execute commit or rollback");
-		});
-		
-		// rollback
-		NSString* rollbackTransaction = [(PGTransaction* )transaction quoteRollbackTransactionForConnection:self];
-		NSParameterAssert(rollbackTransaction);
-		[self execute:rollbackTransaction whenDone:^(PGResult *result, NSError *error) {
-			callback(nil,YES,nil);
-		}];
+		[self _queue:transaction index:0 whenQueryDone:callback];
 	}];
 }
 

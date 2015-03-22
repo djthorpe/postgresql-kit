@@ -26,4 +26,15 @@
     return ([self rangeOfCharacterFromSet:unwantedCharacters].location == NSNotFound) ? YES : NO;
 }
 
+-(BOOL)isAlphanumericOrUnderscore {
+	static NSCharacterSet* unwantedCharacters =  nil;
+	if(unwantedCharacters==nil) {
+		NSMutableCharacterSet* alpha = [NSMutableCharacterSet alphanumericCharacterSet];
+		[alpha addCharactersInString:@"_"];
+		unwantedCharacters = [alpha invertedSet];
+		NSParameterAssert(unwantedCharacters);
+	}
+    return ([self rangeOfCharacterFromSet:unwantedCharacters].location == NSNotFound) ? YES : NO;
+}
+
 @end

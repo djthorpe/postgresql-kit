@@ -72,13 +72,14 @@
 
 +(PGQueryRole* )comment:(NSString* )comment role:(NSString* )role {
 	NSParameterAssert(role);
-	NSParameterAssert(comment);
 	NSString* className = NSStringFromClass([self class]);
 	PGQueryRole* query = (PGQueryRole* )[PGQueryObject queryWithDictionary:@{
-		PGQueryRoleKey: role,
-		PGQueryCommentKey: comment
+		PGQueryRoleKey: role
 	} class:className];
 	NSParameterAssert(query && [query isKindOfClass:[PGQueryRole class]]);
+	if(comment) {
+		[query setObject:comment forKey:PGQueryCommentKey];
+	}
 	[query setOptions:PGQueryOperationComment];
 	return query;
 }
@@ -90,6 +91,7 @@
 @dynamic role;
 @dynamic name;
 @dynamic owner;
+@dynamic comment;
 @dynamic connectionLimit;
 @dynamic password;
 @dynamic expiry;
@@ -102,6 +104,10 @@
 -(NSString* )name {
 	NSString* name = [super objectForKey:PGQueryNameKey];
 	return ([name length]==0) ? nil : name;
+}
+
+-(NSString* )comment {
+	return [super objectForKey:PGQueryCommentKey];
 }
 
 -(NSString* )owner {

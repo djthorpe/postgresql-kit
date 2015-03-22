@@ -119,13 +119,14 @@
 
 +(PGQueryDatabase* )comment:(NSString* )comment database:(NSString* )database {
 	NSParameterAssert(database);
-	NSParameterAssert(comment);
 	NSString* className = NSStringFromClass([self class]);
 	PGQueryDatabase* query = (PGQueryDatabase* )[PGQueryObject queryWithDictionary:@{
-		PGQueryDatabaseKey: database,
-		PGQueryCommentKey: comment
+		PGQueryDatabaseKey: database
 	} class:className];
 	NSParameterAssert(query && [query isKindOfClass:[PGQueryDatabase class]]);
+	if(comment) {
+		[query setObject:comment forKey:PGQueryCommentKey];
+	}
 	[query setOptions:PGQueryOperationComment];
 	return query;
 }

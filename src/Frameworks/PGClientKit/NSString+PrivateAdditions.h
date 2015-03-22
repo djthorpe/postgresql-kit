@@ -22,4 +22,12 @@
  */
 -(BOOL)isAlphanumeric;
 
+/**
+ *  Determines if the string only contains alphanumeric characters or underscore
+ *
+ *  @return Returns YES if the string only contains alphanumeric characters or
+ *          underscore character, else returns NO
+ */
+-(BOOL)isAlphanumericOrUnderscore;
+
 @end

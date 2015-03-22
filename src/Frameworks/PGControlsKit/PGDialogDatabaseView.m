@@ -42,8 +42,11 @@ NSString* PGDialogDatabaseTablespaceDefault = @"pg_default";
 
 -(PGTransaction* )transaction {
 	PGQueryDatabase* query = nil;
+	PGQueryDatabase* comment = nil;
+	PGTransaction* transaction = [PGTransaction new];
 	if([[self database] length]) {
 		query = [PGQueryDatabase create:[self database] options:0];
+		comment = [PGQueryDatabase comment:[self comment] database:[self database]];
 		if([self connectionLimit]==(PGDialogDatabaseConnectionLimitMaxValue + 1)) {
 			[query setConnectionLimit:-1];
 		} else {
@@ -52,10 +55,11 @@ NSString* PGDialogDatabaseTablespaceDefault = @"pg_default";
 		[query setOwner:[self owner]];
 		[query setTemplate:[self template]];
 		[query setTablespace:[self tablespace]];
+		[transaction add:query];
+		[transaction add:comment];
 	}
-	return query ? [PGTransaction transactionWithQuery:query] : nil;
+	return (query && comment) ? transaction : nil;
 }
-
 
 -(NSString* )database {
 	return [[[self parameters] objectForKey:@"database"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];

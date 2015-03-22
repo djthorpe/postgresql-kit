@@ -129,6 +129,9 @@
 	} else {
 		[[self parameters] setObject:@[ ] forKey:@"roles"];
 	}
+	
+	// empty comment
+	[[self parameters] removeObjectForKey:@"comment"];
 }
 
 @end
