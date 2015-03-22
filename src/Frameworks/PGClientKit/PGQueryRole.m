@@ -259,7 +259,9 @@
 			[connection raiseError:error code:PGClientErrorQuery reason:@"CREATE ROLE: Missing expiry property"];
 			return nil;
 		}
-		NSString* quotedExpiry = [connection quoteString:[expiry description]];
+		NSDateFormatter* dateFormat = [NSDateFormatter new];
+		[dateFormat setDateFormat:@"YYYY-MM-dd"];
+		NSString* quotedExpiry = [connection quoteString:[dateFormat stringFromDate:expiry]];
 		NSParameterAssert(quotedExpiry);
 		[flags addObject:[NSString stringWithFormat:@"VALID UNTIL %@",quotedExpiry]];
 	}
