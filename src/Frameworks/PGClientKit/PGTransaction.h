@@ -17,19 +17,42 @@
  *  within a block. The transaction queries are executed sequentially, and
  *  on failure of any sequentially executed query, the actions are rolled
  *  back. If no errors occur, the transaction is committed.
+ *
+ *  To use PGTransaction, call [connection queue:transaction]
  */
 
 @interface PGTransaction : NSObject {
 	NSMutableArray* _queries;
 }
 
+////////////////////////////////////////////////////////////////////////////////
 // constructors
+
+/**
+ *  Create a transaction with a single query
+ *
+ *  @param query The query which should be executed within an execution block
+ *
+ *  @return Returns the PGTransaction object
+ */
 +(instancetype)transactionWithQuery:(PGQuery* )query;
 
+////////////////////////////////////////////////////////////////////////////////
 // properties
+
+/**
+ *  Returns the number of queries which are in the transaction block
+ */
 @property (readonly) NSUInteger count;
 
+////////////////////////////////////////////////////////////////////////////////
 // methods
+
+/**
+ *  Appends a new query to the transaction block
+ *
+ *  @param query The query which should be appended to the block of transactions
+ */
 -(void)add:(PGQuery* )query;
 
 @end

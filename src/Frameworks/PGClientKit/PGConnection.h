@@ -252,6 +252,23 @@ typedef enum {
  */
 -(PGResult* )execute:(id)query error:(NSError** )error;
 
+
+/**
+ *  The method executes a transaction block on the server asyncronously, and for
+ *  each query that is executed, will call a block of code. On error, the block
+ *  is cancelled and rollback is done. On success, a commit statement is sent to
+ *  the server. The callback is made for every query, setting the result of the
+ *  query and whether this is the last query to have been performed. If an error
+ *  occurred, the error is passed.
+ *
+ *  @param transaction The PGTransaction object which contains the queries to be
+ *                     executed.
+ *  @param callback    The callback which is made after each statement is executed.
+ *                     If a query error occurs, rollback is performed before the
+ *                     callback is made.
+ */
+-(void)queue:(id)transaction whenQueryDone:(void(^)(PGResult* result,BOOL isLastQuery,NSError* error)) callback;
+
 @end
 
 ////////////////////////////////////////////////////////////////////////////////

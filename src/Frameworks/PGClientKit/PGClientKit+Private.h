@@ -43,6 +43,11 @@
 +(PGQueryPredicate* )predicateOrExpression:(id)expression;
 @end
 
+@interface PGTransaction (Private)
+-(NSString* )quoteBeginTransactionForConnection:(PGConnection* )connection;
+-(NSString* )quoteRollbackTransactionForConnection:(PGConnection* )connection;
+@end
+
 typedef struct {
 	const char** keywords;
 	const char** values;

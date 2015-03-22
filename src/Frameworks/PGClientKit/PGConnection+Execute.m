@@ -116,6 +116,40 @@
 	return result;
 }
 
+-(void)queue:(id)transaction whenQueryDone:(void(^)(PGResult* result,BOOL isLastQuery,NSError* error)) callback {
+	NSParameterAssert(transaction && [transaction isKindOfClass:[PGTransaction class]]);
+
+	// where there are no transactions to execute, raise error immediately
+	if([transaction count]==0) {
+		callback(nil,YES,[self raiseError:nil code:PGClientErrorExecute reason:@"No transactions to execute"]);
+		return;
+	}
+	// check for connection status
+	if(_connection==nil || [self state] != PGConnectionStateNone) {
+		callback(nil,YES,[self raiseError:nil code:PGClientErrorState]);
+		return;
+	}
+	// check for transaction status
+	PGTransactionStatusType tstatus = PQtransactionStatus(_connection);
+	if(tstatus != PQTRANS_IDLE) {
+		callback(nil,YES,[self raiseError:nil code:PGClientErrorState reason:@"Already in a transaction"]);
+		return;
+	}
+	// queue up a start transaction, which triggers the first query
+	NSString* beginTransaction = [(PGTransaction* )transaction quoteBeginTransactionForConnection:self];
+	NSParameterAssert(beginTransaction);
+	[self execute:beginTransaction whenDone:^(PGResult *result, NSError *error) {
+	
+		// TODO: put all queries to execute in here
+	
+		NSString* rollbackTransaction = [(PGTransaction* )transaction quoteRollbackTransactionForConnection:self];
+		NSParameterAssert(rollbackTransaction);
+		[self execute:rollbackTransaction whenDone:^(PGResult *result, NSError *error) {
+			callback(nil,YES,nil);
+		}];
+	}];
+}
+
 @end
 
 
