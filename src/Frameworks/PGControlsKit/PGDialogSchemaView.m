@@ -109,8 +109,6 @@
 -(void)valueChangedWithKey:(NSString* )key oldValue:(id)oldValue newValue:(id)newValue {
 	[super valueChangedWithKey:key oldValue:oldValue newValue:newValue];
 
-	NSLog(@"value %@ %@=>%@ query=>%@",key,oldValue,newValue,[self query]);
-
 	// validate OK button
 	if([[self schema] length]) {
 		[self setEnabled:YES];

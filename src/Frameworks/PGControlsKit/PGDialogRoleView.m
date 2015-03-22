@@ -168,7 +168,7 @@ const NSTimeInterval PGDialogRoleConnectionLimitMaxValue = 20;
 }
 
 -(NSString* )windowDescription {
-	return @"Create a new role or user";
+	return @"Create a new role or user. When assigning a password or an expiry date, the role becomes a login role";
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -247,8 +247,6 @@ const NSTimeInterval PGDialogRoleConnectionLimitMaxValue = 20;
 
 -(void)valueChangedWithKey:(NSString* )key oldValue:(id)oldValue newValue:(id)newValue {
 	[super valueChangedWithKey:key oldValue:oldValue newValue:newValue];
-
-	NSLog(@"%@ %@ => %@",key,oldValue,newValue);
 
 	// connection limit
 	if([key isEqualToString:@"connection_limit"]) {
