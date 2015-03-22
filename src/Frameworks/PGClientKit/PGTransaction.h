@@ -23,6 +23,7 @@
 
 @interface PGTransaction : NSObject {
 	NSMutableArray* _queries;
+	BOOL _transactional;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -44,6 +45,12 @@
  *  Returns the number of queries which are in the transaction block
  */
 @property (readonly) NSUInteger count;
+
+/**
+ *  Returns YES is the block is transactional (wrapped around BEGIN/COMMIT)
+ *  and NO if not (the queries are executed without BEGIN/COMMIT)
+ */
+@property BOOL transactional;
 
 ////////////////////////////////////////////////////////////////////////////////
 // methods

@@ -267,7 +267,7 @@ typedef enum {
  *                     If a query error occurs, rollback is performed before the
  *                     callback is made.
  */
--(void)queue:(id)transaction whenQueryDone:(void(^)(PGResult* result,BOOL isLastQuery,NSError* error)) callback;
+-(void)queue:(PGTransaction* )transaction whenQueryDone:(void(^)(PGResult* result,BOOL isLastQuery,NSError* error)) callback;
 
 @end
 

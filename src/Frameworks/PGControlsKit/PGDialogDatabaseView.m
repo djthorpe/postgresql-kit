@@ -44,21 +44,36 @@ NSString* PGDialogDatabaseTablespaceDefault = @"pg_default";
 	PGQueryDatabase* query = nil;
 	PGQueryDatabase* comment = nil;
 	PGTransaction* transaction = [PGTransaction new];
-	if([[self database] length]) {
-		query = [PGQueryDatabase create:[self database] options:0];
-		comment = [PGQueryDatabase comment:[self comment] database:[self database]];
-		if([self connectionLimit]==(PGDialogDatabaseConnectionLimitMaxValue + 1)) {
-			[query setConnectionLimit:-1];
-		} else {
-			[query setConnectionLimit:[self connectionLimit]];
-		}
-		[query setOwner:[self owner]];
-		[query setTemplate:[self template]];
-		[query setTablespace:[self tablespace]];
-		[transaction add:query];
-		[transaction add:comment];
+	
+	// CREATE DATABASE cannot be done within a transaction, so switch off
+	// transactional suppot
+	[transaction setTransactional:NO];
+	
+	// check for database name
+	if([[self database] length]==0) {
+		return nil;
 	}
-	return (query && comment) ? transaction : nil;
+
+	// create statements, add to transaction
+	query = [PGQueryDatabase create:[self database] options:0];
+	comment = [PGQueryDatabase comment:[self comment] database:[self database]];
+	[transaction add:query];
+	[transaction add:comment];
+
+	// set connection limit
+	if([self connectionLimit]==(PGDialogDatabaseConnectionLimitMaxValue + 1)) {
+		[query setConnectionLimit:-1];
+	} else {
+		[query setConnectionLimit:[self connectionLimit]];
+	}
+	
+	// set other create database parameters
+	[query setOwner:[self owner]];
+	[query setTemplate:[self template]];
+	[query setTablespace:[self tablespace]];
+	
+	// return the transaction
+	return transaction;
 }
 
 -(NSString* )database {

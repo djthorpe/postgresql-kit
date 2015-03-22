@@ -26,6 +26,7 @@
     if (self) {
         _queries = [NSMutableArray new];
 		NSParameterAssert(_queries);
+		_transactional = YES;
     }
     return self;
 }
@@ -43,6 +44,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 @dynamic count;
+@synthesize transactional = _transactional;
 
 -(NSUInteger)count {
 	return [_queries count];
@@ -54,12 +56,20 @@
 
 -(NSString* )quoteBeginTransactionForConnection:(PGConnection* )connection {
 	NSParameterAssert(connection);
-	return @"BEGIN TRANSACTION";
+	if([self transactional]) {
+		return @"BEGIN TRANSACTION";
+	} else {
+		return nil;
+	}
 }
 
 -(NSString* )quoteRollbackTransactionForConnection:(PGConnection* )connection {
 	NSParameterAssert(connection);
-	return @"ROLLBACK TRANSACTION";
+	if([self transactional]) {
+		return @"ROLLBACK TRANSACTION";
+	} else {
+		return nil;
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////
