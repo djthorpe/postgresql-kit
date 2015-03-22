@@ -135,8 +135,7 @@
 
 
 -(IBAction)doCreateRoleWindow:(id)sender {
-	NSString* owner = [[self connection] user];
-	[[self dialog] beginCreateRoleSheetWithParameters:@{ @"owner": owner } parentWindow:[self window] whenDone:^(PGQuery *query) {
+	[[self dialog] beginRoleSheetWithParameters:nil connection:[self connection] parentWindow:[self window] whenDone:^(PGQuery *query) {
 		if(query) {
 			[self execute:query];
 		}

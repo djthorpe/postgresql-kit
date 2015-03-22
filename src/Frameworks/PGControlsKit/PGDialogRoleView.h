@@ -16,5 +16,14 @@
 
 // properties
 @property (readonly) PGQuery* query;
+@property (readonly) NSString* role;
+@property (readonly) NSString* owner;
+@property (readonly) NSString* password;
+@property (readonly) NSString* password2;
+@property (readonly) NSInteger connectionLimit;
+@property (readonly) NSDate* expiry;
+
+// public methods
+-(void)setRoles:(NSArray* )roles;
 
 @end

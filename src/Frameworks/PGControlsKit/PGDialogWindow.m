@@ -252,11 +252,30 @@
 	}
 }
 
--(void)beginCreateRoleSheetWithParameters:(NSDictionary* )parameters parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(PGQuery* query)) callback {
+-(void)beginRoleSheetWithParameters:(NSDictionary* )parameters connection:(PGConnection* )connection parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(PGQuery* query)) callback {
+	NSParameterAssert(connection);
 	NSParameterAssert(parentWindow);
 	NSParameterAssert(callback);
+
+	// get the view
 	PGDialogRoleView* view = (PGDialogRoleView* )[self ibCreateRoleView];
 	NSParameterAssert(view);
+
+	// fetch roles in background
+	[connection executeQuery:[PGQueryRole listWithOptions:0] whenDone:^(PGResult* result, NSError* error) {
+		if(result) {
+			[view setRoles:[result arrayForColumn:@"role"]];
+		}
+	}];
+
+	// set default owner
+	if(parameters==nil) {
+		parameters = @{
+			@"owner": [connection user]
+		};
+	}
+
+	// begin sheet
 	[self beginCustomSheetWithParameters:parameters view:view parentWindow:parentWindow whenDone:^(NSModalResponse response) {
 		if(response==NSModalResponseOK) {
 			callback([view query]);

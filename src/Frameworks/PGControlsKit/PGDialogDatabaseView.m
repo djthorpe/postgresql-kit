@@ -15,7 +15,6 @@
 #import <PGControlsKit/PGControlsKit.h>
 #import <PGControlsKit/PGControlsKit+Private.h>
 
-
 @interface PGDialogDatabaseView ()
 @property NSUInteger connectionLimitMinValue;
 @property NSUInteger connectionLimitMaxValue;

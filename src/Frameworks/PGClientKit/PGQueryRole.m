@@ -248,7 +248,7 @@
 		} else {
 			NSString* encryptedPassword = [connection encryptedPassword:password role:roleName];
 			NSParameterAssert(encryptedPassword);
-			[flags addObject:[NSString stringWithFormat:@"ENCRYPTED PASSWORD %@",[connection quoteIdentifier:encryptedPassword]]];
+			[flags addObject:[NSString stringWithFormat:@"ENCRYPTED PASSWORD %@",[connection quoteString:encryptedPassword]]];
 		}
 	}
 	

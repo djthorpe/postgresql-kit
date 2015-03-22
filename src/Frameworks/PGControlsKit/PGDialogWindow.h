@@ -124,16 +124,18 @@ enum {
 -(void)beginPasswordSheetSaveInKeychain:(BOOL)saveinKeychain parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(NSString* password,BOOL saveInKeychain)) callback;
 
 /**
- *  This method displays a "Create Role" sheet above a parent window, in order
- *  to allow the user to enter the details necessary for creating a role. When done,
- *  the callback provides a PGQuery object which can be used for creating the
- *  role, or nil if the sheet was cancelled.
+ *  This method displays a "Create Role" or "Alter Role" sheet above a parent 
+ *  window, in order to allow the user to enter the details necessary for 
+ *  creating or updating a role. When done, the callback provides a PGQuery 
+ *  object which can be used for creating or modfying the role, or nil if the 
+ *  sheet was cancelled.
  *
  *  @param parameters   The initial parameters used for display.
+ *  @param connection   The connection used to fetch the current roles
  *  @param parentWindow The NSWindow on which the sheet appears modally
  *  @param callback     The callback which is called once the sheet is dismissed
  */
--(void)beginCreateRoleSheetWithParameters:(NSDictionary* )parameters parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(PGQuery* query)) callback;
+-(void)beginRoleSheetWithParameters:(NSDictionary* )parameters connection:(PGConnection* )connection parentWindow:(NSWindow* )parentWindow whenDone:(void(^)(PGQuery* query)) callback;
 
 /**
  *  This method displays a "Create Schema" or "Alter Schema" sheet above a 

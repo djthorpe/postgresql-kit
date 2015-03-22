@@ -242,7 +242,10 @@ void _noticeProcessor(void* arg,const char* cString) {
 		if(r || error) {
 			NSParameterAssert(_callback);
 			void (^callback)(PGResult* result,NSError* error) = (__bridge void (^)(PGResult* ,NSError* ))(_callback);
-			callback(r,error);
+			// queue up callback on main thread
+			dispatch_async(dispatch_get_main_queue(),^{
+				callback(r,error);
+			});
 		}
 	}
 	
