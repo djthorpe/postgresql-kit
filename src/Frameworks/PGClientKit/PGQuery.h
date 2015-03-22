@@ -33,7 +33,7 @@ extern NSString* PGQueryArgumentsKey;
 extern NSString* PGQueryValueKey;
 extern NSString* PGQueryOwnerKey;
 extern NSString* PGQueryEncodingKey;
-extern NSString* PGQueryEncodingKey;
+extern NSString* PGQueryCommentKey;
 extern NSString* PGQueryTemplateKey;
 extern NSString* PGQueryTablespaceKey;
 extern NSString* PGQueryConnectionLimitKey;
@@ -88,6 +88,7 @@ enum {
 	PGQueryOperationAlter              = 0x030000000,
 	PGQueryOperationList               = 0x040000000,
 	PGQueryOperationList2              = 0x050000000,
+	PGQueryOperationComment            = 0x060000000,
 	PGQueryOperationMask               = 0xFF0000000
 };
 

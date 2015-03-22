@@ -70,6 +70,19 @@
 	return query;
 }
 
++(PGQueryRole* )comment:(NSString* )comment role:(NSString* )role {
+	NSParameterAssert(role);
+	NSParameterAssert(comment);
+	NSString* className = NSStringFromClass([self class]);
+	PGQueryRole* query = (PGQueryRole* )[PGQueryObject queryWithDictionary:@{
+		PGQueryRoleKey: role,
+		PGQueryCommentKey: comment
+	} class:className];
+	NSParameterAssert(query && [query isKindOfClass:[PGQueryRole class]]);
+	[query setOptions:PGQueryOperationComment];
+	return query;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark properties
 ////////////////////////////////////////////////////////////////////////////////
@@ -349,6 +362,34 @@
 	return [NSString stringWithFormat:@"ALTER SCHEMA %@",[flags componentsJoinedByString:@" "]];
 }
 
+-(NSString* )quoteCommentForConnection:(PGConnection* )connection options:(NSUInteger)options error:(NSError** )error {
+	NSParameterAssert(connection);
+	
+	// create flags container
+	NSMutableArray* flags = [NSMutableArray new];
+	NSParameterAssert(flags);
+
+	// role identifier
+	NSString* role = [self role];
+	if([role length]==0) {
+		[connection raiseError:error code:PGClientErrorQuery reason:@"COMMENT ON ROLE: Missing role name"];
+		return nil;
+	}
+	[flags addObject:[connection quoteIdentifier:role]];
+	[flags addObject:@"IS"];
+
+	// add comment
+	NSString* comment= [self comment];
+	if(comment==nil) {
+		[flags addObject:@"NULL"];
+	} else {
+		[flags addObject:[connection quoteString:comment]];
+	}
+
+	// return statement
+	return [NSString stringWithFormat:@"COMMENT ON ROLE %@",[flags componentsJoinedByString:@" "]];
+}
+
 -(NSString* )quoteListForConnection:(PGConnection* )connection options:(NSUInteger)options error:(NSError** )error {
 	NSParameterAssert(connection);
 	PGQuerySelect* q = [PGQuerySelect select:[PGQuerySource sourceWithTable:@"pg_roles" schema:@"pg_catalog" alias:@"r"] options:0];
@@ -396,9 +437,11 @@
 		return [self quoteAlterForConnection:connection options:options error:error];
 	case PGQueryOperationList:
 		return [self quoteListForConnection:connection options:options error:error];
+	case PGQueryOperationComment:
+		return [self quoteCommentForConnection:connection options:options error:error];
 	}
 
-	[connection raiseError:error code:PGClientErrorQuery reason:@"SCHEMA: Invalid operation"];
+	[connection raiseError:error code:PGClientErrorQuery reason:@"ROLE: Invalid operation"];
 	return nil;
 
 }

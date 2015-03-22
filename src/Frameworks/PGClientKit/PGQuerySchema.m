@@ -76,6 +76,19 @@
 	return query;
 }
 
++(PGQuerySchema* )comment:(NSString* )comment schema:(NSString* )schema {
+	NSParameterAssert(schema);
+	NSParameterAssert(comment);
+	NSString* className = NSStringFromClass([self class]);
+	PGQuerySchema* query = (PGQuerySchema* )[PGQueryObject queryWithDictionary:@{
+		PGQuerySchemaKey: schema,
+		PGQueryCommentKey: comment
+	} class:className];
+	NSParameterAssert(query && [query isKindOfClass:[PGQuerySchema class]]);
+	[query setOptions:PGQueryOperationComment];
+	return query;
+}
+
 +(PGQuerySchema* )listWithOptions:(NSUInteger)options {
 	NSString* className = NSStringFromClass([self class]);
 	PGQuerySchema* query = (PGQuerySchema* )[PGQueryObject queryWithDictionary:@{ } class:className];
@@ -84,12 +97,6 @@
 	return query;
 }
 
-/* TODO: IMPLEMENT
-+(PGQuerySchema* )objectsForSchema:(NSString* )schema options:(NSUInteger)options {
-
-}
-*/
-
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark properties
 ////////////////////////////////////////////////////////////////////////////////
@@ -97,6 +104,7 @@
 @dynamic schema;
 @dynamic name;
 @dynamic owner;
+@dynamic comment;
 
 -(NSString* )schema {
 	NSString* schema = [super objectForKey:PGQuerySchemaKey];
@@ -110,6 +118,10 @@
 
 -(NSString* )owner {
 	return [super objectForKey:PGQueryOwnerKey];
+}
+
+-(NSString* )comment {
+	return [super objectForKey:PGQueryCommentKey];
 }
 
 -(void)setOwner:(NSString* )owner {
@@ -231,6 +243,34 @@
 	return [NSString stringWithFormat:@"ALTER SCHEMA %@",[flags componentsJoinedByString:@" "]];
 }
 
+-(NSString* )quoteCommentForConnection:(PGConnection* )connection options:(NSUInteger)options error:(NSError** )error {
+	NSParameterAssert(connection);
+	
+	// create flags container
+	NSMutableArray* flags = [NSMutableArray new];
+	NSParameterAssert(flags);
+
+	// database identifier
+	NSString* schema = [self schema];
+	if([schema length]==0) {
+		[connection raiseError:error code:PGClientErrorQuery reason:@"COMMENT ON SCHEMA: Missing schema name"];
+		return nil;
+	}
+	[flags addObject:[connection quoteIdentifier:schema]];
+	[flags addObject:@"IS"];
+
+	// add comment
+	NSString* comment= [self comment];
+	if(comment==nil) {
+		[flags addObject:@"NULL"];
+	} else {
+		[flags addObject:[connection quoteString:comment]];
+	}
+
+	// return statement
+	return [NSString stringWithFormat:@"COMMENT ON SCHEMA %@",[flags componentsJoinedByString:@" "]];
+}
+
 /*
 
 -(NSString* )_schemasForConnection:(PGConnection* )connection options:(int)options error:(NSError** )error {
@@ -239,7 +279,7 @@
 	[columns addObject:@"n.nspname AS schema"];
 	[columns addObject:@"pg_catalog.pg_get_userbyid(n.nspowner) AS owner"];
 	[columns addObject:@"n.nspacl AS access_privileges"];
-	[columns addObject:@"pg_catalog.obj_description(n.oid, 'pg_namespace') AS description"];
+	[columns addObject:@"pg_catalog.obj_description(n.oid, 'pg_namespace') AS comment"];
 
 	NSMutableArray* parts = [NSMutableArray new];
 	[parts addObject:@"SELECT"];
@@ -268,6 +308,8 @@
 		return [self quoteDropForConnection:connection options:options error:error];
 	case PGQueryOperationAlter:
 		return [self quoteAlterForConnection:connection options:options error:error];
+	case PGQueryOperationComment:
+		return [self quoteCommentForConnection:connection options:options error:error];
 	}
 
 	[connection raiseError:error code:PGClientErrorQuery reason:@"SCHEMA: Invalid operation"];

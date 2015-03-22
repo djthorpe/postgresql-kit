@@ -64,6 +64,15 @@
  */
 +(PGQueryRole* )listWithOptions:(NSUInteger)options;
 
+/**
+ *  Set comment on a role
+ *
+ *  @param comment  The comment to set
+ *  @param role     The role object to comment on
+ *
+ *  @return Returns the PGQueryRole object, or nil if the query could not be created.
+ */
++(PGQueryRole* )comment:(NSString* )comment role:(NSString* )role;
 
 ////////////////////////////////////////////////////////////////////////////////
 // properties
@@ -77,6 +86,11 @@
  *  Return the new name of the dabase when renaming
  */
 @property (readonly) NSString* name;
+
+/**
+ *  The comment for the schema
+ */
+@property (readonly) NSString* comment;
 
 /**
  *  The parent role owner for the role

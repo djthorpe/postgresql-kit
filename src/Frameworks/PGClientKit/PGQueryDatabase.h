@@ -97,6 +97,16 @@
  */
 +(PGQueryDatabase* )alter:(NSString* )database tablespace:(NSString* )tablespace;
 
+/**
+ *  Set comment on a database
+ *
+ *  @param comment  The comment to set
+ *  @param database The database object to comment on
+ *
+ *  @return Returns the PGQueryDatabase object, or nil if the query could not be created.
+ */
++(PGQueryDatabase* )comment:(NSString* )comment database:(NSString* )database;
+
 ////////////////////////////////////////////////////////////////////////////////
 // properties
 
@@ -129,6 +139,11 @@
  *  The default tablespace for the database
  */
 @property NSString* tablespace;
+
+/**
+ *  The comment for the database
+ */
+@property (readonly) NSString* comment;
 
 /**
  *  The connection limit to set when creating a database or role. By default,

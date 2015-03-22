@@ -63,10 +63,11 @@ typedef enum {
 	@class PGQuerySource;
 	@class PGQueryPredicate;
 
-// header includes
+@class PGTransaction;
+
+// connections
 #import "PGConnection.h"
 //#import "PGConnectionPool.h"
-#import "PGResult.h"
 
 // queries
 #import "PGQueryObject.h"
@@ -76,9 +77,14 @@ typedef enum {
 #import "PGQueryRole.h"
 #import "PGQuerySchema.h"
 #import "PGQueryTableView.h"
-
 #import "PGQuerySource.h"
 #import "PGQueryPredicate.h"
+
+// transactions
+#import "PGTransaction.h"
+
+// results
+#import "PGResult.h"
 
 // helpers
 #import "NSURL+PGAdditions.h"

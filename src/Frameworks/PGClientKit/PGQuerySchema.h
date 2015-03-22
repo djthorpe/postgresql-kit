@@ -65,6 +65,16 @@
 +(PGQuerySchema* )alter:(NSString* )schema owner:(NSString* )owner;
 
 /**
+ *  Set comment on a schema
+ *
+ *  @param comment  The comment to set
+ *  @param database The schema object to comment on
+ *
+ *  @return Returns the PGQueryDatabase object, or nil if the query could not be created.
+ */
++(PGQuerySchema* )comment:(NSString* )comment schema:(NSString* )schema;
+
+/**
  *  Create a query to return the list of schemas in the currently selected database
  *
  *  @param options Options which affect the output of the query
@@ -72,17 +82,6 @@
  *  @return Returns the PGQuerySchema object, or nil if the query could not be created.
  */
 +(PGQuerySchema* )listWithOptions:(NSUInteger)options;
-
-/**
- *  Create a query to return the list of objects for a particular schema
- *
- *  @param schema  The schema for which to obtain a list of objects
- *  @param options Option flags. Currently unused.
- *
- *  @return Returns the PGQuerySchema object, or nil if the query could not be created.
- */
-// TODO: Implement
-// +(PGQuerySchema* )objectsForSchema:(NSString* )schema options:(NSUInteger)options;
 
 ////////////////////////////////////////////////////////////////////////////////
 // properties
@@ -96,6 +95,11 @@
  *  Return the new name of the schema when renaming
  */
 @property (readonly) NSString* name;
+
+/**
+ *  The comment for the schema
+ */
+@property (readonly) NSString* comment;
 
 /**
  *  The owner for the schema

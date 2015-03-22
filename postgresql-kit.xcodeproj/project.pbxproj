@@ -180,6 +180,8 @@
 		6E3786A11A69783D0018BEA0 /* Version.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6E37869C1A69783D0018BEA0 /* Version.plist */; };
 		6E398E861A724B8B00C3804A /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E47EDBA1A6D9E9E00352939 /* MainMenu.xib */; };
 		6E398E871A724B8E00C3804A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E55A22E1A618B8300CD2B60 /* Images.xcassets */; };
+		6E4016B91ABEFA09009A2707 /* PGTransaction.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E4016B71ABEFA09009A2707 /* PGTransaction.h */; };
+		6E4016BA1ABEFA09009A2707 /* PGTransaction.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E4016B81ABEFA09009A2707 /* PGTransaction.m */; };
 		6E45A3811A73A28100E20B36 /* PGHelpWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E45A37F1A73A28100E20B36 /* PGHelpWindowController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E45A3821A73A28100E20B36 /* PGHelpWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E45A3801A73A28100E20B36 /* PGHelpWindowController.m */; };
 		6E45A3841A73A2BD00E20B36 /* PGHelpWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E45A3831A73A2BD00E20B36 /* PGHelpWindow.xib */; };
@@ -646,6 +648,8 @@
 		6E308D051ABD80810091BD17 /* NSError+PGAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+PGAdditions.m"; sourceTree = "<group>"; };
 		6E37869B1A6976FA0018BEA0 /* reversion.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = reversion.sh; sourceTree = "<group>"; };
 		6E37869C1A69783D0018BEA0 /* Version.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Version.plist; sourceTree = "<group>"; };
+		6E4016B71ABEFA09009A2707 /* PGTransaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGTransaction.h; sourceTree = "<group>"; };
+		6E4016B81ABEFA09009A2707 /* PGTransaction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGTransaction.m; sourceTree = "<group>"; };
 		6E45A37F1A73A28100E20B36 /* PGHelpWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGHelpWindowController.h; sourceTree = "<group>"; };
 		6E45A3801A73A28100E20B36 /* PGHelpWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGHelpWindowController.m; sourceTree = "<group>"; };
 		6E45A3831A73A2BD00E20B36 /* PGHelpWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PGHelpWindow.xib; sourceTree = "<group>"; };
@@ -1382,6 +1386,15 @@
 			path = PGServerKit_testcases;
 			sourceTree = "<group>";
 		};
+		6E4016B61ABEF9E5009A2707 /* PGTransaction */ = {
+			isa = PBXGroup;
+			children = (
+				6E4016B71ABEFA09009A2707 /* PGTransaction.h */,
+				6E4016B81ABEFA09009A2707 /* PGTransaction.m */,
+			);
+			name = PGTransaction;
+			sourceTree = "<group>";
+		};
 		6E45A37E1A73A23E00E20B36 /* PGHelpWindow */ = {
 			isa = PBXGroup;
 			children = (
@@ -1630,6 +1643,7 @@
 				6E9256C61AA65AE9007DAD82 /* PGConnectionPool.m */,
 				6E9256AA1AA6483B007DAD82 /* PGConnection */,
 				148E5B131A9774540066052F /* PGQuery */,
+				6E4016B61ABEF9E5009A2707 /* PGTransaction */,
 				1422C5B21663FD3800FB22FE /* PGResult */,
 				14DECDA416B56D7B00178235 /* Data Translation */,
 			);
@@ -1760,6 +1774,7 @@
 				1450A1671AAA18DA002D62D9 /* PGQueryPredicate.h in Headers */,
 				14DECDA116B56D7300178235 /* PGConverters.h in Headers */,
 				6EAA40EB17BC150E0078EB32 /* NSURL+PGAdditions.h in Headers */,
+				6E4016B91ABEFA09009A2707 /* PGTransaction.h in Headers */,
 				1489AEC716669A6B00C3B67D /* PGResult+TextTable.h in Headers */,
 				14DECDA816B57EC400178235 /* PGConverters+Private.h in Headers */,
 				1417B7BA1AAA1FF200B44DD4 /* PGQueryObject.h in Headers */,
@@ -2409,6 +2424,7 @@
 				6EE23F611632076800C99BA7 /* PGClientParams.m in Sources */,
 				6E0773DA163744D90028783F /* PGResult.m in Sources */,
 				6E9256C11AA64BDA007DAD82 /* PGConnection+Reset.m in Sources */,
+				6E4016BA1ABEFA09009A2707 /* PGTransaction.m in Sources */,
 				1417B7C01AAA219100B44DD4 /* PGQueryObject.m in Sources */,
 				6E9256A81AA6481E007DAD82 /* PGConnection+Callbacks.m in Sources */,
 				6E9256BD1AA64BDA007DAD82 /* PGConnection+Notifications.m in Sources */,

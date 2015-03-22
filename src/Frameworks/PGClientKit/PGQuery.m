@@ -35,6 +35,7 @@ NSString* PGQueryArgumentsKey = @"args";
 NSString* PGQueryValueKey = @"value";
 NSString* PGQueryOwnerKey = @"owner";
 NSString* PGQueryEncodingKey = @"encoding";
+NSString* PGQueryCommentKey = @"comment";
 NSString* PGQueryTemplateKey = @"template";
 NSString* PGQueryTablespaceKey = @"tablespace";
 NSString* PGQueryConnectionLimitKey = @"connection_limit";

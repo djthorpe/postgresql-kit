@@ -117,6 +117,19 @@
 	return query;
 }
 
++(PGQueryDatabase* )comment:(NSString* )comment database:(NSString* )database {
+	NSParameterAssert(database);
+	NSParameterAssert(comment);
+	NSString* className = NSStringFromClass([self class]);
+	PGQueryDatabase* query = (PGQueryDatabase* )[PGQueryObject queryWithDictionary:@{
+		PGQueryDatabaseKey: database,
+		PGQueryCommentKey: comment
+	} class:className];
+	NSParameterAssert(query && [query isKindOfClass:[PGQueryDatabase class]]);
+	[query setOptions:PGQueryOperationComment];
+	return query;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark properties
 ////////////////////////////////////////////////////////////////////////////////
@@ -127,6 +140,7 @@
 @dynamic template;
 @dynamic encoding;
 @dynamic tablespace;
+@dynamic comment;
 @dynamic connectionLimit;
 
 -(NSString* )database {
@@ -141,6 +155,10 @@
 
 -(NSString* )owner {
 	return [super objectForKey:PGQueryOwnerKey];
+}
+
+-(NSString* )comment {
+	return [super objectForKey:PGQueryCommentKey];
 }
 
 -(void)setOwner:(NSString* )owner {
@@ -376,6 +394,34 @@
 	return [NSString stringWithFormat:@"ALTER DATABASE %@",[flags componentsJoinedByString:@" "]];
 }
 
+-(NSString* )quoteCommentForConnection:(PGConnection* )connection options:(NSUInteger)options error:(NSError** )error {
+	NSParameterAssert(connection);
+	
+	// create flags container
+	NSMutableArray* flags = [NSMutableArray new];
+	NSParameterAssert(flags);
+
+	// database identifier
+	NSString* databaseName = [self database];
+	if([databaseName length]==0) {
+		[connection raiseError:error code:PGClientErrorQuery reason:@"COMMENT ON DATABASE: Missing database name"];
+		return nil;
+	}
+	[flags addObject:[connection quoteIdentifier:databaseName]];
+	[flags addObject:@"IS"];
+
+	// add comment
+	NSString* comment= [self comment];
+	if(comment==nil) {
+		[flags addObject:@"NULL"];
+	} else {
+		[flags addObject:[connection quoteString:comment]];
+	}
+
+	// return statement
+	return [NSString stringWithFormat:@"COMMENT ON DATABASE %@",[flags componentsJoinedByString:@" "]];
+}
+
 -(NSString* )quoteListForConnection:(PGConnection* )connection options:(NSUInteger)options error:(NSError** )error {
 	PGQuerySelect* query = [PGQuerySelect select:[PGQuerySource sourceWithTable:@"pg_database" schema:@"pg_catalog" alias:@"d"] options:0];
 	[query addColumn:@"d.datname" alias:@"database"];
@@ -425,6 +471,8 @@
 		return [self quoteListForConnection:connection options:options error:error];
 	case PGQueryOperationList2:
 		return [self quoteListTablespacesForConnection:connection options:options error:error];
+	case PGQueryOperationComment:
+		return [self quoteCommentForConnection:connection options:options error:error];
 	}
 
 	[connection raiseError:error code:PGClientErrorQuery reason:@"DATABASE: Invalid operation"];
