@@ -47,7 +47,7 @@
 
 -(void)execute:(PGQuery* )query {
 	NSLog(@"execute: %@",[query quoteForConnection:[self connection] error:nil]);
-	[[self connection] executeQuery:query whenDone:^(PGResult *result, NSError *error) {
+	[[self connection] execute:query whenDone:^(PGResult *result, NSError *error) {
 		if([result size]) {
 			NSLog(@"%@",[result tableWithWidth:60]);
 		}

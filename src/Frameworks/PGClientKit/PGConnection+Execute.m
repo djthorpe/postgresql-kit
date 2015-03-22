@@ -83,7 +83,7 @@
 #pragma mark public methods - execution
 ////////////////////////////////////////////////////////////////////////////////
 
--(void)executeQuery:(id)query whenDone:(void(^)(PGResult* result,NSError* error)) callback {
+-(void)execute:(id)query whenDone:(void(^)(PGResult* result,NSError* error)) callback {
 	NSParameterAssert([query isKindOfClass:[NSString class]] || [query isKindOfClass:[PGQuery class]]);
 	NSParameterAssert(callback);
 	NSString* query2 = nil;

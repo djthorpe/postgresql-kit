@@ -226,6 +226,7 @@ typedef enum {
 ////////////////////////////////////////////////////////////////////////////////
 
 @interface PGConnection (Execute)
+
 /**
  *  This method execute a statement on the server asyncronously, executing the
  *  callback block on completion. The callback receives a PGResult object on
@@ -236,7 +237,8 @@ typedef enum {
  *  @param query    Either an NSString or PGQuery object
  *  @param callback The callback which is called on completion of the execution
  */
--(void)executeQuery:(id)query whenDone:(void(^)(PGResult* result,NSError* error)) callback;
+-(void)execute:(id)query whenDone:(void(^)(PGResult* result,NSError* error)) callback;
+
 @end
 
 ////////////////////////////////////////////////////////////////////////////////

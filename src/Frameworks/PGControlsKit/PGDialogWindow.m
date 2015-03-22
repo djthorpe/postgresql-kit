@@ -262,7 +262,7 @@
 	NSParameterAssert(view);
 
 	// fetch roles in background
-	[connection executeQuery:[PGQueryRole listWithOptions:0] whenDone:^(PGResult* result, NSError* error) {
+	[connection execute:[PGQueryRole listWithOptions:0] whenDone:^(PGResult* result, NSError* error) {
 		if(result) {
 			[view setRoles:[result arrayForColumn:@"role"]];
 		}
@@ -295,7 +295,7 @@
 	NSParameterAssert(view);
 	
 	// fetch roles in background
-	[connection executeQuery:[PGQueryRole listWithOptions:0] whenDone:^(PGResult* result, NSError* error) {
+	[connection execute:[PGQueryRole listWithOptions:0] whenDone:^(PGResult* result, NSError* error) {
 		if(result) {
 			[view setRoles:[result arrayForColumn:@"role"]];
 		}
@@ -328,17 +328,17 @@
 	NSParameterAssert(view);
 
 	// fetch tablespaces in the background
-	[connection executeQuery:[PGQueryDatabase listTablespacesWithOptions:0] whenDone:^(PGResult* result, NSError* error) {
+	[connection execute:[PGQueryDatabase listTablespacesWithOptions:0] whenDone:^(PGResult* result, NSError* error) {
 		if(result) {
 			[view setTablespaces:[result arrayForColumn:@"tablespace"]];
 		}
 		// fetch templates in background
-		[connection executeQuery:[PGQueryDatabase listWithOptions:PGQueryOptionListExcludeDatabases] whenDone:^(PGResult* result, NSError* error) {
+		[connection execute:[PGQueryDatabase listWithOptions:PGQueryOptionListExcludeDatabases] whenDone:^(PGResult* result, NSError* error) {
 			if(result) {
 				[view setTemplates:[result arrayForColumn:@"database"]];
 			}
 			// fetch roles in background
-			[connection executeQuery:[PGQueryRole listWithOptions:0] whenDone:^(PGResult* result, NSError* error) {
+			[connection execute:[PGQueryRole listWithOptions:0] whenDone:^(PGResult* result, NSError* error) {
 				if(result) {
 					[view setRoles:[result arrayForColumn:@"role"]];
 				}
