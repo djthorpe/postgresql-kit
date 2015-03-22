@@ -15,7 +15,6 @@
 #import <PGClientKit/PGClientKit.h>
 #import <PGClientKit/PGClientKit+Private.h>
 
-
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark Key Value pair construction
 
@@ -164,7 +163,7 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 		}
 		dispatch_semaphore_signal(s);
 	}];
-	dispatch_semaphore_wait(s, DISPATCH_TIME_FOREVER);
+	dispatch_semaphore_wait(s,DISPATCH_TIME_FOREVER);
 	return returnValue;
 }
 

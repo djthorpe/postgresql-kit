@@ -102,6 +102,20 @@
 	}
 }
 
+-(PGResult* )execute:(id)query error:(NSError** )error {
+	dispatch_semaphore_t s = dispatch_semaphore_create(0);
+	__block PGResult* result = nil;
+	[self execute:query whenDone:^(PGResult* r, NSError* e) {
+		if(error) {
+			(*error) = e;
+		}
+		result = r;
+		dispatch_semaphore_signal(s);
+	}];
+	dispatch_semaphore_wait(s,DISPATCH_TIME_FOREVER);
+	return result;
+}
+
 @end
 
 

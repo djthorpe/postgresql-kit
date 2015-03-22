@@ -239,6 +239,19 @@ typedef enum {
  */
 -(void)execute:(id)query whenDone:(void(^)(PGResult* result,NSError* error)) callback;
 
+/**
+ *  This method execute a statement on the server syncronously, then returns
+ *  the PGResult object on completion, or nil if there was an issue executing
+ *  the query. On error, an error object is returned which contains details
+ *  of the error. You can cancel the query on a separate thread as necessary.
+ *
+ *  @param query Either an NSString or PGQuery object
+ *  @param error A pointer to an error object to be returned on error
+ *
+ *  @return The RGResult object containing results of the query
+ */
+-(PGResult* )execute:(id)query error:(NSError** )error;
+
 @end
 
 ////////////////////////////////////////////////////////////////////////////////
