@@ -115,7 +115,6 @@
 		6E0773D9163744D90028783F /* PGResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0773D7163744D90028783F /* PGResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E0773DA163744D90028783F /* PGResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0773D8163744D90028783F /* PGResult.m */; };
 		6E0C815D1A618E350032AE32 /* PGClientKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		6E0C81651A618EDC0032AE32 /* Connection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0C81641A618EDC0032AE32 /* Connection.m */; };
 		6E0C81661A6190BC0032AE32 /* PGClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
 		6E0C81701A619E2E0032AE32 /* PGSplitViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0C816D1A619E2E0032AE32 /* PGSplitViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E0C81711A619E2E0032AE32 /* PGSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0C816E1A619E2E0032AE32 /* PGSplitViewController.m */; };
@@ -593,8 +592,6 @@
 		6E03102F162FE50B003225B1 /* PGQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGQuery.m; sourceTree = "<group>"; };
 		6E0773D7163744D90028783F /* PGResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGResult.h; sourceTree = "<group>"; };
 		6E0773D8163744D90028783F /* PGResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGResult.m; sourceTree = "<group>"; };
-		6E0C81631A618EDC0032AE32 /* Connection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Connection.h; sourceTree = "<group>"; };
-		6E0C81641A618EDC0032AE32 /* Connection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Connection.m; sourceTree = "<group>"; };
 		6E0C816D1A619E2E0032AE32 /* PGSplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSplitViewController.h; sourceTree = "<group>"; };
 		6E0C816E1A619E2E0032AE32 /* PGSplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSplitViewController.m; sourceTree = "<group>"; };
 		6E0C816F1A619E2E0032AE32 /* PGSplitView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PGSplitView.xib; sourceTree = "<group>"; };
@@ -636,6 +633,8 @@
 		6E1B43F915F3A465001ED3BE /* strapline-200x40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "strapline-200x40.png"; sourceTree = "<group>"; };
 		6E222C4F17B035E90087A483 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		6E222C5117B035F00087A483 /* LDAP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LDAP.framework; path = System/Library/Frameworks/LDAP.framework; sourceTree = SDKROOT; };
+		6E23F6601AC5DB9100227100 /* PreferencePanes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PreferencePanes.framework; path = System/Library/Frameworks/PreferencePanes.framework; sourceTree = SDKROOT; };
+		6E23F66C1AC5E05200227100 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		6E24DCBE1AB2D8DE00115F61 /* PGDialogBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGDialogBackgroundView.h; sourceTree = "<group>"; };
 		6E24DCBF1AB2D8DE00115F61 /* PGDialogBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGDialogBackgroundView.m; sourceTree = "<group>"; };
 		6E2A14F61A59488700F12954 /* .xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = .xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1346,6 +1345,7 @@
 		6E1B43DC15F3A465001ED3BE /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				6E23F66C1AC5E05200227100 /* Images.xcassets */,
 				148F88C5166D61060088D3DF /* ui */,
 				14032D71164A6F2200CD5796 /* icons */,
 				14032D77164A6F2200CD5796 /* traffic */,
@@ -1479,8 +1479,6 @@
 				6E47EDBA1A6D9E9E00352939 /* MainMenu.xib */,
 				6E55A2291A618B8300CD2B60 /* Application.h */,
 				6E55A22A1A618B8300CD2B60 /* Application.m */,
-				6E0C81631A618EDC0032AE32 /* Connection.h */,
-				6E0C81641A618EDC0032AE32 /* Connection.m */,
 				6E55A22F1A618B8300CD2B60 /* Info.plist */,
 			);
 			path = PGClient;
@@ -1613,6 +1611,7 @@
 		6ED763FD15F2673600687079 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6E23F6601AC5DB9100227100 /* PreferencePanes.framework */,
 				6EDC4CD417BC2755009E040D /* SenTestingKit.framework */,
 				1413DF5817AEB041009615E5 /* mac */,
 				1413DF5717AEB03B009615E5 /* ios */,
@@ -2378,7 +2377,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E55A2321A618C6B00CD2B60 /* main.m in Sources */,
-				6E0C81651A618EDC0032AE32 /* Connection.m in Sources */,
 				6E55A2341A618CD300CD2B60 /* Application.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2833,6 +2831,9 @@
 		6E256FE315F252620079AD2D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
 				SDKROOT = macosx10.9;
 				STRIP_INSTALLED_PRODUCT = NO;
 			};
@@ -2841,6 +2842,8 @@
 		6E256FE415F252620079AD2D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
 				SDKROOT = macosx10.9;
 			};
 			name = Release;
