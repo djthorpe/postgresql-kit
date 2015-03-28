@@ -13,6 +13,7 @@
 // under the License.
 
 #import "Application.h"
+#import "LogController.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -23,6 +24,7 @@ NSInteger PGQueriesTag = -200;
 
 @interface Application ()
 @property (weak) IBOutlet NSWindow* window;
+@property (weak) IBOutlet LogController* log;
 @property (retain) PGSourceViewNode* databases;
 @property (retain) PGSourceViewNode* queries;
 @end
@@ -30,7 +32,8 @@ NSInteger PGQueriesTag = -200;
 @implementation Application
 
 ////////////////////////////////////////////////////////////////////////////////
-// constructor
+#pragma mark Constructor
+////////////////////////////////////////////////////////////////////////////////
 
 -(id)init {
 	self = [super init];
@@ -56,7 +59,8 @@ NSInteger PGQueriesTag = -200;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// properties
+#pragma mark Properties
+////////////////////////////////////////////////////////////////////////////////
 
 @synthesize splitView = _splitView;
 @synthesize sourceView = _sourceView;
@@ -90,7 +94,8 @@ NSInteger PGQueriesTag = -200;
 */
 
 ////////////////////////////////////////////////////////////////////////////////
-// private methods
+#pragma mark Private methods
+////////////////////////////////////////////////////////////////////////////////
 
 -(void)resetSourceView {
 	[self setDatabases:[PGSourceViewNode headingWithName:@"DATABASES"]];
@@ -180,6 +185,9 @@ NSInteger PGQueriesTag = -200;
 	NSParameterAssert(connection);
 
 	[dialog beginRoleSheetWithParameters:nil connection:connection parentWindow:[self window] whenDone:^(PGTransaction* transaction) {
+		if(transaction==nil) {
+			return;
+		}
 		[[self pool] execute:transaction forTag:tag whenDone:^(NSError *error) {
 			NSLog(@"DONE: %@",error);
 		}];
@@ -200,6 +208,9 @@ NSInteger PGQueriesTag = -200;
 	NSParameterAssert(connection);
 
 	[dialog beginSchemaSheetWithParameters:nil connection:connection parentWindow:[self window] whenDone:^(PGTransaction* transaction) {
+		if(transaction==nil) {
+			return;
+		}
 		[[self pool] execute:transaction forTag:tag whenDone:^(NSError *error) {
 			NSLog(@"DONE: %@",error);
 		}];
@@ -220,9 +231,26 @@ NSInteger PGQueriesTag = -200;
 	NSParameterAssert(connection);
 
 	[dialog beginDatabaseSheetWithParameters:nil connection:connection parentWindow:[self window] whenDone:^(PGTransaction* transaction) {
+		if(transaction==nil) {
+			return;
+		}
 		[[self pool] execute:transaction forTag:tag whenDone:^(NSError *error) {
 			NSLog(@"DONE: %@",error);
 		}];
+	}];
+}
+
+-(void)listRolesForNode:(PGSourceViewConnection* )node {
+	NSParameterAssert(node);
+
+	// get tag node from source view
+	NSInteger tag = [[self sourceView] tagForNode:node];
+	NSParameterAssert(tag);
+
+	// create transaction, and execute it
+	PGTransaction* transaction = [PGTransaction transactionWithQuery:[PGQueryRole listWithOptions:0]];
+	[[self pool] execute:transaction forTag:tag whenDone:^(NSError *error) {
+		NSLog(@"DONE: %@",error);
 	}];
 }
 
@@ -389,7 +417,8 @@ NSInteger PGQueriesTag = -200;
 */
 
 ////////////////////////////////////////////////////////////////////////////////
-// IBActions
+#pragma mark IBActions
+////////////////////////////////////////////////////////////////////////////////
 
 -(IBAction)doNewRemoteConnection:(id)sender {
 	PGDialogWindow* dialog = [self dialogWindow];
@@ -476,6 +505,17 @@ NSInteger PGQueriesTag = -200;
 	}
 }
 
+-(IBAction)doListRoles:(id)sender {
+	PGSourceViewNode* connection = [[self sourceView] selectedNode];
+	if([connection isKindOfClass:[PGSourceViewConnection class]]) {
+		[self listRolesForNode:(PGSourceViewConnection* )connection];
+	}
+}
+
+-(IBAction)doShowLogWindow:(id)sender {
+	[[self log] showHideWindow:sender];
+}
+
 /*
 -(IBAction)doResetSourceView:(id)sender {
 	// disconnect any existing connections
@@ -524,7 +564,8 @@ NSInteger PGQueriesTag = -200;
 */
 
 ////////////////////////////////////////////////////////////////////////////////
-// methods - PGSourceView delegate
+#pragma mark PGSourceViewDelegate
+////////////////////////////////////////////////////////////////////////////////
 
 -(void)sourceView:(PGSourceViewController* )sourceView selectedNode:(PGSourceViewNode* )node {
 	NSParameterAssert(sourceView==[self sourceView]);
@@ -578,10 +619,13 @@ NSInteger PGQueriesTag = -200;
 	}
 	return nil;
 }
+*/
 
 ////////////////////////////////////////////////////////////////////////////////
-// PGTabViewDelegate implementation
+#pragma mark PGTabViewDelegate implementation
+////////////////////////////////////////////////////////////////////////////////
 
+/*
 -(NSViewController* )tabView:(PGTabViewController* )tabView newViewForTag:(NSInteger)tag {
 	PGSourceViewNode* node = [[self sourceView] nodeForTag:tag];
 	NSParameterAssert(node);
@@ -631,7 +675,8 @@ NSInteger PGQueriesTag = -200;
 */
 
 ////////////////////////////////////////////////////////////////////////////////
-// NSApplicationDelegate implementation
+#pragma mark NSApplicationDelegate implementation
+////////////////////////////////////////////////////////////////////////////////
 
 -(void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 
@@ -668,7 +713,8 @@ NSInteger PGQueriesTag = -200;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// ConnectionPoolDelegate implementation
+#pragma mark ConnectionPoolDelegate implementation
+////////////////////////////////////////////////////////////////////////////////
 
 -(void)connectionForTag:(NSInteger)tag statusChanged:(PGConnectionStatus)status description:(NSString* )description {
 	PGSourceViewConnection* node = (PGSourceViewConnection* )[[self sourceView] nodeForTag:tag];
@@ -696,22 +742,43 @@ NSInteger PGQueriesTag = -200;
 	}
 
 	[self updateStateForNode:node];
-}
-
--(void)connectionForTag:(NSInteger)tag notice:(NSString* )notice {
-	NSLog(@"NOTICE: %@",notice);
+	if(description) {
+		[[self log] appendLog:description];
+	}
 }
 
 -(void)connectionForTag:(NSInteger)tag willExecute:(NSString* )query {
-	NSLog(@"EXEC: %@",query);
+	[[self log] appendLog:[NSString stringWithFormat:@"EXEC: %@",query]];
 }
 
--(void)connectionForTag:(NSInteger)tag error:(NSError *)error {
-	NSLog(@"ERROR: %@",error);
+-(void)connectionForTag:(NSInteger)tag notice:(NSString* )notice {
+	NSUserNotification* notification = [NSUserNotification new];
+	[notification setTitle:@"NOTICE"];
+	[notification setInformativeText:notice];
+	[[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
+	
+	[[self log] appendLog:notice];
+}
+
+-(void)connectionForTag:(NSInteger)tag error:(NSError* )error {
+	NSUserNotification* notification = [NSUserNotification new];
+	[notification setTitle:@"ERROR"];
+	[notification setInformativeText:[error localizedDescription]];
+	[[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
+	
+	[[self log] appendLog:[error localizedDescription]];
 }
 
 -(void)connectionForTag:(NSInteger)tag notificationOnChannel:(NSString *)channelName payload:(NSString *)payload {
-	NSLog(@"NOTIFICATION: %@ <%@>",channelName,payload);
+	NSUserNotification* notification = [NSUserNotification new];
+	[notification setTitle:@"NOTIFICATION"];
+	[notification setSubtitle:channelName];
+	if(payload) {
+		[notification setInformativeText:payload];
+	}
+	[[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
+
+	[[self log] appendLog:[NSString stringWithFormat:@"NOTIFICATION: %@ <%@>",channelName,payload]];
 }
 
 @end

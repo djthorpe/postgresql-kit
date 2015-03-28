@@ -14,7 +14,6 @@
 
 #import <Cocoa/Cocoa.h>
 #import <PGControlsKit/PGControlsKit.h>
-#import "ConsoleBuffer.h"
 
 @interface Application : NSObject <NSApplicationDelegate,PGSourceViewDelegate,PGConnectionPoolDelegate> {
 	PGSplitViewController* _splitView;
