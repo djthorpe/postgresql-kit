@@ -44,8 +44,15 @@ const NSTimeInterval PGDialogRoleConnectionLimitMaxValue = 20;
 
 -(PGTransaction* )transaction {
 	PGQueryRole* query = nil;
+	PGQueryRole* comment = nil;
+	PGTransaction* transaction = [PGTransaction new];
+	
 	if([[self role] length]) {
 		query = [PGQueryRole create:[self role] options:0];
+		comment = [PGQueryRole comment:[self comment] role:[self role]];
+		[transaction add:query];
+		[transaction add:comment];
+	
 		if([self connectionLimit]==(PGDialogRoleConnectionLimitMaxValue + 1)) {
 			[query setConnectionLimit:-1];
 		} else {
@@ -83,7 +90,7 @@ const NSTimeInterval PGDialogRoleConnectionLimitMaxValue = 20;
 		}
 		
 	}
-	return query ? [PGTransaction transactionWithQuery:query] : nil;
+	return (query && comment) ? transaction : nil;
 }
 
 -(NSString* )role {
