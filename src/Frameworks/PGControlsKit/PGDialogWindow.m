@@ -391,17 +391,17 @@
 	if([self indicatorEnabled]) {
 		switch(flags & PGDialogWindowFlagIndicatorMask) {
 		case PGDialogWindowFlagIndicatorRed:
-			imageName = @"red";
+			imageName = @"TrafficRed";
 			break;
 		case PGDialogWindowFlagIndicatorOrange:
-			imageName = @"orange";
+			imageName = @"TrafficOrange";
 			break;
 		case PGDialogWindowFlagIndicatorGreen:
-			imageName = @"green";
+			imageName = @"TrafficGreen";
 			break;
 		case PGDialogWindowFlagIndicatorGrey:
 		default:
-			imageName = @"grey";
+			imageName = @"TrafficGrey";
 			break;
 		}
 		NSParameterAssert(imageName);

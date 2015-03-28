@@ -39,13 +39,13 @@
 	NSParameterAssert(thisBundle);
 	switch(status) {
 	case PGSourceViewConnectionIconConnecting:
-		return [thisBundle imageForResource:@"traffic-orange"];
+		return [thisBundle imageForResource:@"TrafficOrange"];
 	case PGSourceViewConnectionIconConnected:
-		return [thisBundle imageForResource:@"traffic-green"];
+		return [thisBundle imageForResource:@"TrafficGreen"];
 	case PGSourceViewConnectionIconRejected:
-		return [thisBundle imageForResource:@"traffic-red"];
+		return [thisBundle imageForResource:@"TrafficRed"];
 	default:
-		return [thisBundle imageForResource:@"traffic-grey"];
+		return [thisBundle imageForResource:@"TrafficGrey"];
 	}
 }
 

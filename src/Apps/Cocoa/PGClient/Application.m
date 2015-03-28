@@ -23,12 +23,15 @@ NSInteger PGQueriesTag = -200;
 
 @interface Application ()
 @property (weak) IBOutlet NSWindow* window;
-@property (weak) IBOutlet NSWindow* ibDeleteDatabaseSheet;
-@property (weak) IBOutlet NSMenu* ibConnectionContextMenu;
-@property (retain) NSString* ibDeleteDatabaseSheetNodeName;
 @property (retain) PGSourceViewNode* databases;
 @property (retain) PGSourceViewNode* queries;
 @end
+
+/*
+@property (weak) IBOutlet NSWindow* ibDeleteDatabaseSheet;
+@property (weak) IBOutlet NSMenu* ibConnectionContextMenu;
+@property (retain) NSString* ibDeleteDatabaseSheetNodeName;
+*/
 
 @implementation Application
 
@@ -38,20 +41,32 @@ NSInteger PGQueriesTag = -200;
 -(id)init {
 	self = [super init];
 	if(self) {
-		_connections = [PGConnectionPool new];
+		// set up dialog window
+		_dialogWindow = [PGDialogWindow new];
+		NSParameterAssert(_dialogWindow);
+	
+		// set up tab view
 		_splitView = [PGSplitViewController new];
+		NSParameterAssert(_splitView);
+
+		// set up source view
 		_sourceView = [PGSourceViewController new];
+		NSParameterAssert(_sourceView);
+		[_sourceView setDelegate:self];
+
+/*
+		_connections = [PGConnectionPool new];
 		_tabView = [PGTabViewController new];
 		_helpWindow = [PGHelpWindowController new];
 		_connectionWindow = [PGConnectionWindowController new];
 		_buffers = [ConsoleBuffer new];
 		NSParameterAssert(_connections);
 		NSParameterAssert(_buffers);
-		NSParameterAssert(_splitView && _sourceView);
 		NSParameterAssert(_helpWindow && _connectionWindow);
 		[_connections setDelegate:self];
-		[_sourceView setDelegate:self];
 		[_tabView setDelegate:self];
+*/
+
 	}
 	return self;
 }
@@ -59,14 +74,17 @@ NSInteger PGQueriesTag = -200;
 ////////////////////////////////////////////////////////////////////////////////
 // properties
 
-@synthesize connections = _connections;
 @synthesize splitView = _splitView;
 @synthesize sourceView = _sourceView;
+@synthesize databases;
+@synthesize queries;
+
+/*
+@synthesize connections = _connections;
 @synthesize tabView = _tabView;
 @synthesize helpWindow = _helpWindow;
 @synthesize connectionWindow = _connectionWindow;
-@synthesize databases;
-@synthesize queries;
+*/
 
 ////////////////////////////////////////////////////////////////////////////////
 // private methods
@@ -118,12 +136,14 @@ NSInteger PGQueriesTag = -200;
 	[splitView setTranslatesAutoresizingMaskIntoConstraints:NO];
 
 	// make it resize with the window
-	NSDictionary *views = NSDictionaryOfVariableBindings(splitView);
+	NSDictionary* views = NSDictionaryOfVariableBindings(splitView);
 	[contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[splitView]|" options:0 metrics:nil views:views]];
 	[contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[splitView]|" options:0 metrics:nil views:views]];
-	
+
 	// add left and right views
 	[[self splitView] setLeftView:[self sourceView]];
+
+/*
 	[[self splitView] setRightView:[self tabView]];
 
 	// add menu items to split view
@@ -135,22 +155,25 @@ NSInteger PGQueriesTag = -200;
 
 	NSMenuItem* menuItem5 = [[NSMenuItem alloc] initWithTitle:@"Reset Source View" action:@selector(doResetSourceView:) keyEquivalent:@""];
 	[[self splitView] addMenuItem:menuItem5];
-	
+*/
+
 	// set autosave name and set minimum split view width
 	[[self splitView] setAutosaveName:@"PGSplitView"];
 	[[self splitView] setMinimumSize:75.0];
 
 }
 
--(void)_newConnectionWithURL:(NSURL* )url {
+-(void)createConnectionWithURL:(NSURL* )url comment:(NSString* )comment {
 	// create a node
 	PGSourceViewNode* node = [PGSourceViewNode connectionWithURL:url];
 	// add node
 	[[self sourceView] addNode:node parent:[self databases]];
 	// connect
 	NSParameterAssert([node isKindOfClass:[PGSourceViewConnection class]]);
-	[self _connectNode:(PGSourceViewConnection* )node];
+	// TODO: [self connectNode:(PGSourceViewConnection* )node];
 }
+
+/*
 
 -(void)_connectNode:(PGSourceViewConnection* )node {
 	// get tag node from source view
@@ -239,29 +262,50 @@ NSInteger PGQueriesTag = -200;
 	[controller scrollToBottom];
 }
 
+*/
+
 ////////////////////////////////////////////////////////////////////////////////
 // IBActions
 
--(IBAction)doNewNetworkConnection:(id)sender {
-	// connect to remote server
-	NSURL* defaultURL = [PGConnectionWindowController defaultNetworkURL];
-	[[self connectionWindow] beginConnectionSheetWithURL:defaultURL parentWindow:[self window] whenDone:^(NSURL* url) {
+-(IBAction)doNewRemoteConnection:(id)sender {
+	PGDialogWindow* dialog = [self dialogWindow];
+	NSParameterAssert(dialog);
+	[dialog beginConnectionSheetWithURL:[PGDialogWindow defaultNetworkURL] comment:nil parentWindow:[self window] whenDone:^(NSURL* url, NSString* comment) {
 		if(url) {
-			[self _newConnectionWithURL:url];
+			[self createConnectionWithURL:url comment:comment];
 		}
 	}];
 }
 
--(IBAction)doNewSocketConnection:(id)sender {
-	// connect to remote server
-	NSURL* defaultURL = [PGConnectionWindowController defaultSocketURL];
-	[[self connectionWindow] beginConnectionSheetWithURL:defaultURL parentWindow:[self window] whenDone:^(NSURL* url) {
+-(IBAction)doNewLocalConnection:(id)sender {
+	PGDialogWindow* dialog = [self dialogWindow];
+	NSParameterAssert(dialog);
+	[dialog beginConnectionSheetWithURL:[PGDialogWindow defaultFileURL] comment:nil parentWindow:[self window] whenDone:^(NSURL* url, NSString* comment) {
 		if(url) {
-			[self _newConnectionWithURL:url];
+			[self createConnectionWithURL:url comment:comment];
 		}
 	}];
 }
 
+-(IBAction)doEditConnection:(id)sender {
+	PGDialogWindow* dialog = [self dialogWindow];
+	NSParameterAssert(dialog);
+	PGSourceViewConnection* connection = (PGSourceViewConnection* )[[self sourceView] selectedNode];
+	if(connection==nil) {
+		return;
+	}
+	NSParameterAssert(connection && [connection isKindOfClass:[PGSourceViewConnection class]]);
+	[dialog beginConnectionSheetWithURL:[connection URL] comment:[connection name] parentWindow:[self window] whenDone:^(NSURL* url, NSString* comment) {
+		if(url) {
+			NSInteger tag = [[self sourceView] tagForNode:connection];
+			NSLog(@"TODO: update URL to %@ for tag %ld",url,tag);
+			[connection setURL:url];
+			[connection setName:comment];
+		}
+	}];
+}
+
+/*
 -(IBAction)doResetSourceView:(id)sender {
 	// disconnect any existing connections
 	[[self connections] removeAll];
@@ -281,19 +325,6 @@ NSInteger PGQueriesTag = -200;
 	PGSourceViewNode* connection = [[self sourceView] selectedNode];
 	if([connection isKindOfClass:[PGSourceViewConnection class]]) {
 		[self _disconnectNode:(PGSourceViewConnection* )connection];
-	}
-}
-
--(IBAction)doEditConnection:(id)sender {
-	PGSourceViewNode* connection = [[self sourceView] selectedNode];
-	if([connection isKindOfClass:[PGSourceViewConnection class]]) {
-		[[self connectionWindow] beginConnectionSheetWithURL:[(PGSourceViewConnection* )connection URL] parentWindow:[self window] whenDone:^(NSURL* url) {
-			// update the connection details
-			if(url) {
-				NSInteger tag = [[self sourceView] tagForNode:connection];
-				NSLog(@"TODO: update URL to %@ for tag %ld",url,tag);
-			}
-		}];
 	}
 }
 
@@ -332,10 +363,12 @@ NSInteger PGQueriesTag = -200;
 		NSLog(@"Button clicked, ignoring: %@",sender);
 	}
 }
+*/
 
 ////////////////////////////////////////////////////////////////////////////////
 // methods - PGSourceView delegate
 
+/*
 -(void)sourceView:(PGSourceViewController* )sourceView selectedNode:(PGSourceViewNode* )node {
 	NSParameterAssert(sourceView==[self sourceView]);
 	NSParameterAssert(node);
@@ -347,16 +380,20 @@ NSInteger PGQueriesTag = -200;
 	// select view
 	[[self tabView] selectViewWithTag:tag];
 }
+*/
 
 -(void)sourceView:(PGSourceViewController* )sourceView doubleClickedNode:(PGSourceViewNode* )node {
 	NSParameterAssert(sourceView==[self sourceView]);
 	NSParameterAssert(node);
 
 	// get tag node from source view
-	NSInteger tag = [[self sourceView] tagForNode:node];
-	NSParameterAssert(tag);
+	//NSInteger tag = [[self sourceView] tagForNode:node];
+	//NSParameterAssert(tag);
 
 	if([node isKindOfClass:[PGSourceViewConnection class]]) {
+		[self doEditConnection:nil];
+	}
+	/*
 		PGConnectionStatus status = [[self connections] statusForTag:tag];
 		if(status != PGConnectionStatusConnected) {
 			[self _connectNode:(PGSourceViewConnection* )node];
@@ -366,8 +403,10 @@ NSInteger PGQueriesTag = -200;
 	} else {
 		NSLog(@"double clicked node = %@",node);
 	}
+	*/
 }
 
+/*
 -(void)sourceView:(PGSourceViewController* )sourceView deleteNode:(PGSourceViewNode* )node {
 	NSParameterAssert(sourceView==[self sourceView]);
 	NSParameterAssert(node);
@@ -438,33 +477,43 @@ NSInteger PGQueriesTag = -200;
 		}
 	}
 }
+*/
 
 ////////////////////////////////////////////////////////////////////////////////
 // NSApplicationDelegate implementation
 
 -(void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 
+	// load dialog window nib
+	[[self dialogWindow] load];
+
 	// add PGSplitView to the content view
 	[self addSplitView];
 
+	// load connections from user defaults
+	if([self loadSourceView]==NO) {
+		NSLog(@"TODO: open new network connection");
+//		[self doNewNetworkConnection:nil];
+	}
+/*
 	// load help from resource folder
 	NSError* error = nil;
 	[[self helpWindow] addPath:@"help" bundle:[NSBundle mainBundle] error:&error];
 	[[self helpWindow] addResource:@"NOTICE" bundle:[NSBundle mainBundle] error:&error];
 	
-	// load connections from user defaults
-	if([self loadSourceView]==NO) {
-		[self doNewNetworkConnection:nil];
-	}
+*/
 }
 
 -(void)applicationWillTerminate:(NSNotification *)aNotification {
+/*
 	// disconnect from remote servers
 	[[self connections] removeAll];
+*/
 	// save user defaults
 	[[self sourceView] saveToUserDefaults];
 }
 
+/*
 ////////////////////////////////////////////////////////////////////////////////
 // ConnectionPoolDelegate implementation
 
@@ -504,5 +553,6 @@ NSInteger PGQueriesTag = -200;
 -(void)connectionPool:(PGConnectionPool* )pool tag:(NSInteger)tag error:(NSError* )error {
 	[self _appendConsoleString:[error localizedDescription] forTag:tag];
 }
+*/
 
 @end
