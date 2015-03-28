@@ -222,16 +222,17 @@ enum {
 	return [_connection objectForKey:key];
 }
 
--(BOOL)execute:(PGTransaction* )transaction forTag:(NSInteger)tag whenDone:(void(^)(NSError* error)) callback {
+-(BOOL)execute:(PGTransaction* )transaction forTag:(NSInteger)tag whenDone:(void(^)(PGResult* result,NSError* error)) callback {
 	id key = [PGConnectionPool keyForTag:tag];
 	NSParameterAssert(key);
 	PGConnection* connection = [_connection objectForKey:key];
 	if([connection status] != PGConnectionStatusConnected && [connection status] != PGConnectionStatusBusy) {
 		return NO;
 	}
-	[connection queue:transaction whenQueryDone:^(PGResult *result, BOOL isLastQuery, NSError *error) {
+	// only runs the callback on the last query
+	[connection queue:transaction whenQueryDone:^(PGResult* result, BOOL isLastQuery, NSError* error) {
 		if(isLastQuery) {
-			callback(error);
+			callback(result,error);
 		}
 	}];
 	return YES;

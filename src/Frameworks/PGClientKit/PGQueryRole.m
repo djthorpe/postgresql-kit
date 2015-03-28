@@ -400,31 +400,24 @@
 	NSParameterAssert(connection);
 	PGQuerySelect* q = [PGQuerySelect select:[PGQuerySource sourceWithTable:@"pg_roles" schema:@"pg_catalog" alias:@"r"] options:0];
 	[q addColumn:@"r.rolname" alias:@"role"];
+	
+	if(options & PGQueryOptionListExtended) {
+		[q addColumn:@"r.rolsuper" alias:@"superuser"];
+		[q addColumn:@"r.rolinherit" alias:@"inherit"];
+		[q addColumn:@"r.rolcreaterole" alias:@"createrole"];
+		[q addColumn:@"r.rolcreatedb" alias:@"createdb"];
+		[q addColumn:@"r.rolcanlogin" alias:@"login"];
+		[q addColumn:@"r.rolconnlimit" alias:@"connection_limit"];
+		[q addColumn:@"r.rolvaliduntil" alias:@"expiry"];
+//		[q addColumn:@"r.rolreplication" alias:@"replication"];
+		[q addColumn:@"pg_catalog.shobj_description(r.oid,'pg_authid')" alias:@"comment"];
+	}
+	
 	return [q quoteForConnection:connection error:error];
 }
 
 /*
-	// for extended use the following
-	NSMutableArray* columns = [NSMutableArray new];
-	[columns addObject:@"r.rolname AS role"];
-	[columns addObject:@"r.rolsuper AS superuser"];
-	[columns addObject:@"r.rolinherit AS inherit"];
-	[columns addObject:@"r.rolcreaterole AS createrole"];
-	[columns addObject:@"r.rolcreatedb AS createdb"];
-	[columns addObject:@"r.rolcanlogin AS login"];
-	[columns addObject:@"r.rolconnlimit AS connection_limit"];
-	[columns addObject:@"r.rolvaliduntil AS expiry"];
-	[columns addObject:@"r.rolreplication AS replication"];
 	[columns addObject:@"ARRAY(SELECT b.rolname FROM  WHERE m.member = r.oid) as memberof"];
-	[columns addObject:@"pg_catalog.shobj_description(r.oid, 'pg_authid') AS comment"];
-
-	NSMutableArray* parts = [NSMutableArray new];
-	[parts addObject:@"SELECT"];
-	[parts addObject:[columns componentsJoinedByString:@","]];
-	[parts addObject:@"FROM pg_catalog.pg_roles r"];
-	[parts addObject:@"ORDER BY 1"];
-
-	return [parts componentsJoinedByString:@" "];
 */
 
 ////////////////////////////////////////////////////////////////////////////////

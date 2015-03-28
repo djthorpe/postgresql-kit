@@ -27,6 +27,7 @@ NSInteger PGQueriesTag = -200;
 @property (weak) IBOutlet LogController* log;
 @property (retain) PGSourceViewNode* databases;
 @property (retain) PGSourceViewNode* queries;
+@property (retain) PGResultTableView* tableView;
 @end
 
 @implementation Application
@@ -68,6 +69,7 @@ NSInteger PGQueriesTag = -200;
 @synthesize databases;
 @synthesize queries;
 @dynamic pool;
+@synthesize tableView;
 
 -(PGConnectionPool* )pool {
 	return [PGConnectionPool sharedPool];
@@ -188,8 +190,12 @@ NSInteger PGQueriesTag = -200;
 		if(transaction==nil) {
 			return;
 		}
-		[[self pool] execute:transaction forTag:tag whenDone:^(NSError *error) {
-			NSLog(@"DONE: %@",error);
+		[[self pool] execute:transaction forTag:tag whenDone:^(PGResult* result,NSError *error) {
+			if(error==nil) {
+				[self listRolesForNode:node];
+			} else {
+				[self beginSheetForError:error];
+			}
 		}];
 	}];
 }
@@ -211,8 +217,12 @@ NSInteger PGQueriesTag = -200;
 		if(transaction==nil) {
 			return;
 		}
-		[[self pool] execute:transaction forTag:tag whenDone:^(NSError *error) {
-			NSLog(@"DONE: %@",error);
+		[[self pool] execute:transaction forTag:tag whenDone:^(PGResult* result,NSError *error) {
+			if(error==nil) {
+				[self listSchemasForNode:node];
+			} else {
+				[self beginSheetForError:error];
+			}
 		}];
 	}];
 }
@@ -234,8 +244,12 @@ NSInteger PGQueriesTag = -200;
 		if(transaction==nil) {
 			return;
 		}
-		[[self pool] execute:transaction forTag:tag whenDone:^(NSError *error) {
-			NSLog(@"DONE: %@",error);
+		[[self pool] execute:transaction forTag:tag whenDone:^(PGResult* result,NSError *error) {
+			if(error==nil) {
+				[self listDatabasesForNode:node];
+			} else {
+				[self beginSheetForError:error];
+			}
 		}];
 	}];
 }
@@ -248,9 +262,61 @@ NSInteger PGQueriesTag = -200;
 	NSParameterAssert(tag);
 
 	// create transaction, and execute it
-	PGTransaction* transaction = [PGTransaction transactionWithQuery:[PGQueryRole listWithOptions:0]];
-	[[self pool] execute:transaction forTag:tag whenDone:^(NSError *error) {
-		NSLog(@"DONE: %@",error);
+	PGTransaction* transaction = [PGTransaction transactionWithQuery:[PGQueryRole listWithOptions:PGQueryOptionListExtended]];
+	[transaction setTransactional:NO];
+	[[self pool] execute:transaction forTag:tag whenDone:^(PGResult* result,NSError *error) {
+		if(result) {
+			[[[self tableView] view] removeFromSuperview];
+			[self setTableView:[[PGResultTableView alloc] initWithDataSource:result]];
+			[[self splitView] setRightView:[[self tableView] view]];
+		}
+		if(error) {
+			[self beginSheetForError:error];
+		}
+	}];
+}
+
+-(void)listDatabasesForNode:(PGSourceViewConnection* )node {
+	NSParameterAssert(node);
+
+	// get tag node from source view
+	NSInteger tag = [[self sourceView] tagForNode:node];
+	NSParameterAssert(tag);
+
+	// create transaction, and execute it
+	PGTransaction* transaction = [PGTransaction transactionWithQuery:[PGQueryDatabase listWithOptions:PGQueryOptionListExtended]];
+	[transaction setTransactional:NO];
+	[[self pool] execute:transaction forTag:tag whenDone:^(PGResult* result,NSError *error) {
+		if(result) {
+			[[[self tableView] view] removeFromSuperview];
+			[self setTableView:[[PGResultTableView alloc] initWithDataSource:result]];
+			[[self splitView] setRightView:[[self tableView] view]];
+		}
+		if(error) {
+			[self beginSheetForError:error];
+		}
+	}];
+}
+
+-(void)listSchemasForNode:(PGSourceViewConnection* )node {
+	NSParameterAssert(node);
+
+	// get tag node from source view
+	NSInteger tag = [[self sourceView] tagForNode:node];
+	NSParameterAssert(tag);
+
+	// create transaction, and execute it
+	PGTransaction* transaction = [PGTransaction transactionWithQuery:[PGQuerySchema listWithOptions:PGQueryOptionListExtended]];
+	[transaction setTransactional:NO];
+	[[self pool] execute:transaction forTag:tag whenDone:^(PGResult* result,NSError *error) {
+		if(result) {
+			[[[self tableView] view] removeFromSuperview];
+			[self setTableView:[[PGResultTableView alloc] initWithDataSource:result]];
+			[[self splitView] setRightView:[[self tableView] view]];
+		}
+		if(error) {
+			[self beginSheetForError:error];
+		}
 	}];
 }
 
@@ -316,6 +382,19 @@ NSInteger PGQueriesTag = -200;
 	NSParameterAssert(tag);
 	// perform disconnection
 	[[self pool] disconnectForTag:tag];
+}
+
+
+-(void)beginSheetForError:(NSError* )error {
+	NSParameterAssert(error);
+
+	// create alert sheet
+	NSAlert* alertSheet = [NSAlert alertWithError:error];
+	
+	// do the error sheet
+	[alertSheet beginSheetModalForWindow:[self window] completionHandler:^(NSModalResponse returnCode) {
+		return;
+	}];
 }
 
 -(void)beginConnectionErrorSheetForNode:(PGSourceViewConnection* )node error:(NSError* )error {
@@ -509,6 +588,20 @@ NSInteger PGQueriesTag = -200;
 	PGSourceViewNode* connection = [[self sourceView] selectedNode];
 	if([connection isKindOfClass:[PGSourceViewConnection class]]) {
 		[self listRolesForNode:(PGSourceViewConnection* )connection];
+	}
+}
+
+-(IBAction)doListDatabases:(id)sender {
+	PGSourceViewNode* connection = [[self sourceView] selectedNode];
+	if([connection isKindOfClass:[PGSourceViewConnection class]]) {
+		[self listDatabasesForNode:(PGSourceViewConnection* )connection];
+	}
+}
+
+-(IBAction)doListSchemas:(id)sender {
+	PGSourceViewNode* connection = [[self sourceView] selectedNode];
+	if([connection isKindOfClass:[PGSourceViewConnection class]]) {
+		[self listSchemasForNode:(PGSourceViewConnection* )connection];
 	}
 }
 

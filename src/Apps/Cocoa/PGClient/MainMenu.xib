@@ -364,19 +364,21 @@
                             <menuItem title="List Roles" id="m7X-VM-kHb">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
-                                    <action selector="doListRoles:" target="Voe-Tx-rLC" id="DAK-qD-Jxo"/>
+                                    <action selector="doListRoles:" target="Voe-Tx-rLC" id="hw5-lO-KY0"/>
                                     <binding destination="Voe-Tx-rLC" name="enabled" keyPath="state.can_query" id="vL5-aD-94W"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="List Databases" id="rNc-hR-41H">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
+                                    <action selector="doListDatabases:" target="Voe-Tx-rLC" id="LEA-qG-9T9"/>
                                     <binding destination="Voe-Tx-rLC" name="enabled" keyPath="state.can_query" id="sou-7P-0ln"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="List Schemas" id="sFe-kl-6Rj">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
+                                    <action selector="doListSchemas:" target="Voe-Tx-rLC" id="tFN-VM-I6x"/>
                                     <binding destination="Voe-Tx-rLC" name="enabled" keyPath="state.can_query" id="wCa-U4-lOk"/>
                                 </connections>
                             </menuItem>

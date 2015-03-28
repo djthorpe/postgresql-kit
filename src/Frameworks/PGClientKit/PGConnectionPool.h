@@ -24,7 +24,9 @@
 // forward declarations
 @protocol PGConnectionPoolDelegate;
 
+////////////////////////////////////////////////////////////////////////////////
 // PGConnectionPool interface
+
 @interface PGConnectionPool : NSObject <PGConnectionDelegate> {
 	int _type;
 	NSMutableDictionary* _connection;
@@ -33,16 +35,60 @@
 	BOOL _useKeychain;
 }
 
-// singleton constructor
+////////////////////////////////////////////////////////////////////////////////
+// constructor
+
+/**
+ *  Return a shared pool instance, which provides one connection per tag. This
+ *  method should always return the same instance each time it is called.
+ *
+ *  @return Returns the connection pool instance
+ */
 +(instancetype)sharedPool;
 
+////////////////////////////////////////////////////////////////////////////////
 // properties
+
+/**
+ *  The connection delegate, which implements methods described in the
+ *  PGConnectionPoolDelegate protocol
+ */
 @property (weak, nonatomic) id<PGConnectionPoolDelegate> delegate;
+
+/**
+ *  Returns a PGPasswordStore object, which is used for storing passwords
+ *  for the connections.
+ */
 @property (retain,readonly) PGPasswordStore* passwords;
+
+/**
+ *  Returns all the PGConnection objects which are in use within the pool
+ */
 @property (retain,readonly) NSArray* connections;
+
+/**
+ *  This boolean flag property determines if passwords will be stored and
+ *  retrieved from the users' keychain. If set to NO, then passwords will
+ *  only be stored temporarily. Defaults to YES
+ */
 @property BOOL useKeychain;
 
+////////////////////////////////////////////////////////////////////////////////
 // methods
+
+/**
+ *  Creates a new connection object and sets the URL for the connection. The
+ *  connection is keyed against a unique "tag", which is used to refer to the
+ *  connection. In the "default" mode of operation, only one connection can be
+ *  set per tag.
+ *
+ *  @param url The URL to associate with the connection
+ *  @param tag The unique tag used as a key against the connection. Must be a positive
+ *             integer.
+ *
+ *  @return Returns the PGConnection object created, or returns nil if the parameters
+ *          provided were incorrect, or the tag is not unique.
+ */
 -(PGConnection* )createConnectionWithURL:(NSURL* )url tag:(NSInteger)tag;
 -(BOOL)connectForTag:(NSInteger)tag whenDone:(void(^)(NSError* error)) callback;
 -(BOOL)disconnectForTag:(NSInteger)tag;
@@ -50,12 +96,10 @@
 -(BOOL)removePasswordForTag:(NSInteger)tag;
 -(BOOL)removeForTag:(NSInteger)tag;
 -(BOOL)removeAll;
-
 -(NSURL* )URLForTag:(NSInteger)tag;
 -(PGConnection* )connectionForTag:(NSInteger)tag;
 -(PGConnectionStatus)statusForTag:(NSInteger)tag;
-
--(BOOL)execute:(PGTransaction* )transaction forTag:(NSInteger)tag whenDone:(void(^)(NSError* error)) callback;
+-(BOOL)execute:(PGTransaction* )transaction forTag:(NSInteger)tag whenDone:(void(^)(PGResult* result,NSError* error)) callback;
 
 @end
 

@@ -63,6 +63,16 @@
 	}
 }
 
+-(NSString* )quoteCommitTransactionForConnection:(PGConnection* )connection {
+	NSParameterAssert(connection);
+	if([self transactional]) {
+		return @"COMMIT TRANSACTION";
+	} else {
+		return nil;
+	}
+}
+
+
 -(NSString* )quoteRollbackTransactionForConnection:(PGConnection* )connection {
 	NSParameterAssert(connection);
 	if([self transactional]) {
@@ -71,6 +81,7 @@
 		return nil;
 	}
 }
+
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark public methods

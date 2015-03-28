@@ -18,8 +18,6 @@
 // Forward class delarations
 @class PGSplitViewController;
 
-@class PGConnectionWindowController;
-
 @class PGSourceViewController;
 @class PGSourceViewNode;
   @class PGSourceViewHeading;
@@ -42,6 +40,9 @@
   @class PGDialogNetworkConnectionView;
     @class PGDialogFileConnectionView;
 
+// PGResultTableView forward declarations
+@class PGResultTableView;
+
 // PGDialog
 #import "PGDialogWindow.h"
 #import "PGDialogView.h"
@@ -53,7 +54,6 @@
 #import "PGDialogFileConnectionView.h"
 
 // Windows
-#import "PGConnectionWindowController.h"
 #import "PGHelpWindowController.h"
 
 // Views
@@ -61,6 +61,9 @@
 #import "PGSourceViewController.h"
 #import "PGTabViewController.h"
 #import "PGConsoleViewController.h"
+
+// Views
+#import "PGResultTableView.h"
 
 // Nodes for Source View
 #import "PGSourceViewNode.h"

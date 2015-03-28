@@ -272,28 +272,20 @@
 	return [NSString stringWithFormat:@"COMMENT ON SCHEMA %@",[flags componentsJoinedByString:@" "]];
 }
 
-/*
 
--(NSString* )_schemasForConnection:(PGConnection* )connection options:(int)options error:(NSError** )error {
+-(NSString* )quoteListForConnection:(PGConnection* )connection options:(NSUInteger)options error:(NSError** )error {
+	PGQuerySelect* query = [PGQuerySelect select:[PGQuerySource sourceWithTable:@"pg_namespace" schema:@"pg_catalog" alias:@"n"] options:0];
+	[query addColumn:@"n.nspname" alias:@"schema"];
+	
+	if(options & PGQueryOptionListExtended) {
+		[query addColumn:@"pg_get_userbyid(n.nspowner)" alias:@"owner"];
+		[query addColumn:@"obj_description(n.oid,'pg_namespace')" alias:@"comment"];
+	}
+	[query andWhere:@"n.nspname !~ '^pg_'"];
+	[query andWhere:@"n.nspname <> 'information_schema'"];
 
-	NSMutableArray* columns = [NSMutableArray new];
-	[columns addObject:@"n.nspname AS schema"];
-	[columns addObject:@"pg_catalog.pg_get_userbyid(n.nspowner) AS owner"];
-	[columns addObject:@"n.nspacl AS access_privileges"];
-	[columns addObject:@"pg_catalog.obj_description(n.oid, 'pg_namespace') AS comment"];
-
-	NSMutableArray* parts = [NSMutableArray new];
-	[parts addObject:@"SELECT"];
-	[parts addObject:[columns componentsJoinedByString:@","]];
-	[parts addObject:@"FROM pg_catalog.pg_namespace n"];
-	[parts addObject:@"WHERE n.nspname !~ '^pg_'"];
-	[parts addObject:@"AND n.nspname <> 'information_schema'"];
-	[parts addObject:@"ORDER BY 1"];
-
-	return [parts componentsJoinedByString:@" "];
+	return [query quoteForConnection:connection error:error];
 }
-
-*/
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark public methods
@@ -311,6 +303,8 @@
 		return [self quoteAlterForConnection:connection options:options error:error];
 	case PGQueryOperationComment:
 		return [self quoteCommentForConnection:connection options:options error:error];
+	case PGQueryOperationList:
+		return [self quoteListForConnection:connection options:options error:error];
 	}
 
 	[connection raiseError:error code:PGClientErrorQuery reason:@"SCHEMA: Invalid operation"];

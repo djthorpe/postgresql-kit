@@ -46,6 +46,7 @@
 @interface PGTransaction (Private)
 -(NSString* )quoteBeginTransactionForConnection:(PGConnection* )connection;
 -(NSString* )quoteRollbackTransactionForConnection:(PGConnection* )connection;
+-(NSString* )quoteCommitTransactionForConnection:(PGConnection* )connection;
 @end
 
 typedef struct {

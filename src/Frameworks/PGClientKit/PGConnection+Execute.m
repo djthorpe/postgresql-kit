@@ -116,23 +116,34 @@
 	return result;
 }
 
--(void)_queue:(PGTransaction* )transaction index:(NSUInteger)i whenQueryDone:(void(^)(PGResult* result,BOOL isLastQuery,NSError* error)) callback {
-	if(i==[transaction count]) {
+-(void)_queue:(PGTransaction* )transaction index:(NSUInteger)i lastResult:(PGResult* )result lastError:(NSError* )error whenQueryDone:(void(^)(PGResult* result,BOOL isLastQuery,NSError* error)) callback {
+	if(error) {
 		// rollback
 		if([transaction transactional]) {
 			NSString* rollbackTransaction = [(PGTransaction* )transaction quoteRollbackTransactionForConnection:self];
 			NSParameterAssert(rollbackTransaction);
-			[self execute:rollbackTransaction whenDone:^(PGResult* result, NSError* error) {
+			[self execute:rollbackTransaction whenDone:^(PGResult* result2,NSError* error2) {
 				callback(nil,YES,error);
 			}];
 		} else {
-			callback(nil,YES,nil);
+			callback(nil,YES,error);
+		}
+	} else if(i==[transaction count]) {
+		// commit
+		if([transaction transactional]) {
+			NSString* commitTransaction = [(PGTransaction* )transaction quoteCommitTransactionForConnection:self];
+			NSParameterAssert(commitTransaction);
+			[self execute:commitTransaction whenDone:^(PGResult* result2, NSError* error2) {
+				callback(result,YES,error);
+			}];
+		} else {
+			callback(result,YES,error);
 		}
 	} else {
 		// execute a single query
 		[self execute:[transaction queryAtIndex:i] whenDone:^(PGResult* result,NSError* error) {
 			if(i < [transaction count]) {
-				[self _queue:transaction index:(i+1) whenQueryDone:callback];
+				[self _queue:transaction index:(i+1) lastResult:result lastError:error whenQueryDone:callback];
 			}
 		}];
 	}
@@ -146,6 +157,7 @@
 		callback(nil,YES,[self raiseError:nil code:PGClientErrorExecute reason:@"No transactions to execute"]);
 		return;
 	}
+
 	// check for connection status
 	if(_connection==nil || [self state] != PGConnectionStateNone) {
 		callback(nil,YES,[self raiseError:nil code:PGClientErrorState]);
@@ -161,7 +173,7 @@
 
 	if([transaction transactional]==NO) {
 		// queue zeroth query
-		[self _queue:transaction index:0 whenQueryDone:callback];
+		[self _queue:transaction index:0 lastResult:nil lastError:nil whenQueryDone:callback];
 	} else {
 		// queue up a start transaction, which triggers the first query
 		NSString* beginTransaction = [(PGTransaction* )transaction quoteBeginTransactionForConnection:self];
@@ -170,10 +182,10 @@
 			// if the BEGIN transaction didn't work, then callback
 			if(error) {
 				callback(nil,YES,error);
-				return;
+			} else {
+				// else queue up zeroth query
+				[self _queue:transaction index:0 lastResult:result lastError:error whenQueryDone:callback];
 			}
-			// else queue up zeroth query
-			[self _queue:transaction index:0 whenQueryDone:callback];
 		}];
 	}
 }

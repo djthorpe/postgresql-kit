@@ -12,12 +12,18 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-#import <Foundation/Foundation.h>
-
-@interface PGConnectionWindowFormatter : NSFormatter {
-	NSCharacterSet* _cs;
+@interface PGResultTableView : NSObject <NSTableViewDataSource> {
+	PGResult* _dataSource;
+	NSScrollView* _scrollView;
+	NSTableView* _tableView;
 }
 
-@property NSString* type;
+// constructor
+-(instancetype)initWithDataSource:(PGResult* )dataSource;
+
+// properties
+@property (readonly) NSScrollView* view;
+@property (readonly) NSTableView* tableView;
+@property (readonly) PGResult* dataSource;
 
 @end

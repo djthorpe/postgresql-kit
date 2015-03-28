@@ -77,6 +77,7 @@ enum {
 	PGQueryOptionMaterialize             = 0x00800100, // materialized view
 	PGQueryOptionListExcludeDatabases    = 0x00000200, // don't show databases when listing
 	PGQueryOptionListIncludeTemplates    = 0x00000400, // show templates when listing
+	PGQueryOptionListExtended            = 0x00000800, // show extended info when listing
 };
 
 /**

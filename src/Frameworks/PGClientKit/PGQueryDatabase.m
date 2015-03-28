@@ -432,6 +432,14 @@
 	} else if(!(options & PGQueryOptionListIncludeTemplates)) {
 		[query andWhere:@"NOT d.datistemplate"];
 	}
+	
+	if(options & PGQueryOptionListExtended) {
+//		[query addColumn:@"d.usename" alias:@"owner"];
+		[query addColumn:@"pg_catalog.pg_encoding_to_char(d.encoding)" alias:@"encoding"];
+		[query addColumn:@"d.dattablespace" alias:@"tablespace"];
+		[query addColumn:@"d.datconnlimit" alias:@"connection_limit"];
+		[query addColumn:@"pg_catalog.shobj_description(d.oid,'pg_database')" alias:@"comment"];
+	}
 
 	return [query quoteForConnection:connection error:error];
 }
