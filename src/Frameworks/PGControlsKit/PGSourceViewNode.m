@@ -42,6 +42,7 @@
 	return [[PGSourceViewHeading alloc] initWithName:name];
 }
 
+// TODO: MOVE THIS
 +(PGSourceViewNode* )connectionWithURL:(NSURL* )url {
 	NSString* name = [NSString stringWithFormat:@"%@@%@",[url user],[[url path] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"/"]]];
 	PGSourceViewConnection* node = [[PGSourceViewConnection alloc] initWithName:name];

@@ -26,6 +26,8 @@ typedef enum  {
 // properties
 @property PGSourceViewConnectionIcon iconStatus;
 @property NSURL* URL;
-@property NSString* comment;
+
+// public methods
+-(void)setNameFromURL;
 
 @end

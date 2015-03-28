@@ -211,10 +211,9 @@ NSInteger PGQueriesTag = -200;
 		if([error isNeedsPassword]) {
 			[self connectWithPasswordForNode:node];
 		} else if([error isBadPassword]) {
-			[[self pool] removePasswordForTag:tag];
-		}
-		if(error) {
-			[self beginErrorSheet:error];
+			[self beginConnectionErrorSheetForNode:node error:error];
+		} else if(error) {
+			[self beginConnectionErrorSheetForNode:node error:error];
 		}
 	}];
 }
@@ -228,21 +227,59 @@ NSInteger PGQueriesTag = -200;
 }
 
 
--(void)beginErrorSheet:(NSError* )error {
+-(void)beginConnectionErrorSheetForNode:(PGSourceViewConnection* )node error:(NSError* )error {
+	NSParameterAssert(node);
 	NSParameterAssert(error);
-	NSLog(@"ERROR: %@",error);
+
+	// create alert sheet
+	NSAlert* alertSheet = [NSAlert alertWithError:error];
+
+	// add a "try again" dialog
+	if([error isBadPassword]) {
+		NSButton* tryAgainButton = [alertSheet addButtonWithTitle:@"Try again"];
+		[tryAgainButton setTag:NSModalResponseContinue];
+	}
+
+	// add Cancel button
+	[alertSheet addButtonWithTitle:@"Cancel"];
+	
+	// do the error sheet
+	[alertSheet beginSheetModalForWindow:[self window] completionHandler:^(NSModalResponse returnCode) {
+		if(returnCode==NSModalResponseContinue) {
+			[self connectWithPasswordForNode:node];
+		}
+	}];
 }
 
 -(void)reloadNode:(PGSourceViewNode* )node {
 	[[self sourceView] reloadNode:node];
 }
 
-/*
+-(void)updateStateForNode:(PGSourceViewNode* )node {
+	NSLog(@"update state for node: %@",node);
+}
 
--(void)_showDatabasesForNode:(PGSourceViewConnection* )node {
+-(void)deleteConnectionNode:(PGSourceViewConnection* )node {
+	NSParameterAssert(node);
+
 	// get tag node from source view
 	NSInteger tag = [[self sourceView] tagForNode:node];
 	NSParameterAssert(tag);
+
+	// create alert sheet
+	NSAlert* alertSheet = [NSAlert alertWithMessageText:@"Do you want to delete the connection?" defaultButton:@"Delete" alternateButton:@"Cancel" otherButton:nil informativeTextWithFormat:@"This operation cannot be undone"];
+	
+	// do the sheet
+	[alertSheet beginSheetModalForWindow:[self window] completionHandler:^(NSModalResponse returnCode) {
+		if(returnCode==NSModalResponseOK) {
+			[[self sourceView] removeNode:node];
+			[[self pool] removeForTag:tag];
+		}
+	}];
+}
+
+/*
+-(void)_showDatabasesForNode:(PGSourceViewConnection* )node {
 	// execute query
 	PGResult* result = [[self connections] execute:@"SELECT 1" forTag:tag];
 	if(result) {
@@ -263,7 +300,6 @@ NSInteger PGQueriesTag = -200;
 	[controller reloadData];
 	[controller scrollToBottom];
 }
-
 */
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -292,18 +328,30 @@ NSInteger PGQueriesTag = -200;
 -(IBAction)doEditConnection:(id)sender {
 	PGDialogWindow* dialog = [self dialogWindow];
 	NSParameterAssert(dialog);
-	PGSourceViewConnection* connection = (PGSourceViewConnection* )[[self sourceView] selectedNode];
-	if(connection==nil) {
+	PGSourceViewConnection* node = (PGSourceViewConnection* )[[self sourceView] selectedNode];
+	if(node==nil) {
 		return;
 	}
-	NSParameterAssert(connection && [connection isKindOfClass:[PGSourceViewConnection class]]);
-	[dialog beginConnectionSheetWithURL:[connection URL] comment:[connection name] parentWindow:[self window] whenDone:^(NSURL* url, NSString* comment) {
-		if(url) {
-			NSInteger tag = [[self sourceView] tagForNode:connection];
-			NSLog(@"TODO: update URL to %@ for tag %ld",url,tag);
-			[connection setURL:url];
-			[connection setName:comment];
+	NSParameterAssert(node && [node isKindOfClass:[PGSourceViewConnection class]]);
+	[dialog beginConnectionSheetWithURL:[node URL] comment:[node name] parentWindow:[self window] whenDone:^(NSURL* url, NSString* comment) {
+		if(url==nil) {
+			return;
 		}
+		NSInteger tag = [[self sourceView] tagForNode:node];
+		NSParameterAssert(tag);
+
+		// remove connection from pool
+		[[self pool] removeForTag:tag];
+
+		// change node information, and reload
+		[node setURL:url];
+		if([comment length]) {
+			[node setName:comment];
+		} else {
+			[node setNameFromURL];
+		}
+		[self reloadNode:node];
+		
 	}];
 }
 
@@ -371,7 +419,6 @@ NSInteger PGQueriesTag = -200;
 ////////////////////////////////////////////////////////////////////////////////
 // methods - PGSourceView delegate
 
-/*
 -(void)sourceView:(PGSourceViewController* )sourceView selectedNode:(PGSourceViewNode* )node {
 	NSParameterAssert(sourceView==[self sourceView]);
 	NSParameterAssert(node);
@@ -379,50 +426,44 @@ NSInteger PGQueriesTag = -200;
 	// get tag node from source view
 	NSInteger tag = [[self sourceView] tagForNode:node];
 	NSParameterAssert(tag);
-	
+
+	// update state
+	[self updateStateForNode:node];
+
 	// select view
-	[[self tabView] selectViewWithTag:tag];
+	//[[self tabView] selectViewWithTag:tag];
 }
-*/
 
 -(void)sourceView:(PGSourceViewController* )sourceView doubleClickedNode:(PGSourceViewNode* )node {
 	NSParameterAssert(sourceView==[self sourceView]);
 	NSParameterAssert(node);
 
 	// get tag node from source view
-	//NSInteger tag = [[self sourceView] tagForNode:node];
-	//NSParameterAssert(tag);
+	NSInteger tag = [[self sourceView] tagForNode:node];
+	NSParameterAssert(tag);
 
 	if([node isKindOfClass:[PGSourceViewConnection class]]) {
-		[self doEditConnection:nil];
-	}
-	/*
-		PGConnectionStatus status = [[self connections] statusForTag:tag];
+		PGConnectionStatus status = [[self pool] statusForTag:tag];
 		if(status != PGConnectionStatusConnected) {
-			[self _connectNode:(PGSourceViewConnection* )node];
+			[self connectNode:(PGSourceViewConnection* )node];
 		}
-		// set first responder
-		[[self tabView] selectViewWithTag:tag];
 	} else {
 		NSLog(@"double clicked node = %@",node);
 	}
-	*/
 }
 
-/*
 -(void)sourceView:(PGSourceViewController* )sourceView deleteNode:(PGSourceViewNode* )node {
 	NSParameterAssert(sourceView==[self sourceView]);
 	NSParameterAssert(node);
 
-	// display confirmation sheet
-	[self setIbDeleteDatabaseSheetNodeName:[node name]];
-	[[self window] beginSheet:[self ibDeleteDatabaseSheet] completionHandler:^(NSModalResponse returnCode) {
-		if(returnCode==NSModalResponseOK) {
-			[sourceView removeNode:node];
-		}
-	}];
+	if([node isKindOfClass:[PGSourceViewConnection class]]) {
+		[self deleteConnectionNode:(PGSourceViewConnection *)node];
+	} else {
+		NSLog(@"TODO: delete other kind of node");
+	}
 }
 
+/*
 -(NSMenu* )sourceView:(PGSourceViewController* )sourceView menuForNode:(PGSourceViewNode* )node {
 	if([node isKindOfClass:[PGSourceViewNode class]]) {
 		[[self sourceView] selectNode:node];
@@ -525,7 +566,9 @@ NSInteger PGQueriesTag = -200;
 -(void)connectionForTag:(NSInteger)tag statusChanged:(PGConnectionStatus)status description:(NSString* )description {
 	PGSourceViewConnection* node = (PGSourceViewConnection* )[[self sourceView] nodeForTag:tag];
 	NSParameterAssert([node isKindOfClass:[PGSourceViewConnection class]]);
-	NSLog(@"%@",description);
+
+	NSLog(@"status change = %@",description);
+
 	switch(status) {
 	case PGConnectionStatusConnected:
 		[(PGSourceViewConnection* )node setIconStatus:PGSourceViewConnectionIconConnected];
@@ -546,6 +589,8 @@ NSInteger PGQueriesTag = -200;
 		[self reloadNode:node];
 		break;
 	}
+
+	[self updateStateForNode:node];
 }
 
 

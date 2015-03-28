@@ -50,6 +50,14 @@
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+// public methods
+
+-(void)setNameFromURL {
+	NSDictionary* parameters = [[self URL] postgresqlParameters];
+	[self setName:[NSString stringWithFormat:@"%@@%@",[parameters objectForKey:@"dbname"],[parameters objectForKey:@"host"]]];
+}
+
+////////////////////////////////////////////////////////////////////////////////
 // overrides
 
 -(BOOL)isGroupItem {

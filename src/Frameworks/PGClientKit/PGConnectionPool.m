@@ -116,6 +116,10 @@ enum {
 	}
 	// perform the connection
 	[connection connectWithURL:url whenDone:^(BOOL usedPassword, NSError *error) {
+		if(usedPassword==YES && error==nil && [self useKeychain]) {
+			// store password
+			NSLog(@"TODO: store password in keychain");
+		}
 		NSLog(@"usedPassword = %@",usedPassword ? @"YES" : @"NO");
 		callback(error);
 	}];
@@ -139,9 +143,22 @@ enum {
 -(BOOL)removeForTag:(NSInteger)tag {
 	id key = [PGConnectionPool keyForTag:tag];
 	NSParameterAssert(key);
+
+	// fetch the URL
+	NSURL* url = [self URLForTag:tag];
+	if(url==nil) {
+		return NO;
+	}
+
+	// disconnect
 	BOOL returnValue = [self disconnectForTag:tag];
+
+	// remove information about the connection
 	[_connection removeObjectForKey:key];
 	[_url removeObjectForKey:key];
+	[[self passwords] removePasswordForURL:url saveToKeychain:NO error:nil];
+	
+	// return success
 	return returnValue;
 }
 
@@ -199,6 +216,7 @@ enum {
 	}
 	return [connection status];
 }
+
 /*
 -(PGResult* )execute:(NSString* )query forTag:(NSInteger)tag {
 	id key = [PGConnectionPool keyForTag:tag];
@@ -258,12 +276,15 @@ enum {
 		NSInteger tag = [self _tagForConnection:connection];
 		[[self delegate] connectionForTag:tag willOpenWithParameters:dictionary];
 	}
+
+	// get URL & password
+	NSURL* url = [self URLForTag:[connection tag]];
+	NSParameterAssert(url);
+	NSString* password = [dictionary objectForKey:@"password"];
 	
 	// retrieve password from store
-	if([dictionary objectForKey:@"password"]==nil) {
+	if(password==nil) {
 		NSError* error = nil;
-		NSURL* url = [self URLForTag:[connection tag]];
-		NSParameterAssert(url);
 		NSString* password = [[self passwords] passwordForURL:url readFromKeychain:[self useKeychain] error:&error];
 		if(password) {
 			[dictionary setObject:password forKey:@"password"];
@@ -271,7 +292,10 @@ enum {
 		if(error) {
 			[self connection:connection error:error];
 		}
-	}
+	} else {
+		// store password temporarily
+		[[self passwords] setPassword:password forURL:url saveToKeychain:NO];
+	}	
 }
 
 @end

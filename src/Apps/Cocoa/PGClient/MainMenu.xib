@@ -81,20 +81,16 @@
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="DGK-J2-inS"/>
-                            <menuItem title="Connect" id="vTH-jK-Kk9">
-                                <modifierMask key="keyEquivalentModifierMask"/>
+                            <menuItem title="Connect" keyEquivalent="o" id="vTH-jK-Kk9">
                                 <connections>
                                     <action selector="doConnect:" target="Voe-Tx-rLC" id="ZlW-ka-iEl"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Disconnect" id="RdK-ry-g1z">
-                                <modifierMask key="keyEquivalentModifierMask"/>
+                            <menuItem title="Disconnect" keyEquivalent="w" id="RdK-ry-g1z">
                                 <connections>
                                     <action selector="doDisconnect:" target="Voe-Tx-rLC" id="qAc-CA-Vf4"/>
                                 </connections>
                             </menuItem>
-                            <menuItem isSeparatorItem="YES" id="m54-Is-iLE"/>
-                            <menuItem title="Close" keyEquivalent="w" id="DVo-aG-piG"/>
                             <menuItem isSeparatorItem="YES" id="aJh-i4-bef"/>
                             <menuItem title="Page Setup…" keyEquivalent="P" id="qIS-W8-SiK">
                                 <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
@@ -325,6 +321,22 @@
                                         </menuItem>
                                     </items>
                                 </menu>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem title="Database" id="Ex7-bj-dHv">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="Database" id="w8Y-sT-WQJ">
+                        <items>
+                            <menuItem title="New Database..." id="su2-dl-z4A" userLabel="New Database...">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                            </menuItem>
+                            <menuItem title="New Schema..." id="CE6-nH-HWW" userLabel="New Schema...">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                            </menuItem>
+                            <menuItem title="New Role..." id="jfS-Ro-eeh" userLabel="Edit Connection...">
+                                <modifierMask key="keyEquivalentModifierMask"/>
                             </menuItem>
                         </items>
                     </menu>
