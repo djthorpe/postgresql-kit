@@ -80,6 +80,19 @@
                                     <action selector="doEditConnection:" target="Voe-Tx-rLC" id="ot9-7A-Kdv"/>
                                 </connections>
                             </menuItem>
+                            <menuItem isSeparatorItem="YES" id="DGK-J2-inS"/>
+                            <menuItem title="Connect" id="vTH-jK-Kk9">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="doConnect:" target="Voe-Tx-rLC" id="ZlW-ka-iEl"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Disconnect" id="RdK-ry-g1z">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="doDisconnect:" target="Voe-Tx-rLC" id="qAc-CA-Vf4"/>
+                                </connections>
+                            </menuItem>
                             <menuItem isSeparatorItem="YES" id="m54-Is-iLE"/>
                             <menuItem title="Close" keyEquivalent="w" id="DVo-aG-piG"/>
                             <menuItem isSeparatorItem="YES" id="aJh-i4-bef"/>

@@ -55,15 +55,11 @@ NSInteger PGQueriesTag = -200;
 		[_sourceView setDelegate:self];
 
 /*
-		_connections = [PGConnectionPool new];
 		_tabView = [PGTabViewController new];
 		_helpWindow = [PGHelpWindowController new];
-		_connectionWindow = [PGConnectionWindowController new];
 		_buffers = [ConsoleBuffer new];
-		NSParameterAssert(_connections);
 		NSParameterAssert(_buffers);
-		NSParameterAssert(_helpWindow && _connectionWindow);
-		[_connections setDelegate:self];
+		NSParameterAssert(_helpWindow);
 		[_tabView setDelegate:self];
 */
 
@@ -78,12 +74,15 @@ NSInteger PGQueriesTag = -200;
 @synthesize sourceView = _sourceView;
 @synthesize databases;
 @synthesize queries;
+@dynamic pool;
+
+-(PGConnectionPool* )pool {
+	return [PGConnectionPool sharedPool];
+}
 
 /*
-@synthesize connections = _connections;
 @synthesize tabView = _tabView;
 @synthesize helpWindow = _helpWindow;
-@synthesize connectionWindow = _connectionWindow;
 */
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -170,45 +169,75 @@ NSInteger PGQueriesTag = -200;
 	[[self sourceView] addNode:node parent:[self databases]];
 	// connect
 	NSParameterAssert([node isKindOfClass:[PGSourceViewConnection class]]);
-	// TODO: [self connectNode:(PGSourceViewConnection* )node];
+	[self connectNode:(PGSourceViewConnection* )node];
 }
 
-/*
+-(void)connectWithPasswordForNode:(PGSourceViewConnection* )node {
+	NSParameterAssert(node);
+	PGDialogWindow* dialog = [self dialogWindow];
+	NSParameterAssert(dialog);
 
--(void)_connectNode:(PGSourceViewConnection* )node {
+	// get tag node from source view
+	NSInteger tag = [[self sourceView] tagForNode:node];
+	NSParameterAssert(tag);
+
+	[dialog beginPasswordSheetSaveInKeychain:YES parentWindow:[self window] whenDone:^(NSString* password,BOOL saveInKeychain) {
+		if(password) {
+			[[self pool] setPassword:password forTag:tag saveInKeychain:saveInKeychain];
+			[self connectNode:node];
+		}
+	}];
+}
+
+-(void)connectNode:(PGSourceViewConnection* )node {
+	NSParameterAssert(node && [node isKindOfClass:[PGSourceViewConnection class]]);
+
 	// get tag node from source view
 	NSInteger tag = [[self sourceView] tagForNode:node];
 	NSParameterAssert(tag);
 
 	// set connection in the pool
-	if([[self connections] URLForTag:tag]) {
-		[[self connections] disconnectWithTag:tag];
-		[[self connections] setURL:[node URL] forTag:tag];
-	} else {
-		[[self connections] createConnectionWithURL:[node URL] tag:tag];
+	if([[self pool] URLForTag:tag]) {
+		[[self pool] removeForTag:tag];
+	}
+	if([[self pool] createConnectionWithURL:[node URL] tag:tag]) {
+		// display the node which is going to be connected
+		[[self sourceView] expandNode:[self databases]];
+		[[self sourceView] selectNode:node];
 	}
 
-	// display the node which is going to be connected
-	[[self sourceView] expandNode:[self databases]];
-	[[self sourceView] selectNode:node];
-
 	// perform connection
-	[[self connections] connectWithTag:tag whenDone:^(NSError* error) {
-		if([error domain]==PGClientErrorDomain && [error code]==PGClientErrorNeedsPassword) {
-			[self _connectWithPasswordNode:node];
-		} else if(error) {
-			[self _displayError:error node:node];
+	[[self pool] connectForTag:tag whenDone:^(NSError* error) {
+		if([error isNeedsPassword]) {
+			[self connectWithPasswordForNode:node];
+		} else if([error isBadPassword]) {
+			[[self pool] removePasswordForTag:tag];
+		}
+		if(error) {
+			[self beginErrorSheet:error];
 		}
 	}];
 }
 
--(void)_disconnectNode:(PGSourceViewConnection* )node {
+-(void)disconnectNode:(PGSourceViewConnection* )node {
 	// get tag node from source view
 	NSInteger tag = [[self sourceView] tagForNode:node];
 	NSParameterAssert(tag);
 	// perform disconnection
-	[[self connections] disconnectWithTag:tag];
+	[[self pool] disconnectForTag:tag];
 }
+
+
+-(void)beginErrorSheet:(NSError* )error {
+	NSParameterAssert(error);
+	NSLog(@"ERROR: %@",error);
+}
+
+-(void)reloadNode:(PGSourceViewNode* )node {
+	[[self sourceView] reloadNode:node];
+}
+
+/*
 
 -(void)_showDatabasesForNode:(PGSourceViewConnection* )node {
 	// get tag node from source view
@@ -222,33 +251,6 @@ NSInteger PGQueriesTag = -200;
 	}
 }
 
--(void)_connectWithPasswordNode:(PGSourceViewConnection* )node {
-	[[self connectionWindow] beginPasswordSheetWithParentWindow:[self window] whenDone:^(NSString* password,BOOL useKeychain) {
-		if(password) {
-			// TODO: store password with connection pool
-			[self _connectNode:node];
-		}
-	}];
-}
-
--(void)_displayError:(NSError* )error node:(PGSourceViewConnection* )node {
-	NSParameterAssert(error);
-	NSParameterAssert(node);
-
-	[[self connectionWindow] loadWindow];
-	
-	[[self connectionWindow] beginErrorSheetWithError:error parentWindow:[self window] whenDone:^(NSModalResponse returnValue) {
-		NSLog(@"error sheet ended, returnValue = %ld",returnValue);
-		if(returnValue==NSModalResponseContinue) {
-			// try again
-			[self _connectNode:node];
-		}
-	}];
-}
-
--(void)_reloadNode:(PGSourceViewNode* )node {
-	[[self sourceView] reloadNode:node];
-}
 
 -(void)_appendConsoleString:(NSString* )string forTag:(NSInteger)tag {
 	PGConsoleViewController* controller = (PGConsoleViewController* )[_tabView selectViewWithTag:tag];
@@ -305,6 +307,20 @@ NSInteger PGQueriesTag = -200;
 	}];
 }
 
+-(IBAction)doConnect:(id)sender {
+	PGSourceViewNode* connection = [[self sourceView] selectedNode];
+	if([connection isKindOfClass:[PGSourceViewConnection class]]) {
+		[self connectNode:(PGSourceViewConnection* )connection];
+	}
+}
+
+-(IBAction)doDisconnect:(id)sender {
+	PGSourceViewNode* connection = [[self sourceView] selectedNode];
+	if([connection isKindOfClass:[PGSourceViewConnection class]]) {
+		[self disconnectNode:(PGSourceViewConnection* )connection];
+	}
+}
+
 /*
 -(IBAction)doResetSourceView:(id)sender {
 	// disconnect any existing connections
@@ -314,19 +330,6 @@ NSInteger PGQueriesTag = -200;
 	[self resetSourceView];
 }
 
--(IBAction)doConnect:(id)sender {
-	PGSourceViewNode* connection = [[self sourceView] selectedNode];
-	if([connection isKindOfClass:[PGSourceViewConnection class]]) {
-		[self _connectNode:(PGSourceViewConnection* )connection];
-	}
-}
-
--(IBAction)doDisconnect:(id)sender {
-	PGSourceViewNode* connection = [[self sourceView] selectedNode];
-	if([connection isKindOfClass:[PGSourceViewConnection class]]) {
-		[self _disconnectNode:(PGSourceViewConnection* )connection];
-	}
-}
 
 -(IBAction)doHelp:(id)sender {
 	// display the help window
@@ -484,17 +487,21 @@ NSInteger PGQueriesTag = -200;
 
 -(void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 
+	// get connection pool
+	PGConnectionPool* pool = [self pool];
+	[pool setDelegate:self];
+	
 	// load dialog window nib
 	[[self dialogWindow] load];
 
 	// add PGSplitView to the content view
 	[self addSplitView];
 
-	// load connections from user defaults
+	// load connections from user defaults, or "new" dialog
 	if([self loadSourceView]==NO) {
-		NSLog(@"TODO: open new network connection");
-//		[self doNewNetworkConnection:nil];
+		[self doNewRemoteConnection:nil];
 	}
+	
 /*
 	// load help from resource folder
 	NSError* error = nil;
@@ -505,17 +512,44 @@ NSInteger PGQueriesTag = -200;
 }
 
 -(void)applicationWillTerminate:(NSNotification *)aNotification {
-/*
 	// disconnect from remote servers
-	[[self connections] removeAll];
-*/
+	[[self pool] removeAll];
+
 	// save user defaults
 	[[self sourceView] saveToUserDefaults];
 }
 
-/*
 ////////////////////////////////////////////////////////////////////////////////
 // ConnectionPoolDelegate implementation
+
+-(void)connectionForTag:(NSInteger)tag statusChanged:(PGConnectionStatus)status description:(NSString* )description {
+	PGSourceViewConnection* node = (PGSourceViewConnection* )[[self sourceView] nodeForTag:tag];
+	NSParameterAssert([node isKindOfClass:[PGSourceViewConnection class]]);
+	NSLog(@"%@",description);
+	switch(status) {
+	case PGConnectionStatusConnected:
+		[(PGSourceViewConnection* )node setIconStatus:PGSourceViewConnectionIconConnected];
+		[self reloadNode:node];
+		break;
+	case PGConnectionStatusConnecting:
+	case PGConnectionStatusBusy:
+		[(PGSourceViewConnection* )node setIconStatus:PGSourceViewConnectionIconConnecting];
+		[self reloadNode:node];
+		break;
+	case PGConnectionStatusRejected:
+		[(PGSourceViewConnection* )node setIconStatus:PGSourceViewConnectionIconRejected];
+		[self reloadNode:node];
+		break;
+	case PGConnectionStatusDisconnected:
+	default:
+		[(PGSourceViewConnection* )node setIconStatus:PGSourceViewConnectionIconDisconnected];
+		[self reloadNode:node];
+		break;
+	}
+}
+
+
+/*
 
 -(void)connectionPool:(PGConnectionPool *)pool tag:(NSInteger)tag statusChanged:(PGConnectionStatus)status {
 	PGSourceViewNode* node = [[self sourceView] nodeForTag:tag];

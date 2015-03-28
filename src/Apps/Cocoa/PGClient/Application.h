@@ -16,26 +16,25 @@
 #import <PGControlsKit/PGControlsKit.h>
 #import "ConsoleBuffer.h"
 
-@interface Application : NSObject <NSApplicationDelegate,PGSourceViewDelegate> {
+@interface Application : NSObject <NSApplicationDelegate,PGSourceViewDelegate,PGConnectionPoolDelegate> {
 	PGSplitViewController* _splitView;
 	PGSourceViewController* _sourceView;
 	PGDialogWindow* _dialogWindow;
-	
-/*
-	PGTabViewController* _tabView;
-	PGHelpWindowController* _helpWindow;
-	PGConnectionWindowController* _connectionWindow;
-	ConsoleBuffer* _buffers;
-*/
 }
 
 // properties
 @property (readonly) PGDialogWindow* dialogWindow;
 @property (readonly) PGSplitViewController* splitView;
 @property (readonly) PGSourceViewController* sourceView;
+@property (readonly) PGConnectionPool* pool;
 
+	
 /*
-@property (readonly) PGConnectionPool* connections;
+	PGTabViewController* _tabView;
+	PGHelpWindowController* _helpWindow;
+	ConsoleBuffer* _buffers;
+*/
+/*
 @property (readonly) PGTabViewController* tabView;
 @property (readonly) PGHelpWindowController* helpWindow;
 @property (readonly) PGConnectionWindowController* connectionWindow;

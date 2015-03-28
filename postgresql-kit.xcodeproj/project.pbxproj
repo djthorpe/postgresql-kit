@@ -218,6 +218,8 @@
 		6E6154C51AC6A96B00541DDE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E23F66C1AC5E05200227100 /* Images.xcassets */; };
 		6E6154C81AC6AB5800541DDE /* PGOutlineView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E6154C61AC6AB5800541DDE /* PGOutlineView.h */; };
 		6E6154C91AC6AB5800541DDE /* PGOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E6154C71AC6AB5800541DDE /* PGOutlineView.m */; };
+		6E6154CA1AC6B43D00541DDE /* PGConnectionPool.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E9256C61AA65AE9007DAD82 /* PGConnectionPool.m */; };
+		6E6154CB1AC6B44000541DDE /* PGConnectionPool.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E9256C51AA65AE9007DAD82 /* PGConnectionPool.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E6481EE1ABACD3F00EF57C4 /* PGDialogPasswordView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E6481EC1ABACD3F00EF57C4 /* PGDialogPasswordView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E6481EF1ABACD3F00EF57C4 /* PGDialogPasswordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E6481ED1ABACD3F00EF57C4 /* PGDialogPasswordView.m */; };
 		6E69F6AB1A67AD340014EC1F /* PGSourceViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E69F6A81A67AD340014EC1F /* PGSourceViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1751,6 +1753,7 @@
 				6E0DDCF51AAB74B100A38F3B /* PGQueryTableView.h in Headers */,
 				6E0DDCEF1AAB724E00A38F3B /* PGQuerySchema.h in Headers */,
 				6EE23F5D1631EF7500C99BA7 /* PGClientKit+Private.h in Headers */,
+				6E6154CB1AC6B44000541DDE /* PGConnectionPool.h in Headers */,
 				6EE12E2617D51D620034B9E1 /* PGPasswordStore.h in Headers */,
 				6E0DDCE91AAB721600A38F3B /* PGQueryRole.h in Headers */,
 				1450A1671AAA18DA002D62D9 /* PGQueryPredicate.h in Headers */,
@@ -2402,6 +2405,7 @@
 				6EE23F611632076800C99BA7 /* PGClientParams.m in Sources */,
 				6E0773DA163744D90028783F /* PGResult.m in Sources */,
 				6E9256C11AA64BDA007DAD82 /* PGConnection+Reset.m in Sources */,
+				6E6154CA1AC6B43D00541DDE /* PGConnectionPool.m in Sources */,
 				6E4016BA1ABEFA09009A2707 /* PGTransaction.m in Sources */,
 				1417B7C01AAA219100B44DD4 /* PGQueryObject.m in Sources */,
 				6E9256A81AA6481E007DAD82 /* PGConnection+Callbacks.m in Sources */,

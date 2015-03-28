@@ -26,37 +26,46 @@
 
 // PGConnectionPool interface
 @interface PGConnectionPool : NSObject <PGConnectionDelegate> {
+	int _type;
 	NSMutableDictionary* _connection;
 	NSMutableDictionary* _url;
-	PGPasswordStore* _passwd;
+	PGPasswordStore* _passwords;
 	BOOL _useKeychain;
 }
 
+// singleton constructor
++(instancetype)sharedPool;
+
 // properties
 @property (weak, nonatomic) id<PGConnectionPoolDelegate> delegate;
-@property (retain) PGPasswordStore* passwordStore;
+@property (retain,readonly) PGPasswordStore* passwords;
+@property (retain,readonly) NSArray* connections;
 @property BOOL useKeychain;
-@property (retain) NSArray* connections;
 
 // methods
 -(PGConnection* )createConnectionWithURL:(NSURL* )url tag:(NSInteger)tag;
--(void)setURL:(NSURL* )url forTag:(NSInteger)tag;
+-(BOOL)connectForTag:(NSInteger)tag whenDone:(void(^)(NSError* error)) callback;
+-(BOOL)disconnectForTag:(NSInteger)tag;
+-(BOOL)setPassword:(NSString* )password forTag:(NSInteger)tag saveInKeychain:(BOOL)saveInKeychain;
+-(BOOL)removePasswordForTag:(NSInteger)tag;
+-(BOOL)removeForTag:(NSInteger)tag;
+-(BOOL)removeAll;
 -(NSURL* )URLForTag:(NSInteger)tag;
--(BOOL)connectWithTag:(NSInteger)tag whenDone:(void(^)(NSError* error)) callback;
--(BOOL)disconnectWithTag:(NSInteger)tag;
 -(PGConnectionStatus)statusForTag:(NSInteger)tag;
--(BOOL)removeWithTag:(NSInteger)tag;
--(void)removeAll;
--(PGResult* )execute:(NSString* )query forTag:(NSInteger)tag;
 
+/*
+-(PGResult* )execute:(NSString* )query forTag:(NSInteger)tag;
+*/
 @end
 
 // delegate for PGConnectionPool
 @protocol PGConnectionPoolDelegate <NSObject>
-
 @optional
-	-(void)connectionPool:(PGConnectionPool* )pool tag:(NSInteger)tag statusChanged:(PGConnectionStatus)status;
-	-(void)connectionPool:(PGConnectionPool* )pool tag:(NSInteger)tag error:(NSError* )error;
-
+-(void)connectionForTag:(NSInteger)tag willOpenWithParameters:(NSMutableDictionary* )parameters;
+-(void)connectionForTag:(NSInteger)tag statusChanged:(PGConnectionStatus)status description:(NSString* )description;
+-(void)connectionForTag:(NSInteger)tag error:(NSError* )error;
+-(void)connectionForTag:(NSInteger)tag notice:(NSString* )notice;
+-(void)connectionForTag:(NSInteger)tag notificationOnChannel:(NSString* )channelName payload:(NSString* )payload;
+-(void)connectionForTag:(NSInteger)tag willExecute:(NSString* )query;
 @end
 
