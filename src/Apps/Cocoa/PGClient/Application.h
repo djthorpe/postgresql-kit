@@ -20,6 +20,7 @@
 	PGSplitViewController* _splitView;
 	PGSourceViewController* _sourceView;
 	PGDialogWindow* _dialogWindow;
+	NSMutableDictionary* _state;
 }
 
 // properties
@@ -27,8 +28,8 @@
 @property (readonly) PGSplitViewController* splitView;
 @property (readonly) PGSourceViewController* sourceView;
 @property (readonly) PGConnectionPool* pool;
+@property (readonly) NSDictionary* state;
 
-	
 /*
 	PGTabViewController* _tabView;
 	PGHelpWindowController* _helpWindow;

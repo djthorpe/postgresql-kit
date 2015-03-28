@@ -120,7 +120,6 @@ enum {
 			// store password
 			NSLog(@"TODO: store password in keychain");
 		}
-		NSLog(@"usedPassword = %@",usedPassword ? @"YES" : @"NO");
 		callback(error);
 	}];
 	// return YES
@@ -217,19 +216,26 @@ enum {
 	return [connection status];
 }
 
-/*
--(PGResult* )execute:(NSString* )query forTag:(NSInteger)tag {
+-(PGConnection* )connectionForTag:(NSInteger)tag {
+	id key = [PGConnectionPool keyForTag:tag];
+	NSParameterAssert(key);
+	return [_connection objectForKey:key];
+}
+
+-(BOOL)execute:(PGTransaction* )transaction forTag:(NSInteger)tag whenDone:(void(^)(NSError* error)) callback {
 	id key = [PGConnectionPool keyForTag:tag];
 	NSParameterAssert(key);
 	PGConnection* connection = [_connection objectForKey:key];
-	if([connection status]==PGConnectionStatusConnected) {
-		NSError* error = nil;
-		return [connection execute:query error:&error];
-	} else {
-		return nil;
+	if([connection status] != PGConnectionStatusConnected && [connection status] != PGConnectionStatusBusy) {
+		return NO;
 	}
+	[connection queue:transaction whenQueryDone:^(PGResult *result, BOOL isLastQuery, NSError *error) {
+		if(isLastQuery) {
+			callback(error);
+		}
+	}];
+	return YES;
 }
-*/
 
 ////////////////////////////////////////////////////////////////////////////////
 // PGConnectionDelegate

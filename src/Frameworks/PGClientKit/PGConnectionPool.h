@@ -50,12 +50,13 @@
 -(BOOL)removePasswordForTag:(NSInteger)tag;
 -(BOOL)removeForTag:(NSInteger)tag;
 -(BOOL)removeAll;
+
 -(NSURL* )URLForTag:(NSInteger)tag;
+-(PGConnection* )connectionForTag:(NSInteger)tag;
 -(PGConnectionStatus)statusForTag:(NSInteger)tag;
 
-/*
--(PGResult* )execute:(NSString* )query forTag:(NSInteger)tag;
-*/
+-(BOOL)execute:(PGTransaction* )transaction forTag:(NSInteger)tag whenDone:(void(^)(NSError* error)) callback;
+
 @end
 
 // delegate for PGConnectionPool

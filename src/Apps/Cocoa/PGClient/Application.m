@@ -27,12 +27,6 @@ NSInteger PGQueriesTag = -200;
 @property (retain) PGSourceViewNode* queries;
 @end
 
-/*
-@property (weak) IBOutlet NSWindow* ibDeleteDatabaseSheet;
-@property (weak) IBOutlet NSMenu* ibConnectionContextMenu;
-@property (retain) NSString* ibDeleteDatabaseSheetNodeName;
-*/
-
 @implementation Application
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -53,16 +47,10 @@ NSInteger PGQueriesTag = -200;
 		_sourceView = [PGSourceViewController new];
 		NSParameterAssert(_sourceView);
 		[_sourceView setDelegate:self];
-
-/*
-		_tabView = [PGTabViewController new];
-		_helpWindow = [PGHelpWindowController new];
-		_buffers = [ConsoleBuffer new];
-		NSParameterAssert(_buffers);
-		NSParameterAssert(_helpWindow);
-		[_tabView setDelegate:self];
-*/
-
+		
+		// set up state
+		_state = [NSMutableDictionary new];
+		NSParameterAssert(_state);
 	}
 	return self;
 }
@@ -72,6 +60,7 @@ NSInteger PGQueriesTag = -200;
 
 @synthesize splitView = _splitView;
 @synthesize sourceView = _sourceView;
+@synthesize state = _state;
 @synthesize databases;
 @synthesize queries;
 @dynamic pool;
@@ -80,6 +69,21 @@ NSInteger PGQueriesTag = -200;
 	return [PGConnectionPool sharedPool];
 }
 
+
+/*
+@property (weak) IBOutlet NSWindow* ibDeleteDatabaseSheet;
+@property (weak) IBOutlet NSMenu* ibConnectionContextMenu;
+@property (retain) NSString* ibDeleteDatabaseSheetNodeName;
+*/
+
+/*
+		_tabView = [PGTabViewController new];
+		_helpWindow = [PGHelpWindowController new];
+		_buffers = [ConsoleBuffer new];
+		NSParameterAssert(_buffers);
+		NSParameterAssert(_helpWindow);
+		[_tabView setDelegate:self];
+*/
 /*
 @synthesize tabView = _tabView;
 @synthesize helpWindow = _helpWindow;
@@ -162,6 +166,66 @@ NSInteger PGQueriesTag = -200;
 
 }
 
+-(void)createRoleForNode:(PGSourceViewConnection* )node {
+	NSParameterAssert(node);
+	PGDialogWindow* dialog = [self dialogWindow];
+	NSParameterAssert(dialog);
+
+	// get tag node from source view
+	NSInteger tag = [[self sourceView] tagForNode:node];
+	NSParameterAssert(tag);
+
+	// get connection
+	PGConnection* connection = [[self pool] connectionForTag:tag];
+	NSParameterAssert(connection);
+
+	[dialog beginRoleSheetWithParameters:nil connection:connection parentWindow:[self window] whenDone:^(PGTransaction* transaction) {
+		[[self pool] execute:transaction forTag:tag whenDone:^(NSError *error) {
+			NSLog(@"DONE: %@",error);
+		}];
+	}];
+}
+
+-(void)createSchemaForNode:(PGSourceViewConnection* )node {
+	NSParameterAssert(node);
+	PGDialogWindow* dialog = [self dialogWindow];
+	NSParameterAssert(dialog);
+
+	// get tag node from source view
+	NSInteger tag = [[self sourceView] tagForNode:node];
+	NSParameterAssert(tag);
+
+	// get connection
+	PGConnection* connection = [[self pool] connectionForTag:tag];
+	NSParameterAssert(connection);
+
+	[dialog beginSchemaSheetWithParameters:nil connection:connection parentWindow:[self window] whenDone:^(PGTransaction* transaction) {
+		[[self pool] execute:transaction forTag:tag whenDone:^(NSError *error) {
+			NSLog(@"DONE: %@",error);
+		}];
+	}];
+}
+
+-(void)createDatabaseForNode:(PGSourceViewConnection* )node {
+	NSParameterAssert(node);
+	PGDialogWindow* dialog = [self dialogWindow];
+	NSParameterAssert(dialog);
+
+	// get tag node from source view
+	NSInteger tag = [[self sourceView] tagForNode:node];
+	NSParameterAssert(tag);
+
+	// get connection
+	PGConnection* connection = [[self pool] connectionForTag:tag];
+	NSParameterAssert(connection);
+
+	[dialog beginDatabaseSheetWithParameters:nil connection:connection parentWindow:[self window] whenDone:^(PGTransaction* transaction) {
+		[[self pool] execute:transaction forTag:tag whenDone:^(NSError *error) {
+			NSLog(@"DONE: %@",error);
+		}];
+	}];
+}
+
 -(void)createConnectionWithURL:(NSURL* )url comment:(NSString* )comment {
 	// create a node
 	PGSourceViewNode* node = [PGSourceViewNode connectionWithURL:url];
@@ -226,7 +290,6 @@ NSInteger PGQueriesTag = -200;
 	[[self pool] disconnectForTag:tag];
 }
 
-
 -(void)beginConnectionErrorSheetForNode:(PGSourceViewConnection* )node error:(NSError* )error {
 	NSParameterAssert(node);
 	NSParameterAssert(error);
@@ -255,8 +318,31 @@ NSInteger PGQueriesTag = -200;
 	[[self sourceView] reloadNode:node];
 }
 
+-(void)setState:(BOOL)value forKey:(NSString* )key {
+	[[self state] setValue:(value ? @YES : @NO) forKey:key];
+}
+
 -(void)updateStateForNode:(PGSourceViewNode* )node {
-	NSLog(@"update state for node: %@",node);
+
+	// get tag node from source view
+	NSInteger tag = [[self sourceView] tagForNode:node];
+	NSParameterAssert(tag);
+
+	if([node isKindOfClass:[PGSourceViewConnection class]]) {
+		[self setState:YES forKey:@"can_edit_connection"];
+		
+		// get status of the connection
+		PGConnectionStatus status = [[self pool] statusForTag:tag];
+		[self setState:(status==PGConnectionStatusDisconnected || status==PGConnectionStatusRejected) forKey:@"can_connect"];
+		[self setState:(status==PGConnectionStatusConnected) forKey:@"can_disconnect"];
+		[self setState:(status==PGConnectionStatusConnected) forKey:@"can_query"];
+		
+	} else {
+		[self setState:NO forKey:@"can_edit_connection"];
+		[self setState:NO forKey:@"can_connect"];
+		[self setState:NO forKey:@"can_disconnect"];
+		[self setState:NO forKey:@"can_query"];
+	}
 }
 
 -(void)deleteConnectionNode:(PGSourceViewConnection* )node {
@@ -366,6 +452,27 @@ NSInteger PGQueriesTag = -200;
 	PGSourceViewNode* connection = [[self sourceView] selectedNode];
 	if([connection isKindOfClass:[PGSourceViewConnection class]]) {
 		[self disconnectNode:(PGSourceViewConnection* )connection];
+	}
+}
+
+-(IBAction)doCreateDatabase:(id)sender {
+	PGSourceViewNode* connection = [[self sourceView] selectedNode];
+	if([connection isKindOfClass:[PGSourceViewConnection class]]) {
+		[self createDatabaseForNode:(PGSourceViewConnection* )connection];
+	}
+}
+
+-(IBAction)doCreateSchema:(id)sender {
+	PGSourceViewNode* connection = [[self sourceView] selectedNode];
+	if([connection isKindOfClass:[PGSourceViewConnection class]]) {
+		[self createSchemaForNode:(PGSourceViewConnection* )connection];
+	}
+}
+
+-(IBAction)doCreateRole:(id)sender {
+	PGSourceViewNode* connection = [[self sourceView] selectedNode];
+	if([connection isKindOfClass:[PGSourceViewConnection class]]) {
+		[self createRoleForNode:(PGSourceViewConnection* )connection];
 	}
 }
 
@@ -567,8 +674,6 @@ NSInteger PGQueriesTag = -200;
 	PGSourceViewConnection* node = (PGSourceViewConnection* )[[self sourceView] nodeForTag:tag];
 	NSParameterAssert([node isKindOfClass:[PGSourceViewConnection class]]);
 
-	NSLog(@"status change = %@",description);
-
 	switch(status) {
 	case PGConnectionStatusConnected:
 		[(PGSourceViewConnection* )node setIconStatus:PGSourceViewConnectionIconConnected];
@@ -593,45 +698,20 @@ NSInteger PGQueriesTag = -200;
 	[self updateStateForNode:node];
 }
 
-
-/*
-
--(void)connectionPool:(PGConnectionPool *)pool tag:(NSInteger)tag statusChanged:(PGConnectionStatus)status {
-	PGSourceViewNode* node = [[self sourceView] nodeForTag:tag];
-	NSParameterAssert([node isKindOfClass:[PGSourceViewConnection class]]);
-	
-	switch(status) {
-		case PGConnectionStatusConnected:
-			[self _appendConsoleString:@"connected" forTag:tag];
-			[(PGSourceViewConnection* )node setIconStatus:PGSourceViewConnectionIconConnected];
-			[self _reloadNode:node];
-			break;
-		case PGConnectionStatusConnecting:
-			[_buffers appendString:@"connecting" forTag:tag];
-			[(PGSourceViewConnection* )node setIconStatus:PGSourceViewConnectionIconConnecting];
-			[self _reloadNode:node];
-			break;
-		case PGConnectionStatusDisconnected:
-			[_buffers appendString:@"disconnected" forTag:tag];
-			[(PGSourceViewConnection* )node setIconStatus:PGSourceViewConnectionIconDisconnected];
-			[self _reloadNode:node];
-			break;
-		case PGConnectionStatusRejected:
-			[_buffers appendString:@"rejected" forTag:tag];
-			[(PGSourceViewConnection* )node setIconStatus:PGSourceViewConnectionIconRejected];
-			[self _reloadNode:node];
-			break;
-		default:
-			[_buffers appendString:@"other connection status" forTag:tag];
-			[(PGSourceViewConnection* )node setIconStatus:PGSourceViewConnectionIconDisconnected];
-			[self _reloadNode:node];
-			break;
-	}
+-(void)connectionForTag:(NSInteger)tag notice:(NSString* )notice {
+	NSLog(@"NOTICE: %@",notice);
 }
 
--(void)connectionPool:(PGConnectionPool* )pool tag:(NSInteger)tag error:(NSError* )error {
-	[self _appendConsoleString:[error localizedDescription] forTag:tag];
+-(void)connectionForTag:(NSInteger)tag willExecute:(NSString* )query {
+	NSLog(@"EXEC: %@",query);
 }
-*/
+
+-(void)connectionForTag:(NSInteger)tag error:(NSError *)error {
+	NSLog(@"ERROR: %@",error);
+}
+
+-(void)connectionForTag:(NSInteger)tag notificationOnChannel:(NSString *)channelName payload:(NSString *)payload {
+	NSLog(@"NOTIFICATION: %@ <%@>",channelName,payload);
+}
 
 @end

@@ -12,7 +12,7 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <customObject id="Voe-Tx-rLC" customClass="Application">
+        <customObject id="Voe-Tx-rLC" userLabel="ApplicationDelegate" customClass="Application">
             <connections>
                 <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
             </connections>
@@ -78,17 +78,20 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="doEditConnection:" target="Voe-Tx-rLC" id="ot9-7A-Kdv"/>
+                                    <binding destination="Voe-Tx-rLC" name="enabled" keyPath="state.can_edit_connection" id="0bV-GV-VtI"/>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="DGK-J2-inS"/>
                             <menuItem title="Connect" keyEquivalent="o" id="vTH-jK-Kk9">
                                 <connections>
                                     <action selector="doConnect:" target="Voe-Tx-rLC" id="ZlW-ka-iEl"/>
+                                    <binding destination="Voe-Tx-rLC" name="enabled" keyPath="state.can_connect" id="scy-dK-y5C"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="Disconnect" keyEquivalent="w" id="RdK-ry-g1z">
                                 <connections>
                                     <action selector="doDisconnect:" target="Voe-Tx-rLC" id="qAc-CA-Vf4"/>
+                                    <binding destination="Voe-Tx-rLC" name="enabled" keyPath="state.can_disconnect" id="ww7-5V-jmc"/>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="aJh-i4-bef"/>
@@ -331,12 +334,24 @@
                         <items>
                             <menuItem title="New Database..." id="su2-dl-z4A" userLabel="New Database...">
                                 <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="doCreateDatabase:" target="Voe-Tx-rLC" id="BDk-xO-X7N"/>
+                                    <binding destination="Voe-Tx-rLC" name="enabled" keyPath="state.can_query" id="fIl-gR-sQf"/>
+                                </connections>
                             </menuItem>
                             <menuItem title="New Schema..." id="CE6-nH-HWW" userLabel="New Schema...">
                                 <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="doCreateSchema:" target="Voe-Tx-rLC" id="wl6-XV-Zau"/>
+                                    <binding destination="Voe-Tx-rLC" name="enabled" keyPath="state.can_query" id="go2-SX-hf6"/>
+                                </connections>
                             </menuItem>
                             <menuItem title="New Role..." id="jfS-Ro-eeh" userLabel="Edit Connection...">
                                 <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="doCreateRole:" target="Voe-Tx-rLC" id="JQ5-6W-lRi"/>
+                                    <binding destination="Voe-Tx-rLC" name="enabled" keyPath="state.can_query" id="gmd-tw-b6q"/>
+                                </connections>
                             </menuItem>
                         </items>
                     </menu>
