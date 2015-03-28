@@ -432,28 +432,16 @@
 	} else if(!(options & PGQueryOptionListIncludeTemplates)) {
 		[query andWhere:@"NOT d.datistemplate"];
 	}
-	
 	if(options & PGQueryOptionListExtended) {
-//		[query addColumn:@"d.usename" alias:@"owner"];
+		[query addColumn:@"pg_catalog.pg_get_userbyid(d.datdba)" alias:@"owner"];
 		[query addColumn:@"pg_catalog.pg_encoding_to_char(d.encoding)" alias:@"encoding"];
-		[query addColumn:@"d.dattablespace" alias:@"tablespace"];
+		[query addColumn:@"(SELECT t.spcname FROM pg_tablespace t WHERE t.oid=d.dattablespace)" alias:@"tablespace"];
 		[query addColumn:@"d.datconnlimit" alias:@"connection_limit"];
 		[query addColumn:@"pg_catalog.shobj_description(d.oid,'pg_database')" alias:@"comment"];
 	}
 
 	return [query quoteForConnection:connection error:error];
 }
-
-/*
-	@"pg_catalog.pg_database d LEFT JOIN pg_catalog.pg_user u ON d.datdba = u.usesysid" options:0];
-	[query addColumn:@"d.datname" alias:@"database"];
-	[query addColumn:@"u.usename" alias:@"owner"];
-	[query addColumn:@"pg_catalog.pg_encoding_to_char(d.encoding)" alias:@"encoding"];
-	[query addColumn:@"d.dattablespace" alias:@"tablespace"];
-	[query addColumn:@"d.datconnlimit" alias:@"connection_limit"];
-	[query andWhere:@"NOT d.datistemplate"];
-	*/
-
 
 -(NSString* )quoteListTablespacesForConnection:(PGConnection* )connection options:(NSUInteger)options error:(NSError** )error {
 	PGQuerySelect* query = [PGQuerySelect select:[PGQuerySource sourceWithTable:@"pg_tablespace" schema:@"pg_catalog" alias:@"t"] options:0];

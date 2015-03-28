@@ -662,7 +662,7 @@ NSInteger PGQueriesTag = -200;
 	}
 }
 
--(void)applicationWillTerminate:(NSNotification *)aNotification {
+-(void)applicationWillTerminate:(NSNotification* )aNotification {
 	// disconnect from remote servers
 	[[self pool] removeAll];
 
