@@ -75,26 +75,6 @@ NSInteger PGQueriesTag = -200;
 	return [PGConnectionPool sharedPool];
 }
 
-
-/*
-@property (weak) IBOutlet NSWindow* ibDeleteDatabaseSheet;
-@property (weak) IBOutlet NSMenu* ibConnectionContextMenu;
-@property (retain) NSString* ibDeleteDatabaseSheetNodeName;
-*/
-
-/*
-		_tabView = [PGTabViewController new];
-		_helpWindow = [PGHelpWindowController new];
-		_buffers = [ConsoleBuffer new];
-		NSParameterAssert(_buffers);
-		NSParameterAssert(_helpWindow);
-		[_tabView setDelegate:self];
-*/
-/*
-@synthesize tabView = _tabView;
-@synthesize helpWindow = _helpWindow;
-*/
-
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark Private methods
 ////////////////////////////////////////////////////////////////////////////////
@@ -152,20 +132,6 @@ NSInteger PGQueriesTag = -200;
 
 	// add left and right views
 	[[self splitView] setLeftView:[self sourceView]];
-
-/*
-	[[self splitView] setRightView:[self tabView]];
-
-	// add menu items to split view
-	NSMenuItem* menuItem1 = [[NSMenuItem alloc] initWithTitle:@"New Network Connection..." action:@selector(doNewNetworkConnection:) keyEquivalent:@""];
-	[[self splitView] addMenuItem:menuItem1];
-
-	NSMenuItem* menuItem2 = [[NSMenuItem alloc] initWithTitle:@"New Socket Connection..." action:@selector(doNewSocketConnection:) keyEquivalent:@""];
-	[[self splitView] addMenuItem:menuItem2];
-
-	NSMenuItem* menuItem5 = [[NSMenuItem alloc] initWithTitle:@"Reset Source View" action:@selector(doResetSourceView:) keyEquivalent:@""];
-	[[self splitView] addMenuItem:menuItem5];
-*/
 
 	// set autosave name and set minimum split view width
 	[[self splitView] setAutosaveName:@"PGSplitView"];
@@ -269,6 +235,7 @@ NSInteger PGQueriesTag = -200;
 			[[[self tableView] view] removeFromSuperview];
 			[self setTableView:[[PGResultTableView alloc] initWithDataSource:result]];
 			[[self splitView] setRightView:[[self tableView] view]];
+			[[self window] makeFirstResponder:[[self tableView] view]];
 		}
 		if(error) {
 			[self beginSheetForError:error];
@@ -291,6 +258,7 @@ NSInteger PGQueriesTag = -200;
 			[[[self tableView] view] removeFromSuperview];
 			[self setTableView:[[PGResultTableView alloc] initWithDataSource:result]];
 			[[self splitView] setRightView:[[self tableView] view]];
+			[[self window] makeFirstResponder:[[self tableView] view]];
 		}
 		if(error) {
 			[self beginSheetForError:error];
@@ -313,6 +281,7 @@ NSInteger PGQueriesTag = -200;
 			[[[self tableView] view] removeFromSuperview];
 			[self setTableView:[[PGResultTableView alloc] initWithDataSource:result]];
 			[[self splitView] setRightView:[[self tableView] view]];
+			[[self window] makeFirstResponder:[[self tableView] view]];
 		}
 		if(error) {
 			[self beginSheetForError:error];
@@ -471,30 +440,6 @@ NSInteger PGQueriesTag = -200;
 	}];
 }
 
-/*
--(void)_showDatabasesForNode:(PGSourceViewConnection* )node {
-	// execute query
-	PGResult* result = [[self connections] execute:@"SELECT 1" forTag:tag];
-	if(result) {
-		NSLog(@"%@",[result tableWithWidth:80]);
-		[self _appendConsoleString:[result tableWithWidth:80] forTag:tag];
-	}
-}
-
-
--(void)_appendConsoleString:(NSString* )string forTag:(NSInteger)tag {
-	PGConsoleViewController* controller = (PGConsoleViewController* )[_tabView selectViewWithTag:tag];
-	NSParameterAssert([controller isKindOfClass:[PGConsoleViewController class]]);
-
-	PGConsoleViewBuffer* buffer = [controller dataSource];
-	NSParameterAssert(buffer);
-	
-	[buffer appendString:string];
-	[controller reloadData];
-	[controller scrollToBottom];
-}
-*/
-
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark IBActions
 ////////////////////////////////////////////////////////////////////////////////
@@ -635,25 +580,6 @@ NSInteger PGQueriesTag = -200;
 	}
 }
 
--(IBAction)doShowDatabases:(id)sender {
-	PGSourceViewNode* connection = [[self sourceView] selectedNode];
-	if([connection isKindOfClass:[PGSourceViewConnection class]]) {
-		[self _showDatabasesForNode:(PGSourceViewConnection* )connection];
-	}
-}
-
--(IBAction)ibButtonClicked:(id)sender {
-	NSParameterAssert([sender isKindOfClass:[NSButton class]]);
-	NSWindow* theWindow = [(NSButton* )sender window];
-	if([[(NSButton* )sender title] isEqualToString:@"Cancel"]) {
-		[[self window] endSheet:theWindow returnCode:NSModalResponseCancel];
-	} else if([[(NSButton* )sender title] isEqualToString:@"OK"]) {
-		[[self window] endSheet:theWindow returnCode:NSModalResponseOK];
-	} else {
-		// Unknown button clicked
-		NSLog(@"Button clicked, ignoring: %@",sender);
-	}
-}
 */
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -715,59 +641,6 @@ NSInteger PGQueriesTag = -200;
 */
 
 ////////////////////////////////////////////////////////////////////////////////
-#pragma mark PGTabViewDelegate implementation
-////////////////////////////////////////////////////////////////////////////////
-
-/*
--(NSViewController* )tabView:(PGTabViewController* )tabView newViewForTag:(NSInteger)tag {
-	PGSourceViewNode* node = [[self sourceView] nodeForTag:tag];
-	NSParameterAssert(node);
-	
-	// create a new console buffer
-	PGConsoleViewBuffer* buffer = [PGConsoleViewBuffer new];
-	NSParameterAssert(buffer);
-
-	// create a console view
-	PGConsoleViewController* controller = [PGConsoleViewController new];
-	NSParameterAssert(controller);
-
-	// tie up
-	[controller setTitle:[node name]];
-	[controller setDataSource:buffer];
-	[controller setDelegate:self];
-	[controller setEditable:YES];
-	[controller setTag:tag];
-	[_buffers setBuffer:buffer forTag:tag];
-	[_buffers appendString:[node name] forTag:tag];
-	
-	// return controller
-	return controller;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// PGConsoleViewDelegate implementation
-
--(void)consoleView:(PGConsoleViewController* )consoleView append:(NSString* )string {
-	NSInteger tag = [consoleView tag];
-	NSParameterAssert(tag);
-	
-	// append line
-	[self _appendConsoleString:string forTag:tag];
-	// execute query
-	PGResult* result = [[self connections] execute:string forTag:tag];
-	if(result) {
-		NSString* table = [result tableWithWidth:[consoleView textWidth]];
-		if(table) {
-			[self _appendConsoleString:table forTag:tag];
-		}
-		if([result affectedRows]) {
-			[self _appendConsoleString:[NSString stringWithFormat:@"%ld affected row(s)",[result affectedRows]] forTag:tag];
-		}
-	}
-}
-*/
-
-////////////////////////////////////////////////////////////////////////////////
 #pragma mark NSApplicationDelegate implementation
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -787,14 +660,6 @@ NSInteger PGQueriesTag = -200;
 	if([self loadSourceView]==NO) {
 		[self doNewRemoteConnection:nil];
 	}
-	
-/*
-	// load help from resource folder
-	NSError* error = nil;
-	[[self helpWindow] addPath:@"help" bundle:[NSBundle mainBundle] error:&error];
-	[[self helpWindow] addResource:@"NOTICE" bundle:[NSBundle mainBundle] error:&error];
-	
-*/
 }
 
 -(void)applicationWillTerminate:(NSNotification *)aNotification {
