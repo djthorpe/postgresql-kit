@@ -73,6 +73,15 @@
  */
 +(PGQueryTableView* )dropView:(NSString* )view schema:(NSString* )schema options:(NSUInteger)options;
 
+/**
+ *  List tables and views within the database
+ *
+ *  @param options The list of options used when querying the tables and views.
+ *
+ *  @return Returns the PGQueryTableView object, or nil if the query could not be created.
+ */
++(PGQueryTableView* )listWithOptions:(NSUInteger)options;
+
 ////////////////////////////////////////////////////////////////////////////////
 // properties
 

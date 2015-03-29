@@ -398,6 +398,7 @@
 
 -(NSString* )quoteListForConnection:(PGConnection* )connection options:(NSUInteger)options error:(NSError** )error {
 	NSParameterAssert(connection);
+
 	PGQuerySelect* q = [PGQuerySelect select:[PGQuerySource sourceWithTable:@"pg_roles" schema:@"pg_catalog" alias:@"r"] options:0];
 	[q addColumn:@"r.rolname" alias:@"role"];
 	
@@ -409,7 +410,8 @@
 		[q addColumn:@"r.rolcanlogin" alias:@"login"];
 		[q addColumn:@"r.rolconnlimit" alias:@"connection_limit"];
 		[q addColumn:@"r.rolvaliduntil" alias:@"expiry"];
-//		[q addColumn:@"r.rolreplication" alias:@"replication"];
+//		[q addColumn:@"r.rolreplication" alias:@"replication"]; // TODO: add for postgresql v9+
+//		[q addColumn:@"XXXX" alias:@"owner"]; // TODO: add parent of role
 		[q addColumn:@"pg_catalog.shobj_description(r.oid,'pg_authid')" alias:@"comment"];
 	}
 	

@@ -382,9 +382,10 @@
                                     <binding destination="Voe-Tx-rLC" name="enabled" keyPath="state.can_query" id="wCa-U4-lOk"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="List Tables" id="my7-9d-dhp">
+                            <menuItem title="List Tables &amp; Views" id="my7-9d-dhp">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
+                                    <action selector="doListTablesViews:" target="Voe-Tx-rLC" id="qby-EH-1TK"/>
                                     <binding destination="Voe-Tx-rLC" name="enabled" keyPath="state.can_query" id="Kqs-fW-Wwz"/>
                                 </connections>
                             </menuItem>
@@ -536,11 +537,11 @@
                             </subviews>
                             <nil key="backgroundColor"/>
                         </clipView>
-                        <scroller key="horizontalScroller" appearanceType="vibrantLight" verticalHuggingPriority="750" horizontal="YES" id="Mx6-fT-kE9">
+                        <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="Mx6-fT-kE9">
                             <rect key="frame" x="1" y="119" width="223" height="15"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
-                        <scroller key="verticalScroller" hidden="YES" appearanceType="vibrantLight" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="6AD-6r-gU1">
+                        <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="6AD-6r-gU1">
                             <rect key="frame" x="224" y="17" width="15" height="102"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>

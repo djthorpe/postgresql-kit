@@ -35,7 +35,7 @@
  *
  *  @return returns the constructed data source object
  */
-+(PGQueryObject* )sourceWithTable:(NSString* )tableName alias:(NSString* )alias;
++(PGQuerySource* )sourceWithTable:(NSString* )tableName alias:(NSString* )alias;
 
 /**
  *  Construct a simple data source, which represents a table name with a
@@ -49,8 +49,21 @@
  *
  *  @return returns the constructed data source object
  */
-+(PGQueryObject* )sourceWithTable:(NSString* )tableName schema:(NSString* )schemaName alias:(NSString* )alias;
++(PGQuerySource* )sourceWithTable:(NSString* )tableName schema:(NSString* )schemaName alias:(NSString* )alias;
 
+/**
+ *  Construct a joined data source, between two other sources. The first data
+ *  source can represent a table or a join, but the right data source must
+ *  represent a simple table data source. Optionally, a predicate provides the
+ *  information required to make the join.
+ *
+ *  @param lhs       A PGQuerySource object for the left hand side of the join
+ *  @param rhs       A PGQuerySource object for the right hand side of the join
+ *  @param predicate An optional NSString or PGQueryPredicate object used for the join
+ *
+ *  @return returns the constructed data source object
+ */
++(PGQuerySource* )join:(PGQuerySource* )lhs with:(PGQuerySource* )rhs on:(id)predicate;
 
 ////////////////////////////////////////////////////////////////////////////////
 // properties

@@ -432,6 +432,7 @@
 	} else if(!(options & PGQueryOptionListIncludeTemplates)) {
 		[query andWhere:@"NOT d.datistemplate"];
 	}
+	// add columns for owner, encoding, tablespace, connection_limit and comment
 	if(options & PGQueryOptionListExtended) {
 		[query addColumn:@"pg_catalog.pg_get_userbyid(d.datdba)" alias:@"owner"];
 		[query addColumn:@"pg_catalog.pg_encoding_to_char(d.encoding)" alias:@"encoding"];

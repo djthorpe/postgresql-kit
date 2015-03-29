@@ -289,6 +289,29 @@ NSInteger PGQueriesTag = -200;
 	}];
 }
 
+-(void)listTablesViewsForNode:(PGSourceViewConnection* )node {
+	NSParameterAssert(node);
+
+	// get tag node from source view
+	NSInteger tag = [[self sourceView] tagForNode:node];
+	NSParameterAssert(tag);
+
+	// create transaction, and execute it
+	PGTransaction* transaction = [PGTransaction transactionWithQuery:[PGQueryTableView listWithOptions:0]];
+	[transaction setTransactional:NO];
+	[[self pool] execute:transaction forTag:tag whenDone:^(PGResult* result,NSError *error) {
+		if(result) {
+			[[[self tableView] view] removeFromSuperview];
+			[self setTableView:[[PGResultTableView alloc] initWithDataSource:result]];
+			[[self splitView] setRightView:[[self tableView] view]];
+			[[self window] makeFirstResponder:[[self tableView] view]];
+		}
+		if(error) {
+			[self beginSheetForError:error];
+		}
+	}];
+}
+
 -(void)createConnectionWithURL:(NSURL* )url comment:(NSString* )comment {
 	// create a node
 	PGSourceViewNode* node = [PGSourceViewNode connectionWithURL:url];
@@ -547,6 +570,13 @@ NSInteger PGQueriesTag = -200;
 	PGSourceViewNode* connection = [[self sourceView] selectedNode];
 	if([connection isKindOfClass:[PGSourceViewConnection class]]) {
 		[self listSchemasForNode:(PGSourceViewConnection* )connection];
+	}
+}
+
+-(IBAction)doListTablesViews:(id)sender {
+	PGSourceViewNode* connection = [[self sourceView] selectedNode];
+	if([connection isKindOfClass:[PGSourceViewConnection class]]) {
+		[self listTablesViewsForNode:(PGSourceViewConnection* )connection];
 	}
 }
 

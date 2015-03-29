@@ -41,6 +41,11 @@
 	return (PGQuerySource* )[PGQuerySource sourceWithTable:tableName schema:nil alias:alias];
 }
 
++(PGQuerySource* )join:(PGQuerySource* )lhs with:(PGQuerySource* )rhs on:(id)predicate {
+	// TODO
+	return nil;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark properties
 ////////////////////////////////////////////////////////////////////////////////

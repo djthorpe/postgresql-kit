@@ -127,6 +127,14 @@
 	return object;
 }
 
++(PGQueryTableView* )listWithOptions:(NSUInteger)options {
+	NSString* className = NSStringFromClass([self class]);
+	PGQueryTableView* query = (PGQueryTableView* )[PGQueryObject queryWithDictionary:@{ } class:className];
+	NSParameterAssert(query && [query isKindOfClass:[PGQueryTableView class]]);
+	[query setOptions:(options | PGQueryOperationList)];
+	return query;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark properties
 ////////////////////////////////////////////////////////////////////////////////
@@ -325,6 +333,25 @@
 	return [NSString stringWithFormat:@"DROP %@ %@",type,[flags componentsJoinedByString:@" "]];
 }
 
+-(NSString* )quoteListWithConnection:(PGConnection* )connection options:(NSUInteger)options error:(NSError** )error {
+	NSParameterAssert(connection);
+
+	PGQuerySource* t1 = [PGQuerySource sourceWithTable:@"pg_class" schema:@"pg_catalog" alias:@"c"];
+	PGQuerySource* t2 = [PGQuerySource sourceWithTable:@"pg_roles" schema:@"pg_catalog" alias:@"r"];
+	PGQuerySource* t3 = [PGQuerySource sourceWithTable:@"pg_namespace" schema:@"pg_catalog" alias:@"n"];
+	PGQuerySource* join = [PGQuerySource join:[PGQuerySource join:t1 with:t2 on:@"r.oid = c.relowner"] with:t3 on:@"n.oid=c.relnamespace"];
+	PGQuerySelect* q = [PGQuerySelect select:join options:0];
+	[q addColumn:@"c.relname" alias:@"table"];
+	[q addColumn:@"n.nspname" alias:@"schema"];
+	[q addColumn:@"r.rolname" alias:@"owner"];
+	[q addColumn:@"c.relkind::text" alias:@"type"];
+	[q andWhere:@"n.nspname NOT LIKE 'pg_toast%'"];
+	[q andWhere:@"n.nspname NOT IN ('information_schema', 'pg_catalog')"];
+	[q andWhere:@"c.relkind IN ('r','v')"]; // r=table v=view i=index s=sequence c=type
+
+	return [q quoteForConnection:connection error:error];	
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark public methods
 ////////////////////////////////////////////////////////////////////////////////
@@ -350,6 +377,9 @@
 			return [self quoteDrop:@"VIEW" name:viewName connection:connection options:options error:error];
 		}
 		break;
+	case PGQueryOperationList:
+		return [self quoteListWithConnection:connection options:options error:error];
+
 	}
 
 	[connection raiseError:error code:PGClientErrorQuery reason:@"TABLE/VIEW: Invalid operation"];
