@@ -399,7 +399,7 @@
 -(NSString* )quoteListForConnection:(PGConnection* )connection options:(NSUInteger)options error:(NSError** )error {
 	NSParameterAssert(connection);
 
-	PGQuerySelect* q = [PGQuerySelect select:[PGQuerySource sourceWithTable:@"pg_roles" schema:@"pg_catalog" alias:@"r"] options:0];
+	PGQuerySelect* q = [PGQuerySelect select:[PGQuerySource table:@"pg_roles" schema:@"pg_catalog" alias:@"r"] options:0];
 	[q addColumn:@"r.rolname" alias:@"role"];
 	
 	if(options & PGQueryOptionListExtended) {

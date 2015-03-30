@@ -424,7 +424,7 @@
 }
 
 -(NSString* )quoteListForConnection:(PGConnection* )connection options:(NSUInteger)options error:(NSError** )error {
-	PGQuerySelect* query = [PGQuerySelect select:[PGQuerySource sourceWithTable:@"pg_database" schema:@"pg_catalog" alias:@"d"] options:0];
+	PGQuerySelect* query = [PGQuerySelect select:[PGQuerySource table:@"pg_database" schema:@"pg_catalog" alias:@"d"] options:0];
 	[query addColumn:@"d.datname" alias:@"database"];
 	
 	if(options & PGQueryOptionListExcludeDatabases) {
@@ -445,7 +445,7 @@
 }
 
 -(NSString* )quoteListTablespacesForConnection:(PGConnection* )connection options:(NSUInteger)options error:(NSError** )error {
-	PGQuerySelect* query = [PGQuerySelect select:[PGQuerySource sourceWithTable:@"pg_tablespace" schema:@"pg_catalog" alias:@"t"] options:0];
+	PGQuerySelect* query = [PGQuerySelect select:[PGQuerySource table:@"pg_tablespace" schema:@"pg_catalog" alias:@"t"] options:0];
 	[query addColumn:@"t.spcname" alias:@"tablespace"];
 	[query andWhere:@"t.spcname <> 'pg_global'"];
 	return [query quoteForConnection:connection error:error];

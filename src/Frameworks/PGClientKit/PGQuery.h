@@ -41,6 +41,9 @@ extern NSString* PGQueryNameKey;
 extern NSString* PGQueryRoleKey;
 extern NSString* PGQueryPasswordKey;
 extern NSString* PGQueryExpiryKey;
+extern NSString* PGQueryJoinLeftKey;
+extern NSString* PGQueryJoinRightKey;
+extern NSString* PGQueryJoinExpressionKey;
 
 /**
  * Flags affecting the query generated
@@ -78,6 +81,13 @@ enum {
 	PGQueryOptionListExcludeDatabases    = 0x00000200, // don't show databases when listing
 	PGQueryOptionListIncludeTemplates    = 0x00000400, // show templates when listing
 	PGQueryOptionListExtended            = 0x00000800, // show extended info when listing
+	// The following option flags are used for joins
+    PGQueryOptionJoinMask                = 0x00000070, // mask to determine join type
+	PGQueryOptionJoinCross               = 0x00000000, // cross join
+	PGQueryOptionJoinInner               = 0x00000010, // inner join
+	PGQueryOptionJoinLeftOuter           = 0x00000020, // left outer join
+	PGQueryOptionJoinRightOuter          = 0x00000030, // right outer join
+	PGQueryOptionJoinFullOuter           = 0x00000040  // full outer join
 };
 
 /**

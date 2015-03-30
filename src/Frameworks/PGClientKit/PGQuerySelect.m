@@ -34,7 +34,7 @@ const NSUInteger PGQuerySelectNoLimit = NSUIntegerMax;
 	NSParameterAssert(query && [query isKindOfClass:[PGQuerySelect class]]);
 	PGQuerySource* querySource = nil;
 	if([source isKindOfClass:[NSString class]]) {
-		querySource = (PGQuerySource* )[PGQuerySource sourceWithTable:source alias:nil];
+		querySource = (PGQuerySource* )[PGQuerySource table:source alias:nil];
 	} else if([source isKindOfClass:[PGQuerySource class]]) {
 		querySource = (PGQuerySource* )source;
 	}

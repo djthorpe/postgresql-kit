@@ -15,36 +15,85 @@
 #import <PGClientKit/PGClientKit.h>
 #import <PGClientKit/PGClientKit+Private.h>
 
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark forward declarations
+////////////////////////////////////////////////////////////////////////////////
+
+@class PGQuerySource;
+  @class PGQueryTableSource;
+  @class PGQueryJoinSource;
+
 @implementation PGQuerySource
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark constructors
 ////////////////////////////////////////////////////////////////////////////////
 
-+(PGQuerySource* )sourceWithTable:(NSString* )tableName schema:(NSString* )schemaName alias:(NSString* )aliasName {
-	NSParameterAssert(tableName);
-	NSString* className = NSStringFromClass([self class]);
++(PGQuerySource* )table:(NSString* )table schema:(NSString* )schema alias:(NSString* )alias {
+	NSParameterAssert(table);
+	NSString* className = @"PGQueryTableSource";
 	PGQuerySource* query = (PGQuerySource* )[PGQueryObject queryWithDictionary:@{
-		PGQueryTableKey: tableName
+		PGQueryTableKey: table
 	} class:className];
 	NSParameterAssert(query && [query isKindOfClass:[PGQuerySource class]]);
-	if(schemaName) {
-		[query setObject:schemaName forKey:PGQuerySchemaKey];
+	if(schema) {
+		[query setObject:schema forKey:PGQuerySchemaKey];
 	}
-	if(aliasName) {
-		[query setObject:aliasName forKey:PGQueryAliasKey];
+	if(alias) {
+		[query setObject:alias forKey:PGQueryAliasKey];
 	}
 	return query;
 }
 
-+(PGQuerySource* )sourceWithTable:(NSString* )tableName alias:(NSString* )alias {
-	return (PGQuerySource* )[PGQuerySource sourceWithTable:tableName schema:nil alias:alias];
++(PGQuerySource* )table:(NSString* )table alias:(NSString* )alias {
+	return (PGQuerySource* )[PGQuerySource table:table schema:nil alias:alias];
+}
+
++(PGQuerySource* )join:(PGQuerySource* )lhs with:(PGQuerySource* )rhs on:(id)predicate options:(NSUInteger)options {
+	NSParameterAssert(lhs && [lhs isKindOfClass:[PGQuerySource class]]);
+	NSParameterAssert(rhs && [rhs isKindOfClass:[PGQuerySource class]]);
+	NSString* className = @"PGQuerySourceJoin";
+	PGQuerySource* query = (PGQuerySource* )[PGQueryObject queryWithDictionary:@{
+		PGQueryJoinLeftKey: lhs,
+		PGQueryJoinRightKey: rhs
+	} class:className];
+	if(predicate) {
+		// TODO: set predicate
+	}
+	[query setOptions:options];
+	return query;
 }
 
 +(PGQuerySource* )join:(PGQuerySource* )lhs with:(PGQuerySource* )rhs on:(id)predicate {
-	// TODO
+	return [PGQuerySource join:lhs with:rhs on:predicate options:0];
+}
+
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark public methods
+////////////////////////////////////////////////////////////////////////////////
+
+-(NSString* )quoteForConnection:(PGConnection* )connection withAlias:(BOOL)withAlias error:(NSError** )error {
+	[connection raiseError:error code:PGClientErrorQuery reason:@"Virtual method cannot be called"];
 	return nil;
 }
+
+@end
+
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark PGQuerySourceTable interface
+////////////////////////////////////////////////////////////////////////////////
+
+@interface PGQuerySourceTable: PGQuerySource
+@property (readonly) NSString* table;
+@property (readonly) NSString* schema;
+@property (readonly) NSString* alias;
+@end
+
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark PGQuerySourceTable implementation
+////////////////////////////////////////////////////////////////////////////////
+
+@implementation PGQuerySourceTable
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark properties
@@ -94,3 +143,100 @@
 }
 
 @end
+
+
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark PGQuerySourceJoin interface
+////////////////////////////////////////////////////////////////////////////////
+
+@interface PGQuerySourceJoin: PGQuerySource
+@property (readonly) PGQuerySource* lhs;
+@property (readonly) PGQuerySource* rhs;
+@property (readonly) PGQueryPredicate* expression;
+@end
+
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark PGQuerySourceJoin implementation
+////////////////////////////////////////////////////////////////////////////////
+
+@implementation PGQuerySourceJoin
+
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark properties
+////////////////////////////////////////////////////////////////////////////////
+
+@dynamic lhs;
+@dynamic rhs;
+@dynamic expression;
+
+-(PGQuerySource* )lhs {
+	return [super objectForKey:PGQueryJoinLeftKey];
+}
+
+-(PGQuerySource* )rhs {
+	return [super objectForKey:PGQueryJoinRightKey];
+}
+
+-(PGQueryPredicate* )expression {
+	return [super objectForKey:PGQueryJoinExpressionKey];
+}
+
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark private methods
+////////////////////////////////////////////////////////////////////////////////
+
+-(NSString* )quoteJoinTypeForConnection:(PGConnection* )connection error:(NSError** )error {
+	NSUInteger type = [self options] & PGQueryOptionJoinMask;
+	switch(type) {
+	case PGQueryOptionJoinCross:
+		return [self expression] ? @"JOIN" : @"CROSS JOIN";
+	case PGQueryOptionJoinInner:
+		return [self expression] ? @"INNER JOIN" : @"NATURAL INNER JOIN";
+	case PGQueryOptionJoinLeftOuter:
+		return [self expression] ? @"LEFT OUTER JOIN" : @"NATURAL LEFT OUTER JOIN";
+	case PGQueryOptionJoinRightOuter:
+		return [self expression] ? @"RIGHT OUTER JOIN" : @"NATURAL RIGHT OUTER JOIN";
+	case PGQueryOptionJoinFullOuter:
+		return [self expression] ? @"FULL OUTER JOIN" : @"NATURAL FULL OUTER JOIN";
+	default:
+		[connection raiseError:error code:PGClientErrorQuery reason:@"Invalid join type"];
+		return nil;
+	}
+}
+
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark public methods
+////////////////////////////////////////////////////////////////////////////////
+
+-(NSString* )quoteForConnection:(PGConnection* )connection error:(NSError** )error {
+	NSParameterAssert(connection);
+	NSMutableArray* parts = [NSMutableArray new];
+	
+	NSString* lhs = [[self lhs] quoteForConnection:connection error:error];
+	if(lhs==nil) {
+		return nil;
+	}
+	NSString* joinType = [self quoteForConnection:connection error:error];
+	if(joinType==nil) {
+		return nil;
+	}
+	NSString* rhs = [[self rhs] quoteForConnection:connection error:error];
+	if(rhs==nil) {
+		return nil;
+	}
+	NSString* expression = nil;
+	if([self expression]) {
+		expression = [[self expression] quoteForConnection:connection error:error];
+		if(expression==nil) {
+			return nil;
+		}
+	}
+	[parts addObjectsFromArray:@[ lhs,joinType, rhs ]];
+	if(expression) {
+		[parts addObjectsFromArray:@[ @"ON", expression ]];
+	}
+	return [parts componentsJoinedByString:@" "];
+}
+
+@end
+

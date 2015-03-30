@@ -43,6 +43,9 @@ NSString* PGQueryNameKey = @"name";
 NSString* PGQueryRoleKey = @"role";
 NSString* PGQueryExpiryKey = @"expiry";
 NSString* PGQueryPasswordKey = @"password";
+NSString* PGQueryJoinLeftKey = @"left";
+NSString* PGQueryJoinRightKey = @"right";
+NSString* PGQueryJoinExpressionKey = @"on";
 
 ////////////////////////////////////////////////////////////////////////////////
 

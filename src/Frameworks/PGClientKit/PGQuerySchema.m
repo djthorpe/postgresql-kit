@@ -274,7 +274,7 @@
 
 
 -(NSString* )quoteListForConnection:(PGConnection* )connection options:(NSUInteger)options error:(NSError** )error {
-	PGQuerySelect* query = [PGQuerySelect select:[PGQuerySource sourceWithTable:@"pg_namespace" schema:@"pg_catalog" alias:@"n"] options:0];
+	PGQuerySelect* query = [PGQuerySelect select:[PGQuerySource table:@"pg_namespace" schema:@"pg_catalog" alias:@"n"] options:0];
 	[query addColumn:@"n.nspname" alias:@"schema"];
 	
 	if(options & PGQueryOptionListExtended) {

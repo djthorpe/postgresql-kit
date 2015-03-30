@@ -336,9 +336,9 @@
 -(NSString* )quoteListWithConnection:(PGConnection* )connection options:(NSUInteger)options error:(NSError** )error {
 	NSParameterAssert(connection);
 
-	PGQuerySource* t1 = [PGQuerySource sourceWithTable:@"pg_class" schema:@"pg_catalog" alias:@"c"];
-	PGQuerySource* t2 = [PGQuerySource sourceWithTable:@"pg_roles" schema:@"pg_catalog" alias:@"r"];
-	PGQuerySource* t3 = [PGQuerySource sourceWithTable:@"pg_namespace" schema:@"pg_catalog" alias:@"n"];
+	PGQuerySource* t1 = [PGQuerySource table:@"pg_class" schema:@"pg_catalog" alias:@"c"];
+	PGQuerySource* t2 = [PGQuerySource table:@"pg_roles" schema:@"pg_catalog" alias:@"r"];
+	PGQuerySource* t3 = [PGQuerySource table:@"pg_namespace" schema:@"pg_catalog" alias:@"n"];
 	PGQuerySource* join = [PGQuerySource join:[PGQuerySource join:t1 with:t2 on:@"r.oid = c.relowner"] with:t3 on:@"n.oid=c.relnamespace"];
 	PGQuerySelect* q = [PGQuerySelect select:join options:0];
 	[q addColumn:@"c.relname" alias:@"table"];
