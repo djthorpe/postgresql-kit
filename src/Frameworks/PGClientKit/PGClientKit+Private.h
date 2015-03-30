@@ -15,6 +15,11 @@
 #include <libpq-fe.h>
 #include <pg_config.h>
 
+// use DEBUG2 for additional output
+#ifdef DEBUG
+#define DEBUG2
+#endif
+
  /**
   *  This file includes declarations which are private to the framework
   */
@@ -56,3 +61,20 @@ typedef struct {
 
 PGKVPairs* makeKVPairs(NSDictionary* dict);
 void freeKVPairs(PGKVPairs* pairs);
+
+// profiling macros
+#ifdef DEBUG2
+#include <mach/mach_time.h>
+#define TIME_TICK(name) NSLog(@"TICK: %@",(name)); \
+                        uint64_t tick_time = mach_absolute_time(); \
+						double time_elapsed_ns = 0; \
+						mach_timebase_info_data_t tick_info; \
+						mach_timebase_info(&tick_info);
+#define TIME_TOCK(name) time_elapsed_ns = ((double)(mach_absolute_time() - tick_time) * (double)tick_info.numer / (double)tick_info.denom); \
+                        tick_time = mach_absolute_time(); \
+                        NSLog(@"TOCK: %@: %.1lfms",(name),time_elapsed_ns/1000.0);
+#else
+#define TIME_TICK(name)
+#define TIME_TOCK(name)
+#endif
+

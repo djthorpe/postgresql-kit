@@ -114,7 +114,7 @@ typedef enum {
 /**
  *  Communication state with the remote server
  */
-@property (atomic) PGConnectionState state;
+@property (assign) PGConnectionState state;
 
 /**
  *  Connection timeout in seconds

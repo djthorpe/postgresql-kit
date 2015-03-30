@@ -15,10 +15,6 @@
 #import <PGClientKit/PGClientKit.h>
 #import <PGClientKit/PGClientKit+Private.h>
 
-#ifdef DEBUG
-//#define DEBUG2
-#endif
-
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark C callback functions
 ////////////////////////////////////////////////////////////////////////////////
@@ -251,6 +247,7 @@ void _noticeProcessor(void* arg,const char* cString) {
 	
 	// all results consumed - update state
 	[self setState:PGConnectionStateNone];
+
 	_callback = nil; // release the callback
 	[self _updateStatus];
 }
@@ -278,6 +275,7 @@ void _noticeProcessor(void* arg,const char* cString) {
  *  or notification socket callback
  */
 -(void)_socketCallback:(CFSocketCallBackType)callBackType {
+
 #if defined DEBUG && defined DEBUG2
 	switch(callBackType) {
 		case kCFSocketReadCallBack:
@@ -302,20 +300,35 @@ void _noticeProcessor(void* arg,const char* cString) {
 #endif
 	switch([self state]) {
 		case PGConnectionStateConnect:
+#if defined DEBUG && defined DEBUG2
+			NSLog(@"PGConnectionStateConnect");
+#endif
 			[self _socketCallbackConnect];
 			break;
 		case PGConnectionStateReset:
+#if defined DEBUG && defined DEBUG2
+			NSLog(@"PGConnectionStateReset");
+#endif
 			[self _socketCallbackReset];
 			break;
 		case PGConnectionStateQuery:
 			if(callBackType==kCFSocketReadCallBack) {
+#if defined DEBUG && defined DEBUG2
+				NSLog(@"PGConnectionStateQuery - Read");
+#endif
 				[self _socketCallbackQueryRead];
 				[self _socketCallbackNotification];
 			} else if(callBackType==kCFSocketWriteCallBack) {
+#if defined DEBUG && defined DEBUG2
+			NSLog(@"PGConnectionStateQuery - Write");
+#endif
 				[self _socketCallbackQueryWrite];
 			}
 			break;
 		default:
+#if defined DEBUG && defined DEBUG2
+			NSLog(@"PGConnectionStateOther");
+#endif
 			[self _socketCallbackNotification];
 			break;
 	}

@@ -119,6 +119,15 @@ NSDictionary* PGConnectionStatusDescription = nil;
 #pragma mark private methods - status update
 ////////////////////////////////////////////////////////////////////////////////
 
+-(void)_updateStatusDelayed:(NSArray* )arguments {
+	NSParameterAssert(arguments && [arguments count]==2);
+	PGConnectionStatus status = [[arguments objectAtIndex:0] intValue];
+	NSString* description = [arguments objectAtIndex:1];
+	if([[self delegate] respondsToSelector:@selector(connection:statusChange:description:)]) {
+		[[self delegate] connection:self statusChange:status description:description];
+	}
+}
+
 -(void)_updateStatus {
 	static PGConnectionStatus oldStatus = PGConnectionStatusDisconnected;
 	static dispatch_once_t onceToken;
@@ -132,20 +141,25 @@ NSDictionary* PGConnectionStatusDescription = nil;
 			[NSNumber numberWithInt:PGConnectionStatusRejected]: @"Rejected"
 		};
     });
-
 	if([self status] == oldStatus) {
 		return;
 	}
+	// reset oldStatus
 	oldStatus = [self status];
-	if([[self delegate] respondsToSelector:@selector(connection:statusChange:description:)]) {
-		[[self delegate] connection:self statusChange:[self status] description:[PGConnectionStatusDescription objectForKey:[NSNumber numberWithInt:[self status]]]];
-	}
-	
+
+	// we call the delegate in a delayed fashion, so as to not stop the callbacks
+	// from continuing
+	NSNumber* key = [NSNumber numberWithInt:oldStatus];
+	NSString* description = [PGConnectionStatusDescription objectForKey:key];
+	[self performSelectorOnMainThread:@selector(_updateStatusDelayed:) withObject:@[ key,description ] waitUntilDone:NO];
+#ifdef DEBUG2
+	NSLog(@"status => %@ %@",key,description);
+#endif
+
 	// if connection is rejected, then call disconnect
 	if(oldStatus==PGConnectionStatusRejected) {
 		[self disconnect];
 	}
-	
 }
 
 ////////////////////////////////////////////////////////////////////////////////

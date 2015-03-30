@@ -1372,6 +1372,21 @@
 			path = PGServerKit_testcases;
 			sourceTree = "<group>";
 		};
+		6E32C5C61AC96BE10058AD39 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				6EAA40E917BC150E0078EB32 /* NSURL+PGAdditions.h */,
+				6EAA40EA17BC150E0078EB32 /* NSURL+PGAdditions.m */,
+				6E308D001ABD7FEA0091BD17 /* NSError+PGAdditions.h */,
+				6E308D051ABD80810091BD17 /* NSError+PGAdditions.m */,
+				147070E01A976E230069EF9C /* NSString+PGNetworkValidationAdditions.h */,
+				147070E11A976E230069EF9C /* NSString+PGNetworkValidationAdditions.m */,
+				6E0DDCD81AAB2A4000A38F3B /* NSString+PrivateAdditions.h */,
+				6E0DDCDE1AAB2A7700A38F3B /* NSString+PrivateAdditions.m */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
 		6E4016B61ABEF9E5009A2707 /* PGTransaction */ = {
 			isa = PBXGroup;
 			children = (
@@ -1612,14 +1627,6 @@
 				1413DF1E17AD79AC009615E5 /* PGClientKit_mac.plist */,
 				6ED85B4916288D0200A6DC02 /* PGClientKit.h */,
 				6EE23F5A1631EF7500C99BA7 /* PGClientKit+Private.h */,
-				6EAA40E917BC150E0078EB32 /* NSURL+PGAdditions.h */,
-				6EAA40EA17BC150E0078EB32 /* NSURL+PGAdditions.m */,
-				6E308D001ABD7FEA0091BD17 /* NSError+PGAdditions.h */,
-				6E308D051ABD80810091BD17 /* NSError+PGAdditions.m */,
-				147070E01A976E230069EF9C /* NSString+PGNetworkValidationAdditions.h */,
-				147070E11A976E230069EF9C /* NSString+PGNetworkValidationAdditions.m */,
-				6E0DDCD81AAB2A4000A38F3B /* NSString+PrivateAdditions.h */,
-				6E0DDCDE1AAB2A7700A38F3B /* NSString+PrivateAdditions.m */,
 				6EE12E2417D51D620034B9E1 /* PGPasswordStore.h */,
 				6EE12E2517D51D620034B9E1 /* PGPasswordStore.m */,
 				6EE23F62163207DA00C99BA7 /* PGClientParams.h */,
@@ -1631,6 +1638,7 @@
 				6E4016B61ABEF9E5009A2707 /* PGTransaction */,
 				1422C5B21663FD3800FB22FE /* PGResult */,
 				14DECDA416B56D7B00178235 /* Data Translation */,
+				6E32C5C61AC96BE10058AD39 /* Extensions */,
 			);
 			path = PGClientKit;
 			sourceTree = "<group>";
