@@ -641,7 +641,7 @@ NSInteger PGQueriesTag = -200;
 
 	if([node isKindOfClass:[PGSourceViewConnection class]]) {
 		PGConnectionStatus status = [[self pool] statusForTag:tag];
-		if(status != PGConnectionStatusConnected) {
+		if(status != PGConnectionStatusConnected && status != PGConnectionStatusBusy) {
 			[self connectNode:(PGSourceViewConnection* )node];
 		}
 	} else {

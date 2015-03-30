@@ -17,7 +17,7 @@
 
 // use DEBUG2 for additional output
 #ifdef DEBUG
-#define DEBUG2
+//#define DEBUG2
 #endif
 
  /**
