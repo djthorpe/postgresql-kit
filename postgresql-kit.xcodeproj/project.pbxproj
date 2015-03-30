@@ -238,6 +238,8 @@
 		6E6A8B911AB758B500A95748 /* PGDialogRoleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E6A8B8F1AB758B500A95748 /* PGDialogRoleView.m */; };
 		6E6A8B941AB758E400A95748 /* PGDialogSchemaView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E6A8B921AB758E400A95748 /* PGDialogSchemaView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E6A8B951AB758E400A95748 /* PGDialogSchemaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E6A8B931AB758E400A95748 /* PGDialogSchemaView.m */; };
+		6E6F337C1AC95369007EBB9D /* PGQueryDelete.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E6F337A1AC95369007EBB9D /* PGQueryDelete.h */; };
+		6E6F337D1AC95369007EBB9D /* PGQueryDelete.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E6F337B1AC95369007EBB9D /* PGQueryDelete.m */; };
 		6E820ACA1AAD9396003B987B /* PGUnitTester.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E820AC91AAD9396003B987B /* PGUnitTester.m */; };
 		6E82F1731A9BC9B20024B8BE /* PGConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E82F1711A9BC9B20024B8BE /* PGConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E82F1741A9BC9B20024B8BE /* PGConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E82F1721A9BC9B20024B8BE /* PGConnection.m */; };
@@ -712,6 +714,8 @@
 		6E6A8B8F1AB758B500A95748 /* PGDialogRoleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGDialogRoleView.m; sourceTree = "<group>"; };
 		6E6A8B921AB758E400A95748 /* PGDialogSchemaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGDialogSchemaView.h; sourceTree = "<group>"; };
 		6E6A8B931AB758E400A95748 /* PGDialogSchemaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGDialogSchemaView.m; sourceTree = "<group>"; };
+		6E6F337A1AC95369007EBB9D /* PGQueryDelete.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGQueryDelete.h; sourceTree = "<group>"; };
+		6E6F337B1AC95369007EBB9D /* PGQueryDelete.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGQueryDelete.m; sourceTree = "<group>"; };
 		6E820AC81AAD9396003B987B /* PGUnitTester.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGUnitTester.h; sourceTree = "<group>"; };
 		6E820AC91AAD9396003B987B /* PGUnitTester.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGUnitTester.m; sourceTree = "<group>"; };
 		6E820ACE1AAD9E6A003B987B /* PGCSVImporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGCSVImporter.h; sourceTree = "<group>"; };
@@ -1087,6 +1091,8 @@
 				1450A1661AAA18DA002D62D9 /* PGQueryPredicate.m */,
 				1482A9061AA5F4530000BA25 /* PGQuerySelect.h */,
 				1482A9071AA5F4530000BA25 /* PGQuerySelect.m */,
+				6E6F337A1AC95369007EBB9D /* PGQueryDelete.h */,
+				6E6F337B1AC95369007EBB9D /* PGQueryDelete.m */,
 				6E0DDCE11AAB6F5200A38F3B /* PGQueryDatabase.h */,
 				6E0DDCE21AAB6F5200A38F3B /* PGQueryDatabase.m */,
 				6E0DDCED1AAB724E00A38F3B /* PGQuerySchema.h */,
@@ -1742,6 +1748,7 @@
 				6E4DEC95162CC4AB008B26BD /* PGClientKit.h in Headers */,
 				6E0DDCE31AAB6F5200A38F3B /* PGQueryDatabase.h in Headers */,
 				149BA1A41AA6FB54007B86A0 /* PGQuerySelect.h in Headers */,
+				6E6F337C1AC95369007EBB9D /* PGQueryDelete.h in Headers */,
 				6E031030162FE50B003225B1 /* PGQuery.h in Headers */,
 				1450A15E1AAA145A002D62D9 /* PGQuerySource.h in Headers */,
 				6E0773D9163744D90028783F /* PGResult.h in Headers */,
@@ -2402,6 +2409,7 @@
 				6E6154CA1AC6B43D00541DDE /* PGConnectionPool.m in Sources */,
 				6E4016BA1ABEFA09009A2707 /* PGTransaction.m in Sources */,
 				1417B7C01AAA219100B44DD4 /* PGQueryObject.m in Sources */,
+				6E6F337D1AC95369007EBB9D /* PGQueryDelete.m in Sources */,
 				6E9256A81AA6481E007DAD82 /* PGConnection+Callbacks.m in Sources */,
 				6E9256BD1AA64BDA007DAD82 /* PGConnection+Notifications.m in Sources */,
 				1489AEC816669A6B00C3B67D /* PGResult+TextTable.m in Sources */,

@@ -54,8 +54,9 @@ typedef enum {
 @class PGQueryObject;
 	@class PGQuery;
 		@class PGQuerySelect;
+//		@class PGQueryInsert;
 //		@class PGQueryUpdate;
-//		@class PGQueryDelete;
+		@class PGQueryDelete;
 		@class PGQueryDatabase;
 		@class PGQueryRole;
 		@class PGQuerySchema;
@@ -73,6 +74,7 @@ typedef enum {
 #import "PGQueryObject.h"
 #import "PGQuery.h"
 #import "PGQuerySelect.h"
+#import "PGQueryDelete.h"
 #import "PGQueryDatabase.h"
 #import "PGQueryRole.h"
 #import "PGQuerySchema.h"

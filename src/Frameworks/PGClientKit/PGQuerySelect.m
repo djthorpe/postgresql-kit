@@ -180,7 +180,7 @@ const NSUInteger PGQuerySelectNoLimit = NSUIntegerMax;
 	if(where==nil) {
 		where = new;
 	} else if([where isAND]) {
-		[where addArguments:new];
+		[where addArguments:new,nil];
 	} else {
 		where = [PGQueryPredicate and:where,new,nil];
 	}
@@ -240,7 +240,7 @@ const NSUInteger PGQuerySelectNoLimit = NSUIntegerMax;
 		return @"";
 	} else {
 		// else return the source
-		return [[self source] quoteForConnection:connection withAlias:YES error:error];
+		return [[self source] quoteForConnection:connection error:error];
 	}
 }
 

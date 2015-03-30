@@ -58,7 +58,10 @@
  *  @param lhs       A PGQuerySource object for the left hand side of the join
  *  @param rhs       A PGQuerySource object for the right hand side of the join
  *  @param predicate An optional NSString or PGQueryPredicate object used for the join
- *  @param options   The type of join to make, or 0
+ *  @param options   The type of join to make. The join can be one of 
+ *                   PGQueryOptionJoinCross (the default), PGQueryOptionJoinInner, 
+ *                   PGQueryOptionJoinLeftOuter, PGQueryOptionJoinRightOuter,
+ *                   PGQueryOptionJoinFullOuter
  *
  *  @return returns the constructed data source object
  */
@@ -79,22 +82,16 @@
 +(PGQuerySource* )join:(PGQuerySource* )lhs with:(PGQuerySource* )rhs on:(id)predicate;
 
 ////////////////////////////////////////////////////////////////////////////////
-// methods
+// properties
 
 /**
- *  This method generates a quoted string suitable for using within an SQL 
- *  statement. On error, this method will return nil and set the error object.
- *
- *  @param connection The connection for which the statement should be
- *                    generated. Due to differing versions of the connected
- *                    server, the statement generated might differ depending
- *                    on the server version.
- *  @param withAlias  If YES then the alias is quoted after the datasource names
- *  @param error      On statement generation error, the error parameter is
- *                    set to describe why a statement cannot be generated.
- *
- *  @return Returns the statement on success, or nil on error.
+ *  Returns YES if the source is a single table or view source
  */
--(NSString* )quoteForConnection:(PGConnection* )connection withAlias:(BOOL)withAlias error:(NSError** )error;
+@property (readonly) BOOL isTableSource;
+
+/**
+ *  Returns YES if the source is a join between two tables, joins, etc.
+ */
+@property (readonly) BOOL isJoinSource;
 
 @end

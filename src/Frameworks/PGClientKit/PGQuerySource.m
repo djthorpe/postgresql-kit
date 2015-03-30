@@ -20,8 +20,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 @class PGQuerySource;
-  @class PGQueryTableSource;
-  @class PGQueryJoinSource;
+  @class PGQuerySourceJoin;
+  @class PGQuerySourceTable;
 
 @implementation PGQuerySource
 
@@ -31,7 +31,7 @@
 
 +(PGQuerySource* )table:(NSString* )table schema:(NSString* )schema alias:(NSString* )alias {
 	NSParameterAssert(table);
-	NSString* className = @"PGQueryTableSource";
+	NSString* className = @"PGQuerySourceTable";
 	PGQuerySource* query = (PGQuerySource* )[PGQueryObject queryWithDictionary:@{
 		PGQueryTableKey: table
 	} class:className];
@@ -57,8 +57,9 @@
 		PGQueryJoinLeftKey: lhs,
 		PGQueryJoinRightKey: rhs
 	} class:className];
+	NSParameterAssert(query && [query isKindOfClass:[PGQuerySource class]]);
 	if(predicate) {
-		// TODO: set predicate
+		[query setObject:[PGQueryPredicate predicateOrExpression:predicate] forKey:PGQueryJoinExpressionKey];
 	}
 	[query setOptions:options];
 	return query;
@@ -69,10 +70,25 @@
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+#pragma mark properties
+////////////////////////////////////////////////////////////////////////////////
+
+@dynamic isTableSource;
+@dynamic isJoinSource;
+
+-(BOOL)isTableSource {
+	return [NSStringFromClass([self class]) isEqualToString:@"PGQuerySourceTable"];
+}
+
+-(BOOL)isJoinSource {
+	return [NSStringFromClass([self class]) isEqualToString:@"PGQuerySourceJoin"];
+}
+
+////////////////////////////////////////////////////////////////////////////////
 #pragma mark public methods
 ////////////////////////////////////////////////////////////////////////////////
 
--(NSString* )quoteForConnection:(PGConnection* )connection withAlias:(BOOL)withAlias error:(NSError** )error {
+-(NSString* )quoteForConnection:(PGConnection* )connection error:(NSError** )error {
 	[connection raiseError:error code:PGClientErrorQuery reason:@"Virtual method cannot be called"];
 	return nil;
 }
@@ -216,7 +232,7 @@
 	if(lhs==nil) {
 		return nil;
 	}
-	NSString* joinType = [self quoteForConnection:connection error:error];
+	NSString* joinType = [self quoteJoinTypeForConnection:connection error:error];
 	if(joinType==nil) {
 		return nil;
 	}
