@@ -14,7 +14,8 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customObject id="Voe-Tx-rLC" customClass="AppDelegate">
             <connections>
-                <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
+                <outlet property="tabView" destination="nKp-vm-mNQ" id="hQA-11-lHy"/>
+                <outlet property="window" destination="pwu-YW-Ofz" id="awb-cp-BA1"/>
             </connections>
         </customObject>
         <menu title="Main Menu" systemMenu="main" id="AYu-sK-qS6">
@@ -646,113 +647,21 @@
                 </menuItem>
             </items>
         </menu>
-        <window title="ControlsTest" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g">
+        <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" animationBehavior="default" id="pwu-YW-Ofz">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="131" y="99" width="480" height="360"/>
+            <rect key="contentRect" x="196" y="240" width="486" height="378"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1177"/>
-            <view key="contentView" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
+            <view key="contentView" id="ngx-fE-7LG">
+                <rect key="frame" x="0.0" y="0.0" width="486" height="378"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wNe-cx-pHM">
-                        <rect key="frame" x="14" y="312" width="167" height="32"/>
-                        <buttonCell key="cell" type="push" title="Create Network URL" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="X4r-Gh-LfI">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="doCreateNetworkURL:" target="Voe-Tx-rLC" id="e9I-Qp-K9j"/>
-                        </connections>
-                    </button>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WVu-yF-op0">
-                        <rect key="frame" x="181" y="312" width="137" height="32"/>
-                        <buttonCell key="cell" type="push" title="Create File URL" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Imb-tg-gWf">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="doCreateFileURL:" target="Voe-Tx-rLC" id="9FQ-vo-wrs"/>
-                        </connections>
-                    </button>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dud-dL-Hbo">
-                        <rect key="frame" x="318" y="312" width="95" height="32"/>
-                        <buttonCell key="cell" type="push" title="Edit URL" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="5QR-LG-AZ3">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="doEditURL:" target="Voe-Tx-rLC" id="Q0V-po-MCN"/>
-                        </connections>
-                    </button>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QZX-70-qt1">
-                        <rect key="frame" x="14" y="253" width="75" height="32"/>
-                        <buttonCell key="cell" type="push" title="Login" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="zG0-LL-fTq">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="doLogin:" target="Voe-Tx-rLC" id="wCO-RD-TJF"/>
-                            <binding destination="Voe-Tx-rLC" name="enabled" keyPath="disconnected" id="Ty1-AR-Iol"/>
-                        </connections>
-                    </button>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vjb-1N-b7q">
-                        <rect key="frame" x="295" y="105" width="128" height="32"/>
-                        <buttonCell key="cell" type="push" title="Create Role" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="D9g-0B-vCE">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="doCreateRoleWindow:" target="Voe-Tx-rLC" id="OsC-lo-pfJ"/>
-                            <binding destination="Voe-Tx-rLC" name="enabled" keyPath="connected" id="WEE-Gt-oyx"/>
-                        </connections>
-                    </button>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DBG-T1-xhK">
-                        <rect key="frame" x="152" y="105" width="143" height="32"/>
-                        <buttonCell key="cell" type="push" title="Create Database" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="lQY-h8-5yi">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="doCreateDatabaseWindow:" target="Voe-Tx-rLC" id="Vjp-oa-T0R"/>
-                            <binding destination="Voe-Tx-rLC" name="enabled" keyPath="connected" id="Edp-Xs-5DU"/>
-                        </connections>
-                    </button>
-                    <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cPj-lU-IWj">
-                        <rect key="frame" x="20" y="289" width="440" height="22"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="AWl-Rq-Lms">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                        <connections>
-                            <binding destination="Voe-Tx-rLC" name="value" keyPath="urlstring" id="whN-7g-VOf"/>
-                        </connections>
-                    </textField>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DZa-mo-nGY">
-                        <rect key="frame" x="18" y="105" width="134" height="32"/>
-                        <buttonCell key="cell" type="push" title="Create Schema" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="lQH-23-cp5">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="doCreateSchemaWindow:" target="Voe-Tx-rLC" id="Cte-Ot-Mem"/>
-                            <binding destination="Voe-Tx-rLC" name="enabled" keyPath="connected" id="8GH-Ya-rmD"/>
-                        </connections>
-                    </button>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sUz-c4-mqJ">
-                        <rect key="frame" x="89" y="253" width="84" height="32"/>
-                        <buttonCell key="cell" type="push" title="Logout" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Fx5-1T-vkK">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="doLogout:" target="Voe-Tx-rLC" id="H2v-eS-cbg"/>
-                            <binding destination="Voe-Tx-rLC" name="enabled" keyPath="connected" id="38d-GX-bhK"/>
-                        </connections>
-                    </button>
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nKp-vm-mNQ" customClass="PGTabView">
+                        <rect key="frame" x="20" y="20" width="446" height="338"/>
+                    </customView>
                 </subviews>
             </view>
+            <point key="canvasLocation" x="289" y="261"/>
         </window>
     </objects>
 </document>

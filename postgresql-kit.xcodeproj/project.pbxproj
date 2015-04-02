@@ -205,6 +205,8 @@
 		6E4DEC87162CC38D008B26BD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C168115F26BF20013A382 /* Foundation.framework */; };
 		6E4DEC95162CC4AB008B26BD /* PGClientKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 6ED85B4916288D0200A6DC02 /* PGClientKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E4DEC96162CC5E6008B26BD /* PGClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
+		6E50183B1AC9BAD000D6D967 /* PGTabView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E50183A1AC9BAD000D6D967 /* PGTabView.m */; };
+		6E5018411ACA90D900D6D967 /* PGTabViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E5018401ACA90D900D6D967 /* PGTabViewCell.m */; };
 		6E55A2321A618C6B00CD2B60 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E55A2311A618C6B00CD2B60 /* main.m */; };
 		6E55A2341A618CD300CD2B60 /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E55A22A1A618B8300CD2B60 /* Application.m */; };
 		6E5D8BD71A67056500C54D42 /* elephant-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B43E615F3A465001ED3BE /* elephant-64.png */; };
@@ -687,6 +689,10 @@
 		6E48CD7B1A73FC2B0060B429 /* Queries.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Queries.md; sourceTree = "<group>"; };
 		6E4907CB17D3AF4D00BEE2A9 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		6E4DEC85162CC38D008B26BD /* PGFoundationClient */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PGFoundationClient; sourceTree = BUILT_PRODUCTS_DIR; };
+		6E5018391AC9BAD000D6D967 /* PGTabView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGTabView.h; sourceTree = "<group>"; };
+		6E50183A1AC9BAD000D6D967 /* PGTabView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGTabView.m; sourceTree = "<group>"; };
+		6E50183F1ACA90D900D6D967 /* PGTabViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGTabViewCell.h; sourceTree = "<group>"; };
+		6E5018401ACA90D900D6D967 /* PGTabViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGTabViewCell.m; sourceTree = "<group>"; };
 		6E55A2091A618B0000CD2B60 /* PGClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PGClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E55A2291A618B8300CD2B60 /* Application.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
 		6E55A22A1A618B8300CD2B60 /* Application.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Application.m; sourceTree = "<group>"; };
@@ -1538,6 +1544,10 @@
 			children = (
 				6EA7CA551AB23E0700F22E90 /* AppDelegate.h */,
 				6EA7CA561AB23E0700F22E90 /* AppDelegate.m */,
+				6E5018391AC9BAD000D6D967 /* PGTabView.h */,
+				6E50183A1AC9BAD000D6D967 /* PGTabView.m */,
+				6E50183F1ACA90D900D6D967 /* PGTabViewCell.h */,
+				6E5018401ACA90D900D6D967 /* PGTabViewCell.m */,
 				6EA7CA571AB23E0700F22E90 /* MainMenu.xib */,
 				6EA7CA591AB23E0700F22E90 /* Images.xcassets */,
 				6EA7CA5A1AB23E0700F22E90 /* Info.plist */,
@@ -2377,8 +2387,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6E50183B1AC9BAD000D6D967 /* PGTabView.m in Sources */,
 				6EA7CA5C1AB23E1500F22E90 /* main.m in Sources */,
 				6EA7CA5B1AB23E1100F22E90 /* AppDelegate.m in Sources */,
+				6E5018411ACA90D900D6D967 /* PGTabViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
