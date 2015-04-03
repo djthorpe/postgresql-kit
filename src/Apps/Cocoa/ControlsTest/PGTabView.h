@@ -23,15 +23,30 @@
 
 @interface PGTabView : NSView {
 	NSMutableArray* _tabs;
-	NSColor* _bgcolor;
+	NSColor* _backgroundColor;
+	NSColor* _tabBorderColor;
+	NSColor* _inactiveTabColor;
+	NSColor* _activeTabColor;
 	CGFloat _minimumTabWidth;
 	CGFloat _maximumTabWidth;
-	CGFloat _absoluteTabHeight;
+	CGFloat _tabHeight;
+	CGFloat _tabBorderWidth;
+	CGFloat _tabBorderRadius;
+	NSTrackingArea* _trackingArea;
 }
 
 // properties
 @property (weak) id<PGTabViewDelegate> delegate;
 @property (readonly) NSArray* tabs;
+@property (retain) NSColor* backgroundColor;
+@property (retain) NSColor* tabBorderColor;
+@property (retain) NSColor* inactiveTabColor;
+@property (retain) NSColor* activeTabColor;
+@property CGFloat minimumTabWidth;
+@property CGFloat maximumTabWidth;
+@property CGFloat tabHeight;
+@property CGFloat tabBorderWidth;
+@property CGFloat tabBorderRadius;
 
 // public methods
 -(NSCell* )addTabViewWithTitle:(NSString* )title;

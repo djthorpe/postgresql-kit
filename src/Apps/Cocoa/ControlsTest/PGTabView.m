@@ -25,10 +25,17 @@
     self = [super initWithFrame:frame];
     if(self) {
 		_tabs = [NSMutableArray new];
-		_bgcolor = [NSColor redColor];
+		_backgroundColor = [NSColor redColor];
+		_tabBorderColor = [NSColor blackColor];
+		_inactiveTabColor = [NSColor greenColor];
+		_activeTabColor = [NSColor yellowColor];
 		_minimumTabWidth = 100;
 		_maximumTabWidth = 180;
-		_absoluteTabHeight = 30;
+		_tabHeight = 30;
+		_tabBorderWidth = 0.5;
+		_tabBorderRadius = 8.0;
+		_trackingArea = nil;
+		[self setFrame:frame];
     }
     return self;
 }
@@ -38,6 +45,15 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 @synthesize tabs = _tabs;
+@synthesize backgroundColor = _backgroundColor;
+@synthesize tabBorderColor = _tabBorderColor;
+@synthesize inactiveTabColor = _inactiveTabColor;
+@synthesize activeTabColor = _activeTabColor;
+@synthesize minimumTabWidth = _minimumTabWidth;
+@synthesize maximumTabWidth = _maximumTabWidth;
+@synthesize tabHeight= _tabHeight;
+@synthesize tabBorderWidth= _tabBorderWidth;
+@synthesize tabBorderRadius= _tabBorderRadius;
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark private methods
@@ -55,7 +71,7 @@
 			tabWidth = _maximumTabWidth;
 		}
 	}
-	return NSMakeRect((index * tabWidth),0,tabWidth,_absoluteTabHeight);
+	return NSMakeRect((index * tabWidth),0,tabWidth,_tabHeight);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -98,11 +114,22 @@
 #pragma mark NSView overrides
 ////////////////////////////////////////////////////////////////////////////////
 
+-(void)setFrame:(NSRect)frame {
+	[super setFrame:frame];
+	if(_trackingArea) {
+		[super removeTrackingArea:_trackingArea];
+	}
+    NSTrackingAreaOptions options = (NSTrackingActiveAlways | NSTrackingInVisibleRect | NSTrackingMouseEnteredAndExited | NSTrackingMouseMoved);
+	_trackingArea = [[NSTrackingArea alloc] initWithRect:[self frame] options:options owner:self userInfo:nil];
+	NSParameterAssert(_trackingArea);
+    [super addTrackingArea:_trackingArea];
+}
+
 -(void)drawRect:(NSRect)dirtyRect {
     [super drawRect:dirtyRect];
 	
 	// draw the background
-    [_bgcolor set];
+    [_backgroundColor set];
     NSRect rect = [self frame];
     rect.origin = NSZeroPoint;
     NSRectFill(rect);
@@ -116,5 +143,22 @@
 		}
     }
 }
+
+-(void)mouseMoved:(NSEvent* )theEvent{
+    NSPoint p = [theEvent locationInWindow];
+    p = [self convertPoint:p fromView:[[self window] contentView]];
+
+	// find tab
+    for(NSUInteger i = 0; i < [_tabs count]; i++) {
+		NSRect r = [self rectForTabIndex:i];
+		if(NSPointInRect(p,r)==NO) {
+			continue;
+		}
+        PGTabViewCell* tab = [_tabs objectAtIndex:i];
+		[tab setIsActive:YES];
+		NSLog(@"in tab = %@",tab);
+    }
+}
+
 
 @end

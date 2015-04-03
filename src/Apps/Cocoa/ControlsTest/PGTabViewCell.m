@@ -13,6 +13,7 @@
 // under the License.
 
 #import "PGTabViewCell.h"
+#import "PGTabView.h"
 
 @implementation PGTabViewCell
 
@@ -30,6 +31,7 @@
 	self = [super initTextCell:title];
 	if(self) {
 		_tabView = tabView;
+		_isActive = NO;
 	}
 	return self;
 }
@@ -39,15 +41,33 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 @synthesize tabView = _tabView;
+@dynamic isActive;
+
+-(BOOL)isActive {
+	return _isActive;
+}
+
+-(void)setIsActive:(BOOL)isActive {
+	// ignore if already activated
+	if(isActive==_isActive) {
+		return;
+	}
+	// select this tab if YES
+	_isActive = isActive;
+	[_tabView setNeedsDisplay:YES];
+
+	// TODO: set all other tabs NO
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark NSCell overrides
 ////////////////////////////////////////////////////////////////////////////////
 
 -(void)drawWithFrame:(NSRect)cellFrame inView:(NSView* )controlView {
-	CGFloat _borderWidth = 1.0;
-	CGFloat _radius = 16.0;
-    NSRect rect = NSInsetRect(cellFrame,_borderWidth / 2.0,_borderWidth / 2.0);
+	NSParameterAssert([controlView isKindOfClass:[PGTabView class]]);
+	CGFloat borderWidth = [_tabView tabBorderWidth];
+	CGFloat borderRadius = [_tabView tabBorderRadius];
+    NSRect rect = NSInsetRect(cellFrame,borderWidth / 2.0,borderWidth / 2.0);
     rect = NSIntegralRect(rect);
     NSBezierPath* path = [NSBezierPath bezierPath];
     int minX = NSMinX(rect);
@@ -65,21 +85,23 @@
     // move path to left bottom point
     [path moveToPoint:leftBottomPoint];
     // left bottom to left middle
-    [path appendBezierPathWithArcFromPoint:NSMakePoint(minX, minY) toPoint:leftMiddlePoint radius:_radius];
+    [path appendBezierPathWithArcFromPoint:NSMakePoint(minX, minY) toPoint:leftMiddlePoint radius:borderRadius];
     // left middle to top middle
-    [path appendBezierPathWithArcFromPoint:NSMakePoint(minX, maxY) toPoint:topMiddlePoint radius:_radius];
+    [path appendBezierPathWithArcFromPoint:NSMakePoint(minX, maxY) toPoint:topMiddlePoint radius:borderRadius];
     // top middle to right middle
-    [path appendBezierPathWithArcFromPoint:NSMakePoint(maxX, maxY) toPoint:rightMiddlePoint radius:_radius];
+    [path appendBezierPathWithArcFromPoint:NSMakePoint(maxX, maxY) toPoint:rightMiddlePoint radius:borderRadius];
     // right middle to right bottom
-    [path appendBezierPathWithArcFromPoint:NSMakePoint(maxX, minY) toPoint:rightBottomPoint radius:_radius];
+    [path appendBezierPathWithArcFromPoint:NSMakePoint(maxX, minY) toPoint:rightBottomPoint radius:borderRadius];
 	
-    [path setLineWidth:_borderWidth];
+    [path setLineWidth:borderWidth];
     
-    // Draw tab background 
-	[[NSColor whiteColor] set];
+    // Draw tab background
+	NSColor* backgroundColor = _isActive ? [_tabView activeTabColor] : [_tabView inactiveTabColor];
+	NSColor* borderColor = [_tabView tabBorderColor];
+	[backgroundColor set];
     [path fill];
 	// Draw outline
-	[[NSColor blackColor] set];
+	[borderColor set];
     [path stroke];
 	
 	// Draw text
@@ -94,5 +116,12 @@
     [string drawInRect:titleRect];
 }
 
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark NSObject overrides
+////////////////////////////////////////////////////////////////////////////////
+
+-(NSString* )description {
+	return [NSString stringWithFormat:@"<%@ %@>",NSStringFromClass([self class]),[self stringValue]];
+}
 
 @end

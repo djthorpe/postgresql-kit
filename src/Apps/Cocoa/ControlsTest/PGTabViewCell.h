@@ -19,6 +19,7 @@
 
 @interface PGTabViewCell : NSCell {
 	PGTabView* _tabView;
+	BOOL _isActive;
 }
 
 // constructors
@@ -26,6 +27,7 @@
 
 // properties
 @property (readonly) PGTabView* tabView;
+@property BOOL isActive;
 
 // methods
 -(void)drawWithFrame:(NSRect)cellFrame inView:(NSView* )controlView;
