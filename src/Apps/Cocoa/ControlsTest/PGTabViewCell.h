@@ -19,7 +19,8 @@
 
 @interface PGTabViewCell : NSCell {
 	PGTabView* _tabView;
-	BOOL _isActive;
+	BOOL _closeButtonHoverState;
+	BOOL _active;
 }
 
 // constructors
@@ -27,9 +28,11 @@
 
 // properties
 @property (readonly) PGTabView* tabView;
-@property BOOL isActive;
+@property BOOL active;
 
 // methods
 -(void)drawWithFrame:(NSRect)cellFrame inView:(NSView* )controlView;
+-(void)mouseMovedForFrame:(NSRect)frame point:(NSPoint)point;
+-(void)mouseDownForFrame:(NSRect)frame point:(NSPoint)point;
 
 @end

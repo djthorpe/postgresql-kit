@@ -21,4 +21,8 @@
 
 }
 
+-(IBAction)doAddTab:(id)sender {
+	[[self tabView] addTabViewWithTitle:@"TAB"];
+}
+
 @end

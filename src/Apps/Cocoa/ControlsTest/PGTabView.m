@@ -25,16 +25,17 @@
     self = [super initWithFrame:frame];
     if(self) {
 		_tabs = [NSMutableArray new];
-		_backgroundColor = [NSColor redColor];
-		_tabBorderColor = [NSColor blackColor];
-		_inactiveTabColor = [NSColor greenColor];
-		_activeTabColor = [NSColor yellowColor];
-		_minimumTabWidth = 100;
-		_maximumTabWidth = 180;
-		_tabHeight = 30;
-		_tabBorderWidth = 0.5;
-		_tabBorderRadius = 8.0;
+		_backgroundColor = [NSColor windowBackgroundColor];
+		_tabBorderColor = [NSColor controlDarkShadowColor];
+		_inactiveTabColor = [NSColor controlShadowColor];
+		_activeTabColor = [NSColor selectedMenuItemColor];
+		_minimumTabWidth = 50;
+		_maximumTabWidth = 120;
+		_tabHeight = frame.size.height;
+		_tabBorderWidth = 0.1;
+		_tabBorderRadius = 4.0;
 		_trackingArea = nil;
+		_selectedTab = nil;
 		[self setFrame:frame];
     }
     return self;
@@ -54,6 +55,23 @@
 @synthesize tabHeight= _tabHeight;
 @synthesize tabBorderWidth= _tabBorderWidth;
 @synthesize tabBorderRadius= _tabBorderRadius;
+@dynamic selectedTab;
+
+-(PGTabViewCell* )selectedTab {
+	return _selectedTab;
+}
+
+-(void)setSelectedTab:(PGTabViewCell* )selectedTab {
+	for(PGTabViewCell* tab in _tabs) {
+		if(tab==selectedTab && [tab active] != YES) {
+			NSLog(@"set selected tab: %@ active=%@",selectedTab,[selectedTab active] ? @"YES" : @"NO");
+			[tab setActive:YES];
+			[self setNeedsDisplay:YES];
+		} else {
+			[tab setActive:NO];
+		}
+	}
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark private methods
@@ -78,10 +96,8 @@
 #pragma mark public methods
 ////////////////////////////////////////////////////////////////////////////////
 
--(NSCell* )addTabViewWithTitle:(NSString* )title {
+-(PGTabViewCell* )addTabViewWithTitle:(NSString* )title {
     PGTabViewCell* tab = [[PGTabViewCell alloc] initWithTabView:self title:title];
-	
-	// TODO: say "will be created" to delegate
 	
 	// add tab onto the end of the list of tabs
     [_tabs addObject:tab];
@@ -95,19 +111,26 @@
     if (!CGRectContainsRect(tabBarViewRect, tabRect)) {
         [self exchangeTabWithIndex:tabIndex withTab:0];
     }
-
-    [tab setAsActiveTab];
 */
-/*
-    if ([[self delegate] respondsToSelector:@selector(tabDidBeCreated:)]) {
-        [[self delegate] tabDidBeCreated:tab];
-    }
-*/
-/*
-    [self redraw];
-*/
+	[self setSelectedTab:tab];
 	[self setNeedsDisplay:YES];
     return tab;
+}
+
+-(void)closeTab:(PGTabViewCell* )tab {
+	NSParameterAssert(tab);
+    NSUInteger i = [_tabs indexOfObject:tab];
+	if(i==NSNotFound) {
+		return;
+	}
+	[_tabs removeObjectAtIndex:i];
+	if([_tabs count] > 0) {
+		if(i >= [_tabs count]) {
+			i = [_tabs count] - 1;
+		}
+		[self setSelectedTab:[_tabs objectAtIndex:i]];
+	}
+	[self setNeedsDisplay:YES];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -148,15 +171,27 @@
     NSPoint p = [theEvent locationInWindow];
     p = [self convertPoint:p fromView:[[self window] contentView]];
 
-	// find tab
+	// determine which tab this is in
     for(NSUInteger i = 0; i < [_tabs count]; i++) {
 		NSRect r = [self rectForTabIndex:i];
 		if(NSPointInRect(p,r)==NO) {
 			continue;
 		}
-        PGTabViewCell* tab = [_tabs objectAtIndex:i];
-		[tab setIsActive:YES];
-		NSLog(@"in tab = %@",tab);
+        [[_tabs objectAtIndex:i] mouseMovedForFrame:r point:p];
+    }
+}
+
+-(void)mouseDown:(NSEvent* )theEvent {
+    NSPoint p = [theEvent locationInWindow];
+    p = [self convertPoint:p fromView:[[self window] contentView]];
+
+	// determine which tab this is in
+    for(NSUInteger i = 0; i < [_tabs count]; i++) {
+		NSRect r = [self rectForTabIndex:i];
+		if(NSPointInRect(p,r)==NO) {
+			continue;
+		}
+        [[_tabs objectAtIndex:i] mouseDownForFrame:r point:p];
     }
 }
 

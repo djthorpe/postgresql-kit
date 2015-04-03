@@ -14,12 +14,21 @@
 
 #import <Cocoa/Cocoa.h>
 
+////////////////////////////////////////////////////////////////////////////////
+
+@class PGTabViewCell;
+
+////////////////////////////////////////////////////////////////////////////////
+
 @protocol PGTabViewDelegate <NSObject>
 @optional
 //-(void)tabView:(PGTabView* ) active:(PGTabViewCell* )tab;
 //-(void)tabView:(PGTabView* ) closed:(PGTabViewCell* )tab;
 //-(void)tabView:(PGTabView* ) created:(PGTabViewCell* )tab;
 @end
+
+////////////////////////////////////////////////////////////////////////////////
+
 
 @interface PGTabView : NSView {
 	NSMutableArray* _tabs;
@@ -33,6 +42,7 @@
 	CGFloat _tabBorderWidth;
 	CGFloat _tabBorderRadius;
 	NSTrackingArea* _trackingArea;
+	PGTabViewCell* _selectedTab;
 }
 
 // properties
@@ -47,8 +57,10 @@
 @property CGFloat tabHeight;
 @property CGFloat tabBorderWidth;
 @property CGFloat tabBorderRadius;
+@property PGTabViewCell* selectedTab;
 
 // public methods
--(NSCell* )addTabViewWithTitle:(NSString* )title;
+-(PGTabViewCell* )addTabViewWithTitle:(NSString* )title;
+-(void)closeTab:(PGTabViewCell* )tab;
 
 @end

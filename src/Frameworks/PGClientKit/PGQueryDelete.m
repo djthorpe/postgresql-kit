@@ -22,6 +22,7 @@
 
 +(PGQueryDelete* )from:(id)source where:(id)where {
 	// TODO: Implement this class
+	return nil;
 }
 
 @end

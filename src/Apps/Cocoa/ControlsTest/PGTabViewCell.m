@@ -15,6 +15,8 @@
 #import "PGTabViewCell.h"
 #import "PGTabView.h"
 
+const CGFloat kCloseButtonWidth = 8.0;
+
 @implementation PGTabViewCell
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -31,7 +33,8 @@
 	self = [super initTextCell:title];
 	if(self) {
 		_tabView = tabView;
-		_isActive = NO;
+		_active = NO;
+		_closeButtonHoverState = NO;
 	}
 	return self;
 }
@@ -41,22 +44,65 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 @synthesize tabView = _tabView;
-@dynamic isActive;
+@synthesize active = _active;
 
--(BOOL)isActive {
-	return _isActive;
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark private methods
+////////////////////////////////////////////////////////////////////////////////
+
+-(NSRect)closeButtonRectForFrame:(NSRect)frame {
+    NSRect rect = NSMakeRect(NSMaxX(frame) - frame.size.height,0,frame.size.height,frame.size.height);
+    return CGRectInset(rect,kCloseButtonWidth,kCloseButtonWidth);
 }
 
--(void)setIsActive:(BOOL)isActive {
-	// ignore if already activated
-	if(isActive==_isActive) {
-		return;
-	}
-	// select this tab if YES
-	_isActive = isActive;
-	[_tabView setNeedsDisplay:YES];
+-(void)drawCloseButtonInFrame:(NSRect)frame {
+    NSBezierPath* path = [NSBezierPath bezierPath];
+    CGFloat minX = NSMinX(frame);
+    CGFloat maxX = NSMaxX(frame);
+    CGFloat minY = NSMinY(frame);
+    CGFloat maxY = NSMaxY(frame);
+    NSPoint leftBottomPoint = NSMakePoint(minX,minY);
+    NSPoint leftTopPoint = NSMakePoint(minX,maxY);
+    NSPoint rightBottomPoint = NSMakePoint(maxX,minY);
+    NSPoint rightTopPoint = NSMakePoint(maxX,maxY);
 
-	// TODO: set all other tabs NO
+	if(_closeButtonHoverState) {
+		NSRect circleRect = NSInsetRect(frame,-4.0,-4.0);
+		[path appendBezierPathWithOvalInRect:circleRect];
+		[[_tabView inactiveTabColor] setFill];
+		[path setLineWidth:0.0];
+		[path fill];
+		[path stroke];
+	}
+
+    [path moveToPoint:leftBottomPoint];
+    [path lineToPoint:rightTopPoint];
+    [path moveToPoint:leftTopPoint];
+    [path lineToPoint:rightBottomPoint];
+    [path setLineWidth:[_tabView tabBorderWidth]];
+	[[_tabView tabBorderColor] set];
+    [path stroke];
+	
+	
+}
+
+-(void)mouseMovedForFrame:(NSRect)frame point:(NSPoint)point {
+	if([self active]==NO) {
+		// TODO: only set active on click
+		[_tabView setSelectedTab:self];
+	}
+	// if over the close button, then activate the close button
+	BOOL newHoverState = NSPointInRect(point,[self closeButtonRectForFrame:frame]);
+	if(_closeButtonHoverState != newHoverState) {
+		_closeButtonHoverState = newHoverState;
+		[_tabView setNeedsDisplay:YES];
+	}
+}
+
+-(void)mouseDownForFrame:(NSRect)frame point:(NSPoint)point {
+	if(NSPointInRect(point,[self closeButtonRectForFrame:frame]) && _closeButtonHoverState) {
+		[_tabView closeTab:self];
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -96,13 +142,18 @@
     [path setLineWidth:borderWidth];
     
     // Draw tab background
-	NSColor* backgroundColor = _isActive ? [_tabView activeTabColor] : [_tabView inactiveTabColor];
+	NSColor* backgroundColor = _active ? [_tabView activeTabColor] : [_tabView inactiveTabColor];
 	NSColor* borderColor = [_tabView tabBorderColor];
 	[backgroundColor set];
     [path fill];
+
 	// Draw outline
 	[borderColor set];
+	[_tabView tabBorderWidth];
     [path stroke];
+
+	// Draw close button
+	[self drawCloseButtonInFrame:[self closeButtonRectForFrame:cellFrame]];
 	
 	// Draw text
 	NSRect titleRect = cellFrame;
