@@ -30,4 +30,19 @@
 +(PGQueryDelete* )from:(id)source where:(id)where;
 
 
+////////////////////////////////////////////////////////////////////////////////
+// properties
+
+/**
+ *  Return the PGQuerySource for the select statement. Can be a simple table
+ *  or view, or something more complicated like a join
+ */
+@property (readonly) PGQuerySource* source;
+
+/**
+ *  The WHERE predicate
+ */
+@property (readonly) PGQueryPredicate* where;
+
+
 @end

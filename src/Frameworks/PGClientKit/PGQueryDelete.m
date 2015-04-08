@@ -13,6 +13,7 @@
 // under the License.
 
 #import <PGClientKit/PGClientKit.h>
+#import <PGClientKit/PGClientKit+Private.h>
 
 /**
  *  This class implements the DELETE query
@@ -20,9 +21,96 @@
 
 @implementation PGQueryDelete
 
-+(PGQueryDelete* )from:(id)source where:(id)where {
-	// TODO: Implement this class
-	return nil;
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark constructor
+////////////////////////////////////////////////////////////////////////////////
+
++(PGQueryDelete* )from:(id)source where:(id)where options:(NSUInteger)options {
+	NSParameterAssert(source);
+	NSParameterAssert([source isKindOfClass:[NSString class]] || [source isKindOfClass:[PGQuerySource class]]);
+	NSParameterAssert(where);
+	NSParameterAssert([where isKindOfClass:[NSString class]] || [where isKindOfClass:[PGQueryPredicate class]]);
+	NSString* className = NSStringFromClass([self class]);
+	PGQueryDelete* query = (PGQueryDelete* )[PGQueryObject queryWithDictionary:@{ } class:className];
+	NSParameterAssert(query && [query isKindOfClass:[PGQueryDelete class]]);
+	
+	// query source
+	PGQuerySource* querySource = nil;
+	if([source isKindOfClass:[NSString class]]) {
+		querySource = (PGQuerySource* )[PGQuerySource table:source alias:nil];
+	} else if([source isKindOfClass:[PGQuerySource class]]) {
+		querySource = (PGQuerySource* )source;
+	}
+	if(querySource==nil) {
+		return nil;
+	}
+	[query setObject:querySource forKey:PGQuerySourceKey];
+	
+	// query predicate
+	PGQueryPredicate* predicate = [PGQueryPredicate predicateOrExpression:where];
+	if(predicate==nil) {
+		return nil;
+	}
+	[query setObject:predicate forKey:PGQueryWhereKey];
+
+	// set other options
+	[query setOptions:options];
+	return query;
 }
+
++(PGQueryDelete* )from:(id)source where:(id)where {
+	return [PGQueryDelete from:source where:where options:0];
+}
+
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark properties
+////////////////////////////////////////////////////////////////////////////////
+
+@dynamic source;
+@dynamic where;
+
+-(PGQuerySource* )source {
+	return [super objectForKey:PGQuerySourceKey];
+}
+
+-(PGQueryPredicate* )where {
+	return [super objectForKey:PGQueryWhereKey];
+}
+
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark PGQuery overrides
+////////////////////////////////////////////////////////////////////////////////
+
+-(NSString* )quoteForConnection:(PGConnection* )connection error:(NSError** )error {
+	NSParameterAssert(connection);
+//	NSUInteger options = [self options];
+	NSMutableArray* parts = [NSMutableArray new];
+
+	// add DELETE FROM
+	[parts addObject:@"DELETE"];
+
+	// data source
+	NSString* dataSource = [[self source] quoteForConnection:connection error:error];
+	if(dataSource==nil) {
+		return nil;
+	}
+	NSParameterAssert([dataSource length]);
+	[parts addObject:@"FROM"];
+	[parts addObject:dataSource];
+	
+	// where
+	PGQueryPredicate* where = [self where];
+	if(where) {
+		NSString* quotedWhere = [where quoteForConnection:connection error:error];
+		if(quotedWhere==nil) {
+			return nil;
+		}
+		[parts addObject:@"WHERE"];
+		[parts addObject:quotedWhere];
+	}
+
+	return [parts componentsJoinedByString:@" "];
+}
+
 
 @end
