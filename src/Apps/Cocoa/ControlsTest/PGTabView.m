@@ -15,6 +15,14 @@
 #import "PGTabView.h"
 #import "PGTabViewCell.h"
 
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark private interface declarations
+////////////////////////////////////////////////////////////////////////////////
+
+@interface PGTabView ()
+@property BOOL dragging;
+@end
+
 @implementation PGTabView
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -36,6 +44,7 @@
 		_tabBorderRadius = 4.0;
 		_trackingArea = nil;
 		_selectedTab = nil;
+		_dragging = NO;
 		[self setFrame:frame];
     }
     return self;
@@ -55,6 +64,7 @@
 @synthesize tabHeight= _tabHeight;
 @synthesize tabBorderWidth= _tabBorderWidth;
 @synthesize tabBorderRadius= _tabBorderRadius;
+@synthesize dragging = _dragging;
 @dynamic selectedTab;
 
 -(PGTabViewCell* )selectedTab {
@@ -89,7 +99,17 @@
 			tabWidth = _maximumTabWidth;
 		}
 	}
-	return NSMakeRect((index * tabWidth),0,tabWidth,_tabHeight);
+	return NSMakeRect((index * tabWidth),0.0,tabWidth,_tabHeight);
+}
+
+-(PGTabViewCell* )tabViewCellForPoint:(NSPoint)point {
+	for(NSUInteger i = 0; i < [[self tabs] count]; i++) {
+		NSRect rect = [self rectForTabIndex:i];
+        if(NSPointInRect(point,rect)) {
+            return [[self tabs] objectAtIndex:i];
+        }
+    }
+    return nil;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -174,10 +194,7 @@
 	// determine which tab this is in
     for(NSUInteger i = 0; i < [_tabs count]; i++) {
 		NSRect r = [self rectForTabIndex:i];
-		if(NSPointInRect(p,r)==NO) {
-			continue;
-		}
-        [[_tabs objectAtIndex:i] mouseMovedForFrame:r point:p];
+		[[_tabs objectAtIndex:i] mouseMovedForFrame:r point:p];
     }
 }
 
@@ -193,6 +210,28 @@
 		}
         [[_tabs objectAtIndex:i] mouseDownForFrame:r point:p];
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark Drag & Drop
+////////////////////////////////////////////////////////////////////////////////
+
+-(NSDragOperation)draggingSourceOperationMaskForLocal:(BOOL)flag{
+    return NSDragOperationNone;
+}
+
+-(void)mouseDragged:(NSEvent* )theEvent {
+    NSPoint p = [theEvent locationInWindow];
+    p = [self convertPoint:p fromView:[[self window] contentView]];
+	if([self dragging]==NO) {
+		// initiate the drag
+		PGTabViewCell* tabCell = [self tabViewCellForPoint:p];
+		if(tabCell==nil) {
+			return;
+		}
+		[self setDragging:YES];
+		[tabCell setDragging:YES];
+	}
 }
 
 

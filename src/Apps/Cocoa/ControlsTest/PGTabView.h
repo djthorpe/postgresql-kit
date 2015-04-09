@@ -43,11 +43,13 @@
 	CGFloat _tabBorderRadius;
 	NSTrackingArea* _trackingArea;
 	PGTabViewCell* _selectedTab;
+	BOOL _dragging;
 }
 
 // properties
 @property (weak) id<PGTabViewDelegate> delegate;
 @property (readonly) NSArray* tabs;
+@property PGTabViewCell* selectedTab;
 @property (retain) NSColor* backgroundColor;
 @property (retain) NSColor* tabBorderColor;
 @property (retain) NSColor* inactiveTabColor;
@@ -57,7 +59,6 @@
 @property CGFloat tabHeight;
 @property CGFloat tabBorderWidth;
 @property CGFloat tabBorderRadius;
-@property PGTabViewCell* selectedTab;
 
 // public methods
 -(PGTabViewCell* )addTabViewWithTitle:(NSString* )title;

@@ -34,7 +34,8 @@ const CGFloat kCloseButtonWidth = 8.0;
 	if(self) {
 		_tabView = tabView;
 		_active = NO;
-		_closeButtonHoverState = NO;
+		_hoverstate = PGTabViewCellHoverStateNone;
+		_dragging = NO;
 	}
 	return self;
 }
@@ -45,6 +46,8 @@ const CGFloat kCloseButtonWidth = 8.0;
 
 @synthesize tabView = _tabView;
 @synthesize active = _active;
+@synthesize hoverstate = _hoverstate;
+@synthesize dragging = _dragging;
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark private methods
@@ -66,7 +69,7 @@ const CGFloat kCloseButtonWidth = 8.0;
     NSPoint rightBottomPoint = NSMakePoint(maxX,minY);
     NSPoint rightTopPoint = NSMakePoint(maxX,maxY);
 
-	if(_closeButtonHoverState) {
+	if([self hoverstate]==PGTabViewCellHoverStateClose) {
 		NSRect circleRect = NSInsetRect(frame,-4.0,-4.0);
 		[path appendBezierPathWithOvalInRect:circleRect];
 		[[_tabView inactiveTabColor] setFill];
@@ -87,20 +90,23 @@ const CGFloat kCloseButtonWidth = 8.0;
 }
 
 -(void)mouseMovedForFrame:(NSRect)frame point:(NSPoint)point {
-	if([self active]==NO) {
-		// TODO: only set active on click
-		[_tabView setSelectedTab:self];
+	NSUInteger newHoverState = PGTabViewCellHoverStateNone;
+	if(NSPointInRect(point,frame)==NO) {
+		newHoverState = PGTabViewCellHoverStateNone;
+	} else if(NSPointInRect(point,[self closeButtonRectForFrame:frame])) {
+		newHoverState = PGTabViewCellHoverStateClose;
+	} else {
+		newHoverState = PGTabViewCellHoverStateTab;
 	}
-	// if over the close button, then activate the close button
-	BOOL newHoverState = NSPointInRect(point,[self closeButtonRectForFrame:frame]);
-	if(_closeButtonHoverState != newHoverState) {
-		_closeButtonHoverState = newHoverState;
+	if([self hoverstate] != newHoverState) {
+		NSLog(@"needs redisplay = %@",self);
 		[_tabView setNeedsDisplay:YES];
+		[self setHoverstate:newHoverState];
 	}
 }
 
 -(void)mouseDownForFrame:(NSRect)frame point:(NSPoint)point {
-	if(NSPointInRect(point,[self closeButtonRectForFrame:frame]) && _closeButtonHoverState) {
+	if(NSPointInRect(point,[self closeButtonRectForFrame:frame]) && [self hoverstate]==PGTabViewCellHoverStateClose) {
 		[_tabView closeTab:self];
 	}
 }
@@ -142,7 +148,15 @@ const CGFloat kCloseButtonWidth = 8.0;
     [path setLineWidth:borderWidth];
     
     // Draw tab background
-	NSColor* backgroundColor = _active ? [_tabView activeTabColor] : [_tabView inactiveTabColor];
+	NSColor* backgroundColor;
+	if([self active]) {
+		backgroundColor = [_tabView activeTabColor];
+	} else {
+		backgroundColor = [_tabView inactiveTabColor];
+		if([self hoverstate] == PGTabViewCellHoverStateNone) {
+			backgroundColor = [backgroundColor colorWithAlphaComponent:0.5];
+		}
+	}
 	NSColor* borderColor = [_tabView tabBorderColor];
 	[backgroundColor set];
     [path fill];
@@ -173,6 +187,40 @@ const CGFloat kCloseButtonWidth = 8.0;
 
 -(NSString* )description {
 	return [NSString stringWithFormat:@"<%@ %@>",NSStringFromClass([self class]),[self stringValue]];
+}
+
+@end
+
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark PGTabViewCellImage implementation
+////////////////////////////////////////////////////////////////////////////////
+
+@implementation PGTabViewCellImage
+
+// properties
+@synthesize cell = _cell;
+
+// constructor
+-(instancetype)init {
+	return nil;
+}
+
+-(instancetype)initWithTabViewCell:(PGTabViewCell* )cell {
+	NSParameterAssert(cell);
+	NSRect frame = NSMakeRect(0.0,0.0,cell.frame.size.width,cell.frame.size.height);
+	self = [super initWithSize:frame.size];
+	if(self) {
+		_cell = cell;
+	}
+	return self;
+}
+
+-(void)draw {
+	[self lockFocus];
+    [[NSColor clearColor] set];     // Transparent
+    NSRectFill([cell frame]);
+    [[self cell] drawWithFrame:[cell frame] inView:nil];
+    [self unlockFocus];
 }
 
 @end
