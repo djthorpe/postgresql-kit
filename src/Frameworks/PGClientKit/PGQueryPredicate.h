@@ -54,6 +54,28 @@
 +(PGQueryPredicate* )falsePredicate;
 
 /**
+ *  Construct a bound parameter predicate object with parameter index. Will
+ *  quote as $1, $2 and so forth.
+ *
+ *  @param index The position of the parameter sent with the query
+ *
+ *  @return Returns the PGQueryPredicate object
+ */
++(PGQueryPredicate* )parameterWithIndex:(NSUInteger)index;
+
+/**
+ *  Construct a bound parameter predicate object with parameter index, which
+ *  is cast on the server side to another type. Will quote as $1::type, $2::type
+ *  and so forth.
+ *
+ *  @param index The position of the parameter sent with the query
+ *  @param cast  The cast to make for the parameter on the server-side
+ *
+ *  @return Returns the PGQueryPredicate object
+ */
++(PGQueryPredicate* )parameterWithIndex:(NSUInteger)index cast:(NSString* )cast;
+
+/**
  *  Construct a free-form expression predicate object, which isn't quoted when
  *  using within a PGQuery object.
  *

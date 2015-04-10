@@ -44,6 +44,7 @@ extern NSString* PGQueryExpiryKey;
 extern NSString* PGQueryJoinLeftKey;
 extern NSString* PGQueryJoinRightKey;
 extern NSString* PGQueryJoinExpressionKey;
+extern NSString* PGQueryTypeKey;
 
 /**
  * Flags affecting the query generated

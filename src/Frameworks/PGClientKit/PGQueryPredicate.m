@@ -21,14 +21,15 @@
 
 // options
 enum {
-	PGQueryPredicateTypeNull = 0x00000001,       // NULL
+	PGQueryPredicateTypeNull       = 0x00000001, // NULL
 	PGQueryPredicateTypeExpression = 0x00000002, // Expression
-	PGQueryPredicateTypeAnd = 0x00000003,        // AND
-	PGQueryPredicateTypeOr = 0x00000004,         // OR
-	PGQueryPredicateTypeNot = 0x000005,          // NOT
-	PGQueryPredicateTypeBoolean = 0x000006,      // Boolean
-	PGQueryPredicateTypeString = 0x000007,       // String
-	PGQueryPredicateTypeDefault = 0x000008       // DEFAULT
+	PGQueryPredicateTypeAnd        = 0x00000003, // AND
+	PGQueryPredicateTypeOr         = 0x00000004, // OR
+	PGQueryPredicateTypeNot        = 0x00000005, // NOT
+	PGQueryPredicateTypeBoolean    = 0x00000006, // Boolean
+	PGQueryPredicateTypeString     = 0x00000007, // String
+	PGQueryPredicateTypeDefault    = 0x00000008, // DEFAULT
+	PGQueryPredicateTypeBinding    = 0x00000009  // $1, $2, etc
 };
 
 @implementation PGQueryPredicate
@@ -177,6 +178,28 @@ enum {
 	return query;
 }
 
++(PGQueryPredicate* )parameterWithIndex:(NSUInteger)index cast:(NSString* )cast {
+	NSString* className = NSStringFromClass([self class]);
+	PGQueryPredicate* query = (PGQueryPredicate* )[PGQueryObject queryWithDictionary:@{
+		PGQueryValueKey: [NSNumber numberWithUnsignedInteger:index]
+	} class:className];
+	NSParameterAssert(query);
+	[query setOptions:PGQueryPredicateTypeBinding];
+	
+	if(cast != nil) {
+		if([cast length]==0 || [cast isAlphanumeric]==NO) {
+			return nil;
+		}
+		[query setObject:cast forKey:PGQueryTypeKey];
+	}
+	
+	return query;
+}
+
++(PGQueryPredicate* )parameterWithIndex:(NSUInteger)index {
+	return [PGQueryPredicate parameterWithIndex:index cast:nil];
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark properties
 ////////////////////////////////////////////////////////////////////////////////
@@ -267,6 +290,20 @@ enum {
 	return quoted;
 }
 
+-(NSString* )bindingQuoteForConnection:(PGConnection* )connection error:(NSError** )error {
+	NSNumber* index = [super objectForKey:PGQueryValueKey];
+	if(index==nil) {
+		[connection raiseError:error code:PGClientErrorQuery reason:@"Invalid binding value"];
+		return nil;
+	}
+	NSString* type = [super objectForKey:PGQueryTypeKey];
+	if(type) {
+		return [NSString stringWithFormat:@"$%@::%@",index,type];
+	} else {
+		return [NSString stringWithFormat:@"$%@",index];
+	}
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark public methods
 ////////////////////////////////////////////////////////////////////////////////
@@ -308,6 +345,8 @@ enum {
 			return @"NULL";
 		case PGQueryPredicateTypeDefault:
 			return @"DEFAULT";
+		case PGQueryPredicateTypeBinding:
+			return [self bindingQuoteForConnection:connection error:error];
 		case PGQueryPredicateTypeExpression:
 			return [self objectForKey:PGQueryStatementKey];
 		case PGQueryPredicateTypeAnd:
