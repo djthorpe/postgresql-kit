@@ -27,7 +27,8 @@ enum {
 	PGQueryPredicateTypeOr = 0x00000004,         // OR
 	PGQueryPredicateTypeNot = 0x000005,          // NOT
 	PGQueryPredicateTypeBoolean = 0x000006,      // Boolean
-	PGQueryPredicateTypeString = 0x000007        // String
+	PGQueryPredicateTypeString = 0x000007,       // String
+	PGQueryPredicateTypeDefault = 0x000008       // DEFAULT
 };
 
 @implementation PGQueryPredicate
@@ -75,6 +76,22 @@ enum {
 	NSParameterAssert(query);
 	[query setOptions:PGQueryPredicateTypeNull];
 	return query;
+}
+
++(PGQueryPredicate* )defaultPredicate {
+	NSString* className = NSStringFromClass([self class]);
+	PGQueryPredicate* query = (PGQueryPredicate* )[PGQueryObject queryWithDictionary:@{ } class:className];
+	NSParameterAssert(query);
+	[query setOptions:PGQueryPredicateTypeDefault];
+	return query;
+}
+
++(PGQueryPredicate* )truePredicate {
+	return [PGQueryPredicate boolean:YES];
+}
+
++(PGQueryPredicate* )falsePredicate {
+	return [PGQueryPredicate boolean:NO];
 }
 
 +(PGQueryPredicate* )expression:(NSString* )expression {
@@ -289,6 +306,8 @@ enum {
 	switch(options) {
 		case PGQueryPredicateTypeNull:
 			return @"NULL";
+		case PGQueryPredicateTypeDefault:
+			return @"DEFAULT";
 		case PGQueryPredicateTypeExpression:
 			return [self objectForKey:PGQueryStatementKey];
 		case PGQueryPredicateTypeAnd:

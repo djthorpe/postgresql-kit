@@ -12,37 +12,26 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-@interface PGQueryDelete : PGQuery
+#import <PGClientKit/PGClientKit.h>
+
+@interface PGQueryUpdate : PGQuery
 
 ////////////////////////////////////////////////////////////////////////////////
 // constructors
 
 /**
- *  Construct a PGQueryDelete instance which deletes rows from a single table
+ *  Construct a PGQueryUpdate instance which updates an existing table with new
+ *  data
  *
  *  @param source A PGQuerySource or NSString object which determines which
- *                table to remove rows from.  Cannot be nil.
+ *                table to update rows to.  Cannot be nil.
+ *  @param values A NSDictionary object, where the keys are NSString objects and
+ *                the values are PGPredicate or NSString objects.
  *  @param where  A PGPredicate or NSString object which determines the conditions
- *                for which the rows are deleted. Cannot be nil.
+ *                for which the rows are updated. Cannot be nil.
  *
- *  @return Returns a PGQueryDelete object
+ *  @return Returns a PGQueryUpdate object
  */
-+(PGQueryDelete* )from:(id)source where:(id)where;
-
-
-////////////////////////////////////////////////////////////////////////////////
-// properties
-
-/**
- *  Return the PGQuerySource for the DELETE statement. Can only be a simple
- *  table object, not a join
- */
-@property (readonly) PGQuerySource* source;
-
-/**
- *  The WHERE predicate
- */
-@property (readonly) PGQueryPredicate* where;
-
++(PGQueryUpdate* )into:(id)source values:(NSDictionary* )values where:(id)where;
 
 @end

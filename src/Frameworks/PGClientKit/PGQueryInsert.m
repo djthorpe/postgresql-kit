@@ -15,24 +15,18 @@
 #import <PGClientKit/PGClientKit.h>
 #import <PGClientKit/PGClientKit+Private.h>
 
-/**
- *  This class implements the DELETE query
- */
-
-@implementation PGQueryDelete
+@implementation PGQueryInsert
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark constructor
 ////////////////////////////////////////////////////////////////////////////////
 
-+(PGQueryDelete* )from:(id)source where:(id)where options:(NSUInteger)options {
++(PGQueryInsert* )into:(id)source values:(id)values options:(NSUInteger)options {
 	NSParameterAssert(source);
 	NSParameterAssert([source isKindOfClass:[NSString class]] || [source isKindOfClass:[PGQuerySource class]]);
-	NSParameterAssert(where);
-	NSParameterAssert([where isKindOfClass:[NSString class]] || [where isKindOfClass:[PGQueryPredicate class]]);
 	NSString* className = NSStringFromClass([self class]);
-	PGQueryDelete* query = (PGQueryDelete* )[PGQueryObject queryWithDictionary:@{ } class:className];
-	NSParameterAssert(query && [query isKindOfClass:[PGQueryDelete class]]);
+	PGQueryInsert* query = (PGQueryInsert* )[PGQueryObject queryWithDictionary:@{ } class:className];
+	NSParameterAssert(query && [query isKindOfClass:[PGQueryInsert class]]);
 	
 	// query source
 	PGQuerySource* querySource = nil;
@@ -46,35 +40,38 @@
 	}
 	[query setObject:querySource forKey:PGQuerySourceKey];
 	
-	// query predicate
-	PGQueryPredicate* predicate = [PGQueryPredicate predicateOrExpression:where];
-	if(predicate==nil) {
-		return nil;
-	}
-	[query setObject:predicate forKey:PGQueryWhereKey];
-
+	// TODO: values
+	
 	// set other options
 	[query setOptions:options];
 	return query;
 }
 
-+(PGQueryDelete* )from:(id)source where:(id)where {
-	return [PGQueryDelete from:source where:where options:0];
++(PGQueryInsert* )into:(id)source values:(id)values {
+	return [PGQueryInsert into:source values:values options:0];
 }
+
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark properties
 ////////////////////////////////////////////////////////////////////////////////
 
 @dynamic source;
-@dynamic where;
+@dynamic columns;
+@dynamic values;
 
 -(PGQuerySource* )source {
 	return [super objectForKey:PGQuerySourceKey];
 }
 
--(PGQueryPredicate* )where {
-	return [super objectForKey:PGQueryWhereKey];
+-(NSArray* )columns {
+	// TODO: columns
+	return nil;
+}
+
+-(NSArray* )values {
+	// TODO: values
+	return nil;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -86,32 +83,35 @@
 //	NSUInteger options = [self options]; // currently unused
 	NSMutableArray* parts = [NSMutableArray new];
 
-	// add DELETE FROM
-	[parts addObject:@"DELETE"];
+	// add INSERT
+	[parts addObject:@"INSERT"];
 
 	// data source
 	NSString* dataSource = [[self source] quoteForConnection:connection error:error];
 	if(dataSource==nil) {
 		return nil;
 	}
-	// TODO: Allow AS <alias> for the data source name
+	// TODO: Do NOT allow AS <alias> for the data source name
 	NSParameterAssert([dataSource length]);
-	[parts addObject:@"FROM"];
+	[parts addObject:@"INTO"];
 	[parts addObject:dataSource];
 	
-	// where
-	PGQueryPredicate* where = [self where];
-	if(where) {
-		NSString* quotedWhere = [where quoteForConnection:connection error:error];
-		if(quotedWhere==nil) {
-			return nil;
-		}
-		[parts addObject:@"WHERE"];
-		[parts addObject:quotedWhere];
+	// columns
+	NSArray* columns = [self columns];
+	if([columns count]) {
+		// TODO: Add columns
+	}
+	
+	// values
+	NSArray* values = [self values];
+	if([values count]==0) {
+		[parts addObject:@"DEFAULT VALUES"];
+	} else {
+		[parts addObject:@"VALUES"];
+		// TODO: Add values
 	}
 
 	return [parts componentsJoinedByString:@" "];
 }
-
 
 @end

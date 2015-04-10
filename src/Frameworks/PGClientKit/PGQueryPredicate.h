@@ -33,6 +33,27 @@
 +(PGQueryPredicate* )nullPredicate;
 
 /**
+ *  Construct a DEFAULT predicate object
+ *
+ *  @return Returns the PGQueryPredicate object
+ */
++(PGQueryPredicate* )defaultPredicate;
+
+/**
+ *  Construct a TRUE predicate object
+ *
+ *  @return Returns the PGQueryPredicate object
+ */
++(PGQueryPredicate* )truePredicate;
+
+/**
+ *  Construct a FALSE predicate object
+ *
+ *  @return Returns the PGQueryPredicate object
+ */
++(PGQueryPredicate* )falsePredicate;
+
+/**
  *  Construct a free-form expression predicate object, which isn't quoted when
  *  using within a PGQuery object.
  *

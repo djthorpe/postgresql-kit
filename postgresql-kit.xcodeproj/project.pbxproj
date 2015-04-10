@@ -280,6 +280,10 @@
 		6EAA40EB17BC150E0078EB32 /* NSURL+PGAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EAA40E917BC150E0078EB32 /* NSURL+PGAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6EAA40ED17BC150E0078EB32 /* NSURL+PGAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EAA40EA17BC150E0078EB32 /* NSURL+PGAdditions.m */; };
 		6EB1E79615F282910093F784 /* PGServerKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EB1E74015F273350093F784 /* PGServerKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6EC5E6791AD7B55900774D57 /* PGQueryInsert.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EC5E6771AD7B55900774D57 /* PGQueryInsert.h */; };
+		6EC5E67A1AD7B55900774D57 /* PGQueryInsert.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC5E6781AD7B55900774D57 /* PGQueryInsert.m */; };
+		6EC5E6801AD7BDDE00774D57 /* PGQueryUpdate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EC5E67E1AD7BDDE00774D57 /* PGQueryUpdate.h */; };
+		6EC5E6811AD7BDDE00774D57 /* PGQueryUpdate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC5E67F1AD7BDDE00774D57 /* PGQueryUpdate.m */; };
 		6ECA7ADE15F3637600AF2B70 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8C168115F26BF20013A382 /* Foundation.framework */; };
 		6ECA7AEA15F363C400AF2B70 /* PGServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
 		6ED6944F1AB8AE7100751904 /* PGDialogTextFieldFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 6ED6944D1AB8AE7100751904 /* PGDialogTextFieldFormatter.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -765,6 +769,10 @@
 		6EB1E74015F273350093F784 /* PGServerKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGServerKit.h; sourceTree = "<group>"; };
 		6EB5485417AEC9CA000F4AA2 /* elephant-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "elephant-72.png"; sourceTree = "<group>"; };
 		6EB5485917AECCAF000F4AA2 /* elephant-144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "elephant-144.png"; sourceTree = "<group>"; };
+		6EC5E6771AD7B55900774D57 /* PGQueryInsert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGQueryInsert.h; sourceTree = "<group>"; };
+		6EC5E6781AD7B55900774D57 /* PGQueryInsert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGQueryInsert.m; sourceTree = "<group>"; };
+		6EC5E67E1AD7BDDE00774D57 /* PGQueryUpdate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGQueryUpdate.h; sourceTree = "<group>"; };
+		6EC5E67F1AD7BDDE00774D57 /* PGQueryUpdate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGQueryUpdate.m; sourceTree = "<group>"; };
 		6ECA7ADC15F3637600AF2B70 /* PGFoundationServer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PGFoundationServer; sourceTree = BUILT_PRODUCTS_DIR; };
 		6ED6944D1AB8AE7100751904 /* PGDialogTextFieldFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGDialogTextFieldFormatter.h; sourceTree = "<group>"; };
 		6ED6944E1AB8AE7100751904 /* PGDialogTextFieldFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGDialogTextFieldFormatter.m; sourceTree = "<group>"; };
@@ -1097,6 +1105,10 @@
 				1450A1661AAA18DA002D62D9 /* PGQueryPredicate.m */,
 				1482A9061AA5F4530000BA25 /* PGQuerySelect.h */,
 				1482A9071AA5F4530000BA25 /* PGQuerySelect.m */,
+				6EC5E6771AD7B55900774D57 /* PGQueryInsert.h */,
+				6EC5E6781AD7B55900774D57 /* PGQueryInsert.m */,
+				6EC5E67E1AD7BDDE00774D57 /* PGQueryUpdate.h */,
+				6EC5E67F1AD7BDDE00774D57 /* PGQueryUpdate.m */,
 				6E6F337A1AC95369007EBB9D /* PGQueryDelete.h */,
 				6E6F337B1AC95369007EBB9D /* PGQueryDelete.m */,
 				6E0DDCE11AAB6F5200A38F3B /* PGQueryDatabase.h */,
@@ -1776,12 +1788,14 @@
 				6E6154CB1AC6B44000541DDE /* PGConnectionPool.h in Headers */,
 				6EE12E2617D51D620034B9E1 /* PGPasswordStore.h in Headers */,
 				6E0DDCE91AAB721600A38F3B /* PGQueryRole.h in Headers */,
+				6EC5E6791AD7B55900774D57 /* PGQueryInsert.h in Headers */,
 				1450A1671AAA18DA002D62D9 /* PGQueryPredicate.h in Headers */,
 				14DECDA116B56D7300178235 /* PGConverters.h in Headers */,
 				6EAA40EB17BC150E0078EB32 /* NSURL+PGAdditions.h in Headers */,
 				6E4016B91ABEFA09009A2707 /* PGTransaction.h in Headers */,
 				1489AEC716669A6B00C3B67D /* PGResult+TextTable.h in Headers */,
 				14DECDA816B57EC400178235 /* PGConverters+Private.h in Headers */,
+				6EC5E6801AD7BDDE00774D57 /* PGQueryUpdate.h in Headers */,
 				1417B7BA1AAA1FF200B44DD4 /* PGQueryObject.h in Headers */,
 				6E0DDCD91AAB2A4000A38F3B /* NSString+PrivateAdditions.h in Headers */,
 				14D7C3E717AD729000479231 /* PGClientParams.h in Headers */,
@@ -2421,9 +2435,11 @@
 			files = (
 				6E031031162FE50B003225B1 /* PGQuery.m in Sources */,
 				6E9256AF1AA64B49007DAD82 /* PGConnection+Disconnect.m in Sources */,
+				6EC5E6811AD7BDDE00774D57 /* PGQueryUpdate.m in Sources */,
 				6E9256BB1AA64BDA007DAD82 /* PGConnection+Execute.m in Sources */,
 				1450A1601AAA145A002D62D9 /* PGQuerySource.m in Sources */,
 				6EE23F611632076800C99BA7 /* PGClientParams.m in Sources */,
+				6EC5E67A1AD7B55900774D57 /* PGQueryInsert.m in Sources */,
 				6E0773DA163744D90028783F /* PGResult.m in Sources */,
 				6E9256C11AA64BDA007DAD82 /* PGConnection+Reset.m in Sources */,
 				6E6154CA1AC6B43D00541DDE /* PGConnectionPool.m in Sources */,

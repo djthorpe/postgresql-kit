@@ -12,37 +12,46 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-@interface PGQueryDelete : PGQuery
+#import <PGClientKit/PGClientKit.h>
+
+@interface PGQueryInsert : PGQuery
 
 ////////////////////////////////////////////////////////////////////////////////
 // constructors
 
 /**
- *  Construct a PGQueryDelete instance which deletes rows from a single table
+ *  Construct a PGQueryInsert instance which inserts one or more rows of data
+ *  into a single table
  *
  *  @param source A PGQuerySource or NSString object which determines which
  *                table to remove rows from.  Cannot be nil.
- *  @param where  A PGPredicate or NSString object which determines the conditions
- *                for which the rows are deleted. Cannot be nil.
  *
- *  @return Returns a PGQueryDelete object
+ *  @param values Either an NSArray or NSDictionary object, which are the
+ *                values to insert. Each value can be a PGPredicate object or a
+ *                string. To insert a DEFAULT value, use a [PGPredicate defaultPredicate]
+ *                object.
+ *
+ *  @return Returns a PGQueryInsert object
  */
-+(PGQueryDelete* )from:(id)source where:(id)where;
-
++(PGQueryInsert* )into:(id)source values:(id)values;
 
 ////////////////////////////////////////////////////////////////////////////////
 // properties
 
 /**
- *  Return the PGQuerySource for the DELETE statement. Can only be a simple
- *  table object, not a join
+ *  Return the PGQuerySource for the INSERT statement.
  */
 @property (readonly) PGQuerySource* source;
 
 /**
- *  The WHERE predicate
+ *  Return array of columns, or nil.
  */
-@property (readonly) PGQueryPredicate* where;
+@property (readonly) NSArray* columns;
 
+/**
+ *  Return array of values, or nil.
+ */
+@property (readonly) NSArray* values;
 
 @end
+
