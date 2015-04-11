@@ -782,6 +782,8 @@
 		6EC5E67E1AD7BDDE00774D57 /* PGQueryUpdate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGQueryUpdate.h; sourceTree = "<group>"; };
 		6EC5E67F1AD7BDDE00774D57 /* PGQueryUpdate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGQueryUpdate.m; sourceTree = "<group>"; };
 		6ECA7ADC15F3637600AF2B70 /* PGFoundationServer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PGFoundationServer; sourceTree = BUILT_PRODUCTS_DIR; };
+		6ECEC5A11AD955A70007FDA4 /* openssl-1.0.2a.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = "openssl-1.0.2a.tar.gz"; sourceTree = "<group>"; };
+		6ECEC5A21AD955A70007FDA4 /* postgresql-9.4.1.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = "postgresql-9.4.1.tar.gz"; sourceTree = "<group>"; };
 		6ED6944D1AB8AE7100751904 /* PGDialogTextFieldFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGDialogTextFieldFormatter.h; sourceTree = "<group>"; };
 		6ED6944E1AB8AE7100751904 /* PGDialogTextFieldFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGDialogTextFieldFormatter.m; sourceTree = "<group>"; };
 		6ED763FB15F2673600687079 /* PGServerKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PGServerKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1186,6 +1188,8 @@
 				14FD07041AA70C0E0013557E /* GBCli-1.1 */,
 				6E45A3851A73AA7E00E20B36 /* MMMarkdown-0.4.1 */,
 				6EE12E0C17D51CD70034B9E1 /* sskeychain-1.2.0 */,
+				6ECEC5A11AD955A70007FDA4 /* openssl-1.0.2a.tar.gz */,
+				6ECEC5A21AD955A70007FDA4 /* postgresql-9.4.1.tar.gz */,
 				6E1548221A57FBA000556573 /* openssl-1.0.1j.tar.gz */,
 				6E1548231A57FBA000556573 /* postgresql-9.4.0.tar.gz */,
 			);
@@ -2207,7 +2211,7 @@
 			files = (
 			);
 			inputPaths = (
-				"$(SRCROOT)/tar/openssl-1.0.1j.tar.gz",
+				"$(SRCROOT)/tar/openssl-1.0.2a.tar.gz",
 			);
 			outputPaths = (
 			);
@@ -2222,7 +2226,7 @@
 			files = (
 			);
 			inputPaths = (
-				"$(SRCROOT)/tar/postgresql-9.4.0.tar.gz",
+				"$(SRCROOT)/tar/postgresql-9.4.1.tar.gz",
 			);
 			outputPaths = (
 			);
@@ -2236,7 +2240,7 @@
 			files = (
 			);
 			inputPaths = (
-				"$(SRCROOT)/tar/openssl-1.0.1j.tar.gz",
+				"$(SRCROOT)/tar/openssl-1.0.2a.tar.gz",
 			);
 			outputPaths = (
 			);
@@ -2251,7 +2255,7 @@
 			files = (
 			);
 			inputPaths = (
-				"$(SRCROOT)/tar/postgresql-9.4.0.tar.gz",
+				"$(SRCROOT)/tar/postgresql-9.4.1.tar.gz",
 			);
 			outputPaths = (
 			);

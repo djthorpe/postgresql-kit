@@ -23,8 +23,6 @@
   @class PGSourceViewHeading;
   @class PGSourceViewConnection;
 
-@class PGTabViewController;
-
 @class PGHelpWindowController;
 
 // PGDialog forward declarations
@@ -56,7 +54,6 @@
 // Views
 #import "PGSplitViewController.h"
 #import "PGSourceViewController.h"
-#import "PGTabViewController.h"
 
 // Views
 #import "PGResultTableView.h"
