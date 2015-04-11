@@ -365,7 +365,7 @@
 	}
 
 	// return statement
-	return [NSString stringWithFormat:@"ALTER SCHEMA %@",[flags componentsJoinedByString:@" "]];
+	return [NSString stringWithFormat:@"ALTER ROLE %@",[flags componentsJoinedByString:@" "]];
 }
 
 -(NSString* )quoteCommentForConnection:(PGConnection* )connection options:(NSUInteger)options error:(NSError** )error {

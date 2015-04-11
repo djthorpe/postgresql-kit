@@ -87,16 +87,14 @@
 	NSMutableArray* parts = [NSMutableArray new];
 
 	// add DELETE FROM
-	[parts addObject:@"DELETE"];
+	[parts addObject:@"DELETE FROM"];
 
 	// data source
 	NSString* dataSource = [[self source] quoteForConnection:connection error:error];
 	if(dataSource==nil) {
 		return nil;
 	}
-	// TODO: Allow AS <alias> for the data source name
 	NSParameterAssert([dataSource length]);
-	[parts addObject:@"FROM"];
 	[parts addObject:dataSource];
 	
 	// where

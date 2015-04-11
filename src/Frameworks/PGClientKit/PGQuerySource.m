@@ -138,7 +138,7 @@
 -(NSString* )quoteForConnection:(PGConnection* )connection withAlias:(BOOL)withAlias error:(NSError** )error {
 	NSParameterAssert(connection);
 	NSString* aliasName = [self alias];
-	NSString* aliasQuoted = (withAlias && [aliasName length]) ? [NSString stringWithFormat:@" %@",[connection quoteIdentifier:[self alias]]] : @"";
+	NSString* aliasQuoted = (withAlias && [aliasName length]) ? [NSString stringWithFormat:@" AS %@",[connection quoteIdentifier:[self alias]]] : @"";
 	NSString* schemaName = [self schema];
 	NSString* tableName = [self table];
 	if([tableName length]==0) {
