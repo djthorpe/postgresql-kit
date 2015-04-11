@@ -27,9 +27,6 @@
 
 @class PGHelpWindowController;
 
-@class PGConsoleViewController;
-@class PGConsoleViewBuffer;
-
 // PGDialog forward declarations
 @class PGDialogWindow;
 @class PGDialogView;
@@ -60,7 +57,6 @@
 #import "PGSplitViewController.h"
 #import "PGSourceViewController.h"
 #import "PGTabViewController.h"
-#import "PGConsoleViewController.h"
 
 // Views
 #import "PGResultTableView.h"
@@ -69,8 +65,5 @@
 #import "PGSourceViewNode.h"
 #import "PGSourceViewHeading.h"
 #import "PGSourceViewConnection.h"
-
-// Buffer model for console view
-#import "PGConsoleViewBuffer.h"
 
 
