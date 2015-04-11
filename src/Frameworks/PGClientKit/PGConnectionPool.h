@@ -111,6 +111,6 @@
 -(void)connectionForTag:(NSInteger)tag error:(NSError* )error;
 -(void)connectionForTag:(NSInteger)tag notice:(NSString* )notice;
 -(void)connectionForTag:(NSInteger)tag notificationOnChannel:(NSString* )channelName payload:(NSString* )payload;
--(void)connectionForTag:(NSInteger)tag willExecute:(NSString* )query;
+-(NSString* )connectionForTag:(NSInteger)tag willExecute:(NSString* )query;
 @end
 

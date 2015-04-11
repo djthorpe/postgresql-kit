@@ -26,11 +26,6 @@ typedef enum {
 } PGConnectionStatus;
 
 typedef enum {
-	PGClientTupleFormatText = 0,
-	PGClientTupleFormatBinary = 1
-} PGClientTupleFormat;
-
-typedef enum {
 	PGClientErrorNone = 0,                // no error occured
 	PGClientErrorState = 100,             // state is wrong for this call
 	PGClientErrorParameters = 101,        // invalid parameters

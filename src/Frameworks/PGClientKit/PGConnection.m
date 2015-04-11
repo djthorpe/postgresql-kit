@@ -70,6 +70,7 @@ NSString* PGConnectionHostKey = @"Host";
 		_timeout = 0;
 		_state = PGConnectionStateNone;
 		_parameters = nil;
+		_tupleFormat = PGClientTupleFormatText;
 		pgdata2obj_init(); // set up cache for translating binary data from server
     }
     return self;
@@ -91,6 +92,7 @@ NSString* PGConnectionHostKey = @"Host";
 @dynamic host;
 @synthesize timeout = _timeout;
 @synthesize state = _state;
+@synthesize tupleFormat = _tupleFormat;
 
 -(PGConnectionStatus)status {
 	if(_connection==nil) {

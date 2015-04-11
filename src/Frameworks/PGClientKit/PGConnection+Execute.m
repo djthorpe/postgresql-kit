@@ -21,9 +21,8 @@
 #pragma mark private methods - statement execution
 ////////////////////////////////////////////////////////////////////////////////
 
--(void)_execute:(NSString* )query format:(PGClientTupleFormat)format values:(NSArray* )values whenDone:(void(^)(PGResult* result,NSError* error)) callback {
+-(void)_execute:(NSString* )query values:(NSArray* )values whenDone:(void(^)(PGResult* result,NSError* error)) callback {
 	NSParameterAssert(query && [query isKindOfClass:[NSString class]]);
-	NSParameterAssert(format==PGClientTupleFormatBinary || format==PGClientTupleFormatText);
 	if(_connection==nil || [self state] != PGConnectionStateNone) {
 		callback(nil,[self raiseError:nil code:PGClientErrorState]);
 		return;
@@ -58,13 +57,14 @@
 		return;
 	}
 	
-	// call the delegate
+	// call the delegate, determine the class to use for the resultset
+	NSString* className = nil;
 	if([[self delegate] respondsToSelector:@selector(connection:willExecute:)]) {
-		[[self delegate] connection:self willExecute:query];
+		className = [[self delegate] connection:self willExecute:query];
 	}
 	
 	// execute the command, free parameters
-	int resultFormat = (format==PGClientTupleFormatBinary) ? 1 : 0;
+	int resultFormat = ([self tupleFormat]==PGClientTupleFormatBinary) ? 1 : 0;
 	int returnCode = PQsendQueryParams(_connection,[query UTF8String],(int)params->size,params->types,(const char** )params->values,params->lengths,params->formats,resultFormat);
 	_paramFree(params);
 	if(!returnCode) {
@@ -99,7 +99,7 @@
 	} else if(query2==nil) {
 		callback(nil,[self raiseError:nil code:PGClientErrorExecute reason:@"Query is nil"]);
 	} else {
-		[self _execute:query2 format:PGClientTupleFormatText values:nil whenDone:callback];
+		[self _execute:query2 values:nil whenDone:callback];
 	}
 }
 

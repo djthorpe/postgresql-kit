@@ -233,7 +233,8 @@ void _noticeProcessor(void* arg,const char* cString) {
 			error = [self raiseError:nil code:PGClientErrorExecute reason:[NSString stringWithUTF8String:PQresultErrorMessage(result)]];
 			PQclear(result);
 		} else {
-			r = [[PGResult alloc] initWithResult:result format:PGClientTupleFormatText];
+			// TODO: allocate a different kind of class
+			r = [[PGResult alloc] initWithResult:result format:[self tupleFormat]];
 		}
 		if(r || error) {
 			NSParameterAssert(_callback);

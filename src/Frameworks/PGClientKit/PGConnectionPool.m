@@ -269,11 +269,12 @@ enum {
 	}
 }
 
--(void)connection:(PGConnection* )connection willExecute:(NSString* )query {
+-(NSString* )connection:(PGConnection* )connection willExecute:(NSString* )query {
 	if([[self delegate] respondsToSelector:@selector(connectionForTag:willExecute:)]) {
 		NSInteger tag = [self _tagForConnection:connection];
-		[[self delegate] connectionForTag:tag willExecute:query];
+		return [[self delegate] connectionForTag:tag willExecute:query];
 	}
+	return nil;
 }
 
 -(void)connection:(PGConnection* )connection willOpenWithParameters:(NSMutableDictionary* )dictionary {

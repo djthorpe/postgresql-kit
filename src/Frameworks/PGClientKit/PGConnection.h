@@ -66,6 +66,15 @@ typedef enum {
 	PGConnectionStateCancel = 103
 } PGConnectionState;
 
+/**
+ The tuple format determines the format of data which is passed backwards
+ and forwards between the server.
+ */
+typedef enum {
+	PGClientTupleFormatText = 0,
+	PGClientTupleFormatBinary = 1
+} PGClientTupleFormat;
+
 ////////////////////////////////////////////////////////////////////////////////
 // PGConnection interface
 
@@ -78,6 +87,7 @@ typedef enum {
 	NSUInteger _timeout;
 	PGConnectionState _state;
 	NSDictionary* _parameters;
+	PGClientTupleFormat _tupleFormat;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -121,6 +131,11 @@ typedef enum {
  *  Connection timeout in seconds
  */
 @property NSUInteger timeout;
+
+/**
+ *  Format of data which is passed between client and server, defaults to Text
+ */
+@property PGClientTupleFormat tupleFormat;
 
 /**
  *  Tag for the connection object. You can use this in order to refer to the
@@ -380,13 +395,75 @@ typedef enum {
 // PGConnectionDelegate protocol
 
 @protocol PGConnectionDelegate <NSObject>
-@optional
-	-(void)connection:(PGConnection* )connection willOpenWithParameters:(NSMutableDictionary* )dictionary;
-	-(void)connection:(PGConnection* )connection willExecute:(NSString* )query;
-	-(void)connection:(PGConnection* )connection error:(NSError* )error;
-	-(void)connection:(PGConnection* )connection notice:(NSString* )notice;
-	-(void)connection:(PGConnection* )connection statusChange:(PGConnectionStatus)status description:(NSString* )description;
-	-(void)connection:(PGConnection* )connection notificationOnChannel:(NSString* )channelName payload:(NSString* )payload;
+
+/**
+ *  This delegate method is called just before a connect, ping or reset operation
+ *  is performed, and gives the delegate the opportunity to modify the parameters
+ *  or add a connection password before the connection is made.
+ *
+ *  @param connection The connection object which called the delegate
+ *  @param dictionary The mutable dictionary containing the parameters to send to
+ *                    the remote server. The parameter keys are listed in the
+ *                    server documentation here: http://www.postgresql.org/docs/9.1/static/libpq-connect.html
+ */
+-(void)connection:(PGConnection* )connection willOpenWithParameters:(NSMutableDictionary* )dictionary;
+
+/**
+ *  This delegate method is called just before an SQL command is executed, and
+ *  gives the delegate the opportunity to provide the name of a class which should
+ *  be used for constructing a resultset object. The string must be the name of
+ *  a class which is derived from the PGResult class. If returning nil then the
+ *  class used is PGResult.
+ *
+ *  @param connection The connection object which called the delegate
+ *  @param query      The NSString of the query which will be executed
+ *
+ *  @return The name of the class used for the result. If nil, the default
+ *          PGResult class is used.
+ */
+-(NSString* )connection:(PGConnection* )connection willExecute:(NSString* )query;
+
+/**
+ *  This delegate method is called when any sort of error has occurred.
+ *
+ *  @param connection The connection object which called the delegate
+ *  @param error      The error object which describes the error which occurred
+ */
+-(void)connection:(PGConnection* )connection error:(NSError* )error;
+
+/**
+ *  This delegate method is called when a notice (usually some sort of warning
+ *  message) is sent from the server, usually in reaction to a command being
+ *  executed.
+ *
+ *  @param connection The connection object which called the delegate
+ *  @param notice     The notice text which was returned from the server
+ */
+-(void)connection:(PGConnection* )connection notice:(NSString* )notice;
+
+/**
+ *  This delegate method is called when the connection is listening for particular
+ *  notifications, and a notification was triggered.
+ *
+ *  @param connection  The connection object which called the delegate
+ *  @param channelName The name of the notification being listened for
+ *  @param payload     The payload for the notification, or an empty string if
+ *                     there is no payload.
+ */
+-(void)connection:(PGConnection* )connection notificationOnChannel:(NSString* )channelName payload:(NSString* )payload;
+
+/**
+ *  This delegate method is called when the status changes for the connection,
+ *  usually if the connection is made, disconnected or if the connection becomes
+ *  busy, for example during command execution. A description of the status change
+ *  is also provided.
+ *
+ *  @param connection  The connection object which called the delegate
+ *  @param status      The new status of the connection
+ *  @param description A readable description for the status
+ */
+-(void)connection:(PGConnection* )connection statusChange:(PGConnectionStatus)status description:(NSString* )description;
+
 @end
 
 
