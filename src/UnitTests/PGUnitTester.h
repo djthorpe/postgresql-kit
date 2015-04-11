@@ -50,6 +50,7 @@
 @property BOOL lastTest;
 @property (readonly) NSURL* url;
 
+-(NSURL* )urlWithPort:(NSUInteger)port;
 -(BOOL)setUp;
 -(BOOL)tearDown;
 

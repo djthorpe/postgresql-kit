@@ -23,6 +23,7 @@
 	if(_connection) {
 		PQfinish(_connection);
         _connection = nil;
+		_parameters = nil;
 	}
 	[self _updateStatus];
 }

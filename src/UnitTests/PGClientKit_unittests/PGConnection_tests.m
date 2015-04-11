@@ -51,7 +51,7 @@
 	XCTAssertEqual(PGServerDefaultPort,(NSUInteger)5432,@"Incorrect default port");
 }
 
--(void)test_001 {
+-(void)test_001_init {
 	XCTAssertTrue([[tester client] isKindOfClass:[PGConnection class]] ? YES : NO,@"client could not be created");
 	XCTAssert([[tester client] serverProcessID]==0);
 	XCTAssert([[tester client] timeout]==0);
@@ -59,7 +59,14 @@
 	XCTAssert([[tester client] database]==nil);
 }
 
--(void)test_002 {
+-(void)test_001_parameters {
+	XCTAssertTrue([[tester client] isKindOfClass:[PGConnection class]] ? YES : NO,@"client could not be created");
+	NSDictionary* parameters = [[tester client] parameters];
+	XCTAssert(parameters);
+	NSLog(@"parameters = %@",parameters);
+}
+
+-(void)test_002_connect_async {
 	// check client
 	XCTAssert([tester client]);
 	XCTAssertEqual([[tester client] status],PGConnectionStatusDisconnected);
@@ -92,7 +99,46 @@
 	XCTAssert([[tester client] database]==nil);
 }
 
--(void)test_003 {
+-(void)test_002_parameters {
+	// check client
+	XCTAssert([tester client]);
+	XCTAssertEqual([[tester client] status],PGConnectionStatusDisconnected);
+
+	// perform connection
+	XCTAssert([tester url]);
+	XCTestExpectation* expectation = [self expectationWithDescription:@"Conect"];
+	[[tester client] connectWithURL:[tester url] whenDone:^(BOOL usedPassword, NSError *error) {
+		XCTAssert(usedPassword==NO);
+		XCTAssert(error==nil);
+		XCTAssertEqual([[tester client] status],PGConnectionStatusConnected);
+		XCTAssert([[tester client] serverProcessID] != 0);
+		XCTAssert([[tester client] user]);
+		XCTAssert([[tester client] database]);
+		[expectation fulfill];
+	}];
+
+	// wait for callback to complete
+	[self waitForExpectationsWithTimeout:1.0 handler:^(NSError *error) {
+		XCTAssertNil(error,@"Timeout Error: %@", error);
+	}];
+
+	// print out parameters
+	NSDictionary* parameters = [[tester client] parameters];
+	XCTAssert(parameters);
+	NSLog(@"parameters = %@",parameters);
+	
+	// disconnect
+	[[tester client] disconnect];
+
+	XCTAssertEqual([[tester client] status],PGConnectionStatusDisconnected);
+	XCTAssert([[tester client] serverProcessID]==0);
+	XCTAssert([[tester client] timeout]==0);
+	XCTAssert([[tester client] user]==nil);
+	XCTAssert([[tester client] database]==nil);
+}
+
+
+-(void)test_003_connect_async_badurl {
 	XCTAssertEqual([[tester client] status],PGConnectionStatusDisconnected);
 	XCTAssert([[tester client] serverProcessID]==0);
 	XCTAssert([[tester client] timeout]==0);
@@ -111,19 +157,73 @@
 	XCTAssert([[tester client] database]==nil);
 }
 
-
--(void)test_004 {
+-(void)test_003_connect_sync {
 	XCTAssertEqual([[tester client] status],PGConnectionStatusDisconnected);
 	XCTAssert([[tester client] serverProcessID]==0);
 	XCTAssert([[tester client] timeout]==0);
 	XCTAssert([[tester client] user]==nil);
 	XCTAssert([[tester client] database]==nil);
 
-	// perform ping in foreground
+	BOOL success = [[tester client] connectWithURL:[tester url] usedPassword:nil error:nil];
+	XCTAssertTrue(success);
+	
+	XCTAssertEqual([[tester client] status],PGConnectionStatusDisconnected);
+	XCTAssert([[tester client] serverProcessID]==0);
+	XCTAssert([[tester client] timeout]==0);
+	XCTAssert([[tester client] user]==nil);
+	XCTAssert([[tester client] database]==nil);
+}
+
+-(void)test_004_ping_async {
+	XCTAssertEqual([[tester client] status],PGConnectionStatusDisconnected);
+	XCTAssert([[tester client] serverProcessID]==0);
+	XCTAssert([[tester client] timeout]==0);
+	XCTAssert([[tester client] user]==nil);
+	XCTAssert([[tester client] database]==nil);
+
+	// perform ping async
 	NSURL* url = [tester url];
 	[[tester client] pingWithURL:url whenDone:^(NSError *error) {
 		XCTAssertFalse(error,@"pingWithURL Error: %@",error);
 	}];
+
+	XCTAssertEqual([[tester client] status],PGConnectionStatusDisconnected);
+	XCTAssert([[tester client] serverProcessID]==0);
+	XCTAssert([[tester client] timeout]==0);
+	XCTAssert([[tester client] user]==nil);
+	XCTAssert([[tester client] database]==nil);
+}
+
+-(void)test_004_ping_sync {
+	XCTAssertEqual([[tester client] status],PGConnectionStatusDisconnected);
+	XCTAssert([[tester client] serverProcessID]==0);
+	XCTAssert([[tester client] timeout]==0);
+	XCTAssert([[tester client] user]==nil);
+	XCTAssert([[tester client] database]==nil);
+
+	// perform ping sync
+	NSURL* url = [tester url];
+	BOOL success = [[tester client] pingWithURL:url error:nil];
+	XCTAssert(success);
+
+	XCTAssertEqual([[tester client] status],PGConnectionStatusDisconnected);
+	XCTAssert([[tester client] serverProcessID]==0);
+	XCTAssert([[tester client] timeout]==0);
+	XCTAssert([[tester client] user]==nil);
+	XCTAssert([[tester client] database]==nil);
+}
+
+-(void)test_004_ping_fail {
+	XCTAssertEqual([[tester client] status],PGConnectionStatusDisconnected);
+	XCTAssert([[tester client] serverProcessID]==0);
+	XCTAssert([[tester client] timeout]==0);
+	XCTAssert([[tester client] user]==nil);
+	XCTAssert([[tester client] database]==nil);
+
+	// perform ping sync
+	NSURL* url = [tester urlWithPort:99];
+	BOOL success = [[tester client] pingWithURL:url error:nil];
+	XCTAssertFalse(success);
 
 	XCTAssertEqual([[tester client] status],PGConnectionStatusDisconnected);
 	XCTAssert([[tester client] serverProcessID]==0);

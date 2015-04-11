@@ -149,6 +149,13 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 }
 
 -(BOOL)connectWithURL:(NSURL* )url usedPassword:(BOOL* )usedPassword error:(NSError** )error {
+	// not yet implemented!
+	[self raiseError:error code:PGClientErrorUnknown reason:@"connectWithURL: not yet implemented"];
+	return NO;
+}
+/*
+
+
 	dispatch_semaphore_t s = dispatch_semaphore_create(0);
 	__block BOOL returnValue = NO;
 	[self connectWithURL:url whenDone:^(BOOL p, NSError* e) {
@@ -166,6 +173,7 @@ PGKVPairs* makeKVPairs(NSDictionary* dict) {
 	dispatch_semaphore_wait(s,DISPATCH_TIME_FOREVER);
 	return returnValue;
 }
+*/
 
 @end
 

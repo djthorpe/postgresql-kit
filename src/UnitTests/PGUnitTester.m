@@ -39,6 +39,10 @@
 	return [NSURL URLWithSocketPath:nil port:[self port] database:nil username:PGServerSuperuser params:nil];
 }
 
+-(NSURL* )urlWithPort:(NSUInteger)port {
+	return [NSURL URLWithSocketPath:nil port:port database:nil username:PGServerSuperuser params:nil];
+}
+
 // methods
 -(BOOL)setUp {
 	NSLog(@"setUp");

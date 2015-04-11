@@ -77,6 +77,7 @@ typedef enum {
 	CFRunLoopSourceRef _runloopsource;
 	NSUInteger _timeout;
 	PGConnectionState _state;
+	NSDictionary* _parameters;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -138,9 +139,20 @@ typedef enum {
 @property (readonly) NSString* database;
 
 /**
+ *  The hostname of the current connection, or nil if no connection is made,
+ *  or if the connection is through a file-based socket.
+ */
+@property (readonly) NSString* host;
+
+/**
  *  The current server process ID
  */
 @property (readonly) int serverProcessID;
+
+/**
+ *  Dictionary of various parameters hashed against PGConnectionParameterKeys
+ */
+@property (readonly) NSDictionary* parameters;
 
 ////////////////////////////////////////////////////////////////////////////////
 // string quoting and transformation
@@ -323,6 +335,26 @@ typedef enum {
  *                  else the error is set to nil.
  */
 -(void)pingWithURL:(NSURL* )url whenDone:(void(^)(NSError* error)) callback;
+
+/**
+ *  "Ping" a remote database to determine if a connection can be initiated.
+ *  Note that this method doesn't check credentials, only that a connection 
+ *  could be initiated. For example, no attempt to made to check the username, 
+ *  password or database parameters. It is possible to use this method regardless
+ *  of the current connection state.
+ *
+ *  The method returns after the ping is done, therefore blocking the runloop. 
+ *  On unsuccessful completion, the error message contains further details of 
+ *  the error.
+ *
+ *  @param url   The specification of the database that should be pinged
+ *  @param error The error details returned on performing the ping, if NO
+ *               is returned by the function.
+ *
+ *  @return Returns YES on successful completion, or returns NO if the ping
+ *          could not be performed.
+ */
+-(BOOL)pingWithURL:(NSURL* )url error:(NSError** )error;
 
 @end
 

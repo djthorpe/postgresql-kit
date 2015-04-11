@@ -14,6 +14,7 @@
 
 #import <PGClientKit/PGClientKit.h>
 #import <PGClientKit/PGClientKit+Private.h>
+#include <openssl/ssl.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark Constants
@@ -26,6 +27,19 @@ NSString* PGClientErrorDomain = @"PGClient";
 NSUInteger PGClientDefaultPort = DEF_PGPORT;
 NSUInteger PGClientMaximumPort = 65535;
 NSDictionary* PGConnectionStatusDescription = nil;
+
+// parameter keys
+NSString* PGConnectionVersionKey = @"Version";
+NSString* PGConnectionProtocolVersionKey = @"ProtocolVersion";
+NSString* PGConnectionServerVersionKey = @"ServerVersion";
+NSString* PGConnectionServerMajorVersionKey = @"ServerVersionMajor";
+NSString* PGConnectionServerMinorVersionKey = @"ServerVersionMinor";
+NSString* PGConnectionServerRevisionVersionKey = @"ServerVersionRevision";
+NSString* PGConnectionSSLVersionKey = @"SSLVersion";
+NSString* PGConnectionServerProcessKey = @"ServerProcess";
+NSString* PGConnectionUserKey = @"User";
+NSString* PGConnectionDatabaseKey = @"Database";
+NSString* PGConnectionHostKey = @"Host";
 
 @implementation PGConnection
 
@@ -55,6 +69,7 @@ NSDictionary* PGConnectionStatusDescription = nil;
 		_runloopsource = nil;
 		_timeout = 0;
 		_state = PGConnectionStateNone;
+		_parameters = nil;
 		pgdata2obj_init(); // set up cache for translating binary data from server
     }
     return self;
@@ -72,6 +87,8 @@ NSDictionary* PGConnectionStatusDescription = nil;
 @dynamic user;
 @dynamic database;
 @dynamic serverProcessID;
+@dynamic parameters;
+@dynamic host;
 @synthesize timeout = _timeout;
 @synthesize state = _state;
 
@@ -108,11 +125,95 @@ NSDictionary* PGConnectionStatusDescription = nil;
 	return [NSString stringWithUTF8String:PQdb(_connection)];
 }
 
+-(NSString* )host {
+	if(_connection==nil || PQstatus(_connection) != CONNECTION_OK) {
+		return nil;
+	}
+	const char* host = PQhost(_connection);
+	if(host) {
+		return [NSString stringWithUTF8String:host];
+	} else {
+		return nil;
+	}
+}
+
 -(int)serverProcessID {
 	if(_connection==nil || PQstatus(_connection) != CONNECTION_OK) {
 		return 0;
 	}
 	return PQbackendPID(_connection);
+}
+
+-(NSDictionary* )parameters {
+	if(_parameters != nil) {
+		return _parameters;
+	}
+	NSMutableDictionary* parameters = [NSMutableDictionary dictionary];
+	NSParameterAssert(parameters);
+	_parameters = parameters;
+
+	// populate parameters from bundle
+	NSBundle* bundle = [NSBundle bundleForClass:[self class]];
+	for(NSString* key in @[ @"CFBundleIdentifier", @"CFBundleName", @"CFBundleShortVersionString" ]) {
+		id value = [[bundle infoDictionary] objectForKey:key];
+		if(value) {
+			[parameters setObject:value forKey:key];
+		}
+	}
+
+	// populate parameters from connection
+	if(_connection) {
+
+		// server version
+		int serverVersion = PQserverVersion(_connection);
+		if(serverVersion) {
+			[parameters setObject:[NSNumber numberWithInt:serverVersion] forKey:PGConnectionServerVersionKey];
+			[parameters setObject:[NSNumber numberWithInt:(serverVersion / 10000) % 10] forKey:PGConnectionServerMajorVersionKey];
+			[parameters setObject:[NSNumber numberWithInt:(serverVersion / 100) % 10] forKey:PGConnectionServerMinorVersionKey];
+			[parameters setObject:[NSNumber numberWithInt:(serverVersion / 1) % 10] forKey:PGConnectionServerRevisionVersionKey];
+		}
+	
+		// protocol version and pid
+		NSNumber* protocol = [NSNumber numberWithInt:PQprotocolVersion(_connection)];
+		NSNumber* pid = [NSNumber numberWithInt:[self serverProcessID]];
+		if(protocol) {
+			[parameters setObject:protocol forKey:PGConnectionProtocolVersionKey];
+		}
+		if(pid) {
+			[parameters setObject:pid forKey:PGConnectionServerProcessKey];
+		}
+
+		// user, database & host
+		NSString* user = [self user];
+		NSString* database = [self database];
+		NSString* host = [self host];
+		if(user) {
+			[parameters setObject:user forKey:PGConnectionUserKey];
+		}
+		if(database) {
+			[parameters setObject:database forKey:PGConnectionDatabaseKey];
+		}
+		if(host) {
+			[parameters setObject:database forKey:PGConnectionHostKey];
+		}
+
+		// ssl
+		SSL* ssl = PQgetssl(_connection);
+		if(ssl) {
+			[parameters setObject:[NSNumber numberWithInt:ssl->version] forKey:PGConnectionSSLVersionKey];
+		}
+		
+		// other server parameters
+		for(NSString* key in @[ @"server_version", @"server_encoding", @"client_encoding", @"application_name", @"is_superuser", @"session_authorization", @"DateStyle", @"IntervalStyle", @"TimeZone", @"integer_datetimes", @"standard_conforming_strings"]) {
+			const char* value = PQparameterStatus(_connection,[key UTF8String]);
+			if(value) {
+				[parameters setObject:[NSString stringWithUTF8String:value] forKey:key];
+			}
+		}
+	}
+	
+	// return parameters
+	return parameters;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
