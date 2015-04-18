@@ -395,6 +395,13 @@
 			remoteGlobalIDString = 6ED763FA15F2673600687079;
 			remoteInfo = PGServerKit_mac;
 		};
+		6E3FB8E11AD97EC800166A57 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E256FDE15F252620079AD2D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6ED85B3516288C4800A6DC02;
+			remoteInfo = PGClientKit_mac;
+		};
 		6E489C301A6D8F7B008E3068 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6E256FDE15F252620079AD2D /* Project object */;
@@ -1848,6 +1855,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				6E3FB8E21AD97EC800166A57 /* PBXTargetDependency */,
 			);
 			name = PGControlsKit_mac;
 			productName = PGControlsKit;
@@ -2126,17 +2134,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E69F6B71A67C0040014EC1F /* NOTICE.md in Resources */,
 				6E6154C51AC6A96B00541DDE /* Images.xcassets in Resources */,
+				6E69F6B71A67C0040014EC1F /* NOTICE.md in Resources */,
 				6E37869F1A69783D0018BEA0 /* Version.plist in Resources */,
-				141BEBD31AB44485000EFCFC /* PGDialog.xib in Resources */,
 				6EE4E2081A61A22D00BEC4AD /* ResizeControl.png in Resources */,
 				6E5D8BD71A67056500C54D42 /* elephant-64.png in Resources */,
+				6E45A41C1A73DCDE00E20B36 /* elephant-72.png in Resources */,
 				6EE4E2071A61A22B00BEC4AD /* Gradient.png in Resources */,
+				141BEBD31AB44485000EFCFC /* PGDialog.xib in Resources */,
 				6E69F6AD1A67AD340014EC1F /* PGSourceView.xib in Resources */,
 				6E0C81721A619E2E0032AE32 /* PGSplitView.xib in Resources */,
 				6E45A3841A73A2BD00E20B36 /* PGHelpWindow.xib in Resources */,
-				6E45A41C1A73DCDE00E20B36 /* elephant-72.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2526,6 +2534,11 @@
 			isa = PBXTargetDependency;
 			target = 6ED763FA15F2673600687079 /* PGServerKit_mac */;
 			targetProxy = 6E2A14FD1A59488700F12954 /* PBXContainerItemProxy */;
+		};
+		6E3FB8E21AD97EC800166A57 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6ED85B3516288C4800A6DC02 /* PGClientKit_mac */;
+			targetProxy = 6E3FB8E11AD97EC800166A57 /* PBXContainerItemProxy */;
 		};
 		6E489C311A6D8F7B008E3068 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

@@ -116,6 +116,25 @@ extern NSString* PGServerSuperuser;
 -(BOOL)startWithNetworkBinding:(NSString* )hostname port:(NSUInteger)port;
 
 /**
+ *  Start the shared server with a network interface binding, so that the
+ *  server is accessible through the default socket port and through a network
+ *  interface. Uses the provided port parameter to both bind the interface and
+ *  in order to name the socket. If the hostname is set to @"*" then all network
+ *  interfaces are bound to. If the server configuration and data files do not 
+ *  yet exist, they are initialized. The method returns immediately, and the 
+ *  current state of the server can be queried later to determine if the start 
+ *  actually occurred.
+ *
+ *  @param hostname Network interface to bind to, or "*" for all interfaces.
+ *  @param port     Network port to bind to, or 0 for the default port.
+ *  @param socketPath Folder in which to place the socket, which must be writable.
+ *
+ *  @return returns YES if the initiation of the server starting could occur, NO
+ *    otherwise.
+ */
+-(BOOL)startWithNetworkBinding:(NSString* )hostname port:(NSUInteger)port socketPath:(NSString* )socketPath;
+
+/**
  *  Initiates a stop of the PostgreSQL server. Returns immediately, but the
  *  progress in stopping the server can be monitored through the delegate. The
  *  stopping mechanism tries to cleanly shutdown the server in the first instance,
