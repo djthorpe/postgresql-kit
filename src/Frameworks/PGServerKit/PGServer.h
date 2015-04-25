@@ -169,6 +169,30 @@ extern NSString* PGServerSuperuser;
 -(BOOL)reload;
 
 /**
+ *  This method returns the data in the host access file, from which you can 
+ *  create a PGHostAccessArray object.
+ *
+ *  @return Returns the data from the file in an NSData structure, or nil if the
+ *          file could not be read
+ */
+-(NSData* )readHostAccessConfiguration;
+
+/**
+ *  This method writes the host access file from an NSData object, which can be
+ *  returned from a PGHostAccessArray object. If the data was changed compared to
+ *  the existing file, the boolean needsReload flag is set to YES. An error can
+ *  also be returned describing any error condition when NO is returned
+ *
+ *  @param data        The data from the PGHostAccessArray object
+ *  @param needsReload A boolean flag is returned indicating if a reload should
+ *                     be performed (ie, if the access was changed)
+ *  @param error       A pointer to an error object, which is set on error
+ *
+ *  @return Returns YES on success or will return NO and set the error
+ */
+-(BOOL)writeHostAccessConfiguration:(NSData* )data needsReload:(BOOL* )needsReload error:(NSError** )error;
+
+/**
  *  Returns a string describing a particular server state.
  *
  *  @param theState The server state value

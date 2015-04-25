@@ -767,5 +767,31 @@ NSString* PGServerSuperuser = @"postgres";
 	}
 }
 
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark Host Access Configuration methods
+
+-(NSString* )_hostAccessConfigurationPath {
+	return [[self dataPath] stringByAppendingPathComponent:[PGServer _hostAccessRulesFilename]];
+}
+
+-(NSData* )readHostAccessConfiguration {
+	return [NSData dataWithContentsOfFile:[self _hostAccessConfigurationPath]];
+}
+
+-(BOOL)writeHostAccessConfiguration:(NSData* )data needsReload:(BOOL* )needsReload error:(NSError** )error {
+	NSParameterAssert(data);
+	// check to see if a reload is required
+	NSData* existingData = [self readHostAccessConfiguration];
+	BOOL needsReload2 = [existingData isEqual:data] ? NO : YES;
+	if(needsReload) {
+		(*needsReload) = needsReload2;
+	}
+	if(needsReload==NO) {
+		return YES;
+	}
+	// write the data to disk
+	return [data writeToFile:[self _hostAccessConfigurationPath] options:0 error:error];
+}
+
 @end
 
