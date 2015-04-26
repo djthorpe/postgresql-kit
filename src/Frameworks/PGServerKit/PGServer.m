@@ -625,8 +625,8 @@ NSString* PGServerSuperuser = @"postgres";
 -(BOOL)startWithNetworkBinding:(NSString* )hostname port:(NSUInteger)port socketPath:(NSString* )socketPath {
 	NSParameterAssert([self dataPath]);
 
-	// check current state, needs to be unknown or stopped
-	if([self state] != PGServerStateUnknown && [self state] != PGServerStateStopped) {
+	// check current state, needs to be unknown, stopped or error
+	if([self state] != PGServerStateUnknown && [self state] != PGServerStateStopped && [self state] != PGServerStateError) {
 		return NO;
 	}
 	
