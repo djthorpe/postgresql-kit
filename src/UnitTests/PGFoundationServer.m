@@ -57,6 +57,7 @@
 @dynamic dataPath;
 @dynamic pid;
 @dynamic port;
+@synthesize pgserver = _server;
 
 -(BOOL)isStarted {
 	return ([_server state]==PGServerStateRunning || [_server state]==PGServerStateAlreadyRunning);

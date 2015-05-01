@@ -34,6 +34,7 @@
 @property (readonly) NSString* dataPath;
 @property (readonly) int pid;
 @property (readonly) NSUInteger port;
+@property (readonly) PGServer* pgserver;
 
 // methods
 -(BOOL)start;

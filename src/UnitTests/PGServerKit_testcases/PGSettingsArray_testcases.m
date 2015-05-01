@@ -19,7 +19,12 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-@interface PGSettingsArray_testcases : XCTestCase
+@interface PGSettingsArray_testcases : XCTestCase {
+	PGFoundationServer* _server;
+	BOOL _lastTest;
+}
+
+@property (readonly) PGServer* server;
 
 @end
 
@@ -27,16 +32,53 @@
 
 @implementation PGSettingsArray_testcases
 
+@dynamic server;
+
+-(PGServer* )server {
+	return [_server pgserver];
+}
+
 -(void)setUp {
     [super setUp];
-    // TODO
+	if(_server==nil) {
+		_server = [[PGFoundationServer alloc] init];
+		_lastTest = NO;
+	}
+	XCTAssert(_server);
+	if(_server && [_server isStarted]==NO) {
+		[_server start];
+	}
 }
 
 - (void)tearDown {
-    // TODO
+	if(_lastTest && _server) {
+		[_server stop];
+	}
     [super tearDown];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+
+-(void)test_001 {
+	XCTAssert([_server isStarted]==YES);
+}
+
+-(void)test_002 {
+	XCTAssert([_server isStarted]==YES);
+	NSData* settings = [[self server] readSettingsConfiguration];
+	XCTAssert(settings);
+}
+
+-(void)test_003 {
+	XCTAssert([_server isStarted]==YES);
+	NSData* data = [[self server] readSettingsConfiguration];
+	PGSettingsArray* settings = [[PGSettingsArray alloc] initWithData:data];
+	NSLog(@"settings = %@",settings);
+	XCTAssert(settings);
+}
+
+-(void)test_999 {
+	_lastTest = YES;
+}
 
 @end
