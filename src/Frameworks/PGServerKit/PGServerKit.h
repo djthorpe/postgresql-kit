@@ -33,6 +33,10 @@ typedef enum {
 
 // forward class declarations
 @class PGServer;
+@class PGHostAccessArray;
+@class PGHostAccessRule;
+@class PGSettingsArray;
+@class PGSettingsRule;
 
 // PGServerDelegate protocol
 @protocol PGServerDelegate <NSObject>
@@ -43,4 +47,9 @@ typedef enum {
 
 // include public header files
 #import "PGServer.h"
+#import "PGHostAccessArray.h"
+#import "PGHostAccessRule.h"
+//#import "PGSettingsArray.h"
+//#import "PGSettingsRule.h"
+
 

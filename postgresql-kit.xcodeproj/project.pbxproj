@@ -280,6 +280,10 @@
 		6EAA40EB17BC150E0078EB32 /* NSURL+PGAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EAA40E917BC150E0078EB32 /* NSURL+PGAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6EAA40ED17BC150E0078EB32 /* NSURL+PGAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EAA40EA17BC150E0078EB32 /* NSURL+PGAdditions.m */; };
 		6EB1E79615F282910093F784 /* PGServerKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EB1E74015F273350093F784 /* PGServerKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6EBDEA411AF38032009CC810 /* PGHostAccessArray.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EBDEA3D1AF38032009CC810 /* PGHostAccessArray.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6EBDEA421AF38032009CC810 /* PGHostAccessArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EBDEA3E1AF38032009CC810 /* PGHostAccessArray.m */; };
+		6EBDEA431AF38032009CC810 /* PGHostAccessRule.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EBDEA3F1AF38032009CC810 /* PGHostAccessRule.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6EBDEA441AF38032009CC810 /* PGHostAccessRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EBDEA401AF38032009CC810 /* PGHostAccessRule.m */; };
 		6EC5E6791AD7B55900774D57 /* PGQueryInsert.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EC5E6771AD7B55900774D57 /* PGQueryInsert.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6EC5E67A1AD7B55900774D57 /* PGQueryInsert.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC5E6781AD7B55900774D57 /* PGQueryInsert.m */; };
 		6EC5E6801AD7BDDE00774D57 /* PGQueryUpdate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EC5E67E1AD7BDDE00774D57 /* PGQueryUpdate.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -784,6 +788,10 @@
 		6EB1E74015F273350093F784 /* PGServerKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGServerKit.h; sourceTree = "<group>"; };
 		6EB5485417AEC9CA000F4AA2 /* elephant-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "elephant-72.png"; sourceTree = "<group>"; };
 		6EB5485917AECCAF000F4AA2 /* elephant-144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "elephant-144.png"; sourceTree = "<group>"; };
+		6EBDEA3D1AF38032009CC810 /* PGHostAccessArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGHostAccessArray.h; sourceTree = "<group>"; };
+		6EBDEA3E1AF38032009CC810 /* PGHostAccessArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGHostAccessArray.m; sourceTree = "<group>"; };
+		6EBDEA3F1AF38032009CC810 /* PGHostAccessRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGHostAccessRule.h; sourceTree = "<group>"; };
+		6EBDEA401AF38032009CC810 /* PGHostAccessRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGHostAccessRule.m; sourceTree = "<group>"; };
 		6EC5E6771AD7B55900774D57 /* PGQueryInsert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGQueryInsert.h; sourceTree = "<group>"; };
 		6EC5E6781AD7B55900774D57 /* PGQueryInsert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGQueryInsert.m; sourceTree = "<group>"; };
 		6EC5E67E1AD7BDDE00774D57 /* PGQueryUpdate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGQueryUpdate.h; sourceTree = "<group>"; };
@@ -1604,6 +1612,10 @@
 				6E48B370160604270044A6CB /* PGServer+Private.h */,
 				6EA41EEE1610E7DB00E81046 /* PGServer.h */,
 				6EA41EEF1610E7DB00E81046 /* PGServer.m */,
+				6EBDEA3D1AF38032009CC810 /* PGHostAccessArray.h */,
+				6EBDEA3E1AF38032009CC810 /* PGHostAccessArray.m */,
+				6EBDEA3F1AF38032009CC810 /* PGHostAccessRule.h */,
+				6EBDEA401AF38032009CC810 /* PGHostAccessRule.m */,
 				6EB1E73F15F273350093F784 /* PGServerKit.plist */,
 			);
 			path = PGServerKit;
@@ -1784,6 +1796,8 @@
 			files = (
 				6EB1E79615F282910093F784 /* PGServerKit.h in Headers */,
 				6EA41EF01610E7DB00E81046 /* PGServer.h in Headers */,
+				6EBDEA411AF38032009CC810 /* PGHostAccessArray.h in Headers */,
+				6EBDEA431AF38032009CC810 /* PGHostAccessRule.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2445,6 +2459,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6EBDEA421AF38032009CC810 /* PGHostAccessArray.m in Sources */,
+				6EBDEA441AF38032009CC810 /* PGHostAccessRule.m in Sources */,
 				6EA41EF11610E7DB00E81046 /* PGServer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

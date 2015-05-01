@@ -13,7 +13,6 @@
 // under the License.
 
 #import <Foundation/Foundation.h>
-#import "PGServerKit.h"
 
 extern NSUInteger PGServerDefaultPort;
 extern NSString* PGServerSuperuser;
