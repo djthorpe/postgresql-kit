@@ -49,7 +49,7 @@ typedef enum {
 #import "PGServer.h"
 #import "PGHostAccessArray.h"
 #import "PGHostAccessRule.h"
-//#import "PGSettingsArray.h"
-//#import "PGSettingsRule.h"
+#import "PGSettingsArray.h"
+#import "PGSettingsRule.h"
 
 

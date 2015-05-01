@@ -165,8 +165,6 @@
 		6E222C5217B035F00087A483 /* LDAP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E222C5117B035F00087A483 /* LDAP.framework */; };
 		6E24DCC01AB2D8DE00115F61 /* PGDialogBackgroundView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E24DCBE1AB2D8DE00115F61 /* PGDialogBackgroundView.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6E24DCC11AB2D8DE00115F61 /* PGDialogBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E24DCBF1AB2D8DE00115F61 /* PGDialogBackgroundView.m */; };
-		6E2A14FB1A59488700F12954 /* PGServerKit_testcases.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2A14FA1A59488700F12954 /* PGServerKit_testcases.m */; };
-		6E2A14FC1A59488700F12954 /* PGServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
 		6E308CFC1ABD70F90091BD17 /* PGDialogButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E308CFA1ABD70F90091BD17 /* PGDialogButton.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6E308CFD1ABD70F90091BD17 /* PGDialogButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E308CFB1ABD70F90091BD17 /* PGDialogButton.m */; };
 		6E308D011ABD7FEA0091BD17 /* NSError+PGAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E308D001ABD7FEA0091BD17 /* NSError+PGAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -284,6 +282,15 @@
 		6EBDEA421AF38032009CC810 /* PGHostAccessArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EBDEA3E1AF38032009CC810 /* PGHostAccessArray.m */; };
 		6EBDEA431AF38032009CC810 /* PGHostAccessRule.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EBDEA3F1AF38032009CC810 /* PGHostAccessRule.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6EBDEA441AF38032009CC810 /* PGHostAccessRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EBDEA401AF38032009CC810 /* PGHostAccessRule.m */; };
+		6EBDEA491AF381CA009CC810 /* PGSettingsArray.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EBDEA471AF381CA009CC810 /* PGSettingsArray.h */; };
+		6EBDEA4A1AF381CA009CC810 /* PGSettingsArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EBDEA481AF381CA009CC810 /* PGSettingsArray.m */; };
+		6EBDEA501AF3826A009CC810 /* PGSettingsRule.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EBDEA4E1AF3826A009CC810 /* PGSettingsRule.h */; };
+		6EBDEA511AF3826A009CC810 /* PGSettingsRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EBDEA4F1AF3826A009CC810 /* PGSettingsRule.m */; };
+		6EBDEA621AF38B09009CC810 /* PGClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED85B4616288C4800A6DC02 /* PGClientKit.framework */; };
+		6EBDEA631AF38B09009CC810 /* PGServerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED763FB15F2673600687079 /* PGServerKit.framework */; };
+		6EBDEA6A1AF38CAF009CC810 /* PGServerKit_testcases.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2A14FA1A59488700F12954 /* PGServerKit_testcases.m */; };
+		6EBDEA6B1AF38CB1009CC810 /* PGSettingsArray_testcases.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EBDEA521AF38A92009CC810 /* PGSettingsArray_testcases.m */; };
+		6EBDEA6C1AF38CB3009CC810 /* PGFoundationServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 149BA19E1A98857C007B86A0 /* PGFoundationServer.m */; };
 		6EC5E6791AD7B55900774D57 /* PGQueryInsert.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EC5E6771AD7B55900774D57 /* PGQueryInsert.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6EC5E67A1AD7B55900774D57 /* PGQueryInsert.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC5E6781AD7B55900774D57 /* PGQueryInsert.m */; };
 		6EC5E6801AD7BDDE00774D57 /* PGQueryUpdate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EC5E67E1AD7BDDE00774D57 /* PGQueryUpdate.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -392,13 +399,6 @@
 			remoteGlobalIDString = 6E83260F17AD15F3002AFCBC;
 			remoteInfo = libpq_ios;
 		};
-		6E2A14FD1A59488700F12954 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6E256FDE15F252620079AD2D /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 6ED763FA15F2673600687079;
-			remoteInfo = PGServerKit_mac;
-		};
 		6E3FB8E11AD97EC800166A57 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6E256FDE15F252620079AD2D /* Project object */;
@@ -419,6 +419,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = 6ED85B3516288C4800A6DC02;
 			remoteInfo = PGClientKit;
+		};
+		6EBDEA561AF38B09009CC810 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E256FDE15F252620079AD2D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6ED85B3516288C4800A6DC02;
+			remoteInfo = PGClientKit_mac;
+		};
+		6EBDEA581AF38B09009CC810 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E256FDE15F252620079AD2D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6ED763FA15F2673600687079;
+			remoteInfo = PGServerKit_mac;
 		};
 		6ECA7AEB15F363DB00AF2B70 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -662,7 +676,6 @@
 		6E23F66C1AC5E05200227100 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		6E24DCBE1AB2D8DE00115F61 /* PGDialogBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGDialogBackgroundView.h; sourceTree = "<group>"; };
 		6E24DCBF1AB2D8DE00115F61 /* PGDialogBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGDialogBackgroundView.m; sourceTree = "<group>"; };
-		6E2A14F61A59488700F12954 /* .xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = .xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E2A14F91A59488700F12954 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6E2A14FA1A59488700F12954 /* PGServerKit_testcases.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PGServerKit_testcases.m; sourceTree = "<group>"; };
 		6E308CFA1ABD70F90091BD17 /* PGDialogButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGDialogButton.h; sourceTree = "<group>"; };
@@ -792,6 +805,13 @@
 		6EBDEA3E1AF38032009CC810 /* PGHostAccessArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGHostAccessArray.m; sourceTree = "<group>"; };
 		6EBDEA3F1AF38032009CC810 /* PGHostAccessRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGHostAccessRule.h; sourceTree = "<group>"; };
 		6EBDEA401AF38032009CC810 /* PGHostAccessRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGHostAccessRule.m; sourceTree = "<group>"; };
+		6EBDEA471AF381CA009CC810 /* PGSettingsArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSettingsArray.h; sourceTree = "<group>"; };
+		6EBDEA481AF381CA009CC810 /* PGSettingsArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSettingsArray.m; sourceTree = "<group>"; };
+		6EBDEA4E1AF3826A009CC810 /* PGSettingsRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSettingsRule.h; sourceTree = "<group>"; };
+		6EBDEA4F1AF3826A009CC810 /* PGSettingsRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSettingsRule.m; sourceTree = "<group>"; };
+		6EBDEA521AF38A92009CC810 /* PGSettingsArray_testcases.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSettingsArray_testcases.m; sourceTree = "<group>"; };
+		6EBDEA681AF38B09009CC810 /* PGServerKit_unittests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PGServerKit_unittests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6EBDEA691AF38B09009CC810 /* PGClientKit_unittests copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "PGClientKit_unittests copy-Info.plist"; path = "/Volumes/Users/djt/Projects/postgresql-kit/PGClientKit_unittests copy-Info.plist"; sourceTree = "<absolute>"; };
 		6EC5E6771AD7B55900774D57 /* PGQueryInsert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGQueryInsert.h; sourceTree = "<group>"; };
 		6EC5E6781AD7B55900774D57 /* PGQueryInsert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGQueryInsert.m; sourceTree = "<group>"; };
 		6EC5E67E1AD7BDDE00774D57 /* PGQueryUpdate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGQueryUpdate.h; sourceTree = "<group>"; };
@@ -857,14 +877,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6E2A14F31A59488700F12954 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				6E2A14FC1A59488700F12954 /* PGServerKit.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		6E489C271A6D8EFA008E3068 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -898,6 +910,15 @@
 			files = (
 				6EA7CA5E1AB23E6800F22E90 /* PGClientKit.framework in Frameworks */,
 				6EA7CA5F1AB23E6800F22E90 /* PGControlsKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6EBDEA611AF38B09009CC810 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6EBDEA621AF38B09009CC810 /* PGClientKit.framework in Frameworks */,
+				6EBDEA631AF38B09009CC810 /* PGServerKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1396,6 +1417,7 @@
 				6ED763FD15F2673600687079 /* Frameworks */,
 				6ED763FC15F2673600687079 /* Products */,
 				6E1548621A582BD900556573 /* postgresql-kit.wiki */,
+				6EBDEA691AF38B09009CC810 /* PGClientKit_unittests copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1404,6 +1426,7 @@
 			children = (
 				6E2A14F91A59488700F12954 /* Info.plist */,
 				6E2A14FA1A59488700F12954 /* PGServerKit_testcases.m */,
+				6EBDEA521AF38A92009CC810 /* PGSettingsArray_testcases.m */,
 			);
 			path = PGServerKit_testcases;
 			sourceTree = "<group>";
@@ -1614,8 +1637,12 @@
 				6EA41EEF1610E7DB00E81046 /* PGServer.m */,
 				6EBDEA3D1AF38032009CC810 /* PGHostAccessArray.h */,
 				6EBDEA3E1AF38032009CC810 /* PGHostAccessArray.m */,
+				6EBDEA471AF381CA009CC810 /* PGSettingsArray.h */,
+				6EBDEA481AF381CA009CC810 /* PGSettingsArray.m */,
 				6EBDEA3F1AF38032009CC810 /* PGHostAccessRule.h */,
 				6EBDEA401AF38032009CC810 /* PGHostAccessRule.m */,
+				6EBDEA4E1AF3826A009CC810 /* PGSettingsRule.h */,
+				6EBDEA4F1AF3826A009CC810 /* PGSettingsRule.m */,
 				6EB1E73F15F273350093F784 /* PGServerKit.plist */,
 			);
 			path = PGServerKit;
@@ -1644,11 +1671,11 @@
 				6E4DEC85162CC38D008B26BD /* PGFoundationClient */,
 				14F1E84717CB83CD00710D4A /* PGControlsKit.framework */,
 				6E1548291A5816E600556573 /* PGClientKit_ios.framework */,
-				6E2A14F61A59488700F12954 /* .xctest */,
 				6E55A2091A618B0000CD2B60 /* PGClient.app */,
 				6E489C2D1A6D8EFA008E3068 /* .xctest */,
 				147070C61A90CB450069EF9C /* PGClientKit_unittests.xctest */,
 				6EA7CA311AB23D4900F22E90 /* ControlsTest.app */,
+				6EBDEA681AF38B09009CC810 /* PGServerKit_unittests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1796,7 +1823,9 @@
 			files = (
 				6EB1E79615F282910093F784 /* PGServerKit.h in Headers */,
 				6EA41EF01610E7DB00E81046 /* PGServer.h in Headers */,
+				6EBDEA501AF3826A009CC810 /* PGSettingsRule.h in Headers */,
 				6EBDEA411AF38032009CC810 /* PGHostAccessArray.h in Headers */,
+				6EBDEA491AF381CA009CC810 /* PGSettingsArray.h in Headers */,
 				6EBDEA431AF38032009CC810 /* PGHostAccessRule.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1895,24 +1924,6 @@
 			productReference = 6E1548291A5816E600556573 /* PGClientKit_ios.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		6E2A14F51A59488700F12954 /* PGServerKit_testcases */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 6E2A14FF1A59488700F12954 /* Build configuration list for PBXNativeTarget "PGServerKit_testcases" */;
-			buildPhases = (
-				6E2A14F21A59488700F12954 /* Sources */,
-				6E2A14F31A59488700F12954 /* Frameworks */,
-				6E2A14F41A59488700F12954 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				6E2A14FE1A59488700F12954 /* PBXTargetDependency */,
-			);
-			name = PGServerKit_testcases;
-			productName = PGServerKit_testcases;
-			productReference = 6E2A14F61A59488700F12954 /* .xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 		6E489C211A6D8EFA008E3068 /* PGControlsKit_testcases */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6E489C2A1A6D8EFA008E3068 /* Build configuration list for PBXNativeTarget "PGControlsKit_testcases" */;
@@ -1988,6 +1999,25 @@
 			productReference = 6EA7CA311AB23D4900F22E90 /* ControlsTest.app */;
 			productType = "com.apple.product-type.application";
 		};
+		6EBDEA541AF38B09009CC810 /* PGServerKit_unittests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6EBDEA651AF38B09009CC810 /* Build configuration list for PBXNativeTarget "PGServerKit_unittests" */;
+			buildPhases = (
+				6EBDEA591AF38B09009CC810 /* Sources */,
+				6EBDEA611AF38B09009CC810 /* Frameworks */,
+				6EBDEA641AF38B09009CC810 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6EBDEA551AF38B09009CC810 /* PBXTargetDependency */,
+				6EBDEA571AF38B09009CC810 /* PBXTargetDependency */,
+			);
+			name = PGServerKit_unittests;
+			productName = PGClientKit_unittests;
+			productReference = 6EBDEA681AF38B09009CC810 /* PGServerKit_unittests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		6ECA7ADB15F3637600AF2B70 /* PGFoundationServer */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6ECA7AE615F3637600AF2B70 /* Build configuration list for PBXNativeTarget "PGFoundationServer" */;
@@ -2059,9 +2089,6 @@
 					6E1548281A5816E600556573 = {
 						CreatedOnToolsVersion = 6.1.1;
 					};
-					6E2A14F51A59488700F12954 = {
-						CreatedOnToolsVersion = 6.1.1;
-					};
 					6E55A2081A618B0000CD2B60 = {
 						CreatedOnToolsVersion = 6.1.1;
 					};
@@ -2105,7 +2132,7 @@
 				6E4DEC84162CC38D008B26BD /* PGFoundationClient */,
 				6E55A2081A618B0000CD2B60 /* PGClient */,
 				147070C51A90CB450069EF9C /* PGClientKit_unittests */,
-				6E2A14F51A59488700F12954 /* PGServerKit_testcases */,
+				6EBDEA541AF38B09009CC810 /* PGServerKit_unittests */,
 				6E489C211A6D8EFA008E3068 /* PGControlsKit_testcases */,
 				6EA7CA301AB23D4900F22E90 /* ControlsTest */,
 			);
@@ -2172,13 +2199,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6E2A14F41A59488700F12954 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		6E489C291A6D8EFA008E3068 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2202,6 +2222,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				6EA7CA5D1AB23E4600F22E90 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6EBDEA641AF38B09009CC810 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2391,14 +2418,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6E2A14F21A59488700F12954 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				6E2A14FB1A59488700F12954 /* PGServerKit_testcases.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		6E489C241A6D8EFA008E3068 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2442,6 +2461,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6EBDEA591AF38B09009CC810 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6EBDEA6C1AF38CB3009CC810 /* PGFoundationServer.m in Sources */,
+				6EBDEA6A1AF38CAF009CC810 /* PGServerKit_testcases.m in Sources */,
+				6EBDEA6B1AF38CB1009CC810 /* PGSettingsArray_testcases.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6ECA7AD815F3637600AF2B70 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2461,7 +2490,9 @@
 			files = (
 				6EBDEA421AF38032009CC810 /* PGHostAccessArray.m in Sources */,
 				6EBDEA441AF38032009CC810 /* PGHostAccessRule.m in Sources */,
+				6EBDEA511AF3826A009CC810 /* PGSettingsRule.m in Sources */,
 				6EA41EF11610E7DB00E81046 /* PGServer.m in Sources */,
+				6EBDEA4A1AF381CA009CC810 /* PGSettingsArray.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2546,11 +2577,6 @@
 			target = 6E83260F17AD15F3002AFCBC /* libpq_ios */;
 			targetProxy = 6E1548421A5818CA00556573 /* PBXContainerItemProxy */;
 		};
-		6E2A14FE1A59488700F12954 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 6ED763FA15F2673600687079 /* PGServerKit_mac */;
-			targetProxy = 6E2A14FD1A59488700F12954 /* PBXContainerItemProxy */;
-		};
 		6E3FB8E21AD97EC800166A57 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 6ED85B3516288C4800A6DC02 /* PGClientKit_mac */;
@@ -2565,6 +2591,16 @@
 			isa = PBXTargetDependency;
 			target = 6ED85B3516288C4800A6DC02 /* PGClientKit_mac */;
 			targetProxy = 6E4DEC92162CC3A7008B26BD /* PBXContainerItemProxy */;
+		};
+		6EBDEA551AF38B09009CC810 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6ED85B3516288C4800A6DC02 /* PGClientKit_mac */;
+			targetProxy = 6EBDEA561AF38B09009CC810 /* PBXContainerItemProxy */;
+		};
+		6EBDEA571AF38B09009CC810 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6ED763FA15F2673600687079 /* PGServerKit_mac */;
+			targetProxy = 6EBDEA581AF38B09009CC810 /* PBXContainerItemProxy */;
 		};
 		6ECA7AEC15F363DB00AF2B70 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -2830,20 +2866,6 @@
 			};
 			name = Release;
 		};
-		6E2A15001A59488700F12954 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-			};
-			name = Debug;
-		};
-		6E2A15011A59488700F12954 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-			};
-			name = Release;
-		};
 		6E489C2B1A6D8EFA008E3068 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3102,6 +3124,57 @@
 			};
 			name = Release;
 		};
+		6EBDEA661AF38B09009CC810 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = src/UnitTests/PGServerKit_testcases/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_NAME = PGServerKit_unittests;
+			};
+			name = Debug;
+		};
+		6EBDEA671AF38B09009CC810 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = src/UnitTests/PGServerKit_testcases/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_NAME = PGServerKit_unittests;
+			};
+			name = Release;
+		};
 		6ECA7AE715F3637600AF2B70 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3284,15 +3357,6 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6E2A14FF1A59488700F12954 /* Build configuration list for PBXNativeTarget "PGServerKit_testcases" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				6E2A15001A59488700F12954 /* Debug */,
-				6E2A15011A59488700F12954 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		6E489C2A1A6D8EFA008E3068 /* Build configuration list for PBXNativeTarget "PGControlsKit_testcases" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -3343,6 +3407,15 @@
 			buildConfigurations = (
 				6EA7CA4B1AB23D4900F22E90 /* Debug */,
 				6EA7CA4C1AB23D4900F22E90 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6EBDEA651AF38B09009CC810 /* Build configuration list for PBXNativeTarget "PGServerKit_unittests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6EBDEA661AF38B09009CC810 /* Debug */,
+				6EBDEA671AF38B09009CC810 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
