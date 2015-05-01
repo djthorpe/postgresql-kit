@@ -793,5 +793,31 @@ NSString* PGServerSuperuser = @"postgres";
 	return [data writeToFile:[self _hostAccessConfigurationPath] options:0 error:error];
 }
 
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark Settings Configuration methods
+
+-(NSString* )_settingsConfigurationPath {
+	return [[self dataPath] stringByAppendingPathComponent:[PGServer _configurationPreferencesFilename]];
+}
+
+-(NSData* )readSettingsConfiguration {
+	return [NSData dataWithContentsOfFile:[self _settingsConfigurationPath]];
+}
+
+-(BOOL)writeSettingsConfiguration:(NSData* )data needsRestart:(BOOL* )needsRestart error:(NSError** )error {
+	NSParameterAssert(data);
+	// check to see if a reload is required
+	NSData* existingData = [self readSettingsConfiguration];
+	BOOL needsRestart2 = [existingData isEqual:data] ? NO : YES;
+	if(needsRestart) {
+		(*needsRestart) = needsRestart2;
+	}
+	if(needsRestart==NO) {
+		return YES;
+	}
+	// write the data to disk
+	return [data writeToFile:[self _settingsConfigurationPath] options:0 error:error];
+}
+
 @end
 

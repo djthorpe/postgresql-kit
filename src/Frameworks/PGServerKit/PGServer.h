@@ -177,6 +177,16 @@ extern NSString* PGServerSuperuser;
  */
 -(NSData* )readHostAccessConfiguration;
 
+
+/**
+ *  This method returns the data in the settings configuration file, from which you can
+ *  create a PGSettingsArray object.
+ *
+ *  @return Returns the data from the file in an NSData structure, or nil if the
+ *          file could not be read
+ */
+-(NSData* )readSettingsConfiguration;
+
 /**
  *  This method writes the host access file from an NSData object, which can be
  *  returned from a PGHostAccessArray object. If the data was changed compared to
@@ -191,6 +201,21 @@ extern NSString* PGServerSuperuser;
  *  @return Returns YES on success or will return NO and set the error
  */
 -(BOOL)writeHostAccessConfiguration:(NSData* )data needsReload:(BOOL* )needsReload error:(NSError** )error;
+
+/**
+ *  This method writes the settings file from an NSData object, which can be
+ *  returned from a PGSettingsArray object. If the data was changed compared to
+ *  the existing file, the boolean needsRestart flag is set to YES. An error can
+ *  also be returned describing any error condition when NO is returned
+ *
+ *  @param data         The data from the PGHostAccessArray object
+ *  @param needsRestart A boolean flag is returned indicating if a restart should
+ *                      be performed
+ *  @param error        A pointer to an error object, which is set on error
+ *
+ *  @return Returns YES on success or will return NO and set the error
+ */
+-(BOOL)writeSettingsConfiguration:(NSData* )data needsRestart:(BOOL* )needsRestart error:(NSError** )error;
 
 /**
  *  Returns a string describing a particular server state.
