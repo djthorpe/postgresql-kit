@@ -83,9 +83,15 @@
 	// parse lines into an array of rules
 	NSMutableArray* rules = [NSMutableArray new];
 	NSParameterAssert(rules);
-	
-	// TODO: Write parser here
-
+	PGSettingsRule* theRule = [PGSettingsRule new];
+	for(NSString* theLine in [textFile componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]]) {
+		if([theRule appendString:theLine]==NO) {
+			[rules addObject:theRule];
+			theRule = [[PGSettingsRule alloc] initWithString:theLine];
+			NSParameterAssert(theRule);
+		}
+	}
+	[rules addObject:theRule];
 	return rules;
 }
 

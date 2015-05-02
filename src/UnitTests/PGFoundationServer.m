@@ -34,6 +34,7 @@
 	if(self) {
 		_server = [PGServer serverWithDataPath:[PGFoundationServer defaultDataPath]];
 		_stop = NO;
+		_terminate = NO;
 	}
 	return self;
 }
@@ -44,6 +45,7 @@
 	if(self) {
 		_server = server;
 		_stop = NO;
+		_terminate = NO;
 	}
 	return self;
 }
@@ -64,7 +66,7 @@
 }
 
 -(BOOL)isStopped {
-	return ([_server state]==PGServerStateStopped || [_server state]==PGServerStateUnknown);
+	return ([_server state]==PGServerStateStopped || [_server state]==PGServerStateUnknown || [_server state]==PGServerStateError);
 }
 
 -(BOOL)isError {
@@ -140,6 +142,7 @@
 			return NO;
 		}
 	}
+	NSLog(@"started...returning");
 	return YES;
 }
 
@@ -176,10 +179,11 @@
 		[NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(_timerFired:) userInfo:nil repeats:YES];
 		BOOL isRunning = YES;
 		NSTimeInterval resolution = 60.0;
+		_terminate = NO;
 		do {
 			NSDate* theNextDate = [NSDate dateWithTimeIntervalSinceNow:resolution];
 			isRunning = [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:theNextDate];
-		} while(isRunning==YES);
+		} while(isRunning==YES && _terminate == NO);
 	}
 	[self pgserver:_server message:@"Terminated background run loop"];
 }
@@ -187,8 +191,12 @@
 -(void)_timerFired:(id)sender {
 	// check for server stop signal
 	if([self stopFlag]==YES) {
-		[self pgserver:_server message:@"Terminating server...."];
-		[_server stop];
+		if([self isStopped]==NO) {
+			[self pgserver:_server message:@"Terminating server...."];
+			[_server stop];
+		} else {
+			_terminate = YES;
+		}
 	}
 }
 
@@ -196,12 +204,11 @@
 // delegate implementation
 
 -(void)pgserver:(PGServer* )server stateChange:(PGServerState)state {
+	[self pgserver:server message:[PGServer stateAsString:state]];
 	switch(state) {
 		case PGServerStateAlreadyRunning:
 		case PGServerStateRunning:
-			break;
-		case PGServerStateError:
-			break;
+			_terminate = NO;
 		case PGServerStateStopped:
 			CFRunLoopStop([[NSRunLoop currentRunLoop] getCFRunLoop]);
 			break;

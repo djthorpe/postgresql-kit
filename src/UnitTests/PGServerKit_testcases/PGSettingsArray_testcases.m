@@ -50,7 +50,7 @@
 	}
 }
 
-- (void)tearDown {
+-(void)tearDown {
 	if(_lastTest && _server) {
 		[_server stop];
 	}

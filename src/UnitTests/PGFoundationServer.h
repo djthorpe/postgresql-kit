@@ -18,6 +18,7 @@
 @interface PGFoundationServer : NSObject  <PGServerDelegate> {
 	PGServer* _server;
 	BOOL _stop;
+	BOOL _terminate;
 }
 
 // static methods

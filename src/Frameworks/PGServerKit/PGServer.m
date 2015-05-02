@@ -460,7 +460,7 @@ NSString* PGServerSuperuser = @"postgres";
 			// initialize the data directory
 			isSuccess = [self _startTaskInitialize];
 			if(isSuccess==NO) {
-				[self _setState:PGServerStateStopped];
+				[self _setState:PGServerStateStopped0];
 			} else {
 				[self _setState:PGServerStateInitializing];
 			}
@@ -487,7 +487,7 @@ NSString* PGServerSuperuser = @"postgres";
 #ifdef DEBUG
 				NSLog(@"_startTaskServer failed, setting state to PGServerStateStopped");
 #endif
-				[self _setState:PGServerStateStopped];
+				[self _setState:PGServerStateStopped0];
 			} else {
 				[self _setState:PGServerStateStarting];
 			}
@@ -532,9 +532,9 @@ NSString* PGServerSuperuser = @"postgres";
 		case PGServerStateStopping:
 			// stop server
 			[self _stopProcess:_pid];
-			[self _setState:PGServerStateStopped];
+			[self _setState:PGServerStateStopped0];
 			break;
-		case PGServerStateStopped:
+		case PGServerStateStopped0:
 		case PGServerStateError:
 			_hostname = nil;
 			_port = 0;
@@ -543,6 +543,9 @@ NSString* PGServerSuperuser = @"postgres";
 			_startTime = 0;
 			[_timer invalidate];
 			_timer = nil;
+			[self _setState:PGServerStateStopped];
+			break;
+		case PGServerStateStopped:
 			break;
 		default:
 			NSAssert(NO,@"Don't know what to do for that state (%@) in _firedTimer",[PGServer stateAsString:_state]);
@@ -626,7 +629,7 @@ NSString* PGServerSuperuser = @"postgres";
 	NSParameterAssert([self dataPath]);
 
 	// check current state, needs to be unknown, stopped or error
-	if([self state] != PGServerStateUnknown && [self state] != PGServerStateStopped && [self state] != PGServerStateError) {
+	if([self state] != PGServerStateUnknown && [self state] != PGServerStateStopped) {
 		return NO;
 	}
 	
@@ -684,10 +687,19 @@ NSString* PGServerSuperuser = @"postgres";
 // stop, reload and restart server
 
 -(BOOL)stop {
+	if([self state] == PGServerStateStopped) {
+		return YES;
+	}
 	if([self state] != PGServerStateRunning && [self state] != PGServerStateAlreadyRunning) {
+#ifdef DEBUG
+		NSLog(@"ERROR: [PGServer stop]: not in running state (%d)",_state);
+#endif
 		return NO;
 	}
 	if(_pid <= 0) {
+#ifdef DEBUG
+		NSLog(@"ERROR: [PGServer stop]: PID unknown");
+#endif
 		return NO;
 	}
 	// set state to stop server
@@ -741,6 +753,7 @@ NSString* PGServerSuperuser = @"postgres";
 +(NSString* )stateAsString:(PGServerState)theState {
 	switch(theState) {
 		case PGServerStateStopped:
+		case PGServerStateStopped0:
 			return @"PGServerStateStopped";
 		case PGServerStateStopping:
 			return @"PGServerStateStopping";

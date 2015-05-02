@@ -14,6 +14,23 @@
 
 #import <Foundation/Foundation.h>
 
-@interface PGSettingsRule : NSObject
+@interface PGSettingsRule : NSObject {
+	NSInteger _state;
+	NSString* _key;
+	NSString* _value;
+	NSString* _comment;
+}
+
+// constructor
+-(instancetype)initWithString:(NSString* )string;
+
+// properties
+@property (retain) NSString* key;
+@property (retain) NSString* value;
+@property (retain) NSString* comment;
+
+// methods
+-(BOOL)appendString:(NSString* )string;
+-(NSData* )dataWithEncoding:(NSStringEncoding)encoding;
 
 @end

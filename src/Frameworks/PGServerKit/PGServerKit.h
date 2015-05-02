@@ -26,6 +26,7 @@ typedef enum {
 	PGServerStateRunning0,    // server is running - get PID
 	PGServerStateRunning,    // server is running
 	PGServerStateStopping,     // stopping the server
+	PGServerStateStopped0,     // stopped the server - clear data
 	PGServerStateStopped,     // stopped the server without error
 	PGServerStateRestart,  	   // signal to restart the server
 	PGServerStateError         // error occurred
